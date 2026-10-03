@@ -9,10 +9,11 @@ import {
 } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-import { ACESFilmicToneMapping, PCFShadowMap, Vector3 } from 'three'
+import { Vector3 } from 'three'
 import { EXERCISE_PHASES, getExercisePose } from '@klisteniapp/geometry'
-import AnatomicalModel from './AnatomicalModel'
-import AnatomyStudio from './AnatomyStudio'
+import ExerciseStage from './ExerciseStage'
+import { exerciseCycleSeconds } from '../lib/exercise-animation'
+import { anatomyRendererOptions, anatomyShadows } from '../lib/anatomy-render-settings'
 import './anatomy-viewer.css'
 
 interface Props {
@@ -116,7 +117,7 @@ function Scene({
       phaseRef.current =
         (phaseRef.current +
           (Math.min(delta, 0.1) * speed) /
-            (props.exerciseId === 'dead-bug' ? 10 : 6)) %
+            exerciseCycleSeconds(props.exerciseId)) %
         1
     if (state.clock.elapsedTime - last.current > 0.09) {
       onProgress(phaseRef.current)
@@ -125,9 +126,8 @@ function Scene({
   }, -2)
   return (
     <>
-      <AnatomyStudio floorExercise={floor} />
       <Camera view={view} floor={floor} reset={cameraReset} />
-      <AnatomicalModel
+      <ExerciseStage
         {...props}
         phaseRef={phaseRef}
         layer={layer}
@@ -135,16 +135,6 @@ function Scene({
         onReady={onReady}
         onInspectStructure={onInspectStructure}
       />
-      {props.exerciseId === 'row' && (
-        <mesh position={[0, 1.045, -0.66]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.019, 0.019, 1.1, 20]} />
-          <meshStandardMaterial
-            color="#728383"
-            metalness={0.5}
-            roughness={0.4}
-          />
-        </mesh>
-      )}
     </>
   )
 }
@@ -394,13 +384,10 @@ export default function AnatomyViewer(props: Props) {
                   far: 80,
                 }}
                 dpr={[1, 1.75]}
-                shadows={{ type: PCFShadowMap }}
+                shadows={anatomyShadows}
                 gl={{
-                  antialias: true,
-                  alpha: false,
+                  ...anatomyRendererOptions,
                   powerPreference: 'high-performance',
-                  toneMapping: ACESFilmicToneMapping,
-                  toneMappingExposure: 1.05,
                 }}
               >
                 <Suspense fallback={null}>

@@ -13,9 +13,11 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
-    "check:all": "pnpm check && pnpm test:e2e"
+    "check:all": "pnpm check && pnpm test:e2e",
+    "previews:generate": "node scripts/generate-exercise-previews.mjs",
+    "previews:check": "node scripts/generate-exercise-previews.mjs --check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
