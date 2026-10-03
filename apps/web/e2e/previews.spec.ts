@@ -43,10 +43,16 @@ async function navigate(page: Page, name: string, mobile = false) {
     .click()
 }
 
+async function expectAtlasReady(page: Page) {
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 45_000 })
+}
+
 async function openWithAtlasPaused(page: Page) {
+  // CI SwiftShader needs ~79s to load and pause the full atlas before card checks.
+  if (process.env.CI) test.setTimeout(180_000)
   await page.goto('/')
   // Card motion stays enabled; pause the separate full atlas through its UI.
-  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
+  await expectAtlasReady(page)
   await page.getByRole('button', { name: 'Pausar demostración', exact: true }).click()
   await expect(
     page.getByRole('button', { name: 'Reproducir demostración', exact: true }),
@@ -110,6 +116,7 @@ for (const preference of ['system', 'saved setting'] as const) {
         animationRequests.push(pathname)
     })
     await page.goto('/')
+    await expectAtlasReady(page)
     const selected = preview(page, 'squat')
     await selected.scrollIntoViewIfNeeded()
     await expectLoaded(selected.locator('.exercise-preview-poster'))
@@ -141,6 +148,7 @@ test('the app motion setting stops an already playing preview and persists', asy
   await expect(page.locator('.exercise-preview-motion')).toHaveCount(0)
   await expectLoaded(selected.locator('.exercise-preview-poster'))
   await page.reload()
+  await expectAtlasReady(page)
   await selected.scrollIntoViewIfNeeded()
   await expectLoaded(selected.locator('.exercise-preview-poster'))
   await expect(page.locator('.exercise-preview-motion')).toHaveCount(0)
@@ -201,10 +209,12 @@ test('previews fit mobile routine, library and body cards without page overflow'
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
+  await expectAtlasReady(page)
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 })
     for (const name of ['Mi rutina', 'Ejercicios', 'Mi cuerpo']) {
       await navigate(page, name, true)
+      if (name === 'Mi rutina') await expectAtlasReady(page)
       const firstPreview = page.locator('.exercise-preview').first()
       await firstPreview.scrollIntoViewIfNeeded()
       await expectLoaded(firstPreview.locator('.exercise-preview-poster'))
