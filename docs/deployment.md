@@ -21,7 +21,7 @@ La CSP restringe scripts y conexiones al mismo origen. Google Fonts está permit
 
 ## Analytics
 
-Website ID público: `6dcf08a0-0ddd-44d0-ad57-d41fe5489e6b`. Hostname exacto: `klisteniapp.orchid-labs.xyz`. Proxy same-origin únicamente `GET/HEAD /umami/script.js` y `POST /umami/api/send`, upstream privado `10.66.66.10:443`, Host/SNI `umami.orchid-labs.xyz`, TLS verificado. Todas las rutas de administración permanecen inaccesibles desde el proxy público. El deployment debe permitir exclusivamente ingress del Traefik/túnel confiable: el header de IP de Cloudflare depende de esa frontera.
+Website ID público: `ac451943-95f5-4b3e-8c49-33d17c4f511c`. Hostname exacto: `klisteniapp.orchid-labs.xyz`. Proxy same-origin únicamente `GET/HEAD /umami/script.js` y `POST /umami/api/send`, upstream privado `10.66.66.10:443`, Host/SNI `umami.orchid-labs.xyz`, TLS verificado. Todas las rutas de administración permanecen inaccesibles desde el proxy público. El deployment debe permitir exclusivamente ingress del Traefik/túnel confiable: el header de IP de Cloudflare depende de esa frontera.
 
 Controller adaptado de T3: tracker 3.4.0, auto-track desactivado, callback before-send que siempre cancela el transporte nativo, transporte propio abortable, sin Referer/cookies ni replay, payload reconstruido de constantes. Una única visita `/`, título `Klisteni`, por documento después de aceptación válida. No mide cambios de pestaña o acciones del usuario. `/privacy` no carga analytics; abrirla detiene el transporte, preserva el estado de práctica y pausa la demostración. Acceso directo a privacidad tampoco carga el GLB.
 
