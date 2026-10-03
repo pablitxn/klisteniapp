@@ -1,0 +1,32 @@
+{
+  "name": "klisteniapp",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.7.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
+    "check:all": "pnpm check && pnpm test:e2e"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.12.0",
+    "turbo": "^2.11.3",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "@types/node": "^24.13.6",
+    "@klisteniapp/scene-schema": "workspace:*",
+    "@klisteniapp/geometry": "workspace:*"
+  }
+}

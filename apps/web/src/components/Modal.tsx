@@ -1,0 +1,42 @@
+import { useEffect, useId, useRef, type ReactNode } from 'react'
+import Icon from './Icon'
+export default function Modal({
+  title,
+  children,
+  onClose,
+  wide = false,
+}: {
+  title: string
+  children: ReactNode
+  onClose: () => void
+  wide?: boolean
+}) {
+  const ref = useRef<HTMLDialogElement>(null)
+  const headingId = useId()
+  useEffect(() => {
+    const dialog = ref.current
+    dialog?.showModal()
+    return () => dialog?.close()
+  }, [])
+  return (
+    <dialog
+      ref={ref}
+      aria-labelledby={headingId}
+      className={`modal ${wide ? 'modal-wide' : ''}`}
+      onCancel={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose()
+      }}
+    >
+      <div className="modal-inner">
+        <div className="modal-heading">
+          <h2 id={headingId}>{title}</h2>
+          <button className="icon-button" aria-label="Cerrar" onClick={onClose}>
+            <Icon name="close" />
+          </button>
+        </div>
+        {children}
+      </div>
+    </dialog>
+  )
+}
