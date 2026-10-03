@@ -2,7 +2,8 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e',
-  outputDir: `/tmp/klisteniapp-e2e-results-${process.pid}`,
+  testIgnore: 'analytics.spec.ts',
+  outputDir: process.env.CI ? './test-results' : `/tmp/klisteniapp-e2e-results-${process.pid}`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -25,7 +26,9 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'pnpm dev --host 127.0.0.1 --port 4174 --strictPort',
+    command: 'pnpm build && pnpm preview --host 127.0.0.1 --port 4174 --strictPort',
+    env: { VITE_UMAMI_SCRIPT_URL: '', VITE_UMAMI_HOST_URL: '', VITE_UMAMI_WEBSITE_ID: '', VITE_UMAMI_ALLOWED_HOSTNAME: '' },
+    timeout: 120_000,
     url: 'http://127.0.0.1:4174',
     reuseExistingServer: false,
   },

@@ -24,7 +24,7 @@ pnpm build
 pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 ```
 
-El resultado estático queda en `apps/web/dist`. Este repositorio todavía no incluye un despliegue público configurado.
+El resultado estático queda en `apps/web/dist`. La publicación usa [klisteniapp.orchid-labs.xyz](https://klisteniapp.orchid-labs.xyz), con una imagen estática Nginx, GitLab CI y promoción por digest desde Mycelium. El estado de la primera activación se verifica en el registro de despliegue; ver [operación y publicación](docs/deployment.md).
 
 ## Una primera vuelta
 
@@ -66,6 +66,8 @@ Los registros viven en `localStorage`, solo en ese navegador y origen. No hay cu
 - Si el historial guardado no se puede leer, el original se conserva. Al registrar actividad nueva, se guarda antes una copia de recuperación que podés descargar desde **Ajustes**.
 - No hay coordinación entre pestañas: usá una sola pestaña para registrar actividad.
 
+La medición de visitas con Umami es opcional y requiere aceptar primero. Solo envía una visita con nombre y dirección fijos del sitio: no registra ejercicios, rutinas, notas, progreso ni datos de salud. Podés rechazar o retirar permiso desde **Preferencias de privacidad**, sin perder la práctica. La [política de privacidad](https://klisteniapp.orchid-labs.xyz/privacy) distingue esa medición del historial local, logs operativos y proveedores.
+
 La aplicación carga las tipografías desde Google Fonts; no es una PWA ni garantiza disponibilidad completa sin conexión. Los enlaces de fuentes abren sitios externos. El historial no se envía a esos sitios desde la aplicación.
 
 ## Cómo está construido
@@ -105,6 +107,8 @@ Playwright levanta su propio servidor en `127.0.0.1:4174`; ese puerto debe estar
 ```sh
 pnpm --filter @klisteniapp/web exec playwright install chromium
 ```
+
+Los recorridos de navegador se ejecutan contra una compilación de producción. `pnpm test:analytics` agrega pruebas aisladas de consentimiento, rechazo, retirada, privacidad, señales del navegador y sanitización con el tracker oficial de Umami 3.4.0 interceptado localmente; no manda visitas de prueba al collector real.
 
 Las pruebas verifican fechas locales y cambios de horario, rachas, validación de registros, ausencia de historia ficticia, cinemática y los flujos de registro, preferencias y navegación. Un test que detecta un canvas no certifica la corrección biomecánica: también revisá visualmente cada ejercicio en sus extremos, a mitad del recorrido y desde perfil.
 

@@ -1,0 +1,151 @@
+stages:
+  - quality
+  - browser
+  - image
+  - smoke
+
+default:
+  interruptible: true
+  tags: [k8s, shared]
+  retry:
+    max: 1
+    when: runner_system_failure
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+variables:
+  EXPECTED_PROJECT_PATH: orchid-labs/homelab/klisteniapp
+  PNPM_STORE_DIR: .pnpm-store
+  KUBERNETES_CPU_REQUEST: "100m"
+  KUBERNETES_CPU_LIMIT: "1"
+  KUBERNETES_MEMORY_REQUEST: "256Mi"
+  KUBERNETES_MEMORY_LIMIT: "2Gi"
+  # Public build-time values: never place secrets in VITE_*.
+  VITE_UMAMI_SCRIPT_URL: /umami/script.js
+  VITE_UMAMI_HOST_URL: /umami
+  VITE_UMAMI_WEBSITE_ID: 6dcf08a0-0ddd-44d0-ad57-d41fe5489e6b
+  VITE_UMAMI_ALLOWED_HOSTNAME: klisteniapp.orchid-labs.xyz
+
+quality:
+  stage: quality
+  image: node:24-bookworm@sha256:5a750d3be5e5c80275f8c9a5367c3aed99c2875656590c8d0701c7ee687f5f0a
+  cache:
+    key:
+      files: [pnpm-lock.yaml]
+    paths: [.pnpm-store]
+  before_script:
+    - test "$CI_PROJECT_PATH" = "$EXPECTED_PROJECT_PATH"
+    - corepack enable
+    - corepack prepare pnpm@12.7.0 --activate
+    - pnpm config set store-dir "$CI_PROJECT_DIR/$PNPM_STORE_DIR"
+    - pnpm install --frozen-lockfile --ignore-scripts
+  script:
+    - pnpm lint
+    - pnpm typecheck
+    - pnpm test
+    - node scripts/validate-anatomy.mjs
+    - pnpm build
+    - sha256sum apps/web/dist/models/anatomy.glb > web-model.sha256
+    - test -s apps/web/dist/index.html
+    - test -s apps/web/dist/models/anatomy.glb
+  artifacts:
+    name: "web-dist-${CI_COMMIT_SHA}"
+    paths: [apps/web/dist/, web-model.sha256]
+    expire_in: 7 days
+
+browser-tests:
+  stage: browser
+  variables:
+    # Software WebGL is CPU-bound; keep the other jobs at the default limit.
+    KUBERNETES_CPU_LIMIT: "2"
+  image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
+  needs:
+    - job: quality
+      artifacts: false
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@12.7.0 --activate
+    - pnpm install --frozen-lockfile --ignore-scripts
+  script:
+    - pnpm --filter @klisteniapp/web exec playwright test --workers=1
+    - pnpm --filter @klisteniapp/web exec playwright test --config playwright.analytics.config.ts --workers=1
+  artifacts:
+    when: on_failure
+    paths: [apps/web/test-results/, apps/web/analytics-test-results/]
+    expire_in: 7 days
+
+publish-image:
+  stage: image
+  image:
+    name: ghcr.io/osscontainertools/kaniko:v1.28.5-debug@sha256:d6d74217dc077acfd3094992e917c357080a2d3fdd1042a49e34e29a7e57c572
+    entrypoint: [""]
+  needs:
+    - job: quality
+      artifacts: true
+    - job: browser-tests
+      artifacts: false
+  resource_group: klisteniapp-image-publish
+  variables:
+    # Kaniko excludes its tool directory from image snapshots.
+    DOCKER_CONFIG: /kaniko/.docker
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "codex/klisteniapp-public-release" && $CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: manual
+      allow_failure: false
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: '$CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"'
+  before_script:
+    - test "$CI_PROJECT_PATH" = "$EXPECTED_PROJECT_PATH"
+    - test "$CI_REGISTRY_IMAGE" = "$CI_REGISTRY/$EXPECTED_PROJECT_PATH"
+    - |
+      umask 077
+      mkdir -p "$DOCKER_CONFIG"
+      registry_auth="$(printf '%s:%s' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')"
+      printf '{"auths":{"%s":{"auth":"%s"}}}\n' "$CI_REGISTRY" "$registry_auth" > "$DOCKER_CONFIG/config.json"
+  script:
+    - |
+      /kaniko/executor \
+        --context="dir://$CI_PROJECT_DIR" \
+        --dockerfile="$CI_PROJECT_DIR/Dockerfile" \
+        --custom-platform=linux/amd64 \
+        --build-arg="OCI_REVISION=$CI_COMMIT_SHA" \
+        --cache=false \
+        --destination="${CI_REGISTRY_IMAGE}:sha-${CI_COMMIT_SHA}" \
+        --digest-file="$CI_PROJECT_DIR/image.digest"
+    - |
+      digest="$(cat image.digest)"
+      case "$digest" in sha256:*) ;; *) echo "Missing image digest" >&2; exit 1 ;; esac
+      test "${#digest}" -eq 71
+      case "${digest#sha256:}" in *[!0-9a-f]*|'') echo "Invalid image digest" >&2; exit 1 ;; esac
+      printf '%s\n' "$digest" > image.digest
+      printf '%s@%s\n' "$CI_REGISTRY_IMAGE" "$digest" > image.ref
+      printf 'KLISTENI_IMAGE_REF=%s@%s\n' "$CI_REGISTRY_IMAGE" "$digest" > image.env
+  after_script:
+    - rm -f "$DOCKER_CONFIG/config.json"
+  artifacts:
+    name: "image-${CI_COMMIT_SHA}"
+    paths: [image.digest, image.ref]
+    reports:
+      dotenv: image.env
+    expire_in: 30 days
+
+smoke-image:
+  stage: smoke
+  image:
+    name: $KLISTENI_IMAGE_REF
+    entrypoint: [""]
+  needs:
+    - job: publish-image
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "codex/klisteniapp-public-release" && $CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: '$CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"'
+  script:
+    - sh scripts/ci/smoke-runtime.sh

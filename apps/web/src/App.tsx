@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react'
 import type { Exercise, MuscleId } from '@klisteniapp/scene-schema'
 import {
   exercises,
@@ -56,7 +56,7 @@ function ExerciseGlyph({ id }: { id: string }) {
     </svg>
   )
 }
-export default function App() {
+export default function App({ privacyControls, suspended = false }: { privacyControls?: ReactNode; suspended?: boolean }) {
   const [page, setPage] = useState<Page>('routine')
   const [selectedId, setSelectedId] = useState('squat')
   const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null)
@@ -187,6 +187,7 @@ export default function App() {
           </div>
         </header>
         <main id="main">
+          {privacyControls}
           {storageError && (
             <div className="storage-warning" role="alert">
               <Icon name="info" />
@@ -404,7 +405,7 @@ export default function App() {
                           secondaryMuscles={exercise.secondaryMuscles}
                           selectedMuscle={selectedMuscle}
                           onSelectMuscle={setSelectedMuscle}
-                          reducedMotion={preferences.reducedMotion}
+                          reducedMotion={preferences.reducedMotion || suspended}
                         />
                       </Suspense>
                     </div>
