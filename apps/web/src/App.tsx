@@ -17,6 +17,7 @@ import {
   WorkoutSession,
 } from './components/Forms'
 import Progress from './components/Progress'
+import ExercisePreview from './components/ExercisePreview'
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
 type Page = 'routine' | 'library' | 'anatomy' | 'progress'
 type Overlay = 'cardio' | 'settings' | 'routine' | null
@@ -27,35 +28,6 @@ const pages: { id: Page; label: string; icon: IconName }[] = [
   { id: 'progress', label: 'Mi progreso', icon: 'chart' },
 ]
 
-function ExerciseGlyph({ id }: { id: string }) {
-  const forms: Record<string, string> = {
-    squat:
-      'M35 16a5 5 0 1 0 0-10a5 5 0 1 0 0 10M34 21l-5 15 14 7-10 14m-4-21-12 8 6 13m9-31 14 7 9-6',
-    pushup:
-      'M45 27a5 5 0 1 0 0-10a5 5 0 1 0 0 10M40 30 22 40 12 40m10 0 9 12h11m-2-22 9 10-3 12h10',
-    'glute-bridge':
-      'M12 49a5 5 0 1 0 0-10a5 5 0 1 0 0 10M19 44l19-18 13 20h8M22 44h16m0-18 4 21',
-    'dead-bug':
-      'M16 48a5 5 0 1 0 0-10a5 5 0 1 0 0 10M23 44h22l6-19-13-4M28 44l-2-21m19 21 12-9-5-12',
-    'prone-w':
-      'M49 39a5 5 0 1 0 0-10a5 5 0 1 0 0 10M43 41 21 46 7 44m14 2-10 7m32-12-10-11 10-7m0 18-8 10 9 6',
-    'calf-raise':
-      'M34 16a5 5 0 1 0 0-10a5 5 0 1 0 0 10M34 21v20m0-18-12 15m12-15 12 15M34 41l-5 17 6 1m-1-18 6 17 6 1',
-    row: 'M47 27a5 5 0 1 0 0-10a5 5 0 1 0 0 10M41 30 23 41 8 48m28-14-5-13 11-8M23 41l9 10',
-  }
-  return (
-    <svg viewBox="0 0 68 68" aria-hidden="true">
-      <path
-        d={forms[id] ?? forms.squat}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
 export default function App({ privacyControls, suspended = false }: { privacyControls?: ReactNode; suspended?: boolean }) {
   const [page, setPage] = useState<Page>('routine')
   const [selectedId, setSelectedId] = useState('squat')
@@ -347,7 +319,10 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                       aria-pressed={e.id === selectedId}
                     >
                       <span className="exercise-thumb">
-                        <ExerciseGlyph id={e.id} />
+                        <ExercisePreview
+                          id={e.id}
+                          active={e.id === selectedId}
+                        />
                       </span>
                       <span className="exercise-row-copy">
                         <span className="exercise-number">
@@ -627,7 +602,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                       onClick={() => openExercise(e.id)}
                     >
                       <div className="library-visual">
-                        <ExerciseGlyph id={e.id} />
+                        <ExercisePreview id={e.id} />
                         <span className="pill">{e.difficulty}</span>
                       </div>
                       <div className="library-card-content">
@@ -681,7 +656,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                 {routine.map((e) => (
                   <button key={e.id} onClick={() => openExercise(e.id)}>
                     <span className="exercise-thumb">
-                      <ExerciseGlyph id={e.id} />
+                      <ExercisePreview id={e.id} />
                     </span>
                     <small>{e.pattern}</small>
                     <h3>{e.shortName}</h3>

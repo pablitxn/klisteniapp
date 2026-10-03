@@ -585,20 +585,49 @@ main {
 }
 .exercise-thumb {
   display: block;
-  height: 54px;
-  width: 54px;
-  background: #e9ecdf;
-  color: #9caa88;
+  height: 68px;
+  width: 68px;
   flex-shrink: 0;
   border-radius: 11px;
 }
-.exercise-thumb svg {
+.exercise-preview {
+  position: relative;
+  display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #172526;
+  isolation: isolate;
 }
-.selected .exercise-thumb {
-  background: #e1dced;
-  color: #a296ba;
+.exercise-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.exercise-preview-motion {
+  position: absolute;
+  inset: 0;
+}
+.exercise-preview-fallback {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: #9daaa6;
+  background: radial-gradient(ellipse at center, #2e4440, #172526 75%);
+}
+.exercise-preview-fallback svg {
+  padding: 8px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #748a814d;
+  border-radius: 50%;
+}
+.selected .exercise-preview {
+  box-shadow: 0 0 0 2px #b8a9d3;
 }
 .exercise-row-copy {
   min-width: 0;
@@ -1018,32 +1047,19 @@ main {
 }
 .library-visual {
   height: 165px;
-  background: #eef0e6;
+  background: #172526;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.library-card:nth-child(2n) .library-visual {
-  background: #ede9f3;
-}
-.library-card:nth-child(3n) .library-visual {
-  background: #f3ede4;
-}
-.library-visual > svg {
-  height: 130px;
-  color: #a8b094;
-  stroke-width: 1px;
-}
-.library-card:nth-child(2n) .library-visual > svg {
-  color: #aa9dbb;
-}
 .library-visual .pill {
   position: absolute;
   top: 15px;
   right: 15px;
-  background: #ffffffb0;
-  color: #989c8b;
+  background: #203433e6;
+  color: #d4ded4;
+  border: 1px solid #dde8e028;
 }
 .library-card-content {
   padding: 22px;
@@ -1094,6 +1110,8 @@ main {
 }
 .pattern-grid .exercise-thumb {
   float: right;
+  width: 82px;
+  height: 82px;
   margin-left: 12px;
 }
 .pattern-grid small {
@@ -1628,8 +1646,8 @@ main {
     font-size: 14px;
   }
   .exercise-thumb {
-    height: 59px;
-    width: 59px;
+    height: 76px;
+    width: 76px;
   }
   .muscle-panel > p {
     font-size: 12px;
@@ -1696,8 +1714,8 @@ main {
     padding: 10px 7px;
   }
   .exercise-thumb {
-    width: 46px;
-    height: 46px;
+    width: 62px;
+    height: 62px;
   }
   .demonstration {
     grid-template-columns: minmax(0, 1.5fr) minmax(155px, 1fr);
@@ -2082,8 +2100,8 @@ main {
     border-radius: 10px;
   }
   .exercise-row .exercise-thumb {
-    width: 35px;
-    height: 42px;
+    width: 68px;
+    height: 68px;
     border-radius: 7px;
   }
   .exercise-row strong {
@@ -2263,9 +2281,6 @@ main {
   .library-visual {
     height: 125px;
   }
-  .library-visual > svg {
-    height: 95px;
-  }
   .library-visual .pill {
     font-size: 7px;
     padding: 3px 5px;
@@ -2293,8 +2308,6 @@ main {
   }
   .pattern-grid .exercise-thumb {
     float: none;
-    width: 44px;
-    height: 44px;
     margin: 0 0 14px;
   }
   .pattern-grid h3 {
@@ -2513,9 +2526,6 @@ main {
     gap: 6px;
     padding: 7px;
   }
-  .exercise-row .exercise-thumb {
-    width: 29px;
-  }
   .exercise-row strong {
     font-size: 9px;
   }
@@ -2711,8 +2721,8 @@ main {
     scrollbar-color: #c9c0d6 transparent;
   }
   .exercise-row {
-    width: 153px;
-    min-width: 153px;
+    width: 198px;
+    min-width: 198px;
     min-height: 78px;
     scroll-snap-align: start;
   }

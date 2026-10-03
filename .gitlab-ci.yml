@@ -49,6 +49,7 @@ quality:
     - pnpm lint
     - pnpm typecheck
     - pnpm test
+    - pnpm previews:check
     - node scripts/validate-anatomy.mjs
     - pnpm build
     - sha256sum apps/web/dist/models/anatomy.glb > web-model.sha256

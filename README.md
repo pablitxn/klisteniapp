@@ -89,6 +89,26 @@ Las poses de ejercicio siguen calculándose en TypeScript. La geometría detalla
 
 Más detalle en [Arquitectura](docs/architecture.md).
 
+## Miniaturas del movimiento
+
+Las tarjetas muestran posters y pequeños bucles del mismo modelo anatómico y de las mismas poses del visor. La aplicación usa WebP y solo anima el ejercicio seleccionado o la tarjeta con puntero/foco; respeta movimiento reducido y detiene las miniaturas fuera de vista. Cada tarjeta consume imágenes ya generadas.
+
+Con Chromium de Playwright y las herramientas WebP `cwebp` e `img2webp` instalados:
+
+```sh
+# Regenerar todo el catálogo desde el modelo actual
+pnpm previews:generate
+
+# Iterar un ejercicio; --gif añade una exportación opcional y requiere FFmpeg
+pnpm previews:generate --exercise squat
+pnpm previews:generate --exercise squat --gif
+
+# Detectar miniaturas pendientes, modificadas o con fuentes desactualizadas
+pnpm previews:check
+```
+
+El generador inicia y cierra su propio servidor local. Los valores predeterminados son 256 × 256 y 12 fps; cámaras, parámetros, hashes y resultados quedan registrados para repetir la captura al cambiar el modelo o sus movimientos. Consultá [instalación, regeneración, revisión y límites de las miniaturas](docs/exercise-previews.md). Los renderizados conservan los [créditos y la licencia CC BY-SA 4.0](apps/web/public/previews/NOTICE.md) del modelo anatómico.
+
 ## Verificación
 
 ```sh

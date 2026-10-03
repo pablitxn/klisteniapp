@@ -26,6 +26,10 @@ asset="$(sed -n 's/.*src="\([^"]*\/assets\/[^"]*\.js\)".*/\1/p' /tmp/klisteni-in
 test -n "$asset"
 wget -S -O /dev/null "http://127.0.0.1:8080$asset" 2>/tmp/klisteni-asset-headers
 grep -q 'max-age=31536000, immutable' /tmp/klisteni-asset-headers
+wget -S -O /tmp/klisteni-preview http://127.0.0.1:8080/previews/squat.webp 2>/tmp/klisteni-preview-headers
+cmp /usr/share/nginx/html/previews/squat.webp /tmp/klisteni-preview
+grep -q 'Cache-Control: no-cache' /tmp/klisteni-preview-headers
+grep -q 'Content-Type: image/webp' /tmp/klisteni-preview-headers
 reject() {
   expected="$1"; shift
   if wget -S -O /tmp/klisteni-rejected "$@" 2>/tmp/klisteni-rejected-headers; then
@@ -35,6 +39,7 @@ reject() {
 }
 reject 404 http://127.0.0.1:8080/assets/missing.js
 reject 404 http://127.0.0.1:8080/models/missing.glb
+reject 404 http://127.0.0.1:8080/previews/missing.webp
 reject 404 http://127.0.0.1:8080/umami/api/websites
 reject 403 http://127.0.0.1:8080/umami/api/send
 reject 403 --post-data='{}' --header='Content-Type: application/json' http://127.0.0.1:8080/umami/api/send
