@@ -62,6 +62,10 @@ quality:
 
 browser-tests:
   stage: browser
+  # Allow the completed quality pod to leave the shared namespace quota.
+  # A delay mitigates cleanup overlap; it does not change or guarantee quota.
+  when: delayed
+  start_in: 30 seconds
   variables:
     # Software WebGL is CPU-bound; keep the other jobs at the default limit.
     KUBERNETES_CPU_LIMIT: "2"

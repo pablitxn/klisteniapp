@@ -14,6 +14,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4174',
     viewport: { width: 1440, height: 1000 },
+    // Keep the real atlas but avoid continuous autoplay in CPU-bound CI.
+    // Preview cases explicitly request no-preference to retain motion coverage.
+    reducedMotion: process.env.CI ? 'reduce' : 'no-preference',
     // Use the Mac's native GPU for the same atlas rendered in the in-app browser.
     // Other platforms retain Chromium's default renderer.
     launchOptions: {
@@ -22,7 +25,8 @@ export default defineConfig({
           ? ['--enable-gpu', '--use-angle=metal']
           : [],
     },
-    trace: 'retain-on-failure',
+    // Filmstrip readbacks stall software WebGL; retain DOM snapshots and source.
+    trace: { mode: 'retain-on-failure', screenshots: false, snapshots: true, sources: true },
     screenshot: 'only-on-failure',
   },
   webServer: {

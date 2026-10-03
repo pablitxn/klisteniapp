@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 // Headless software WebGL compiles three tissue materials and renders the full atlas.
-test.setTimeout(90_000)
+test.setTimeout(process.env.CI ? 180_000 : 90_000)
 
 test('registered atlas loads, layers switch, and enlarged view is keyboard accessible', async ({
   page,
