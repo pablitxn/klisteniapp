@@ -43,10 +43,20 @@ async function navigate(page: Page, name: string, mobile = false) {
     .click()
 }
 
+async function openWithAtlasPaused(page: Page) {
+  await page.goto('/')
+  // Card motion stays enabled; pause the separate full atlas through its UI.
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
+  await page.getByRole('button', { name: 'Pausar demostración', exact: true }).click()
+  await expect(
+    page.getByRole('button', { name: 'Reproducir demostración', exact: true }),
+  ).toBeVisible()
+}
+
 test('selected exercise, pointer and keyboard show loaded motion previews', async ({
   page,
 }) => {
-  await page.goto('/')
+  await openWithAtlasPaused(page)
   const squat = preview(page, 'squat')
   await squat.scrollIntoViewIfNeeded()
   await expectLoaded(squat.locator('.exercise-preview-poster'))
@@ -120,7 +130,7 @@ for (const preference of ['system', 'saved setting'] as const) {
 test('the app motion setting stops an already playing preview and persists', async ({
   page,
 }) => {
-  await page.goto('/')
+  await openWithAtlasPaused(page)
   const selected = preview(page, 'squat')
   await selected.scrollIntoViewIfNeeded()
   await expectLoaded(selected.locator('.exercise-preview-motion'))
@@ -167,7 +177,7 @@ test('failed preview files retain a usable exercise card and a visible fallback'
   const animationFailure = page.waitForEvent('requestfailed', (request) =>
     request.url().endsWith('/previews/squat.webp'),
   )
-  await page.goto('/')
+  await openWithAtlasPaused(page)
   const squat = preview(page, 'squat')
   await squat.scrollIntoViewIfNeeded()
   await expectLoaded(squat.locator('.exercise-preview-poster'))

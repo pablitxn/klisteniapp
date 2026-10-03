@@ -65,6 +65,8 @@ test('registered atlas loads, layers switch, and enlarged view is keyboard acces
 test('mobile atlas fits narrow screens and all six demonstrations remain controllable', async ({
   page,
 }) => {
+  // Six full-atlas poses plus keyboard scrubbing take ~30s each on CI SwiftShader.
+  test.setTimeout(process.env.CI ? 300_000 : 90_000)
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })

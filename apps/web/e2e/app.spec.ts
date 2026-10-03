@@ -62,6 +62,7 @@ test('mobile navigation and routine have no horizontal overflow', async ({ page 
   await expect(page.getByRole('navigation', { name: 'Navegación móvil' })).toBeVisible()
   await expectNoHorizontalOverflow(page)
   await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 })
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
   await page.evaluate(() => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); window.scrollTo(0, 0) })
   await page.screenshot({ path: '/private/tmp/klisteni-mobile.png', fullPage: true })
   for (const name of ['Ejercicios', 'Mi cuerpo', 'Mi progreso', 'Mi rutina']) {
