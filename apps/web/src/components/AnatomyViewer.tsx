@@ -1,0 +1,605 @@
+import {
+  Component,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import { ACESFilmicToneMapping, PCFShadowMap, Vector3 } from 'three'
+import { EXERCISE_PHASES, getExercisePose } from '@klisteniapp/geometry'
+import AnatomicalModel from './AnatomicalModel'
+import AnatomyStudio from './AnatomyStudio'
+import './anatomy-viewer.css'
+
+interface Props {
+  exerciseId: string
+  primaryMuscles: string[]
+  secondaryMuscles: string[]
+  selectedMuscle?: string | null
+  onSelectMuscle?: (id: string | null) => void
+  reducedMotion?: boolean
+}
+type Layer = 'skin' | 'muscles' | 'skeleton' | 'combined'
+type View = 'perspective' | 'front' | 'side' | 'back'
+const muscleNames: Record<string, string> = {
+  pectorals: 'Pectorales',
+  deltoids: 'Deltoides',
+  triceps: 'Tríceps',
+  lats: 'Dorsales',
+  biceps: 'Bíceps',
+  'upper-back': 'Espalda alta',
+  abdominals: 'Abdominales',
+  obliques: 'Oblicuos',
+  glutes: 'Glúteos',
+  quadriceps: 'Cuádriceps',
+  hamstrings: 'Isquiotibiales',
+  calves: 'Gemelos y sóleo',
+}
+
+function Camera({
+  view,
+  floor,
+  reset,
+}: {
+  view: View
+  floor: boolean
+  reset: number
+}) {
+  const { camera, size } = useThree()
+  const target = useMemo(
+    () => new Vector3(0, floor ? 0.37 : 0.94, floor ? -0.1 : 0),
+    [floor],
+  )
+  const position = useMemo(() => {
+    if (view === 'front')
+      return new Vector3(0, floor ? 2.2 : 1.0, floor ? 2.7 : 3.9)
+    if (view === 'back')
+      return new Vector3(0, floor ? 2.2 : 1.0, floor ? -2.8 : -3.9)
+    if (view === 'side')
+      return new Vector3(floor ? 3.0 : 3.9, floor ? 0.85 : 1.0, 0)
+    return floor ? new Vector3(2.35, 1.5, 2.1) : new Vector3(2.4, 1.4, 3.1)
+  }, [view, floor])
+  useEffect(() => {
+    const fit = floor ? Math.max(1.12, 1.6 / (size.width / size.height)) : 1
+    camera.position.copy(position).sub(target).multiplyScalar(fit).add(target)
+    camera.lookAt(target)
+    camera.updateProjectionMatrix()
+  }, [camera, position, target, reset, floor, size.width, size.height])
+  return (
+    <OrbitControls
+      key={`${floor}-${reset}`}
+      target={target}
+      makeDefault
+      enablePan
+      minDistance={0.7}
+      maxDistance={8}
+      minPolarAngle={0.08}
+      maxPolarAngle={Math.PI * 0.78}
+      enableDamping
+      dampingFactor={0.09}
+    />
+  )
+}
+
+function Scene({
+  phaseRef,
+  playing,
+  speed,
+  onProgress,
+  view,
+  cameraReset,
+  layer,
+  highlight,
+  onReady,
+  onInspectStructure,
+  ...props
+}: Props & {
+  phaseRef: { current: number }
+  playing: boolean
+  speed: number
+  onProgress: (phase: number) => void
+  view: View
+  cameraReset: number
+  layer: Layer
+  highlight: boolean
+  onReady: () => void
+  onInspectStructure: (name: string, region?: string) => void
+}) {
+  const last = useRef(0)
+  const floor = getExercisePose(props.exerciseId, 0).floorExercise
+  useFrame((state, delta) => {
+    if (playing)
+      phaseRef.current =
+        (phaseRef.current +
+          (Math.min(delta, 0.1) * speed) /
+            (props.exerciseId === 'dead-bug' ? 10 : 6)) %
+        1
+    if (state.clock.elapsedTime - last.current > 0.09) {
+      onProgress(phaseRef.current)
+      last.current = state.clock.elapsedTime
+    }
+  }, -2)
+  return (
+    <>
+      <AnatomyStudio floorExercise={floor} />
+      <Camera view={view} floor={floor} reset={cameraReset} />
+      <AnatomicalModel
+        {...props}
+        phaseRef={phaseRef}
+        layer={layer}
+        highlight={highlight}
+        onReady={onReady}
+        onInspectStructure={onInspectStructure}
+      />
+      {props.exerciseId === 'row' && (
+        <mesh position={[0, 1.045, -0.66]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.019, 0.019, 1.1, 20]} />
+          <meshStandardMaterial
+            color="#728383"
+            metalness={0.5}
+            roughness={0.4}
+          />
+        </mesh>
+      )}
+    </>
+  )
+}
+
+class Boundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { failed: boolean }
+> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch() {
+    this.props.onError()
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
+
+function ControlIcon({
+  name,
+}: {
+  name: 'play' | 'pause' | 'reset' | 'expand' | 'close' | 'eye'
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {name === 'play' ? (
+        <path d="m9 5 11 7-11 7Z" fill="currentColor" stroke="none" />
+      ) : name === 'pause' ? (
+        <path d="M9 6v12M15 6v12" strokeWidth="3" />
+      ) : name === 'expand' ? (
+        <path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" />
+      ) : name === 'close' ? (
+        <path d="m6 6 12 12M6 18 18 6" />
+      ) : name === 'eye' ? (
+        <>
+          <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z" />
+          <circle cx="12" cy="12" r="3" />
+        </>
+      ) : (
+        <>
+          <path d="M3 10a9 9 0 1 1 2 8M3 4v6h6" />
+        </>
+      )}
+    </svg>
+  )
+}
+
+export default function AnatomyViewer(props: Props) {
+  const [playing, setPlaying] = useState(
+    () =>
+      !props.reducedMotion &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
+  const [phase, setPhase] = useState(0),
+    [speed, setSpeed] = useState(1),
+    [view, setView] = useState<View>('perspective')
+  const [anatomy, setAnatomy] = useState(false),
+    [layer, setLayer] = useState<Layer>('muscles'),
+    [highlight, setHighlight] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const [loaded, setLoaded] = useState(false),
+    [failed, setFailed] = useState(false),
+    [expanded, setExpanded] = useState(false)
+  const [cameraReset, setCameraReset] = useState(0),
+    [structure, setStructure] = useState<{
+      name: string
+      region?: string
+    } | null>(null)
+  const phaseRef = useRef(0),
+    viewer = useRef<HTMLElement>(null),
+    expandButton = useRef<HTMLButtonElement>(null)
+  const exerciseRef = useRef(props.exerciseId)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(Boolean(entry?.isIntersecting)),
+      { threshold: 0 },
+    )
+    if (viewer.current) observer.observe(viewer.current)
+    return () => observer.disconnect()
+  }, [])
+  useEffect(() => {
+    if (exerciseRef.current !== props.exerciseId) {
+      phaseRef.current = 0
+      setPhase(0)
+      setStructure(null)
+      exerciseRef.current = props.exerciseId
+      setCameraReset((n) => n + 1)
+    }
+  }, [props.exerciseId])
+  useEffect(() => {
+    if (props.reducedMotion) setPlaying(false)
+  }, [props.reducedMotion])
+  useEffect(() => {
+    if (props.selectedMuscle && layer === 'skeleton') setLayer('muscles')
+  }, [props.selectedMuscle, layer])
+  useEffect(() => {
+    if (!expanded) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const escape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setExpanded(false)
+        expandButton.current?.focus()
+      }
+      if (e.key === 'Tab') {
+        const elements = Array.from(
+          viewer.current?.querySelectorAll<HTMLElement>(
+            'button:not([disabled]),input:not([disabled]),a[href],summary',
+          ) ?? [],
+        ).filter(
+          (element) =>
+            element.getClientRects().length > 0 &&
+            (!element.closest('details:not([open])') ||
+              element.tagName === 'SUMMARY'),
+        )
+        if (e.shiftKey && document.activeElement === elements[0]) {
+          e.preventDefault()
+          elements.at(-1)?.focus()
+        }
+        if (!e.shiftKey && document.activeElement === elements.at(-1)) {
+          e.preventDefault()
+          elements[0]?.focus()
+        }
+      }
+    }
+    document.addEventListener('keydown', escape)
+    expandButton.current?.focus()
+    return () => {
+      document.body.style.overflow = previous
+      document.removeEventListener('keydown', escape)
+    }
+  }, [expanded])
+  const scrub = (value: number) => {
+    setAnatomy(false)
+    phaseRef.current = value
+    setPhase(value)
+    setPlaying(false)
+  }
+  const phases = EXERCISE_PHASES[props.exerciseId] ?? [
+    'Movete con control',
+    'Volvé al inicio',
+  ]
+  const phaseIndex =
+    props.exerciseId === 'dead-bug'
+      ? phase % 0.5 < 0.25
+        ? 0
+        : 1
+      : phase < 0.5
+        ? 0
+        : 1
+  const selected = props.selectedMuscle
+    ? muscleNames[props.selectedMuscle]
+    : undefined
+  const inspected =
+    structure &&
+    (structure.region
+      ? structure.region === props.selectedMuscle
+      : !props.selectedMuscle)
+      ? structure.name
+      : null
+  return (
+    <section
+      ref={viewer}
+      className={`viewer anatomy-viewer ${expanded ? 'anatomy-expanded' : ''}`}
+      aria-label="Demostración 3D del ejercicio"
+      role={expanded ? 'dialog' : undefined}
+      aria-modal={expanded || undefined}
+    >
+      <div className="anatomy-toolbar">
+        <div>
+          <span className="anatomy-live-dot" />
+          <span>ESTUDIO ANATÓMICO</span>
+          <span className="anatomy-version">3D</span>
+        </div>
+        <button
+          ref={expandButton}
+          className="anatomy-icon-button"
+          onClick={() => setExpanded(!expanded)}
+          aria-label={expanded ? 'Cerrar vista ampliada' : 'Ampliar visor'}
+          aria-expanded={expanded}
+        >
+          <ControlIcon name={expanded ? 'close' : 'expand'} />
+        </button>
+      </div>
+      <div className="anatomy-layer-row">
+        <div
+          className="anatomy-layers"
+          role="group"
+          aria-label="Capas anatómicas"
+        >
+          {(
+            [
+              ['skin', 'Piel'],
+              ['muscles', 'Músculos'],
+              ['skeleton', 'Huesos'],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => {
+                setLayer(id)
+                setStructure(null)
+                if (id !== 'muscles') setHighlight(false)
+                if (id === 'skeleton') props.onSelectMuscle?.(null)
+              }}
+              aria-pressed={layer === id}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <button
+          className="anatomy-activation"
+          aria-label="Mostrar trabajo muscular"
+          aria-pressed={highlight}
+          onClick={() => {
+            if (!highlight) setLayer('muscles')
+            setHighlight(!highlight)
+          }}
+        >
+          <ControlIcon name="eye" />
+          <span>Trabajo muscular</span>
+        </button>
+      </div>
+      <div className="viewer-stage anatomy-stage">
+        {!failed && (
+          <Boundary onError={() => setFailed(true)}>
+            <Suspense fallback={null}>
+              <Canvas
+                frameloop={playing && !anatomy && visible ? 'always' : 'demand'}
+                role="img"
+                aria-label="Modelo anatómico interactivo. Usá los controles de capas, cámara y reproducción; la explicación textual está debajo."
+                camera={{
+                  position: [2.4, 1.4, 3.1],
+                  fov: 32,
+                  near: 0.01,
+                  far: 80,
+                }}
+                dpr={[1, 1.75]}
+                shadows={{ type: PCFShadowMap }}
+                gl={{
+                  antialias: true,
+                  alpha: false,
+                  powerPreference: 'high-performance',
+                  toneMapping: ACESFilmicToneMapping,
+                  toneMappingExposure: 1.05,
+                }}
+              >
+                <Suspense fallback={null}>
+                  <Scene
+                    {...props}
+                    exerciseId={anatomy ? 'anatomy' : props.exerciseId}
+                    phaseRef={phaseRef}
+                    playing={playing && !anatomy && loaded && visible}
+                    speed={speed}
+                    onProgress={setPhase}
+                    view={view}
+                    cameraReset={cameraReset}
+                    layer={layer}
+                    highlight={highlight}
+                    onReady={() => setLoaded(true)}
+                    onInspectStructure={(name, region) => {
+                      if (!region) props.onSelectMuscle?.(null)
+                      setStructure({ name, region })
+                    }}
+                  />
+                </Suspense>
+              </Canvas>
+            </Suspense>
+          </Boundary>
+        )}
+        {!loaded && !failed && (
+          <div className="anatomy-loading" role="status">
+            <span className="anatomy-loader" />
+            <strong>Preparando la anatomía</strong>
+            <p>Cargando músculos, huesos y superficie corporal.</p>
+          </div>
+        )}
+        {failed && (
+          <div className="viewer-fallback">
+            <strong>Vista 3D no disponible</strong>
+            <p>
+              No pudimos cargar el modelo en este dispositivo. Las instrucciones
+              y los músculos siguen disponibles debajo.
+            </p>
+          </div>
+        )}
+        <div className="anatomy-stage-top">
+          <span className="anatomy-phase">
+            <i>{anatomy ? '◎' : phaseIndex === 0 ? '01' : '02'}</i>
+            {anatomy ? 'Posición anatómica' : phases[phaseIndex]}
+          </span>
+          <div
+            className="anatomy-mode"
+            role="group"
+            aria-label="Contenido del visor"
+          >
+            <button aria-pressed={!anatomy} onClick={() => setAnatomy(false)}>
+              Movimiento
+            </button>
+            <button aria-pressed={anatomy} onClick={() => setAnatomy(true)}>
+              Anatomía
+            </button>
+          </div>
+        </div>
+        {(selected || inspected) && (
+          <div className="anatomy-selection">
+            <span />
+            <div>
+              <strong>{selected ?? 'Estructura anatómica'}</strong>
+              {inspected && (
+                <small>
+                  {inspected.replace(/\.[lr]$/, (m) =>
+                    m === '.l' ? ' · izquierda' : ' · derecha',
+                  )}
+                </small>
+              )}
+            </div>
+            <button
+              className="anatomy-icon-button"
+              aria-label="Quitar selección anatómica"
+              onClick={() => {
+                props.onSelectMuscle?.(null)
+                setStructure(null)
+              }}
+            >
+              <ControlIcon name="close" />
+            </button>
+          </div>
+        )}
+        <div className="anatomy-stage-bottom">
+          <span className="anatomy-interaction-hint">
+            Arrastrá para girar · pellizcá para acercar
+          </span>
+          <div
+            className="viewer-camera anatomy-camera"
+            aria-label="Ángulo de cámara"
+          >
+            {(
+              [
+                ['perspective', '3D'],
+                ['front', 'Frente'],
+                ['side', 'Perfil'],
+                ['back', 'Espalda'],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                aria-pressed={view === id}
+                onClick={() => {
+                  setView(id)
+                  setCameraReset((n) => n + 1)
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="viewer-controls anatomy-controls">
+        <button
+          className="viewer-play"
+          aria-label={
+            playing && !anatomy
+              ? 'Pausar demostración'
+              : 'Reproducir demostración'
+          }
+          onClick={() => {
+            setAnatomy(false)
+            setPlaying(anatomy ? true : !playing)
+          }}
+          disabled={!loaded || failed}
+        >
+          <ControlIcon name={playing && !anatomy ? 'pause' : 'play'} />
+        </button>
+        <div className="viewer-timeline">
+          <div>
+            <span>
+              {anatomy
+                ? 'Estudiá la forma y las relaciones'
+                : 'El movimiento, a tu ritmo'}
+            </span>
+            <span>{Math.round(phase * 100)}%</span>
+          </div>
+          <input
+            aria-label="Posición de la demostración"
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            value={phase}
+            onChange={(e) => scrub(Number(e.target.value))}
+            disabled={!loaded || failed}
+          />
+        </div>
+        <button
+          className="viewer-speed"
+          aria-label={`Velocidad ${speed}. Cambiar velocidad`}
+          onClick={() => setSpeed(speed === 1 ? 0.5 : 1)}
+        >
+          {speed === 1 ? '1×' : '½×'}
+        </button>
+        <button
+          className="viewer-reset"
+          aria-label="Reiniciar demostración"
+          onClick={() => {
+            scrub(0)
+            setCameraReset((n) => n + 1)
+          }}
+        >
+          <ControlIcon name="reset" />
+        </button>
+      </div>
+      <div className="anatomy-legend">
+        {highlight ? (
+          <>
+            <span>
+              <i className="anatomy-primary" />
+              Músculo principal
+            </span>
+            <span>
+              <i className="anatomy-secondary" />
+              Apoyo y estabilización
+            </span>
+          </>
+        ) : (
+          <span>Color de los tejidos · tocá una región para identificarla</span>
+        )}
+      </div>
+      <details className="anatomy-provenance">
+        <summary>
+          Geometría anatómica y precisión <span>↗</span>
+        </summary>
+        <p>
+          Superficie corporal, músculos y huesos del atlas{' '}
+          <strong>Z-Anatomy / BodyParts3D</strong>. Las capas conservan sus
+          relaciones en la posición anatómica. El movimiento es una animación
+          educativa; no representa una medición de tu cuerpo ni una simulación
+          biomecánica validada.
+        </p>
+        <a href="/models/NOTICE.md" target="_blank" rel="noreferrer">
+          Fuentes, modificaciones y licencia CC BY-SA 4.0 ↗
+        </a>
+      </details>
+    </section>
+  )
+}

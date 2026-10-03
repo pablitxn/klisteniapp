@@ -6,11 +6,21 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: 2,
+  // Serialize full-atlas WebGL contexts; allow slower software-rendered CI runs.
+  workers: 1,
+  timeout: 90_000,
   reporter: 'list',
   use: {
     baseURL: 'http://127.0.0.1:4174',
     viewport: { width: 1440, height: 1000 },
+    // Use the Mac's native GPU for the same atlas rendered in the in-app browser.
+    // Other platforms retain Chromium's default renderer.
+    launchOptions: {
+      args:
+        process.platform === 'darwin'
+          ? ['--enable-gpu', '--use-angle=metal']
+          : [],
+    },
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },

@@ -17,7 +17,7 @@ import {
   WorkoutSession,
 } from './components/Forms'
 import Progress from './components/Progress'
-const ExerciseViewer = lazy(() => import('./components/ExerciseViewer'))
+const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
 type Page = 'routine' | 'library' | 'anatomy' | 'progress'
 type Overlay = 'cardio' | 'settings' | 'routine' | null
 const pages: { id: Page; label: string; icon: IconName }[] = [
@@ -398,7 +398,7 @@ export default function App() {
                           </div>
                         }
                       >
-                        <ExerciseViewer
+                        <AnatomyViewer
                           exerciseId={exercise.id}
                           primaryMuscles={exercise.primaryMuscles}
                           secondaryMuscles={exercise.secondaryMuscles}

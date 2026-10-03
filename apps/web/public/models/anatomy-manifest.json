@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "title": "Registered anatomical body surface, musculature and skeleton",
+  "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+  "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+  "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+  "license": "CC-BY-SA-4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "sources": [
+    {
+      "name": "MuscularSystem100.fbx",
+      "url": "https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/MuscularSystem100.fbx",
+      "githubBlobSha": "2477e1b6caf97d7174762b5eec6cf1c80db64eed",
+      "sha256": "4c19df534d5d84aabbce08604306aa0485b43e8a2483c72a95b569e1dfea2279",
+      "bytes": 37343180
+    },
+    {
+      "name": "SkeletalSystem100.fbx",
+      "url": "https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/SkeletalSystem100.fbx",
+      "githubBlobSha": "7c62e45211bf3992bb7239170343e06e2b073865",
+      "sha256": "294a649765cd060a62a4095da52b9c8ef2d97769aa447e196448aa5f7d596dea",
+      "bytes": 41339660
+    },
+    {
+      "name": "Regions of human body100.fbx",
+      "url": "https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/Regions%20of%20human%20body100.fbx",
+      "githubBlobSha": "99d81944658b3407f62d3428d40a89646d9c6369",
+      "sha256": "9d8da01d4719f9a61ee6ccfcaef85f788c4c67e9bcd74f5725c6946ab8b44199",
+      "bytes": 4433260
+    }
+  ],
+  "normalization": {
+    "uniformScale": 1.0529177368602312,
+    "sourceFloor": -0.0003824450832325965,
+    "sourceTop": 1.7091528177261353,
+    "targetHeight": 1.8
+  },
+  "coordinateSystem": "glTF metres: +Y up, +Z anterior, anatomical left +X",
+  "geometry": {
+    "meshCount": 955,
+    "sourceTriangles": 2557481,
+    "optimizedTriangles": 500290,
+    "preExportTriangles": 500314,
+    "glbBytes": 14379576,
+    "byTissue": {
+      "muscle": 477,
+      "skin": 246,
+      "bone": 232
+    }
+  },
+  "modifications": [
+    "Removed annotation geometry, muscle attachment visualizers, fascia/bursae/sheaths, and auditory ossicles.",
+    "Kept exact external body-surface territory triangles; removed Skin-in interior backing faces.",
+    "Uniformly normalized complete registered assembly to 1.8 m body-surface height and translated soles to floor.",
+    "Adaptively decimated internal musculature and skeleton with sampled surface-distance checks; no remeshing or shape fitting.",
+    "Baked original world transforms once per independent mesh; reversed face winding for negative-determinant source instances to retain outward orientation.",
+    "Recolored materials in natural tissue hues, retaining original tendon face assignments through vertex colors."
+  ],
+  "limitations": [
+    "Source is a generic registered anatomical atlas, not a personalized medical scan.",
+    "Surface-distance checks sample up to 200 source vertices per object, one direction only; not a global Hausdorff bound.",
+    "Rig landmarks and simulated exercise motion are educational approximations and not clinically validated biomechanics."
+  ],
+  "optimization": {
+    "sampledMaxDistanceM": 0.00165905,
+    "sampledP95MaxAcrossMeshesM": 0.00069351,
+    "elapsedSeconds": 241.95
+  }
+}

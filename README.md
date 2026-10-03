@@ -28,8 +28,8 @@ El resultado estático queda en `apps/web/dist`. Este repositorio todavía no in
 
 ## Una primera vuelta
 
-1. En **Mi rutina**, elegí un ejercicio. Pausá la demostración, mové la línea de tiempo y compará las vistas 3D, frente y perfil.
-2. Tocá los músculos destacados o sus nombres para aprender dónde están y qué hacen. El modo **Anatomía** permite explorar el cuerpo de pie.
+1. En **Mi rutina**, elegí un ejercicio. Pausá la demostración, mové la línea de tiempo y compará las vistas 3D, frente, perfil y espalda.
+2. Alterná **Piel**, **Músculos** y **Huesos**. Activá **Trabajo muscular** y tocá una estructura o un nombre para explorar su ubicación; el modo **Anatomía** muestra el cuerpo de pie en su posición de referencia.
 3. Leé **Cómo se hace**, **Claves de técnica** y **A tu nivel** antes de practicar. Las fuentes están dentro de cada ficha.
 4. Iniciá una sesión y registrá las repeticiones que efectivamente hiciste en cada serie. Guardá la sesión al terminar para incorporarla al historial.
 5. Sumá una caminata, un trote o una salida en bicicleta con **Registrar actividad**. En **Mi progreso** aparecen tus registros, semana, racha y XP.
@@ -75,11 +75,15 @@ La aplicación carga las tipografías desde Google Fonts; no es una PWA ni garan
 | `apps/web` | Interfaz móvil/escritorio, visor React Three Fiber, formularios y estado Zustand |
 | `packages/scene-schema` | Identificadores, catálogo y registros validados con Zod |
 | `packages/geometry` | Poses y cinemática del avatar, sin dependencia de React o del navegador |
+| `apps/web/public/models` | Modelo anatómico GLB, manifiesto, referencias articulares y licencia de las mallas |
+| `assets/blender` y `scripts/blender` | Escena editable y conversión de las fuentes anatómicas |
 | `docs` | Criterio de ejercicios, arquitectura y límites de esta iteración |
 
 El monorepo usa **pnpm workspaces y Turborepo**, con **Vite, React 19, TypeScript, Three.js, React Three Fiber, Drei, Zustand y Zod**, siguiendo la separación de T3 Designer. Las versiones exactas están en los manifiestos y `pnpm-lock.yaml`. Las pruebas de dominio usan el test runner de Node; las de navegador, Playwright. `i18next` y `react-i18next` están disponibles como base para una futura traducción, pero la interfaz actual está escrita en español.
 
-El modelo 3D es **procedural**: primitivas y regiones musculares siguen poses calculadas en TypeScript. No usa todavía un personaje riggeado, captura de movimiento ni archivos `.blend` o `.glb`. Blender puede sumarse más adelante para autoría y exportación; no necesita estar abierto ni instalado para ejecutar esta versión.
+La anatomía usa **mallas de Z-Anatomy / BodyParts3D**: superficie corporal, músculos y huesos de una misma fuente, con nombres de estructuras y coordenadas compartidas. La escena editable de Blender y el GLB conservan su procedencia; las optimizaciones y las licencias están documentadas. Blender se utiliza para preparar los recursos y puede ejecutarse en segundo plano; no hace falta tenerlo abierto ni instalado para usar la aplicación o construir la web con los recursos ya generados.
+
+Las poses de ejercicio siguen calculándose en TypeScript. La geometría detallada y el movimiento tienen alcances distintos: las deformaciones son educativas, sin simulación biomecánica ni validación clínica. La altura de visualización es una normalización gráfica y los colores representan la clasificación del catálogo, no activación muscular medida. Consultá [procedencia y límites del modelo](docs/anatomy-model-sources.md) y [créditos y licencia de los assets](apps/web/public/models/NOTICE.md). Las mallas adaptadas son **CC BY-SA 4.0**; la licencia MIT del código no las reemplaza.
 
 Más detalle en [Arquitectura](docs/architecture.md).
 
@@ -104,6 +108,10 @@ pnpm --filter @klisteniapp/web exec playwright install chromium
 
 Las pruebas verifican fechas locales y cambios de horario, rachas, validación de registros, ausencia de historia ficticia, cinemática y los flujos de registro, preferencias y navegación. Un test que detecta un canvas no certifica la corrección biomecánica: también revisá visualmente cada ejercicio en sus extremos, a mitad del recorrido y desde perfil.
 
+Para comprobar el asset anatómico ya incluido, ejecutá `node scripts/validate-anatomy.mjs`. Verifica inventario, lateralidad, normales, colores, dimensiones y coherencia con el informe de optimización; también comprueba los hashes de las fuentes si están en la caché local.
+
+Para reconstruirlo, ejecutá `node scripts/build-anatomy.mjs`. Descarga las tres fuentes públicas fijadas por commit y SHA-256, y ejecuta Blender en segundo plano. Usa la instalación habitual de macOS o `blender` en el `PATH`; podés indicar otra ruta con `BLENDER_BIN`. Regenera el GLB, la escena `.blend`, las referencias articulares y los informes. Los originales descargados quedan en `.cache/anatomy`, fuera de Git. Después, volvé a ejecutar el validador y revisá las capas y movimientos en el navegador.
+
 ## Próximas iteraciones
 
-El primer objetivo es hacer revisable el circuito **ver → entender → practicar → registrar**. Las próximas decisiones pueden partir del uso real: refinar las trayectorias y la anatomía del avatar, guardar sesiones parciales o recuperarlas tras una recarga, incorporar sensaciones y progresiones, mejorar las métricas de constancia y sumar equipo cuando exista. Un personaje de Blender, nuevas lenguas, sincronización y una PWA son posibilidades futuras, no funciones ya implementadas.
+El primer objetivo es hacer revisable el circuito **ver → entender → practicar → registrar**. Las próximas decisiones pueden partir del uso real: revisar profesionalmente las trayectorias y deformaciones, ampliar la navegación anatómica, guardar sesiones parciales o recuperarlas tras una recarga, incorporar sensaciones y progresiones, mejorar las métricas de constancia y sumar equipo cuando exista. Nuevas lenguas, sincronización y una PWA son posibilidades futuras, no funciones ya implementadas.

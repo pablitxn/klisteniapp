@@ -9,7 +9,9 @@ apps/web/
   src/
     App.tsx                     Navegación, selección y composición de pantallas
     components/
-      ExerciseViewer.tsx        Escena R3F, regiones musculares y controles
+      AnatomyViewer.tsx         Visor R3F, capas, controles y modo ampliado
+      AnatomicalModel.tsx       Mallas registradas y skinning en GPU
+      AnatomyStudio.tsx         Iluminación de estudio generada localmente
       Forms.tsx                 Rutina, sesión, cardio, ajustes y transferencia JSON
       Progress.tsx              Historial, semana y gamificación
       Modal.tsx                 Contenedor de diálogos
@@ -19,11 +21,15 @@ apps/web/
       progress.ts               Fechas, validación y métricas puras
   test/                         Pruebas del dominio de la aplicación
   e2e/                          Flujos de navegador con Playwright
+  public/models/                GLB, manifiesto, referencias articulares y licencia
+assets/blender/                 Escena anatómica editable e informe de optimización
+scripts/blender/                Importación, inspección y conversión de los FBX
 packages/
   scene-schema/src/index.ts     Contratos Zod y tipos inferidos
   geometry/src/index.ts         Poses, articulaciones y cinemática
 docs/
   exercise-sources.md           Procedencia y límites de las decisiones educativas
+  anatomy-model-sources.md      Procedencia, licencias y límites de las mallas
 ```
 
 El paquete `scene-schema` conserva el nombre de la arquitectura de referencia para sus contratos compartidos. No contiene geometría ni acceso al almacenamiento. `geometry` calcula coordenadas; `web` decide cómo mostrarlas. Ningún paquete compartido debe importar componentes de `apps/web`.
@@ -52,13 +58,21 @@ La rutina por defecto contiene seis movimientos sin equipo. El remo existe como 
 
 `getExercisePose(exerciseId, phase)` recibe un identificador y una fase de ciclo; devuelve pelvis, inclinación del torso y articulaciones de ambos brazos y piernas. El sistema usa metros, el eje Y hacia arriba y Z hacia el frente cuando el avatar está de pie.
 
-`solveLimb` resuelve dos segmentos mediante cinemática inversa y conserva sus longitudes. Las poses colocan objetivos para manos y pies; el visor orienta y escala las mallas siguiendo esos puntos. El dead bug alterna diagonales durante el ciclo. El resto de los ejercicios recorre dos fases, con interpolación suave entre extremos.
+`solveLimb` resuelve dos segmentos mediante cinemática inversa y conserva sus longitudes. Las poses colocan objetivos para manos y pies; el rig adapta esos objetivos a las longitudes medidas del atlas y orienta sus segmentos sin escalarlos. El dead bug alterna diagonales durante el ciclo. El resto de los ejercicios recorre dos fases, con interpolación suave entre extremos.
 
 El visor se carga de forma diferida desde `App.tsx`. React Three Fiber coordina la escena de Three.js y Drei aporta `OrbitControls`. La animación actualiza referencias durante los frames para evitar reconstruir toda la interfaz a cada paso; el estado visible de la línea de tiempo se actualiza con menor frecuencia. El usuario puede pausar, recorrer una fase, reducir velocidad y cambiar cámara.
 
-Los músculos son superficies simplificadas que acompañan al torso o los segmentos. Su color expresa el papel asignado en el catálogo y no una simulación fisiológica. El modelo no tiene tejidos deformables, fuerzas, cargas articulares, reconocimiento de cámara ni validación personalizada del gesto. La W y el remo no se consideran equivalentes por compartir parte de la espalda coloreada.
+La geometría anatómica se prepara por separado de las poses. Tres FBX de Z-Anatomy aportan superficie corporal, musculatura y esqueleto en coordenadas compartidas. El exportador de Blender filtra estructuras auxiliares, conserva las caras exteriores de la superficie y reduce polígonos internos con controles muestrales de distancia. Una transformación global común normaliza la altura a 1,80 m; no se escala cada miembro independientemente para ajustarlo a otro cuerpo.
 
-No hay una dependencia de Blender en el arranque, build o runtime. Si se incorpora un avatar riggeado, conviene mantener el contrato de ejercicios y la capa de reproducción, versionar el archivo editable y documentar la correspondencia entre huesos, músculos y clips exportados. Una futura exportación GLB no sustituiría el archivo fuente de autoría.
+`anatomy.glb` contiene las mallas y sus metadatos. `anatomy-manifest.json` registra commit y SHA-256 de las fuentes, coordenadas, modificaciones y recuentos. `rig-landmarks.json` registra las referencias articulares seleccionadas para la animación, que no son centros de rotación clínicamente validados. `assets/blender/anatomy.blend` conserva el resultado editable, y `optimization-report.json` detalla las mallas y exclusiones. El GLB no reemplaza el archivo de autoría. Los puntos muestreados para comprobar la optimización no garantizan una cota de error para toda la superficie.
+
+La preparación en el navegador mantiene las posiciones de referencia del GLB. Para que las regiones de piel se deformen juntas, comparte pesos entre vértices coincidentes y subdivide triángulos donde un vértice de una región coincide con el borde de otra. Esa subdivisión hace compatibles los bordes sin rellenar huecos ni crear otra forma corporal. En los bordes axilares identificados, la fuente tiene separaciones de aproximadamente 0,15–2,19 mm: se comparten pesos de deformación entre los territorios vecinos sin soldar posiciones ni ocultar esas separaciones originales.
+
+El rig incluye segmentos independientes para las escápulas y una retracción educativa durante la W. Las referencias de apoyo de cabeza, hombros, pelvis y palmas se calculan a partir de la superficie del GLB, con márgenes de separación para la escena. Esas referencias mejoran la colocación visual; no modelan presión, contacto físico ni centros articulares medidos. El rango escapular sigue siendo una decisión de animación, no una medición de la persona usuaria.
+
+La reproducción combina esa geometría con las poses de `geometry`. Su deformación es ilustrativa: no calcula fuerzas, cargas articulares, activación ni calidad técnica de una persona. El color expresa el papel asignado en el catálogo. La W y el remo no se consideran equivalentes por compartir parte de la espalda coloreada. El detalle de las mallas no convierte el gesto animado en una simulación biomecánica validada.
+
+Blender interviene en la preparación de assets, no en el arranque, build web o runtime. Los archivos ya generados se sirven desde `public/models`. Cada adaptación conserva los [avisos de atribución y CC BY-SA 4.0](../apps/web/public/models/NOTICE.md), separados de la licencia del código. La [documentación de fuentes anatómicas](anatomy-model-sources.md) registra tanto el origen MRI y las reconstrucciones artísticas como los límites de precisión.
 
 ## Sesiones, métricas y persistencia
 
