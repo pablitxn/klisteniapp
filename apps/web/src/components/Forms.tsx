@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   CardioLogSchema,
+  dateInTimeZone,
   type CardioActivity,
   type CompletedExercise,
+  type PersonalRoutine,
+  type WorkoutLog,
 } from '@klisteniapp/scene-schema'
 import { exercises, getExercise } from '../data/exercises'
-import { localDateKey, serializeProgress } from '../lib/progress'
+import { localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
 import Icon, { type IconName } from './Icon'
 
@@ -19,26 +22,35 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
   const [activity, setActivity] = useState<CardioActivity>('walk'),
     [error, setError] = useState('')
   const add = useAppStore((s) => s.addCardio)
-  function submit(event: FormEvent<HTMLFormElement>) {
+  const timeZone = useAppStore(s => s.personalData?.settings.profile.timeZone)
+  const today = timeZone ? dateInTimeZone(new Date(), timeZone) : localDateKey(new Date())
+  const id = useRef(crypto.randomUUID())
+  const [busy, setBusy] = useState(false)
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (busy) return
     const form = new FormData(event.currentTarget)
     const parsed = CardioLogSchema.safeParse({
-      id: crypto.randomUUID(),
+      id: id.current,
       date: form.get('date'),
       activity,
       minutes: Number(form.get('minutes')),
+      ...(timeZone ? { timeZone } : {}),
       ...(form.get('distance')
         ? { distanceKm: Number(form.get('distance')) }
         : {}),
     })
-    if (!parsed.success || parsed.data.date > localDateKey(new Date())) {
+    if (!parsed.success || parsed.data.date > today) {
       setError(
         'Revisá la fecha, los minutos y la distancia. Registrá una actividad que ya hiciste.',
       )
       return
     }
-    add(parsed.data)
-    onDone()
+    setBusy(true)
+    const failure = await add(parsed.data)
+    setBusy(false)
+    if (failure) setError(failure)
+    else onDone()
   }
   return (
     <form onSubmit={submit} className="form-stack">
@@ -66,8 +78,8 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
           type="date"
           name="date"
           required
-          defaultValue={localDateKey(new Date())}
-          max={localDateKey(new Date())}
+          defaultValue={today}
+          max={today}
         />
       </label>
       <div className="form-grid">
@@ -100,8 +112,8 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
           {error}
         </p>
       )}
-      <button className="primary-button full-width" type="submit">
-        <Icon name="check" size={18} /> Guardar actividad
+      <button className="primary-button full-width" type="submit" disabled={busy}>
+        <Icon name="check" size={18} /> {busy ? 'Guardando…' : 'Guardar actividad'}
       </button>
       <p className="fine-print">
         Sin estimaciones de calorías. Registramos tus minutos y tu constancia.
@@ -112,14 +124,17 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
 export function PreferencesForm() {
   const preferences = useAppStore((s) => s.preferences),
     update = useAppStore((s) => s.updatePreferences),
-    progress = useAppStore((s) => s.progress),
     importProgress = useAppStore((s) => s.importProgress)
+  const user = useAppStore(s => s.user)
+  const revision = useAppStore(s => s.revision)
+  const [restoreSettings, setRestoreSettings] = useState(false)
+  const [busy, setBusy] = useState(false)
   const recoveryRaw = useAppStore((s) => s.recoveryRaw)
   const [message, setMessage] = useState(''),
     [importText, setImportText] = useState<string | null>(null)
   const file = useRef<HTMLInputElement>(null)
   function download() {
-    const blob = new Blob([serializeProgress(progress)], {
+    const blob = new Blob([useAppStore.getState().exportData()], {
       type: 'application/json',
     })
     const url = URL.createObjectURL(blob)
@@ -132,17 +147,18 @@ export function PreferencesForm() {
   return (
     <div className="form-stack">
       <p className="form-intro">Una base sencilla que podés ir ajustando.</p>
-      <label>
+      {!user && <label>
         Objetivo semanal de fuerza
         <select
           value={preferences.weeklyGoal}
-          onChange={(e) => update({ weeklyGoal: Number(e.target.value) })}
+          onChange={(e) => void update({ weeklyGoal: Number(e.target.value) })}
         >
           <option value={2}>2 sesiones · para empezar</option>
           <option value={3}>3 sesiones</option>
           <option value={4}>4 sesiones</option>
         </select>
-      </label>
+      </label>}
+      {user && <p className="fine-print">Configurá tus días y rutinas desde Mi cuenta y planificación.</p>}
       <p className="fine-print">
         El objetivo es una preferencia de seguimiento. Alterná trabajo y
         descanso; no hace falta entrenar todos los días.
@@ -155,14 +171,13 @@ export function PreferencesForm() {
         <input
           type="checkbox"
           checked={preferences.reducedMotion}
-          onChange={(e) => update({ reducedMotion: e.target.checked })}
+          onChange={(e) => void update({ reducedMotion: e.target.checked })}
         />
       </label>
       <div className="settings-data">
         <h3>Tus datos son tuyos.</h3>
         <p>
-          El historial se guarda solo en este navegador. No hay cuenta ni
-          sincronización. Exportalo para conservarlo si cambiás de dispositivo.
+          {user ? 'Tu cuenta sincroniza el historial, las rutinas y la planificación. La exportación incluye todos esos datos. La importación combina registros sin borrar el historial existente.' : 'En modo local, el historial se guarda en este navegador. Exportalo para conservarlo o incorporalo a tu cuenta al iniciar sesión.'}
         </p>
         <button className="secondary-button" onClick={download}>
           <Icon name="download" size={18} /> Exportar progreso
@@ -212,20 +227,23 @@ export function PreferencesForm() {
         {importText && (
           <div className="import-confirm">
             <p>
-              Esta copia reemplazará el historial de este navegador. Exportá el
-              actual si querés conservarlo.
+              {user ? 'Se incorporarán los registros de esta copia a tu cuenta. Los registros repetidos no se duplican. Tu planificación actual se conserva.' : 'Esta copia reemplazará el historial de este navegador. Exportá el actual si querés conservarlo.'}
             </p>
+            {user && revision === 0 && <label className="toggle-label"><span>Restaurar también perfil, rutinas y planificación de una copia completa</span><input type="checkbox" checked={restoreSettings} onChange={e => setRestoreSettings(e.target.checked)} /></label>}
             <button
               className="secondary-button"
-              onClick={() => {
-                const error = importProgress(importText)
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true)
+                const error = await importProgress(importText, Boolean(user && revision === 0 && restoreSettings))
                 setMessage(
                   error ?? 'Copia importada. Tu progreso ya está disponible.',
                 )
-                setImportText(null)
+                if (!error) setImportText(null)
+                setBusy(false)
               }}
             >
-              Reemplazar historial
+              {user ? 'Incorporar historial' : 'Reemplazar historial'}
             </button>
             <button className="text-button" onClick={() => setImportText(null)}>
               Cancelar
@@ -247,6 +265,8 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
     update = useAppStore((s) => s.updatePreferences)
   const [ids, setIds] = useState(prefs.exerciseIds),
     [sets, setSets] = useState(prefs.sets)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
   function move(index: number, offset: number) {
     const next = [...ids]
     ;[next[index], next[index + offset]] = [next[index + offset]!, next[index]!]
@@ -312,13 +332,18 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
         ))}
       <button
         className="primary-button full-width"
-        onClick={() => {
-          update({ exerciseIds: ids, sets })
-          onDone()
+        disabled={busy}
+        onClick={async () => {
+          setBusy(true)
+          const failure = await update({ exerciseIds: ids, sets })
+          setBusy(false)
+          if (failure) setError(failure)
+          else onDone()
         }}
       >
         Guardar mi rutina <Icon name="check" size={17} />
       </button>
+      {error && <p role="alert" className="form-error">{error}</p>}
     </div>
   )
 }
@@ -328,7 +353,7 @@ export function WorkoutSession({
   onClose,
   onComplete,
 }: {
-  plan: { ids: string[]; sets: number }
+  plan: { ids: string[]; sets: number; routineSnapshot?: PersonalRoutine; timeZone?: string }
   onSelect: (id: string) => void
   onClose: () => void
   onComplete: () => void
@@ -344,6 +369,9 @@ export function WorkoutSession({
   const started = useRef(Date.now()),
     submitted = useRef(false),
     add = useAppStore((s) => s.addWorkout)
+  const payload = useRef<WorkoutLog | null>(null)
+  const [saveError, setSaveError] = useState('')
+  const [saving, setSaving] = useState(false)
   const rest = restUntil ? Math.max(0, Math.ceil((restUntil - now) / 1000)) : 0
   const complete = entries.length === plan.ids.length * plan.sets
   useEffect(() => {
@@ -379,21 +407,27 @@ export function WorkoutSession({
     setNow(Date.now())
     setRestUntil(Date.now() + exercise.restSeconds * 1000)
   }
-  function finish() {
+  async function finish() {
     if (submitted.current) return
     submitted.current = true
+    setSaving(true)
     const end = new Date()
-    add({
+    payload.current ??= {
       id: crypto.randomUUID(),
-      date: localDateKey(end),
+      date: plan.timeZone ? dateInTimeZone(end, plan.timeZone) : localDateKey(end),
       completedAt: end.toISOString(),
       durationMinutes: Math.max(
         0.01,
         (end.getTime() - started.current) / 60000,
       ),
       exercises: entries,
-    })
-    onComplete()
+      ...(plan.timeZone ? { timeZone: plan.timeZone } : {}),
+      ...(plan.routineSnapshot ? { routineSnapshot: plan.routineSnapshot } : {}),
+    }
+    const failure = await add(payload.current)
+    setSaving(false)
+    if (failure) { submitted.current = false; setSaveError(failure) }
+    else onComplete()
   }
   return (
     <section className="workout-dock" aria-label="Sesión en curso">
@@ -415,8 +449,8 @@ export function WorkoutSession({
                 al historial.
               </p>
             </div>
-            <button className="primary-button" onClick={finish}>
-              Guardar sesión <Icon name="check" size={18} />
+            <button className="primary-button" onClick={finish} disabled={saving}>
+              {saving ? 'Guardando…' : 'Guardar sesión'} <Icon name="check" size={18} />
             </button>
           </>
         ) : (
@@ -481,6 +515,7 @@ export function WorkoutSession({
           <Icon name="close" />
         </button>
       </div>
+      {saveError && <p role="alert" className="form-error">{saveError}</p>}
       {confirmExit && (
         <div className="exit-confirm">
           <p>¿Salir sin guardar? Las series de esta sesión se descartarán.</p>

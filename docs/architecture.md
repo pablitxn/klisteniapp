@@ -1,6 +1,6 @@
 # Arquitectura de Klisteni
 
-Esta primera iteración reutiliza la organización de T3 Designer para separar datos comprobables, cálculo geométrico y presentación. Se trata de una aplicación estática que corre en el navegador; el modelo de entrenamiento reemplaza al modelo de departamento y sol.
+Klisteni separa datos comprobables, cálculo geométrico y presentación. El catálogo y el visor se distribuyen como web estática; una API propia incorpora cuentas administradas y persistencia personal en PostgreSQL. La demostración pública sigue disponible sin iniciar sesión. La implementación de cuentas requiere una activación de infraestructura explícita; el código por sí solo no acredita un despliegue.
 
 ## Mapa del repositorio
 
@@ -17,11 +17,15 @@ apps/web/
       Modal.tsx                 Contenedor de diálogos
     data/exercises.ts           Catálogo, músculos, fuentes y rutina inicial
     lib/
-      store.ts                  Estado Zustand y persistencia del navegador
+      store.ts                  Estado Zustand, demo local y sincronización de cuenta
+      account-api.ts            Cliente HTTP del mismo origen, sesiones y operaciones
       progress.ts               Fechas, validación y métricas puras
   test/                         Pruebas del dominio de la aplicación
   e2e/                          Flujos de navegador con Playwright
   public/models/                GLB, manifiesto, referencias articulares y licencia
+apps/api/                       Better Auth, sesiones, operaciones PostgreSQL y CLI
+  src/                          Servidor, repositorio de datos, migraciones y operador
+  tests/                        Contratos y aceptación con PostgreSQL de prueba
 assets/blender/                 Escena anatómica editable e informe de optimización
 scripts/blender/                Importación, inspección y conversión de los FBX
 packages/
@@ -42,9 +46,13 @@ flowchart LR
   S --> P[Validación de registros]
   D --> A[App y formularios]
   A --> Z[Estado Zustand]
-  Z --> L[localStorage]
+  Z --> L[localStorage · demo pública]
   L --> P
   P --> Z
+  Z --> API[API · sesión y operaciones por usuario]
+  API --> DB[PostgreSQL · cuentas y datos personales]
+  DB --> API
+  API --> Z
   Z --> M[Métricas de progreso]
   D --> V[Visor React Three Fiber]
   G[geometry · poses puras] --> V
@@ -80,29 +88,31 @@ Una sesión activa mantiene su avance dentro de `WorkoutSession`. Cada registro 
 
 `WorkoutLog` conserva ID, fecha local, timestamp de finalización, duración y series realizadas. `CardioLog` conserva ID, fecha local, actividad, minutos y distancia opcional. `ProgressData` usa `version: 1` y valida colecciones, límites numéricos, fechas reales e identificadores únicos antes de serializar o importar.
 
-| Clave | Contenido |
-| --- | --- |
-| `klisteniapp.progress.v1` | Sesiones de fuerza y cardio validados |
-| `klisteniapp.preferences.v1` | Ejercicios y orden, cantidad de series, objetivo semanal, movimiento reducido |
-| `klisteniapp.progress.recovery` | Original ilegible preservado antes de escribir nuevo progreso, descargable desde Ajustes |
+La demostración conserva `klisteniapp.progress.v1`, `klisteniapp.preferences.v1` y la recuperación de datos ilegibles del navegador. Una cuenta usa `PersonalData` versión 2: perfil y zona horaria, rutinas con IDs estables, selección activa, revisiones semanales de planificación e historial v1. La preferencia de movimiento reducido sigue siendo del dispositivo. El inicio de sesión no importa automáticamente datos locales.
 
-La transferencia JSON incluye solo `ProgressData`. Importar reemplaza el historial después de una confirmación en la interfaz; no modifica las preferencias ni fusiona registros. Las versiones futuras requieren una migración deliberada antes de aceptarlas. Un formato desconocido o corrupto produce un error visible, sin transformarlo en historial válido.
+La API valida la sesión y deriva el propietario antes de acceder a PostgreSQL. Las tablas de Better Auth almacenan usuarios, cuentas de contraseña, sesiones revocables y límites de intentos. `personal_state` guarda ajustes y una revisión; `personal_log` guarda cada registro por `(user_id, id)`, con una marca de borrado para impedir su reaparición mediante una petición tardía. Las operaciones se serializan por usuario en transacciones PostgreSQL. Los registros independientes no requieren sobrescribir un JSON de todo el historial; modificar ajustes exige la revisión esperada y detecta cambios concurrentes.
 
-Antes de reemplazar un valor ilegible, se conserva el original en la clave de recuperación. Si esa copia tampoco puede escribirse, se mantiene el valor original y se indica que los cambios solo están en memoria. Una copia de recuperación anterior diferente se conserva con un sufijo de timestamp. El botón de descarga de Ajustes ofrece la copia más reciente.
+Las copias v2 incluyen los datos personales y el historial. Se siguen admitiendo archivos históricos v1. La incorporación a una cuenta fusiona registros atómicamente: el mismo ID/contenido es un reintento, mientras un ID con contenido diferente produce conflicto. Importar ajustes no puede reescribir planes ya empezados. Las copias locales originales se conservan durante la incorporación, y la app no las adjudica a otra cuenta sin una decisión explícita.
 
-`computeProgress` calcula las métricas a partir de registros guardados. La fecha `YYYY-MM-DD` se interpreta como el día local elegido y no se deriva de una conversión UTC. La semana empieza el lunes. Los desplazamientos usan calendario, no bloques fijos de 24 horas, para respetar los días de 23 o 25 horas. Los IDs duplicados y las fechas futuras no aumentan las recompensas.
+El estado de sincronización distingue pendiente, guardado y error. La confirmación de una escritura depende de la respuesta del servidor. El estado temporal pertenece a la cuenta concreta; cerrar sesión o cambiar de usuario no debe mostrar datos privados anteriores. El funcionamiento público y la recuperación del historial local no dependen de PostgreSQL.
 
-Los XP son una regla de producto: 10 por serie y 1 por minuto de cardio; cada 100 XP cambia el nivel. La racha considera días consecutivos con registros y admite que hoy todavía no tenga actividad si ayer sí la tuvo. Los descansos no eliminan XP. Las cifras no se interpretan como intensidad, gasto energético, calidad del ejercicio ni cumplimiento automático de una guía aeróbica.
+`computeProgress` calcula las métricas a partir de registros guardados. La fecha `YYYY-MM-DD` se conserva como día de calendario y no se deriva de una conversión UTC. Para cuentas, la zona horaria de seguimiento del perfil determina hoy; cambiar de dispositivo no cambia las fechas guardadas. La semana empieza el lunes. Los desplazamientos usan calendario, no bloques fijos de 24 horas, para respetar los días de 23 o 25 horas. Los IDs duplicados y las fechas futuras no aumentan las recompensas.
+
+La métrica `computePlanProgress` cuenta semanas cumpliendo el número de días de fuerza del plan. Un día aporta como máximo una unidad; se permite mover una sesión dentro de su semana. Los descansos no interrumpen esta racha y una semana todavía en curso conserva la constancia anterior. El primer plan puede arrancar esta semana; cambios posteriores comienzan el próximo lunes y el servidor impide reescribir semanas comenzadas. El cardio no completa silenciosamente un plan de fuerza.
+
+Los XP son una regla de producto: 10 por serie y 1 por minuto de cardio; cada 100 XP cambia el nivel. La métrica histórica de días activos considera días consecutivos con registros y admite que hoy todavía no tenga actividad si ayer sí la tuvo. Los descansos no eliminan XP. Las cifras no se interpretan como intensidad, gasto energético, calidad del ejercicio ni cumplimiento automático de una guía aeróbica.
 
 ## Límites de esta versión
 
-- El almacenamiento es por navegador y origen. No hay backend, cuentas ni sincronización; una exportación es la vía de portabilidad del historial.
+- Las cuentas dependen de la API y PostgreSQL; su activación productiva se verifica por separado. La demo permanece ligada al navegador/origen y no se importa automáticamente.
 - El estado de una sesión activa no persiste entre recargas. La interfaz avisa antes de abandonar y distingue series pendientes de guardar.
-- No se implementa coordinación de escrituras entre varias pestañas. La operación recomendada es registrar desde una sola pestaña.
+- La cuenta detecta conflictos de ajustes y reintentos de registros en el servidor. La demo local conserva su límite: no coordina escrituras entre pestañas.
 - La interfaz actual es española. `i18next` y `react-i18next` forman parte de las dependencias compartidas con T3, pero todavía no se conectaron a los textos.
 - La escena requiere WebGL 2; si falla, las instrucciones textuales siguen disponibles. Las pruebas de navegador deben complementarse con una inspección visual en hardware real.
 - Las fuentes se cargan desde Google Fonts. No existe service worker ni garantía de arranque sin conexión.
 - La duración de una sesión mide el tiempo transcurrido desde el inicio, incluidos los descansos; no equivale a tiempo activo ni intensidad.
+
+La configuración de sesión, CLI, migraciones, seguridad del proxy, recuperación e instrucciones de aceptación están en [Cuentas y operación](accounts.md). Los ejemplos de despliegue de este repo se trasladan al estado deseado de Mycelium; no reemplazan esa fuente de verdad.
 
 ## Cambiar la aplicación sin perder consistencia
 
@@ -111,3 +121,9 @@ Para incorporar un ejercicio, primero definí su ID y el contrato; agregá la fi
 Los cambios de registro o XP pertenecen al esquema y las funciones de progreso antes de llegar al texto de la interfaz. Cambiar la versión del historial exige decidir una migración y probar exportación/importación. Los cambios visuales del avatar deben conservar el mapa de IDs musculares que utiliza el catálogo.
 
 Ejecutá `pnpm check` para lint, tipos, tests y build. `pnpm test:e2e` levanta Vite en el puerto 4174 y recorre la interfaz de escritorio y móvil. `pnpm check:all` combina ambas comprobaciones. Los resultados concretos dependen de la ejecución actual; este documento describe la cobertura prevista y no certifica un despliegue o una revisión biomecánica.
+
+## Invitaciones y administración
+
+`account_token` conserva el hash de cada enlace de activación/recuperación, propósito, destinatario, vencimiento, uso y revocación. Un bloqueo transaccional coordina bootstrap, emisión y consumo. La activación crea usuario y credencial en la misma transacción que consume el enlace; recuperar contraseña invalida sesiones. El rol se fija en servidor y la administración no expone historiales ajenos.
+
+SMTP es una integración opcional de la API: STARTTLS/TLS obligatorio, secreto propio y envío explícito. La aceptación SMTP se registra separadamente del estado del enlace, sin afirmar entrega a la bandeja. Las páginas de activación/recuperación retiran el fragmento de la URL y quedan excluidas de analytics.

@@ -92,7 +92,7 @@ test('privacy direct links and reloads remain untracked, without loading the 3D 
   const models: string[] = []
   page.on('request', request => { if (request.url().endsWith('.glb')) models.push(request.url()) })
   await page.goto('/privacy/')
-  await expect(page.getByRole('heading', { name: 'Tu práctica queda en tu navegador.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Tu práctica, bajo tu control.' })).toBeVisible()
   await page.reload()
   await idle(page)
   expect(capture.scripts).toHaveLength(0)
@@ -110,7 +110,7 @@ test('privacy round trip preserves an active session and does not duplicate the 
   await page.getByRole('button', { name: 'Empezar mi rutina' }).click()
   await page.getByRole('button', { name: 'Registrar serie' }).click()
   await page.getByTestId('privacy-policy').click()
-  await expect(page.getByRole('heading', { name: 'Tu práctica queda en tu navegador.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Tu práctica, bajo tu control.' })).toBeVisible()
   await expect(page.locator('script[data-website-id]')).toHaveCount(0)
   await page.getByRole('link', { name: '← Volver a Klisteni' }).click()
   await expect(page.getByRole('region', { name: 'Sesión en curso', exact: true })).toContainText('Serie 2 de 2')
@@ -204,4 +204,24 @@ test('mobile consent uses equal choices and privacy stays within the viewport', 
   await expect(page.getByTestId('privacy-preferences')).toBeFocused()
   await page.getByTestId('privacy-policy').click()
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
+})
+
+test('activation and recovery pages never load analytics, even with saved consent', async ({ page }) => {
+  const capture = await intercept(page)
+  await storedChoice(page)
+  await page.route('**/api/account/token-info', route => route.fulfill({ status: 400, json: { error: 'Enlace vencido', code: 'INVALID_TOKEN' } }))
+  const models: string[] = []
+  page.on('request', request => { if (request.url().endsWith('.glb')) models.push(request.url()) })
+  for (const path of ['/account/activate', '/account/recover']) {
+    await page.goto(`${path}#token=fake-private-link-token`)
+    await expect(page).toHaveURL(new RegExp(`${path}$`))
+    await expect(page.getByRole('alert')).toBeVisible()
+    await idle(page)
+    expect(capture.scripts).toHaveLength(0)
+    expect(capture.posts).toHaveLength(0)
+    expect(models).toHaveLength(0)
+    await page.reload()
+    await expect(page.getByRole('alert')).toContainText('incompleto')
+    expect(capture.scripts).toHaveLength(0)
+  }
 })

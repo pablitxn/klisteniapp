@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e',
-  testIgnore: 'analytics.spec.ts',
+  testIgnore: ['analytics.spec.ts', 'accounts.spec.ts'],
   outputDir: process.env.CI ? './test-results' : `/tmp/klisteniapp-e2e-results-${process.pid}`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

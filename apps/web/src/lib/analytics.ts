@@ -3,6 +3,7 @@ import {
   type ConsentRecord,
 } from './analytics-policy.ts'
 import { isPrivacyPath } from './privacy-route.ts'
+import { accountAccessMode } from './account-route.ts'
 
 type Snapshot = {
   choice: 'pending' | 'accepted' | 'rejected'
@@ -39,7 +40,7 @@ let sending = false
 let queue: object[] = []
 const pending = new Set<AbortController>()
 let permittedPayloads = new WeakSet<object>()
-let privacyPage = isPrivacyPath(window.location.pathname)
+let privacyPage = isPrivacyPath(window.location.pathname) || accountAccessMode(window.location.pathname) !== null
 let visitSent = false
 
 function privacySignal() {
@@ -104,7 +105,7 @@ function refreshRecord() {
 function allowed() {
   refreshRecord()
   const value = !!config && record?.choice === 'accepted' && !storageFailed && !privacySignal() && !trackerFailed && !suspended
-    && !privacyPage && !isPrivacyPath(window.location.pathname)
+    && !privacyPage && !isPrivacyPath(window.location.pathname) && accountAccessMode(window.location.pathname) === null
   if (!value) {
     stop()
     publish()

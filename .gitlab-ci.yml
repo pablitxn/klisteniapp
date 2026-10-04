@@ -1,6 +1,7 @@
 stages:
   - quality
   - browser
+  - accounts
   - image
   - smoke
 
@@ -95,6 +96,8 @@ publish-image:
       artifacts: true
     - job: browser-tests
       artifacts: false
+    - job: accounts-tests
+      artifacts: false
   resource_group: klisteniapp-image-publish
   variables:
     # Kaniko excludes its tool directory from image snapshots.
@@ -159,3 +162,77 @@ smoke-image:
     - if: '$CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"'
   script:
     - sh scripts/ci/smoke-runtime.sh
+
+# Separate stage bounds resource use on the shared runner. Both API and browser
+# tests exercise a disposable schema; these credentials never reach Production.
+accounts-tests:
+  stage: accounts
+  image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
+  services:
+    - name: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+      alias: postgres
+  variables:
+    POSTGRES_USER: klisteni_test
+    POSTGRES_PASSWORD: klisteni_ci_disposable_only
+    POSTGRES_DB: klisteni_test
+    TEST_DATABASE_URL: postgres://klisteni_test:klisteni_ci_disposable_only@postgres:5432/klisteni_test
+  needs:
+    - job: quality
+      artifacts: false
+    - job: browser-tests
+      artifacts: false
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@12.7.0 --activate
+    - pnpm install --frozen-lockfile --ignore-scripts
+  script:
+    - pnpm test:api
+    - pnpm test:accounts
+  artifacts:
+    when: on_failure
+    paths: [apps/web/accounts-test-results/]
+    expire_in: 7 days
+
+publish-api-image:
+  extends: publish-image
+  resource_group: klisteniapp-api-image-publish
+  script:
+    - |
+      /kaniko/executor \
+        --context="dir://$CI_PROJECT_DIR" \
+        --dockerfile="$CI_PROJECT_DIR/Dockerfile.api" \
+        --custom-platform=linux/amd64 \
+        --build-arg="OCI_REVISION=$CI_COMMIT_SHA" \
+        --cache=false \
+        --destination="${CI_REGISTRY_IMAGE}/api:sha-${CI_COMMIT_SHA}" \
+        --digest-file="$CI_PROJECT_DIR/api-image.digest"
+    - |
+      digest="$(cat api-image.digest)"
+      case "$digest" in sha256:*) ;; *) echo "Missing API image digest" >&2; exit 1 ;; esac
+      test "${#digest}" -eq 71
+      case "${digest#sha256:}" in *[!0-9a-f]*|'') echo "Invalid API image digest" >&2; exit 1 ;; esac
+      printf '%s@%s\n' "${CI_REGISTRY_IMAGE}/api" "$digest" > api-image.ref
+      printf 'KLISTENI_API_IMAGE_REF=%s@%s\n' "${CI_REGISTRY_IMAGE}/api" "$digest" > api-image.env
+  artifacts:
+    name: "api-image-${CI_COMMIT_SHA}"
+    paths: [api-image.digest, api-image.ref]
+    reports:
+      dotenv: api-image.env
+    expire_in: 30 days
+
+smoke-api-image:
+  stage: smoke
+  image:
+    name: $KLISTENI_API_IMAGE_REF
+    entrypoint: [""]
+  needs:
+    - job: publish-api-image
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "codex/klisteniapp-public-release" && $CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: '$CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"'
+  script:
+    # Import checks fail if source, workspace links, or runtime deps are missing.
+    - cd /app
+    - node --input-type=module -e "await import('./apps/api/src/http.ts'); await import('./apps/api/src/migrate.ts'); await import('./apps/api/src/operator-service.ts')"

@@ -1,0 +1,21 @@
+# Docker uses this file instead of .dockerignore for -f Dockerfile.api.
+# Kaniko integrations must also allow these paths in the root .dockerignore.
+**
+!Dockerfile.api
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!apps/
+!apps/api/
+!apps/api/package.json
+!apps/api/src/
+!apps/api/src/**
+!apps/web/
+!apps/web/package.json
+!packages/
+!packages/scene-schema/
+!packages/scene-schema/package.json
+!packages/scene-schema/src/
+!packages/scene-schema/src/**
+!packages/geometry/
+!packages/geometry/package.json

@@ -8,7 +8,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "pnpm --filter @klisteniapp/web dev",
+    "dev:accounts": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
@@ -18,7 +19,9 @@
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
     "previews:generate": "node scripts/generate-exercise-previews.mjs",
     "previews:check": "node scripts/generate-exercise-previews.mjs --check",
-    "test:analytics": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.analytics.config.ts"
+    "test:analytics": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.analytics.config.ts",
+    "test:api": "pnpm --filter @klisteniapp/api test",
+    "test:accounts": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.accounts.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

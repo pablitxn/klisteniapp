@@ -1,0 +1,26 @@
+# API image: native TypeScript execution on the same pinned Node release as CI.
+ARG NODE_IMAGE=node:24-bookworm@sha256:5a750d3be5e5c80275f8c9a5367c3aed99c2875656590c8d0701c7ee687f5f0a
+FROM ${NODE_IMAGE} AS dependencies
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@12.7.0 --activate
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/api/package.json apps/api/package.json
+COPY apps/web/package.json apps/web/package.json
+COPY packages/scene-schema/package.json packages/scene-schema/package.json
+COPY packages/geometry/package.json packages/geometry/package.json
+RUN pnpm --filter @klisteniapp/api... install --prod --frozen-lockfile --ignore-scripts
+
+FROM ${NODE_IMAGE} AS runtime
+ARG OCI_REVISION=dev
+LABEL org.opencontainers.image.title="Klisteni API" \
+      org.opencontainers.image.source="https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp" \
+      org.opencontainers.image.revision="${OCI_REVISION}"
+WORKDIR /app
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=3001
+COPY --from=dependencies --chown=node:node /app/ /app/
+COPY --chown=node:node apps/api/src/ apps/api/src/
+COPY --chown=node:node packages/scene-schema/src/ packages/scene-schema/src/
+USER node:node
+EXPOSE 3001
+# Database migrations are a separate, explicitly invoked release Job.
+CMD ["node", "apps/api/src/server.ts"]

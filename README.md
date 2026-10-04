@@ -12,10 +12,10 @@ Requisitos: **Node.js 24 o superior**, **pnpm 12.7.0** y un navegador moderno co
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm dev
+pnpm --filter @klisteniapp/web dev
 ```
 
-Abrí la dirección que muestre Vite, normalmente [localhost:5173](http://localhost:5173). No hacen falta claves de API, base de datos ni Blender.
+Abrí la dirección que muestre Vite, normalmente [localhost:5173](http://localhost:5173). Para explorar el catálogo y usar la demo local no hacen falta claves de API, base de datos ni Blender. Para cuentas y sincronización, configurá la API y PostgreSQL según [Cuentas y operación](docs/accounts.md); `pnpm dev:accounts` arranca web y API cuando ese entorno está preparado.
 
 Para ver la compilación de producción:
 
@@ -24,7 +24,7 @@ pnpm build
 pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 ```
 
-El resultado estático queda en `apps/web/dist`. La publicación usa [klisteniapp.orchid-labs.xyz](https://klisteniapp.orchid-labs.xyz), con una imagen estática Nginx, GitLab CI y promoción por digest desde Mycelium. El estado de la primera activación se verifica en el registro de despliegue; ver [operación y publicación](docs/deployment.md).
+El resultado estático queda en `apps/web/dist`. La publicación usa [klisteniapp.orchid-labs.xyz](https://klisteniapp.orchid-labs.xyz), con Nginx para la web, una imagen separada para la API, GitLab CI y promoción por digest desde Mycelium. La activación de cuentas y el estado vigente se verifican en el registro de despliegue; ver [operación y publicación](docs/deployment.md).
 
 ## Una primera vuelta
 
@@ -34,7 +34,8 @@ El resultado estático queda en `apps/web/dist`. La publicación usa [klisteniap
 4. Iniciá una sesión y registrá las repeticiones que efectivamente hiciste en cada serie. Guardá la sesión al terminar para incorporarla al historial.
 5. Sumá una caminata, un trote o una salida en bicicleta con **Registrar actividad**. En **Mi progreso** aparecen tus registros, semana, racha y XP.
 
-En **Personalizar** podés reordenar o quitar movimientos y elegir entre una y tres series. En **Ajustes** se configura el objetivo semanal, se reduce la animación y se exporta o importa el historial.
+En **Personalizar** podés reordenar o quitar movimientos y elegir entre una y tres series. En **Ajustes** se reduce la animación y se exportan o importan los datos. Una cuenta incorpora perfil, zona horaria de seguimiento, rutinas guardadas y días de entrenamiento. El administrador invita por email; cada persona elige su contraseña y no hay registro público.
+
 
 ## La base inicial
 
@@ -55,18 +56,20 @@ Las referencias técnicas y las decisiones editoriales están explicadas en [Cri
 
 ## Datos y progreso
 
-El historial empieza vacío. Se suman **10 XP por serie de fuerza registrada** y **1 XP por minuto de cardio registrado**; cada 100 XP se alcanza un nivel. La racha cuenta días locales consecutivos con actividad guardada. Descansar no descuenta XP, y sostener una racha no es una indicación de entrenar fuerza todos los días.
+El historial empieza vacío. Se suman **10 XP por serie de fuerza registrada** y **1 XP por minuto de cardio registrado**; cada 100 XP se alcanza un nivel. El progreso es autodeclarado y no mide calorías, esfuerzo ni capacidad física.
 
-Los registros viven en `localStorage`, solo en ese navegador y origen. No hay cuenta, servidor de progreso ni sincronización entre dispositivos. Borrar datos del navegador, cambiar de dominio o usar otro navegador no traslada el historial. El progreso es autodeclarado y no mide calorías, esfuerzo o capacidad física.
+**Sin cuenta**, la demo guarda preferencias e historial en ese navegador y origen. **Con cuenta**, la API guarda tus rutinas, plan e historial en PostgreSQL para recuperarlos desde otro dispositivo. El catálogo, las explicaciones y el visor siguen siendo públicos. La implementación de cuentas requiere activar el backend; no se deduce su disponibilidad productiva del código del repositorio.
 
-- **Exportar progreso** descarga sesiones y cardio en JSON. Las preferencias de rutina y visualización se guardan aparte y no están incluidas en esa copia.
-- **Importar una copia** valida el formato y solicita confirmar el reemplazo del historial existente. No mezcla registros automáticamente.
-- Las series de una **sesión en curso** viven en memoria de la pestaña hasta guardarlas; recargar o salir sin guardar las descarta.
-- Si el navegador rechaza el almacenamiento, aparece un aviso. Exportá la información disponible antes de cerrar.
-- Si el historial guardado no se puede leer, el original se conserva. Al registrar actividad nueva, se guarda antes una copia de recuperación que podés descargar desde **Ajustes**.
-- No hay coordinación entre pestañas: usá una sola pestaña para registrar actividad.
+La constancia del plan cuenta **semanas cumpliendo los días de fuerza elegidos**: descansar no corta la racha y podés mover una sesión dentro de la misma semana. Varias sesiones el mismo día cuentan como un día. El cardio tiene sus métricas propias. Los cambios de plan posteriores al primero empiezan el lunes siguiente, sin recalcular semanas anteriores. La zona horaria de seguimiento conserva una referencia de día entre dispositivos; las fechas históricas no cambian al viajar.
 
-La medición de visitas con Umami es opcional y requiere aceptar primero. Solo envía una visita con nombre y dirección fijos del sitio: no registra ejercicios, rutinas, notas, progreso ni datos de salud. Podés rechazar o retirar permiso desde **Preferencias de privacidad**, sin perder la práctica. La [política de privacidad](https://klisteniapp.orchid-labs.xyz/privacy) distingue esa medición del historial local, logs operativos y proveedores.
+- Al entrar, podés **incorporar explícitamente** la práctica encontrada en ese navegador. La cuenta no se apropia automáticamente de datos de una demo compartida.
+- Las copias personales **v2** incluyen perfil, rutinas, plan y progreso. El importador mantiene compatibilidad con el historial **v1**. En una cuenta, importar fusiona registros y detecta duplicados/conflictos.
+- El guardado distingue **pendiente de sincronizar**, confirmado y error. Los cambios simultáneos de ajustes se detectan para evitar reemplazos silenciosos.
+- Las series de un **entrenamiento en curso** todavía viven en memoria hasta finalizar; recargar o salir sin guardar las descarta.
+- La demo preserva los originales ilegibles y sus copias de recuperación. Si el navegador rechaza almacenamiento, exportá la información disponible antes de cerrar.
+- La demo local no coordina pestañas; la cuenta usa operaciones individuales y revisiones de servidor.
+
+La medición de visitas con Umami es opcional y requiere aceptar primero. Solo envía una visita con nombre y dirección fijos del sitio: no registra ejercicios, rutinas, notas, progreso, email ni identificador de cuenta. Podés rechazar o retirar permiso desde **Preferencias de privacidad** sin perder la práctica. La [política de privacidad](https://klisteniapp.orchid-labs.xyz/privacy) distingue datos personales de cuenta, demo local, analytics, logs y proveedores. Consultá [funcionamiento de cuentas, administración y recuperación](docs/accounts.md).
 
 La aplicación carga las tipografías desde Google Fonts; no es una PWA ni garantiza disponibilidad completa sin conexión. Los enlaces de fuentes abren sitios externos. El historial no se envía a esos sitios desde la aplicación.
 
@@ -75,7 +78,8 @@ La aplicación carga las tipografías desde Google Fonts; no es una PWA ni garan
 | Área | Responsabilidad |
 | --- | --- |
 | `apps/web` | Interfaz móvil/escritorio, visor React Three Fiber, formularios y estado Zustand |
-| `packages/scene-schema` | Identificadores, catálogo y registros validados con Zod |
+| `apps/api` | Email/contraseña con Better Auth, sesiones, datos PostgreSQL, migraciones y CLI administrativa |
+| `packages/scene-schema` | Identificadores, catálogo, registros, datos personales y planificación validados con Zod |
 | `packages/geometry` | Poses y cinemática del avatar, sin dependencia de React o del navegador |
 | `apps/web/public/models` | Modelo anatómico GLB, manifiesto, referencias articulares y licencia de las mallas |
 | `assets/blender` y `scripts/blender` | Escena editable y conversión de las fuentes anatómicas |
@@ -130,6 +134,8 @@ pnpm --filter @klisteniapp/web exec playwright install chromium
 
 Los recorridos de navegador se ejecutan contra una compilación de producción. `pnpm test:analytics` agrega pruebas aisladas de consentimiento, rechazo, retirada, privacidad, señales del navegador y sanitización con el tracker oficial de Umami 3.4.0 interceptado localmente; no manda visitas de prueba al collector real.
 
+Las pruebas de API que requieren PostgreSQL necesitan `TEST_DATABASE_URL` en una base descartable; sin ella se omiten y no acreditan el comportamiento de la base. La configuración y aceptación con dos cuentas están documentadas en [Cuentas y operación](docs/accounts.md).
+
 Las pruebas verifican fechas locales y cambios de horario, rachas, validación de registros, ausencia de historia ficticia, cinemática y los flujos de registro, preferencias y navegación. Un test que detecta un canvas no certifica la corrección biomecánica: también revisá visualmente cada ejercicio en sus extremos, a mitad del recorrido y desde perfil.
 
 Para comprobar el asset anatómico ya incluido, ejecutá `node scripts/validate-anatomy.mjs`. Verifica inventario, lateralidad, normales, colores, dimensiones y coherencia con el informe de optimización; también comprueba los hashes de las fuentes si están en la caché local.
@@ -138,4 +144,4 @@ Para reconstruirlo, ejecutá `node scripts/build-anatomy.mjs`. Descarga las tres
 
 ## Próximas iteraciones
 
-El primer objetivo es hacer revisable el circuito **ver → entender → practicar → registrar**. Las próximas decisiones pueden partir del uso real: revisar profesionalmente las trayectorias y deformaciones, ampliar la navegación anatómica, guardar sesiones parciales o recuperarlas tras una recarga, incorporar sensaciones y progresiones, mejorar las métricas de constancia y sumar equipo cuando exista. Nuevas lenguas, sincronización y una PWA son posibilidades futuras, no funciones ya implementadas.
+El primer objetivo es hacer revisable el circuito **ver → entender → practicar → registrar**. Las próximas decisiones pueden partir del uso real: revisar profesionalmente las trayectorias y deformaciones, ampliar la navegación anatómica, guardar sesiones parciales o recuperarlas tras una recarga, incorporar sensaciones y progresiones, mejorar las métricas de constancia y sumar equipo cuando exista. Nuevas lenguas y una PWA son posibilidades futuras; la sincronización de cuentas depende de activar la API y validar su despliegue.

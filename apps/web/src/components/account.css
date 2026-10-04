@@ -1,0 +1,43 @@
+.account-section { border-top: 1px solid var(--border, #e7e5ef); padding-top: 20px; margin-top: 8px; }
+.account-section h3 { margin: 0 0 8px; }
+.account-section summary { cursor: pointer; font-weight: 600; margin-bottom: 16px; }
+.training-days { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.training-days legend { font-weight: 600; margin-bottom: 10px; }
+.training-days label { display: flex; flex-direction: row; align-items: center; gap: 9px; padding: 9px 10px; border: 1px solid var(--border, #e7e5ef); border-radius: 10px; }
+.training-days input { width: 18px; height: 18px; accent-color: #7863c9; }
+.account-status { padding: 12px 16px; margin-bottom: 18px; border: 1px solid #e0dcef; background: #f8f6fe; border-radius: 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px; }
+.account-status p { margin: 0; flex: 1; min-width: 180px; }
+.account-login { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plan-summary { border-radius: 14px; background: #f0f7f1; padding: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.plan-summary p { margin: 4px 0 0; font-size: 13px; }
+.week-days > div.planned > i { background: #7863c9; opacity: 1; }
+@media (max-width: 600px) { .account-login { max-width: 135px; font-size: 12px; } .topbar-right .beginner-badge { display: none; } }
+.account-access { min-height: 100dvh; padding: 42px 24px 32px; background: radial-gradient(ellipse at 50% 0, #eee8fb 0, #fbfaf7 55%); display: flex; flex-direction: column; align-items: center; }
+.account-access-brand { color: #252232; text-decoration: none; font-size: 31px; font-weight: 800; letter-spacing: -1.6px; margin-bottom: 38px; }
+.account-access-brand span { color: #8471bc; }
+.account-access-card { width: min(100%, 500px); box-sizing: border-box; background: #fff; border: 1px solid #e8e3ef; border-radius: 24px; padding: 36px; box-shadow: 0 14px 60px #37304509; }
+.account-access-intro h1 { font-size: clamp(30px, 6vw, 38px); line-height: 1.1; letter-spacing: -1.4px; margin: 12px 0 18px; color: #282335; }
+.account-access-intro > p { color: #706979; font-size: 15px; line-height: 1.65; margin: 0 0 26px; }
+.account-access .primary-button, .account-access .secondary-button { justify-content: center; text-decoration: none; }
+.account-access input[readonly] { background: #f7f6fa; color: #716a7c; }
+.account-access-return { margin-top: 26px; text-decoration: none; }
+.admin-accounts > summary { color: #6c56a1; }
+.admin-invite-form { padding: 16px; border-radius: 14px; border: 1px solid #e4dfec; background: #faf8fe; margin-bottom: 24px; }
+.admin-issued { border: 1px solid #d3e5d7; border-radius: 14px; padding: 16px; background: #f4faf5; margin-bottom: 24px; }
+.admin-issued h3 { overflow-wrap: anywhere; }
+.admin-issued p { font-size: 13px; line-height: 1.5; }
+.admin-issued label { display: grid; gap: 8px; font-size: 13px; font-weight: 600; }
+.admin-issued input { width: 100%; min-width: 0; box-sizing: border-box; border: 1px solid #d1dfd5; border-radius: 8px; padding: 10px; font: inherit; background: #fff; }
+.admin-issued button { margin-top: 12px; }
+.admin-list-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.admin-list { display: grid; gap: 10px; }
+.admin-row { border: 1px solid #e8e3ee; border-radius: 12px; padding: 14px; min-width: 0; }
+.admin-row strong { font-size: 14px; overflow-wrap: anywhere; }
+.admin-row p { margin: 4px 0 8px; font-size: 13px; color: #6c6575; overflow-wrap: anywhere; }
+.admin-row small { font-size: 11px; color: #77717f; display: block; line-height: 1.5; }
+.admin-state { display: inline-block; border-radius: 6px; font-size: 11px; padding: 4px 7px; background: #eef5ef; color: #48614e; }
+.admin-state.is-muted { background: #f0edf1; color: #756c7b; }
+.admin-actions { display: flex; gap: 6px 12px; flex-wrap: wrap; border-top: 1px solid #efebf2; padding-top: 10px; margin-top: 12px; }
+.admin-actions button { text-align: left; font-size: 12px; padding: 4px 0; }
+.admin-invitations-heading { margin-top: 24px !important; }
+@media (max-width: 600px) { .account-access { padding: 26px 16px; } .account-access-brand { margin-bottom: 24px; } .account-access-card { padding: 26px 22px; border-radius: 19px; } }

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react'
-import type { Exercise, MuscleId } from '@klisteniapp/scene-schema'
+import { computePlanProgress, dateInTimeZone, type Exercise, type MuscleId, type PersonalRoutine } from '@klisteniapp/scene-schema'
 import {
   exercises,
   muscles,
@@ -18,9 +18,10 @@ import {
 } from './components/Forms'
 import Progress from './components/Progress'
 import ExercisePreview from './components/ExercisePreview'
+import AccountPanel from './components/AccountPanel'
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
 type Page = 'routine' | 'library' | 'anatomy' | 'progress'
-type Overlay = 'cardio' | 'settings' | 'routine' | null
+type Overlay = 'cardio' | 'settings' | 'routine' | 'account' | null
 const pages: { id: Page; label: string; icon: IconName }[] = [
   { id: 'routine', label: 'Mi rutina', icon: 'home' },
   { id: 'library', label: 'Ejercicios', icon: 'book' },
@@ -32,10 +33,12 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const [page, setPage] = useState<Page>('routine')
   const [selectedId, setSelectedId] = useState('squat')
   const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null)
-  const [overlay, setOverlay] = useState<Overlay>(null)
+  const [overlay, setOverlay] = useState<Overlay>(() => new URLSearchParams(location.search).get('account') === 'login' ? 'account' : null)
   const [session, setSession] = useState<{
     ids: string[]
     sets: number
+    routineSnapshot?: PersonalRoutine
+    timeZone?: string
   } | null>(null)
   const [query, setQuery] = useState('')
   const [pattern, setPattern] = useState('Todos')
@@ -43,7 +46,18 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const progress = useAppStore((s) => s.progress),
     preferences = useAppStore((s) => s.preferences),
     storageError = useAppStore((s) => s.storageError)
-  const stats = computeProgress(progress.workouts, progress.cardio)
+  const user = useAppStore(s => s.user)
+  const authStatus = useAppStore(s => s.authStatus)
+  const personalData = useAppStore(s => s.personalData)
+  const accountLoading = useAppStore(s => s.accountLoading)
+  const syncStatus = useAppStore(s => s.syncStatus)
+  const pendingCount = useAppStore(s => s.pendingCount)
+  const accountError = useAppStore(s => s.accountError)
+  const privateUnavailable = authStatus === 'loading' || Boolean(user && (!personalData || accountLoading))
+  const personalSettings = personalData?.settings
+  const currentRoutine = personalSettings?.routines.find(r => r.id === personalSettings.activeRoutineId)
+  const planStats = personalSettings && computePlanProgress(personalSettings.plans, progress.workouts, dateInTimeZone(new Date(), personalSettings.profile.timeZone))
+  const stats = computeProgress(progress.workouts, progress.cardio, personalSettings ? new Date(`${dateInTimeZone(new Date(), personalSettings.profile.timeZone)}T12:00:00`) : new Date())
   const exercise = getExercise(selectedId) ?? exercises[0]!
   const routine = preferences.exerciseIds
     .map(getExercise)
@@ -69,6 +83,13 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   useEffect(() => {
     document.title = `${pages.find((p) => p.id === page)?.label} · Klisteni`
   }, [page])
+  useEffect(() => {
+    const url = new URL(location.href)
+    if (url.searchParams.get('account') === 'login') {
+      url.searchParams.delete('account')
+      history.replaceState(history.state, '', `${url.pathname}${url.search}${url.hash}`)
+    }
+  }, [])
   const descriptions = {
     routine: 'Un poco de práctica. Mucho por descubrir.',
     library: 'Conocé el movimiento antes de sumar repeticiones.',
@@ -133,7 +154,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
           </button>
           <div className="local-badge">
             <span />{' '}
-            {storageError
+            {user ? (syncStatus === 'saving' ? 'Guardando en tu cuenta…' : pendingCount ? `${pendingCount} envíos pendientes` : privateUnavailable ? 'Conectando con tu cuenta…' : 'Sincronizado con tu cuenta') : storageError
               ? 'Pendiente de guardar'
               : 'Guardado en este dispositivo'}
           </div>
@@ -146,6 +167,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
           </span>
           <span className="mobile-brand">klisteni.</span>
           <div className="topbar-right">
+            <button className="text-button account-login" onClick={() => setOverlay('account')} disabled={Boolean(session)}>{user ? personalSettings?.profile.displayName ?? user.name : 'Iniciar sesión'}</button>
             <span className="beginner-badge">
               <span /> Principiante
             </span>
@@ -160,6 +182,16 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
         </header>
         <main id="main">
           {privacyControls}
+          <div className="account-status">
+            <p>{authStatus === 'loading' ? 'Verificando tu sesión… Podés explorar el catálogo mientras esperamos.' : user ? privateUnavailable ? 'Tu práctica todavía no está disponible. Esperá la conexión antes de registrar cambios.' : `Mi práctica · ${personalSettings?.profile.displayName ?? user.name}` : 'Modo local · Explorá y probá. Iniciá sesión para guardar tu práctica entre dispositivos.'}</p>
+            {(pendingCount > 0 || accountError) && user && <button className="text-button" onClick={() => void useAppStore.getState().refreshState()}>Reintentar sincronización</button>}
+            {accountError && user && <span role="alert">{accountError}</span>}
+            {accountError?.includes('cerrar la sesión') && !user && <><span role="alert">{accountError}</span><button className="text-button" onClick={() => void useAppStore.getState().signOut()}>Reintentar cierre de sesión</button></>}
+          </div>
+          {planStats && personalSettings?.plans.length !== 0 && <div className="plan-summary">
+            <div><strong>{planStats.weeklyCompleted} / {planStats.weeklyTarget} días de fuerza esta semana</strong><p>{planStats.fulfilledWeeksStreak} semanas cumpliendo tu plan. Los días de descanso no cortan tu racha.</p></div>
+            <button className="text-button" onClick={() => setOverlay('account')} disabled={Boolean(session)}>Mi planificación</button>
+          </div>}
           {storageError && (
             <div className="storage-warning" role="alert">
               <Icon name="info" />
@@ -188,11 +220,13 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
             {page === 'routine' ? (
               <button
                 className="primary-button"
-                disabled={Boolean(session)}
+                disabled={Boolean(session) || privateUnavailable}
                 onClick={() => {
                   setSession({
                     ids: preferences.exerciseIds,
                     sets: preferences.sets,
+                    routineSnapshot: currentRoutine ? structuredClone(currentRoutine) : undefined,
+                    timeZone: personalSettings?.profile.timeZone,
                   })
                   choose(preferences.exerciseIds[0]!)
                 }}
@@ -203,6 +237,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
             ) : (
               <button
                 className="secondary-button"
+                disabled={privateUnavailable}
                 onClick={() => setOverlay('cardio')}
               >
                 <Icon name="plus" size={18} /> Registrar actividad
@@ -228,15 +263,15 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
               </span>
               <span>
                 <strong>
-                  {stats.weeklyWorkouts}
-                  <small> / {preferences.weeklyGoal}</small>
+                  {user && planStats?.weeklyTarget ? planStats.weeklyCompleted : stats.weeklyWorkouts}
+                  {(!user || Boolean(planStats?.weeklyTarget)) && <small> / {user ? planStats?.weeklyTarget : preferences.weeklyGoal}</small>}
                 </strong>
-                <span>Sesiones esta semana</span>
+                <span>{user && planStats?.weeklyTarget ? 'Días de fuerza esta semana' : 'Sesiones esta semana'}</span>
               </span>
               <span className="mini-bars">
-                {Array.from({ length: preferences.weeklyGoal }, (_, i) => (
+                {Array.from({ length: user ? planStats?.weeklyTarget ?? 0 : preferences.weeklyGoal }, (_, i) => (
                   <i
-                    className={i < stats.weeklyWorkouts ? 'filled' : ''}
+                    className={i < (user ? planStats?.weeklyCompleted ?? 0 : stats.weeklyWorkouts) ? 'filled' : ''}
                     key={i}
                   />
                 ))}
@@ -278,7 +313,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                 </div>
                 <button
                   className="text-button"
-                  disabled={Boolean(session)}
+                  disabled={Boolean(session) || privateUnavailable}
                   onClick={() => setOverlay('routine')}
                 >
                   <Icon name="settings" size={16} /> Personalizar
@@ -545,6 +580,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                     <button
                       className="text-button"
                       onClick={() => setOverlay('cardio')}
+                      disabled={privateUnavailable}
                     >
                       Registrar actividad <Icon name="plus" size={16} />
                     </button>
@@ -721,7 +757,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
           )}
           {page === 'progress' && (
             <Progress
-              onCardio={() => setOverlay('cardio')}
+              onCardio={() => { if (!privateUnavailable) setOverlay('cardio') }}
               onStart={() => navigate('routine')}
             />
           )}
@@ -768,6 +804,11 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
       {overlay === 'routine' && (
         <Modal title="Armá tu rutina" onClose={() => setOverlay(null)}>
           <RoutineEditor onDone={() => setOverlay(null)} />
+        </Modal>
+      )}
+      {overlay === 'account' && (
+        <Modal title={user ? 'Mi cuenta y planificación' : 'Entrar a Klisteni'} onClose={() => setOverlay(null)}>
+          <AccountPanel onDone={() => setOverlay(null)} />
         </Modal>
       )}
       {session && (

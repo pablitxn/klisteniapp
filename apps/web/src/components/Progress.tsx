@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { computeProgress, localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
 import { getExercise } from '../data/exercises'
+import { computePlanProgress, dateInTimeZone, planWeekStart } from '@klisteniapp/scene-schema'
 import Icon from './Icon'
 const labels: Record<string, string> = {
   walk: 'Caminata',
@@ -26,10 +27,15 @@ export default function Progress({
     remove = useAppStore((s) => s.removeLog),
     preferences = useAppStore((s) => s.preferences),
     [deleting, setDeleting] = useState<string | null>(null)
-  const stats = computeProgress(data.workouts, data.cardio)
-  const today = new Date()
-  const monday = new Date(today)
-  monday.setDate(today.getDate() - ((today.getDay() + 6) % 7))
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  const timeZone = useAppStore(s => s.personalData?.settings.profile.timeZone)
+  const plans = useAppStore(s => s.personalData?.settings.plans)
+  const todayKey = timeZone ? dateInTimeZone(new Date(), timeZone) : localDateKey()
+  const today = new Date(`${todayKey}T12:00:00`)
+  const stats = computeProgress(data.workouts, data.cardio, today)
+  const planStats = plans ? computePlanProgress(plans, data.workouts, todayKey) : null
+  const monday = new Date(`${planWeekStart(todayKey)}T12:00:00`)
   const days = Array.from({ length: 7 }, (_, i) => {
     const day = new Date(monday)
     day.setDate(monday.getDate() + i)
@@ -45,6 +51,7 @@ export default function Progress({
   ].sort((a, b) => b.date.localeCompare(a.date))
   return (
     <section className="progress-section">
+      {error && <p role="alert" className="form-error">{error}</p>}
       <div className="progress-top">
         <div className="week-card">
           <div className="section-heading">
@@ -55,7 +62,8 @@ export default function Progress({
             {days.map((day) => (
               <div
                 key={day.key}
-                className={`${stats.activeDays.includes(day.key) ? 'done' : ''} ${day.key === localDateKey(today) ? 'today' : ''}`}
+                className={`${stats.activeDays.includes(day.key) ? 'done' : ''} ${day.key === localDateKey(today) ? 'today' : ''} ${planStats?.scheduledDates.includes(day.key) ? 'planned' : ''}`}
+                title={planStats?.scheduledDates.includes(day.key) ? 'Día previsto para entrenar' : undefined}
               >
                 <small>{day.label}</small>
                 <span>
@@ -70,7 +78,7 @@ export default function Progress({
             ))}
           </div>
           <p>
-            {stats.weeklyWorkouts >= preferences.weeklyGoal
+            {planStats ? planStats.weeklyTarget === 0 ? 'Elegí tus días en Mi cuenta y planificación para empezar a seguir tu semana.' : planStats.weeklyCompleted >= planStats.weeklyTarget ? 'Cumpliste tu plan semanal. También hay lugar para descansar.' : `Tu plan: ${planStats.weeklyCompleted} de ${planStats.weeklyTarget} días de fuerza. Los días previstos se marcan con un punto.` : stats.weeklyWorkouts >= preferences.weeklyGoal
               ? 'Cumpliste tu objetivo semanal. También hay lugar para descansar.'
               : `Tu objetivo: ${preferences.weeklyGoal} sesiones de fuerza. El descanso es parte del proceso.`}
           </p>
@@ -152,9 +160,13 @@ export default function Progress({
                   <span>¿Eliminar registro?</span>
                   <button
                     className="text-button"
-                    onClick={() => {
-                      remove(log.id)
-                      setDeleting(null)
+                    disabled={busy}
+                    onClick={async () => {
+                      setBusy(true)
+                      const failure = await remove(log.id)
+                      setError(failure ?? '')
+                      setBusy(false)
+                      if (!failure) setDeleting(null)
                     }}
                   >
                     Sí, eliminar
