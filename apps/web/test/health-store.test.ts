@@ -27,6 +27,7 @@ async function setup() {
   mock.method(accountApi, 'signOut', async () => null)
   await useAppStore.getState().signOut()
   storage.clear()
+  mock.method(accountApi, 'access', async () => ({ status: 'trial' as const, cloudWrite: true, trialEndsAt: '2099-01-01T00:00:00Z', paidThrough: null }))
   mock.method(accountApi, 'signIn', async () => null)
   mock.method(accountApi, 'session', async () => owner)
   mock.method(accountApi, 'state', async () => state())
@@ -99,7 +100,9 @@ test('anonymous and invalid health changes do not reach the API', async () => {
   invalid.profile.heightCm = -1
   assert.notEqual(await useAppStore.getState().saveHealth(invalid, 0), null)
   await useAppStore.getState().signOut()
-  assert.notEqual(await useAppStore.getState().saveHealth(health(), 0), null)
+  assert.equal(await useAppStore.getState().saveHealth(health(), 0), null)
+  assert.equal(useAppStore.getState().localPersonalData?.settings.health?.profile.heightCm, 178)
+  assert.equal(JSON.parse(useAppStore.getState().exportData()).settings.health.profile.heightCm, 178)
   assert.equal(save.mock.callCount(), 0)
 })
 
@@ -117,4 +120,57 @@ test('a local routine import omits health so legacy preferences cannot erase it'
   assert.equal(await useAppStore.getState().importLocalData(true), null)
   assert.equal(importData.mock.callCount(), 1)
   assert.equal(useAppStore.getState().personalData?.settings.health?.profile.heightCm, 178)
+})
+
+test('free local health persists separately and restores after account logout without uploading it', async () => {
+  await setup()
+  storage.clear()
+  await useAppStore.getState().signOut()
+  const cloud = mock.method(accountApi, 'health', async () => { throw new Error('Local health must not upload') })
+  assert.equal(await useAppStore.getState().saveHealth(health(), 0), null)
+  assert.equal(useAppStore.getState().localRevision, 1)
+  assert.notEqual(await useAppStore.getState().saveHealth(health(), 0), null)
+  const localRaw = storage.getItem('klisteniapp.personal.v2')
+  assert.equal(JSON.parse(localRaw!).settings.health.profile.heightCm, 178)
+  await useAppStore.getState().signIn(owner.email, 'x')
+  assert.equal(useAppStore.getState().personalData?.settings.health?.profile.heightCm, undefined)
+  assert.equal(JSON.parse(useAppStore.getState().exportData()).settings.health.profile.heightCm, undefined)
+  await useAppStore.getState().signOut()
+  assert.equal(useAppStore.getState().localPersonalData?.settings.health?.profile.heightCm, 178)
+  assert.equal(storage.getItem('klisteniapp.personal.v2'), localRaw)
+  assert.equal(cloud.mock.callCount(), 0)
+})
+
+test('an exported account including health and plans can be imported and exported in free local mode', async () => {
+  await setup()
+  storage.clear()
+  await useAppStore.getState().signOut()
+  const data = state().data
+  data.settings.health = health()
+  data.progress.cardio = [{ id: 'from-cloud', date: '2026-10-03', activity: 'walk', minutes: 25 }]
+  const raw = JSON.stringify(data)
+  assert.equal(await useAppStore.getState().importProgress(raw), null)
+  assert.deepEqual(JSON.parse(useAppStore.getState().exportData()), data)
+  await useAppStore.getState().signOut()
+  assert.deepEqual(JSON.parse(useAppStore.getState().exportData()), data)
+})
+
+test('unreadable local personal copies are preserved and can be downloaded for recovery', async () => {
+  await setup()
+  storage.setItem('klisteniapp.personal.v2', '{broken-copy')
+  await useAppStore.getState().signOut()
+  assert.equal(useAppStore.getState().localPersonalData, null)
+  assert.notEqual(await useAppStore.getState().saveHealth(health(), 0), null)
+  assert.equal(storage.getItem('klisteniapp.personal.v2'), '{broken-copy')
+  assert.equal(useAppStore.getState().exportData(), '{broken-copy')
+})
+
+test('expired cloud access blocks health edits but permits explicit deletion requests for server validation', async () => {
+  await setup()
+  useAppStore.getState().setAccess({ status: 'expired', cloudWrite: false, trialEndsAt: '2020-01-01T00:00:00Z', paidThrough: null })
+  const save = mock.method(accountApi, 'health', async () => state(1))
+  assert.notEqual(await useAppStore.getState().saveHealth(health(), 0), null)
+  assert.equal(save.mock.callCount(), 0)
+  assert.equal(await useAppStore.getState().saveHealth(health(), 0, true), null)
+  assert.equal(save.mock.callCount(), 1)
 })

@@ -7,6 +7,7 @@ import { createApiServer } from '../apps/api/src/http.ts';
 import { migrate } from '../apps/api/src/migrate.ts';
 import { createProvisionedUser } from '../apps/api/src/operator-service.ts';
 import { AccountAdministration } from '../apps/api/src/accounts.ts';
+import { StateRepository } from '../apps/api/src/state.ts';
 
 const databaseUrl = process.env.TEST_DATABASE_URL;
 if (!databaseUrl) throw new Error('Accounts browser tests require TEST_DATABASE_URL for a disposable PostgreSQL database.');
@@ -47,8 +48,13 @@ try {
   await admin.query(`CREATE SCHEMA "${schema}"`);
   created = true;
   await migrate(pool, auth);
-  for (const name of ['Alice', 'Bob', 'Offline', 'Planner', 'Restore']) {
-    await createProvisionedUser(pool, config, { email: `${name.toLowerCase()}@accounts.test`, name, password: 'Only-for-browser-tests-2026!' });
+  for (const name of ['Alice', 'Bob', 'Offline', 'Planner', 'Restore', 'Expired', 'Lifetime']) {
+    const user = await createProvisionedUser(pool, config, { email: `${name.toLowerCase()}@accounts.test`, name, password: 'Only-for-browser-tests-2026!' });
+    if (name === 'Expired') {
+      await new StateRepository(pool).addLog(user, { kind: 'cardio', log: { id: 'expired-cloud-history', date: '2026-10-01', activity: 'walk', minutes: 26 } });
+      await pool.query("UPDATE account_access SET trial_ends_at = now() - interval '1 day' WHERE user_id = $1", [user.id]);
+    }
+    if (name === 'Lifetime') await pool.query("UPDATE account_access SET lifetime = true, trial_ends_at = now() - interval '1 day' WHERE user_id = $1", [user.id]);
   }
   const accounts = new AccountAdministration(pool, auth, config, null);
   const bootstrap = await accounts.bootstrap({ email: 'admin@accounts.test', name: 'Admin', sendEmail: false });

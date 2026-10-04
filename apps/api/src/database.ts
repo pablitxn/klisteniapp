@@ -58,4 +58,37 @@ CREATE TABLE IF NOT EXISTS account_rate_limit (
   count integer NOT NULL,
   expires_at timestamptz NOT NULL
 );
+CREATE TABLE IF NOT EXISTS account_access (
+  user_id text PRIMARY KEY REFERENCES auth_user(id) ON DELETE CASCADE,
+  trial_ends_at timestamptz,
+  lifetime boolean NOT NULL DEFAULT false,
+  paid_through timestamptz
+);
+ALTER TABLE account_token ADD COLUMN IF NOT EXISTS access text NOT NULL DEFAULT 'trial'
+  CHECK (access IN ('trial', 'lifetime'));
+UPDATE account_token SET access = 'lifetime' WHERE kind = 'activation' AND role = 'admin' AND access <> 'lifetime';
+CREATE TABLE IF NOT EXISTS account_share_invitation (
+  id text PRIMARY KEY,
+  token_hash text NOT NULL UNIQUE,
+  label text NOT NULL,
+  max_uses integer NOT NULL CHECK (max_uses BETWEEN 1 AND 10000),
+  uses integer NOT NULL DEFAULT 0 CHECK (uses >= 0 AND uses <= max_uses),
+  created_by text REFERENCES auth_user(id) ON DELETE SET NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  expires_at timestamptz NOT NULL,
+  revoked_at timestamptz
+);
+CREATE TABLE IF NOT EXISTS app_migration (
+  id text PRIMARY KEY,
+  applied_at timestamptz NOT NULL DEFAULT now()
+);
+-- Preserve existing private-beta accounts exactly once. Re-running migrations
+-- never upgrades newer users, extends trials, or replaces explicit entitlements.
+WITH first_run AS (
+  INSERT INTO app_migration (id) VALUES ('account-access-v1')
+  ON CONFLICT (id) DO NOTHING RETURNING id
+)
+INSERT INTO account_access (user_id, lifetime)
+SELECT u.id, true FROM auth_user u WHERE EXISTS (SELECT 1 FROM first_run)
+ON CONFLICT (user_id) DO NOTHING;
 `;

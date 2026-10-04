@@ -42,5 +42,21 @@
 .admin-invitations-heading { margin-top: 24px !important; }
 @media (max-width: 600px) { .account-access { padding: 26px 16px; } .account-access-brand { margin-bottom: 24px; } .account-access-card { padding: 26px 22px; border-radius: 19px; } }
 
+.billing-panel { display: grid; gap: 12px; }
+.billing-panel h3, .billing-panel p { margin: 0; }
+.billing-panel p { font-size: 13px; line-height: 1.6; }
+.billing-expired { padding: 18px; background: #fff8ed; border: 1px solid #ecd6af; border-radius: 14px; }
+.billing-notice { padding: 12px 14px; border-radius: 10px; background: #f5f2fa; }
+.billing-plans, .feature-comparison-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.billing-plan { padding: 16px; border: 1px solid #e6deef; border-radius: 12px; }
+.billing-plan h4, .feature-comparison h4 { margin: 0 0 8px; font-size: 14px; }
+.billing-plan small { display: block; font-size: 11px; color: #706979; }
+.billing-plan button { width: 100%; margin-top: 12px; font-size: 12px; }
+.billing-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.feature-comparison { margin-top: 6px; }
+.feature-comparison > summary { font-size: 13px; margin: 0 0 12px; cursor: pointer; }
+.feature-comparison-grid > div { background: #faf9fc; border-radius: 12px; padding: 14px; }
+.feature-comparison-grid p { margin: 0 0 8px; font-size: 12px; line-height: 1.6; }
+@media (max-width: 480px) { .billing-plans, .feature-comparison-grid { grid-template-columns: 1fr; } }
+
 .account-forgot-password { text-align: center; text-decoration: none; }
-.account-recovery-status { outline: none; }

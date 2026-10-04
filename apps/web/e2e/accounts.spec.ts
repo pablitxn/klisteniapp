@@ -280,7 +280,6 @@ test('an administrator invites a member, the member activates and recovers witho
   } finally { await memberContext.close() }
 })
 
-
 test('health records persist in the real account, survive reload and stay out of browser storage', async ({ page, context }) => {
   await prepare(context, 91)
   await open(page)
@@ -299,7 +298,7 @@ test('health records persist in the real account, survive reload and stay out of
   await page.reload()
   await expect(page.locator('.local-badge')).toContainText('Sincronizado con tu cuenta')
   await healthNav()
-  await expect(page.getByRole('region', { name: 'Evolución corporal', exact: true })).toContainText('78,4 kg')
+  await expect(page.locator('.health-trend-value')).toContainText('78,4 kg')
   const exported = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Exportar mi cuenta', exact: true }).click()
   expect((await exported).suggestedFilename()).toContain('klisteni-mi-cuenta')
@@ -311,5 +310,5 @@ test('health records persist in the real account, survive reload and stay out of
   await expect(page.getByRole('button', { name: 'Iniciar sesión', exact: true })).toBeVisible()
   await healthNav()
   await expect(page.getByText('78,4 kg', { exact: true })).toHaveCount(0)
-  await expect(page.getByRole('button', { name: 'Entrar a mi cuenta', exact: true })).toBeVisible()
+  await expect(page.getByText(/Modo local gratuito:/)).toBeVisible()
 })

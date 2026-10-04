@@ -8,7 +8,28 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "passThroughEnv": ["DATABASE_URL", "BETTER_AUTH_SECRET", "APP_ORIGIN", "HOST", "PORT", "KLISTENI_API_URL", "TRUSTED_CLIENT_IP_HEADER", "NODE_ENV", "SMTP_HOST", "SMTP_PORT", "SMTP_SECURE", "SMTP_USER", "SMTP_PASSWORD", "SMTP_FROM"]
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "BETTER_AUTH_SECRET",
+        "APP_ORIGIN",
+        "HOST",
+        "PORT",
+        "KLISTENI_API_URL",
+        "TRUSTED_CLIENT_IP_HEADER",
+        "NODE_ENV",
+        "SMTP_HOST",
+        "SMTP_PORT",
+        "SMTP_SECURE",
+        "SMTP_USER",
+        "SMTP_PASSWORD",
+        "SMTP_FROM",
+        "BILLING_MODE",
+        "MP_ACCESS_TOKEN",
+        "MP_WEBHOOK_SECRET",
+        "MP_SANDBOX_PAYER_EMAIL",
+        "MP_MONTHLY_AMOUNT",
+        "MP_YEARLY_AMOUNT"
+      ]
     },
     "build": {
       "dependsOn": [
@@ -37,6 +58,13 @@
     "typecheck": {
       "dependsOn": [
         "^typecheck"
+      ],
+      "outputs": []
+    },
+    "@klisteniapp/api#test": {
+      "cache": false,
+      "passThroughEnv": [
+        "TEST_DATABASE_URL"
       ],
       "outputs": []
     }

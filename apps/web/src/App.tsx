@@ -19,6 +19,8 @@ import {
 import Progress from './components/Progress'
 import ExercisePreview from './components/ExercisePreview'
 import AccountPanel from './components/AccountPanel'
+import { cloudWriteAllowed } from './lib/account-api'
+import { accessLabel } from './lib/access-label'
 const HealthPage = lazy(() => import('./components/HealthPage'))
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
 type Page = 'routine' | 'library' | 'anatomy' | 'progress' | 'health'
@@ -35,7 +37,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const [page, setPage] = useState<Page>('routine')
   const [selectedId, setSelectedId] = useState('squat')
   const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null)
-  const [overlay, setOverlay] = useState<Overlay>(() => new URLSearchParams(location.search).get('account') === 'login' ? 'account' : null)
+  const [overlay, setOverlay] = useState<Overlay>(() => new URLSearchParams(location.search).get('account') === 'login' || new URLSearchParams(location.search).get('billing') === 'return' ? 'account' : null)
   const [session, setSession] = useState<{
     ids: string[]
     sets: number
@@ -51,6 +53,8 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const user = useAppStore(s => s.user)
   const authStatus = useAppStore(s => s.authStatus)
   const personalData = useAppStore(s => s.personalData)
+  const access = useAppStore(s => s.access)
+  const cloudBlocked = Boolean(user && !cloudWriteAllowed(access))
   const accountLoading = useAppStore(s => s.accountLoading)
   const syncStatus = useAppStore(s => s.syncStatus)
   const pendingCount = useAppStore(s => s.pendingCount)
@@ -86,12 +90,15 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
     document.title = `${pages.find((p) => p.id === page)?.label} · Klisteni`
   }, [page])
   useEffect(() => {
+    // Keep the one-time intent until session discovery chooses the final App key.
+    if (authStatus === 'loading') return
     const url = new URL(location.href)
-    if (url.searchParams.get('account') === 'login') {
+    if (url.searchParams.get('account') === 'login' || url.searchParams.get('billing') === 'return') {
       url.searchParams.delete('account')
+      url.searchParams.delete('billing')
       history.replaceState(history.state, '', `${url.pathname}${url.search}${url.hash}`)
     }
-  }, [])
+  }, [authStatus])
   const descriptions = {
     routine: 'Un poco de práctica. Mucho por descubrir.',
     library: 'Conocé el movimiento antes de sumar repeticiones.',
@@ -157,7 +164,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
           </button>
           <div className="local-badge">
             <span />{' '}
-            {user ? (syncStatus === 'saving' ? 'Guardando en tu cuenta…' : pendingCount ? `${pendingCount} envíos pendientes` : privateUnavailable ? 'Conectando con tu cuenta…' : 'Sincronizado con tu cuenta') : storageError
+            {user ? (syncStatus === 'saving' ? 'Guardando en tu cuenta…' : pendingCount ? `${pendingCount} envíos pendientes` : privateUnavailable ? 'Conectando con tu cuenta…' : cloudBlocked ? 'Nube pausada · datos disponibles' : 'Sincronizado con tu cuenta') : storageError
               ? 'Pendiente de guardar'
               : 'Guardado en este dispositivo'}
           </div>
@@ -186,7 +193,9 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
         <main id="main">
           {privacyControls}
           <div className="account-status">
-            <p>{authStatus === 'loading' ? 'Verificando tu sesión… Podés explorar el catálogo mientras esperamos.' : user ? privateUnavailable ? 'Tu práctica todavía no está disponible. Esperá la conexión antes de registrar cambios.' : `Mi práctica · ${personalSettings?.profile.displayName ?? user.name}` : 'Modo local · Explorá y probá. Iniciá sesión para guardar tu práctica entre dispositivos.'}</p>
+            <p>{authStatus === 'loading' ? 'Verificando tu sesión… Podés explorar el catálogo mientras esperamos.' : user ? privateUnavailable ? 'Tu práctica todavía no está disponible. Esperá la conexión antes de registrar cambios.' : `Mi práctica · ${personalSettings?.profile.displayName ?? user.name}` : 'Modo local · Gratis en este dispositivo. Tu cuenta agrega guardado entre dispositivos.'}</p>
+            {user && access && <button className="text-button" onClick={() => setOverlay('account')}>{accessLabel(access)}</button>}
+            {cloudBlocked && <span>Podés consultar y exportar tus datos. Abrí tu cuenta para renovar o seguir gratis en modo local.</span>}
             {(pendingCount > 0 || accountError) && user && <button className="text-button" onClick={() => void useAppStore.getState().refreshState()}>Reintentar sincronización</button>}
             {accountError && user && <span role="alert">{accountError}</span>}
             {accountError?.includes('cerrar la sesión') && !user && <><span role="alert">{accountError}</span><button className="text-button" onClick={() => void useAppStore.getState().signOut()}>Reintentar cierre de sesión</button></>}

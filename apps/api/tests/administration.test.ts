@@ -145,7 +145,7 @@ describe('account invitations, administration and recovery with PostgreSQL', { s
       const info = await request('POST', '/api/account/token-info', { token });
       assert.equal(info.status, 200);
       assert.equal(info.headers.get('cache-control'), 'no-store');
-      assert.deepEqual(await info.json(), { kind: 'activation', email: issued.invitation.email, name: 'Invited', expiresAt: issued.invitation.expiresAt });
+      assert.deepEqual(await info.json(), { kind: 'activation', email: issued.invitation.email, name: 'Invited', expiresAt: issued.invitation.expiresAt, access: 'trial' });
     }
     assert.equal((await request('POST', '/api/account/activate', { token, name: 'Escalate', password, role: 'admin' })).status, 400);
     const results = await Promise.all([1, 2].map(() => request('POST', '/api/account/activate', { token, name: 'Accepted', password })));
@@ -170,7 +170,7 @@ describe('account invitations, administration and recovery with PostgreSQL', { s
     assert.doesNotMatch(text, /token_hash|password|workouts|personal_state/);
     const users = await (await admin.call('GET', '/api/admin/users')).json();
     assert.ok(users.users.some((entry: { id: string }) => entry.id === user.id));
-    assert.deepEqual(Object.keys(users.users[0]).sort(), ['createdAt', 'disabled', 'email', 'id', 'name', 'role']);
+    assert.deepEqual(Object.keys(users.users[0]).sort(), ['access', 'createdAt', 'disabled', 'email', 'id', 'name', 'role']);
     assert.equal((await admin.call('GET', '/api/me/state', undefined, { 'x-klisteni-account': user.id })).status, 401);
     assert.equal((await admin.call('POST', '/api/admin/invitations', { email: 'blocked@example.test', role: 'admin', sendEmail: false })).status, 400);
   });
@@ -266,5 +266,43 @@ describe('account invitations, administration and recovery with PostgreSQL', { s
     for (let count = 0; count < 11; count++) result = await request('POST', '/api/account/token-info', { token: 'invalid' }, { 'x-test-ip': '203.0.113.240' });
     assert.equal(result!.status, 429);
     assert.equal(result!.headers.get('cache-control'), 'no-store');
+  });
+
+  test('public campaign HTTP flow creates a trial and enforces the cloud paywall with local export access', async () => {
+    const issue = await admin.call('POST', '/api/admin/share-invitations', { label: 'Community', maxUses: 5, expiresInDays: 7 });
+    assert.equal(issue.status, 201, await issue.clone().text());
+    const issued = await issue.json();
+    const token = tokenFrom(issued);
+    assert.equal(new URL(issued.url).pathname, '/account/join');
+    const info = await request('POST', '/api/account/share-info', { token });
+    assert.equal(info.status, 200);
+    assert.equal((await info.json()).trialDays, 15);
+    assert.equal((await request('GET', '/api/account/join')).status, 404);
+    const payload = { token, email: `${randomUUID()}@example.test`, name: 'Community user', password };
+    assert.equal((await request('POST', '/api/account/join', payload, { origin: 'https://outside.example' })).status, 403);
+    assert.equal((await request('POST', '/api/account/join', { ...payload, access: 'lifetime' })).status, 400);
+    const joined = await request('POST', '/api/account/join', payload);
+    assert.equal(joined.status, 201, await joined.clone().text());
+    const user = await login(payload.email);
+    assert.equal((await (await user.call('GET', '/api/me/access')).json()).status, 'trial');
+    assert.equal((await user.call('GET', '/api/admin/share-invitations')).status, 403);
+    assert.equal((await user.call('POST', `/api/admin/users/${user.id}/lifetime`, { lifetime: true })).status, 403);
+    const initial = await (await user.call('GET', '/api/me/state')).json();
+    await pool.query("UPDATE account_access SET trial_ends_at = now() - interval '1 second' WHERE user_id = $1", [user.id]);
+    assert.equal((await (await user.call('GET', '/api/me/access')).json()).status, 'expired');
+    const denied = await user.call('PUT', '/api/me/settings', { expectedRevision: initial.revision, settings: initial.data.settings });
+    assert.equal(denied.status, 402);
+    assert.equal((await denied.json()).code, 'CLOUD_ACCESS_REQUIRED');
+    assert.equal((await user.call('GET', '/api/me/state')).status, 200);
+    assert.equal((await user.call('DELETE', `/api/me/logs/${randomUUID()}`)).status, 200);
+    assert.equal((await admin.call('POST', `/api/admin/users/${user.id}/lifetime`, { lifetime: true })).status, 200);
+    assert.equal((await (await user.call('GET', '/api/me/access')).json()).status, 'lifetime');
+    assert.equal((await admin.call('POST', `/api/admin/users/${user.id}/lifetime`, { lifetime: false })).status, 200);
+    assert.equal((await (await user.call('GET', '/api/me/access')).json()).status, 'expired');
+    assert.equal((await admin.call('POST', `/api/admin/share-invitations/${issued.invitation.id}/revoke`, {})).status, 200);
+    assert.equal((await request('POST', '/api/account/share-info', { token })).status, 400);
+    let limited: Response | undefined;
+    for (let count = 0; count < 11; count++) limited = await request('POST', '/api/account/join', { ...payload, token: 'invalid' }, { 'x-test-ip': '203.0.113.241' });
+    assert.equal(limited!.status, 429);
   });
 });

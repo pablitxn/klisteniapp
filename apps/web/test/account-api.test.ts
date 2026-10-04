@@ -80,3 +80,17 @@ test('ordinary account settings never resend or replace sensitive health history
   await accountApi.settings(state.data.settings, 0, 'owner-a')
   assert.equal(state.data.settings.health?.profile.heightCm, 178)
 })
+
+test('billing requests pin the account and disabled plans do not imply a payment', async (t) => {
+  const access = { status: 'expired', cloudWrite: false, trialEndsAt: '2026-01-01T00:00:00Z', paidThrough: null }
+  t.mock.method(globalThis, 'fetch', async (url: string, options: RequestInit) => {
+    assert.equal((options.headers as Record<string, string>)['X-Klisteni-Account'], 'owner-a')
+    assert.equal(options.credentials, 'same-origin')
+    assert.equal(url, '/api/me/billing')
+    return new Response(JSON.stringify({ mode: 'disabled', plans: [], subscription: null, access }), { headers: { 'Content-Type': 'application/json' } })
+  })
+  const result = await accountApi.billing('owner-a')
+  assert.equal(result.mode, 'disabled')
+  assert.equal(result.access.cloudWrite, false)
+  assert.equal(result.plans.length, 0)
+})

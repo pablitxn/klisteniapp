@@ -1,11 +1,23 @@
 import { ServerStateSchema, type CardioLog, type HealthData, type PersonalData, type PersonalSettings, type ProgressData, type WorkoutLog } from '@klisteniapp/scene-schema'
 import { z } from 'zod'
 
+export const AccountAccessSchema = z.object({ status: z.enum(['trial', 'lifetime', 'active', 'expired']), cloudWrite: z.boolean(), trialEndsAt: z.string().nullable(), paidThrough: z.string().nullable() })
+export type AccountAccess = z.infer<typeof AccountAccessSchema>
+export const BillingSchema = z.object({ mode: z.enum(['disabled', 'sandbox']), plans: z.array(z.object({ id: z.enum(['monthly', 'yearly']), label: z.string(), amount: z.number().positive(), currency: z.literal('ARS'), months: z.number().int().positive() })), subscription: z.object({ id: z.string(), plan: z.enum(['monthly', 'yearly']), status: z.string(), checkoutUrl: z.string().nullable() }).nullable(), access: AccountAccessSchema })
+export type AccountBilling = z.infer<typeof BillingSchema>
+export const ShareInvitationSchema = z.object({ id: z.string(), label: z.string(), maxUses: z.number().int(), uses: z.number().int(), expiresAt: z.string(), status: z.enum(['active', 'expired', 'revoked', 'exhausted']) })
+export type ShareInvitation = z.infer<typeof ShareInvitationSchema>
+export function cloudWriteAllowed(access: AccountAccess | null) {
+  if (!access) return true // The server still authorizes every write if status is temporarily unavailable.
+  if (!access.cloudWrite) return false
+  const until = access.status === 'trial' ? access.trialEndsAt : access.status === 'active' ? access.paidThrough : null
+  return !until || Date.parse(until) > Date.now()
+}
 export interface AccountUser { id: string; email: string; name: string; role?: 'admin' | 'user' }
-const AdminUserSchema = z.object({ id: z.string(), email: z.string(), name: z.string(), role: z.enum(['admin', 'user']), disabled: z.boolean(), createdAt: z.string() })
-const InvitationSchema = z.object({ id: z.string(), email: z.string(), name: z.string().nullish(), kind: z.enum(['activation', 'recovery']), role: z.enum(['admin', 'user']), createdAt: z.string(), expiresAt: z.string(), status: z.enum(['pending', 'used', 'revoked', 'expired']), deliveryStatus: z.string().nullish() })
+const AdminUserSchema = z.object({ id: z.string(), email: z.string(), name: z.string(), role: z.enum(['admin', 'user']), disabled: z.boolean(), createdAt: z.string(), access: AccountAccessSchema.optional() })
+const InvitationSchema = z.object({ id: z.string(), email: z.string(), name: z.string().nullish(), kind: z.enum(['activation', 'recovery']), role: z.enum(['admin', 'user']), createdAt: z.string(), expiresAt: z.string(), status: z.enum(['pending', 'used', 'revoked', 'expired']), deliveryStatus: z.string().nullish(), access: z.enum(['trial', 'lifetime']).optional() })
 const IssuedInvitationSchema = z.object({ invitation: InvitationSchema, url: z.string(), delivery: z.object({ status: z.enum(['not_requested', 'smtp_accepted', 'unavailable', 'failed']) }) })
-const TokenInfoSchema = z.object({ kind: z.enum(['activation', 'recovery']), email: z.string(), name: z.string().nullish(), expiresAt: z.string() })
+const TokenInfoSchema = z.object({ kind: z.enum(['activation', 'recovery']), email: z.string(), name: z.string().nullish(), expiresAt: z.string(), access: z.enum(['trial', 'lifetime']).optional() })
 const SuccessSchema = z.object({ ok: z.literal(true) })
 export type AdminUser = z.infer<typeof AdminUserSchema>
 export type AccountInvitation = z.infer<typeof InvitationSchema>
@@ -65,6 +77,17 @@ export const accountApi = {
   },
   signIn: (email: string, password: string) => request('/api/auth/sign-in/email', 'POST', { email, password }),
   signOut: (userId?: string) => request('/api/auth/sign-out', 'POST', {}, userId),
+  access: (userId: string) => parsedRequest(AccountAccessSchema, '/api/me/access', 'GET', undefined, userId),
+  billing: (userId: string) => parsedRequest(BillingSchema, '/api/me/billing', 'GET', undefined, userId),
+  checkout: (plan: 'monthly' | 'yearly', userId: string) => parsedRequest(z.object({ checkoutUrl: z.string() }), '/api/me/billing/checkout', 'POST', { plan }, userId),
+  refreshBilling: (userId: string) => parsedRequest(BillingSchema, '/api/me/billing/refresh', 'POST', {}, userId),
+  cancelBilling: (userId: string) => parsedRequest(BillingSchema, '/api/me/billing/cancel', 'POST', {}, userId),
+  shareInfo: (token: string) => parsedRequest(z.object({ label: z.string(), expiresAt: z.string(), trialDays: z.literal(15) }), '/api/account/share-info', 'POST', { token }),
+  join: (input: { token: string; email: string; name: string; password: string }) => parsedRequest(SuccessSchema, '/api/account/join', 'POST', input),
+  adminShareInvitations: (userId: string) => parsedRequest(z.object({ invitations: z.array(ShareInvitationSchema) }), '/api/admin/share-invitations', 'GET', undefined, userId),
+  createShareInvitation: (input: { label: string; maxUses: number; expiresInDays: number }, userId: string) => parsedRequest(z.object({ invitation: ShareInvitationSchema, url: z.string() }), '/api/admin/share-invitations', 'POST', input, userId),
+  revokeShareInvitation: (id: string, userId: string) => parsedRequest(SuccessSchema, `/api/admin/share-invitations/${encodeURIComponent(id)}/revoke`, 'POST', {}, userId),
+  setLifetime: (id: string, lifetime: boolean, userId: string) => parsedRequest(SuccessSchema, `/api/admin/users/${encodeURIComponent(id)}/lifetime`, 'POST', { lifetime }, userId),
   state: (userId: string) => stateRequest('/api/me/state', 'GET', undefined, userId),
   settings: (settings: PersonalSettings, expectedRevision: number, userId: string) => {
     const trainingSettings = { ...settings }
@@ -84,7 +107,7 @@ export const accountApi = {
   completeRecovery: (input: { token: string; password: string }) => parsedRequest(SuccessSchema, '/api/account/reset-password', 'POST', input),
   adminUsers: (userId: string) => parsedRequest(z.object({ users: z.array(AdminUserSchema) }), '/api/admin/users', 'GET', undefined, userId),
   adminInvitations: (userId: string) => parsedRequest(z.object({ invitations: z.array(InvitationSchema), mailConfigured: z.boolean() }), '/api/admin/invitations', 'GET', undefined, userId),
-  invite: (input: { email: string; name?: string; sendEmail: boolean }, userId: string) => parsedRequest(IssuedInvitationSchema, '/api/admin/invitations', 'POST', input, userId),
+  invite: (input: { email: string; name?: string; sendEmail: boolean; access?: 'trial' | 'lifetime' }, userId: string) => parsedRequest(IssuedInvitationSchema, '/api/admin/invitations', 'POST', input, userId),
   reissueInvitation: (id: string, sendEmail: boolean, userId: string) => parsedRequest(IssuedInvitationSchema, `/api/admin/invitations/${encodeURIComponent(id)}/reissue`, 'POST', { sendEmail }, userId),
   revokeInvitation: (id: string, userId: string) => parsedRequest(SuccessSchema, `/api/admin/invitations/${encodeURIComponent(id)}/revoke`, 'POST', {}, userId),
   manageUser: (id: string, action: 'disable' | 'enable' | 'revoke-sessions', userId: string) => parsedRequest(SuccessSchema, `/api/admin/users/${encodeURIComponent(id)}/${action}`, 'POST', {}, userId),

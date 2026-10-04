@@ -29,3 +29,19 @@ test('SMTP configuration is optional, requires paired secrets and never permits 
     host: 'smtp.example.test', port: 587, secure: false, from: 'from@example.test', user: 'user', password: 'password',
   });
 });
+
+test('subscriptions default off and cannot enable live mode or partially configured sandbox', () => {
+  assert.equal(readConfig(valid).billing, undefined);
+  assert.throws(() => readConfig({ ...valid, BILLING_MODE: 'live' }), /BILLING_MODE/);
+  assert.throws(() => readConfig({ ...valid, BILLING_MODE: 'sandbox' }), /Sandbox billing/);
+  const sandbox = { ...valid, APP_ORIGIN: 'https://klisteni.test', BILLING_MODE: 'sandbox', MP_ACCESS_TOKEN: 'fake-test-token', MP_WEBHOOK_SECRET: 's'.repeat(32), MP_SANDBOX_PAYER_EMAIL: 'buyer@example.test', MP_MONTHLY_AMOUNT: '100.25', MP_YEARLY_AMOUNT: '1000' };
+  assert.equal(readConfig(sandbox).billing?.monthlyAmount, 100.25);
+  assert.equal(readConfig(sandbox).billing?.mode, 'sandbox');
+  assert.throws(() => readConfig({ ...sandbox, APP_ORIGIN: valid.APP_ORIGIN }), /HTTPS/);
+  assert.throws(() => readConfig({ ...sandbox, MP_MONTHLY_AMOUNT: '0' }), /MP_MONTHLY_AMOUNT/);
+  assert.throws(() => readConfig({ ...sandbox, MP_YEARLY_AMOUNT: '5.125' }), /MP_YEARLY_AMOUNT/);
+  assert.throws(() => readConfig({ ...sandbox, MP_MONTHLY_AMOUNT: 'invalid-private-value' }), (error: Error) => {
+    assert.doesNotMatch(error.message, /invalid-private-value|fake-test-token/);
+    return true;
+  });
+});

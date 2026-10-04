@@ -1,9 +1,9 @@
-export type AccountAccessMode = 'activate' | 'recover' | 'forgot-password'
+export type AccountAccessMode = 'activate' | 'recover' | 'forgot-password' | 'join'
 export type AccountAccessRoute = { mode: AccountAccessMode; token: string; navigationId: number }
 let accessSequence = 0
 
 export function accountAccessMode(path: string): AccountAccessMode | null {
-  const match = path.match(/^\/account\/(activate|recover|forgot-password)\/?$/)
+  const match = path.match(/^\/account\/(activate|recover|forgot-password|join)\/?$/)
   return match ? match[1] as AccountAccessMode : null
 }
 

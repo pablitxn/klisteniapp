@@ -1,4 +1,4 @@
-import { betterAuth } from 'better-auth';
+import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import { z } from 'zod';
 import { createAuth } from './auth.ts';
@@ -6,20 +6,33 @@ import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
 import { HttpError } from './errors.ts';
 import { lockUser } from './state.ts';
+import { initializeAccess } from './access.ts';
 
 export const PasswordSchema = z.string().min(12).max(128);
 export const EmailSchema = z.email().max(254).transform((email) => email.toLowerCase());
 
-/** This instance is used only by the operator process; its handler is never mounted. */
+/** Provision credentials and the fixed trial atomically, using Better Auth's hasher. */
 export async function createProvisionedUser(pool: Pool, config: Config, input: { email: string; name: string; password: string }) {
   const data = z.object({ email: EmailSchema, name: z.string().trim().min(1).max(100), password: PasswordSchema }).strict().parse(input);
   const runtimeAuth = createAuth(pool, config);
-  const provisioner = betterAuth({
-    ...runtimeAuth.options,
-    emailAndPassword: { ...runtimeAuth.options.emailAndPassword, enabled: true, disableSignUp: false, autoSignIn: false },
-  });
-  const result = await provisioner.api.signUpEmail({ body: data });
-  return { id: result.user.id, name: result.user.name, email: result.user.email };
+  const password = await (await runtimeAuth.$context).password.hash(data.password);
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query("SELECT pg_advisory_xact_lock(hashtextextended('klisteniapp:account-administration', 0))");
+    if ((await client.query('SELECT id FROM auth_user WHERE email = $1', [data.email])).rowCount) throw new HttpError(409, 'USER_EXISTS', 'Ya existe una cuenta con ese email.');
+    const id = randomUUID();
+    await client.query(`INSERT INTO auth_user (id, name, email, "emailVerified", image, "createdAt", "updatedAt", disabled, role)
+      VALUES ($1,$2,$3,false,NULL,now(),now(),false,'user')`, [id, data.name, data.email]);
+    await client.query(`INSERT INTO auth_account (id, "userId", "accountId", "providerId", password, "createdAt", "updatedAt")
+      VALUES ($1,$2,$2,'credential',$3,now(),now())`, [randomUUID(), id, password]);
+    await initializeAccess(client, id);
+    await client.query('COMMIT');
+    return { id, name: data.name, email: data.email };
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => undefined);
+    throw error;
+  } finally { client.release(); }
 }
 
 export async function operateUser(pool: Pool, auth: Auth, email: string, action: 'reset-password' | 'disable' | 'enable' | 'revoke-sessions', password?: string): Promise<string> {

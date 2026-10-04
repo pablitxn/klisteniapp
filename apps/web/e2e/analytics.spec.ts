@@ -206,13 +206,14 @@ test('mobile consent uses equal choices and privacy stays within the viewport', 
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
 })
 
-test('activation and recovery pages never load analytics, even with saved consent', async ({ page }) => {
+test('activation, shared invitations and recovery pages never load analytics, even with saved consent', async ({ page }) => {
   const capture = await intercept(page)
   await storedChoice(page)
   await page.route('**/api/account/token-info', route => route.fulfill({ status: 400, json: { error: 'Enlace vencido', code: 'INVALID_TOKEN' } }))
+  await page.route('**/api/account/share-info', route => route.fulfill({ status: 400, json: { error: 'Enlace vencido', code: 'INVALID_TOKEN' } }))
   const models: string[] = []
   page.on('request', request => { if (request.url().endsWith('.glb')) models.push(request.url()) })
-  for (const path of ['/account/activate', '/account/recover']) {
+  for (const path of ['/account/activate', '/account/join', '/account/recover']) {
     await page.goto(`${path}#token=fake-private-link-token`)
     await expect(page).toHaveURL(new RegExp(`${path}$`))
     await expect(page.getByRole('alert')).toBeVisible()

@@ -7,9 +7,13 @@ import { HttpError } from './errors.ts';
 import { createAccountMailer, type AccountMailer } from './mail.ts';
 import { EmailSchema, PasswordSchema } from './operator-service.ts';
 import { lockUser } from './state.ts';
+import { describeAccess, initializeAccess, TRIAL_DAYS, type AccessRow } from './access.ts';
 
 export const TokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
-export const InvitationInputSchema = z.object({ email: EmailSchema, name: z.string().trim().min(1).max(100).optional(), sendEmail: z.boolean() }).strict();
+export const InvitationInputSchema = z.object({ email: EmailSchema, name: z.string().trim().min(1).max(100).optional(), sendEmail: z.boolean(), access: z.enum(['trial', 'lifetime']).optional() }).strict();
+export const ShareInvitationInputSchema = z.object({ label: z.string().trim().min(1).max(100), maxUses: z.number().int().min(1).max(10000), expiresInDays: z.number().int().min(1).max(90) }).strict();
+export const ShareRedemptionInputSchema = z.object({ token: TokenSchema, email: EmailSchema, name: z.string().trim().min(1).max(100), password: PasswordSchema }).strict();
+export const LifetimeInputSchema = z.object({ lifetime: z.boolean() }).strict();
 export const DeliveryInputSchema = z.object({ sendEmail: z.boolean() }).strict();
 export const ActivationInputSchema = z.object({ token: TokenSchema, name: z.string().trim().min(1).max(100), password: PasswordSchema }).strict();
 export const RequestRecoveryInputSchema = z.object({ email: EmailSchema }).strict();
@@ -19,11 +23,12 @@ export const EmptyInputSchema = z.object({}).strict();
 export type AdminActor = { id: string; sessionId: string };
 type DeliveryStatus = 'not_requested' | 'smtp_accepted' | 'unavailable' | 'failed';
 type TokenRow = {
-  id: string; token_hash: string; email: string; name: string; kind: 'activation' | 'recovery'; role: 'admin' | 'user';
+  id: string; token_hash: string; email: string; name: string; kind: 'activation' | 'recovery'; role: 'admin' | 'user'; access: 'trial' | 'lifetime';
   user_id: string | null; created_by: string | null; created_at: Date; expires_at: Date;
   used_at: Date | null; revoked_at: Date | null; delivery_status: DeliveryStatus; smtp_accepted_at: Date | null;
 };
 type UserRow = { id: string; email: string; name: string; role: 'admin' | 'user'; disabled: boolean; createdAt: Date };
+type ShareRow = { id: string; token_hash: string; label: string; max_uses: number; uses: number; expires_at: Date; revoked_at: Date | null };
 const digest = (value: string) => createHash('sha256').update(value).digest('hex');
 const invalidToken = () => new HttpError(400, 'INVALID_TOKEN', 'El enlace no es válido, venció o ya fue utilizado.');
 
@@ -65,31 +70,32 @@ export class AccountAdministration {
   metadata(row: TokenRow) {
     const status = row.used_at ? 'used' : row.revoked_at ? 'revoked' : row.expires_at <= this.now() ? 'expired' : 'pending';
     return {
-      id: row.id, email: row.email, name: row.name, kind: row.kind, role: row.role,
+      id: row.id, email: row.email, name: row.name, kind: row.kind, role: row.role, access: row.access,
       createdAt: row.created_at.toISOString(), expiresAt: row.expires_at.toISOString(),
       status, deliveryStatus: row.delivery_status, smtpAcceptedAt: row.smtp_accepted_at?.toISOString() ?? null,
     };
   }
   async users(actor: AdminActor) {
     await this.requireAdmin(this.pool, actor);
-    const result = await this.pool.query<UserRow>('SELECT id, email, name, role, disabled, "createdAt" FROM auth_user ORDER BY "createdAt", id LIMIT 1000');
-    return { users: result.rows.map(row => ({ ...row, createdAt: row.createdAt.toISOString() })) };
+    const result = await this.pool.query<UserRow & AccessRow>(`SELECT u.id, u.email, u.name, u.role, u.disabled, u."createdAt", a.trial_ends_at, a.lifetime, a.paid_through
+      FROM auth_user u LEFT JOIN account_access a ON a.user_id = u.id ORDER BY u."createdAt", u.id LIMIT 1000`);
+    return { users: result.rows.map(({ trial_ends_at, lifetime, paid_through, ...row }) => ({ ...row, createdAt: row.createdAt.toISOString(), access: describeAccess({ trial_ends_at, lifetime, paid_through }, this.now()) })) };
   }
   async invitations(actor: AdminActor) {
     await this.requireAdmin(this.pool, actor);
     const result = await this.pool.query<TokenRow>('SELECT * FROM account_token ORDER BY created_at DESC, id DESC LIMIT 200');
     return { invitations: result.rows.map(row => this.metadata(row)), mailConfigured: this.mailer !== null };
   }
-  async createToken(client: PoolClient, input: { email: string; name: string; kind: TokenRow['kind']; role: TokenRow['role']; userId?: string; actorId?: string }) {
+  async createToken(client: PoolClient, input: { email: string; name: string; kind: TokenRow['kind']; role: TokenRow['role']; access?: TokenRow['access']; userId?: string; actorId?: string }) {
     const token = randomBytes(32).toString('base64url');
     const now = this.now();
     const expires = new Date(now.getTime() + (input.kind === 'activation' ? 24 : 1) * 60 * 60 * 1000);
     // Replacing a link invalidates every older unused link of that purpose.
     await client.query('UPDATE account_token SET revoked_at = $3 WHERE email = $1 AND kind = $2 AND used_at IS NULL AND revoked_at IS NULL', [input.email, input.kind, now]);
     const result = await client.query<TokenRow>(`INSERT INTO account_token
-      (id, token_hash, email, name, kind, role, user_id, created_by, created_at, expires_at)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
-    [randomUUID(), digest(token), input.email, input.name, input.kind, input.role, input.userId ?? null, input.actorId ?? null, now, expires]);
+      (id, token_hash, email, name, kind, role, user_id, created_by, created_at, expires_at, access)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+    [randomUUID(), digest(token), input.email, input.name, input.kind, input.role, input.userId ?? null, input.actorId ?? null, now, expires, input.access ?? 'trial']);
     return { row: result.rows[0], token };
   }
   async finishIssue(issued: { row: TokenRow; token: string }, sendEmail: boolean) {
@@ -118,7 +124,7 @@ export class AccountAdministration {
     const issued = await this.transaction(async client => {
       const existing = await client.query('SELECT id FROM auth_user WHERE email = $1', [input.email]);
       if (existing.rowCount) throw new HttpError(409, 'USER_EXISTS', 'Esa persona ya tiene una cuenta. Usá recuperación de acceso.');
-      return this.createToken(client, { email: input.email, name: input.name ?? '', kind: 'activation', role: 'user', actorId: actor.id });
+      return this.createToken(client, { email: input.email, name: input.name ?? '', kind: 'activation', role: 'user', access: input.access ?? 'trial', actorId: actor.id });
     }, actor);
     return this.finishIssue(issued, input.sendEmail);
   }
@@ -139,7 +145,7 @@ export class AccountAdministration {
         if (row.email !== email) throw new HttpError(409, 'BOOTSTRAP_EMAIL_CONFLICT', 'El bootstrap inicial pertenece a otro email.');
         if (!input.reissue && !row.revoked_at && row.expires_at > this.now()) throw new HttpError(409, 'BOOTSTRAP_PENDING', 'La invitación inicial sigue vigente. Usá --reissue para invalidarla y emitir otra.');
       }
-      const issued = await this.createToken(client, { email, name, kind: 'activation', role: 'admin' });
+      const issued = await this.createToken(client, { email, name, kind: 'activation', role: 'admin', access: 'lifetime' });
       await client.query("INSERT INTO account_bootstrap (id, token_id) VALUES ('first-admin', $1) ON CONFLICT (id) DO UPDATE SET token_id = EXCLUDED.token_id", [issued.row.id]);
       return issued;
     });
@@ -171,7 +177,7 @@ export class AccountAdministration {
         const user = await this.findTarget(client, old.user_id!);
         if (user.disabled) throw new HttpError(409, 'USER_DISABLED', 'La cuenta está deshabilitada.');
       }
-      return this.createToken(client, { email: old.email, name: old.name, kind: old.kind, role: old.role, userId: old.user_id ?? undefined, actorId: actor.id });
+      return this.createToken(client, { email: old.email, name: old.name, kind: old.kind, role: old.role, access: old.access, userId: old.user_id ?? undefined, actorId: actor.id });
     }, actor);
     return this.finishIssue(issued, sendEmail);
   }
@@ -195,6 +201,73 @@ export class AccountAdministration {
     }, actor);
     return { ok: true };
   }
+  async setLifetime(actor: AdminActor, userId: string, lifetime: boolean) {
+    await this.transaction(async client => {
+      await this.findTarget(client, userId);
+      // A grant never changes permissions or trial/payment deadlines. Revocation
+      // falls back to any remaining trial or confirmed paid period.
+      await client.query(`INSERT INTO account_access (user_id, lifetime) VALUES ($1,$2)
+        ON CONFLICT (user_id) DO UPDATE SET lifetime = EXCLUDED.lifetime`, [userId, lifetime]);
+    }, actor);
+    return { ok: true };
+  }
+  shareMetadata(row: ShareRow) {
+    const status: 'active' | 'expired' | 'revoked' | 'exhausted' = row.revoked_at ? 'revoked'
+      : row.expires_at <= this.now() ? 'expired' : row.uses >= row.max_uses ? 'exhausted' : 'active';
+    return { id: row.id, label: row.label, maxUses: row.max_uses, uses: row.uses, expiresAt: row.expires_at.toISOString(), status };
+  }
+  validShare(row?: ShareRow): ShareRow {
+    if (!row || this.shareMetadata(row).status !== 'active') throw invalidToken();
+    return row;
+  }
+  async shareInvitations(actor: AdminActor) {
+    await this.requireAdmin(this.pool, actor);
+    const found = await this.pool.query<ShareRow>('SELECT * FROM account_share_invitation ORDER BY created_at DESC, id DESC LIMIT 200');
+    return { invitations: found.rows.map(row => this.shareMetadata(row)) };
+  }
+  async createShareInvitation(actor: AdminActor, input: z.infer<typeof ShareInvitationInputSchema>) {
+    const data = ShareInvitationInputSchema.parse(input);
+    const token = randomBytes(32).toString('base64url');
+    const row = await this.transaction(async client => {
+      const now = this.now();
+      const result = await client.query<ShareRow>(`INSERT INTO account_share_invitation
+        (id, token_hash, label, max_uses, created_by, created_at, expires_at)
+        VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+      [randomUUID(), digest(token), data.label, data.maxUses, actor.id, now, new Date(now.getTime() + data.expiresInDays * 86400000)]);
+      return result.rows[0];
+    }, actor);
+    return { invitation: this.shareMetadata(row), url: `${this.config.origin}/account/join#token=${token}` };
+  }
+  async revokeShareInvitation(actor: AdminActor, id: string) {
+    await this.transaction(async client => {
+      const result = await client.query('UPDATE account_share_invitation SET revoked_at = COALESCE(revoked_at, $2) WHERE id = $1 RETURNING id', [id, this.now()]);
+      if (!result.rowCount) throw new HttpError(404, 'INVITATION_NOT_FOUND', 'No existe ese enlace.');
+    }, actor);
+    return { ok: true };
+  }
+  async shareInfo(token: string) {
+    const row = this.validShare((await this.pool.query<ShareRow>('SELECT * FROM account_share_invitation WHERE token_hash = $1', [digest(TokenSchema.parse(token))])).rows[0]);
+    return { label: row.label, expiresAt: row.expires_at.toISOString(), trialDays: TRIAL_DAYS };
+  }
+  async redeemShare(input: z.infer<typeof ShareRedemptionInputSchema>) {
+    const data = ShareRedemptionInputSchema.parse(input);
+    const tokenHash = digest(data.token);
+    this.validShare((await this.pool.query<ShareRow>('SELECT * FROM account_share_invitation WHERE token_hash = $1', [tokenHash])).rows[0]);
+    const password = await (await this.auth.$context).password.hash(data.password);
+    await this.transaction(async client => {
+      const row = this.validShare((await client.query<ShareRow>('SELECT * FROM account_share_invitation WHERE token_hash = $1 FOR UPDATE', [tokenHash])).rows[0]);
+      if ((await client.query('SELECT id FROM auth_user WHERE email = $1', [data.email])).rowCount) throw new HttpError(409, 'USER_EXISTS', 'Ya existe una cuenta con ese email. Iniciá sesión o pedí recuperar el acceso.');
+      const id = randomUUID();
+      // Possession of a public campaign URL does not verify mailbox ownership.
+      await client.query(`INSERT INTO auth_user (id, name, email, "emailVerified", image, "createdAt", "updatedAt", disabled, role)
+        VALUES ($1,$2,$3,false,NULL,now(),now(),false,'user')`, [id, data.name, data.email]);
+      await client.query(`INSERT INTO auth_account (id, "userId", "accountId", "providerId", password, "createdAt", "updatedAt")
+        VALUES ($1,$2,$2,'credential',$3,now(),now())`, [randomUUID(), id, password]);
+      await initializeAccess(client, id, false, this.now());
+      await client.query('UPDATE account_share_invitation SET uses = uses + 1 WHERE id = $1', [row.id]);
+    });
+    return { ok: true };
+  }
   valid(row?: TokenRow, kind?: TokenRow['kind']): TokenRow {
     if (!row || row.used_at || row.revoked_at || row.expires_at <= this.now() || (kind && row.kind !== kind)) throw invalidToken();
     return row;
@@ -205,7 +278,7 @@ export class AccountAdministration {
       const user = await this.pool.query('SELECT disabled FROM auth_user WHERE id = $1', [row.user_id]);
       if (!user.rows[0] || user.rows[0].disabled) throw invalidToken();
     }
-    return { kind: row.kind, email: row.email, name: row.name, expiresAt: row.expires_at.toISOString() };
+    return { kind: row.kind, email: row.email, name: row.name, expiresAt: row.expires_at.toISOString(), ...(row.kind === 'activation' ? { access: row.access } : {}) };
   }
   async activate(input: z.infer<typeof ActivationInputSchema>) {
     const tokenHash = digest(input.token);
@@ -220,6 +293,7 @@ export class AccountAdministration {
         VALUES ($1,$2,$3,true,NULL,now(),now(),false,$4)`, [id, input.name, row.email, row.role]);
       await client.query(`INSERT INTO auth_account (id, "userId", "accountId", "providerId", password, "createdAt", "updatedAt")
         VALUES ($1,$2,$2,'credential',$3,now(),now())`, [randomUUID(), id, password]);
+      await initializeAccess(client, id, row.role === 'admin' || row.access === 'lifetime', this.now());
       await client.query('UPDATE account_token SET used_at = $2, user_id = $3 WHERE id = $1', [row.id, this.now(), id]);
       return { ok: true, user: { id, email: row.email, name: input.name, role: row.role } };
     });

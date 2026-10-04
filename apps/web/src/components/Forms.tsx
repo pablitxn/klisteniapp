@@ -10,6 +10,7 @@ import {
 import { exercises, getExercise } from '../data/exercises'
 import { localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
+import { cloudWriteAllowed } from '../lib/account-api'
 import Icon, { type IconName } from './Icon'
 
 const activities: { id: CardioActivity; name: string; icon: IconName }[] = [
@@ -19,6 +20,7 @@ const activities: { id: CardioActivity; name: string; icon: IconName }[] = [
   { id: 'other', name: 'Otra', icon: 'spark' },
 ]
 export function CardioForm({ onDone }: { onDone: () => void }) {
+  const cloudBlocked = useAppStore(s => Boolean(s.user && !cloudWriteAllowed(s.access)))
   const [activity, setActivity] = useState<CardioActivity>('walk'),
     [error, setError] = useState('')
   const add = useAppStore((s) => s.addCardio)
@@ -112,7 +114,7 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
           {error}
         </p>
       )}
-      <button className="primary-button full-width" type="submit" disabled={busy}>
+      <button className="primary-button full-width" type="submit" disabled={busy || cloudBlocked}>
         <Icon name="check" size={18} /> {busy ? 'Guardando…' : 'Guardar actividad'}
       </button>
       <p className="fine-print">
@@ -262,6 +264,7 @@ export function PreferencesForm() {
   )
 }
 export function RoutineEditor({ onDone }: { onDone: () => void }) {
+  const cloudBlocked = useAppStore(s => Boolean(s.user && !cloudWriteAllowed(s.access)))
   const prefs = useAppStore((s) => s.preferences),
     update = useAppStore((s) => s.updatePreferences)
   const [ids, setIds] = useState(prefs.exerciseIds),
@@ -333,7 +336,7 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
         ))}
       <button
         className="primary-button full-width"
-        disabled={busy}
+        disabled={busy || cloudBlocked}
         onClick={async () => {
           setBusy(true)
           const failure = await update({ exerciseIds: ids, sets })
@@ -370,6 +373,7 @@ export function WorkoutSession({
   const started = useRef(Date.now()),
     submitted = useRef(false),
     add = useAppStore((s) => s.addWorkout)
+  const cloudBlocked = useAppStore(s => Boolean(s.user && !cloudWriteAllowed(s.access)))
   const payload = useRef<WorkoutLog | null>(null)
   const [saveError, setSaveError] = useState('')
   const [saving, setSaving] = useState(false)
@@ -450,8 +454,8 @@ export function WorkoutSession({
                 al historial.
               </p>
             </div>
-            <button className="primary-button" onClick={finish} disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar sesión'} <Icon name="check" size={18} />
+            <button className="primary-button" onClick={finish} disabled={saving || cloudBlocked}>
+              {saving ? 'Guardando…' : cloudBlocked ? 'Nube pausada: revisá tu cuenta' : 'Guardar sesión'} <Icon name="check" size={18} />
             </button>
           </>
         ) : (

@@ -5,6 +5,7 @@ import type { BetterAuthOptions } from 'better-auth';
 import { createAuth } from './auth.ts';
 import { readConfig } from './config.ts';
 import { APP_SCHEMA_SQL, createPool } from './database.ts';
+import { BILLING_SCHEMA_SQL } from './billing.ts';
 
 export async function migrate(pool: Pool, auth: { options: BetterAuthOptions }): Promise<void> {
   const client = await pool.connect();
@@ -15,6 +16,7 @@ export async function migrate(pool: Pool, auth: { options: BetterAuthOptions }):
     await migrations.runMigrations();
     await client.query('BEGIN');
     await client.query(APP_SCHEMA_SQL);
+    await client.query(BILLING_SCHEMA_SQL);
     await client.query('COMMIT');
   } catch (error) {
     await client.query('ROLLBACK').catch(() => undefined);

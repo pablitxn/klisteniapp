@@ -200,3 +200,15 @@ Guardar los resultados concretos y los casos omitidos. Que compile la web o pase
 - 20 recorridos públicos, 13 de privacidad/analítica y 4 de cuentas aprobados. Los de cuentas usan PostgreSQL real y cubren dos navegadores, importación, recuperación tras fallo de red y zonas horarias distintas. Vista móvil comprobada a 390 px.
 - Imagen API `linux/amd64` construida y ejecutada como usuario sin privilegios, con raíz de solo lectura. Migración sobre base vacía completada; `/api/healthz` y `/api/readyz` devolvieron 200, datos privados sin sesión 401 y registro público 404, todos con `Cache-Control: no-store`.
 - No se publicaron imágenes ni se modificaron PostgreSQL, secretos o GitOps de producción. Los manifiestos siguen siendo una referencia pendiente de adaptar y validar en el entorno real.
+
+
+## Invitaciones de prueba y acceso vitalicio
+
+Las invitaciones personales permiten elegir prueba de nube de 15 dias o acceso
+vitalicio. Los enlaces compartibles admiten altas con cupo y vencimiento; la prueba
+empieza al crear la cuenta. El rol administrador es independiente del acceso.
+Las cuentas anteriores a la migracion conservan acceso vitalicio una unica vez.
+Al vencer, se conserva consulta, exportacion y eliminacion de registros; el uso
+local con salud y dashboard sigue siendo gratuito. Los planes mensual/anual en
+ARS permanecen apagados hasta configurar Mercado Pago de desarrollo.
+Ver [Suscripciones](subscriptions.md) e [Integraciones de salud](health-integrations.md).

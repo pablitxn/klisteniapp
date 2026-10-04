@@ -10,6 +10,7 @@ import {
 } from '@klisteniapp/scene-schema';
 import { z } from 'zod';
 import { HttpError } from './errors.ts';
+import { requireCloudAccess } from './access.ts';
 
 export const SettingsRequestSchema = z.object({
   expectedRevision: z.number().int().nonnegative(),
@@ -44,13 +45,14 @@ export class StateRepository {
   now: () => Date;
   constructor(pool: Pool, now = () => new Date()) { this.pool = pool; this.now = now; }
 
-  async transaction(owner: Owner, operation: (client: PoolClient, row: StateRow) => Promise<boolean>): Promise<ServerState> {
+  async transaction(owner: Owner, operation: (client: PoolClient, row: StateRow) => Promise<boolean>, cloudWrite = true): Promise<ServerState> {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN');
       await lockUser(client, owner.id);
       const user = await client.query<{ disabled: boolean }>('SELECT disabled FROM auth_user WHERE id = $1', [owner.id]);
       if (!user.rows[0] || user.rows[0].disabled) throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
+      if (cloudWrite) await requireCloudAccess(client, owner.id, this.now());
       const defaults = createDefaultPersonalData(owner.name);
       await client.query('INSERT INTO personal_state (user_id, settings) VALUES ($1, $2) ON CONFLICT DO NOTHING', [owner.id, defaults.settings]);
       const result = await client.query<StateRow>('SELECT settings, revision FROM personal_state WHERE user_id = $1', [owner.id]);
@@ -80,7 +82,7 @@ export class StateRepository {
   }
 
   get(owner: Owner): Promise<ServerState> {
-    return this.transaction(owner, async () => false);
+    return this.transaction(owner, async () => false, false);
   }
 
   replaceSettings(row: StateRow, settings: PersonalSettings, expectedRevision?: number, restoreEmptyAccount = false): boolean {
@@ -128,10 +130,19 @@ export class StateRepository {
   health(owner: Owner, input: z.infer<typeof HealthRequestSchema>): Promise<ServerState> {
     return this.transaction(owner, async (client, row) => {
       const previous = row.settings.health;
+      // Removing private health data never requires a paid plan. This exception
+      // cannot add records, change retained values, or rewrite profile fields.
+      const deletionOnly = previous && !isDeepStrictEqual(previous, input.health)
+        && Object.entries(input.health.profile).every(([key, value]) => isDeepStrictEqual(value, previous.profile[key as keyof typeof previous.profile]))
+        && [...healthRecordCollections, 'goals' as const].every(collection => {
+          const originals = new Map(previous[collection].map(record => [record.id, record] as const));
+          return input.health[collection].every(record => isDeepStrictEqual(originals.get(record.id), record));
+        });
+      if (!deletionOnly) await requireCloudAccess(client, owner.id, this.now());
       const changed = this.replaceSettings(row, { ...row.settings, health: input.health }, input.expectedRevision);
       await this.validateHealthLinks(client, owner, input.health, previous);
       return changed;
-    });
+    }, false);
   }
 
   async insertLogs(client: PoolClient, owner: Owner, inputs: LogInput[]): Promise<boolean> {
@@ -165,7 +176,7 @@ export class StateRepository {
         ON CONFLICT (user_id, id) DO UPDATE SET payload = NULL, deleted = true WHERE NOT personal_log.deleted
         RETURNING id`, [owner.id, id]);
       return Boolean(changed.rowCount);
-    });
+    }, false);
   }
 
   async normalizeImportedHealth(client: PoolClient, owner: Owner, incoming: HealthData, previous?: HealthData): Promise<HealthData> {

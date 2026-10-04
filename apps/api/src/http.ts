@@ -5,7 +5,9 @@ import type { Pool } from 'pg';
 import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
 import { createPool } from './database.ts';
-import { AccountAdministration, ActivationInputSchema, RecoveryInputSchema, RequestRecoveryInputSchema, TokenInputSchema, InvitationInputSchema, DeliveryInputSchema, EmptyInputSchema } from './accounts.ts';
+import { AccountAdministration, ActivationInputSchema, RecoveryInputSchema, RequestRecoveryInputSchema, TokenInputSchema, InvitationInputSchema, DeliveryInputSchema, EmptyInputSchema, ShareInvitationInputSchema, ShareRedemptionInputSchema, LifetimeInputSchema } from './accounts.ts';
+import { AccessRepository } from './access.ts';
+import { BillingService, CheckoutInputSchema, validWebhookSignature } from './billing.ts';
 import { HttpError } from './errors.ts';
 import { PublicRecovery } from './public-recovery.ts';
 import { HealthRequestSchema, ImportRequestSchema, LogRequestSchema, SettingsRequestSchema, StateRepository, lockUser } from './state.ts';
@@ -72,8 +74,8 @@ async function forwardResponse(response: ServerResponse, result: Response): Prom
   response.end(Buffer.from(await result.arrayBuffer()));
 }
 
-export function createApiServer({ auth, pool, config, repository = new StateRepository(pool), administration = new AccountAdministration(pool, auth, config), publicRecovery = new PublicRecovery(administration) }: {
-  auth: Auth; pool: Pool; config: Config; repository?: StateRepository; administration?: AccountAdministration; publicRecovery?: PublicRecovery;
+export function createApiServer({ auth, pool, config, repository = new StateRepository(pool), administration = new AccountAdministration(pool, auth, config), billing = new BillingService(pool, config), publicRecovery = new PublicRecovery(administration) }: {
+  auth: Auth; pool: Pool; config: Config; repository?: StateRepository; administration?: AccountAdministration; billing?: BillingService; publicRecovery?: PublicRecovery;
 }) {
   // Separate connections prevent lock waiters from exhausting the pool that
   // Better Auth needs while validating credentials and creating sessions.
@@ -112,11 +114,30 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
           await pool.query('SELECT id, token_hash, delivery_status FROM account_token LIMIT 0');
           await pool.query('SELECT id, token_id FROM account_bootstrap LIMIT 0');
           await pool.query('SELECT key, count FROM account_rate_limit LIMIT 0');
+          await pool.query('SELECT user_id, trial_ends_at, lifetime, paid_through FROM account_access LIMIT 0');
+          await pool.query('SELECT id FROM account_share_invitation LIMIT 0');
+          await pool.query('SELECT id, provider_id FROM billing_subscription LIMIT 0');
+          await pool.query('SELECT provider_id, paid_through FROM billing_payment LIMIT 0');
           return json(response, 200, { status: 'ready' });
         }
         catch { return json(response, 503, { status: 'unavailable' }); }
       }
       if (!url.pathname.startsWith('/api/')) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+      // The only origin exception is the independently authenticated provider
+      // webhook. Never feed its raw data into account access or billing state.
+      if (url.pathname === '/api/billing/webhook') {
+        if (method !== 'POST') throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+        if (!config.billing) throw new HttpError(503, 'BILLING_UNAVAILABLE', 'Suscripciones no configuradas.');
+        const id = url.searchParams.get('data.id') ?? '';
+        const signature = request.headers['x-signature'];
+        const requestId = request.headers['x-request-id'];
+        if (typeof signature !== 'string' || typeof requestId !== 'string' || !validWebhookSignature(config.billing.webhookSecret, signature, requestId, id)) {
+          throw new HttpError(401, 'INVALID_WEBHOOK_SIGNATURE', 'Notificación no autenticada.');
+        }
+        const body = z.object({ type: z.string(), data: z.object({ id: z.union([z.string(), z.number()]).transform(String) }) }).parse(parseBody(await readBody(request, 32 * 1024)));
+        if (body.data.id.toLowerCase() !== id.toLowerCase()) throw new HttpError(400, 'INVALID_WEBHOOK', 'Notificación inconsistente.');
+        return json(response, 200, await billing.webhook(body.type, id));
+      }
       const mutation = !['GET', 'HEAD', 'OPTIONS'].includes(method);
       if (mutation) {
         if (request.headers.origin !== config.origin || request.headers['sec-fetch-site'] === 'cross-site') {
@@ -128,7 +149,7 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
       }
       const headers = requestHeaders(request, config);
       if (url.pathname.startsWith('/api/account/')) {
-        if (method !== 'POST' || !['/api/account/token-info', '/api/account/activate', '/api/account/reset-password', '/api/account/request-recovery'].includes(url.pathname)) {
+        if (method !== 'POST' || !['/api/account/token-info', '/api/account/activate', '/api/account/reset-password', '/api/account/request-recovery', '/api/account/share-info', '/api/account/join'].includes(url.pathname)) {
           throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
         }
         await administration.rateLimit(url.pathname, headers.get('x-klisteniapp-client-ip') ?? 'unknown', 10);
@@ -145,6 +166,8 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
           }
           return json(response, 202, { ok: true });
         }
+        if (url.pathname === '/api/account/share-info') return json(response, 200, await administration.shareInfo(TokenInputSchema.parse(body).token));
+        if (url.pathname === '/api/account/join') return json(response, 201, await administration.redeemShare(ShareRedemptionInputSchema.parse(body)));
         if (url.pathname === '/api/account/token-info') return json(response, 200, await administration.tokenInfo(TokenInputSchema.parse(body).token));
         if (url.pathname === '/api/account/activate') return json(response, 201, await administration.activate(ActivationInputSchema.parse(body)));
         return json(response, 200, await administration.resetPassword(RecoveryInputSchema.parse(body)));
@@ -198,9 +221,15 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
         await administration.requireAdmin(pool, actor);
         if (method === 'GET' && url.pathname === '/api/admin/users') return json(response, 200, await administration.users(actor));
         if (method === 'GET' && url.pathname === '/api/admin/invitations') return json(response, 200, await administration.invitations(actor));
+        if (method === 'GET' && url.pathname === '/api/admin/share-invitations') return json(response, 200, await administration.shareInvitations(actor));
         if (method !== 'POST') throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
         await administration.rateLimit(`admin:${actor.id}`, headers.get('x-klisteniapp-client-ip') ?? 'unknown', 30);
         const body = parseBody(await readBody(request, 16 * 1024));
+        if (url.pathname === '/api/admin/share-invitations') return json(response, 201, await administration.createShareInvitation(actor, ShareInvitationInputSchema.parse(body)));
+        const share = /^\/api\/admin\/share-invitations\/([A-Za-z0-9_-]+)\/revoke$/.exec(url.pathname);
+        if (share) { EmptyInputSchema.parse(body); return json(response, 200, await administration.revokeShareInvitation(actor, share[1])); }
+        const lifetime = /^\/api\/admin\/users\/([A-Za-z0-9_-]+)\/lifetime$/.exec(url.pathname);
+        if (lifetime) return json(response, 200, await administration.setLifetime(actor, lifetime[1], LifetimeInputSchema.parse(body).lifetime));
         if (url.pathname === '/api/admin/invitations') return json(response, 201, await administration.invite(actor, InvitationInputSchema.parse(body)));
         const invitation = /^\/api\/admin\/invitations\/([A-Za-z0-9_-]+)\/(reissue|revoke)$/.exec(url.pathname);
         if (invitation) {
@@ -217,6 +246,18 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
         throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
       }
       const owner = { id: session.user.id, name: session.user.name };
+      if (method === 'GET' && url.pathname === '/api/me/access') return json(response, 200, await new AccessRepository(pool).get(owner.id));
+      if (url.pathname.startsWith('/api/me/billing')) {
+        if (method === 'GET' && url.pathname === '/api/me/billing') return json(response, 200, await billing.status(owner.id));
+        if (method !== 'POST') throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+        await administration.rateLimit(`billing:${owner.id}`, headers.get('x-klisteniapp-client-ip') ?? 'unknown', 10);
+        const body = parseBody(await readBody(request, 1024));
+        if (url.pathname === '/api/me/billing/checkout') return json(response, 200, await billing.checkout(owner.id, CheckoutInputSchema.parse(body).plan));
+        EmptyInputSchema.parse(body);
+        if (url.pathname === '/api/me/billing/refresh') return json(response, 200, await billing.refresh(owner.id));
+        if (url.pathname === '/api/me/billing/cancel') return json(response, 200, await billing.cancel(owner.id));
+        throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+      }
       if (method === 'GET' && url.pathname === '/api/me/state') return json(response, 200, await repository.get(owner));
       if (method === 'PUT' && url.pathname === '/api/me/settings') {
         return json(response, 200, await repository.settings(owner, SettingsRequestSchema.parse(parseBody(await readBody(request, 512 * 1024)))));

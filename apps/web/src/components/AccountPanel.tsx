@@ -5,12 +5,15 @@ import {
 } from '@klisteniapp/scene-schema'
 import { useAppStore } from '../lib/store'
 import AdminAccounts from './AdminAccounts'
+import BillingPanel, { FreeCloudComparison } from './BillingPanel'
+import { cloudWriteAllowed } from '../lib/account-api'
 import './account.css'
 
 const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
 export default function AccountPanel({ onDone }: { onDone: () => void }) {
   const user = useAppStore(s => s.user)
+  const cloudBlocked = useAppStore(s => !cloudWriteAllowed(s.access))
   const loading = useAppStore(s => s.accountLoading)
   const error = useAppStore(s => s.accountError)
   const data = useAppStore(s => s.personalData)
@@ -36,22 +39,24 @@ export default function AccountPanel({ onDone }: { onDone: () => void }) {
     {error?.includes('cerrar la sesión') && <button type="button" className="secondary-button" onClick={async () => { setBusy(true); setMessage(await useAppStore.getState().signOut() ?? 'Sesión cerrada.'); setBusy(false) }} disabled={busy}>Reintentar cierre de sesión</button>}
     <button className="primary-button full-width" disabled={busy || loading}>{busy ? 'Entrando…' : 'Entrar a mi cuenta'}</button>
     <a className="text-button account-forgot-password" href="/account/forgot-password">Olvidé mi contraseña</a>
-    <p className="fine-print">Para obtener acceso, pedí una invitación al administrador. Podés seguir explorando la demo sin una cuenta.</p>
+    <FreeCloudComparison />
+    <p className="fine-print">Para obtener acceso, pedí una invitación al administrador. Podés usar gratis el modo local sin una cuenta.</p>
   </form>
   return <div className="form-stack">
     <p className="form-intro">Sesión de <strong>{user.email}</strong>. Tu información personal se guarda en nuestro servidor.</p>
+    <BillingPanel userId={user.id} />
     {loading && <p role="status">Cargando tu práctica…</p>}
     {error && <p role="alert" className="form-error">{error}</p>}
     {rejectedCount > 0 && <section className="account-section"><h3>Registros para revisar</h3><p>{rejectedCount} envíos no se pudieron incorporar. Conservamos el contenido original para que puedas recuperarlo.</p><button className="secondary-button" onClick={() => {
       const url = URL.createObjectURL(new Blob([useAppStore.getState().exportRejectedData()], { type: 'application/json' }))
       const link = document.createElement('a'); link.href = url; link.download = 'klisteni-registros-para-revisar.json'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
     }}>Descargar registros para revisar</button></section>}
-    {data && <PersonalSettingsForm key={`${user.id}:${useAppStore.getState().revision}`} settings={data.settings} />}
+    {data && <PersonalSettingsForm key={`${user.id}:${useAppStore.getState().revision}`} settings={data.settings} cloudBlocked={cloudBlocked} />}
     {local && (local.workouts > 0 || local.cardio > 0 || local.hasPreferences) && <section className="account-section">
       <h3>Datos de este navegador</h3>
-      <p>Encontramos {local.workouts} sesiones de fuerza y {local.cardio} actividades de cardio del modo local. Incorporalos solamente si te pertenecen. La copia original seguirá disponible en la demo.</p>
+      <p>Encontramos {local.workouts} sesiones de fuerza y {local.cardio} actividades de cardio del modo local. Incorporalos solamente si te pertenecen. La copia original seguirá disponible en modo local.</p>
       <label className="toggle-label"><span>Incluir también la rutina local</span><input type="checkbox" checked={includeSettings} onChange={e => setIncludeSettings(e.target.checked)} /></label>
-      <button className="secondary-button" disabled={busy || !data} onClick={async () => {
+      <button className="secondary-button" disabled={busy || !data || cloudBlocked} onClick={async () => {
         setBusy(true)
         const failure = await useAppStore.getState().importLocalData(includeSettings)
         setMessage(failure ?? 'Datos incorporados. Los registros repetidos no se duplicaron.')
@@ -67,12 +72,12 @@ export default function AccountPanel({ onDone }: { onDone: () => void }) {
       setMessage(failure ?? '')
       setBusy(false)
       if (!failure) onDone()
-    }}>Cerrar sesión</button>
+    }}>{cloudBlocked ? 'Cerrar sesión y seguir gratis en modo local' : 'Cerrar sesión'}</button>
     <p className="fine-print">Los envíos pendientes quedan asociados a esta cuenta en este navegador. Volvé a entrar con la misma cuenta para reintentarlos.</p>
   </div>
 }
 
-function PersonalSettingsForm({ settings }: { settings: PersonalSettings }) {
+function PersonalSettingsForm({ settings, cloudBlocked }: { settings: PersonalSettings; cloudBlocked: boolean }) {
   const [name, setName] = useState(settings.profile.displayName)
   const [timeZone, setTimeZone] = useState(settings.profile.timeZone)
   const latestPlan = [...settings.plans].sort((a, b) => a.effectiveFrom.localeCompare(b.effectiveFrom)).at(-1)
@@ -119,7 +124,7 @@ function PersonalSettingsForm({ settings }: { settings: PersonalSettings }) {
     <p className="fine-print">El plan empieza la semana del {effectiveFrom}. Un cambio de días se aplica a la próxima semana para conservar el cumplimiento anterior. Podés mover una práctica dentro de la misma semana.</p>
     {latestPlan && <p className="fine-print">Último plan: desde {latestPlan.effectiveFrom}, {latestPlan.weekdays.map(day => dayNames[day - 1]).join(', ')}.</p>}
     {message && <p role="status">{message}</p>}
-    <button className="primary-button full-width" disabled={busy || weekdays.length === 0}>{busy ? 'Guardando…' : 'Guardar mi planificación'}</button>
+    <button className="primary-button full-width" disabled={busy || weekdays.length === 0 || cloudBlocked}>{busy ? 'Guardando…' : 'Guardar mi planificación'}</button>
   </form>
 }
 

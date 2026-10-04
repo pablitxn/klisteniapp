@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, dateInTimeZone, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
-import { AccountApiError, accountApi, type AccountUser } from './account-api.ts'
+import { AccountApiError, accountApi, cloudWriteAllowed, type AccountAccess, type AccountUser } from './account-api.ts'
 import { exercises, starterRoutine } from '../data/exercises.ts'
 import { emptyProgress, parseProgress, serializeProgress } from './progress.ts'
 import type {
@@ -12,6 +12,14 @@ import type {
 export const STORAGE_KEY = 'klisteniapp.progress.v1'
 const RECOVERY_KEY = 'klisteniapp.progress.recovery'
 const PREF_KEY = 'klisteniapp.preferences.v1'
+export const LOCAL_PERSONAL_KEY = 'klisteniapp.personal.v2'
+function loadLocalPersonal(): PersonalData | null {
+  try {
+    const raw = localStorage.getItem(LOCAL_PERSONAL_KEY)
+    if (raw) return PersonalDataSchema.parse(JSON.parse(raw))
+  } catch { return null }
+  return createDefaultPersonalData('Mi práctica', Intl.DateTimeFormat().resolvedOptions().timeZone)
+}
 export interface Preferences {
   weeklyGoal: number
   sets: number
@@ -75,7 +83,7 @@ const CHANGED_ACCOUNT = 'La sesión cambió. Volvé a abrir tu cuenta antes de g
 function localSummary() {
   const data = initial().progress
   let hasPreferences = false
-  try { hasPreferences = localStorage.getItem(PREF_KEY) !== null } catch { /* optional storage */ }
+  try { hasPreferences = localStorage.getItem(PREF_KEY) !== null || localStorage.getItem(LOCAL_PERSONAL_KEY) !== null } catch { /* optional storage */ }
   return data.workouts.length || data.cardio.length || hasPreferences ? { workouts: data.workouts.length, cardio: data.cardio.length, hasPreferences } : null
 }
 function accountPreferences(settings: PersonalSettings): Preferences {
@@ -97,8 +105,12 @@ export interface AppStore {
   recoveryRaw: string | null
   authStatus: 'loading' | 'anonymous' | 'authenticated'
   user: AccountUser | null
+  access: AccountAccess | null
+  setAccess: (access: AccountAccess) => void
   accountLoading: boolean
   accountError: string | null
+  localPersonalData: PersonalData | null
+  localRevision: number
   personalData: PersonalData | null
   revision: number | null
   syncStatus: 'idle' | 'saving' | 'pending' | 'error'
@@ -110,7 +122,7 @@ export interface AppStore {
   refreshSession: () => Promise<string | null>
   refreshState: () => Promise<string | null>
   saveSettings: (settings: PersonalSettings) => Promise<string | null>
-  saveHealth: (health: HealthData, expectedRevision: number) => Promise<string | null>
+  saveHealth: (health: HealthData, expectedRevision: number, removalOnly?: boolean) => Promise<string | null>
   importLocalData: (includeSettings?: boolean) => Promise<string | null>
   exportData: () => string
   exportRejectedData: () => string
@@ -196,11 +208,11 @@ export const useAppStore = create<AppStore>((set, get) => {
     pending = []
     rejected = []
     canonical = null
-    set({ user: null, personalData: null, revision: null, progress: emptyProgress(), preferences: { ...defaults }, recoveryRaw: null, storageError: null, pendingCount: 0, rejectedCount: 0, syncStatus: 'idle', accountError: null })
+    set({ user: null, access: null, personalData: null, revision: null, progress: emptyProgress(), preferences: { ...defaults }, recoveryRaw: null, storageError: null, pendingCount: 0, rejectedCount: 0, syncStatus: 'idle', accountError: null })
   }
   function anonymous(error: string | null = null) {
     clearPrivate()
-    set({ ...initial(), preferences: loadPreferences(), authStatus: 'anonymous', accountLoading: false, accountError: error, localDataAvailable: localSummary() })
+    set({ ...initial(), localPersonalData: loadLocalPersonal(), localRevision: 0, preferences: loadPreferences(), access: null, setAccess: access => set({ access }), authStatus: 'anonymous', accountLoading: false, accountError: error, localDataAvailable: localSummary() })
   }
   function serialized(action: (token: number, userId: string) => Promise<string | null>) {
     const token = generation, userId = get().user?.id
@@ -211,6 +223,7 @@ export const useAppStore = create<AppStore>((set, get) => {
   function fail(error: unknown, token: number, userId: string) {
     if (!current(token, userId)) return CHANGED_ACCOUNT
     const text = errorText(error)
+    if (error instanceof AccountApiError && error.status === 402) set({ access: { status: 'expired', cloudWrite: false, trialEndsAt: get().access?.trialEndsAt ?? null, paidThrough: get().access?.paidThrough ?? null } })
     if (error instanceof AccountApiError && error.status === 401) {
       anonymous('Tu sesión venció. Iniciá sesión para recuperar tus cambios pendientes.')
       return text
@@ -227,7 +240,8 @@ export const useAppStore = create<AppStore>((set, get) => {
     publish()
     while (pending.length) {
       if (!current(token, userId)) return CHANGED_ACCOUNT
-      const item = pending[0]!
+      const item = !cloudWriteAllowed(get().access) ? pending.find(entry => entry.kind === 'delete') : pending[0]
+      if (!item) { set({ syncStatus: 'pending' }); return 'El guardado en la nube está pausado. Tus envíos pendientes se conservan; podés descargarlos o reanudar tu acceso.' }
       set({ syncStatus: 'saving', accountError: null })
       try {
         const state = item.kind === 'workout' ? await accountApi.addWorkout(item.log, userId) : item.kind === 'cardio' ? await accountApi.addCardio(item.log, userId) : await accountApi.removeLog(item.id, userId)
@@ -236,7 +250,7 @@ export const useAppStore = create<AppStore>((set, get) => {
         publish(state)
       } catch (error) {
         if (!current(token, userId)) return CHANGED_ACCOUNT
-        if (error instanceof AccountApiError && error.status >= 400 && error.status < 500 && error.status !== 401 && error.status !== 429) {
+        if (error instanceof AccountApiError && error.status >= 400 && error.status < 500 && error.status !== 401 && error.status !== 402 && error.status !== 429) {
           const recovered = preserveRejected(item, error, userId)
           removePending(item, !recovered)
           try { const state = await accountApi.state(userId); if (current(token, userId)) publish(state) } catch { publish() }
@@ -266,7 +280,24 @@ export const useAppStore = create<AppStore>((set, get) => {
       return error
     }
   }
+  function localPersonalSnapshot(data: PersonalData): PersonalData {
+    const preferences = get().preferences
+    const settings = { ...data.settings, routines: data.settings.routines.map(routine => routine.id === data.settings.activeRoutineId ? { ...routine, sets: preferences.sets, exerciseIds: preferences.exerciseIds as typeof routine.exerciseIds } : routine) }
+    return { ...data, settings, progress: get().progress }
+  }
+  function saveLocalPersonal(data: PersonalData, expectedRevision: number): string | null {
+    if (get().localRevision !== expectedRevision) return 'Tus datos locales cambiaron. Revisá la versión actual antes de guardar.'
+    if (!get().localPersonalData) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+    try {
+      const encoded = JSON.stringify(PersonalDataSchema.parse(data))
+      localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
+      if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
+      set({ localPersonalData: data, localRevision: expectedRevision + 1, localDataAvailable: localSummary() })
+      return null
+    } catch { return 'No pudimos guardar tus datos personales en este navegador. El formulario conserva tus cambios.' }
+  }
   function enqueue(operation: Operation) {
+    if (operation.kind !== 'delete' && !cloudWriteAllowed(get().access)) return Promise.resolve('Tu acceso a la nube venció. Abrí tu cuenta para ver los planes o seguí gratis en modo local.')
     return serialized(async (token, userId) => {
       if (!canonical) return 'Tu cuenta todavía no terminó de cargar.'
       readPending(userId)
@@ -290,8 +321,9 @@ export const useAppStore = create<AppStore>((set, get) => {
   }
   async function refreshCanonical(token: number, userId: string) {
     try {
-      const state = await accountApi.state(userId)
+      const [state, access] = await Promise.all([accountApi.state(userId), accountApi.access(userId).catch(() => null)])
       if (!current(token, userId)) return CHANGED_ACCOUNT
+      if (access) set({ access })
       readPending(userId)
       publish(state)
       set({ accountLoading: false, accountError: null })
@@ -323,6 +355,7 @@ export const useAppStore = create<AppStore>((set, get) => {
     return fail(error, token, userId)
   }
   function importAccount(data: PersonalData | ProgressData, includeSettings: boolean) {
+    if (!cloudWriteAllowed(get().access)) return Promise.resolve('Tu acceso a la nube venció. Podés exportar tus datos y seguir en modo local.')
     const expectedRevision = get().revision
     return serialized(async (token, userId) => {
       if (!canonical || expectedRevision === null) return 'Tu cuenta todavía no terminó de cargar.'
@@ -338,7 +371,7 @@ export const useAppStore = create<AppStore>((set, get) => {
     })
   }
   return {
-    ...initial(), preferences: loadPreferences(), authStatus: 'loading', user: null, accountLoading: false, accountError: null,
+    ...initial(), localPersonalData: loadLocalPersonal(), localRevision: 0, preferences: loadPreferences(), access: null, setAccess: access => set({ access }), authStatus: 'loading', user: null, accountLoading: false, accountError: null,
     personalData: null, revision: null, syncStatus: 'idle', pendingCount: 0, rejectedCount: 0, localDataAvailable: localSummary(),
     signIn: async (email, password) => {
       logoutUnconfirmed = false
@@ -400,6 +433,7 @@ export const useAppStore = create<AppStore>((set, get) => {
       return get().user ? enqueue({ kind: 'delete', id }) : saveLocal({ ...get().progress, workouts: get().progress.workouts.filter((log) => log.id !== id), cardio: get().progress.cardio.filter((log) => log.id !== id) })
     },
     saveSettings: (settings) => {
+      if (get().user && !cloudWriteAllowed(get().access)) return Promise.resolve('El guardado en la nube está pausado. Revisá el acceso desde tu cuenta o seguí en modo local.')
       const parsed = PersonalSettingsSchema.safeParse(settings)
       if (!parsed.success) return Promise.resolve('Revisá el perfil, la rutina y los días elegidos.')
       const expectedRevision = get().revision
@@ -416,9 +450,16 @@ export const useAppStore = create<AppStore>((set, get) => {
         } catch (error) { return handleConflict(error, token, userId) }
       })
     },
-    saveHealth: (health, expectedRevision) => {
+    saveHealth: (health, expectedRevision, removalOnly = false) => {
+      if (get().user && !removalOnly && !cloudWriteAllowed(get().access)) return Promise.resolve('El guardado en la nube está pausado. Podés consultar o exportar tu salud y seguir en modo local.')
       const parsed = HealthDataSchema.safeParse(health)
       if (!parsed.success) return Promise.resolve('Revisá los valores, las unidades y las fechas de tus registros de salud.')
+      if (!get().user) {
+        if (get().authStatus === 'loading') return Promise.resolve('Esperá mientras verificamos tu sesión.')
+        const data = get().localPersonalData
+        if (!data) return Promise.resolve('La copia local no se puede leer. Exportala antes de reemplazarla.')
+        return Promise.resolve(saveLocalPersonal(localPersonalSnapshot({ ...data, settings: { ...data.settings, health: parsed.data } }), expectedRevision))
+      }
       return serialized(async (token, userId) => {
         if (!canonical || get().accountLoading) return 'Tu cuenta todavía no terminó de cargar.'
         if (canonical.revision !== expectedRevision) return 'Tus datos cambiaron mientras editabas. Conservamos el formulario; revisá la versión actual antes de volver a guardar.'
@@ -463,7 +504,17 @@ export const useAppStore = create<AppStore>((set, get) => {
       } catch { return 'El archivo no contiene un historial válido de Klisteni.' }
       if (get().authStatus === 'loading') return 'Esperá mientras verificamos tu sesión.'
       if (get().user) return importAccount(data, data.version === 2 && includeSettings)
-      if (data.version === 2) return 'Iniciá sesión para importar una copia completa de una cuenta.'
+      if (data.version === 2) {
+        // A downloaded account copy can be used locally after a trial expires.
+        // Merge no private data automatically; the user explicitly chose this file.
+        const failure = saveLocalPersonal(data, get().localRevision)
+        if (failure) return failure
+        const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
+        try { localStorage.setItem(PREF_KEY, JSON.stringify(preferences)) }
+        catch { return 'Guardamos la copia personal pero no pudimos guardar sus preferencias. Exportá tus datos antes de cerrar.' }
+        set({ preferences })
+        return saveLocal(data.progress)
+      }
       return saveLocal(data)
     },
     importLocalData: async (includeSettings = true) => {
@@ -475,13 +526,24 @@ export const useAppStore = create<AppStore>((set, get) => {
       const preferences = loadPreferences()
       const data = createDefaultPersonalData(get().personalData?.settings.profile.displayName ?? user.name, get().personalData?.settings.profile.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)
       // Importing legacy training preferences must never clear health records.
-      delete data.settings.health
+      const personal = get().localPersonalData
+      if (personal) data.settings = structuredClone(personal.settings)
+      else delete data.settings.health
+      // An untouched local health profile must not clear the existing account health.
+      if (!localStorage.getItem(LOCAL_PERSONAL_KEY)) delete data.settings.health
       data.progress = local.progress
-      data.settings.routines[0] = { ...data.settings.routines[0]!, exerciseIds: preferences.exerciseIds as typeof data.settings.routines[number]['exerciseIds'], sets: preferences.sets }
+      data.settings.routines = data.settings.routines.map(routine => routine.id === data.settings.activeRoutineId ? { ...routine, exerciseIds: preferences.exerciseIds as typeof routine.exerciseIds, sets: preferences.sets } : routine)
       // A legacy weekly goal does not identify weekdays. Do not invent a schedule.
       return importAccount(data, true)
     },
-    exportData: () => get().user && get().personalData ? JSON.stringify(PersonalDataSchema.parse(get().personalData)) : serializeProgress(get().progress),
+    exportData: () => {
+      if (get().user && get().personalData) return JSON.stringify(PersonalDataSchema.parse(get().personalData))
+      const data = get().localPersonalData
+      let hasPersonal = false
+      try { hasPersonal = localStorage.getItem(LOCAL_PERSONAL_KEY) !== null } catch { /* export in-memory data below */ }
+      if (hasPersonal && !data) return localStorage.getItem(LOCAL_PERSONAL_KEY) ?? ''
+      return hasPersonal && data ? JSON.stringify(PersonalDataSchema.parse(localPersonalSnapshot(data))) : serializeProgress(get().progress)
+    },
     exportRejectedData: () => {
       if (get().user) readRejected(get().user!.id)
       return JSON.stringify({ format: 'klisteniapp-rejected-operations', version: 1, operations: get().user ? rejected : [] }, null, 2)

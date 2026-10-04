@@ -73,7 +73,7 @@ test('invalid and wrong-purpose invitation links never offer account mutation', 
 })
 
 test('admin creates an invitation, revokes its link and controls access without showing passwords', async ({ page }, testInfo) => {
-  const origin = new URL(String(testInfo.project.use.baseURL)).origin
+  const origin = new URL(testInfo.project.use.baseURL!).origin
   const admin = { id: 'admin-a', email: 'admin@example.test', name: 'Administración', role: 'admin', disabled: false, createdAt: '2026-10-01T12:00:00Z' }
   const member = { id: 'member-b', email: 'member@example.test', name: 'Persona invitada', role: 'user', disabled: false, createdAt: '2026-10-01T12:00:00Z' }
   const invitation = { id: 'invite-1', email: 'new@example.test', name: 'Nueva persona', kind: 'activation', role: 'user', createdAt: '2026-10-04T12:00:00Z', expiresAt, status: 'pending', deliveryStatus: 'not_requested' }
@@ -85,6 +85,7 @@ test('admin creates an invitation, revokes its link and controls access without 
     if (path === '/api/me/state') return route.fulfill({ json: { data: createDefaultPersonalData(admin.name), revision: 0 } })
     if (path.startsWith('/api/admin/')) expect(route.request().headers()['x-klisteni-account']).toBe(admin.id)
     if (route.request().method() === 'POST') mutations.push({ path, body: route.request().postDataJSON() })
+    if (path === '/api/admin/share-invitations') return route.fulfill({ json: { invitations: [] } })
     if (path === '/api/admin/users' && route.request().method() === 'GET') return route.fulfill({ json: { users: [admin, member] } })
     if (path === '/api/admin/invitations' && route.request().method() === 'GET') return route.fulfill({ json: { invitations: exists ? [invitation] : [], mailConfigured: false } })
     if (path === '/api/admin/invitations' && route.request().method() === 'POST') { exists = true; return route.fulfill({ json: { invitation, url: `${origin}/account/activate#token=${token}`, delivery: { status: 'not_requested' } } }) }
@@ -103,7 +104,7 @@ test('admin creates an invitation, revokes its link and controls access without 
   await dialog.getByRole('button', { name: 'Crear invitación', exact: true }).click()
   await expect(dialog.getByLabel('Enlace personal', { exact: true })).toHaveValue(`${origin}/account/activate#token=${token}`)
   await expect(dialog.locator('.admin-issued')).toContainText('Para compartir manualmente')
-  expect(mutations[0]).toEqual({ path: '/api/admin/invitations', body: { email: 'new@example.test', name: 'Nueva persona', sendEmail: false } })
+  expect(mutations[0]).toEqual({ path: '/api/admin/invitations', body: { email: 'new@example.test', name: 'Nueva persona', sendEmail: false, access: 'trial' } })
   expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).not.toContain(token)
   await page.setViewportSize({ width: 390, height: 844 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391)
@@ -113,4 +114,25 @@ test('admin creates an invitation, revokes its link and controls access without 
   await expect(dialog.locator('.admin-row').filter({ hasText: 'new@example.test' })).toContainText('Revocado')
   await dialog.getByRole('button', { name: 'Deshabilitar acceso', exact: true }).click()
   await expect(dialog.locator('.admin-row').filter({ hasText: 'member@example.test' })).toContainText('Deshabilitado')
+})
+
+test('return from checkout opens the authenticated subscription panel without granting access', async ({ page }) => {
+  const user = { id: 'billing-return', name: 'Mi cuenta', email: 'billing@example.test' }
+  const access = { status: 'expired', cloudWrite: false, trialEndsAt: '2026-01-01T00:00:00Z', paidThrough: null }
+  await page.route('**/models/*.glb', route => route.abort())
+  await page.route('**/api/**', async route => {
+    const path = new URL(route.request().url()).pathname
+    if (path === '/api/auth/get-session') return route.fulfill({ json: { user } })
+    if (path === '/api/me/state') return route.fulfill({ json: { data: createDefaultPersonalData(user.name), revision: 0 } })
+    if (path === '/api/me/access') return route.fulfill({ json: access })
+    if (path === '/api/me/billing') return route.fulfill({ json: { mode: 'sandbox', plans: [], subscription: { id: 'pending', plan: 'monthly', status: 'pending', checkoutUrl: 'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_id=test' }, access } })
+    return route.fulfill({ status: 404, json: { error: 'Not found' } })
+  })
+  await page.goto('/?billing=return')
+  const panel = page.getByRole('dialog', { name: 'Mi cuenta y planificación' })
+  await expect(panel).toBeVisible()
+  await expect(panel.getByRole('heading', { name: 'Guardado en la nube pausado', exact: true })).toBeVisible()
+  await expect(panel.getByText(/Pendiente de autorización/)).toBeVisible()
+  await expect(panel.getByRole('button', { name: 'Guardar mi planificación', exact: true })).toBeDisabled()
+  await expect(page).toHaveURL(/\/$/)
 })

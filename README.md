@@ -153,3 +153,18 @@ Para reconstruirlo, ejecutá `node scripts/build-anatomy.mjs`. Descarga las tres
 ## Próximas iteraciones
 
 El primer objetivo es hacer revisable el circuito **ver → entender → practicar → registrar**. Las próximas decisiones pueden partir del uso real: revisar profesionalmente las trayectorias y deformaciones, ampliar la navegación anatómica, guardar sesiones parciales o recuperarlas tras una recarga, incorporar sensaciones y progresiones, mejorar las métricas de constancia y sumar equipo cuando exista. Nuevas lenguas y una PWA son posibilidades futuras; la sincronización de cuentas depende de activar la API y validar su despliegue.
+
+
+## Invitaciones y nube opcional
+
+El modo local gratuito incluye historial, salud, metas, dashboard e importacion
+manual. Las cuentas agregan guardado entre dispositivos: prueba de 15 dias desde
+el alta por invitacion, acceso vitalicio concedido por el administrador o un
+periodo pagado confirmado. Los enlaces compartibles tienen cupos y vencimiento.
+Al vencer se conserva la consulta, exportacion y eliminacion de datos.
+
+Mercado Pago admite exclusivamente desarrollo y queda apagado por defecto; los
+precios mensual/anual en ARS se configuran mas adelante. La API verifica facturas
+y pagos antes de habilitar acceso. Ver [configuracion](docs/subscriptions.md).
+[Google Health](docs/health-integrations.md) sigue pendiente de acceso al proveedor
+y de implementar el conector; no se presenta como conectado.

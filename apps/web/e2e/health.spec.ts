@@ -240,3 +240,50 @@ test('personal dashboard filters periods and body sources without inventing slee
   await expect(dashboard.locator('.health-metrics')).toContainText('3 / 90')
   expect(api.writes).toHaveLength(0)
 })
+
+test('free local health, goals and manual imports persist without an account or cloud writes', async ({ page }, testInfo) => {
+  const privateRequests: string[] = []
+  await page.route('**/models/*.glb', route => route.abort())
+  await page.route('**/api/**', route => {
+    const path = new URL(route.request().url()).pathname
+    if (path !== '/api/auth/get-session') privateRequests.push(path)
+    return route.fulfill({ json: null })
+  })
+  await page.goto('/')
+  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  await expect(page.getByText(/Modo local gratuito:/)).toBeVisible()
+  await section(page, 'Cuerpo')
+  await page.getByRole('button', { name: 'Editar perfil', exact: true }).click()
+  await page.getByLabel('Altura (cm)', { exact: true }).fill('179')
+  await page.getByRole('button', { name: 'Guardar en este dispositivo', exact: true }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Guardado en este dispositivo.' })).toBeVisible()
+  await section(page, 'Objetivos')
+  await page.getByRole('button', { name: 'Crear objetivo', exact: true }).click()
+  await page.getByLabel('Nombre del objetivo', { exact: false }).fill('Mi meta local')
+  await page.getByLabel('Qué quiero observar', { exact: false }).selectOption('weeklyTrainingDays')
+  await page.getByLabel(/Mi objetivo/).fill('3')
+  await page.getByRole('button', { name: 'Guardar en este dispositivo', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Mi meta local', exact: true })).toBeVisible()
+  await section(page, 'Importar')
+  const file = {
+    format: 'klisteniapp.health', version: 1, exportedAt: '2026-09-28T12:00:00Z', timeZone: 'Europe/Sarajevo',
+    records: { measurements: [{ id: 'local-import', date: '2026-09-28', recordedAt: '2026-09-28T09:00:00Z', source: { kind: 'samsung-health', device: 'Galaxy Watch8', externalId: 'local-origin' }, weightKg: 80 }], sleep: [], activity: [], nutrition: [], supplements: [] },
+  }
+  await page.locator('.health-file input[type="file"]').setInputFiles({ name: 'health.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(file)) })
+  await page.getByRole('button', { name: 'Confirmar importación', exact: true }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Guardado en este dispositivo.' })).toBeVisible()
+  const local = await page.evaluate(() => JSON.parse(localStorage.getItem('klisteniapp.personal.v2')!))
+  expect(local.settings.health.profile.heightCm).toBe(179)
+  expect(local.settings.health.goals[0].title).toBe('Mi meta local')
+  expect(local.settings.health.measurements).toHaveLength(1)
+  await page.reload()
+  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  await expect(page.locator('.health-trend-value')).toContainText('80 kg')
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Exportar mis datos', exact: true }).click()
+  expect((await downloadPromise).suggestedFilename()).toMatch(/\.json$/)
+  expect(privateRequests).toEqual([])
+  await page.setViewportSize({ width: 390, height: 844 })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  await page.screenshot({ path: testInfo.outputPath('free-local-health-mobile.png'), fullPage: true })
+})
