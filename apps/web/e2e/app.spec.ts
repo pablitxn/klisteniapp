@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { exercises } from '../src/data/exercises'
+import { openSettings } from './settings-helpers'
 
 const progressKey = 'klisteniapp.progress.v1'
 
@@ -103,9 +104,9 @@ test('cardio saves entered minutes and distance, survives reload, exports and de
   await page.reload()
   await navigate(page, 'Mi progreso')
   await expect(page.locator('.activity-history')).toContainText('25 min · 4.5 km')
-  await page.getByRole('button', { name: 'Abrir ajustes' }).click()
+  await openSettings(page, 'Datos')
   const downloadPromise = page.waitForEvent('download')
-  await page.getByRole('button', { name: 'Exportar progreso' }).click()
+  await page.getByRole('button', { name: 'Exportar mis datos', exact: true }).click()
   const download = await downloadPromise
   expect(download.suggestedFilename()).toMatch(/^klisteni-progreso-\d{4}-\d{2}-\d{2}\.json$/)
   const stream = await download.createReadStream()
@@ -133,7 +134,7 @@ test('routine edits and motion preferences persist without adding workout histor
   await dialog.getByRole('button', { name: 'Guardar mi rutina' }).click()
   await expect(page.locator('.exercise-row')).toHaveCount(5)
   await expect(page.locator('.exercise-row').first()).toContainText('Sentadilla')
-  await page.getByRole('button', { name: 'Abrir ajustes' }).click()
+  await openSettings(page, 'Apariencia')
   await page.getByLabel('Objetivo semanal de fuerza').selectOption('3')
   await page.getByRole('checkbox', { name: /Reducir movimiento/ }).check()
   await page.getByRole('button', { name: 'Cerrar', exact: true }).click()
@@ -231,7 +232,7 @@ test('saving after corrupt history retains a downloadable original and stores va
   expect(saved.progress).toMatchObject({ version: 1, workouts: [], cardio: [{ activity: 'walk', minutes: 18 }] })
   await page.reload()
   await expect(page.locator('.stats-bar')).toContainText('18 XP')
-  await page.getByRole('button', { name: 'Abrir ajustes' }).click()
+  await openSettings(page, 'Datos')
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Descargar original para recuperar' }).click()
   const download = await downloadPromise

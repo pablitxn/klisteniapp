@@ -1,14 +1,15 @@
 [hidden] { display: none !important; }
 .privacy-controls { margin: 0 0 22px; font-size: 13px; }
-.privacy-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px 22px; align-items: center; }
-.privacy-links a, .privacy-links button { text-decoration: underline; text-underline-offset: 3px; padding: 5px 0; font-weight: 550; }
-.privacy-banner { background: #eee9f5; border: 1px solid #cfc5de; border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 24px; margin-top: 12px; }
+.privacy-banner { background: var(--purple-soft); border: 1px solid var(--purple-line); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 24px; margin-top: 12px; }
 .privacy-banner h2 { font-size: 17px; margin-bottom: 7px; letter-spacing: -.3px; }
 .privacy-banner p { max-width: 74ch; line-height: 1.6; }
 .privacy-choices { display: flex; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
-.privacy-choices button { background: #fff; color: #332b3e; border: 1px solid #8b7c9f; border-radius: 9px; min-height: 44px; min-width: 104px; padding: 10px 16px; font-weight: 650; }
-.privacy-choices button:hover { background: #f8f4ff; }
-.privacy-dialog { display: grid; gap: 20px; line-height: 1.65; }
+.privacy-choices button { background: var(--surface); color: var(--ink); border: 1px solid var(--purple-line); border-radius: 9px; min-height: 44px; min-width: 104px; padding: 10px 16px; font-weight: 650; }
+.privacy-choices button:hover { background: var(--purple-soft); }
+.privacy-controls--settings { margin: 0; }
+.privacy-dialog { display: grid; gap: 16px; line-height: 1.65; }
+.privacy-dialog > h3 { margin: 0; font-size: 20px; }
+.privacy-policy-link { width: fit-content; display: inline-flex; align-items: center; min-height: 44px; font-weight: 550; text-underline-offset: 3px; }
 .privacy-page { max-width: 850px; padding: 36px 24px 64px; margin: 0 auto; line-height: 1.8; }
 .privacy-page > header { margin: 28px 0; }
 .privacy-page h1 { margin: 10px 0 18px; }
@@ -16,4 +17,4 @@
 .privacy-page h2 { font-size: 22px; margin-bottom: 10px; }
 .privacy-page p + p { margin-top: 14px; }
 .privacy-page a { overflow-wrap: anywhere; text-underline-offset: 3px; }
-@media (max-width: 800px) { .privacy-banner { align-items: stretch; flex-direction: column; gap: 16px; padding: 16px; } .privacy-links { justify-content: flex-start; } .privacy-choices button { flex: 1; } .privacy-page { padding: 22px 18px 44px; } }
+@media (max-width: 800px) { .privacy-banner { align-items: stretch; flex-direction: column; gap: 16px; padding: 16px; } .privacy-choices button { flex: 1; } .privacy-page { padding: 22px 18px 44px; } }

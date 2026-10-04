@@ -1,6 +1,7 @@
 import { expect, test, type BrowserContext, type Page } from '@playwright/test'
 import { createDefaultPersonalData, dateInTimeZone, type ServerState } from '@klisteniapp/scene-schema'
 import { exercises } from '../src/data/exercises'
+import { openAccountSettings, openSettings } from './settings-helpers'
 
 const password = 'Only-for-browser-tests-2026!'
 const progressKey = 'klisteniapp.progress.v1'
@@ -17,7 +18,7 @@ async function open(page: Page) {
 }
 async function login(page: Page, name: string) {
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
-  const dialog = page.getByRole('dialog', { name: 'Entrar a Klisteni' })
+  const dialog = page.getByRole('dialog', { name: 'Configuración', exact: true })
   await dialog.getByLabel('Email', { exact: true }).fill(`${name.toLowerCase()}@accounts.test`)
   await dialog.getByLabel('Contraseña', { exact: true }).fill(password)
   await dialog.getByRole('button', { name: 'Entrar a mi cuenta' }).click()
@@ -25,10 +26,8 @@ async function login(page: Page, name: string) {
   await expect(page.locator('.local-badge')).toContainText('Sincronizado con tu cuenta')
 }
 async function accountPanel(page: Page) {
-  await page.locator('.account-login').click()
-  const dialog = page.getByRole('dialog', { name: 'Mi cuenta y planificación' })
-  await expect(dialog).toBeVisible()
-  return dialog
+  await expect(page.locator('.account-login')).toHaveCount(0)
+  return openAccountSettings(page)
 }
 async function progress(page: Page) {
   await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi progreso', exact: true }).click()
@@ -54,7 +53,8 @@ test('public exploration, explicit local migration, two devices and isolated acc
   const local = { version: 1, workouts: [], cardio: [{ id: 'legacy-browser-walk', date: '2026-09-28', activity: 'walk', minutes: 17 }] }
   await page.addInitScript(({ key, data }) => localStorage.setItem(key, JSON.stringify(data)), { key: progressKey, data: local })
   await open(page)
-  await expect(page.locator('.account-status')).toContainText('Modo local')
+  await expect(page.locator('.account-status')).toHaveCount(0)
+  await expect(page.locator('.local-badge')).toContainText('Guardado en este dispositivo')
   await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Ejercicios', exact: true }).click()
   await expect(page.locator('.library-card')).toHaveCount(exercises.length)
   await login(page, 'Alice')
@@ -201,20 +201,75 @@ test('a full v2 copy restores historical plans into a pristine account and expor
   data.progress.cardio = [{ id: 'restored-log', date: '2026-09-29', activity: 'bike', minutes: 42 }]
   await open(page)
   await login(page, 'Restore')
-  await page.getByRole('button', { name: 'Abrir ajustes', exact: true }).click()
-  const dialog = page.getByRole('dialog')
+  const dialog = await openSettings(page, 'Datos')
   await dialog.locator('input[type="file"]').setInputFiles({ name: 'personal-data-v2.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(data)) })
   await dialog.getByLabel('Restaurar también perfil, rutinas y planificación de una copia completa').check()
   await dialog.getByRole('button', { name: 'Incorporar historial', exact: true }).click()
   await expect(dialog).toContainText('Copia importada.')
   expect((await readState(page)).data).toEqual(data)
   const downloadPromise = page.waitForEvent('download')
-  await dialog.getByRole('button', { name: 'Exportar progreso' }).click()
+  await dialog.getByRole('button', { name: 'Exportar mi cuenta', exact: true }).click()
   const stream = await (await downloadPromise).createReadStream()
   if (!stream) throw new Error('Export did not produce a file')
   let exported = ''
   for await (const chunk of stream) exported += String(chunk)
   expect(JSON.parse(exported)).toEqual(data)
+})
+
+test('account planning drafts survive appearance and health saves and require review after a planning conflict', async ({ page, context }) => {
+  await prepare(context, 92)
+  await open(page)
+  await login(page, 'Lifetime')
+  const dialog = await accountPanel(page)
+  const draftName = 'A draft kept across settings sections'
+  await dialog.getByLabel('Nombre', { exact: true }).fill(draftName)
+  await openSettings(page, 'Apariencia')
+  await dialog.getByRole('combobox', { name: 'Modo', exact: true }).selectOption('dark')
+  await expect.poll(async () => (await readState(page)).data.settings.profile.theme).toBe('dark')
+  await openAccountSettings(page)
+  await expect(dialog.getByLabel('Nombre', { exact: true })).toHaveValue(draftName)
+  await expect(dialog.getByRole('button', { name: 'Guardar mi planificación', exact: true })).toBeEnabled()
+  expect((await readState(page)).data.settings.profile.displayName).toBe('Lifetime')
+
+  await openSettings(page, 'Configuración inicial')
+  await dialog.getByRole('button', { name: 'Comenzar configuración', exact: true }).click()
+  await dialog.getByLabel('Altura (cm)', { exact: true }).fill('180')
+  await dialog.getByRole('button', { name: 'Guardar y continuar', exact: true }).click()
+  await dialog.getByRole('button', { name: 'Seguir sin agregar una medición', exact: true }).click()
+  await expect(dialog.getByRole('heading', { name: 'Configuración revisada', exact: true })).toBeVisible()
+  await openAccountSettings(page)
+  await expect(dialog.getByLabel('Nombre', { exact: true })).toHaveValue(draftName)
+  await expect(dialog.getByRole('button', { name: 'Guardar mi planificación', exact: true })).toBeEnabled()
+  const afterHealth = await readState(page)
+  expect(afterHealth.data.settings.profile.displayName).toBe('Lifetime')
+  expect(afterHealth.data.settings.health?.profile.heightCm).toBe(180)
+
+  const remoteSettings = structuredClone(afterHealth.data.settings)
+  remoteSettings.profile.displayName = 'Saved from another device'
+  const remoteStatus = await page.evaluate(async ({ settings, revision }) => {
+    const session = await fetch('/api/auth/get-session', { cache: 'no-store' }).then(response => response.json())
+    const response = await fetch('/api/me/settings', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Klisteni-Account': session.user.id },
+      body: JSON.stringify({ settings, expectedRevision: revision }),
+    })
+    return response.status
+  }, { settings: remoteSettings, revision: afterHealth.revision })
+  expect(remoteStatus).toBe(200)
+  await openSettings(page, 'Apariencia')
+  await dialog.getByRole('combobox', { name: 'Modo', exact: true }).selectOption('light')
+  await expect(dialog).toContainText('Tu cuenta cambió')
+  await openAccountSettings(page)
+  const review = dialog.getByRole('region', { name: 'Revisar planificación actual', exact: true })
+  await expect(review).toContainText('Saved from another device')
+  await expect(dialog.getByLabel('Nombre', { exact: true })).toHaveValue(draftName)
+  await expect(dialog.getByRole('button', { name: 'Guardar mi planificación', exact: true })).toBeDisabled()
+  await review.getByRole('button', { name: 'Revisé la planificación actual', exact: true }).click()
+  await dialog.getByRole('button', { name: 'Guardar mi planificación', exact: true }).click()
+  await expect.poll(async () => (await readState(page)).data.settings.profile.displayName).toBe(draftName)
+  const saved = await readState(page)
+  expect(saved.data.settings.profile.theme).toBe('dark')
+  expect(saved.data.settings.health).toEqual(afterHealth.data.settings.health)
+  await expect(page.locator('dialog:visible')).toHaveCount(1)
 })
 
 test('an administrator invites a member, the member activates and recovers without losing personal history', async ({ page, context, browser }) => {
@@ -241,7 +296,7 @@ test('an administrator invites a member, the member activates and recovers witho
     await member.getByRole('button', { name: 'Activar mi cuenta', exact: true }).click()
     await expect(member.getByRole('heading', { name: 'Tu cuenta está lista.' })).toBeVisible()
     await member.getByRole('link', { name: 'Iniciar sesión', exact: true }).click()
-    const loginPanel = member.getByRole('dialog', { name: 'Entrar a Klisteni' })
+    const loginPanel = member.getByRole('dialog', { name: 'Configuración', exact: true })
     await loginPanel.getByLabel('Email', { exact: true }).fill('invited@accounts.test')
     await loginPanel.getByLabel('Contraseña', { exact: true }).fill(password)
     await loginPanel.getByRole('button', { name: 'Entrar a mi cuenta' }).click()
@@ -267,7 +322,7 @@ test('an administrator invites a member, the member activates and recovers witho
     await expect(member.getByRole('heading', { name: 'Contraseña actualizada.' })).toBeVisible()
     expect(await member.evaluate(() => fetch('/api/auth/get-session', { cache: 'no-store' }).then(response => response.json()))).toBeNull()
     await member.getByRole('link', { name: 'Iniciar sesión', exact: true }).click()
-    const recoveredLogin = member.getByRole('dialog', { name: 'Entrar a Klisteni' })
+    const recoveredLogin = member.getByRole('dialog', { name: 'Configuración', exact: true })
     await recoveredLogin.getByLabel('Email', { exact: true }).fill('invited@accounts.test')
     await recoveredLogin.getByLabel('Contraseña', { exact: true }).fill(replacement)
     await recoveredLogin.getByRole('button', { name: 'Entrar a mi cuenta' }).click()
@@ -299,6 +354,8 @@ test('health records persist in the real account, survive reload and stay out of
   await expect(page.locator('.local-badge')).toContainText('Sincronizado con tu cuenta')
   await healthNav()
   await expect(page.locator('.health-trend-value')).toContainText('78,4 kg')
+  await expect(page.getByRole('button', { name: 'Exportar mi cuenta', exact: true })).toHaveCount(0)
+  await openSettings(page, 'Datos')
   const exported = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Exportar mi cuenta', exact: true }).click()
   expect((await exported).suggestedFilename()).toContain('klisteni-mi-cuenta')

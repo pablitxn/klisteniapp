@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { createDefaultPersonalData } from '@klisteniapp/scene-schema'
+import { openAccountSettings } from './settings-helpers'
 
 const token = 'public-test-token-with-no-secret-12345'
 const expiresAt = '2026-12-31T12:00:00.000Z'
@@ -33,7 +34,7 @@ test('activation verifies its in-memory token, clears the address bar and return
   expect(media).toHaveLength(0)
   expect(await page.evaluate(() => JSON.stringify({ local: { ...localStorage }, session: { ...sessionStorage } }))).not.toContain(token)
   await page.getByRole('link', { name: 'Iniciar sesión', exact: true }).click()
-  await expect(page.getByRole('dialog', { name: 'Entrar a Klisteni' })).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Configuración', exact: true })).toBeVisible()
 })
 
 test('recovery requires matching passwords, submits the fragment token and cannot reuse it after reload', async ({ page }) => {
@@ -94,8 +95,7 @@ test('admin creates an invitation, revokes its link and controls access without 
     return route.fulfill({ status: 404, json: { error: 'Not found' } })
   })
   await page.goto('/')
-  await page.locator('.account-login').click()
-  const dialog = page.getByRole('dialog', { name: 'Mi cuenta y planificación' })
+  const dialog = await openAccountSettings(page)
   await dialog.getByText('Usuarios e invitaciones', { exact: true }).click()
   await expect(dialog.getByText('Personas con acceso', { exact: true })).toBeVisible()
   await dialog.getByLabel('Email de la persona').fill('new@example.test')
@@ -129,7 +129,7 @@ test('return from checkout opens the authenticated subscription panel without gr
     return route.fulfill({ status: 404, json: { error: 'Not found' } })
   })
   await page.goto('/?billing=return')
-  const panel = page.getByRole('dialog', { name: 'Mi cuenta y planificación' })
+  const panel = page.getByRole('dialog', { name: 'Configuración', exact: true })
   await expect(panel).toBeVisible()
   await expect(panel.getByRole('heading', { name: 'Guardado en la nube pausado', exact: true })).toBeVisible()
   await expect(panel.getByText(/Pendiente de autorización/)).toBeVisible()

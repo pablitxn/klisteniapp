@@ -202,9 +202,12 @@ or Blender installation**. Models and previews are ready to use.
 
 For accounts, set `VITE_APP_MODE=instance`, provide
 `KLISTENI_PUBLIC_PROFILE_FILE` with your operator's public disclosures, and follow
-the [API and PostgreSQL setup](docs/accounts.md#desarrollo-local). The profile is
+the [API and PostgreSQL setup](docs/accounts.md#local-instance-with-disposable-configuration). The profile is
 public build data, never a place for credentials. Real deployment configuration
 belongs outside this repository. [Instance setup →](docs/public-demo.md)
+
+For UI iteration with the full local API, database and a fictional administrator,
+run `node scripts/dev-ui-instance.mjs`. [Local UI workspace →](docs/ui-iteration.md)
 
 ```sh
 # Build all packages, then serve the web bundle locally

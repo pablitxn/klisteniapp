@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   Component,
   Suspense,
@@ -193,6 +194,8 @@ function ControlIcon({
 }
 
 export default function AnatomyViewer(props: Props) {
+  const { t } = useTranslation('core')
+
   const [playing, setPlaying] = useState(
     () =>
       !props.reducedMotion &&
@@ -284,8 +287,8 @@ export default function AnatomyViewer(props: Props) {
     setPlaying(false)
   }
   const phases = EXERCISE_PHASES[props.exerciseId] ?? [
-    'Movete con control',
-    'Volvé al inicio',
+    t("Movete con control"),
+    t("Volvé al inicio"),
   ]
   const phaseIndex =
     props.exerciseId === 'paused-squat'
@@ -298,7 +301,7 @@ export default function AnatomyViewer(props: Props) {
         ? 0
         : 1
   const selected = props.selectedMuscle
-    ? muscleNames[props.selectedMuscle]
+    ? t(muscleNames[props.selectedMuscle] ?? props.selectedMuscle)
     : undefined
   const inspected =
     structure &&
@@ -311,21 +314,21 @@ export default function AnatomyViewer(props: Props) {
     <section
       ref={viewer}
       className={`viewer anatomy-viewer ${expanded ? 'anatomy-expanded' : ''}`}
-      aria-label="Demostración 3D del ejercicio"
+      aria-label={t("Demostración 3D del ejercicio")}
       role={expanded ? 'dialog' : undefined}
       aria-modal={expanded || undefined}
     >
       <div className="anatomy-toolbar">
         <div>
           <span className="anatomy-live-dot" />
-          <span>ESTUDIO ANATÓMICO</span>
+          <span>{t("ESTUDIO ANATÓMICO")}</span>
           <span className="anatomy-version">3D</span>
         </div>
         <button
           ref={expandButton}
           className="anatomy-icon-button"
           onClick={() => setExpanded(!expanded)}
-          aria-label={expanded ? 'Cerrar vista ampliada' : 'Ampliar visor'}
+          aria-label={expanded ? t("Cerrar vista ampliada") : t("Ampliar visor")}
           aria-expanded={expanded}
         >
           <ControlIcon name={expanded ? 'close' : 'expand'} />
@@ -335,13 +338,13 @@ export default function AnatomyViewer(props: Props) {
         <div
           className="anatomy-layers"
           role="group"
-          aria-label="Capas anatómicas"
+          aria-label={t("Capas anatómicas")}
         >
           {(
             [
-              ['skin', 'Piel'],
-              ['muscles', 'Músculos'],
-              ['skeleton', 'Huesos'],
+              ['skin', t("Piel")],
+              ['muscles', t("Músculos")],
+              ['skeleton', t("Huesos")],
             ] as const
           ).map(([id, label]) => (
             <button
@@ -360,7 +363,7 @@ export default function AnatomyViewer(props: Props) {
         </div>
         <button
           className="anatomy-activation"
-          aria-label="Mostrar trabajo muscular"
+          aria-label={t("Mostrar trabajo muscular")}
           aria-pressed={highlight}
           onClick={() => {
             if (!highlight) setLayer('muscles')
@@ -368,7 +371,7 @@ export default function AnatomyViewer(props: Props) {
           }}
         >
           <ControlIcon name="eye" />
-          <span>Trabajo muscular</span>
+          <span>{t("Trabajo muscular")}</span>
         </button>
       </div>
       <div className="viewer-stage anatomy-stage">
@@ -378,7 +381,7 @@ export default function AnatomyViewer(props: Props) {
               <Canvas
                 frameloop={playing && !anatomy && visible ? 'always' : 'demand'}
                 role="img"
-                aria-label="Modelo anatómico interactivo. Usá los controles de capas, cámara y reproducción; la explicación textual está debajo."
+                aria-label={t("Modelo anatómico interactivo. Usá los controles de capas, cámara y reproducción; la explicación textual está debajo.")}
                 camera={{
                   position: [2.4, 1.4, 3.1],
                   fov: 32,
@@ -418,35 +421,28 @@ export default function AnatomyViewer(props: Props) {
         {!loaded && !failed && (
           <div className="anatomy-loading" role="status">
             <span className="anatomy-loader" />
-            <strong>Preparando la anatomía</strong>
-            <p>Cargando músculos, huesos y superficie corporal.</p>
+            <strong>{t("Preparando la anatomía")}</strong>
+            <p>{t("Cargando músculos, huesos y superficie corporal.")}</p>
           </div>
         )}
         {failed && (
           <div className="viewer-fallback">
-            <strong>Vista 3D no disponible</strong>
-            <p>
-              No pudimos cargar el modelo en este dispositivo. Las instrucciones
-              y los músculos siguen disponibles debajo.
-            </p>
+            <strong>{t("Vista 3D no disponible")}</strong>
+            <p>{t("No pudimos cargar el modelo en este dispositivo. Las instrucciones y los músculos siguen disponibles debajo.")}</p>
           </div>
         )}
         <div className="anatomy-stage-top">
           <span className="anatomy-phase">
             <i>{anatomy ? '◎' : phaseIndex === 0 ? '01' : '02'}</i>
-            {anatomy ? 'Posición anatómica' : phases[phaseIndex]}
+            {anatomy ? t("Posición anatómica") : t(phases[phaseIndex] ?? "Movete con control")}
           </span>
           <div
             className="anatomy-mode"
             role="group"
-            aria-label="Contenido del visor"
+            aria-label={t("Contenido del visor")}
           >
-            <button aria-pressed={!anatomy} onClick={() => setAnatomy(false)}>
-              Movimiento
-            </button>
-            <button aria-pressed={anatomy} onClick={() => setAnatomy(true)}>
-              Anatomía
-            </button>
+            <button aria-pressed={!anatomy} onClick={() => setAnatomy(false)}>{t("Movimiento")}</button>
+            <button aria-pressed={anatomy} onClick={() => setAnatomy(true)}>{t("Anatomía")}</button>
           </div>
         </div>
         {(selected || inspected) && (
@@ -457,14 +453,14 @@ export default function AnatomyViewer(props: Props) {
               {inspected && (
                 <small>
                   {inspected.replace(/\.[lr]$/, (m) =>
-                    m === '.l' ? ' · izquierda' : ' · derecha',
+                    m === '.l' ? t(" · izquierda") : t(" · derecha"),
                   )}
                 </small>
               )}
             </div>
             <button
               className="anatomy-icon-button"
-              aria-label="Quitar selección anatómica"
+              aria-label={t("Quitar selección anatómica")}
               onClick={() => {
                 props.onSelectMuscle?.(null)
                 setStructure(null)
@@ -475,19 +471,17 @@ export default function AnatomyViewer(props: Props) {
           </div>
         )}
         <div className="anatomy-stage-bottom">
-          <span className="anatomy-interaction-hint">
-            Arrastrá para girar · pellizcá para acercar
-          </span>
+          <span className="anatomy-interaction-hint">{t("Arrastrá para girar · pellizcá para acercar")}</span>
           <div
             className="viewer-camera anatomy-camera"
-            aria-label="Ángulo de cámara"
+            aria-label={t("Ángulo de cámara")}
           >
             {(
               [
                 ['perspective', '3D'],
-                ['front', 'Frente'],
-                ['side', 'Perfil'],
-                ['back', 'Espalda'],
+                ['front', t("Frente")],
+                ['side', t("Perfil")],
+                ['back', t("Espalda")],
               ] as const
             ).map(([id, label]) => (
               <button
@@ -509,8 +503,8 @@ export default function AnatomyViewer(props: Props) {
           className="viewer-play"
           aria-label={
             playing && !anatomy
-              ? 'Pausar demostración'
-              : 'Reproducir demostración'
+              ? t("Pausar demostración")
+              : t("Reproducir demostración")
           }
           onClick={() => {
             setAnatomy(false)
@@ -524,13 +518,13 @@ export default function AnatomyViewer(props: Props) {
           <div>
             <span>
               {anatomy
-                ? 'Estudiá la forma y las relaciones'
-                : 'El movimiento, a tu ritmo'}
+                ? t("Estudiá la forma y las relaciones")
+                : t("El movimiento, a tu ritmo")}
             </span>
             <span>{Math.round(phase * 100)}%</span>
           </div>
           <input
-            aria-label="Posición de la demostración"
+            aria-label={t("Posición de la demostración")}
             type="range"
             min="0"
             max="1"
@@ -542,14 +536,14 @@ export default function AnatomyViewer(props: Props) {
         </div>
         <button
           className="viewer-speed"
-          aria-label={`Velocidad ${speed}. Cambiar velocidad`}
+          aria-label={t("Velocidad {{speed}}. Cambiar velocidad", { speed })}
           onClick={() => setSpeed(speed === 1 ? 0.5 : 1)}
         >
           {speed === 1 ? '1×' : '½×'}
         </button>
         <button
           className="viewer-reset"
-          aria-label="Reiniciar demostración"
+          aria-label={t("Reiniciar demostración")}
           onClick={() => {
             scrub(0)
             setCameraReset((n) => n + 1)
@@ -562,32 +556,20 @@ export default function AnatomyViewer(props: Props) {
         {highlight ? (
           <>
             <span>
-              <i className="anatomy-primary" />
-              Músculo principal
-            </span>
+              <i className="anatomy-primary" />{t("Músculo principal")}</span>
             <span>
-              <i className="anatomy-secondary" />
-              Apoyo y estabilización
-            </span>
+              <i className="anatomy-secondary" />{t("Apoyo y estabilización")}</span>
           </>
         ) : (
-          <span>Color de los tejidos · tocá una región para identificarla</span>
+          <span>{t("Color de los tejidos · tocá una región para identificarla")}</span>
         )}
       </div>
       <details className="anatomy-provenance">
-        <summary>
-          Geometría anatómica y precisión <span>↗</span>
+        <summary>{t("Geometría anatómica y precisión")}<span>↗</span>
         </summary>
-        <p>
-          Superficie corporal, músculos y huesos del atlas{' '}
-          <strong>Z-Anatomy / BodyParts3D</strong>. Las capas conservan sus
-          relaciones en la posición anatómica. El movimiento es una animación
-          educativa; no representa una medición de tu cuerpo ni una simulación
-          biomecánica validada.
-        </p>
-        <a href="/models/NOTICE.md" target="_blank" rel="noreferrer">
-          Fuentes, modificaciones y licencia CC BY-SA 4.0 ↗
-        </a>
+        <p>{t("Superficie corporal, músculos y huesos del atlas")}{' '}
+          <strong>Z-Anatomy / BodyParts3D</strong>{t(". Las capas conservan sus relaciones en la posición anatómica. El movimiento es una animación educativa; no representa una medición de tu cuerpo ni una simulación biomecánica validada.")}</p>
+        <a href="/models/NOTICE.md" target="_blank" rel="noreferrer">{t("Fuentes, modificaciones y licencia CC BY-SA 4.0 ↗")}</a>
       </details>
     </section>
   )

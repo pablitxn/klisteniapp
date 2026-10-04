@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { stripTypeScriptTypes } from 'node:module'
 import { expect, test, type Page, type Request, type Route } from '@playwright/test'
 import { CONSENT_KEY, POLICY_VERSION, consentExpiry } from '../src/lib/analytics-policy.ts'
+import { openSettings } from './settings-helpers'
 
 test.skip(process.env.KLISTENI_ANALYTICS_E2E !== '1', 'Requires isolated production build')
 const source = readFileSync(new URL('./fixtures/umami-3.4.0-tracker.ts.txt', import.meta.url), 'utf8')
@@ -27,7 +28,11 @@ async function idle(page: Page) {
 async function storedChoice(page: Page, overrides: Record<string, unknown> = {}) {
   await page.addInitScript(({ key, record }) => localStorage.setItem(key, JSON.stringify(record)), { key: CONSENT_KEY, record: { choice: 'accepted', version: POLICY_VERSION, expiresAt: consentExpiry(Date.now()), ...overrides } })
 }
-async function openPreferences(page: Page) { await page.getByTestId('privacy-preferences').click(); await expect(page.getByTestId('privacy-dialog')).toBeVisible() }
+async function openPreferences(page: Page) {
+  await openSettings(page, 'Privacidad')
+  await expect(page.getByTestId('privacy-dialog')).toBeVisible()
+  await expect(page.locator('dialog:visible')).toHaveCount(1)
+}
 
 test('undecided and rejected visitors produce no tracker requests, including reload', async ({ page }) => {
   const capture = await intercept(page)
@@ -37,7 +42,8 @@ test('undecided and rejected visitors produce no tracker requests, including rel
   expect(capture.scripts).toHaveLength(0)
   await page.getByTestId('analytics-reject').click()
   await page.reload()
-  await expect(page.getByTestId('privacy-preferences')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Abrir ajustes', exact: true })).toBeVisible()
+  await expect(page.getByTestId('analytics-consent-banner')).toHaveCount(0)
   await idle(page)
   expect(capture.scripts).toHaveLength(0)
   expect(capture.posts).toHaveLength(0)
@@ -109,6 +115,7 @@ test('privacy round trip preserves an active session and does not duplicate the 
   await expect.poll(() => capture.posts.length).toBe(1)
   await page.getByRole('button', { name: 'Empezar mi rutina' }).click()
   await page.getByRole('button', { name: 'Registrar serie' }).click()
+  await openPreferences(page)
   await page.getByTestId('privacy-policy').click()
   await expect(page.getByRole('heading', { name: 'Tu práctica, bajo tu control.' })).toBeVisible()
   await expect(page.locator('script[data-website-id]')).toHaveCount(0)
@@ -201,7 +208,8 @@ test('mobile consent uses equal choices and privacy stays within the viewport', 
   expect(sizes[0]).toEqual(sizes[1])
   await page.getByTestId('analytics-reject').focus()
   await page.keyboard.press('Enter')
-  await expect(page.getByTestId('privacy-preferences')).toBeFocused()
+  await expect(page.getByRole('button', { name: 'Abrir ajustes', exact: true })).toBeFocused()
+  await openPreferences(page)
   await page.getByTestId('privacy-policy').click()
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
 })

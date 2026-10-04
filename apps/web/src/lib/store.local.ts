@@ -1,8 +1,9 @@
 import { create } from 'zustand'
-import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, type PersonalData, type ProgressData } from '@klisteniapp/scene-schema'
+import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, preserveOptionalPersonalSettings, type PersonalData, type ProgressData } from '@klisteniapp/scene-schema'
 import type { AppStore } from './store.ts'
 import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences } from './store.persistence.ts'
 import { parseProgress, serializeProgress } from './progress.ts'
+import { saveDisplayPreferences } from '../i18n/preferences.ts'
 
 export { STORAGE_KEY, LOCAL_PERSONAL_KEY } from './store.persistence.ts'
 export type { Preferences } from './store.persistence.ts'
@@ -67,7 +68,7 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (!parsed.success) return 'Revisá el perfil, la rutina y los días elegidos.'
       const data = get().localPersonalData
       if (!data) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
-      return savePersonal({ ...data, progress: get().progress, settings: parsed.data }, get().localRevision)
+      return savePersonal({ ...data, progress: get().progress, settings: preserveOptionalPersonalSettings(data.settings, parsed.data) }, get().localRevision)
     },
     saveHealth: async (health, expectedRevision) => {
       const parsed = HealthDataSchema.safeParse(health)
@@ -78,8 +79,22 @@ export const useAppStore = create<AppStore>((set, get) => {
     },
     updatePreferences: async patch => {
       const preferences = { ...get().preferences, ...patch }
-      set({ preferences })
-      try { localStorage.setItem(PREF_KEY, JSON.stringify(preferences)); set({ storageError: null, localDataAvailable: localSummary() }); return null }
+      try {
+        localStorage.setItem(PREF_KEY, JSON.stringify(preferences))
+        if (patch.language !== undefined || patch.theme !== undefined || patch.colorTheme !== undefined || patch.reducedMotion !== undefined) {
+          if (!saveDisplayPreferences({ language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme, reducedMotion: preferences.reducedMotion })) throw new Error('Storage unavailable')
+        }
+        set({ preferences, storageError: null, localDataAvailable: localSummary() })
+        if (patch.language !== undefined || patch.theme !== undefined || patch.colorTheme !== undefined) {
+          const data = get().localPersonalData
+          if (!data) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+          return savePersonal(snapshot({ ...data, settings: { ...data.settings, profile: { ...data.settings.profile,
+            ...(patch.language === undefined ? {} : { language: patch.language }), ...(patch.theme === undefined ? {} : { theme: patch.theme }),
+            ...(patch.colorTheme === undefined ? {} : { colorTheme: patch.colorTheme }),
+          } } }), get().localRevision)
+        }
+        return null
+      }
       catch { const error = 'No pudimos guardar tus preferencias en este navegador.'; set({ storageError: error }); return error }
     },
     importProgress: async raw => {
@@ -90,10 +105,17 @@ export const useAppStore = create<AppStore>((set, get) => {
         data = personal.success ? personal.data : ProgressDataSchema.parse(value)
       } catch { return 'El archivo no contiene un historial válido de Klisteni.' }
       if (data.version === 2) {
+        // An older backup has no palette field and cannot clear an existing choice.
+        const previousColorTheme = get().localPersonalData?.settings.profile.colorTheme
+        if (data.settings.profile.colorTheme === undefined && previousColorTheme !== undefined) data.settings.profile.colorTheme = previousColorTheme
         const failure = savePersonal(data, get().localRevision)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
-        try { localStorage.setItem(PREF_KEY, JSON.stringify(preferences)) }
+        try {
+          localStorage.setItem(PREF_KEY, JSON.stringify(preferences))
+          if ((data.settings.profile.language !== undefined || data.settings.profile.theme !== undefined || data.settings.profile.colorTheme !== undefined)
+            && !saveDisplayPreferences({ language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme })) throw new Error('Storage unavailable')
+        }
         catch { return 'Guardamos la copia personal pero no pudimos guardar sus preferencias. Exportá tus datos antes de cerrar.' }
         set({ preferences })
         return saveProgress(data.progress)

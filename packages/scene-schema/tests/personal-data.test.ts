@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   CardioLogSchema,
+  ColorThemeSchema,
   PersonalDataSchema,
   PersonalSettingsSchema,
   ServerStateSchema,
@@ -14,6 +15,7 @@ import {
   isPlanHistoryPreserved,
   nextPlanEffectiveDate,
   planWeekStart,
+  preserveOptionalPersonalSettings,
   type TrainingPlan,
   type WorkoutLog,
 } from '../src/index.ts';
@@ -29,6 +31,39 @@ function workout(date: string, id = date): WorkoutLog {
 }
 
 const settings = createDefaultPersonalData('Ana', 'Europe/Paris').settings;
+
+test('legacy personal backups remain valid and optional display choices are validated', () => {
+  assert.equal(PersonalSettingsSchema.safeParse(settings).success, true);
+  assert.equal(PersonalSettingsSchema.parse(settings).profile.language, undefined);
+  for (const language of ['es', 'en', 'fr']) {
+    for (const theme of ['light', 'dark', 'system']) {
+      for (const colorTheme of ColorThemeSchema.options) {
+        const profile = { ...settings.profile, language, theme, colorTheme };
+        assert.deepEqual(PersonalSettingsSchema.parse({ ...settings, profile }).profile, profile);
+      }
+    }
+  }
+  assert.equal(PersonalSettingsSchema.safeParse({ ...settings, profile: { ...settings.profile, language: 'de' } }).success, false);
+  assert.equal(PersonalSettingsSchema.safeParse({ ...settings, profile: { ...settings.profile, theme: 'sepia' } }).success, false);
+  assert.equal(PersonalSettingsSchema.safeParse({ ...settings, profile: { ...settings.profile, colorTheme: 'neon' } }).success, false);
+});
+
+test('older clients cannot erase health or display choices by omitting optional settings', () => {
+  const current = PersonalSettingsSchema.parse({ ...settings, profile: { ...settings.profile, language: 'fr', theme: 'dark', colorTheme: 'ocean' } });
+  const legacy = structuredClone(settings);
+  delete legacy.health;
+  legacy.profile.displayName = 'Updated name';
+  const merged = preserveOptionalPersonalSettings(current, legacy);
+  assert.equal(merged.profile.displayName, 'Updated name');
+  assert.equal(merged.profile.language, 'fr');
+  assert.equal(merged.profile.theme, 'dark');
+  assert.equal(merged.profile.colorTheme, 'ocean');
+  assert.deepEqual(merged.health, current.health);
+  const explicit = preserveOptionalPersonalSettings(current, { ...legacy, profile: { ...legacy.profile, language: 'es', theme: 'system', colorTheme: 'sunset' } });
+  assert.equal(explicit.profile.language, 'es');
+  assert.equal(explicit.profile.theme, 'system');
+  assert.equal(explicit.profile.colorTheme, 'sunset');
+});
 
 test('new accounts have empty history and six no-equipment exercises without an invented plan', () => {
   const data = createDefaultPersonalData('  Ana  ', 'Europe/Paris');

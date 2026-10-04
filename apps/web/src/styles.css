@@ -1,20 +1,60 @@
 
 :root {
   font-family: 'DM Sans', sans-serif;
-  color: #29352f;
-  background: #f7f8f5;
+  color: var(--ink);
+  background: var(--background);
+  color-scheme: light;
   font-synthesis: none;
   font-weight: 400;
   font-size: 14px;
   --ink: #29352f;
-  --muted: #788077;
+  --background: #f7f8f5;
+  --muted: #65725a;
+  --muted-soft: #788077;
   --line: #e4e7df;
+  --line-strong: #c3cbb8;
   --purple: #ded8f3;
+  --purple-soft: #f4f0f9;
   --purple-dark: #6d608f;
+  --purple-strong: #b5a3cb;
+  --purple-line: #c3b6d6;
   --green: #e6eedb;
+  --green-soft: #f1f4eb;
+  --green-dark: #61794c;
+  --green-strong: #c5d8a8;
   --surface: #fff;
+  --surface-soft: #fbfcf8;
   --peach: #efc9b9;
+  --peach-soft: #faf3e6;
+  --peach-dark: #8a643f;
+  --peach-line: #dfc7ac;
+  --error: #a4583b;
   --radius: 18px;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --background: #151c18;
+  --ink: #e6ede5;
+  --muted: #b6c2ae;
+  --muted-soft: #99a78f;
+  --line: #344135;
+  --line-strong: #52634d;
+  --purple: #393043;
+  --purple-soft: #282331;
+  --purple-dark: #cbbbdf;
+  --purple-strong: #52405f;
+  --purple-line: #655078;
+  --green: #29372b;
+  --green-soft: #212c23;
+  --green-dark: #b5d197;
+  --green-strong: #42563a;
+  --surface: #202923;
+  --surface-soft: #1b241e;
+  --peach: #453329;
+  --peach-soft: #302920;
+  --peach-dark: #e0bc96;
+  --peach-line: #715942;
+  --error: #f1a38d;
 }
 * {
   box-sizing: border-box;
@@ -58,7 +98,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-  outline: 2px solid #8371af;
+  outline: 2px solid var(--purple-line);
 }
 a {
   color: inherit;
@@ -117,11 +157,11 @@ select {
 }
 input:not([type='checkbox']),
 select {
-  border: 1px solid #dcded5;
+  border: 1px solid var(--line);
   border-radius: 10px;
   min-height: 46px;
   padding: 10px 12px;
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
 }
 .skip-link {
@@ -130,7 +170,7 @@ select {
   left: 20px;
   z-index: 100;
   background: var(--ink);
-  color: white;
+  color: var(--background);
   padding: 15px;
 }
 .skip-link:focus {
@@ -144,7 +184,7 @@ select {
   width: 218px;
   position: fixed;
   inset: 0 auto 0 0;
-  background: #f1f3ec;
+  background: var(--green-soft);
   border-right: 1px solid var(--line);
   padding: 38px 18px 24px;
   display: flex;
@@ -162,7 +202,7 @@ select {
   font-weight: 800;
 }
 .brand-dot {
-  color: #9587b2;
+  color: var(--purple-dark);
 }
 .brand-mark {
   display: flex;
@@ -175,22 +215,22 @@ select {
 .brand-mark span {
   width: 7px;
   border-radius: 5px;
-  background: #718060;
+  background: var(--surface-soft);
   height: 24px;
 }
 .brand-mark span:nth-child(2) {
   height: 33px;
-  background: #879574;
+  background: var(--surface-soft);
 }
 .brand-mark span:nth-child(3) {
   height: 18px;
-  background: #b2bd9f;
+  background: var(--green-strong);
 }
 .sidebar-label {
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 1.35px;
-  color: #899181;
+  color: var(--muted);
   margin: 52px 13px 17px;
 }
 .sidebar nav {
@@ -207,26 +247,26 @@ select {
   width: 100%;
   text-align: left;
   border-radius: 10px;
-  color: #74806e;
+  color: var(--muted);
   font-size: 13px;
   font-weight: 500;
 }
 .nav-item.active {
-  background: #e3dfef;
-  color: #5a506e;
+  background: var(--purple);
+  color: var(--purple-dark);
 }
 .nav-item:hover {
-  background: #e6e9df;
+  background: var(--green);
 }
 .nav-item.active:hover {
-  background: #dbd4eb;
+  background: var(--purple);
 }
 .nav-active-dot {
   width: 5px;
   height: 5px;
   margin-left: auto;
   border-radius: 50%;
-  background: #83759d;
+  background: var(--purple-strong);
 }
 .sidebar-bottom {
   margin-top: auto;
@@ -234,10 +274,10 @@ select {
 }
 .journey-card {
   padding: 20px 16px 21px;
-  border: 1px solid #dce1d2;
+  border: 1px solid var(--line);
   border-radius: 14px;
   margin: 0 0 20px;
-  background: radial-gradient(ellipse at 10% 10%, #e6ead8, transparent 65%);
+  background: radial-gradient(ellipse at 10% 10%, var(--green), transparent 65%);
   position: relative;
   overflow: hidden;
 }
@@ -246,7 +286,7 @@ select {
   position: absolute;
   width: 90px;
   height: 90px;
-  border: 1px solid #dde3d4;
+  border: 1px solid var(--line);
   border-radius: 50%;
   right: -45px;
   bottom: 40px;
@@ -258,13 +298,13 @@ select {
   width: 37px;
   height: 37px;
   border-radius: 50%;
-  background: #dbe4ca;
-  color: #677a4d;
+  background: var(--green);
+  color: var(--green-dark);
   margin-bottom: 16px;
 }
 .journey-card small {
   display: block;
-  color: #7c8971;
+  color: var(--muted);
   font-size: 8px;
   letter-spacing: 1.3px;
   margin-bottom: 10px;
@@ -280,7 +320,7 @@ select {
 .journey-card p {
   font-size: 11px;
   margin-top: 9px;
-  color: #87917e;
+  color: var(--muted);
   line-height: 1.6;
 }
 .local-badge {
@@ -289,14 +329,14 @@ select {
   gap: 6px;
   margin: 22px 10px 0;
   font-size: 9px;
-  color: #909785;
+  color: var(--muted);
   white-space: nowrap;
 }
 .local-badge > span {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #9cac83;
+  background: var(--green-strong);
 }
 .main-column {
   margin-left: 218px;
@@ -313,11 +353,11 @@ select {
 }
 .breadcrumb {
   font-size: 12px;
-  color: #687266;
+  color: var(--muted);
 }
 .breadcrumb > span {
   margin: 0 13px;
-  color: #b4bbae;
+  color: var(--muted-soft);
 }
 .topbar-right {
   display: flex;
@@ -329,23 +369,23 @@ select {
   display: flex;
   gap: 7px;
   align-items: center;
-  color: #818878;
+  color: var(--muted);
 }
 .beginner-badge > span,
 .exercise-difficulty > span {
   height: 5px;
   width: 5px;
   border-radius: 50%;
-  background: #97a580;
+  background: var(--surface-soft);
 }
 .profile-button {
-  border: 1px solid #dddccf;
+  border: 1px solid var(--line);
   border-radius: 50%;
   height: 34px;
   width: 34px;
   font-family: Manrope, sans-serif;
-  background: #ececdd;
-  color: #6d7461;
+  background: var(--green);
+  color: var(--muted);
   font-size: 12px;
 }
 .mobile-brand {
@@ -367,12 +407,12 @@ main {
   font-size: 9px;
   font-weight: 650;
   letter-spacing: 1.8px;
-  color: #8a927e;
+  color: var(--muted);
   display: block;
   margin-bottom: 12px;
 }
 .page-heading p {
-  color: #7f887a;
+  color: var(--muted);
   font-size: 13px;
   margin-top: 13px;
 }
@@ -393,23 +433,23 @@ main {
   white-space: nowrap;
 }
 .primary-button {
-  background: #dcd5ed;
-  color: #55496e;
-  border: 1px solid #d4cbe6;
+  background: var(--purple);
+  color: var(--purple-dark);
+  border: 1px solid var(--purple-line);
 }
 .primary-button:hover {
-  background: #cec2e6;
+  background: var(--purple);
 }
 .primary-button > svg:last-child {
   margin-left: 6px;
 }
 .secondary-button {
-  border: 1px solid #dce0d6;
-  background: #fff;
-  color: #67745d;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
 }
 .secondary-button:hover {
-  background: #edf1e6;
+  background: var(--green-soft);
 }
 .text-button {
   display: inline-flex;
@@ -417,7 +457,7 @@ main {
   align-items: center;
   font-size: 11px;
   font-weight: 550;
-  color: #6c6083;
+  color: var(--purple-dark);
   padding: 8px 0;
 }
 .text-button:hover {
@@ -433,7 +473,7 @@ main {
   flex-shrink: 0;
 }
 .icon-button:hover {
-  background: #eceee7;
+  background: var(--surface-soft);
 }
 .full-width {
   width: 100%;
@@ -443,7 +483,7 @@ main {
   grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--line);
   border-radius: 15px;
-  background: #fff;
+  background: var(--surface);
   padding: 20px 0;
   margin-bottom: 37px;
 }
@@ -467,20 +507,20 @@ main {
   flex-shrink: 0;
 }
 .peach {
-  background: #f6e9df;
-  color: #b48b71;
+  background: var(--peach-soft);
+  color: var(--peach-dark);
 }
 .purple {
-  background: #ece8f5;
-  color: #9b8cb8;
+  background: var(--purple-soft);
+  color: var(--purple-dark);
 }
 .green {
-  background: #ebf0e3;
-  color: #8c9b71;
+  background: var(--green);
+  color: var(--muted);
 }
 .yellow {
-  background: #f5f0df;
-  color: #b5a66c;
+  background: var(--peach-soft);
+  color: var(--peach-dark);
 }
 .stats-bar strong {
   display: block;
@@ -494,13 +534,13 @@ main {
 .stats-bar strong small {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: #9ca18e;
+  color: var(--muted);
   font-weight: 400;
   letter-spacing: 0;
 }
 .stats-bar span > span {
   display: block;
-  color: #959a8d;
+  color: var(--muted);
   font-size: 9px;
   margin-top: 6px;
   white-space: nowrap;
@@ -513,11 +553,11 @@ main {
 .mini-bars i {
   height: 24px;
   width: 5px;
-  background: #eeedf0;
+  background: var(--purple-soft);
   border-radius: 3px;
 }
 .mini-bars i.filled {
-  background: #a195b5;
+  background: var(--purple-strong);
 }
 .section-heading {
   display: flex;
@@ -530,13 +570,13 @@ main {
   margin-bottom: 8px;
 }
 .soft-dot {
-  color: #9789ac;
+  color: var(--purple-dark);
 }
 .routine-meta {
   display: flex;
   align-items: center;
   gap: 18px;
-  color: #929a88;
+  color: var(--muted);
   margin-top: -6px;
   margin-bottom: 23px;
   font-size: 10px;
@@ -550,7 +590,7 @@ main {
   content: '';
   height: 3px;
   width: 3px;
-  background: #b7bead;
+  background: var(--surface-soft);
   border-radius: 50%;
   margin-right: 1px;
 }
@@ -576,11 +616,11 @@ main {
   min-height: 84px;
 }
 .exercise-row:hover {
-  background: #eff1eb;
+  background: var(--surface-soft);
 }
 .exercise-row.selected {
-  background: #eeebf5;
-  border-color: #dfd8ed;
+  background: var(--purple-soft);
+  border-color: var(--purple-line);
 }
 .exercise-thumb {
   display: block;
@@ -633,7 +673,7 @@ main {
   flex: 1;
 }
 .exercise-number {
-  color: #a0a894;
+  color: var(--muted);
   font-size: 9px;
 }
 .exercise-number > span {
@@ -648,13 +688,13 @@ main {
 }
 .exercise-row small {
   font-size: 9px;
-  color: #929986;
+  color: var(--muted);
 }
 .exercise-row > svg {
-  color: #b9bdaa;
+  color: var(--muted-soft);
 }
 .selected .exercise-row-copy > strong {
-  color: #6d5c89;
+  color: var(--purple-dark);
 }
 .routine-footnote {
   display: flex;
@@ -662,16 +702,16 @@ main {
   gap: 8px;
   padding: 18px 9px;
   font-size: 10px;
-  color: #9a9f90;
+  color: var(--muted);
 }
 .routine-footnote svg {
   margin-top: 2px;
-  color: #a5ae97;
+  color: var(--muted);
 }
 .workbench {
   border: 1px solid var(--line);
   border-radius: 18px;
-  background: #fff;
+  background: var(--surface);
   overflow: hidden;
   min-width: 0;
 }
@@ -684,8 +724,8 @@ main {
 .pill {
   display: inline-flex;
   font-size: 8px;
-  color: #9586ac;
-  background: #f1edf8;
+  color: var(--purple-dark);
+  background: var(--purple-soft);
   border-radius: 5px;
   padding: 4px 7px;
   letter-spacing: 0.2px;
@@ -699,14 +739,14 @@ main {
 .workbench-title p {
   font-size: 10px;
   margin-top: 3px;
-  color: #a1a696;
+  color: var(--muted);
 }
 .exercise-difficulty {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 9px;
-  color: #929c82;
+  color: var(--muted);
 }
 .demonstration {
   display: grid;
@@ -722,9 +762,9 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f7f8f4;
+  background: var(--green-soft);
   border-radius: 13px;
-  color: #8b937f;
+  color: var(--muted);
   font-size: 12px;
 }
 .muscle-panel {
@@ -743,7 +783,7 @@ main {
 }
 .muscle-panel > p {
   font-size: 10px;
-  color: #929887;
+  color: var(--muted);
   line-height: 1.7;
   margin-bottom: 23px;
 }
@@ -754,7 +794,7 @@ main {
 }
 .muscle-group-label {
   font-size: 9px;
-  color: #a19f92;
+  color: var(--muted);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -766,10 +806,10 @@ main {
   border-radius: 50%;
 }
 .muscle-group-label.primary i {
-  background: #dc9c83;
+  background: var(--peach);
 }
 .muscle-group-label.secondary i {
-  background: #c7b47b;
+  background: var(--peach);
 }
 .muscle-chips {
   display: flex;
@@ -777,40 +817,40 @@ main {
   gap: 5px;
 }
 .muscle-chips button {
-  border: 1px solid #e7e6df;
+  border: 1px solid var(--line);
   border-radius: 5px;
   padding: 5px 7px;
   font-size: 9px;
-  color: #7c8472;
-  background: #fff;
+  color: var(--muted);
+  background: var(--surface);
 }
 .muscle-chips button.selected {
-  border-color: #bfabdc;
-  background: #efe8f8;
-  color: #755f91;
+  border-color: var(--purple-line);
+  background: var(--purple-soft);
+  color: var(--purple-dark);
 }
 .muscle-chips button:hover {
-  background: #f0eee7;
+  background: var(--peach-soft);
 }
 .muscle-tip {
   margin-top: 21px;
   display: flex;
   align-items: flex-start;
   gap: 7px;
-  color: #a5aa99;
+  color: var(--muted);
   font-size: 8px;
   line-height: 1.5;
 }
 .muscle-definition {
   margin-top: 14px;
-  background: #f7f5fc;
+  background: var(--purple-soft);
   padding: 10px;
   border-radius: 8px;
   font-size: 10px;
 }
 .muscle-definition p {
   font-size: 10px;
-  color: #7f7789;
+  color: var(--muted);
   margin-top: 5px;
 }
 .lesson {
@@ -819,11 +859,11 @@ main {
 .lesson-tabs {
   display: flex;
   gap: 24px;
-  border-bottom: 1px solid #eceee7;
+  border-bottom: 1px solid var(--line);
   margin-bottom: 16px;
 }
 .lesson-tabs > button {
-  color: #a2a695;
+  color: var(--muted);
   font-size: 10px;
   padding: 17px 0 12px;
   border-bottom: 2px solid transparent;
@@ -831,17 +871,17 @@ main {
   white-space: nowrap;
 }
 .lesson-tabs > button[aria-selected='true'] {
-  color: #78668f;
-  border-color: #ad9cc8;
+  color: var(--purple-dark);
+  border-color: var(--purple-line);
 }
 .setup-line {
   font-size: 10px;
-  color: #909785;
+  color: var(--muted);
   line-height: 1.7;
   margin-bottom: 16px;
 }
 .setup-line strong {
-  color: #748067;
+  color: var(--muted);
   margin-right: 6px;
   font-weight: 550;
 }
@@ -856,20 +896,20 @@ main {
 .movement-steps li {
   font-size: 10px;
   line-height: 1.7;
-  color: #8b947f;
+  color: var(--muted);
   flex: 1;
 }
 .movement-steps li > span {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #e5e8de;
-  background: #f5f7f0;
+  border: 1px solid var(--line);
+  background: var(--green-soft);
   border-radius: 50%;
   width: 21px;
   height: 21px;
   font-size: 8px;
-  color: #8f9c7a;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 .exercise-planning {
@@ -879,7 +919,7 @@ main {
   border-radius: 10px;
   font-size: 12px;
   line-height: 1.6;
-  color: #5f6c55;
+  color: var(--muted);
 }
 .exercise-planning summary {
   cursor: pointer;
@@ -919,9 +959,9 @@ main {
   justify-content: space-between;
   gap: 12px;
   margin-top: 23px;
-  border-top: 1px solid #edf0e7;
+  border-top: 1px solid var(--line);
   padding-top: 12px;
-  color: #a1a993;
+  color: var(--muted);
   font-size: 8px;
 }
 .exercise-footer > span {
@@ -945,12 +985,12 @@ main {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   font-size: 11px;
-  color: #858f7b;
+  color: var(--muted);
 }
 .tips-grid h4,
 .variants-grid h4 {
   margin-bottom: 10px;
-  color: #5f6c55;
+  color: var(--muted);
   font-size: 12px;
 }
 .tips-grid p {
@@ -979,14 +1019,14 @@ main {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  border: 1px solid #e4e5db;
+  border: 1px solid var(--line);
   padding: 22px;
   border-radius: 14px;
-  background: #f1f0f5;
+  background: var(--purple-soft);
 }
 .cardio-card {
-  background: #f0f3e9;
-  border-color: #e0e5d6;
+  background: var(--green-soft);
+  border-color: var(--line);
 }
 .bottom-cards h3 {
   font-size: 13px;
@@ -995,7 +1035,7 @@ main {
 }
 .bottom-cards p {
   font-size: 10px;
-  color: #919783;
+  color: var(--muted);
   line-height: 1.75;
 }
 .bottom-cards .text-button {
@@ -1003,13 +1043,13 @@ main {
   margin-top: 8px;
 }
 .cardio-card .text-button {
-  color: #7b8c61;
+  color: var(--muted);
 }
 .page-footer {
   display: flex;
   justify-content: space-between;
   gap: 30px;
-  color: #a3ab96;
+  color: var(--muted);
   font-size: 8px;
   padding: 31px 0 10px;
 }
@@ -1023,8 +1063,8 @@ main {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid #d7bf8e;
-  background: #fff6de;
+  border: 1px solid var(--peach-line);
+  background: var(--peach-soft);
   padding: 14px;
   border-radius: 10px;
   font-size: 12px;
@@ -1042,10 +1082,10 @@ main {
   gap: 12px;
   border: 1px solid var(--line);
   padding: 0 15px;
-  background: white;
+  background: var(--surface);
   border-radius: 12px;
   max-width: 430px;
-  color: #9da68f;
+  color: var(--muted);
 }
 .search-input input {
   border: 0 !important;
@@ -1062,12 +1102,12 @@ main {
   border: 1px solid var(--line);
   border-radius: 7px;
   font-size: 11px;
-  color: #939b88;
+  color: var(--muted);
 }
 .filter-pills button.selected {
-  background: #e4ddef;
-  color: #78648d;
-  border-color: #d2c6e0;
+  background: var(--purple);
+  color: var(--purple-dark);
+  border-color: var(--purple-line);
 }
 .library-grid {
   display: grid;
@@ -1104,7 +1144,7 @@ main {
 .library-card {
   padding: 0;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--surface);
   border-radius: 15px;
   overflow: hidden;
   text-align: left;
@@ -1139,7 +1179,7 @@ main {
 }
 .library-card-content > small {
   font-size: 9px;
-  color: #a0a68f;
+  color: var(--muted);
 }
 .library-card-content h3 {
   font-size: 17px;
@@ -1147,7 +1187,7 @@ main {
 }
 .library-card-content p {
   font-size: 11px;
-  color: #959e88;
+  color: var(--muted);
   line-height: 1.7;
   min-height: 57px;
 }
@@ -1156,7 +1196,7 @@ main {
   align-items: center;
   justify-content: space-between;
   font-size: 10px;
-  color: #8c789d;
+  color: var(--purple-dark);
   margin-top: 23px;
 }
 .anatomy-intro {
@@ -1165,7 +1205,7 @@ main {
 }
 .anatomy-intro p {
   font-size: 12px;
-  color: #8a967c;
+  color: var(--muted);
   margin-top: 12px;
 }
 .pattern-grid {
@@ -1179,7 +1219,7 @@ main {
   padding: 23px;
   border-radius: 13px;
   text-align: left;
-  background: white;
+  background: var(--surface);
 }
 .pattern-grid .exercise-thumb {
   float: right;
@@ -1190,7 +1230,7 @@ main {
 .pattern-grid small {
   font-size: 9px;
   letter-spacing: 1px;
-  color: #9b8dab;
+  color: var(--purple-dark);
 }
 .pattern-grid h3 {
   font-size: 15px;
@@ -1198,38 +1238,38 @@ main {
 }
 .pattern-grid p {
   font-size: 10px;
-  color: #95a084;
+  color: var(--muted);
   min-height: 34px;
 }
 .pattern-grid button > svg {
   margin-top: 15px;
-  color: #94a37d;
+  color: var(--muted);
 }
 .pull-gap {
-  background: #f1ebdf;
-  border: 1px solid #e4ddcc;
+  background: var(--peach-soft);
+  border: 1px solid var(--peach-line);
   border-radius: 14px;
   padding: 25px;
   display: flex;
   gap: 15px;
   margin: 26px 0 36px;
-  color: #938262;
+  color: var(--peach-dark);
 }
 .pull-gap h3 {
   font-size: 15px;
   margin-bottom: 10px;
-  color: #6b644f;
+  color: var(--peach-dark);
 }
 .pull-gap p {
   font-size: 12px;
 }
 .pull-gap .text-button {
-  color: #938262;
+  color: var(--peach-dark);
   margin-top: 8px;
 }
 .muted {
   font-size: 10px;
-  color: #9a9f8f;
+  color: var(--muted);
 }
 .muscle-atlas {
   display: grid;
@@ -1238,7 +1278,7 @@ main {
 }
 .muscle-atlas details {
   border: 1px solid var(--line);
-  background: white;
+  background: var(--surface);
   border-radius: 12px;
   padding: 17px;
 }
@@ -1255,30 +1295,30 @@ main {
 }
 .muscle-atlas summary small {
   display: block;
-  color: #a1a691;
+  color: var(--muted);
   font-size: 9px;
   margin-top: 4px;
 }
 .muscle-atlas-dot {
   width: 8px;
   height: 8px;
-  background: #d6cab9;
+  background: var(--peach);
   border-radius: 50%;
 }
 .muscle-atlas details p {
   font-size: 11px;
-  color: #8b957d;
+  color: var(--muted);
   margin-top: 14px;
 }
 .muscle-atlas details > small {
   display: block;
   margin-top: 12px;
   font-size: 10px;
-  color: #9583a5;
+  color: var(--purple-dark);
   line-height: 1.65;
 }
 .modal {
-  border: 1px solid #e1e5da;
+  border: 1px solid var(--line);
   box-shadow: 0 25px 100px #1b221c2b;
   border-radius: 22px;
   padding: 0;
@@ -1286,7 +1326,7 @@ main {
   max-width: calc(100vw - 28px);
   max-height: calc(100dvh - 40px);
   color: var(--ink);
-  background: #fbfcf8;
+  background: var(--green-soft);
 }
 .modal::backdrop {
   background: #2d382752;
@@ -1312,18 +1352,18 @@ main {
 }
 .form-intro {
   font-size: 12px;
-  color: #929c86;
+  color: var(--muted);
 }
 .form-stack label {
   display: flex;
   flex-direction: column;
   gap: 9px;
   font-size: 12px;
-  color: #7c886d;
+  color: var(--muted);
 }
 .form-stack label > small {
   font-size: 9px;
-  color: #a3a88f;
+  color: var(--muted);
 }
 .form-grid {
   display: grid;
@@ -1343,25 +1383,25 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background: #f0f2e9;
+  background: var(--green-soft);
   border: 1px solid transparent;
   border-radius: 10px;
   padding: 15px 8px;
   font-size: 11px;
-  color: #97a17f;
+  color: var(--muted);
 }
 .activity-options button.selected {
-  background: #e9e2f3;
-  border-color: #d1c4e1;
-  color: #8f7ca1;
+  background: var(--purple);
+  border-color: var(--purple-line);
+  color: var(--purple-dark);
 }
 .fine-print {
   font-size: 10px;
-  color: #9aa28d;
+  color: var(--muted);
   line-height: 1.7;
 }
 .form-error {
-  color: #a4583b;
+  color: var(--error);
   font-size: 12px;
 }
 .toggle-label {
@@ -1380,13 +1420,13 @@ main {
 .toggle-label small {
   display: block;
   font-size: 10px;
-  color: #a1a88f;
+  color: var(--muted);
   margin-top: 7px;
 }
 .toggle-label input {
   height: 18px;
   width: 18px;
-  accent-color: #8d7aa6;
+  accent-color: var(--purple-dark);
 }
 .settings-data {
   border-top: 1px solid var(--line);
@@ -1397,18 +1437,18 @@ main {
 }
 .settings-data p {
   font-size: 11px;
-  color: #929d83;
+  color: var(--muted);
   margin: 10px 0 18px;
 }
 .settings-data > .text-button {
   margin-left: 18px;
 }
 .import-confirm {
-  border: 1px solid #decdaf;
+  border: 1px solid var(--peach-line);
   padding: 13px;
   border-radius: 10px;
   margin-top: 18px;
-  background: #faf3e6;
+  background: var(--peach-soft);
 }
 .import-confirm .text-button {
   margin-left: 12px;
@@ -1425,7 +1465,7 @@ main {
   font-size: 12px;
 }
 .routine-edit-list small {
-  color: #a1aa92;
+  color: var(--muted);
   margin-right: 8px;
 }
 .workout-dock {
@@ -1436,20 +1476,20 @@ main {
   right: 30px;
   max-width: 1230px;
   margin: auto;
-  border: 1px solid #c3bad2;
+  border: 1px solid var(--purple-line);
   border-radius: 17px;
-  background: #f9f7fc;
+  background: var(--purple-soft);
   box-shadow: 0 6px 60px #28203425;
   overflow: hidden;
 }
 .workout-progress {
   height: 3px;
-  background: #e6e0f0;
+  background: var(--purple);
 }
 .workout-progress span {
   height: 3px;
   display: block;
-  background: #9d8ab7;
+  background: var(--purple-strong);
   transition: width 0.3s;
 }
 .workout-dock-inner {
@@ -1462,14 +1502,14 @@ main {
 .workout-current .eyebrow {
   font-size: 8px;
   margin-bottom: 7px;
-  color: #a38cb6;
+  color: var(--purple-dark);
 }
 .workout-dock h3 {
   font-size: 17px;
 }
 .workout-dock p {
   font-size: 10px;
-  color: #8f8699;
+  color: var(--purple-dark);
   margin-top: 5px;
 }
 .set-controls {
@@ -1479,7 +1519,7 @@ main {
 }
 .set-controls label {
   font-size: 9px;
-  color: #9e92a9;
+  color: var(--purple-dark);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1495,7 +1535,7 @@ main {
   top: 8px;
   width: 22px;
   height: 22px;
-  color: #aa9ab7;
+  color: var(--purple-dark);
 }
 .rest-controls {
   display: flex;
@@ -1504,7 +1544,7 @@ main {
 }
 .rest-controls strong {
   font-size: 23px;
-  color: #7e6596;
+  color: var(--purple-dark);
 }
 .rest-controls small {
   font-size: 11px;
@@ -1512,7 +1552,7 @@ main {
 }
 .exit-confirm {
   padding: 15px 25px;
-  border-top: 1px solid #dfd7e9;
+  border-top: 1px solid var(--purple-line);
   display: flex;
   align-items: center;
   gap: 20px;
@@ -1532,7 +1572,7 @@ main {
   margin-bottom: 36px;
 }
 .week-card {
-  background: white;
+  background: var(--surface);
   border: 1px solid var(--line);
   padding: 25px;
   border-radius: 15px;
@@ -1551,7 +1591,7 @@ main {
   align-items: center;
   gap: 10px;
   min-width: 35px;
-  color: #959f86;
+  color: var(--muted);
 }
 .week-days small {
   font-size: 9px;
@@ -1562,46 +1602,46 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4f6f0;
+  background: var(--green-soft);
   border-radius: 50%;
   font-size: 12px;
 }
 .week-days > div.done > span {
-  background: #dcd3eb;
-  color: #86729f;
+  background: var(--purple);
+  color: var(--purple-dark);
 }
 .week-days .today i {
   width: 4px;
   height: 4px;
-  background: #a99ab9;
+  background: var(--purple-strong);
   border-radius: 50%;
 }
 .week-card > p {
   font-size: 10px;
-  color: #9ea78f;
+  color: var(--muted);
   text-align: center;
   margin-top: 24px;
 }
 .xp-card {
   padding: 26px;
   border-radius: 16px;
-  background: #eae5f2;
-  border: 1px solid #e1d8eb;
-  color: #8a789f;
+  background: var(--purple);
+  border: 1px solid var(--purple-line);
+  color: var(--purple-dark);
 }
 .xp-card > .eyebrow {
-  color: #a38fb2;
+  color: var(--purple-dark);
   font-size: 8px;
   margin-top: 16px;
   margin-bottom: 8px;
 }
 .xp-card h2 {
   font-size: 25px;
-  color: #665376;
+  color: var(--purple-dark);
 }
 .xp-track {
   height: 4px;
-  background: #dcd2e6;
+  background: var(--purple);
   border-radius: 5px;
   margin-top: 21px;
   overflow: hidden;
@@ -1609,7 +1649,7 @@ main {
 .xp-track span {
   display: block;
   height: 4px;
-  background: #a58bb9;
+  background: var(--purple-strong);
 }
 .xp-card p {
   font-size: 10px;
@@ -1618,7 +1658,7 @@ main {
 .xp-card small {
   display: block;
   font-size: 9px;
-  color: #a290b1;
+  color: var(--purple-dark);
   margin-top: 15px;
   line-height: 1.6;
 }
@@ -1628,9 +1668,9 @@ main {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  border: 1px dashed #d9e0ce;
+  border: 1px dashed var(--line);
   border-radius: 17px;
-  background: #f3f5ee;
+  background: var(--green-soft);
   min-height: 300px;
   padding: 30px;
 }
@@ -1640,19 +1680,19 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e7eddc;
-  color: #b1bc9f;
+  background: var(--green);
+  color: var(--muted-soft);
   border-radius: 50%;
   margin-bottom: 23px;
 }
 .empty-state h3 {
   font-size: 18px;
   margin-bottom: 12px;
-  color: #758367;
+  color: var(--muted);
 }
 .empty-state p {
   font-size: 12px;
-  color: #a1ac92;
+  color: var(--muted);
 }
 .empty-state .primary-button {
   margin-top: 25px;
@@ -1663,7 +1703,7 @@ main {
 .activity-history {
   border: 1px solid var(--line);
   border-radius: 15px;
-  background: white;
+  background: var(--surface);
   overflow: hidden;
 }
 .activity-history article {
@@ -1685,27 +1725,27 @@ main {
 }
 .history-copy p {
   font-size: 10px;
-  color: #9aa58b;
+  color: var(--muted);
   margin-top: 5px;
 }
 .history-copy details {
   font-size: 10px;
   margin-top: 8px;
-  color: #a795b4;
+  color: var(--purple-dark);
 }
 .history-copy summary {
   cursor: pointer;
 }
 .activity-history time {
   font-size: 11px;
-  color: #a5ab97;
+  color: var(--muted);
 }
 .delete-confirm {
   display: flex;
   flex-direction: column;
   gap: 2px;
   font-size: 10px;
-  color: #ab8f7b;
+  color: var(--peach-dark);
 }
 @media (min-width: 1650px) {
   .routine-layout {
@@ -1998,7 +2038,7 @@ main {
   .topbar {
     height: 68px;
     padding: 0 22px;
-    background: #f7f8f5;
+    background: var(--background);
   }
   .breadcrumb {
     display: none;
@@ -2009,7 +2049,7 @@ main {
     font-size: 24px;
     letter-spacing: -1.6px;
     font-weight: 800;
-    color: #657855;
+    color: var(--muted);
   }
   .topbar-right {
     gap: 14px;
@@ -2027,8 +2067,8 @@ main {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fbfcf8f5;
-    border-top: 1px solid #e1e6d8;
+    background: color-mix(in srgb, var(--surface-soft) 96%, transparent);
+    border-top: 1px solid var(--line);
     z-index: 30;
     padding: 9px 12px calc(9px + env(safe-area-inset-bottom));
     justify-content: space-around;
@@ -2041,16 +2081,16 @@ main {
     align-items: center;
     justify-content: center;
     font-size: 8px;
-    color: #a3ac94;
+    color: var(--muted);
     min-width: 0;
     flex: 1;
     min-height: 42px;
   }
   .mobile-nav button.active {
-    color: #8b749f;
+    color: var(--purple-dark);
   }
   .mobile-nav button.active svg {
-    background: #ede5f5;
+    background: var(--purple);
     border-radius: 6px;
     box-sizing: content-box;
     padding: 4px;
@@ -2169,8 +2209,8 @@ main {
     min-height: 74px;
     padding: 8px;
     gap: 8px;
-    background: #f0f2eb;
-    border-color: #e9ebdf;
+    background: var(--green-soft);
+    border-color: var(--line);
     border-radius: 10px;
   }
   .exercise-row .exercise-thumb {
@@ -2633,11 +2673,11 @@ main {
 /* Reading and movement are the primary actions. */
 .warmup-note {
   margin: -4px 0 21px;
-  border: 1px solid #e2e6d8;
+  border: 1px solid var(--line);
   border-radius: 10px;
   padding: 0 14px;
-  background: #f0f3e9;
-  color: #69775a;
+  background: var(--green-soft);
+  color: var(--muted);
 }
 .warmup-note summary {
   display: flex;
@@ -2663,8 +2703,8 @@ main {
 }
 .exercise-note {
   font-size: 11px;
-  color: #786b52;
-  background: #f8f3e8;
+  color: var(--peach-dark);
+  background: var(--peach-soft);
   padding: 11px 15px;
   margin: 0 24px 17px;
   border-radius: 9px;
@@ -2674,22 +2714,30 @@ main {
   display: block;
   font-size: 10px;
   margin-top: 9px;
-  color: #967148;
+  color: var(--peach-dark);
 }
 .recovery-panel {
-  border: 1px solid #d9c7ac;
+  border: 1px solid var(--peach-line);
   border-radius: 10px;
   padding: 12px;
   margin-top: 16px;
-  background: #faf4e8;
+  background: var(--peach-soft);
 }
 .recovery-panel p {
   margin: 0 0 8px;
 }
+.settings-appearance {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
 .session-show-exercise {
   padding: 7px 0 0;
   font-size: 10px;
-  color: #79638e;
+  color: var(--purple-dark);
   text-decoration: underline;
 }
 .page-heading p,
@@ -2709,7 +2757,7 @@ main {
 .anatomy-intro p,
 .pattern-grid p,
 .muscle-atlas details p {
-  color: #65725a;
+  color: var(--muted);
 }
 .eyebrow,
 .exercise-number,
@@ -2720,7 +2768,7 @@ main {
 .library-card-content > small,
 .muscle-atlas summary small,
 .activity-history time {
-  color: #748066;
+  color: var(--muted);
 }
 .movement-steps li,
 .setup-line {
@@ -2774,12 +2822,12 @@ main {
   font-size: 11px;
 }
 .week-card > p {
-  color: #65725a;
+  color: var(--muted);
 }
 .viewer-orbit-hint,
 .viewer-schematic,
 .viewer-legend {
-  color: #616c58;
+  color: var(--muted);
 }
 .viewer button {
   touch-action: manipulation;
@@ -2792,7 +2840,7 @@ main {
     scroll-snap-type: x proximity;
     padding-bottom: 8px;
     scrollbar-width: thin;
-    scrollbar-color: #c9c0d6 transparent;
+    scrollbar-color: var(--purple-line) transparent;
   }
   .exercise-row {
     width: 198px;

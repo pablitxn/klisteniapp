@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { lazy, Suspense, useEffect, useRef, useState, type MouseEvent } from 'react'
 import App from './App'
 import PrivacyControls from './components/PrivacyControls'
@@ -13,6 +14,8 @@ const AccountAccessPage = import.meta.env.VITE_APP_MODE === 'instance' ? lazy(()
 const ForgotPasswordPage = import.meta.env.VITE_APP_MODE === 'instance' ? lazy(() => import('./components/ForgotPasswordPage')) : () => null
 
 export default function AppRoot() {
+  const { t } = useTranslation('core')
+
   const [accountAccess, setAccountAccess] = useState(() => instanceMode ? initialAccountAccess() : null)
   const accountId = useAppStore(s => s.user?.id ?? 'demo')
   useEffect(() => {
@@ -31,7 +34,6 @@ export default function AppRoot() {
   const [privacy, setPrivacy] = useState(() => isPrivacyPath(location.pathname))
   const [visitedApp, setVisitedApp] = useState(() => !isPrivacyPath(location.pathname) && (!instanceMode || !initialAccountAccess()))
   const privacyHeading = useRef<HTMLDivElement>(null)
-  const returnTitle = useRef('Klisteni · Aprendé a moverte')
   useEffect(() => {
     const update = () => {
       const access = instanceMode ? readAccountAccessNavigation() : null
@@ -48,24 +50,25 @@ export default function AppRoot() {
   useEffect(() => {
     analytics.setPrivacyPage(privacy || accountAccess !== null)
     if (accountAccess) return
-    if (privacy) { document.title = 'Privacidad · Klisteni'; privacyHeading.current?.focus() }
-    else document.title = returnTitle.current
-  }, [privacy, accountAccess])
+    if (privacy) { document.title = t("Privacidad · Klisteni"); privacyHeading.current?.focus() }
+  }, [privacy, accountAccess, t])
   function navigate(event: MouseEvent<HTMLAnchorElement>, value: boolean) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     event.preventDefault()
-    if (value) returnTitle.current = document.title
     history.pushState(null, '', value ? '/privacy' : '/')
     analytics.setPrivacyPage(value)
     setPrivacy(value)
     if (!value) setVisitedApp(true)
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
-  const controls = <PrivacyControls onOpenPrivacy={event => navigate(event, true)} />
-  if (instanceMode && accountAccess?.mode === 'forgot-password') return <Suspense fallback={<p>Cargando…</p>}><ForgotPasswordPage key={accountAccess.navigationId} /></Suspense>
-  if (instanceMode && accountAccess) return <Suspense fallback={<p>Cargando…</p>}><AccountAccessPage key={accountAccess.navigationId} route={accountAccess} /></Suspense>
+  const openPrivacy = (event: MouseEvent<HTMLAnchorElement>) => navigate(event, true)
+  const banner = <PrivacyControls variant="banner" onOpenPrivacy={openPrivacy} />
+  const privacySettings = <PrivacyControls variant="settings" onOpenPrivacy={openPrivacy} />
+  const controls = <PrivacyControls variant="full" onOpenPrivacy={openPrivacy} />
+  if (instanceMode && accountAccess?.mode === 'forgot-password') return <Suspense fallback={<p>{t("Cargando…")}</p>}><ForgotPasswordPage key={accountAccess.navigationId} /></Suspense>
+  if (instanceMode && accountAccess) return <Suspense fallback={<p>{t("Cargando…")}</p>}><AccountAccessPage key={accountAccess.navigationId} route={accountAccess} /></Suspense>
   return <>
-    {visitedApp && <div hidden={privacy}><App key={accountId} privacyControls={controls} suspended={privacy} /></div>}
+    {visitedApp && <div hidden={privacy}><App key={accountId} privacyControls={banner} privacySettings={privacySettings} suspended={privacy} /></div>}
     {privacy && <div ref={privacyHeading} tabIndex={-1}><PrivacyPage controls={controls} onReturn={event => navigate(event, false)} /></div>}
   </>
 }

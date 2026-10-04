@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { openSettings } from './settings-helpers'
 import { exercises } from '../src/data/exercises'
 
 test.use({ reducedMotion: 'no-preference' })
@@ -134,7 +135,7 @@ test('the app motion setting stops an already playing preview and persists', asy
   const selected = preview(page, 'squat')
   await selected.scrollIntoViewIfNeeded()
   await expectLoaded(selected.locator('.exercise-preview-motion'))
-  await page.getByRole('button', { name: 'Abrir ajustes' }).click()
+  await openSettings(page, 'Apariencia')
   await page.getByRole('checkbox', { name: /Reducir movimiento/ }).check()
   await page.getByRole('button', { name: 'Cerrar', exact: true }).click()
   await selected.scrollIntoViewIfNeeded()

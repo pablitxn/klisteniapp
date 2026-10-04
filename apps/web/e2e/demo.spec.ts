@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 import { readFile, readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { openSettings } from './settings-helpers'
 
 async function localOnly(page: Page) {
   const unexpected: string[] = []
@@ -32,6 +33,7 @@ test('demo ignores account routes and analytics configuration; home and privacy 
   await expect(page.getByTestId('analytics-consent-banner')).toHaveCount(0)
   await expect(page.getByTestId('privacy-preferences')).toHaveCount(0)
   await expect(page.locator('.local-badge')).toHaveText('Guardado en este dispositivo')
+  await openSettings(page, 'Privacidad')
   await page.getByTestId('privacy-policy').click()
   await expect(page).toHaveURL(/\/privacy$/)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tu práctica, bajo tu control.')
@@ -61,6 +63,7 @@ test('demo health and goals persist locally and a complete export can be restore
   await page.reload()
   await health(page, 'Objetivos')
   await expect(page.getByRole('heading', { name: 'Observar mi práctica local', exact: true })).toBeVisible()
+  await openSettings(page, 'Datos')
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Exportar mis datos', exact: true }).click()
   const stream = await (await downloadPromise).createReadStream()
@@ -72,7 +75,7 @@ test('demo health and goals persist locally and a complete export can be restore
   expect(copy.settings.health.goals[0].target).toBe(3)
   await page.evaluate(() => localStorage.clear())
   await page.reload()
-  await page.getByRole('button', { name: 'Abrir ajustes', exact: true }).click()
+  await openSettings(page, 'Datos')
   await page.getByRole('dialog').locator('input[type="file"]').setInputFiles({ name: 'local-copy.json', mimeType: 'application/json', buffer: Buffer.from(exported) })
   await page.getByRole('button', { name: 'Reemplazar historial', exact: true }).click()
   await expect(page.getByText('Copia importada. Tu progreso ya está disponible.')).toBeVisible()

@@ -123,6 +123,54 @@ test('a settings conflict refreshes the canonical state without overwriting it',
   assert.equal(useAppStore.getState().revision, 2)
 })
 
+test('signed-in display updates preserve personal state and use its captured revision', async () => {
+  await setup()
+  const original = state('Appearance owner', [cardio('keep-history')], 7)
+  original.data.settings.health!.profile.heightCm = 178
+  mock.method(accountApi, 'state', async () => original)
+  await useAppStore.getState().signIn('a@example.test', 'x')
+  const save = mock.method(accountApi, 'settings', async (...[settings, revision, userId]: Parameters<typeof accountApi.settings>) => {
+    assert.equal(revision, 7)
+    assert.equal(userId, userA.id)
+    assert.equal(settings.profile.language, 'fr')
+    assert.equal(settings.profile.theme, 'dark')
+    assert.equal(settings.profile.colorTheme, 'sunset')
+    assert.equal(settings.profile.displayName, 'Appearance owner')
+    assert.equal(settings.health?.profile.heightCm, 178)
+    assert.deepEqual(settings.routines, original.data.settings.routines)
+    return { data: { ...original.data, settings }, revision: 8 }
+  })
+  assert.equal(await useAppStore.getState().updatePreferences({ language: 'fr', theme: 'dark', colorTheme: 'sunset' }), null)
+  assert.equal(save.mock.callCount(), 1)
+  assert.equal(useAppStore.getState().revision, 8)
+  assert.equal(useAppStore.getState().progress.cardio[0]?.id, 'keep-history')
+  assert.equal(useAppStore.getState().preferences.theme, 'dark')
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'sunset')
+  assert.equal(JSON.parse(useAppStore.getState().exportData()).settings.profile.colorTheme, 'sunset')
+  assert.equal(JSON.parse(storage.getItem('klisteniapp.display.v1')!).language, 'fr')
+  assert.equal(JSON.parse(storage.getItem('klisteniapp.display.v1')!).colorTheme, 'sunset')
+  assert.equal(storage.getItem('klisteniapp.personal.v2'), null)
+  assert.equal([...storage.values.values()].some(value => value.includes('heightCm')), false)
+})
+
+test('a display conflict reports failure and accepts the refreshed server preferences', async () => {
+  await setup()
+  await useAppStore.getState().signIn('a@example.test', 'x')
+  const newer = state('Newer device', [], 3)
+  newer.data.settings.profile.language = 'en'
+  newer.data.settings.profile.theme = 'light'
+  newer.data.settings.profile.colorTheme = 'graphite'
+  mock.method(accountApi, 'settings', async () => { throw new AccountApiError('Conflict', 409, 'REVISION_CONFLICT') })
+  mock.method(accountApi, 'state', async () => newer)
+  assert.notEqual(await useAppStore.getState().updatePreferences({ language: 'fr', theme: 'dark', colorTheme: 'rose' }), null)
+  assert.equal(useAppStore.getState().revision, 3)
+  assert.equal(useAppStore.getState().personalData?.settings.profile.displayName, 'Newer device')
+  assert.equal(useAppStore.getState().preferences.language, 'en')
+  assert.equal(useAppStore.getState().preferences.theme, 'light')
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'graphite')
+  assert.equal(JSON.parse(storage.getItem('klisteniapp.display.v1')!).colorTheme, 'graphite')
+})
+
 test('same stable log ID retries without creating another pending record', async () => {
   await setup()
   await useAppStore.getState().signIn('a@example.test', 'x')
@@ -160,6 +208,48 @@ test('full account imports default to logs only and require explicit settings fl
   assert.equal(await useAppStore.getState().importProgress(raw), null)
   assert.equal(await useAppStore.getState().importProgress(raw, true), null)
   assert.deepEqual(include, [false, true])
+})
+
+test('account restore synchronizes the saved palette and keeps it available after logout', async () => {
+  await setup()
+  await useAppStore.getState().signIn('a@example.test', 'x')
+  const backup = state('Restored palette', [cardio('restored-history')]).data
+  backup.settings.profile.theme = 'dark'
+  backup.settings.profile.colorTheme = 'lavender'
+  mock.method(accountApi, 'importData', async (...[data, includeSettings, revision, userId]: Parameters<typeof accountApi.importData>) => {
+    assert.equal(includeSettings, true)
+    assert.equal(revision, 0)
+    assert.equal(userId, userA.id)
+    assert.equal(data.version, 2)
+    assert.deepEqual(data, backup)
+    return { data: backup, revision: 1 }
+  })
+  assert.equal(await useAppStore.getState().importProgress(JSON.stringify(backup), true), null)
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'lavender')
+  assert.equal(useAppStore.getState().preferences.theme, 'dark')
+  assert.deepEqual(JSON.parse(useAppStore.getState().exportData()), backup)
+  await useAppStore.getState().signOut()
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'lavender')
+  assert.equal(useAppStore.getState().preferences.theme, 'dark')
+})
+
+test('local-to-account import keeps an explicitly saved palette', async () => {
+  await setup()
+  assert.equal(await useAppStore.getState().updatePreferences({ colorTheme: 'ocean', theme: 'light' }), null)
+  await useAppStore.getState().signIn('a@example.test', 'x')
+  const imported = mock.method(accountApi, 'importData', async (...[data, includeSettings, revision, userId]: Parameters<typeof accountApi.importData>) => {
+    assert.equal(data.version, 2)
+    assert.equal(includeSettings, true)
+    assert.equal(revision, 0)
+    assert.equal(userId, userA.id)
+    if (data.version !== 2) throw new Error('Expected personal data')
+    assert.equal(data.settings.profile.colorTheme, 'ocean')
+    assert.equal(data.settings.profile.theme, 'light')
+    return { data, revision: 1 }
+  })
+  assert.equal(await useAppStore.getState().importLocalData(true), null)
+  assert.equal(imported.mock.callCount(), 1)
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'ocean')
 })
 
 test('a rejected operation remains downloadable without blocking later valid writes', async () => {

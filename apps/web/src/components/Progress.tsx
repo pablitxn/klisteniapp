@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { computeProgress, localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
@@ -10,8 +11,8 @@ const labels: Record<string, string> = {
   bike: 'Bici',
   other: 'Actividad aeróbica',
 }
-function dateLabel(date: string) {
-  return new Date(`${date}T12:00:00`).toLocaleDateString('es-AR', {
+function dateLabel(date: string, locale: string) {
+  return new Date(`${date}T12:00:00`).toLocaleDateString(locale, {
     day: 'numeric',
     month: 'short',
   })
@@ -23,6 +24,8 @@ export default function Progress({
   onCardio: () => void
   onStart: () => void
 }) {
+  const { t, i18n } = useTranslation('core')
+
   const data = useAppStore((s) => s.progress),
     remove = useAppStore((s) => s.removeLog),
     preferences = useAppStore((s) => s.preferences),
@@ -41,7 +44,7 @@ export default function Progress({
     day.setDate(monday.getDate() + i)
     return {
       key: localDateKey(day),
-      label: ['L', 'M', 'X', 'J', 'V', 'S', 'D'][i],
+      label: day.toLocaleDateString(i18n.resolvedLanguage ?? 'es', { weekday: 'narrow' }),
       number: day.getDate(),
     }
   })
@@ -55,15 +58,15 @@ export default function Progress({
       <div className="progress-top">
         <div className="week-card">
           <div className="section-heading">
-            <h2>Una semana a tu ritmo</h2>
-            <span className="pill">{stats.weeklyActiveDays} días activos</span>
+            <h2>{t("Una semana a tu ritmo")}</h2>
+            <span className="pill">{t("{{count}} días activos", { count: stats.weeklyActiveDays })}</span>
           </div>
           <div className="week-days">
             {days.map((day) => (
               <div
                 key={day.key}
                 className={`${stats.activeDays.includes(day.key) ? 'done' : ''} ${day.key === localDateKey(today) ? 'today' : ''} ${planStats?.scheduledDates.includes(day.key) ? 'planned' : ''}`}
-                title={planStats?.scheduledDates.includes(day.key) ? 'Día previsto para entrenar' : undefined}
+                title={planStats?.scheduledDates.includes(day.key) ? t("Día previsto para entrenar") : undefined}
               >
                 <small>{day.label}</small>
                 <span>
@@ -78,45 +81,35 @@ export default function Progress({
             ))}
           </div>
           <p>
-            {planStats ? planStats.weeklyTarget === 0 ? 'Elegí tus días en Mi cuenta y planificación para empezar a seguir tu semana.' : planStats.weeklyCompleted >= planStats.weeklyTarget ? 'Cumpliste tu plan semanal. También hay lugar para descansar.' : `Tu plan: ${planStats.weeklyCompleted} de ${planStats.weeklyTarget} días de fuerza. Los días previstos se marcan con un punto.` : stats.weeklyWorkouts >= preferences.weeklyGoal
-              ? 'Cumpliste tu objetivo semanal. También hay lugar para descansar.'
-              : `Tu objetivo: ${preferences.weeklyGoal} sesiones de fuerza. El descanso es parte del proceso.`}
+            {planStats ? planStats.weeklyTarget === 0 ? t("Elegí tus días en Mi cuenta y planificación para empezar a seguir tu semana.") : planStats.weeklyCompleted >= planStats.weeklyTarget ? t("Cumpliste tu plan semanal. También hay lugar para descansar.") : t("Tu plan: {{completed}} de {{target}} días de fuerza. Los días previstos se marcan con un punto.", { completed: planStats.weeklyCompleted, target: planStats.weeklyTarget }) : stats.weeklyWorkouts >= preferences.weeklyGoal
+              ? t("Cumpliste tu objetivo semanal. También hay lugar para descansar.")
+              : t("Tu objetivo: {{count}} sesiones de fuerza. El descanso es parte del proceso.", { count: preferences.weeklyGoal })}
           </p>
         </div>
         <div className="xp-card">
           <Icon name="spark" size={32} />
-          <span className="eyebrow">APRENDIZ DE MOVIMIENTO</span>
-          <h2>Nivel {stats.level}</h2>
+          <span className="eyebrow">{t("APRENDIZ DE MOVIMIENTO")}</span>
+          <h2>{t("Nivel")} {stats.level}</h2>
           <div className="xp-track">
             <span style={{ width: `${stats.levelProgress}%` }} />
           </div>
-          <p>{stats.levelProgress} / 100 XP al próximo nivel</p>
-          <small>
-            Fuerza: 10 XP por serie registrada.
-            <br />
-            Aeróbico: 1 XP por minuto registrado.
-          </small>
+          <p>{t("{{count}} / 100 XP al próximo nivel", { count: stats.levelProgress })}</p>
+          <small>{t("Fuerza: 10 XP por serie registrada.")}<br />{t("Aeróbico: 1 XP por minuto registrado.")}</small>
         </div>
       </div>
       <div className="section-heading">
-        <h2>Tu historia de movimiento</h2>
+        <h2>{t("Tu historia de movimiento")}</h2>
         <button className="text-button" onClick={onCardio}>
-          <Icon name="plus" size={16} /> Agregar actividad
-        </button>
+          <Icon name="plus" size={16} /> {t("Agregar actividad")}</button>
       </div>
       {logs.length === 0 ? (
         <div className="empty-state">
           <span className="empty-illustration">
             <Icon name="walk" size={46} />
           </span>
-          <h3>Tu primer paso todavía está por escribir.</h3>
-          <p>
-            Cuando termines una rutina o registres actividad aeróbica,
-            <br />
-            vas a encontrarla acá. Sin apuro.
-          </p>
-          <button className="primary-button" onClick={onStart}>
-            Explorar mi rutina <Icon name="arrow" size={17} />
+          <h3>{t("Tu primer paso todavía está por escribir.")}</h3>
+          <p>{t("Cuando termines una rutina o registres actividad aeróbica,")}<br />{t("vas a encontrarla acá. Sin apuro.")}</p>
+          <button className="primary-button" onClick={onStart}>{t("Explorar mi rutina")}<Icon name="arrow" size={17} />
           </button>
         </div>
       ) : (
@@ -131,33 +124,33 @@ export default function Progress({
               <div className="history-copy">
                 <h3>
                   {log.kind === 'workout'
-                    ? 'Rutina de fuerza'
-                    : labels[log.activity]}
+                    ? t("Rutina de fuerza")
+                    : t(labels[log.activity]!)}
                 </h3>
                 <p>
                   {log.kind === 'workout'
-                    ? `${new Set(log.exercises.map((e) => e.exerciseId)).size} ejercicios · ${log.exercises.reduce((n, e) => n + e.sets, 0)} series · ${Math.max(1, Math.round(log.durationMinutes))} min`
-                    : `${log.minutes} min${log.distanceKm ? ` · ${log.distanceKm} km` : ''}`}
+                    ? t("{{exercises}} ejercicios · {{sets}} series · {{minutes}} min", { exercises: new Set(log.exercises.map((e) => e.exerciseId)).size, sets: log.exercises.reduce((n, e) => n + e.sets, 0), minutes: Math.max(1, Math.round(log.durationMinutes)) })
+                    : `${log.minutes.toLocaleString(i18n.resolvedLanguage ?? 'es')} min${log.distanceKm ? ` · ${log.distanceKm.toLocaleString(i18n.resolvedLanguage ?? 'es')} km` : ''}`}
                 </p>
                 {log.kind === 'workout' && (
                   <details>
-                    <summary>Ver series</summary>
+                    <summary>{t("Ver series")}</summary>
                     {log.exercises.map((e, i) => (
                       <p key={i}>
-                        {getExercise(e.exerciseId)?.shortName} · {e.sets} ×{' '}
+                        {t(getExercise(e.exerciseId)?.shortName ?? e.exerciseId)} · {e.sets} ×{' '}
                         {e.reps}
                         {getExercise(e.exerciseId)?.reps.perSide
-                          ? ' por lado'
+                          ? t(" por lado")
                           : ''}
                       </p>
                     ))}
                   </details>
                 )}
               </div>
-              <time dateTime={log.date}>{dateLabel(log.date)}</time>
+              <time dateTime={log.date}>{dateLabel(log.date, i18n.resolvedLanguage ?? 'es')}</time>
               {deleting === log.id ? (
                 <div className="delete-confirm">
-                  <span>¿Eliminar registro?</span>
+                  <span>{t("¿Eliminar registro?")}</span>
                   <button
                     className="text-button"
                     disabled={busy}
@@ -168,20 +161,16 @@ export default function Progress({
                       setBusy(false)
                       if (!failure) setDeleting(null)
                     }}
-                  >
-                    Sí, eliminar
-                  </button>
+                  >{t("Sí, eliminar")}</button>
                   <button
                     className="text-button"
                     onClick={() => setDeleting(null)}
-                  >
-                    Cancelar
-                  </button>
+                  >{t("Cancelar")}</button>
                 </div>
               ) : (
                 <button
                   className="icon-button"
-                  aria-label={`Eliminar ${log.kind === 'workout' ? 'rutina' : labels[log.activity]} del ${log.date}`}
+                  aria-label={t("Eliminar {{activity}} del {{date}}", { activity: log.kind === 'workout' ? t("rutina") : t(labels[log.activity]!), date: dateLabel(log.date, i18n.resolvedLanguage ?? 'es') })}
                   onClick={() => setDeleting(log.id)}
                 >
                   <Icon name="close" size={16} />
@@ -191,11 +180,7 @@ export default function Progress({
           ))}
         </div>
       )}
-      <p className="fine-print">
-        La racha cuenta días locales consecutivos con actividad registrada.
-        Descansar puede cortar la racha, pero no quita XP ni progreso. No es una
-        recomendación de entrenar a diario.
-      </p>
+      <p className="fine-print">{t("La racha cuenta días locales consecutivos con actividad registrada. Descansar puede cortar la racha, pero no quita XP ni progreso. No es una recomendación de entrenar a diario.")}</p>
     </section>
   )
 }

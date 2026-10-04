@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { createDefaultPersonalData, type ServerState } from '@klisteniapp/scene-schema'
+import { openSettings } from './settings-helpers'
 
 const account = { id: 'health-browser-test', email: 'health@example.test', name: 'Persona de prueba' }
 async function mockAccount(page: Page, configure?: (state: ServerState) => void) {
@@ -38,7 +39,9 @@ async function save(page: Page) {
 
 test('health starts empty, saves body profile and measures, and supports correction and deletion on mobile', async ({ page }, testInfo) => {
   const api = await mockAccount(page)
-  await expect(page.getByText('Tu punto de partida empieza con un dato.')).toBeVisible()
+  await expect(page.locator('.health-start')).toHaveCount(0)
+  expect(api.getState().data.settings.health?.profile).toEqual({})
+  expect(api.getState().data.settings.health?.measurements).toEqual([])
   expect(api.writes).toHaveLength(0)
   await section(page, 'Cuerpo')
   await page.getByRole('button', { name: 'Editar perfil', exact: true }).click()
@@ -67,6 +70,22 @@ test('health starts empty, saves body profile and measures, and supports correct
   expect(api.getState().data.settings.health?.measurements).toHaveLength(1)
   await page.getByRole('button', { name: 'Sí, eliminar', exact: true }).click()
   await expect.poll(() => api.getState().data.settings.health?.measurements.length).toBe(0)
+})
+
+test('initial setup keeps its profile draft after a conflicting account update and requires review', async ({ page }) => {
+  const api = await mockAccount(page, state => { state.data.settings.health!.profile.heightCm = 178 })
+  const dialog = await openSettings(page, 'Configuración inicial')
+  await dialog.getByRole('button', { name: 'Comenzar configuración', exact: true }).click()
+  await dialog.getByLabel('Altura (cm)', { exact: true }).fill('180')
+  api.conflict()
+  await dialog.getByRole('button', { name: 'Guardar y continuar', exact: true }).click()
+  await expect(dialog).toContainText('Tu cuenta cambió')
+  await expect(dialog.getByLabel('Altura (cm)', { exact: true })).toHaveValue('180')
+  await expect(dialog.getByRole('button', { name: 'Guardar y continuar', exact: true })).toBeDisabled()
+  expect(api.writes).toHaveLength(1)
+  expect(api.getState().data.settings.health?.profile.context).toBe('Contexto guardado desde otro dispositivo')
+  expect(api.getState().data.settings.health?.profile.heightCm).toBeUndefined()
+  expect(await page.evaluate(() => localStorage.getItem('klisteniapp.personal.v2'))).toBeNull()
 })
 
 test('health revision conflicts retain the filled draft and never fall back to local storage', async ({ page }) => {
@@ -279,9 +298,12 @@ test('free local health, goals and manual imports persist without an account or 
   await page.reload()
   await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
   await expect(page.locator('.health-trend-value')).toContainText('80 kg')
+  await expect(page.getByRole('button', { name: 'Exportar mis datos', exact: true })).toHaveCount(0)
+  await openSettings(page, 'Datos')
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Exportar mis datos', exact: true }).click()
   expect((await downloadPromise).suggestedFilename()).toMatch(/\.json$/)
+  await page.getByRole('dialog', { name: 'Configuración', exact: true }).getByRole('button', { name: 'Cerrar', exact: true }).click()
   expect(privateRequests).toEqual([])
   await page.setViewportSize({ width: 390, height: 844 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)

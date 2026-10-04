@@ -150,12 +150,19 @@ export const TrainingPlanSchema = z.object({
 });
 export type TrainingPlan = z.infer<typeof TrainingPlanSchema>;
 
+export const ColorThemeSchema = z.enum(['sage', 'ocean', 'sunset', 'lavender', 'rose', 'graphite']);
+export type ColorTheme = z.infer<typeof ColorThemeSchema>;
+
 export const PersonalSettingsSchema = z.object({
   /** Absent in legacy backups; omission must never clear existing health data. */
   health: HealthDataSchema.optional(),
   profile: z.object({
     displayName: z.string().trim().min(1).max(100),
     timeZone: TimeZoneSchema,
+    /** Optional so older account data and portable v2 backups remain valid. */
+    language: z.enum(['es', 'en', 'fr']).optional(),
+    theme: z.enum(['light', 'dark', 'system']).optional(),
+    colorTheme: ColorThemeSchema.optional(),
   }),
   routines: z.array(PersonalRoutineSchema).min(1).max(100),
   activeRoutineId: z.string().min(1).max(200),
@@ -181,6 +188,20 @@ export const PersonalSettingsSchema = z.object({
   }
 });
 export type PersonalSettings = z.infer<typeof PersonalSettingsSchema>;
+
+/** Omission by older clients is never a request to clear optional personal data. */
+export function preserveOptionalPersonalSettings(current: PersonalSettings, next: PersonalSettings): PersonalSettings {
+  return {
+    ...next,
+    ...(next.health === undefined && current.health !== undefined ? { health: current.health } : {}),
+    profile: {
+      ...next.profile,
+      ...(next.profile.language === undefined && current.profile.language !== undefined ? { language: current.profile.language } : {}),
+      ...(next.profile.theme === undefined && current.profile.theme !== undefined ? { theme: current.profile.theme } : {}),
+      ...(next.profile.colorTheme === undefined && current.profile.colorTheme !== undefined ? { colorTheme: current.profile.colorTheme } : {}),
+    },
+  };
+}
 
 export const PersonalDataSchema = z.object({
   version: z.literal(2),

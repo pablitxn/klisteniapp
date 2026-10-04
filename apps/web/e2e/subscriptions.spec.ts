@@ -1,5 +1,6 @@
 import { expect, test, type BrowserContext, type Page } from '@playwright/test'
 import type { ServerState } from '@klisteniapp/scene-schema'
+import { openAccountSettings } from './settings-helpers'
 
 const password = 'Only-for-browser-tests-2026!'
 const progressKey = 'klisteniapp.progress.v1'
@@ -9,21 +10,16 @@ async function prepare(context: BrowserContext, ip: number) {
   await context.route('**/models/*.glb', route => route.abort())
 }
 async function login(page: Page, email: string) {
-  const dialog = page.getByRole('dialog', { name: 'Entrar a Klisteni' })
-  if (new URL(page.url()).searchParams.get('account') !== 'login') await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
-  await expect(dialog).toBeVisible()
+  const dialog = await openAccountSettings(page)
   await dialog.getByLabel('Email', { exact: true }).fill(email)
   await dialog.getByLabel('Contraseña', { exact: true }).fill(password)
   await dialog.getByRole('button', { name: 'Entrar a mi cuenta' }).click()
   await expect(dialog).not.toBeVisible()
-  await expect(page.locator('.account-login')).not.toHaveText('Iniciar sesión')
+  await expect(page.locator('.account-login')).toHaveCount(0)
 }
 async function accountPanel(page: Page) {
-  const dialog = page.getByRole('dialog', { name: 'Mi cuenta y planificación' })
-  await expect(page.locator('.account-status')).toContainText('Mi práctica')
-  if (!await dialog.isVisible()) await page.locator('.account-login').click()
-  await expect(dialog).toBeVisible()
-  return dialog
+  await expect(page.locator('.account-status')).toHaveCount(0)
+  return openAccountSettings(page)
 }
 async function readState(page: Page): Promise<ServerState> {
   return page.evaluate(async () => {
@@ -47,6 +43,7 @@ async function activate(page: Page, name: string, email?: string) {
   await page.getByRole('button', { name: 'Activar mi cuenta', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Tu cuenta está lista.' })).toBeVisible()
   await page.getByRole('link', { name: 'Iniciar sesión', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: 'Configuración', exact: true })).toBeVisible()
 }
 
 test('a public campaign creates a real trial; its limit and independent lifetime grant are visible', async ({ page, context, browser }, testInfo) => {
@@ -127,8 +124,8 @@ test('a named lifetime invitation activates without requiring a subscription', a
     await login(member, 'forever@accounts.test')
     expect((await readAccess(member)).status).toBe('lifetime')
     await member.reload()
-    await expect(member.locator('.account-status')).toContainText('Acceso vitalicio')
     const memberPanel = await accountPanel(member)
+    await expect(memberPanel.getByRole('region', { name: 'Acceso y suscripción' })).toContainText('Acceso vitalicio')
     await expect(memberPanel.getByRole('region', { name: 'Acceso y suscripción' })).toContainText('independiente de los permisos de administrador')
     await expect(memberPanel.getByRole('button', { name: /Probar plan|checkout/ })).toHaveCount(0)
   } finally { await memberContext.close() }
@@ -168,7 +165,8 @@ test('expired cloud access preserves history and export; free local activity sti
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391)
   await page.screenshot({ path: testInfo.outputPath('expired-account-mobile.png') })
   await panel.getByRole('button', { name: 'Cerrar sesión y seguir gratis en modo local', exact: true }).click()
-  await expect(page.locator('.account-status')).toContainText('Modo local')
+  await expect(page.locator('.account-status')).toHaveCount(0)
+  await expect(page.locator('.local-badge')).toContainText('Guardado en este dispositivo')
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi progreso', exact: true }).click()
   await expect(page.locator('.activity-history')).toContainText('7 min')

@@ -3,7 +3,7 @@ import type { Pool, PoolClient } from 'pg';
 import {
   PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema,
   WorkoutLogSchema, CardioLogSchema, createDefaultPersonalData,
-  dateInTimeZone, isPlanHistoryPreserved,
+  dateInTimeZone, isPlanHistoryPreserved, preserveOptionalPersonalSettings,
   HealthDataSchema, createEmptyHealthData, healthHasFutureObservations, healthRecordCollections,
   type PersonalData, type PersonalSettings, type ServerState,
   type WorkoutLog, type CardioLog, type HealthData,
@@ -91,9 +91,8 @@ export class StateRepository {
     if (!restoreEmptyAccount && !isPlanHistoryPreserved(row.settings.plans, settings.plans, today)) {
       throw new HttpError(409, 'PLAN_HISTORY_CONFLICT', 'El historial del plan es inmutable. Los cambios empiezan el próximo lunes.');
     }
-    // Old devices and v2 backups predate health. Omission is not a deletion.
-    const next = settings.health === undefined && row.settings.health !== undefined
-      ? { ...settings, health: row.settings.health } : settings;
+    // Old devices and v2 backups omit health and appearance. Omission is not deletion.
+    const next = preserveOptionalPersonalSettings(row.settings, settings);
     if (next.health) this.validateHealth(next.health, next.profile.timeZone);
     if (isDeepStrictEqual(row.settings, next)) return false;
     row.settings = next;

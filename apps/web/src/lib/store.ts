@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
+import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, preserveOptionalPersonalSettings, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
 import { AccountApiError, accountApi, cloudWriteAllowed, type AccountAccess, type AccountUser } from './account-api.ts'
 import { emptyProgress, parseProgress, serializeProgress } from './progress.ts'
 import type {
@@ -10,7 +10,8 @@ import type {
 
 export { STORAGE_KEY, LOCAL_PERSONAL_KEY } from './store.persistence.ts'
 export type { Preferences } from './store.persistence.ts'
-import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, DISPLAY_KEY, defaults, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences, type Preferences } from './store.persistence.ts'
+import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, defaults, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences, type Preferences } from './store.persistence.ts'
+import { loadDisplayPreferences, saveDisplayPreferences } from '../i18n/preferences.ts'
 const PENDING_PREFIX = 'klisteniapp.pending.v1.'
 const REJECTED_PREFIX = 'klisteniapp.rejected.v1.'
 const CHANGED_ACCOUNT = 'La sesión cambió. Volvé a abrir tu cuenta antes de guardar.'
@@ -93,7 +94,11 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (item.kind === 'workout') progress.workouts = [...progress.workouts, item.log]
       if (item.kind === 'cardio') progress.cardio = [...progress.cardio, item.log]
     }
-    set({ personalData: { ...state.data, progress }, progress, preferences: accountPreferences(state.data.settings), revision: state.revision, pendingCount: pending.length })
+    const preferences = accountPreferences(state.data.settings)
+    const profile = state.data.settings.profile
+    // Only public display choices enter browser storage; account health stays private.
+    if (profile.language !== undefined || profile.theme !== undefined || profile.colorTheme !== undefined) saveDisplayPreferences({ language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme })
+    set({ personalData: { ...state.data, progress }, progress, preferences, revision: state.revision, pendingCount: pending.length })
   }
   function readRejected(userId: string) {
     const prefix = `${REJECTED_PREFIX}${encodeURIComponent(userId)}.`
@@ -128,7 +133,7 @@ export const useAppStore = create<AppStore>((set, get) => {
     pending = []
     rejected = []
     canonical = null
-    set({ user: null, access: null, personalData: null, revision: null, progress: emptyProgress(), preferences: { ...defaults }, recoveryRaw: null, storageError: null, pendingCount: 0, rejectedCount: 0, syncStatus: 'idle', accountError: null })
+    set({ user: null, access: null, personalData: null, revision: null, progress: emptyProgress(), preferences: { ...defaults, ...loadDisplayPreferences() }, recoveryRaw: null, storageError: null, pendingCount: 0, rejectedCount: 0, syncStatus: 'idle', accountError: null })
   }
   function anonymous(error: string | null = null) {
     clearPrivate()
@@ -356,6 +361,12 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (get().user && !cloudWriteAllowed(get().access)) return Promise.resolve('El guardado en la nube está pausado. Revisá el acceso desde tu cuenta o seguí en modo local.')
       const parsed = PersonalSettingsSchema.safeParse(settings)
       if (!parsed.success) return Promise.resolve('Revisá el perfil, la rutina y los días elegidos.')
+      if (!get().user) {
+        if (get().authStatus === 'loading') return Promise.resolve('Esperá mientras verificamos tu sesión.')
+        const data = get().localPersonalData
+        if (!data) return Promise.resolve('La copia local no se puede leer. Exportala antes de reemplazarla.')
+        return Promise.resolve(saveLocalPersonal({ ...data, progress: get().progress, settings: preserveOptionalPersonalSettings(data.settings, parsed.data) }, get().localRevision))
+      }
       const expectedRevision = get().revision
       return serialized(async (token, userId) => {
         if (!canonical || expectedRevision === null) return 'Tu cuenta todavía no terminó de cargar.'
@@ -395,24 +406,41 @@ export const useAppStore = create<AppStore>((set, get) => {
       })
     },
     updatePreferences: async (patch) => {
-      if (get().authStatus === 'loading') return 'Esperá mientras verificamos tu sesión.'
+      const changesAppearance = patch.language !== undefined || patch.theme !== undefined || patch.colorTheme !== undefined
+      const changesDisplay = changesAppearance || patch.reducedMotion !== undefined
+      if (changesDisplay) {
+        const preferences = { ...get().preferences, ...patch }
+        if (!saveDisplayPreferences({ language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme, reducedMotion: preferences.reducedMotion })) return 'No pudimos guardar tus preferencias en este navegador.'
+        set({ preferences: { ...get().preferences, language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme, reducedMotion: preferences.reducedMotion } })
+      }
+      if (get().authStatus === 'loading') return changesDisplay ? 'Guardamos la apariencia en este dispositivo. Esperá a que cargue tu cuenta para sincronizarla.' : 'Esperá mientras verificamos tu sesión.'
       if (get().user) {
-        if (patch.reducedMotion !== undefined) {
-          try { localStorage.setItem(DISPLAY_KEY, JSON.stringify({ reducedMotion: patch.reducedMotion })) }
-          catch { return 'No pudimos guardar la preferencia de movimiento en este dispositivo.' }
-          set({ preferences: { ...get().preferences, reducedMotion: patch.reducedMotion } })
-        }
         if (patch.weeklyGoal !== undefined) return 'Elegí los días de entrenamiento en tu cuenta para cambiar el objetivo semanal.'
-        if (patch.exerciseIds === undefined && patch.sets === undefined) return null
+        if (!changesAppearance && patch.exerciseIds === undefined && patch.sets === undefined) return null
         const data = get().personalData
         if (!data) return 'Tu cuenta todavía no terminó de cargar.'
-        const settings = { ...data.settings, routines: data.settings.routines.map((routine) => routine.id === data.settings.activeRoutineId
+        const settings = { ...data.settings, profile: { ...data.settings.profile,
+          ...(patch.language === undefined ? {} : { language: patch.language }), ...(patch.theme === undefined ? {} : { theme: patch.theme }),
+          ...(patch.colorTheme === undefined ? {} : { colorTheme: patch.colorTheme }),
+        }, routines: data.settings.routines.map((routine) => routine.id === data.settings.activeRoutineId
           ? { ...routine, ...(patch.sets === undefined ? {} : { sets: patch.sets }), ...(patch.exerciseIds === undefined ? {} : { exerciseIds: patch.exerciseIds as typeof routine.exerciseIds }) } : routine) }
         return get().saveSettings(settings)
       }
       const preferences = { ...get().preferences, ...patch }
       set({ preferences })
-      try { localStorage.setItem(PREF_KEY, JSON.stringify(preferences)); set({ storageError: null, localDataAvailable: localSummary() }); return null }
+      try {
+        localStorage.setItem(PREF_KEY, JSON.stringify(preferences))
+        set({ storageError: null, localDataAvailable: localSummary() })
+        if (changesAppearance) {
+          const data = get().localPersonalData
+          if (!data) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+          return saveLocalPersonal(localPersonalSnapshot({ ...data, settings: { ...data.settings, profile: { ...data.settings.profile,
+            ...(patch.language === undefined ? {} : { language: patch.language }), ...(patch.theme === undefined ? {} : { theme: patch.theme }),
+            ...(patch.colorTheme === undefined ? {} : { colorTheme: patch.colorTheme }),
+          } } }), get().localRevision)
+        }
+        return null
+      }
       catch { const error = 'No pudimos guardar tus preferencias en este navegador.'; set({ storageError: error }); return error }
     },
     importProgress: async (raw, includeSettings = false) => {
@@ -427,10 +455,17 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (data.version === 2) {
         // A downloaded account copy can be used locally after a trial expires.
         // Merge no private data automatically; the user explicitly chose this file.
+        // An older backup has no palette field and cannot clear an existing choice.
+        const previousColorTheme = get().localPersonalData?.settings.profile.colorTheme
+        if (data.settings.profile.colorTheme === undefined && previousColorTheme !== undefined) data.settings.profile.colorTheme = previousColorTheme
         const failure = saveLocalPersonal(data, get().localRevision)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
-        try { localStorage.setItem(PREF_KEY, JSON.stringify(preferences)) }
+        try {
+          localStorage.setItem(PREF_KEY, JSON.stringify(preferences))
+          if ((data.settings.profile.language !== undefined || data.settings.profile.theme !== undefined || data.settings.profile.colorTheme !== undefined)
+            && !saveDisplayPreferences({ language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme })) throw new Error('Storage unavailable')
+        }
         catch { return 'Guardamos la copia personal pero no pudimos guardar sus preferencias. Exportá tus datos antes de cerrar.' }
         set({ preferences })
         return saveLocal(data.progress)

@@ -159,6 +159,84 @@ function staticFindingsIn(text, path, privateRules = []) {
   }
 }
 
+// Read frame boundaries, not magic bytes inside compressed payloads. Node 24
+// can stop at the first frame or accept an incomplete final frame. Supplying
+// one structurally complete frame at a time avoids version-dependent coverage.
+// Format: https://github.com/facebook/zstd/blob/dev/doc/zstd_compression_format.md
+function zstdFrame(buffer, start, remaining) {
+  let offset = start
+  const take = size => {
+    if (offset + size > buffer.length) throw new Error('truncated-zstd-frame')
+    const position = offset
+    offset += size
+    return position
+  }
+  const magic = buffer.readUInt32LE(take(4))
+  // Blender uses a skippable seek table. Expose these user-metadata payloads
+  // for inspection instead of silently discarding them like the codec does.
+  if (magic >= 0x184d2a50 && magic <= 0x184d2a5f) {
+    const size = buffer.readUInt32LE(take(4))
+    if (size > remaining) throw new Error('zstd-output-limit')
+    const metadataOffset = take(size)
+    return { end: offset, metadata: buffer.subarray(metadataOffset, offset), metadataOffset }
+  }
+  if (magic !== 0xfd2fb528) throw new Error('invalid-zstd-frame-magic')
+  const descriptor = buffer[take(1)]
+  if (descriptor & 8) throw new Error('reserved-zstd-header-bit')
+  const single = Boolean(descriptor & 32)
+  let windowSize
+  if (!single) {
+    const window = buffer[take(1)], base = 2 ** (10 + (window >>> 3))
+    windowSize = base + base / 8 * (window & 7)
+    if (windowSize > decodeOptions.maxOutputLength) throw new Error('zstd-window-limit')
+  }
+  take([0, 1, 2, 4][descriptor & 3])
+  const sizeBytes = [single ? 1 : 0, 2, 4, 8][descriptor >>> 6]
+  let expectedSize
+  if (sizeBytes) {
+    const position = take(sizeBytes)
+    expectedSize = sizeBytes === 8 ? buffer.readBigUInt64LE(position) : BigInt(buffer.readUIntLE(position, sizeBytes))
+    if (sizeBytes === 2) expectedSize += 256n
+    if (expectedSize > BigInt(remaining)) throw new Error('zstd-output-limit')
+    if (single) windowSize = Number(expectedSize)
+  }
+  let last = false
+  while (!last) {
+    const header = buffer.readUIntLE(take(3), 3)
+    last = Boolean(header & 1)
+    const type = (header >>> 1) & 3, size = header >>> 3
+    if (type === 3) throw new Error('reserved-zstd-block-type')
+    if (size > Math.min(128 * 1024, windowSize)) throw new Error('zstd-block-limit')
+    take(type === 1 ? 1 : size)
+  }
+  if (descriptor & 4) take(4)
+  return { end: offset, expectedSize }
+}
+
+function decompressZstdFrames(buffer, maxOutputLength = decodeOptions.maxOutputLength, skippableMetadata = []) {
+  if (!Number.isSafeInteger(maxOutputLength) || maxOutputLength < 0 || maxOutputLength > decodeOptions.maxOutputLength || !buffer.length) throw new Error('invalid-zstd-limit-or-input')
+  const chunks = []
+  let offset = 0, total = 0, metadataBytes = 0, frames = 0
+  while (offset < buffer.length) {
+    if (++frames > 16_384) throw new Error('zstd-frame-count-limit')
+    const remaining = maxOutputLength - total - metadataBytes
+    const frame = zstdFrame(buffer, offset, remaining)
+    if (frame.metadata) {
+      metadataBytes += frame.metadata.length
+      skippableMetadata.push({ buffer: frame.metadata, location: `zstd-skippable-byte:${frame.metadataOffset}` })
+      offset = frame.end
+      continue
+    }
+    const decoded = zstdDecompressSync(buffer.subarray(offset, frame.end), { info: true, maxOutputLength: Math.max(1, remaining) })
+    if (decoded.engine.bytesWritten !== frame.end - offset || decoded.buffer.length > remaining) throw new Error('incomplete-zstd-frame')
+    if (frame.expectedSize !== undefined && BigInt(decoded.buffer.length) !== frame.expectedSize) throw new Error('zstd-content-size-mismatch')
+    chunks.push(decoded.buffer)
+    total += decoded.buffer.length
+    offset = frame.end
+  }
+  return Buffer.concat(chunks, total)
+}
+
 function metadataUnits(buffer, extension) {
   const units = []
   const add = (bytes, location, wide = false) => {
@@ -167,7 +245,11 @@ function metadataUnits(buffer, extension) {
   }
   if (extension === '.blend') {
     let decoded = buffer
-    if (buffer.readUInt32LE(0) === 0xfd2fb528) decoded = zstdDecompressSync(buffer, decodeOptions)
+    if (buffer.readUInt32LE(0) === 0xfd2fb528) {
+      const skippable = []
+      decoded = decompressZstdFrames(buffer, decodeOptions.maxOutputLength, skippable)
+      for (const item of skippable) add(item.buffer, item.location, true)
+    }
     else if (buffer[0] === 0x1f && buffer[1] === 0x8b) decoded = gunzipSync(buffer, decodeOptions)
     if (decoded.subarray(0, 7).toString() !== 'BLENDER') throw new Error('invalid-blend')
     // Latin-1 keeps byte offsets exact. Scan printable runs, not compressed bytes.
@@ -307,6 +389,24 @@ function selfTest() {
     ['zstd-blend-private-token-after-nul', zstdCompressSync(residualBlend)],
     ['gzip-blend-private-token-after-nul', gzipSync(residualBlend)],
   ]) tests.push([name, metadataUnits(buffer, '.blend').some(unit => findingsIn(unit.text, 'fixture.blend', unit.location, fakePolicy).some(item => item.category === 'private-token'))])
+  const firstFrame = zstdCompressSync(Buffer.from('BLENDER-v500\0//\0'))
+  const laterContent = Buffer.from('sample-operator.invalid\0')
+  const laterFrame = zstdCompressSync(laterContent)
+  const concatenated = Buffer.concat([firstFrame, laterFrame])
+  const expectedFrames = Buffer.concat([Buffer.from('BLENDER-v500\0//\0'), laterContent])
+  const rejectsZstd = (input, limit) => { try { decompressZstdFrames(input, limit); return false } catch { return true } }
+  tests.push(['zstd-concatenated-frame-content', decompressZstdFrames(concatenated).equals(expectedFrames)])
+  tests.push(['zstd-private-token-in-later-frame', metadataUnits(concatenated, '.blend').some(unit => findingsIn(unit.text, 'fixture.blend', unit.location, fakePolicy).some(item => item.category === 'private-token'))])
+  tests.push(['zstd-trailing-junk-rejected', rejectsZstd(Buffer.concat([concatenated, Buffer.from('junk')]))])
+  tests.push(['zstd-truncated-later-frame-one-byte', rejectsZstd(concatenated.subarray(0, concatenated.length - 1))])
+  tests.push(['zstd-truncated-later-frame-two-bytes', rejectsZstd(concatenated.subarray(0, concatenated.length - 2))])
+  tests.push(['zstd-cumulative-limit', rejectsZstd(concatenated, expectedFrames.length - 1)])
+  tests.push(['zstd-exact-cumulative-limit', decompressZstdFrames(concatenated, expectedFrames.length).equals(expectedFrames)])
+  const skippable = Buffer.alloc(8 + laterContent.length)
+  skippable.writeUInt32LE(0x184d2a50); skippable.writeUInt32LE(laterContent.length, 4); laterContent.copy(skippable, 8)
+  tests.push(['zstd-skippable-metadata-inspected', metadataUnits(Buffer.concat([firstFrame, skippable]), '.blend').some(unit => unit.location.startsWith('zstd-skippable-byte:') && findingsIn(unit.text, 'fixture.blend', unit.location, fakePolicy).some(item => item.category === 'private-token'))])
+  tests.push(['zstd-skippable-truncation-rejected', rejectsZstd(Buffer.concat([firstFrame, skippable.subarray(0, skippable.length - 1)]))])
+  tests.push(['zstd-skippable-cumulative-limit', rejectsZstd(Buffer.concat([firstFrame, skippable]), expectedFrames.length - 1)])
   const reconstructed = source => staticFindingsIn(source, 'synthetic-fixture.ts', fakePolicy).findings
   const syntheticSources = [
     ['private-concat', 'const value = "sample-" + "operator.invalid"'],
@@ -414,6 +514,7 @@ function main() {
     'Common credential signatures are not a proof that all secrets are absent; use external private patterns for instance names, locations and identifiers.',
     'External policy additionally checks decoded JS/TS/JSX/TSX/JSON string literals, string concatenation and literal-array join with a literal separator. It never executes source or resolves identifiers, dynamic calls, template substitutions, encoded payloads or control flow. Other formats receive the original raw/metadata scan.',
     'Static limits per file: 8 MiB source, 500000 syntax nodes, depth 64, 1024 join elements, 128 Ki UTF-16 characters per value and 16 Mi total decoded characters. Parser/resource failures are findings. Source locations use original UTF-16 expression offsets.',
+    'Zstd Blender streams are decoded frame by frame with a cumulative 256 MiB decoded-data/metadata budget, a 256 MiB window limit and at most 16384 frames. Skippable payloads receive UTF-8/UTF-16 metadata scanning; trailing data and truncated frames are rejected.',
     'Unrecognized binary files, malformed metadata, symlinks and size limits fail closed. No files are changed.',
   ] }, null, 2))
   process.exitCode = unique.length ? 1 : 0
@@ -423,4 +524,4 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   try { main() } catch { console.error(JSON.stringify({ ok: false, error: 'audit-could-not-complete', valuesRedacted: true })); process.exitCode = 2 }
 }
 
-export { findingsIn, staticFindingsIn, metadataUnits, selfTest }
+export { findingsIn, staticFindingsIn, metadataUnits, decompressZstdFrames, selfTest }

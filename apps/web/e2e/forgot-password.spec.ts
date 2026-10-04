@@ -34,7 +34,7 @@ test('login opens recovery request, one busy submission confirms generically and
   await expect(page.getByLabel('Email', { exact: true })).toHaveValue('')
   await expect(page.getByLabel('Email', { exact: true })).toBeFocused()
   await page.getByRole('link', { name: 'Volver a iniciar sesión', exact: true }).click()
-  await expect(page.getByRole('dialog', { name: 'Entrar a Klisteni' })).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Configuración', exact: true })).toBeVisible()
 })
 
 test('network failure and rate limit stay accessible and retryable without claiming delivery', async ({ page }) => {

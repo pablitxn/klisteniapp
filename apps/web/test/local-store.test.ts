@@ -85,3 +85,56 @@ test('expanded and equipped local routines survive reload without admitting obso
   assert.deepEqual(useAppStore.getState().preferences.exerciseIds, ['squat', 'bent-knee-row', 'plank-shoulder-tap'])
   assert.equal(useAppStore.getState().preferences.sets, 3)
 })
+
+test('local language, theme and palette persist across reloads without resetting health or training', async () => {
+  const data = createDefaultPersonalData('Local profile', 'UTC')
+  data.settings.health!.profile.heightCm = 178
+  data.progress.cardio = [{ id: 'display-history', date: '2026-09-28', activity: 'walk', minutes: 20 }]
+  assert.equal(await useAppStore.getState().importProgress(JSON.stringify(data)), null)
+  assert.equal(await useAppStore.getState().updatePreferences({ language: 'fr', theme: 'dark', colorTheme: 'ocean' }), null)
+  reload()
+  assert.equal(useAppStore.getState().preferences.language, 'fr')
+  assert.equal(useAppStore.getState().preferences.theme, 'dark')
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'ocean')
+  assert.equal(useAppStore.getState().localPersonalData?.settings.profile.language, 'fr')
+  assert.equal(useAppStore.getState().localPersonalData?.settings.profile.colorTheme, 'ocean')
+  assert.equal(useAppStore.getState().localPersonalData?.settings.health?.profile.heightCm, 178)
+  assert.equal(useAppStore.getState().progress.cardio[0]?.id, 'display-history')
+  const legacy = structuredClone(data.settings)
+  delete legacy.health
+  assert.equal(await useAppStore.getState().saveSettings(legacy), null)
+  assert.equal(useAppStore.getState().localPersonalData?.settings.profile.theme, 'dark')
+  assert.equal(useAppStore.getState().localPersonalData?.settings.profile.colorTheme, 'ocean')
+  assert.equal(useAppStore.getState().localPersonalData?.settings.health?.profile.heightCm, 178)
+  const exported = useAppStore.getState().exportData()
+  values.clear(); reload()
+  assert.equal(await useAppStore.getState().importProgress(exported), null)
+  reload()
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'ocean')
+  assert.equal(JSON.parse(useAppStore.getState().exportData()).settings.profile.colorTheme, 'ocean')
+})
+
+test('a complete imported backup restores its explicit display preferences after reload', async () => {
+  assert.equal(await useAppStore.getState().updatePreferences({ language: 'fr', theme: 'dark' }), null)
+  const data = createDefaultPersonalData('Imported appearance', 'UTC')
+  data.settings.profile.language = 'en'
+  data.settings.profile.theme = 'light'
+  data.settings.profile.colorTheme = 'rose'
+  assert.equal(await useAppStore.getState().importProgress(JSON.stringify(data)), null)
+  reload()
+  assert.equal(useAppStore.getState().preferences.language, 'en')
+  assert.equal(useAppStore.getState().preferences.theme, 'light')
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'rose')
+})
+
+test('palette-only changes retain light or dark mode and survive legacy backup imports', async () => {
+  assert.equal(await useAppStore.getState().updatePreferences({ theme: 'dark' }), null)
+  assert.equal(await useAppStore.getState().updatePreferences({ colorTheme: 'lavender' }), null)
+  assert.equal(useAppStore.getState().preferences.theme, 'dark')
+  const legacy = createDefaultPersonalData('Legacy backup', 'UTC')
+  assert.equal(await useAppStore.getState().importProgress(JSON.stringify(legacy)), null)
+  reload()
+  assert.equal(useAppStore.getState().preferences.colorTheme, 'lavender')
+  assert.equal(useAppStore.getState().preferences.theme, 'dark')
+  assert.equal(JSON.parse(useAppStore.getState().exportData()).settings.profile.colorTheme, 'lavender')
+})

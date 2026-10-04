@@ -1,5 +1,8 @@
 import { instanceMode } from '../lib/deployment'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { LanguagePreference, ThemePreference } from '../i18n/preferences'
+import type { Preferences } from '../lib/store'
 import {
   CardioLogSchema,
   dateInTimeZone,
@@ -13,6 +16,7 @@ import { localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
 import { cloudWriteAllowed } from '../lib/cloud-access'
 import Icon, { type IconName } from './Icon'
+import ColorThemePicker from './ColorThemePicker'
 
 const activities: { id: CardioActivity; name: string; icon: IconName }[] = [
   { id: 'walk', name: 'Caminata', icon: 'walk' },
@@ -21,6 +25,7 @@ const activities: { id: CardioActivity; name: string; icon: IconName }[] = [
   { id: 'other', name: 'Otra', icon: 'spark' },
 ]
 export function CardioForm({ onDone }: { onDone: () => void }) {
+  const { t } = useTranslation('forms')
   const cloudUnavailable = useAppStore(s => instanceMode && Boolean(s.user && !cloudWriteAllowed(s.access)))
   const cloudBlocked = instanceMode && cloudUnavailable
   const [activity, setActivity] = useState<CardioActivity>('walk'),
@@ -59,10 +64,9 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
   return (
     <form onSubmit={submit} className="form-stack">
       <p className="form-intro">
-        Registrá lo que hiciste, desde una caminata corta hasta una salida en
-        bici.
+        {t('Registrá lo que hiciste, desde una caminata corta hasta una salida en bici.')}
       </p>
-      <div className="activity-options" aria-label="Tipo de actividad">
+      <div className="activity-options" aria-label={t('Tipo de actividad')}>
         {activities.map((a) => (
           <button
             type="button"
@@ -72,12 +76,12 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
             onClick={() => setActivity(a.id)}
           >
             <Icon name={a.icon} size={24} />
-            {a.name}
+            {t(a.name)}
           </button>
         ))}
       </div>
       <label>
-        ¿Cuándo?
+        {t('¿Cuándo?')}
         <input
           type="date"
           name="date"
@@ -88,7 +92,7 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
       </label>
       <div className="form-grid">
         <label>
-          Duración (minutos)
+          {t('Duración (minutos)')}
           <input
             type="number"
             name="minutes"
@@ -100,7 +104,7 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
           />
         </label>
         <label>
-          Distancia (km) <small>Opcional</small>
+          {t('Distancia (km)')} <small>{t('Opcional')}</small>
           <input
             type="number"
             name="distance"
@@ -113,88 +117,113 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
       </div>
       {error && (
         <p role="alert" className="form-error">
-          {error}
+          {t(error)}
         </p>
       )}
       <button className="primary-button full-width" type="submit" disabled={busy || cloudBlocked}>
-        <Icon name="check" size={18} /> {busy ? 'Guardando…' : 'Guardar actividad'}
+        <Icon name="check" size={18} /> {t(busy ? 'Guardando…' : 'Guardar actividad')}
       </button>
       <p className="fine-print">
-        Sin estimaciones de calorías. Registramos tus minutos y tu constancia.
+        {t('Sin estimaciones de calorías. Registramos tus minutos y tu constancia.')}
       </p>
     </form>
   )
 }
-export function PreferencesForm() {
+export function PreferencesForm({ section = 'appearance' }: { section?: 'appearance' | 'data' }) {
+  const { t } = useTranslation('settings')
   const preferences = useAppStore((s) => s.preferences),
     update = useAppStore((s) => s.updatePreferences),
     importProgress = useAppStore((s) => s.importProgress)
   const userState = useAppStore(s => s.user)
   const user = instanceMode ? userState : null
   const revision = useAppStore(s => s.revision)
+  const dataLoading = useAppStore(s => instanceMode && (s.authStatus === 'loading' || Boolean(s.user && (!s.personalData || s.accountLoading))))
   const [restoreSettings, setRestoreSettings] = useState(false)
   const [busy, setBusy] = useState(false)
   const recoveryRaw = useAppStore((s) => s.recoveryRaw)
   const [message, setMessage] = useState(''),
     [importText, setImportText] = useState<string | null>(null)
   const file = useRef<HTMLInputElement>(null)
+  async function savePreferences(patch: Partial<Preferences>) {
+    if (busy) return
+    setBusy(true)
+    const error = await update(patch)
+    setMessage(error ?? 'Preferencias guardadas.')
+    setBusy(false)
+  }
   function download() {
+    if (dataLoading) return
     const blob = new Blob([useAppStore.getState().exportData()], {
       type: 'application/json',
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `klisteni-progreso-${localDateKey(new Date())}.json`
+    a.download = `${user ? 'klisteni-mi-cuenta' : 'klisteni-progreso'}-${localDateKey(new Date())}.json`
     a.click()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
   return (
     <div className="form-stack">
-      <p className="form-intro">Una base sencilla que podés ir ajustando.</p>
-      {!user && <label>
-        Objetivo semanal de fuerza
-        <select
-          value={preferences.weeklyGoal}
-          onChange={(e) => void update({ weeklyGoal: Number(e.target.value) })}
-        >
-          <option value={2}>2 sesiones · para empezar</option>
-          <option value={3}>3 sesiones</option>
-          <option value={4}>4 sesiones</option>
-        </select>
-      </label>}
-      {user && <p className="fine-print">Configurá tus días y rutinas desde Mi cuenta y planificación.</p>}
-      <p className="fine-print">
-        El objetivo es una preferencia de seguimiento. Alterná trabajo y
-        descanso; no hace falta entrenar todos los días.
-      </p>
-      <label className="toggle-label">
-        <span>
-          <strong>Reducir movimiento</strong>
-          <small>Las demostraciones empiezan en pausa.</small>
-        </span>
-        <input
-          type="checkbox"
-          checked={preferences.reducedMotion}
-          onChange={(e) => void update({ reducedMotion: e.target.checked })}
-        />
-      </label>
-      <div className="settings-data">
-        <h3>Tus datos son tuyos.</h3>
+      {section === 'appearance' && <>
+        <p className="form-intro">{t('Una base sencilla que podés ir ajustando.')}</p>
+        <div className="settings-appearance">
+          <h3>{t('Idioma y apariencia')}</h3>
+          <div className="form-grid">
+            <label>{t('Idioma')}<select value={preferences.language} disabled={busy} onChange={e => void savePreferences({ language: e.target.value as LanguagePreference })}>
+              <option value="es">Español</option><option value="en">English</option><option value="fr">Français</option>
+            </select></label>
+            <label>{t('Modo')}<select value={preferences.theme} disabled={busy} onChange={e => void savePreferences({ theme: e.target.value as ThemePreference })}>
+              <option value="light">{t('Claro')}</option><option value="dark">{t('Oscuro')}</option><option value="system">{t('Según el sistema')}</option>
+            </select></label>
+          </div>
+          <p className="fine-print">{t('Según el sistema sigue la apariencia de tu dispositivo.')}</p>
+          <ColorThemePicker value={preferences.colorTheme} disabled={busy} onChange={colorTheme => void savePreferences({ colorTheme })} />
+        </div>
+        {!user && <label>
+          {t('Objetivo semanal de fuerza')}
+          <select
+            value={preferences.weeklyGoal}
+            disabled={busy}
+            onChange={(e) => void savePreferences({ weeklyGoal: Number(e.target.value) })}
+          >
+            <option value={2}>{t('2 sesiones · para empezar')}</option>
+            <option value={3}>{t('3 sesiones')}</option>
+            <option value={4}>{t('4 sesiones')}</option>
+          </select>
+        </label>}
+        {!user && <p className="fine-print">
+          {t('El objetivo es una preferencia de seguimiento. Alterná trabajo y descanso; no hace falta entrenar todos los días.')}
+        </p>}
+        <label className="toggle-label">
+          <span>
+            <strong>{t('Reducir movimiento')}</strong>
+            <small>{t('Las demostraciones empiezan en pausa.')}</small>
+          </span>
+          <input
+            type="checkbox"
+            checked={preferences.reducedMotion}
+            disabled={busy}
+            onChange={(e) => void savePreferences({ reducedMotion: e.target.checked })}
+          />
+        </label>
+      </>}
+      {section === 'data' && <div className="settings-data">
+        <h3>{t('Tus datos son tuyos.')}</h3>
         <p>
-          {user ? 'Tu cuenta guarda el historial, las rutinas, la planificación y los datos de Mi salud. La exportación incluye esa información personal; guardala en un lugar privado. La importación combina registros sin borrar el historial existente.' : 'El historial se guarda en este navegador. Exportalo para conservarlo o llevarlo a otro dispositivo.'}
+          {t(user ? 'Tu cuenta guarda el historial, las rutinas, la planificación y los datos de Mi salud. La exportación incluye esa información personal; guardala en un lugar privado. La importación combina registros sin borrar el historial existente.' : 'El historial se guarda en este navegador. Exportalo para conservarlo o llevarlo a otro dispositivo.')}
         </p>
-        <button className="secondary-button" onClick={download}>
-          <Icon name="download" size={18} /> Exportar progreso
+        {dataLoading && <p role="status">{t('Tu cuenta todavía no terminó de cargar.')}</p>}
+        <button className="secondary-button" onClick={download} disabled={dataLoading}>
+          <Icon name="download" size={18} /> {t(user ? 'Exportar mi cuenta' : 'Exportar mis datos')}
         </button>
-        <button className="text-button" onClick={() => file.current?.click()}>
-          Importar una copia
+        <button className="text-button" onClick={() => file.current?.click()} disabled={dataLoading || busy}>
+          {t('Importar una copia')}
         </button>
         {recoveryRaw && (
           <div className="recovery-panel">
             <p>
-              Conservamos una copia de los datos que no se pudieron leer, para
-              que no se pierdan al seguir usando la app.
+              {t('Conservamos una copia de los datos que no se pudieron leer, para que no se pierdan al seguir usando la app.')}
             </p>
             <button
               className="text-button"
@@ -209,7 +238,7 @@ export function PreferencesForm() {
                 setTimeout(() => URL.revokeObjectURL(url), 1000)
               }}
             >
-              Descargar original para recuperar
+              {t('Descargar original para recuperar')}
             </button>
           </div>
         )}
@@ -232,10 +261,10 @@ export function PreferencesForm() {
         {importText && (
           <div className="import-confirm">
             <p>
-              {user ? 'Se incorporarán los registros de esta copia a tu cuenta. Los registros repetidos no se duplican. Tu planificación actual se conserva.' : 'Esta copia reemplazará el historial de este navegador. Exportá el actual si querés conservarlo.'}
+              {t(user ? 'Se incorporarán los registros de esta copia a tu cuenta. Los registros repetidos no se duplican. Tu planificación actual se conserva.' : 'Esta copia reemplazará el historial de este navegador. Exportá el actual si querés conservarlo.')}
             </p>
-            {user && <p>Si una observación de salud apunta a un entrenamiento que no está disponible en tu cuenta ni se incorpora con esta copia, se conserva la observación y se quita esa asociación. Los vínculos históricos que ya guardaste se mantienen.</p>}
-            {user && revision === 0 && <label className="toggle-label"><span>Restaurar también perfil, rutinas y planificación de una copia completa</span><input type="checkbox" checked={restoreSettings} onChange={e => setRestoreSettings(e.target.checked)} /></label>}
+            {user && <p>{t('Si una observación de salud apunta a un entrenamiento que no está disponible en tu cuenta ni se incorpora con esta copia, se conserva la observación y se quita esa asociación. Los vínculos históricos que ya guardaste se mantienen.')}</p>}
+            {user && revision === 0 && <label className="toggle-label"><span>{t('Restaurar también perfil, rutinas y planificación de una copia completa')}</span><input type="checkbox" checked={restoreSettings} onChange={e => setRestoreSettings(e.target.checked)} /></label>}
             <button
               className="secondary-button"
               disabled={busy}
@@ -249,24 +278,25 @@ export function PreferencesForm() {
                 setBusy(false)
               }}
             >
-              {user ? 'Incorporar historial' : 'Reemplazar historial'}
+              {t(user ? 'Incorporar historial' : 'Reemplazar historial')}
             </button>
             <button className="text-button" onClick={() => setImportText(null)}>
-              Cancelar
+              {t('Cancelar')}
             </button>
           </div>
         )}
-        {message && <p role="status">{message}</p>}
-      </div>
+      </div>}
+      {message && <p role="status">{t(message)}</p>}
       <div className="fine-print">
-        Klisteni · Primera versión educativa · Español
+        {t('Klisteni · Primera versión educativa')}
         <br />
-        Anatomía simplificada. No mide esfuerzo ni activación muscular.
+        {t('Anatomía simplificada. No mide esfuerzo ni activación muscular.')}
       </div>
     </div>
   )
 }
 export function RoutineEditor({ onDone }: { onDone: () => void }) {
+  const { t } = useTranslation('forms')
   const cloudUnavailable = useAppStore(s => instanceMode && Boolean(s.user && !cloudWriteAllowed(s.access)))
   const cloudBlocked = instanceMode && cloudUnavailable
   const prefs = useAppStore((s) => s.preferences),
@@ -283,27 +313,26 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
   return (
     <div className="form-stack">
       <p className="form-intro">
-        Elegí tus movimientos y el orden. Para una base variada, conservá los
-        seis patrones.
+        {t('Elegí tus movimientos y el orden. Para una base variada, conservá los seis patrones.')}
       </p>
       <label>
-        Series por ejercicio
+        {t('Series por ejercicio')}
         <select value={sets} onChange={(e) => setSets(Number(e.target.value))}>
-          <option value={1}>1 serie · familiarizarme</option>
-          <option value={2}>2 series · punto de partida</option>
-          <option value={3}>3 series</option>
+          <option value={1}>{t('1 serie · familiarizarme')}</option>
+          <option value={2}>{t('2 series · punto de partida')}</option>
+          <option value={3}>{t('3 series')}</option>
         </select>
       </label>
       <div className="routine-edit-list">
         {ids.map((id, index) => (
           <div key={id}>
             <span>
-              <small>{index + 1}.</small> {getExercise(id)?.shortName}
+              <small>{index + 1}.</small> {t(getExercise(id)?.shortName ?? id, { ns: 'core' })}
             </span>
             <button
               className="icon-button"
               disabled={index === 0}
-              aria-label={`Subir ${getExercise(id)?.shortName}`}
+              aria-label={`Subir ${t(getExercise(id)?.shortName ?? id, { ns: 'core' })}`}
               onClick={() => move(index, -1)}
             >
               <Icon name="up" size={16} />
@@ -311,14 +340,14 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
             <button
               className="icon-button"
               disabled={index === ids.length - 1}
-              aria-label={`Bajar ${getExercise(id)?.shortName}`}
+              aria-label={`Bajar ${t(getExercise(id)?.shortName ?? id, { ns: 'core' })}`}
               onClick={() => move(index, 1)}
             >
               <Icon name="down" size={16} />
             </button>
             <button
               className="icon-button"
-              aria-label={`Quitar ${getExercise(id)?.shortName}`}
+              aria-label={`Quitar ${t(getExercise(id)?.shortName ?? id, { ns: 'core' })}`}
               disabled={ids.length === 1}
               onClick={() => setIds(ids.filter((x) => x !== id))}
             >
@@ -335,8 +364,8 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
             key={e.id}
             onClick={() => setIds([...ids, e.id])}
           >
-            <Icon name="plus" size={16} /> Agregar {e.shortName}
-            {e.equipment !== 'none' && ' · requiere barra o anillas'}
+            <Icon name="plus" size={16} /> {t('Agregar {{name}}', { name: t(e.shortName, { ns: 'core' }) })}
+            {e.equipment !== 'none' && t(' · requiere barra o anillas')}
           </button>
         ))}
       <button
@@ -350,9 +379,9 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
           else onDone()
         }}
       >
-        Guardar mi rutina <Icon name="check" size={17} />
+        {t('Guardar mi rutina')} <Icon name="check" size={17} />
       </button>
-      {error && <p role="alert" className="form-error">{error}</p>}
+      {error && <p role="alert" className="form-error">{t(error)}</p>}
     </div>
   )
 }
@@ -367,6 +396,7 @@ export function WorkoutSession({
   onClose: () => void
   onComplete: () => void
 }) {
+  const { t } = useTranslation('forms')
   const [index, setIndex] = useState(0),
     [completedSets, setCompletedSets] = useState(0),
     [entries, setEntries] = useState<CompletedExercise[]>([])
@@ -441,7 +471,7 @@ export function WorkoutSession({
     else onComplete()
   }
   return (
-    <section className="workout-dock" aria-label="Sesión en curso">
+    <section className="workout-dock" aria-label={t('Sesión en curso')}>
       <div className="workout-progress">
         <span
           style={{
@@ -453,51 +483,50 @@ export function WorkoutSession({
         {complete ? (
           <>
             <div>
-              <span className="eyebrow">PRÁCTICA COMPLETADA</span>
-              <h3>Le dedicaste tiempo a tu cuerpo.</h3>
+              <span className="eyebrow">{t('PRÁCTICA COMPLETADA')}</span>
+              <h3>{t('Le dedicaste tiempo a tu cuerpo.')}</h3>
               <p>
-                {entries.length} series registradas. Guardá tu sesión para sumar
-                al historial.
+                {t('{{count}} series registradas. Guardá tu sesión para sumar al historial.', { count: entries.length })}
               </p>
             </div>
             <button className="primary-button" onClick={finish} disabled={saving || cloudBlocked}>
-              {saving ? 'Guardando…' : cloudBlocked ? 'Nube pausada: revisá tu cuenta' : 'Guardar sesión'} <Icon name="check" size={18} />
+              {t(saving ? 'Guardando…' : cloudBlocked ? 'Nube pausada: revisá tu cuenta' : 'Guardar sesión')} <Icon name="check" size={18} />
             </button>
           </>
         ) : (
           <>
             <div className="workout-current">
               <span className="eyebrow">
-                SESIÓN EN CURSO · {index + 1}/{plan.ids.length}
+                {t('SESIÓN EN CURSO')} · {index + 1}/{plan.ids.length}
               </span>
-              <h3>{exercise.shortName}</h3>
+              <h3>{t(exercise.shortName, { ns: 'core' })}</h3>
               <p>
-                Serie {completedSets + 1} de {plan.sets}
-                {exercise.reps.perSide ? ' · repeticiones por lado' : ''}
+                {t('Serie {{current}} de {{total}}', { current: completedSets + 1, total: plan.sets })}
+                {exercise.reps.perSide ? t(' · repeticiones por lado') : ''}
               </p>
               <button
                 className="session-show-exercise"
                 onClick={() => onSelect(exercise.id)}
               >
-                Ver este movimiento ↗
+                {t('Ver este movimiento ↗')}
               </button>
             </div>
             {rest > 0 ? (
               <div className="rest-controls">
                 <strong>
-                  {rest} <small>s de descanso</small>
+                  {rest} <small>{t('s de descanso')}</small>
                 </strong>
                 <button
                   className="text-button"
                   onClick={() => setRestUntil(null)}
                 >
-                  Omitir descanso
+                  {t('Omitir descanso')}
                 </button>
               </div>
             ) : (
               <div className="set-controls">
                 <label>
-                  Repeticiones
+                  {t('Repeticiones')}
                   <input
                     type="number"
                     min={1}
@@ -512,7 +541,7 @@ export function WorkoutSession({
                   disabled={!Number.isInteger(reps) || reps < 1 || reps > 1000}
                   onClick={record}
                 >
-                  Registrar serie <Icon name="check" size={18} />
+                  {t('Registrar serie')} <Icon name="check" size={18} />
                 </button>
               </div>
             )}
@@ -520,27 +549,26 @@ export function WorkoutSession({
         )}
         <button
           className="icon-button session-exit"
-          aria-label="Salir de la sesión"
+          aria-label={t('Salir de la sesión')}
           onClick={() => setConfirmExit(!confirmExit)}
         >
           <Icon name="close" />
         </button>
       </div>
-      {saveError && <p role="alert" className="form-error">{saveError}</p>}
+      {saveError && <p role="alert" className="form-error">{t(saveError)}</p>}
       {confirmExit && (
         <div className="exit-confirm">
-          <p>¿Salir sin guardar? Las series de esta sesión se descartarán.</p>
+          <p>{t('¿Salir sin guardar? Las series de esta sesión se descartarán.')}</p>
           <button className="secondary-button" onClick={onClose}>
-            Salir sin guardar
+            {t('Salir sin guardar')}
           </button>
           <button className="text-button" onClick={() => setConfirmExit(false)}>
-            Seguir entrenando
+            {t('Seguir entrenando')}
           </button>
         </div>
       )}
       <p className="session-local-note">
-        Sesión en curso en esta pestaña. Guardala al terminar; recargar descarta
-        las series.
+        {t('Sesión en curso en esta pestaña. Guardala al terminar; recargar descarta las series.')}
       </p>
     </section>
   )
