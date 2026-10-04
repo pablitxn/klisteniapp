@@ -10,7 +10,7 @@
     "users": "node --env-file-if-exists=.env src/operator.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.ts"
+    "test": "node --test --test-concurrency=1 tests/*.test.ts"
   },
   "dependencies": {
     "@klisteniapp/scene-schema": "workspace:*",

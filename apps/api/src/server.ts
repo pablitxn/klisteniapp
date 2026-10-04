@@ -15,7 +15,8 @@ function shutdown(): void {
   // after HTTP sockets close. Bound shutdown inside Kubernetes' grace period.
   const deadline = setTimeout(() => { server.closeAllConnections(); process.exit(1); }, 10000);
   deadline.unref();
-  server.close(() => { void pool.end().finally(() => clearTimeout(deadline)); });
+  const recoveryDrained = server.closeRecovery();
+  server.close(() => { void recoveryDrained.then(() => pool.end()).finally(() => clearTimeout(deadline)); });
 }
 server.on('error', () => { console.error('API listener failed'); process.exitCode = 1; shutdown(); });
 process.once('SIGTERM', shutdown);

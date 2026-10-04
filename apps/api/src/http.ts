@@ -5,8 +5,9 @@ import type { Pool } from 'pg';
 import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
 import { createPool } from './database.ts';
-import { AccountAdministration, ActivationInputSchema, RecoveryInputSchema, TokenInputSchema, InvitationInputSchema, DeliveryInputSchema, EmptyInputSchema } from './accounts.ts';
+import { AccountAdministration, ActivationInputSchema, RecoveryInputSchema, RequestRecoveryInputSchema, TokenInputSchema, InvitationInputSchema, DeliveryInputSchema, EmptyInputSchema } from './accounts.ts';
 import { HttpError } from './errors.ts';
+import { PublicRecovery } from './public-recovery.ts';
 import { ImportRequestSchema, LogRequestSchema, SettingsRequestSchema, StateRepository, lockUser } from './state.ts';
 
 const authRoutes = new Map([
@@ -71,8 +72,8 @@ async function forwardResponse(response: ServerResponse, result: Response): Prom
   response.end(Buffer.from(await result.arrayBuffer()));
 }
 
-export function createApiServer({ auth, pool, config, repository = new StateRepository(pool), administration = new AccountAdministration(pool, auth, config) }: {
-  auth: Auth; pool: Pool; config: Config; repository?: StateRepository; administration?: AccountAdministration;
+export function createApiServer({ auth, pool, config, repository = new StateRepository(pool), administration = new AccountAdministration(pool, auth, config), publicRecovery = new PublicRecovery(administration) }: {
+  auth: Auth; pool: Pool; config: Config; repository?: StateRepository; administration?: AccountAdministration; publicRecovery?: PublicRecovery;
 }) {
   // Separate connections prevent lock waiters from exhausting the pool that
   // Better Auth needs while validating credentials and creating sessions.
@@ -127,11 +128,23 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
       }
       const headers = requestHeaders(request, config);
       if (url.pathname.startsWith('/api/account/')) {
-        if (method !== 'POST' || !['/api/account/token-info', '/api/account/activate', '/api/account/reset-password'].includes(url.pathname)) {
+        if (method !== 'POST' || !['/api/account/token-info', '/api/account/activate', '/api/account/reset-password', '/api/account/request-recovery'].includes(url.pathname)) {
           throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
         }
         await administration.rateLimit(url.pathname, headers.get('x-klisteniapp-client-ip') ?? 'unknown', 10);
         const body = parseBody(await readBody(request, 16 * 1024));
+        if (url.pathname === '/api/account/request-recovery') {
+          const { email } = RequestRecoveryInputSchema.parse(body);
+          const reservation = await publicRecovery.reserve(email);
+          if (reservation) {
+            if (response.destroyed) reservation.cancel();
+            else {
+              response.once('finish', reservation.start);
+              response.once('close', reservation.cancel);
+            }
+          }
+          return json(response, 202, { ok: true });
+        }
         if (url.pathname === '/api/account/token-info') return json(response, 200, await administration.tokenInfo(TokenInputSchema.parse(body).token));
         if (url.pathname === '/api/account/activate') return json(response, 201, await administration.activate(ActivationInputSchema.parse(body)));
         return json(response, 200, await administration.resetPassword(RecoveryInputSchema.parse(body)));
@@ -234,5 +247,5 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
   server.once('close', () => { void authLockPool.end(); });
-  return server;
+  return Object.assign(server, { closeRecovery: () => publicRecovery.close() });
 }

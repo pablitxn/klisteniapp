@@ -1,0 +1,76 @@
+import { expect, test } from '@playwright/test'
+
+test('login opens recovery request, one busy submission confirms generically and email stays out of storage', async ({ page }, testInfo) => {
+  await page.route('**/models/*.glb', route => route.abort())
+  await page.route('**/api/auth/get-session', route => route.fulfill({ json: null }))
+  const requests: unknown[] = []
+  let release!: () => void
+  const pending = new Promise<void>(resolve => { release = resolve })
+  await page.route('**/api/account/request-recovery', async route => {
+    requests.push(route.request().postDataJSON())
+    await pending
+    await route.fulfill({ status: 202, json: { ok: true } })
+  })
+  await page.goto('/?account=login')
+  await page.getByRole('link', { name: 'Olvidé mi contraseña', exact: true }).click()
+  await expect(page).toHaveURL(/\/account\/forgot-password$/)
+  await expect(page.getByRole('heading', { name: 'Recuperá tu contraseña.' })).toBeVisible()
+  await page.getByLabel('Email', { exact: true }).fill('person@example.test')
+  await page.getByRole('button', { name: 'Enviar enlace de recuperación', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Enviando…', exact: true })).toBeDisabled()
+  await expect(page.getByLabel('Email', { exact: true })).toBeDisabled()
+  await expect(page.getByRole('status')).toContainText('Enviando la solicitud')
+  release()
+  await expect(page.getByRole('status')).toContainText('Si ese email tiene una cuenta activa, recibirás un enlace')
+  await expect(page.getByRole('status')).toBeFocused()
+  expect(requests).toEqual([{ email: 'person@example.test' }])
+  await expect(page.locator('main')).not.toContainText('person@example.test')
+  await expect(page.locator('main')).toContainText('esperá cinco minutos')
+  expect(await page.evaluate(() => JSON.stringify({ ...localStorage, ...sessionStorage }))).not.toContain('person@example.test')
+  await page.setViewportSize({ width: 390, height: 844 })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391)
+  await page.screenshot({ path: testInfo.outputPath('forgot-password-mobile.png') })
+  await page.getByRole('button', { name: 'Volver a intentar', exact: true }).click()
+  await expect(page.getByLabel('Email', { exact: true })).toHaveValue('')
+  await expect(page.getByLabel('Email', { exact: true })).toBeFocused()
+  await page.getByRole('link', { name: 'Volver a iniciar sesión', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: 'Entrar a Klisteni' })).toBeVisible()
+})
+
+test('network failure and rate limit stay accessible and retryable without claiming delivery', async ({ page }) => {
+  let attempts = 0
+  await page.route('**/api/account/request-recovery', route => {
+    attempts++
+    if (attempts === 1) return route.abort('internetdisconnected')
+    if (attempts === 2) return route.fulfill({ status: 429, json: { code: 'RATE_LIMITED', error: 'Rate limited' } })
+    return route.fulfill({ status: 202, json: { ok: true } })
+  })
+  await page.goto('/account/forgot-password')
+  await page.getByLabel('Email', { exact: true }).fill('unknown@example.test')
+  const send = page.getByRole('button', { name: 'Enviar enlace de recuperación', exact: true })
+  await send.click()
+  await expect(page.getByRole('alert')).toContainText('No pudimos confirmar la solicitud')
+  await expect(send).toBeEnabled()
+  await expect(page.getByRole('heading', { name: 'Revisá tu email.' })).toHaveCount(0)
+  await send.click()
+  await expect(page.getByRole('alert')).toContainText('Hiciste varias solicitudes')
+  await expect(page.getByLabel('Email', { exact: true })).toHaveAttribute('aria-describedby', 'recovery-request-error')
+  await expect(send).toBeEnabled()
+  await send.click()
+  await expect(page.getByRole('status')).toContainText('Si ese email tiene una cuenta activa')
+  expect(attempts).toBe(3)
+})
+
+test('expired and incomplete recovery links offer a new email request while activation stays invitation-only', async ({ page }) => {
+  await page.route('**/api/account/token-info', route => route.fulfill({ status: 400, json: { error: 'Enlace vencido', code: 'INVALID_TOKEN' } }))
+  await page.goto('/account/recover#token=expired-test-token')
+  await expect(page.getByRole('alert')).toContainText('Podés pedir uno nuevo por email')
+  await page.getByRole('link', { name: 'Pedir un nuevo enlace', exact: true }).click()
+  await expect(page.getByLabel('Email', { exact: true })).toHaveValue('')
+  await page.goto('/account/recover')
+  await expect(page.getByRole('alert')).toContainText('incompleto')
+  await expect(page.getByRole('link', { name: 'Pedir un nuevo enlace', exact: true })).toBeVisible()
+  await page.goto('/account/activate#token=expired-test-token')
+  await expect(page.getByRole('alert')).toContainText('administrador')
+  await expect(page.getByRole('link', { name: 'Pedir un nuevo enlace', exact: true })).toHaveCount(0)
+})

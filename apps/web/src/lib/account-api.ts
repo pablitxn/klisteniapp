@@ -73,6 +73,7 @@ export const accountApi = {
   importData: (data: PersonalData | ProgressData, includeSettings: boolean, expectedRevision: number, userId: string) => stateRequest('/api/me/import', 'POST', { data, includeSettings, expectedRevision }, userId),
   tokenInfo: (token: string) => parsedRequest(TokenInfoSchema, '/api/account/token-info', 'POST', { token }),
   acceptInvitation: (input: { token: string; name: string; password: string }) => parsedRequest(SuccessSchema, '/api/account/activate', 'POST', input),
+  requestRecovery: (email: string) => parsedRequest(SuccessSchema, '/api/account/request-recovery', 'POST', { email }),
   completeRecovery: (input: { token: string; password: string }) => parsedRequest(SuccessSchema, '/api/account/reset-password', 'POST', input),
   adminUsers: (userId: string) => parsedRequest(z.object({ users: z.array(AdminUserSchema) }), '/api/admin/users', 'GET', undefined, userId),
   adminInvitations: (userId: string) => parsedRequest(z.object({ invitations: z.array(InvitationSchema), mailConfigured: z.boolean() }), '/api/admin/invitations', 'GET', undefined, userId),

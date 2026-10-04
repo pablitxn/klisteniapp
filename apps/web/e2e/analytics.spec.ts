@@ -225,3 +225,37 @@ test('activation and recovery pages never load analytics, even with saved consen
     expect(capture.scripts).toHaveLength(0)
   }
 })
+
+
+test('forgot-password stays untracked with saved consent, submits privately and reloads without email or model', async ({ page }) => {
+  const capture = await intercept(page)
+  await storedChoice(page)
+  const apiPaths: string[] = [], models: string[] = []
+  page.on('request', request => {
+    const path = new URL(request.url()).pathname
+    if (path.startsWith('/api/')) apiPaths.push(path)
+    if (path.endsWith('.glb')) models.push(path)
+  })
+  await page.route('**/api/account/request-recovery', route => route.fulfill({ status: 202, json: { ok: true } }))
+  await page.goto('/account/forgot-password?email=private@example.test#token=private-sentinel')
+  await expect(page).toHaveURL(/\/account\/forgot-password$/)
+  await expect(page.getByLabel('Email', { exact: true })).toHaveValue('')
+  await page.getByLabel('Email', { exact: true }).fill('private@example.test')
+  await page.getByRole('button', { name: 'Enviar enlace de recuperación', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Si ese email tiene una cuenta activa')
+  await idle(page)
+  expect(capture.scripts).toHaveLength(0)
+  expect(capture.posts).toHaveLength(0)
+  expect(models).toHaveLength(0)
+  expect(apiPaths).toEqual(['/api/account/request-recovery'])
+  const stored = await page.evaluate(() => JSON.stringify({ ...localStorage, ...sessionStorage }))
+  expect(stored).not.toContain('private@example.test')
+  expect(stored).not.toContain('private-sentinel')
+  await page.reload()
+  await expect(page.getByLabel('Email', { exact: true })).toHaveValue('')
+  await idle(page)
+  expect(capture.scripts).toHaveLength(0)
+  expect(capture.posts).toHaveLength(0)
+  expect(models).toHaveLength(0)
+  expect(apiPaths).toEqual(['/api/account/request-recovery'])
+})

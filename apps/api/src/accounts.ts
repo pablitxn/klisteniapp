@@ -12,6 +12,7 @@ export const TokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
 export const InvitationInputSchema = z.object({ email: EmailSchema, name: z.string().trim().min(1).max(100).optional(), sendEmail: z.boolean() }).strict();
 export const DeliveryInputSchema = z.object({ sendEmail: z.boolean() }).strict();
 export const ActivationInputSchema = z.object({ token: TokenSchema, name: z.string().trim().min(1).max(100), password: PasswordSchema }).strict();
+export const RequestRecoveryInputSchema = z.object({ email: EmailSchema }).strict();
 export const RecoveryInputSchema = z.object({ token: TokenSchema, password: PasswordSchema }).strict();
 export const TokenInputSchema = z.object({ token: TokenSchema }).strict();
 export const EmptyInputSchema = z.object({}).strict();

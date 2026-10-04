@@ -57,9 +57,9 @@ En **Mi cuenta y planificación → Usuarios e invitaciones**, el administrador 
 
 El rol de administrador permite gestionar accesos; no proporciona una API para leer el progreso personal de otras cuentas. El servidor valida el rol y la identidad de sesión en cada operación. Impide suspender al último administrador activo.
 
-Las invitaciones duran 24 horas y los enlaces de recuperación una hora. Son de un solo uso; reemitir invalida el enlace anterior. PostgreSQL conserva únicamente el hash del token. El enlace lleva el token en el fragmento (`#token=…`), que no se transmite al servidor al abrir la página; la web lo retira enseguida de la barra y lo conserva en memoria hasta completar el formulario. Recargar después de eso exige abrir de nuevo el enlace original. Ni un GET ni la vista previa del enlace consumen la invitación. Las rutas `/account/activate` y `/account/recover` no cargan analytics, sesión personal ni modelo 3D.
+Las invitaciones duran 24 horas y los enlaces de recuperación una hora. Son de un solo uso; reemitir invalida el enlace anterior. PostgreSQL conserva únicamente el hash del token. El enlace lleva el token en el fragmento (`#token=…`), que no se transmite al servidor al abrir la página; la web lo retira enseguida de la barra y lo conserva en memoria hasta completar el formulario. Recargar después de eso exige abrir de nuevo el enlace original. Ni un GET ni la vista previa del enlace consumen la invitación. Las rutas `/account/activate`, `/account/recover` y `/account/forgot-password` no cargan analytics, sesión personal ni modelo 3D.
 
-Después de activar o recuperar, la persona inicia sesión normalmente. Cambiar o recuperar la contraseña invalida los enlaces de recuperación pendientes y las sesiones correspondientes. Una recuperación pública por email no está expuesta: se solicita al administrador.
+Después de activar o recuperar, la persona inicia sesión normalmente. Cambiar o recuperar la contraseña invalida los enlaces de recuperación pendientes y las sesiones correspondientes. El enlace «Olvidé mi contraseña» abre `/account/forgot-password`. La persona introduce su email y recibe siempre la misma confirmación; si la cuenta existe, está habilitada y el envío puede procesarse, se intenta enviar un enlace de una hora. El administrador conserva su flujo de recuperación como alternativa.
 
 ### Correo SMTP
 
@@ -84,6 +84,18 @@ pnpm --filter @klisteniapp/api users revoke-sessions --email persona@example.com
 `create` y `reset-password` solicitan la contraseña con entrada oculta (12–128 caracteres). Para automatización, `--password-stdin` recibe una línea desde un gestor de secretos. Preferir las invitaciones y recuperación para usuarios reales. En el contenedor, el equivalente es `node apps/api/src/operator.ts`.
 
 Rehabilitar una cuenta no recupera sesiones anteriores. Restringir el entorno que ejecuta estos comandos; no poner credenciales en argumentos, archivos versionados o variables `VITE_*`.
+
+## Recuperación pública: límites y entrega
+
+`POST /api/account/request-recovery` acepta exclusivamente JSON `{ "email": "persona@example.com" }` desde el origen configurado. Para cualquier email válido responde `202 { "ok": true }`, sin cookie, enlace, token, estado de cuenta ni resultado de correo, con `Cache-Control: no-store`. Una cuenta inexistente, deshabilitada, un transporte no configurado o un fallo SMTP producen la misma respuesta. Los errores de formato/origen mantienen sus respuestas habituales; más de diez intentos por IP en un minuto producen `429 RATE_LIMITED`, independientemente del email.
+
+Los límites por email se reservan atómicamente en PostgreSQL, utilizando `account_rate_limit` existente y claves HMAC con el secreto del API; el email no aparece en esas claves. El período de espera es de cinco minutos desde la primera solicitud admitida, sin prolongarlo por repeticiones. Se permiten como máximo tres reservas por hora fija UTC. Ambos límites se aplican también a emails inexistentes y sobreviven a reinicios; al alcanzarlos se conserva la confirmación genérica. Cambiar `BETTER_AUTH_SECRET` reinicia de hecho estas claves, además de afectar las sesiones.
+
+La respuesta termina antes de consultar la cuenta o iniciar SMTP. Una cola en memoria admite hasta 32 trabajos pendientes y ejecuta como máximo dos envíos a la vez. Si está llena, no consume la cuota del email y conserva la misma respuesta. Un enlace de recuperación vigente creado durante los últimos cinco minutos, incluso por un administrador, se conserva sin reemitir ni invalidarlo. Los enlaces públicos reutilizan el hash, la caducidad de una hora, el consumo único y la invalidación de sesiones del flujo existente. Ningún pedido crea una cuenta ni amplía permisos.
+
+El correo es un intento de entrega, no una garantía: `smtp_accepted` sólo indica aceptación del servidor SMTP. La cola no es durable. El apagado deja de admitir trabajo y procura vaciar lo ya admitido dentro del límite total existente de diez segundos; un reinicio abrupto o ese límite pueden perder un envío pendiente. También puede fallar el transporte. La persona puede volver a solicitarlo después de cinco minutos o contactar al administrador. No se almacenan tokens sin hash en PostgreSQL ni se registran emails, enlaces o respuestas SMTP en logs. La confirmación pública nunca permite distinguir estos casos.
+
+No hay nueva tabla ni migración para esta funcionalidad. Para validarla localmente, ejecutar `TEST_DATABASE_URL=… pnpm --filter @klisteniapp/api test` contra PostgreSQL descartable: la suite nueva usa un transporte de correo simulado y no conecta con SMTP real. Los archivos de pruebas se ejecutan de uno en uno porque el introspector de Better Auth enumera esquemas y no debe coincidir con la eliminación del esquema temporal de otra suite. Los casos cubren respuesta anterior a SMTP bloqueado, origen/JSON, resultados genéricos, reservas concurrentes y persistentes, capacidad de cola, dos envíos simultáneos, apagado, conservación de enlaces recientes y recuperación con revocación de sesiones y rechazo de repetición.
 
 ## Migración, importaciones y concurrencia
 

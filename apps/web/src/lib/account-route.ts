@@ -1,9 +1,9 @@
-export type AccountAccessMode = 'activate' | 'recover'
+export type AccountAccessMode = 'activate' | 'recover' | 'forgot-password'
 export type AccountAccessRoute = { mode: AccountAccessMode; token: string; navigationId: number }
 let accessSequence = 0
 
 export function accountAccessMode(path: string): AccountAccessMode | null {
-  const match = path.match(/^\/account\/(activate|recover)\/?$/)
+  const match = path.match(/^\/account\/(activate|recover|forgot-password)\/?$/)
   return match ? match[1] as AccountAccessMode : null
 }
 
@@ -14,7 +14,7 @@ function captureAccountAccess(): AccountAccessRoute | null {
   if (!mode) return null
   const params = new URLSearchParams(window.location.hash.slice(1))
   const raw = params.get('token') ?? ''
-  const token = raw.length <= 512 ? raw : ''
+  const token = mode !== 'forgot-password' && raw.length <= 512 ? raw : ''
   window.history.replaceState(window.history.state, '', `/account/${mode}`)
   return { mode, token, navigationId: ++accessSequence }
 }

@@ -35,3 +35,18 @@ test('API preserves authorization failure codes and does not accept invalid pers
   t.mock.method(globalThis, 'fetch', async () => new Response(JSON.stringify({ data: { version: 2 }, revision: 1 }), { headers: { 'Content-Type': 'application/json' } }))
   await assert.rejects(accountApi.state('owner-a'), (error: unknown) => error instanceof AccountApiError && error.code === 'INVALID_RESPONSE')
 })
+
+
+test('public recovery sends only email and accepts the generic response without account data', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url: string, options: RequestInit) => {
+    assert.equal(url, '/api/account/request-recovery')
+    assert.equal(options.method, 'POST')
+    assert.equal(options.cache, 'no-store')
+    assert.equal((options.headers as Record<string, string>)['X-Klisteni-Account'], undefined)
+    assert.deepEqual(JSON.parse(String(options.body)), { email: 'person@example.test' })
+    return new Response('{"ok":true}', { status: 202, headers: { 'Content-Type': 'application/json' } })
+  })
+  assert.deepEqual(await accountApi.requestRecovery('person@example.test'), { ok: true })
+  t.mock.method(globalThis, 'fetch', async () => new Response('{}', { status: 202, headers: { 'Content-Type': 'application/json' } }))
+  await assert.rejects(accountApi.requestRecovery('person@example.test'), (error: unknown) => error instanceof AccountApiError && error.code === 'INVALID_RESPONSE')
+})

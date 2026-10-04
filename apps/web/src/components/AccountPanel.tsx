@@ -35,7 +35,8 @@ export default function AccountPanel({ onDone }: { onDone: () => void }) {
     {(message || error) && <p role="alert" className="form-error">{message || error}</p>}
     {error?.includes('cerrar la sesión') && <button type="button" className="secondary-button" onClick={async () => { setBusy(true); setMessage(await useAppStore.getState().signOut() ?? 'Sesión cerrada.'); setBusy(false) }} disabled={busy}>Reintentar cierre de sesión</button>}
     <button className="primary-button full-width" disabled={busy || loading}>{busy ? 'Entrando…' : 'Entrar a mi cuenta'}</button>
-    <p className="fine-print">Para obtener acceso o recuperar tu contraseña, pedí un enlace personal al administrador. Podés seguir explorando la demo sin una cuenta.</p>
+    <a className="text-button account-forgot-password" href="/account/forgot-password">Olvidé mi contraseña</a>
+    <p className="fine-print">Para obtener acceso, pedí una invitación al administrador. Podés seguir explorando la demo sin una cuenta.</p>
   </form>
   return <div className="form-stack">
     <p className="form-intro">Sesión de <strong>{user.email}</strong>. Tu información personal se guarda en nuestro servidor.</p>

@@ -3,6 +3,7 @@ import App from './App'
 import PrivacyControls from './components/PrivacyControls'
 import PrivacyPage from './components/PrivacyPage'
 import AccountAccessPage from './components/AccountAccessPage'
+import ForgotPasswordPage from './components/ForgotPasswordPage'
 import { analytics } from './lib/analytics'
 import { isPrivacyPath } from './lib/privacy-route'
 import { useAppStore } from './lib/store'
@@ -59,6 +60,7 @@ export default function AppRoot() {
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
   const controls = <PrivacyControls onOpenPrivacy={event => navigate(event, true)} />
+  if (accountAccess?.mode === 'forgot-password') return <ForgotPasswordPage key={accountAccess.navigationId} />
   if (accountAccess) return <AccountAccessPage key={accountAccess.navigationId} route={accountAccess} />
   return <>
     {visitedApp && <div hidden={privacy}><App key={accountId} privacyControls={controls} suspended={privacy} /></div>}
