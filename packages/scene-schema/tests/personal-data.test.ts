@@ -28,10 +28,10 @@ function workout(date: string, id = date): WorkoutLog {
   };
 }
 
-const settings = createDefaultPersonalData('Ana', 'Europe/Sarajevo').settings;
+const settings = createDefaultPersonalData('Ana', 'Europe/Paris').settings;
 
 test('new accounts have empty history and six no-equipment exercises without an invented plan', () => {
-  const data = createDefaultPersonalData('  Ana  ', 'Europe/Sarajevo');
+  const data = createDefaultPersonalData('  Ana  ', 'Europe/Paris');
   assert.equal(data.settings.profile.displayName, 'Ana');
   assert.equal(data.settings.routines[0].exerciseIds.length, 6);
   assert.equal(data.settings.routines[0].exerciseIds.includes('row'), false);
@@ -65,7 +65,7 @@ test('week plans require valid Monday dates and unique weekdays', () => {
 test('new logs preserve the routine snapshot and tracking zone while accepting old v1 logs', () => {
   const old = workout('2026-10-04');
   assert.deepEqual(WorkoutLogSchema.parse(old), old);
-  const withSnapshot = { ...old, timeZone: 'Europe/Sarajevo', routineSnapshot: settings.routines[0] };
+  const withSnapshot = { ...old, timeZone: 'Europe/Paris', routineSnapshot: settings.routines[0] };
   assert.deepEqual(WorkoutLogSchema.parse(withSnapshot), withSnapshot);
   assert.equal(WorkoutLogSchema.safeParse({ ...old, timeZone: 'wrong' }).success, false);
   assert.equal(CardioLogSchema.safeParse({ id: 'c', date: old.date, activity: 'walk', minutes: 20, timeZone: 'UTC' }).success, true);
@@ -73,12 +73,12 @@ test('new logs preserve the routine snapshot and tracking zone while accepting o
 
 test('tracking dates are independent of the device zone and stable across DST transitions', () => {
   const instant = new Date('2026-10-03T23:30:00Z');
-  assert.equal(dateInTimeZone(instant, 'Europe/Sarajevo'), '2026-10-04');
+  assert.equal(dateInTimeZone(instant, 'Europe/Paris'), '2026-10-04');
   assert.equal(dateInTimeZone(instant, 'America/New_York'), '2026-10-03');
-  assert.equal(dateInTimeZone(new Date('2026-03-29T00:30:00Z'), 'Europe/Sarajevo'), '2026-03-29');
-  assert.equal(dateInTimeZone(new Date('2026-03-29T01:30:00Z'), 'Europe/Sarajevo'), '2026-03-29');
-  assert.equal(dateInTimeZone(new Date('2026-10-25T00:30:00Z'), 'Europe/Sarajevo'), '2026-10-25');
-  assert.equal(dateInTimeZone(new Date('2026-10-25T01:30:00Z'), 'Europe/Sarajevo'), '2026-10-25');
+  assert.equal(dateInTimeZone(new Date('2026-03-29T00:30:00Z'), 'Europe/Paris'), '2026-03-29');
+  assert.equal(dateInTimeZone(new Date('2026-03-29T01:30:00Z'), 'Europe/Paris'), '2026-03-29');
+  assert.equal(dateInTimeZone(new Date('2026-10-25T00:30:00Z'), 'Europe/Paris'), '2026-10-25');
+  assert.equal(dateInTimeZone(new Date('2026-10-25T01:30:00Z'), 'Europe/Paris'), '2026-10-25');
   assert.throws(() => dateInTimeZone(new Date('invalid'), 'UTC'));
 });
 

@@ -1,5 +1,7 @@
 # Sincronización de salud: ruta propuesta y requisitos
 
+La demo pública conserva registro, importación y dashboards locales. Una conexión futura que guarde datos en un servidor pertenece a una instancia configurada por su operador; esta distribución no conecta proveedores, usuarios ni credenciales automáticamente. [Modos y configuración](deployment.md).
+
 Estado al **4 de octubre de 2026**: Klisteniapp permite registrar información de salud e importar su [JSON normalizado](health-import.md). **No hay un conector Android, vinculación Samsung/Google ni sincronización automática implementados.** Esta página documenta una propuesta y sus dependencias; las capacidades de terceros se contrastaron con documentación oficial en esa fecha. No se probó un Galaxy Watch ni un teléfono real.
 
 ## Ruta recomendada para Galaxy Watch8

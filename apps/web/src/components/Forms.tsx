@@ -1,3 +1,4 @@
+import { instanceMode } from '../lib/deployment'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   CardioLogSchema,
@@ -10,7 +11,7 @@ import {
 import { exercises, getExercise } from '../data/exercises'
 import { localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
-import { cloudWriteAllowed } from '../lib/account-api'
+import { cloudWriteAllowed } from '../lib/cloud-access'
 import Icon, { type IconName } from './Icon'
 
 const activities: { id: CardioActivity; name: string; icon: IconName }[] = [
@@ -20,7 +21,8 @@ const activities: { id: CardioActivity; name: string; icon: IconName }[] = [
   { id: 'other', name: 'Otra', icon: 'spark' },
 ]
 export function CardioForm({ onDone }: { onDone: () => void }) {
-  const cloudBlocked = useAppStore(s => Boolean(s.user && !cloudWriteAllowed(s.access)))
+  const cloudUnavailable = useAppStore(s => instanceMode && Boolean(s.user && !cloudWriteAllowed(s.access)))
+  const cloudBlocked = instanceMode && cloudUnavailable
   const [activity, setActivity] = useState<CardioActivity>('walk'),
     [error, setError] = useState('')
   const add = useAppStore((s) => s.addCardio)
@@ -127,7 +129,8 @@ export function PreferencesForm() {
   const preferences = useAppStore((s) => s.preferences),
     update = useAppStore((s) => s.updatePreferences),
     importProgress = useAppStore((s) => s.importProgress)
-  const user = useAppStore(s => s.user)
+  const userState = useAppStore(s => s.user)
+  const user = instanceMode ? userState : null
   const revision = useAppStore(s => s.revision)
   const [restoreSettings, setRestoreSettings] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -179,7 +182,7 @@ export function PreferencesForm() {
       <div className="settings-data">
         <h3>Tus datos son tuyos.</h3>
         <p>
-          {user ? 'Tu cuenta guarda el historial, las rutinas, la planificación y los datos de Mi salud. La exportación incluye esa información personal; guardala en un lugar privado. La importación combina registros sin borrar el historial existente.' : 'En modo local, el historial se guarda en este navegador. Exportalo para conservarlo o incorporalo a tu cuenta al iniciar sesión.'}
+          {user ? 'Tu cuenta guarda el historial, las rutinas, la planificación y los datos de Mi salud. La exportación incluye esa información personal; guardala en un lugar privado. La importación combina registros sin borrar el historial existente.' : 'El historial se guarda en este navegador. Exportalo para conservarlo o llevarlo a otro dispositivo.'}
         </p>
         <button className="secondary-button" onClick={download}>
           <Icon name="download" size={18} /> Exportar progreso
@@ -264,7 +267,8 @@ export function PreferencesForm() {
   )
 }
 export function RoutineEditor({ onDone }: { onDone: () => void }) {
-  const cloudBlocked = useAppStore(s => Boolean(s.user && !cloudWriteAllowed(s.access)))
+  const cloudUnavailable = useAppStore(s => instanceMode && Boolean(s.user && !cloudWriteAllowed(s.access)))
+  const cloudBlocked = instanceMode && cloudUnavailable
   const prefs = useAppStore((s) => s.preferences),
     update = useAppStore((s) => s.updatePreferences)
   const [ids, setIds] = useState(prefs.exerciseIds),
@@ -373,7 +377,8 @@ export function WorkoutSession({
   const started = useRef(Date.now()),
     submitted = useRef(false),
     add = useAppStore((s) => s.addWorkout)
-  const cloudBlocked = useAppStore(s => Boolean(s.user && !cloudWriteAllowed(s.access)))
+  const cloudUnavailable = useAppStore(s => instanceMode && Boolean(s.user && !cloudWriteAllowed(s.access)))
+  const cloudBlocked = instanceMode && cloudUnavailable
   const payload = useRef<WorkoutLog | null>(null)
   const [saveError, setSaveError] = useState('')
   const [saving, setSaving] = useState(false)

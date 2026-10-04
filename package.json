@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter @klisteniapp/web dev",
-    "dev:accounts": "turbo run dev",
+    "dev:accounts": "VITE_APP_MODE=instance turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
@@ -21,7 +21,11 @@
     "previews:check": "node scripts/generate-exercise-previews.mjs --check",
     "test:analytics": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.analytics.config.ts",
     "test:api": "pnpm --filter @klisteniapp/api test",
-    "test:accounts": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.accounts.config.ts"
+    "test:accounts": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.accounts.config.ts",
+    "build:demo": "VITE_APP_MODE=demo pnpm build",
+    "build:instance": "VITE_APP_MODE=instance pnpm build",
+    "dev:instance": "VITE_APP_MODE=instance pnpm --filter @klisteniapp/web dev",
+    "audit:publication": "node scripts/audit-publication.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

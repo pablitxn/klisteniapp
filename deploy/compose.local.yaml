@@ -1,0 +1,66 @@
+# Local instance only. Nothing starts without the explicit `instance` profile.
+# Run from this directory; keep the generated .env private and untracked.
+name: klisteni-local
+x-api-environment: &api-environment
+  DATABASE_URL: postgres://klisteni:${KLISTENI_DB_PASSWORD:?Run init-local-env.mjs}@db:5432/klisteni
+  BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Run init-local-env.mjs}
+  APP_ORIGIN: http://localhost:5173
+  NODE_ENV: development
+  HOST: 0.0.0.0
+  PORT: "3001"
+  BILLING_MODE: disabled
+
+services:
+  db:
+    profiles: [instance]
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Run init-local-env.mjs}
+      KLISTENI_DB_PASSWORD: ${KLISTENI_DB_PASSWORD:?Run init-local-env.mjs}
+    volumes:
+      - local-db:/var/lib/postgresql/data
+      - ./init-local-db.sql:/docker-entrypoint-initdb.d/10-klisteni.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d postgres]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    # No database port is published to the host or internet.
+
+  api:
+    profiles: [instance]
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: Dockerfile.api
+    environment: *api-environment
+    depends_on:
+      db: { condition: service_healthy }
+    ports: ["127.0.0.1:3001:3001"]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: [CMD, node, --input-type=module, -e, "const r=await fetch('http://127.0.0.1:3001/api/readyz');process.exit(r.ok?0:1)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  migrate:
+    profiles: [tools]
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: Dockerfile.api
+    environment: *api-environment
+    depends_on:
+      db: { condition: service_healthy }
+    command: [node, apps/api/src/migrate.ts]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+volumes:
+  local-db:

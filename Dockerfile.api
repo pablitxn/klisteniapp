@@ -13,7 +13,6 @@ RUN pnpm --filter @klisteniapp/api... install --prod --frozen-lockfile --ignore-
 FROM ${NODE_IMAGE} AS runtime
 ARG OCI_REVISION=dev
 LABEL org.opencontainers.image.title="Klisteni API" \
-      org.opencontainers.image.source="https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp" \
       org.opencontainers.image.revision="${OCI_REVISION}"
 WORKDIR /app
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=3001

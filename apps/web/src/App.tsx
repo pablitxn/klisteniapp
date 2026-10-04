@@ -18,8 +18,9 @@ import {
 } from './components/Forms'
 import Progress from './components/Progress'
 import ExercisePreview from './components/ExercisePreview'
-import AccountPanel from './components/AccountPanel'
-import { cloudWriteAllowed } from './lib/account-api'
+import { instanceMode } from './lib/deployment'
+const AccountPanel = import.meta.env.VITE_APP_MODE === 'instance' ? lazy(() => import('./components/AccountPanel')) : () => null
+import { cloudWriteAllowed } from './lib/cloud-access'
 import { accessLabel } from './lib/access-label'
 const HealthPage = lazy(() => import('./components/HealthPage'))
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
@@ -37,7 +38,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const [page, setPage] = useState<Page>('routine')
   const [selectedId, setSelectedId] = useState('squat')
   const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null)
-  const [overlay, setOverlay] = useState<Overlay>(() => new URLSearchParams(location.search).get('account') === 'login' || new URLSearchParams(location.search).get('billing') === 'return' ? 'account' : null)
+  const [overlay, setOverlay] = useState<Overlay>(() => instanceMode && (new URLSearchParams(location.search).get('account') === 'login' || new URLSearchParams(location.search).get('billing') === 'return') ? 'account' : null)
   const [session, setSession] = useState<{
     ids: string[]
     sets: number
@@ -50,16 +51,17 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const progress = useAppStore((s) => s.progress),
     preferences = useAppStore((s) => s.preferences),
     storageError = useAppStore((s) => s.storageError)
-  const user = useAppStore(s => s.user)
+  const userState = useAppStore(s => s.user)
+  const user = instanceMode ? userState : null
   const authStatus = useAppStore(s => s.authStatus)
   const personalData = useAppStore(s => s.personalData)
   const access = useAppStore(s => s.access)
-  const cloudBlocked = Boolean(user && !cloudWriteAllowed(access))
+  const cloudBlocked = instanceMode && Boolean(user && !cloudWriteAllowed(access))
   const accountLoading = useAppStore(s => s.accountLoading)
   const syncStatus = useAppStore(s => s.syncStatus)
   const pendingCount = useAppStore(s => s.pendingCount)
   const accountError = useAppStore(s => s.accountError)
-  const privateUnavailable = authStatus === 'loading' || Boolean(user && (!personalData || accountLoading))
+  const privateUnavailable = instanceMode && (authStatus === 'loading' || Boolean(user && (!personalData || accountLoading)))
   const personalSettings = personalData?.settings
   const currentRoutine = personalSettings?.routines.find(r => r.id === personalSettings.activeRoutineId)
   const planStats = personalSettings && computePlanProgress(personalSettings.plans, progress.workouts, dateInTimeZone(new Date(), personalSettings.profile.timeZone))
@@ -91,7 +93,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   }, [page])
   useEffect(() => {
     // Keep the one-time intent until session discovery chooses the final App key.
-    if (authStatus === 'loading') return
+    if (!instanceMode || authStatus === 'loading') return
     const url = new URL(location.href)
     if (url.searchParams.get('account') === 'login' || url.searchParams.get('billing') === 'return') {
       url.searchParams.delete('account')
@@ -177,7 +179,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
           </span>
           <span className="mobile-brand">klisteni.</span>
           <div className="topbar-right">
-            <button className="text-button account-login" onClick={() => setOverlay('account')} disabled={Boolean(session)}>{user ? personalSettings?.profile.displayName ?? user.name : 'Iniciar sesión'}</button>
+            {instanceMode && <button className="text-button account-login" onClick={() => setOverlay('account')} disabled={Boolean(session)}>{user ? personalSettings?.profile.displayName ?? user.name : 'Iniciar sesión'}</button>}
             <span className="beginner-badge">
               <span /> Principiante
             </span>
@@ -192,15 +194,15 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
         </header>
         <main id="main">
           {privacyControls}
-          <div className="account-status">
+          {instanceMode && <div className="account-status">
             <p>{authStatus === 'loading' ? 'Verificando tu sesión… Podés explorar el catálogo mientras esperamos.' : user ? privateUnavailable ? 'Tu práctica todavía no está disponible. Esperá la conexión antes de registrar cambios.' : `Mi práctica · ${personalSettings?.profile.displayName ?? user.name}` : 'Modo local · Gratis en este dispositivo. Tu cuenta agrega guardado entre dispositivos.'}</p>
             {user && access && <button className="text-button" onClick={() => setOverlay('account')}>{accessLabel(access)}</button>}
             {cloudBlocked && <span>Podés consultar y exportar tus datos. Abrí tu cuenta para renovar o seguir gratis en modo local.</span>}
             {(pendingCount > 0 || accountError) && user && <button className="text-button" onClick={() => void useAppStore.getState().refreshState()}>Reintentar sincronización</button>}
             {accountError && user && <span role="alert">{accountError}</span>}
             {accountError?.includes('cerrar la sesión') && !user && <><span role="alert">{accountError}</span><button className="text-button" onClick={() => void useAppStore.getState().signOut()}>Reintentar cierre de sesión</button></>}
-          </div>
-          {planStats && personalSettings?.plans.length !== 0 && <div className="plan-summary">
+          </div>}
+          {instanceMode && planStats && personalSettings?.plans.length !== 0 && <div className="plan-summary">
             <div><strong>{planStats.weeklyCompleted} / {planStats.weeklyTarget} días de fuerza esta semana</strong><p>{planStats.fulfilledWeeksStreak} semanas cumpliendo tu plan. Los días de descanso no cortan tu racha.</p></div>
             <button className="text-button" onClick={() => setOverlay('account')} disabled={Boolean(session)}>Mi planificación</button>
           </div>}
@@ -823,9 +825,9 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
           <RoutineEditor onDone={() => setOverlay(null)} />
         </Modal>
       )}
-      {overlay === 'account' && (
+      {instanceMode && overlay === 'account' && (
         <Modal title={user ? 'Mi cuenta y planificación' : 'Entrar a Klisteni'} onClose={() => setOverlay(null)}>
-          <AccountPanel onDone={() => setOverlay(null)} />
+          <Suspense fallback={<p>Cargando…</p>}><AccountPanel onDone={() => setOverlay(null)} /></Suspense>
         </Modal>
       )}
       {session && (

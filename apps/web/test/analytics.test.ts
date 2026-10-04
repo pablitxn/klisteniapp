@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { buildPayload, consentExpiry, POLICY_VERSION, readConsent, resolveAnalyticsConfig } from '../src/lib/analytics-policy.ts'
 
-const location = { hostname: 'klisteniapp.orchid-labs.xyz', origin: 'https://klisteniapp.orchid-labs.xyz', protocol: 'https:' }
+const location = { hostname: 'app.example.com', origin: 'https://app.example.com', protocol: 'https:' }
 const env = { VITE_UMAMI_SCRIPT_URL: '/umami/script.js', VITE_UMAMI_HOST_URL: '/umami', VITE_UMAMI_WEBSITE_ID: '6dcf08a0-0ddd-44d0-ad57-d41fe5489e6b', VITE_UMAMI_ALLOWED_HOSTNAME: location.hostname }
 
 test('only explicit production configuration on the exact hostname enables analytics', () => {

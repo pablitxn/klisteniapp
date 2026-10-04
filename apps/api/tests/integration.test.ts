@@ -411,7 +411,7 @@ describe('PostgreSQL account API', { skip: !databaseUrl }, () => {
 
   test('explicit full restore accepts historical plans only into a pristine account', async () => {
     const user = await makeUser();
-    const data = createDefaultPersonalData('Restored', 'Europe/Sarajevo');
+    const data = createDefaultPersonalData('Restored', 'Europe/Paris');
     data.settings.plans = [{ id: 'historic', effectiveFrom: '2026-09-07', weekdays: [1, 3], routineId: data.settings.activeRoutineId }];
     const full = { data, includeSettings: true, expectedRevision: 0 };
     assert.equal((await user.request('POST', '/api/me/import', full)).status, 200);

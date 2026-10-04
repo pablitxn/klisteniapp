@@ -1,5 +1,7 @@
 # Invitaciones, acceso a la nube y suscripciones
 
+Esta función corresponde a una **instancia operada explícitamente**, con API, base y usuarios propios. La demo pública no crea cuentas, consume invitaciones ni ofrece checkout. El modo predeterminado de pagos es `disabled`; el ejemplo local también los mantiene apagados. [Separación y despliegue](deployment.md).
+
 La aplicación mantiene una capa gratuita en el dispositivo. Las cuentas agregan persistencia en el servidor: cada alta por invitación recibe **15 días de acceso a la nube**, contados desde la creación de la cuenta. El checkout de esta versión es exclusivamente de **desarrollo con Mercado Pago**. Que el código y las pruebas estén disponibles no acredita una cuenta de cobro configurada, un pago efectuado ni un despliegue.
 
 ## Alcance del producto
@@ -36,7 +38,7 @@ Un enlace compartido públicamente no prueba que el destinatario controle el ema
 
 ## Acceso vitalicio
 
-El acceso vitalicio es un derecho de uso de la nube, separado del rol administrador. Permite dar acceso a Pablo, Fio u otra persona sin otorgarles permisos de administración. El administrador puede concederlo al invitar o modificarlo para una cuenta existente.
+El acceso vitalicio es un derecho de uso de la nube, separado del rol administrador. Permite conceder acceso permanente a una persona sin otorgarle permisos de administración. El administrador puede concederlo al invitar o modificarlo para una cuenta existente.
 
 Quitar ese acceso vuelve a evaluar la prueba y los períodos pagados originales: no inventa una nueva prueba. Suspender la cuenta continúa impidiendo iniciar sesión aunque tenga acceso vitalicio.
 
@@ -44,13 +46,7 @@ La migración `account-access-v1` conserva como vitalicias las cuentas de la bet
 
 ## Mercado Pago: contrato y referencia
 
-La referencia solicitada se localizó mediante Atlas en `montserrat-api`. Montserrat utiliza **Checkout Pro para un pago de activación**, no cobros recurrentes. Se conserva su patrón de consulta del recurso en el servidor, pero Klisteni utiliza la API de suscripciones. No se reutilizan su aplicación de Mercado Pago, sus credenciales, su base ni sus webhooks.
-
-Referencias de implementación consultadas en Montserrat:
-
-- `services/backend/src/Adapters/Infrastructure/MercadoPago/MercadoPagoClient.cs`: preferencia hospedada, referencia propia y consulta del pago.
-- `services/backend/src/Adapters/WebApi/Controllers/MercadoPagoWebhooksController.cs`: validación HMAC y consulta canónica. Su excepción de aceptar notificaciones sin secreto no se adopta.
-- `services/backend/src/Core/Application/UseCases/Activation/ReconcileActivationPayment/ReconcileActivationPaymentCommand.cs`: reconciliación al regresar del checkout y validación de pertenencia.
+La integración opcional utiliza la API de suscripciones de Mercado Pago y consulta los recursos confirmados desde el servidor. Cada operador provisiona su propia aplicación y sus propias cuentas de prueba; no hay credenciales, webhooks ni servicios compartidos incluidos en el repositorio público.
 
 Klisteni crea `POST /preapproval` con estado `pending`, una referencia interna opaca, email del comprador de prueba, motivo, URL de regreso y recurrencia de **1 o 12 meses**, en ARS. Los precios se definen en el servidor; el navegador solo elige `monthly` o `yearly`. No se envían datos de tarjeta ni se crea un segundo período de prueba en Mercado Pago. El comprador completa el medio de pago en el `init_point` hospedado devuelto por el proveedor. [Suscripción con pago pendiente](https://www.mercadopago.com.ar/developers/en/docs/subscriptions/integration-configuration/subscription-no-associated-plan/pending-payments), [referencia de creación](https://www.mercadopago.com.ar/developers/en/reference/online-payments/subscriptions/create-preapproval/post).
 
@@ -78,7 +74,7 @@ No hay un modo `production` de cobros en este MVP. Activar `NODE_ENV=production`
 
 Rutas de cuenta autenticadas: `GET /api/me/access`, `GET /api/me/billing`, `POST /api/me/billing/checkout` con `{ "plan": "monthly" }` o `{ "plan": "yearly" }`, `POST /api/me/billing/refresh` y `POST /api/me/billing/cancel` con `{}`. El servidor deriva la cuenta de la sesión. Las escrituras del navegador también requieren el origen permitido.
 
-En despliegue, mantener `BILLING_MODE` y los importes en la configuración de API, e inyectar `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET` y el comprador de prueba desde un Secret dedicado mediante el mecanismo SealedSecrets existente. El ejemplo `deploy/accounts.example.yaml` no permite salida HTTPS pública: adaptar la política de salida o proxy de Mycelium para alcanzar `api.mercadopago.com:443`, además de DNS y PostgreSQL. Las NetworkPolicy estándar no filtran por hostname; usar las capacidades reales del clúster y verificar la salida antes de habilitar sandbox. No aplicar reglas genéricas a otros servicios. Los procesos de migración no necesitan consultar Mercado Pago.
+En una instancia, mantener `BILLING_MODE` y los importes en la configuración del servidor e inyectar las credenciales desde el gestor de secretos del operador. El servidor necesita salida HTTPS a `api.mercadopago.com:443`, además de su base y DNS. Adaptar la política de red a ese entorno y comprobar la salida antes de habilitar sandbox. Las NetworkPolicy estándar no filtran por hostname. Los procesos de migración no necesitan consultar Mercado Pago.
 
 `POST /api/billing/webhook` recibe notificaciones externas. Excluirlo de la protección basada en cookies del navegador no significa aceptar su contenido: requiere firma válida y reconcilia contra Mercado Pago. El resto de `/api` conserva su autenticación normal. Publicar por HTTPS con la ruta API correcta, sin caché ni fallback HTML.
 
@@ -111,13 +107,4 @@ La release requiere la migración de cuentas y facturación antes de habilitar l
 Ante un problema del proveedor, volver a `BILLING_MODE=disabled` detiene el checkout sin borrar historial, derechos vitalicios ni períodos previamente confirmados. Desactivar el adaptador **no cancela contratos existentes en Mercado Pago**: las suscripciones de prueba abiertas se cancelan explícitamente y se confirma la respuesta. No borrar tablas de facturación para hacer rollback; seguir el procedimiento de recuperación de la base de Klisteni y preservar las referencias necesarias para reconciliar.
 
 Para cobrar dinero real harán falta una implementación explícita del modo productivo, credenciales y precios definitivos, validación del vendedor y entorno, entrega de notificaciones, recuperación periódica ante avisos perdidos, comportamiento acordado de reembolsos y pruebas completas. El MVP deja separadas esas decisiones de la invitación gratuita y del uso local.
-
-
-## Verificacion de la release
-
-El candidato de publicacion se prepara sobre la version ya desplegada y conserva
-la recuperacion publica de contrasena. Se valida por separado del checkout de
-trabajo, que contiene cambios de catalogo y anatomia fuera de esta publicacion.
-Los resultados exactos de CI y del smoke publico se registran en el informe de
-rollout; una prueba local no demuestra un pago real ni la entrega de webhooks.
 

@@ -1,7 +1,6 @@
 import { create } from 'zustand'
-import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, dateInTimeZone, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
+import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
 import { AccountApiError, accountApi, cloudWriteAllowed, type AccountAccess, type AccountUser } from './account-api.ts'
-import { exercises, starterRoutine } from '../data/exercises.ts'
 import { emptyProgress, parseProgress, serializeProgress } from './progress.ts'
 import type {
   CardioLog,
@@ -9,91 +8,12 @@ import type {
   WorkoutLog,
 } from '@klisteniapp/scene-schema'
 
-export const STORAGE_KEY = 'klisteniapp.progress.v1'
-const RECOVERY_KEY = 'klisteniapp.progress.recovery'
-const PREF_KEY = 'klisteniapp.preferences.v1'
-export const LOCAL_PERSONAL_KEY = 'klisteniapp.personal.v2'
-function loadLocalPersonal(): PersonalData | null {
-  try {
-    const raw = localStorage.getItem(LOCAL_PERSONAL_KEY)
-    if (raw) return PersonalDataSchema.parse(JSON.parse(raw))
-  } catch { return null }
-  return createDefaultPersonalData('Mi práctica', Intl.DateTimeFormat().resolvedOptions().timeZone)
-}
-export interface Preferences {
-  weeklyGoal: number
-  sets: number
-  exerciseIds: string[]
-  reducedMotion: boolean
-}
-const defaults: Preferences = {
-  weeklyGoal: 2,
-  sets: 2,
-  exerciseIds: [...starterRoutine.exerciseIds],
-  reducedMotion: false,
-}
-function initial() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    const result = parseProgress(raw)
-    return {
-      progress: result.data,
-      storageError: result.error,
-      recoveryRaw: result.error ? raw : localStorage.getItem(RECOVERY_KEY),
-    }
-  } catch {
-    return {
-      progress: emptyProgress(),
-      storageError:
-        'El navegador no permite guardar datos. Podés exportar una copia desde Ajustes.',
-      recoveryRaw: null,
-    }
-  }
-}
-function loadPreferences(): Preferences {
-  try {
-    const raw: unknown = JSON.parse(localStorage.getItem(PREF_KEY) ?? 'null')
-    if (!raw || typeof raw !== 'object') return defaults
-    const data = raw as Partial<Preferences>
-    const ids = Array.isArray(data.exerciseIds)
-      ? [
-          ...new Set(
-            data.exerciseIds.filter((id) =>
-              exercises.some((e) => e.id === id && e.equipment === 'none'),
-            ),
-          ),
-        ]
-      : defaults.exerciseIds
-    return {
-      weeklyGoal: [2, 3, 4].includes(data.weeklyGoal ?? 0)
-        ? data.weeklyGoal!
-        : 2,
-      sets: [1, 2, 3].includes(data.sets ?? 0) ? data.sets! : 2,
-      exerciseIds: ids.length ? ids : defaults.exerciseIds,
-      reducedMotion: data.reducedMotion === true,
-    }
-  } catch {
-    return defaults
-  }
-}
-const DISPLAY_KEY = 'klisteniapp.display.v1'
+export { STORAGE_KEY, LOCAL_PERSONAL_KEY } from './store.persistence.ts'
+export type { Preferences } from './store.persistence.ts'
+import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, DISPLAY_KEY, defaults, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences, type Preferences } from './store.persistence.ts'
 const PENDING_PREFIX = 'klisteniapp.pending.v1.'
 const REJECTED_PREFIX = 'klisteniapp.rejected.v1.'
 const CHANGED_ACCOUNT = 'La sesión cambió. Volvé a abrir tu cuenta antes de guardar.'
-function localSummary() {
-  const data = initial().progress
-  let hasPreferences = false
-  try { hasPreferences = localStorage.getItem(PREF_KEY) !== null || localStorage.getItem(LOCAL_PERSONAL_KEY) !== null } catch { /* optional storage */ }
-  return data.workouts.length || data.cardio.length || hasPreferences ? { workouts: data.workouts.length, cardio: data.cardio.length, hasPreferences } : null
-}
-function accountPreferences(settings: PersonalSettings): Preferences {
-  const routine = settings.routines.find((item) => item.id === settings.activeRoutineId)!
-  const today = dateInTimeZone(new Date(), settings.profile.timeZone)
-  const plan = [...settings.plans].filter((item) => item.effectiveFrom <= today).sort((a, b) => b.effectiveFrom.localeCompare(a.effectiveFrom))[0]
-  let reducedMotion = loadPreferences().reducedMotion
-  try { reducedMotion = JSON.parse(localStorage.getItem(DISPLAY_KEY) ?? 'null')?.reducedMotion ?? reducedMotion } catch { /* optional storage */ }
-  return { exerciseIds: routine.exerciseIds, sets: routine.sets, weeklyGoal: plan?.weekdays.length ?? 2, reducedMotion }
-}
 type Operation = { kind: 'workout'; log: WorkoutLog } | { kind: 'cardio'; log: CardioLog } | { kind: 'delete'; id: string }
 type Pending = Operation & { key: string; createdAt: number }
 type Rejected = { operation: Pending; reason: string; rejectedAt: string }

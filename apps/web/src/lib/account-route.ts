@@ -19,8 +19,12 @@ function captureAccountAccess(): AccountAccessRoute | null {
   return { mode, token, navigationId: ++accessSequence }
 }
 
-let access = captureAccountAccess()
-export function initialAccountAccess() { return access }
+let access: AccountAccessRoute | null = null
+let initialized = false
+export function initialAccountAccess() {
+  if (!initialized) { initialized = true; access = captureAccountAccess() }
+  return access
+}
 export function readAccountAccessNavigation() {
   // The same hash navigation can dispatch popstate and hashchange. Its token was
   // already removed by the first event; keep that in-memory capture for the second.

@@ -63,7 +63,7 @@ test('local dates preserve the user calendar date around midnight', () => {
 
 test('streak uses calendar arithmetic over daylight saving transitions', () => {
   const before = process.env.TZ;
-  process.env.TZ = 'Europe/Sarajevo';
+  process.env.TZ = 'Europe/Paris';
   try {
     const progress = computeProgress([workout('2026-10-24'), workout('2026-10-25'), workout('2026-10-26')], [], new Date(2026, 9, 26, 12));
     assert.equal(progress.streak, 3);

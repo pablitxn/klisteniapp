@@ -16,7 +16,7 @@ class MemoryStorage {
 const storage = new MemoryStorage()
 Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: storage })
 const owner = { id: 'health-owner', email: 'health@example.test', name: 'Health test' }
-const state = (revision = 0): ServerState => ({ data: createDefaultPersonalData('Health test', 'Europe/Sarajevo'), revision })
+const state = (revision = 0): ServerState => ({ data: createDefaultPersonalData('Health test', 'Europe/Paris'), revision })
 function health(): HealthData {
   const value = createEmptyHealthData()
   value.profile.heightCm = 178

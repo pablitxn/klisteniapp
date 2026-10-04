@@ -1,57 +1,54 @@
-# REFERENCE ONLY: copy/adapt desired state into Mycelium before activation.
-# Replace the image, confirm live namespace/pod selectors, use existing TLS and
-# ingress conventions, and provision the referenced SealedSecret first.
-# The migration Job is a separately invoked release step. Do not apply this
-# entire example directly or put it on automatic sync as a bootstrap shortcut.
+# OPTIONAL KUBERNETES BLUEPRINT, never applied by public CI.
+# Replace example.test, namespace, image and Secret references in your own
+# operator repository. Provision your own database and network/TLS policies.
+# Run the migration command with this exact API image before promoting it.
+# This file deliberately does not configure an ingress, shared database or
+# another service's NetworkPolicy; those depend on the operator's environment.
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: klisteniapp-api-config
-  namespace: klisteniapp-prod
+  name: klisteni-api-config
+  namespace: klisteni
 data:
   NODE_ENV: production
-  APP_ORIGIN: https://klisteniapp.orchid-labs.xyz
+  APP_ORIGIN: https://fitness.example.test
   HOST: 0.0.0.0
   PORT: "3001"
+  BILLING_MODE: disabled
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: klisteniapp-api
-  namespace: klisteniapp-prod
+  name: klisteni-api
+  namespace: klisteni
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app.kubernetes.io/name: klisteniapp-api
+    matchLabels: { app.kubernetes.io/name: klisteni-api }
   template:
     metadata:
-      labels:
-        app.kubernetes.io/name: klisteniapp-api
-        app.kubernetes.io/part-of: klisteniapp
-        app.kubernetes.io/component: api
+      labels: { app.kubernetes.io/name: klisteni-api }
     spec:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        fsGroup: 1000
         seccompProfile: { type: RuntimeDefault }
       containers:
         - name: api
-          image: KLISTENIAPP_API_IMAGE_BY_DIGEST
+          image: REPLACE_WITH_YOUR_API_IMAGE_AT_SHA256_DIGEST
           ports:
             - { name: http, containerPort: 3001 }
           envFrom:
-            - configMapRef: { name: klisteniapp-api-config }
+            - configMapRef: { name: klisteni-api-config }
           env:
             - name: DATABASE_URL
               valueFrom:
-                secretKeyRef: { name: klisteniapp-api-secrets, key: DATABASE_URL }
+                secretKeyRef: { name: klisteni-api-runtime, key: DATABASE_URL }
             - name: BETTER_AUTH_SECRET
               valueFrom:
-                secretKeyRef: { name: klisteniapp-api-secrets, key: BETTER_AUTH_SECRET }
+                secretKeyRef: { name: klisteni-api-runtime, key: BETTER_AUTH_SECRET }
           resources:
             requests: { cpu: 100m, memory: 128Mi }
             limits: { cpu: "1", memory: 512Mi }
@@ -67,174 +64,14 @@ spec:
             httpGet: { path: /api/healthz, port: http }
           readinessProbe:
             httpGet: { path: /api/readyz, port: http }
-          volumeMounts:
-            - { name: tmp, mountPath: /tmp }
-      volumes:
-        - name: tmp
-          emptyDir: { medium: Memory, sizeLimit: 16Mi }
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: klisteniapp-api
-  namespace: klisteniapp-prod
+  name: klisteni-api
+  namespace: klisteni
 spec:
   type: ClusterIP
-  selector:
-    app.kubernetes.io/name: klisteniapp-api
+  selector: { app.kubernetes.io/name: klisteni-api }
   ports:
     - { name: http, port: 3001, targetPort: http }
----
-# API route has higher priority than the existing public web route. It does not
-# couple Nginx startup or the public catalog to API DNS/service availability.
-# Adopt the existing host's TLS/entrypoint configuration when moving to Mycelium.
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: klisteniapp-api
-  namespace: klisteniapp-prod
-  annotations:
-    traefik.ingress.kubernetes.io/router.priority: "100"
-    traefik.ingress.kubernetes.io/router.middlewares: klisteniapp-prod-klisteniapp-api-body-limit@kubernetescrd
-spec:
-  ingressClassName: traefik
-  rules:
-    - host: klisteniapp.orchid-labs.xyz
-      http:
-        paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: klisteniapp-api
-                port: { name: http }
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: klisteniapp-api-body-limit
-  namespace: klisteniapp-prod
-spec:
-  buffering:
-    maxRequestBodyBytes: 5242880
-    memRequestBodyBytes: 1048576
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: klisteniapp-api-ingress
-  namespace: klisteniapp-prod
-spec:
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: klisteniapp-api
-  policyTypes: [Ingress]
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: infrastructure
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-      ports:
-        - { protocol: TCP, port: 3001 }
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: klisteniapp-api-egress
-  namespace: klisteniapp-prod
-spec:
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/part-of: klisteniapp
-      app.kubernetes.io/component: api
-  policyTypes: [Egress]
-  egress:
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: shared-databases
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: postgresql
-      ports:
-        - { protocol: TCP, port: 5432 }
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - { protocol: UDP, port: 53 }
-        - { protocol: TCP, port: 53 }
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: postgresql-from-klisteniapp
-  namespace: shared-databases
-spec:
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: postgresql
-  policyTypes: [Ingress]
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: klisteniapp-prod
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/part-of: klisteniapp
-              app.kubernetes.io/component: api
-      ports:
-        - { protocol: TCP, port: 5432 }
----
-# Extract this Job into a reviewed one-off release manifest. Choose a unique name
-# per migration; use the exact same image digest as the API Deployment.
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: klisteniapp-migrate-release
-  namespace: klisteniapp-prod
-spec:
-  backoffLimit: 0
-  activeDeadlineSeconds: 300
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: klisteniapp-migration
-        app.kubernetes.io/part-of: klisteniapp
-        app.kubernetes.io/component: api
-    spec:
-      restartPolicy: Never
-      automountServiceAccountToken: false
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        seccompProfile: { type: RuntimeDefault }
-      containers:
-        - name: migrate
-          image: KLISTENIAPP_API_IMAGE_BY_DIGEST
-          command: [node, apps/api/src/migrate.ts]
-          envFrom:
-            - configMapRef: { name: klisteniapp-api-config }
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef: { name: klisteniapp-api-secrets, key: DATABASE_URL }
-            - name: BETTER_AUTH_SECRET
-              valueFrom:
-                secretKeyRef: { name: klisteniapp-api-secrets, key: BETTER_AUTH_SECRET }
-          resources:
-            requests: { cpu: 100m, memory: 128Mi }
-            limits: { cpu: "1", memory: 512Mi }
-          securityContext:
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            capabilities: { drop: [ALL] }

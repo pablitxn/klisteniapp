@@ -4,7 +4,7 @@
 
 Una aplicación de calistenia educativa, pensada primero para el teléfono y con una vista de escritorio. Explorá ejercicios en 3D, reconocé las regiones musculares que participan y registrá tu práctica de fuerza y actividad aeróbica.
 
-La primera versión parte de una situación concreta: principiante, sin molestias actuales y sin equipamiento. Mantiene la base de T3 Designer —React, Three.js y paquetes de dominio separados— aplicada a un nuevo modelo de movimiento.
+La primera versión parte de una situación concreta: principiante, sin molestias actuales y sin equipamiento. Usa React, Three.js y paquetes de dominio separados para explorar el movimiento.
 
 ## Empezar
 
@@ -12,10 +12,12 @@ Requisitos: **Node.js 24 o superior**, **pnpm 12.7.0** y un navegador moderno co
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @klisteniapp/web dev
+pnpm dev
 ```
 
-Abrí la dirección que muestre Vite, normalmente [localhost:5173](http://localhost:5173). Para explorar el catálogo y usar la demo local no hacen falta claves de API, base de datos ni Blender. Para cuentas y sincronización, configurá la API y PostgreSQL según [Cuentas y operación](docs/accounts.md); `pnpm dev:accounts` arranca web y API cuando ese entorno está preparado.
+Abrí la dirección que muestre Vite, normalmente [localhost:5173](http://localhost:5173). El modo predeterminado es una **demo local completa**, sin cuenta, backend, credenciales ni infraestructura privada. Incluye el catálogo educativo, el visor anatómico, rutinas, registros de fuerza y cardio, salud, objetivos, dashboard y exportación/importación. No hace falta Blender: los assets redistribuibles ya están incluidos.
+
+Las cuentas y la nube se activan sólo al construir una [instancia configurada por su operador](docs/accounts.md). No hay login ni paywall en el build de demo.
 
 Para ver la compilación de producción:
 
@@ -24,7 +26,7 @@ pnpm build
 pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 ```
 
-El resultado estático queda en `apps/web/dist`. La publicación usa [klisteniapp.orchid-labs.xyz](https://klisteniapp.orchid-labs.xyz), con Nginx para la web, una imagen separada para la API, GitLab CI y promoción por digest desde Mycelium. La activación de cuentas y el estado vigente se verifican en el registro de despliegue; ver [operación y publicación](docs/deployment.md).
+El resultado estático queda en `apps/web/dist`. Podés servirlo en un host estático con fallback SPA a `index.html`; `/privacy` también funciona sin backend. El build de demo no incluye el cliente de cuentas ni analytics. No hace llamadas a API o proveedores externos y utiliza fuentes del dispositivo. No es una PWA: requiere poder cargar sus archivos desde el host. Ver [demo reproducible](docs/public-demo.md) y [despliegue genérico](docs/deployment.md).
 
 ## Una primera vuelta
 
@@ -34,7 +36,9 @@ El resultado estático queda en `apps/web/dist`. La publicación usa [klisteniap
 4. Iniciá una sesión y registrá las repeticiones que efectivamente hiciste en cada serie. Guardá la sesión al terminar para incorporarla al historial.
 5. Sumá una caminata, un trote o una salida en bicicleta con **Registrar actividad**. En **Mi progreso** aparecen tus registros, semana, racha y XP.
 
-En **Personalizar** podés reordenar o quitar movimientos y elegir entre una y tres series. En **Ajustes** se reduce la animación y se exportan o importan los datos. Una cuenta incorpora perfil, zona horaria de seguimiento, rutinas guardadas y días de entrenamiento. El administrador invita por email; cada persona elige su contraseña y no hay registro público.
+En **Personalizar** podés reordenar o quitar movimientos y elegir entre una y tres series. En **Ajustes** se reduce la animación y se exportan o importan los datos. En **Mi salud** podés registrar medidas, sueño, actividad, comidas y objetivos, y explorar sus tendencias. La demo guarda todo en tu navegador; el historial empieza vacío para no mezclar ejemplos con tus datos.
+
+En una instancia con backend configurado, una cuenta agrega sincronización entre dispositivos. Su administrador gestiona las invitaciones y cada persona elige su contraseña.
 
 
 ## La base inicial
@@ -69,9 +73,9 @@ La constancia del plan cuenta **semanas cumpliendo los días de fuerza elegidos*
 - La demo preserva los originales ilegibles y sus copias de recuperación. Si el navegador rechaza almacenamiento, exportá la información disponible antes de cerrar.
 - La demo local no coordina pestañas; la cuenta usa operaciones individuales y revisiones de servidor.
 
-La medición de visitas con Umami es opcional y requiere aceptar primero. Solo envía una visita con nombre y dirección fijos del sitio: no registra ejercicios, rutinas, notas, progreso, email ni identificador de cuenta. Podés rechazar o retirar permiso desde **Preferencias de privacidad** sin perder la práctica. La [política de privacidad](https://klisteniapp.orchid-labs.xyz/privacy) distingue datos personales de cuenta, demo local, analytics, logs y proveedores. Consultá [funcionamiento de cuentas, administración y recuperación](docs/accounts.md).
+La demo no inicializa analytics ni cuentas, aunque el navegador conserve una sesión o consentimiento de una instalación anterior. La página **Privacidad** describe el uso local y no presupone la identidad, hosting o retención de ningún operador. Los enlaces a fuentes y licencias se abren sólo cuando los elegís; no reciben tu historial.
 
-La aplicación carga las tipografías desde Google Fonts; no es una PWA ni garantiza disponibilidad completa sin conexión. Los enlaces de fuentes abren sitios externos. El historial no se envía a esos sitios desde la aplicación.
+Una instancia puede configurar Umami con consentimiento previo y un perfil público del operador. Ese perfil se suministra al build desde un JSON externo: los datos que contiene se muestran públicamente, por lo que nunca debe incluir credenciales. Ver [modos y privacidad](docs/public-demo.md) y [cuentas](docs/accounts.md).
 
 ## Cómo está construido
 
@@ -85,7 +89,7 @@ La aplicación carga las tipografías desde Google Fonts; no es una PWA ni garan
 | `assets/blender` y `scripts/blender` | Escena editable y conversión de las fuentes anatómicas |
 | `docs` | Criterio de ejercicios, arquitectura y límites de esta iteración |
 
-El monorepo usa **pnpm workspaces y Turborepo**, con **Vite, React 19, TypeScript, Three.js, React Three Fiber, Drei, Zustand y Zod**, siguiendo la separación de T3 Designer. Las versiones exactas están en los manifiestos y `pnpm-lock.yaml`. Las pruebas de dominio usan el test runner de Node; las de navegador, Playwright. `i18next` y `react-i18next` están disponibles como base para una futura traducción, pero la interfaz actual está escrita en español.
+El monorepo usa **pnpm workspaces y Turborepo**, con **Vite, React 19, TypeScript, Three.js, React Three Fiber, Drei, Zustand y Zod**. Las versiones exactas están en los manifiestos y `pnpm-lock.yaml`. Las pruebas de dominio usan el test runner de Node; las de navegador, Playwright. `i18next` y `react-i18next` están disponibles como base para una futura traducción, pero la interfaz actual está escrita en español.
 
 La anatomía usa **mallas de Z-Anatomy / BodyParts3D**: superficie corporal, músculos y huesos de una misma fuente, con nombres de estructuras y coordenadas compartidas. La escena editable de Blender y el GLB conservan su procedencia; las optimizaciones y las licencias están documentadas. Blender se utiliza para preparar los recursos y puede ejecutarse en segundo plano; no hace falta tenerlo abierto ni instalado para usar la aplicación o construir la web con los recursos ya generados.
 

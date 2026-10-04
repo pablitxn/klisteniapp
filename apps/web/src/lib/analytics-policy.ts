@@ -1,5 +1,5 @@
 /** Public product policy, not a legal retention guarantee. Bump the version on material changes. */
-export const POLICY_VERSION = '2026-10-03.1'
+export const POLICY_VERSION = '2026-10-04.2'
 export const CONSENT_MONTHS = 6
 export const CONSENT_KEY = 'klisteniapp.analytics-consent'
 

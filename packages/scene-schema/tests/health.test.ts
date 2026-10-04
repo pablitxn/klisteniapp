@@ -64,7 +64,7 @@ test('duplicate IDs across categories and repeated provider identities are rejec
 test('future observations use server instant and recorded source timezone', () => {
   const now = new Date('2026-10-01T23:00:00Z');
   const health = createEmptyHealthData();
-  health.measurements = [{ ...measurement, date: '2026-10-02', timeZone: 'Europe/Sarajevo' }];
+  health.measurements = [{ ...measurement, date: '2026-10-02', timeZone: 'Europe/Paris' }];
   assert.equal(healthHasFutureObservations(health, '2026-10-01', now), false);
   health.measurements[0].timeZone = 'America/New_York';
   assert.equal(healthHasFutureObservations(health, '2026-10-01', now), true);

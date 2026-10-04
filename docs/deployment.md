@@ -1,38 +1,80 @@
-# Publicación y operación de Klisteni
+# Build the demo or operate your own instance
 
-La publicación combina una web estática pública, miniaturas del modelo anatómico y una API opcional de cuentas con PostgreSQL. La demo conserva su persistencia local; las cuentas sincronizan los datos personales cuando el backend está activado. Código canónico: [GitLab proyecto 35](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp). Dominio: [klisteniapp.orchid-labs.xyz](https://klisteniapp.orchid-labs.xyz). La configuración no constituye evidencia de que una release ya esté activa; verificar el pipeline, digest y runtime después de cada promoción.
+The repository is a software distribution, not a hosted account service. Its default build is a static **demo** with browser-local data. It needs no API, PostgreSQL, payment account, analytics collector or operator credentials. An **instance** is an explicit build owned and configured by its operator; its users, database, invitations and public information belong to that instance.
 
-## Release reproducible
+## Reproduce the default demo
 
-1. `pnpm install --frozen-lockfile --ignore-scripts` con Node 24+ y pnpm 12.7.0.
-2. `pnpm check:all` y `node scripts/validate-anatomy.mjs`. Los recorridos funcionales y de miniaturas usan Vite **preview** productivo; las pruebas de analytics construyen un bundle separado con UUID ficticio y collector interceptado.
-3. Compilar `pnpm build` con las cuatro variables públicas de `apps/web/.env.example`. Ninguna credencial va en `VITE_*`. Turborepo incluye las cuatro variables en la clave de caché para no reutilizar un bundle de otro hostname/Website ID.
-4. CI conserva `apps/web/dist` del job `quality`. `browser-tests` es un gate obligatorio. Kaniko publica exactamente ese artifact en una imagen runtime, sin Docker socket ni modo privilegiado, y produce `image.ref` y `image.digest`.
-5. `smoke-image` ejecuta la imagen por digest y comprueba salud, fallback de privacidad, modelo, headers/cache y denegaciones del proxy. No genera una visita aceptada.
-6. Para cuentas, completar además el gate PostgreSQL, imagen API por digest, migración explícita y ruta `/api` descritos en [Cuentas y operación](accounts.md). Promover los digests por Mycelium. Confirmar pod Ready, Argo Synced/Healthy, TLS, HTML y hashes, GLB realmente renderizado en escritorio/móvil, preservación local, analytics/retirada y observabilidad pública antes de dar la release por publicada.
+Use Node 24+ and the package manager pinned in `package.json`:
 
-La rama `codex/klisteniapp-public-release` requiere disparar manualmente `publish-image`; `main` publica después de los gates. El proyecto debe coincidir con `orchid-labs/homelab/klisteniapp`. La imagen y las herramientas CI están fijadas por digest; una actualización exige validación explícita. Las miniaturas versionadas se validan con `pnpm previews:check` sin regenerarlas. No instalar Blender ni descargar las fuentes anatómicas para construir la web: el GLB aprobado ya está versionado.
+```sh
+corepack enable
+corepack prepare pnpm@12.7.0 --activate
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm check
+pnpm --filter @klisteniapp/web preview --host 127.0.0.1
+```
 
-## Contrato runtime
+`pnpm dev` also starts the demo without a backend. Unit checks do not require a database; integration cases which require `TEST_DATABASE_URL` are skipped when it is absent. Browser checks require the matching Playwright browser installation. See the root README for asset acquisition and licensing requirements before rebuilding anatomical assets; validation does not grant additional redistribution rights.
 
-Nginx escucha 8080, UID/GID 1000, sin escritura en `/etc` ni en la web. El deployment debe usar filesystem raíz readonly, `/tmp` writable limitado, capabilities DROP ALL y no-new-privileges. Salud: `GET /healthz`. La web no necesita PVC. La API separada escucha 3001 y usa PostgreSQL; ver [contrato de cuentas](accounts.md). El paquete estático puede funcionar solo y devuelve API no disponible hasta configurar la ruta de backend. Solo `/assets/*` lleva cache immutable; los modelos, miniaturas y manifests de nombre estable se revalidan con `no-cache`. `/privacy` y `/privacy/` usan SPA fallback; assets inexistentes devuelven 404.
+The public `.gitlab-ci.yml` runs quality checks and browser tests with generic container images. It has no project-path restriction, required runner tags, private endpoints, registry authentication, image publishing or deployment job. The retained pinned images target Linux amd64; forks need a container-capable runner for that platform (or compatible emulation). Software-rendered 3D browser tests need sufficient CPU and memory; capacity is an operator concern rather than a dependency on a particular runner installation.
 
-La ruta `/api` debe tener prioridad superior a la web en el mismo hostname, conservar su prefijo, limitar cuerpos a 5 MiB y excluirse de cualquier caché de proxy/CDN. Todas las respuestas de API llevan `no-store`, incluidos errores y solicitudes anónimas. No enviar fallos de API al fallback HTML. Un router independiente evita que una caída del backend impida arrancar Nginx. `Dockerfile.api` corre como UID/GID 1000 y acepta filesystem raíz readonly; migraciones y altas de usuarios se ejecutan explícitamente.
+API integration is opt-in: run a pipeline with `RUN_API_INTEGRATION_TESTS=true`. It starts a disposable PostgreSQL service in that job, then runs `pnpm test:api` and `pnpm test:accounts`. The test credentials in CI are disposable fixtures. Never replace `TEST_DATABASE_URL` with a real account database or add instance secrets to the public project.
 
-La CSP restringe scripts y conexiones al mismo origen. Google Fonts está permitido únicamente en `style-src`/`font-src` y declarado en privacidad. Los estilos inline son necesarios para la UI/Three.js; no se permite script inline ni eval. No hay decoders o texturas externos en el GLB publicado.
+## Static container
 
-## Analytics
+`Dockerfile` packages an already built `apps/web/dist`. It does not build source, inject runtime credentials or select an instance automatically. This makes the reviewed build artifact the container's input:
 
-Website ID público: `ac451943-95f5-4b3e-8c49-33d17c4f511c`. Hostname exacto: `klisteniapp.orchid-labs.xyz`. Proxy same-origin únicamente `GET/HEAD /umami/script.js` y `POST /umami/api/send`, upstream privado `10.66.66.10:443`, Host/SNI `umami.orchid-labs.xyz`, TLS verificado. Todas las rutas de administración permanecen inaccesibles desde el proxy público. El deployment debe permitir exclusivamente ingress del Traefik/túnel confiable: el header de IP de Cloudflare depende de esa frontera.
+```sh
+pnpm build
+# Optional: supply --build-arg OCI_REVISION=<reviewed-commit> for traceability.
+docker build --platform linux/amd64 -t klisteni-web:local .
+docker run --platform linux/amd64 --rm --read-only --tmpfs /tmp:rw,noexec,nosuid,size=32m \
+  --cap-drop ALL --security-opt no-new-privileges \
+  -p 127.0.0.1:8080:8080 klisteni-web:local
+```
 
-Controller adaptado de T3: tracker 3.4.0, auto-track desactivado, callback before-send que siempre cancela el transporte nativo, transporte propio abortable, sin Referer/cookies ni replay, payload reconstruido de constantes. Una única visita `/`, título `Klisteni`, por documento después de aceptación válida. No mide cambios de pestaña o acciones del usuario; tampoco incorpora email, identificador de cuenta o contenido personal. `/privacy` no carga analytics; abrirla detiene el transporte, preserva el estado de práctica y pausa la demostración. Acceso directo a privacidad tampoco carga el GLB.
+Open `http://127.0.0.1:8080`. Nginx runs as UID/GID 1000, serves `/healthz`, and needs no persistent volume. Only hashed `/assets/*` use immutable caching; stable filenames are revalidated. Missing assets return 404. SPA routes such as `/privacy` return the web entry point. `/api/*` returns JSON 503 until the operator adds a same-origin API route; `/umami/*` returns 404 and has no upstream.
 
-Consentimiento separado del historial y de la sesión de cuenta: `klisteniapp.analytics-consent`, decisión/version/expiración de seis meses. DNT/GPC prevalecen. Expiración, hostname distinto, desarrollo, storage bloqueado o error de tracker/collector dejan analytics apagado. La retirada no borra solicitudes recibidas previamente.
+Run the bounded image smoke without external services:
 
-Retención configurada para este Website ID: 90 días por job específico de Panopticon. Logs operativos centralizados: 14 días configurados. Estos plazos no prometen caducidad equivalente para backups o archivos locales. Nginx emite categorías fijas y no URLs/query/IP en su stdout; eso no convierte los logs Traefik/Loki en anónimos.
+```sh
+docker run --platform linux/amd64 --rm --read-only --tmpfs /tmp:rw,noexec,nosuid,size=32m \
+  --cap-drop ALL --security-opt no-new-privileges \
+  --mount type=bind,src="$PWD/scripts/ci/smoke-runtime.sh",dst=/tmp/smoke-runtime.sh,readonly \
+  --entrypoint sh klisteni-web:local /tmp/smoke-runtime.sh
+```
 
-## Validación pública y rollback
+The smoke covers non-root startup, health, SPA fallback, asset headers, unavailable API and disabled analytics routes. Browser tests separately cover visual assets and behavior. A passing local image does not establish DNS, TLS, ingress or deployment health.
 
-Usar un contexto de navegador limpio: antes de elegir y tras rechazar/reload debe haber cero solicitudes `/umami/*`; aceptar debe producir un único POST 200 sanitizado; retirar debe quitar el tracker y detener nuevos envíos. Una visita controlada verifica recepción en el Website ID correcto, sin copiar IPs o datos visitantes al reporte. Confirmar /privacy directo y reload, formulario cardio, rutina, exportación y fallback sin WebGL. Las pruebas locales no acreditan DNS/TLS/proxy privado ni recepción real.
+## Build an instance explicitly
 
-Observar el dashboard y sondas Klisteni en Panopticon, métricas de ingress/pod y logs. Para rollback de la web, volver a un digest compatible por GitOps y repetir smoke; en primera publicación, retirar solo la exposición Klisteni. Con la versión de salud, desplegar primero el API y después la web. Una web anterior puede conservar el API nuevo. No volver ciegamente el API a una imagen anterior a salud: ese código descarta `settings.health` al validar y reescribir ajustes, aunque no cambie el esquema PostgreSQL. Si ya se guardaron registros de salud, conservar el API compatible o aplicar una corrección hacia adelante; cualquier retorno a código anterior requiere bloquear escrituras y preparar la preservación explícita de salud. No tocar túneles compartidos ni reiniciar WireGuard. El historial de la demo vive en el origen del navegador: mantener el hostname evita perder su acceso local entre releases. Los datos de cuenta viven en PostgreSQL. Una vuelta de imagen no revierte migraciones: conservar compatibilidad del esquema o aplicar la recuperación limitada de esta base descrita en [Cuentas y operación](accounts.md). No hacer rollback de PostgreSQL compartido ni de otras bases por un fallo de Klisteni.
+Prepare your own public profile from `apps/web/instance-profile.example.json`. Everything in this JSON is public and will be embedded in the bundle; it must not contain database URLs, API tokens, passwords, private user lists or internal addresses. Keep the real file in your private operator workspace.
+
+```sh
+VITE_APP_MODE=instance \
+KLISTENI_PUBLIC_PROFILE_FILE=/absolute/path/to/your-public-profile.json \
+pnpm build
+```
+
+The default remains `demo`. The instance build requires the profile; deployment-time environment variables cannot change a previously compiled static bundle. Build the instance artifact and then package it with the same Docker command. The operator is responsible for public identity/contact/privacy information and any optional analytics configuration. The default nginx configuration includes no analytics proxy; configuring a frontend identifier alone does not provision a collector. No payment or health provider is activated by selecting instance mode.
+
+Accounts require a separately provisioned API, database, migrations and first administrator. Follow [Accounts](accounts.md). A local opt-in Compose example is provided there; it is not production infrastructure.
+
+## Operator deployment contract
+
+Use your own private repository for deployment manifests, real public profiles, secret references, release records and recovery procedures. Keep actual secret values in a secret manager. `deploy/accounts.example.yaml` is a generic blueprint with deliberately incomplete image and host values; it does not create a database, TLS, ingress or policies for shared services.
+
+The API should be routed under `/api` on the same HTTPS origin as the web, preserving the prefix. Disable caching for every API response, retain JSON errors, and enforce the 5 MiB request limit. An independent edge route keeps static content available if API DNS or readiness fails. `docker/api.conf.example` is an optional container-network proxy example that must be integrated explicitly and adapted to your network; it is not included by default.
+
+Use `NODE_ENV=production`, a stable auth secret, a database/role dedicated to this instance, and `BILLING_MODE=disabled` until a separate sandbox verification is complete. Do not expose PostgreSQL or the API's internal port directly. A reverse proxy must overwrite any trusted client-IP header before the API is configured to accept it. SMTP is optional and needs the operator's relay. OAuth and automated health integrations are not implemented.
+
+Release sequence:
+
+1. Validate the exact source/profile and build web/API artifacts; retain immutable image digests in your private release record.
+2. Verify your database, secret injection, ingress, network policy and capacity.
+3. If data already exists, make a protected recovery copy of this instance's database and prove restoration into a separate database.
+4. Execute `node apps/api/src/migrate.ts` with the intended API image and configuration. Migrations are explicit; API startup does not run them.
+5. Promote the API, verify `/api/healthz` and `/api/readyz`, then promote the matching web.
+6. Check anonymous local use, account isolation, session recovery, invite/trial/lifetime behavior, expired-account export, and actual runtime readiness. Record observed results, not only CI success.
+
+A web rollback can use a compatible previous artifact while preserving the origin for browser-local data. An API downgrade does not undo a database migration and must preserve current JSON fields, including health data. For incompatible failures, stop instance writes and prefer a forward fix or restore into a separate database before changing the runtime connection. Do not restore over an existing database as a test or change unrelated services. See [recovery details](accounts.md#recovery).

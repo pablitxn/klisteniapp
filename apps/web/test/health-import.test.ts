@@ -13,7 +13,7 @@ const measurement = (overrides: Partial<BodyMeasurement> = {}): BodyMeasurement 
 });
 function file(records: Record<string, unknown> = {}, overrides: Record<string, unknown> = {}) {
   return JSON.stringify({
-    format: 'klisteniapp.health', version: 1, exportedAt: now.toISOString(), timeZone: 'Europe/Sarajevo',
+    format: 'klisteniapp.health', version: 1, exportedAt: now.toISOString(), timeZone: 'Europe/Paris',
     records: { measurements: [], sleep: [], activity: [], nutrition: [], supplements: [], ...records }, ...overrides,
   });
 }
@@ -24,7 +24,7 @@ function expectFailure(raw: string, pattern?: RegExp) {
 }
 
 test('empty template downloads without fabricated personal data and requires real records', () => {
-  const raw = createHealthImportTemplate(now, 'Europe/Sarajevo');
+  const raw = createHealthImportTemplate(now, 'Europe/Paris');
   const parsed = JSON.parse(raw);
   assert.ok(Object.values(parsed.records).every((records) => Array.isArray(records) && records.length === 0));
   expectFailure(raw, /vacía/);
@@ -50,7 +50,7 @@ test('preview preserves all categories, provenance and explicit units without mu
   assert.deepEqual(result.health.profile, current.profile);
   assert.deepEqual(result.health.goals, current.goals);
   assert.deepEqual(result.counts, { total: 5, added: 5, duplicates: 0 });
-  assert.equal(result.health.measurements[0]?.timeZone, 'Europe/Sarajevo');
+  assert.equal(result.health.measurements[0]?.timeZone, 'Europe/Paris');
   assert.deepEqual(result.health.measurements[0]?.source, base.source);
   assert.equal(result.health.measurements[0]?.skeletalMuscleKg, undefined);
   assert.equal(result.health.nutrition[0]?.energyKcal, undefined);
@@ -91,7 +91,7 @@ test('two origins cannot reuse a local ID in a file or collide with a saved reco
   const collision = measurement({ source: { kind: 'health-connect', externalId: 'different-origin' } });
   expectFailure(file({ measurements: [first, collision] }), /identificador local/);
   const current = createEmptyHealthData();
-  current.measurements.push({ ...first, timeZone: 'Europe/Sarajevo' });
+  current.measurements.push({ ...first, timeZone: 'Europe/Paris' });
   const result = previewHealthImport(file({ measurements: [collision] }), current, now);
   assert.equal(result.ok, false);
   assert.equal(current.measurements.length, 1);

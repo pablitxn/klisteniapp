@@ -2,6 +2,7 @@ import { useRef, useSyncExternalStore, type MouseEvent } from 'react'
 import { analytics } from '../lib/analytics'
 import Modal from './Modal'
 import { useState } from 'react'
+import { instanceMode } from '../lib/deployment'
 
 export default function PrivacyControls({ onOpenPrivacy }: {
   onOpenPrivacy: (event: MouseEvent<HTMLAnchorElement>) => void
@@ -18,6 +19,9 @@ export default function PrivacyControls({ onOpenPrivacy }: {
     else analytics.reject()
     preferences.current?.focus()
   }
+  if (!instanceMode) return <section className="privacy-controls" aria-label="Privacidad">
+    <div className="privacy-links"><span>Datos en este dispositivo · Sin analytics</span><a href="/privacy" data-testid="privacy-policy" onClick={onOpenPrivacy}>Privacidad</a></div>
+  </section>
   return <section className="privacy-controls" aria-label="Privacidad">
     <div className="privacy-links">
       <button type="button" ref={preferences} className="text-button" data-testid="privacy-preferences" aria-haspopup="dialog" onClick={() => setOpen(true)}>Preferencias de privacidad</button>

@@ -7,12 +7,7 @@ export const BillingSchema = z.object({ mode: z.enum(['disabled', 'sandbox']), p
 export type AccountBilling = z.infer<typeof BillingSchema>
 export const ShareInvitationSchema = z.object({ id: z.string(), label: z.string(), maxUses: z.number().int(), uses: z.number().int(), expiresAt: z.string(), status: z.enum(['active', 'expired', 'revoked', 'exhausted']) })
 export type ShareInvitation = z.infer<typeof ShareInvitationSchema>
-export function cloudWriteAllowed(access: AccountAccess | null) {
-  if (!access) return true // The server still authorizes every write if status is temporarily unavailable.
-  if (!access.cloudWrite) return false
-  const until = access.status === 'trial' ? access.trialEndsAt : access.status === 'active' ? access.paidThrough : null
-  return !until || Date.parse(until) > Date.now()
-}
+export { cloudWriteAllowed } from './cloud-access.ts'
 export interface AccountUser { id: string; email: string; name: string; role?: 'admin' | 'user' }
 const AdminUserSchema = z.object({ id: z.string(), email: z.string(), name: z.string(), role: z.enum(['admin', 'user']), disabled: z.boolean(), createdAt: z.string(), access: AccountAccessSchema.optional() })
 const InvitationSchema = z.object({ id: z.string(), email: z.string(), name: z.string().nullish(), kind: z.enum(['activation', 'recovery']), role: z.enum(['admin', 'user']), createdAt: z.string(), expiresAt: z.string(), status: z.enum(['pending', 'used', 'revoked', 'expired']), deliveryStatus: z.string().nullish(), access: z.enum(['trial', 'lifetime']).optional() })

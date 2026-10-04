@@ -19,7 +19,7 @@ const userA = { id: 'account-a', email: 'a@example.test', name: 'Persona A' }
 const userB = { id: 'account-b', email: 'b@example.test', name: 'Persona B' }
 const cardio = (id: string): CardioLog => ({ id, date: '2026-10-03', activity: 'walk', minutes: 20 })
 const state = (name = 'Persona A', logs: CardioLog[] = [], revision = 0): ServerState => {
-  const data = createDefaultPersonalData(name, 'Europe/Sarajevo')
+  const data = createDefaultPersonalData(name, 'Europe/Paris')
   data.progress.cardio = logs
   return { data, revision }
 }

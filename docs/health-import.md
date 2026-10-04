@@ -43,7 +43,7 @@ La implementación es [health-import.ts](../apps/web/src/lib/health-import.ts); 
   "format": "klisteniapp.health",
   "version": 1,
   "exportedAt": "2026-10-04T12:00:00Z",
-  "timeZone": "Europe/Sarajevo",
+  "timeZone": "Europe/Paris",
   "records": {
     "measurements": [],
     "sleep": [],
@@ -91,7 +91,7 @@ Ejemplo **sintético y exclusivamente explicativo**, para colocar en `records.me
   "id": "measurement-example-1",
   "date": "2026-10-03",
   "recordedAt": "2026-10-03T09:00:00+02:00",
-  "timeZone": "Europe/Sarajevo",
+  "timeZone": "Europe/Paris",
   "source": {
     "kind": "samsung-health",
     "externalId": "REEMPLAZAR-POR-ID-REAL",

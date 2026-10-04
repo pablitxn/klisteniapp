@@ -7,6 +7,16 @@ test('registered atlas loads, layers switch, and enlarged view is keyboard acces
   page,
 }) => {
   const errors: string[] = []
+  const unexpectedRequests: string[] = []
+  const origin = new URL(String(test.info().project.use.baseURL)).origin
+  await page.route('**/*', route => {
+    const url = new URL(route.request().url())
+    if (/^https?:$/.test(url.protocol) && (url.origin !== origin || /^\/(api|umami)(\/|$)/.test(url.pathname))) {
+      unexpectedRequests.push(url.origin === origin ? url.pathname : url.hostname)
+      return route.abort()
+    }
+    return route.continue()
+  })
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   const viewer = page.getByRole('region', {
@@ -60,6 +70,7 @@ test('registered atlas loads, layers switch, and enlarged view is keyboard acces
   expect(notice.ok()).toBe(true)
   expect(await notice.text()).toContain('CC BY-SA 4.0')
   expect(errors).toEqual([])
+  expect(unexpectedRequests).toEqual([])
 })
 
 test('mobile atlas fits narrow screens and all six demonstrations remain controllable', async ({

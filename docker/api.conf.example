@@ -1,23 +1,17 @@
-# Optional accounts proxy, included inside the public Nginx server block.
-# After API validation, replace the inline /api fallback locations in the
-# deployment-provided nginx.conf with: include /etc/nginx/api.conf;
-# Mount this completed file there. Copying it alone does not activate a proxy.
-# The main nginx.conf must classify ^/api(?:/|$) as no-store in $cache_control.
-# Set the resolver to the observed cluster DNS Service IP before promotion.
-# This example uses a placeholder deliberately; it is not ready for nginx -t.
-location = /api { return 404; }
+# OPTIONAL INSTANCE ONLY. Replace the /api fallback locations inside the server
+# block of docker/nginx.conf with this file's contents. Adapt the upstream to
+# your own private network and validate with nginx -t before starting.
+# This example expects an API service named `api` on the same container network.
+# It is never included by the default public demo image.
+location = /api { default_type application/json; return 404 '{"error":"Not found"}'; }
 location ^~ /api/ {
-    resolver CLUSTER_DNS_SERVICE_IP valid=30s ipv6=off;
-    set $klisteni_api "klisteniapp-api.klisteniapp-prod.svc.cluster.local:3001";
     client_max_body_size 5m;
-    proxy_pass http://$klisteni_api$request_uri;
+    proxy_pass http://api:3001;
     proxy_http_version 1.1;
     proxy_set_header Host $host;
     proxy_set_header Origin $http_origin;
     proxy_set_header Connection "";
-    # Default API configuration derives client IP from its TCP peer. To enable
-    # per-client limits behind this proxy, first configure trusted real_ip ingress
-    # handling and set TRUSTED_CLIENT_IP_HEADER=x-klisteniapp-client-ip in the API.
+    # Do not trust client-supplied forwarding or IP headers.
     proxy_set_header X-Klisteniapp-Client-IP $remote_addr;
     proxy_set_header X-Forwarded-For "";
     proxy_set_header X-Forwarded-Host "";
@@ -30,6 +24,7 @@ location ^~ /api/ {
     proxy_no_cache 1;
     proxy_cache_bypass 1;
     proxy_hide_header Cache-Control;
-    # Cache-Control and security response headers inherit from the main server.
-    # Do not configure error_page ... /index.html for this location.
+    # The parent server inherits no-store for /api and security headers.
+    # Do not map API errors to /index.html. This variant needs API DNS at startup;
+    # an independent edge /api route avoids coupling the static server to it.
 }

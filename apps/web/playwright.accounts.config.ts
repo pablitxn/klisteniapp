@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: ['accounts.spec.ts', 'subscriptions.spec.ts'],
+  testMatch: ['accounts.spec.ts', 'subscriptions.spec.ts', 'account-access.spec.ts', 'forgot-password.spec.ts', 'health.spec.ts'],
   outputDir: process.env.CI ? './accounts-test-results' : `/tmp/klisteniapp-accounts-results-${process.pid}`,
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
@@ -27,7 +27,7 @@ export default defineConfig({
     },
     {
       command: 'pnpm build && pnpm preview --host 127.0.0.1 --port 4181 --strictPort',
-      env: {
+      env: { VITE_APP_MODE: 'instance', KLISTENI_PUBLIC_PROFILE_FILE: 'instance-profile.example.json',
         KLISTENI_API_URL: 'http://127.0.0.1:4182',
         VITE_UMAMI_SCRIPT_URL: '', VITE_UMAMI_HOST_URL: '', VITE_UMAMI_WEBSITE_ID: '', VITE_UMAMI_ALLOWED_HOSTNAME: '',
       },

@@ -3,7 +3,7 @@ import { createDefaultPersonalData, type ServerState } from '@klisteniapp/scene-
 
 const account = { id: 'health-browser-test', email: 'health@example.test', name: 'Persona de prueba' }
 async function mockAccount(page: Page, configure?: (state: ServerState) => void) {
-  let state: ServerState = { data: createDefaultPersonalData(account.name, 'Europe/Sarajevo'), revision: 0 }
+  let state: ServerState = { data: createDefaultPersonalData(account.name, 'Europe/Paris'), revision: 0 }
   configure?.(state)
   const writes: unknown[] = []
   let reject = false
@@ -92,7 +92,7 @@ test('health file imports preview before sending, deduplicate repeated records a
   const api = await mockAccount(page)
   await section(page, 'Importar')
   const file = {
-    format: 'klisteniapp.health', version: 1, exportedAt: '2026-09-28T12:00:00Z', timeZone: 'Europe/Sarajevo',
+    format: 'klisteniapp.health', version: 1, exportedAt: '2026-09-28T12:00:00Z', timeZone: 'Europe/Paris',
     records: { measurements: [{ id: 'watch-measurement-1', date: '2026-09-28', recordedAt: '2026-09-28T09:00:00Z', source: { kind: 'samsung-health', device: 'Galaxy Watch8', externalId: 'original-1' }, weightKg: 80, bodyFatPercent: 26 }], sleep: [], activity: [], nutrition: [], supplements: [] },
   }
   const upload = () => page.locator('.health-file input[type="file"]').setInputFiles({ name: 'health.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(file)) })
@@ -159,7 +159,7 @@ test('sleep, exercise response, meals, supplements and dated goals are editable 
 test('overlapping sleep never completes a goal and corrections retain source identity and exact original times', async ({ page }) => {
   const api = await mockAccount(page, state => {
     const health = state.data.settings.health!
-    const night = { date: '2026-10-02', recordedAt: '2026-10-02T08:00:00Z', durationMinutes: 420, startAt: '2026-10-01T22:00:15.123Z', endAt: '2026-10-02T06:00:15.123Z', timeZone: 'Europe/Sarajevo' }
+    const night = { date: '2026-10-02', recordedAt: '2026-10-02T08:00:00Z', durationMinutes: 420, startAt: '2026-10-01T22:00:15.123Z', endAt: '2026-10-02T06:00:15.123Z', timeZone: 'Europe/Paris' }
     health.sleep = [
       { id: 'baseline', date: '2026-10-01', recordedAt: '2026-10-01T08:00:00Z', durationMinutes: 360, source: { kind: 'manual' } },
       { ...night, id: 'samsung-night', source: { kind: 'samsung-health', externalId: 'night-original' } },
@@ -266,7 +266,7 @@ test('free local health, goals and manual imports persist without an account or 
   await expect(page.getByRole('heading', { name: 'Mi meta local', exact: true })).toBeVisible()
   await section(page, 'Importar')
   const file = {
-    format: 'klisteniapp.health', version: 1, exportedAt: '2026-09-28T12:00:00Z', timeZone: 'Europe/Sarajevo',
+    format: 'klisteniapp.health', version: 1, exportedAt: '2026-09-28T12:00:00Z', timeZone: 'Europe/Paris',
     records: { measurements: [{ id: 'local-import', date: '2026-09-28', recordedAt: '2026-09-28T09:00:00Z', source: { kind: 'samsung-health', device: 'Galaxy Watch8', externalId: 'local-origin' }, weightKg: 80 }], sleep: [], activity: [], nutrition: [], supplements: [] },
   }
   await page.locator('.health-file input[type="file"]').setInputFiles({ name: 'health.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(file)) })

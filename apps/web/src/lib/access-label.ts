@@ -1,4 +1,5 @@
-import { cloudWriteAllowed, type AccountAccess } from './account-api'
+import type { AccountAccess } from './account-api'
+import { cloudWriteAllowed } from './cloud-access'
 
 export function accessLabel(access: AccountAccess | null) {
   if (!access) return 'Consultando tu acceso a la nube'

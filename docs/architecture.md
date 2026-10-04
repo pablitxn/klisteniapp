@@ -109,10 +109,10 @@ Los XP son una regla de producto: 10 por serie y 1 por minuto de cardio; cada 10
 - La cuenta detecta conflictos de ajustes y reintentos de registros en el servidor. La demo local conserva su límite: no coordina escrituras entre pestañas.
 - La interfaz actual es española. `i18next` y `react-i18next` forman parte de las dependencias compartidas con T3, pero todavía no se conectaron a los textos.
 - La escena requiere WebGL 2; si falla, las instrucciones textuales siguen disponibles. Las pruebas de navegador deben complementarse con una inspección visual en hardware real.
-- Las fuentes se cargan desde Google Fonts. No existe service worker ni garantía de arranque sin conexión.
+- Las fuentes son las del dispositivo. No existe service worker ni garantía de arranque sin conexión.
 - La duración de una sesión mide el tiempo transcurrido desde el inicio, incluidos los descansos; no equivale a tiempo activo ni intensidad.
 
-La configuración de sesión, CLI, migraciones, seguridad del proxy, recuperación e instrucciones de aceptación están en [Cuentas y operación](accounts.md). Los ejemplos de despliegue de este repo se trasladan al estado deseado de Mycelium; no reemplazan esa fuente de verdad.
+La configuración de sesión, CLI, migraciones, seguridad del proxy, recuperación e instrucciones de aceptación están en [Cuentas y operación](accounts.md). Los ejemplos de despliegue son genéricos; cada operador mantiene su estado deseado, credenciales y evidencia fuera del producto público.
 
 ## Cambiar la aplicación sin perder consistencia
 
@@ -127,3 +127,11 @@ Ejecutá `pnpm check` para lint, tipos, tests y build. `pnpm test:e2e` levanta V
 `account_token` conserva el hash de cada enlace de activación/recuperación, propósito, destinatario, vencimiento, uso y revocación. Un bloqueo transaccional coordina bootstrap, emisión y consumo. La activación crea usuario y credencial en la misma transacción que consume el enlace; recuperar contraseña invalida sesiones. El rol se fija en servidor y la administración no expone historiales ajenos.
 
 SMTP es una integración opcional de la API: STARTTLS/TLS obligatorio, secreto propio y envío explícito. La aceptación SMTP se registra separadamente del estado del enlace, sin afirmar entrega a la bandeja. Las páginas de activación/recuperación retiran el fragmento de la URL y quedan excluidas de analytics.
+
+## Demo e instancia
+
+`VITE_APP_MODE=demo` es el valor predeterminado. Vite selecciona el store local y el módulo de analytics desactivado, y elimina las pantallas de cuentas del bundle. Se mantienen las claves históricas de localStorage y los formatos v1/v2. La apertura de la demo no consulta sesiones ni importa, borra o adjudica datos de cuentas.
+
+`VITE_APP_MODE=instance` exige un perfil público del operador mediante `KLISTENI_PUBLIC_PROFILE_FILE`. El JSON se valida durante la compilación y se incluye como datos de texto; la página de privacidad no depende de la API. El perfil es público, no un canal para secretos. El backend sigue siendo un servicio separado y explícito.
+
+Las configuraciones reales, runbooks y evidencia pertenecen a un repositorio privado del operador. El producto se compila sin submódulos ni dependencias de repositorios privados. La caché de build está desactivada para no reutilizar accidentalmente un bundle con el perfil de otra instalación.

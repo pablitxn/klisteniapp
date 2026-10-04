@@ -1,5 +1,7 @@
 # Integraciones de salud y acceso a la nube
 
+La demo pública conserva registro, importación y dashboards locales. Una conexión futura que guarde datos en un servidor pertenece a una instancia configurada por su operador; esta distribución no conecta proveedores, usuarios ni credenciales automáticamente. [Modos y configuración](deployment.md).
+
 Estado contrastado con fuentes oficiales el **4 de octubre de 2026**. El dashboard, las metas y la importación del [JSON normalizado](health-import.md) están disponibles en Klisteni. **No hay una conexión automática con Google Health, Health Connect o Samsung implementada.** La cuenta con acceso a la nube prepara la persistencia de futuras integraciones; pagar o tener acceso vitalicio no habilita un proveedor que todavía no está integrado.
 
 ## Dos rutas distintas
