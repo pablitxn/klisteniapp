@@ -167,6 +167,10 @@ smoke-image:
 # tests exercise a disposable schema; these credentials never reach Production.
 accounts-tests:
   stage: accounts
+  # Release the completed 2-CPU browser pod before requesting PostgreSQL and its test pod.
+  # This mitigates observed cleanup overlap without changing shared runner quotas.
+  when: delayed
+  start_in: 30 seconds
   image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
   services:
     - name: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
