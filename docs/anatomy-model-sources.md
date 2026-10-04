@@ -34,6 +34,32 @@ El GLB exportado contiene 500 290 triángulos. La preparación del visor conserv
 
 BodyParts3D también ofrece los datos originales y tablas de relaciones `IS-A` y `PART-OF`, con nombres de órganos y sus identificadores. Es una alternativa para reconstruir un subconjunto directamente desde la fuente sin las modificaciones de Z-Anatomy. La página de descargas publica archivos OBJ y tablas que permiten enlazar mallas con conceptos anatómicos. [Archivo oficial de BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html).
 
+## Publicar el fuente de Blender sin residuos del editor
+
+Blender puede conservar bytes de una ruta anterior después del terminador NUL de los campos del explorador de archivos. Asignar `//` o una cadena vacía limpia el texto visible, pero no necesariamente toda la capacidad del campo. El generador usa [public_metadata.py](../scripts/blender/public_metadata.py) para sobrescribir primero las capacidades completas de directorio y nombre de archivo con un relleno neutro, y luego dejar los valores públicos. Revisa ambos modos del explorador y conserva su modo original.
+
+La comprobación estructural siguiente descomprime el `.blend`, lee su SDNA y revisa la capacidad completa de esos campos, incluidos los bytes posteriores al NUL. Requiere Python 3 y `zstd` en `PATH` para archivos comprimidos con zstd. Un resultado correcto contiene `passed: true`; un formato desconocido o bytes residuales distintos del relleno permitido hacen fallar el comando. Es una comprobación específica de los campos del explorador, complementaria a la auditoría de indicadores privados.
+
+```sh
+python3 scripts/blender/audit_file_browser_buffers.py assets/blender/anatomy.blend
+python3 -m unittest discover -s scripts/blender -p 'test_*.py'
+```
+
+Para limpiar un fuente existente, generar una copia nueva con Blender nativo:
+
+```sh
+audit_dir="$(mktemp -d)"
+blender --background --factory-startup --disable-autoexec --python-exit-code 1 \
+  --python scripts/blender/sanitize_anatomy.py -- \
+  --input assets/blender/anatomy.blend \
+  --output "$audit_dir/anatomy.blend" --report "$audit_dir/preservation.json"
+python3 scripts/blender/audit_file_browser_buffers.py "$audit_dir/anatomy.blend"
+```
+
+El sanitizador conserva el archivo de entrada, reabre la copia y compara fingerprints de los arrays completos de malla, atributos, pesos, transformaciones, materiales, propiedades de procedencia y ajustes seleccionados de escena/vista. No muestrea geometría ni vuelve a exportar el GLB. Rechaza animaciones, rigs y otros contenidos que este verificador del atlas estático no cubre; tampoco afirma revisar exhaustivamente todos los ajustes anidados de render, herramientas o interfaz. La reconstrucción matemática de los movimientos de la aplicación permanece separada del fuente estático.
+
+Antes de reemplazar el fuente, exigir `preserved: true`, `inputUnchanged: true`, `changedCategories: []` y `fileBrowserBuffers.passed: true` en el reporte, además de una auditoría con la política externa del operador. Ante cualquier fallo, conservar el original y revisar la copia; no ignorar el error ni modificar un hash esperado para aceptarla. La limpieza de metadatos no modifica las atribuciones, las licencias ni el catálogo.
+
 ## Licencias comprobadas
 
 | Capa de procedencia | Condición publicada | Aplicación a Klisteni |

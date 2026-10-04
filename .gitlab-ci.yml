@@ -53,6 +53,7 @@ quality:
     - pnpm previews:check
     - node scripts/validate-anatomy.mjs
     - pnpm build
+    - node scripts/audit-publication.mjs --self-test
     - node scripts/audit-publication.mjs --dist apps/web/dist
     - test -s apps/web/dist/index.html
   artifacts:

@@ -67,11 +67,14 @@ La compilación no habilita Mercado Pago, correo, OAuth ni integraciones por sí
 
 ```sh
 pnpm check
+node scripts/audit-publication.mjs --self-test
 pnpm audit:publication
 pnpm --filter @klisteniapp/web exec playwright install chromium
 pnpm test:e2e
 ```
 
 La auditoría revisa el árbol publicable y los metadatos de assets; consultá la ayuda del script para revisar también una distribución compilada. No reemplaza una revisión de vulnerabilidades o de dependencias. Las pruebas de instancia se ejecutan aparte con una base desechable y nunca deben apuntar a una base de usuarios reales.
+
+Los indicadores propios del operador se guardan en una política fuera del árbol público y se pasan con `--private-patterns /absolute/path/outside-repository/policy.json`. No los copies en fixtures negativos, regex de ejemplo o strings partidos dentro del detector. Con esa política, el auditor también reconstruye estáticamente literales con escapes, concatenaciones de literales y arrays de literales con `join()`; nunca ejecuta el código inspeccionado. No interpreta identificadores, llamadas arbitrarias ni valores calculados durante la ejecución, y falla si supera los límites del analizador. El CI genérico ejecuta las pruebas sintéticas del auditor; las reglas específicas del operador requieren pasar explícitamente su política externa.
 
 El CI público ejecuta checks genéricos, no publica imágenes ni despliega instancias. El código público no incluye la configuración, credenciales, runbooks ni recuperación privada de ningún operador. Las licencias anatómicas deben acompañar sus modelos y renders; la licencia del código no las reemplaza.

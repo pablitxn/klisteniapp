@@ -5,6 +5,10 @@
  * Private pattern format: {tokens:[{category:"personal-name",value:"..."}],
  * patterns:[{category:"private-location",pattern:"...",flags:"i"}]}.
  * Patterns add detections, never exceptions. Keep their file outside the public tree.
+ * External rules also inspect statically reconstructed JS/TS/JSX/TSX/JSON strings.
+ * See publication-static-strings.mjs for supported syntax and hard resource limits.
+ * Locations identify the original expression range (UTF-16 offsets); a trailing
+ * +offset identifies a match within its decoded value, never executable content.
  */
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -13,7 +17,8 @@ import { resolve, relative, extname, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { isIP } from 'node:net'
-import { gunzipSync, inflateSync, zstdDecompressSync, zstdCompressSync, deflateSync } from 'node:zlib'
+import { gzipSync, gunzipSync, inflateSync, zstdDecompressSync, zstdCompressSync, deflateSync } from 'node:zlib'
+import { staticStringsIn, staticStringLimits } from './publication-static-strings.mjs'
 
 const maxBytes = 128 * 1024 * 1024
 const decodeOptions = { maxOutputLength: 256 * 1024 * 1024 }
@@ -137,6 +142,21 @@ function findingsIn(text, path, location, activeRules = rules) {
     }
   }
   return found
+}
+
+function staticFindingsIn(text, path, privateRules = []) {
+  // Generic negative fixtures deliberately construct private-address/key shapes.
+  // Only operator-supplied policy applies to reconstructed strings.
+  if (!privateRules.length) return { supported: false, strings: 0, findings: [] }
+  const result = staticStringsIn(text, path)
+  return {
+    supported: result.supported,
+    strings: result.units.length,
+    findings: [
+      ...result.issues.map(item => ({ path, ...item })),
+      ...result.units.flatMap(unit => findingsIn(unit.value, path, unit.location, privateRules)),
+    ],
+  }
 }
 
 function metadataUnits(buffer, extension) {
@@ -279,6 +299,53 @@ function selfTest() {
   const glb = Buffer.alloc(20 + json.length); glb.write('glTF'); glb.writeUInt32LE(2, 4); glb.writeUInt32LE(glb.length, 8); glb.writeUInt32LE(json.length, 12); glb.writeUInt32LE(0x4e4f534a, 16); json.copy(glb, 20)
   tests.push(['glb-json', checkEmail(glb, '.glb')])
   tests.push(['scope-does-not-exempt-a-different-file', !allowed('credential-url', 'unapproved', '', '.env.example')])
+  // All regression identifiers are invented. Never embed operator policy here.
+  const fakePolicy = [{ category: 'private-token', regex: /sample-operator\.invalid/g }]
+  const residualBlend = Buffer.from('BLENDER-v500\0//\0sample-operator.invalid\0')
+  for (const [name, buffer] of [
+    ['blend-private-token-after-nul', residualBlend],
+    ['zstd-blend-private-token-after-nul', zstdCompressSync(residualBlend)],
+    ['gzip-blend-private-token-after-nul', gzipSync(residualBlend)],
+  ]) tests.push([name, metadataUnits(buffer, '.blend').some(unit => findingsIn(unit.text, 'fixture.blend', unit.location, fakePolicy).some(item => item.category === 'private-token'))])
+  const reconstructed = source => staticFindingsIn(source, 'synthetic-fixture.ts', fakePolicy).findings
+  const syntheticSources = [
+    ['private-concat', 'const value = "sample-" + "operator.invalid"'],
+    ['private-join', 'const value = ["sample-operator", "invalid"].join(".")'],
+    ['private-escaped-literal', String.raw`const value = "\u0073ample-\x6fperator.invalid"`],
+    ['private-nested-expression', 'const value = (["sample-", ("operator" as const)].join("") + ".invalid")'],
+  ]
+  for (const [name, source] of syntheticSources) tests.push([name, reconstructed(source).some(item => item.category === 'private-token')])
+  tests.push(['private-json-escapes', staticFindingsIn(String.raw`{"value":"\u0073ample-operator.invalid"}`, 'synthetic.json', fakePolicy).findings.some(item => item.category === 'private-token')])
+  const located = reconstructed('// fixture\nconst value = "sample-" + "operator.invalid"')
+  tests.push(['private-source-location', located.some(item => item.location.startsWith('line:2:column:15:source:25-'))])
+  tests.push(['private-diagnostics-redact-values', !JSON.stringify(located).includes('sample-operator.invalid')])
+  tests.push(['private-policy-only', staticFindingsIn('const value = ["10", "42", "0", "7"].join(".")', 'fixture.js').findings.length === 0])
+  tests.push(['private-no-identifier-resolution', reconstructed('const prefix = "sample-"; const value = prefix + "operator.invalid"').length === 0])
+  tests.push(['private-no-dynamic-separator', reconstructed('const value = ["sample-operator", "invalid"].join(getSeparator())').length === 0])
+  const probe = '__publicationStaticProbe'
+  const previous = Object.getOwnPropertyDescriptor(globalThis, probe)
+  try {
+    Object.defineProperty(globalThis, probe, { value: 0, configurable: true, writable: true })
+    const dynamic = 'globalThis.__publicationStaticProbe = 1; (() => { throw new Error("source must remain data") })(); const value = getPrefix() + "operator.invalid"'
+    tests.push(['private-never-executes-source', reconstructed(dynamic).length === 0 && globalThis[probe] === 0])
+    tests.push(['private-never-invokes-getters', reconstructed('const value = ({get join(){globalThis.__publicationStaticProbe = 2}}).join(".")').length === 0 && globalThis[probe] === 0])
+  } finally {
+    if (previous) Object.defineProperty(globalThis, probe, previous)
+    else delete globalThis[probe]
+  }
+  const bounded = (source, override, category) => staticStringsIn(source, 'fixture.js', { ...staticStringLimits, ...override }).issues.some(item => item.category === category)
+  tests.push(['static-source-limit', bounded('const value = "fixture"', { sourceBytes: 8 }, 'static-analysis-size-limit')])
+  tests.push(['static-node-limit', bounded('const value = "fixture"', { nodes: 2 }, 'static-analysis-node-limit')])
+  tests.push(['static-depth-limit', bounded('const value = "a" + "b" + "c"', { depth: 2 }, 'static-analysis-depth-limit')])
+  const wrappedArray = '('.repeat(66) + '["synthetic-", "marker.invalid"]' + ')'.repeat(66)
+  tests.push(['static-join-unwrap-depth-limit', staticFindingsIn(`// fixture\nconst value = ${wrappedArray}.join("")`, 'fixture.js', fakePolicy).findings.some(item => item.category === 'static-analysis-depth-limit' && item.location.startsWith('line:2:column:15:source:25-'))])
+  tests.push(['static-value-limit', bounded('const value = "abcd" + "efgh"', { valueChars: 6 }, 'static-analysis-value-limit')])
+  tests.push(['static-array-limit', bounded('const value = ["a", "b"].join("")', { arrayElements: 1 }, 'static-analysis-array-limit')])
+  tests.push(['static-total-limit', bounded('const a = "abcd"; const b = "efgh"', { totalChars: 6 }, 'static-analysis-output-limit')])
+  tests.push(['static-malformed-source', bounded('const value = "unterminated', {}, 'static-analysis-parse-error')])
+  tests.push(['static-unsupported-extension', !staticStringsIn('"sample-" + "operator.invalid"', 'fixture.md').supported])
+  const copyright = readFileSync(new URL('../LICENSE', import.meta.url), 'utf8').split('\n').find(line => sha256(line) === approvedCopyrightHash)
+  tests.push(['copyright-exception-still-exact', !!copyright && allowed('personal-name', '', copyright, 'LICENSE') && !allowed('personal-name', '', copyright, 'fixture.js')])
   if (tests.some(([, passed]) => !passed)) throw new Error('self-test-failed:' + tests.filter(([, p]) => !p).map(([name]) => name).join(','))
   return { selfTests: tests.length, passed: tests.length }
 }
@@ -287,15 +354,16 @@ function main() {
   const { values } = parseArgs({ options: { root: { type: 'string', default: '.' }, dist: { type: 'string', multiple: true }, 'private-patterns': { type: 'string' }, 'self-test': { type: 'boolean' } } })
   if (values['self-test']) { console.log(JSON.stringify(selfTest())); return }
   const root = resolve(values.root)
-  const activeRules = [...rules]
+  const activeRules = [...rules], privateRules = []
   if (values['private-patterns']) {
     const configPath = resolve(values['private-patterns'])
     if (!relative(root, configPath).startsWith(`..${sep}`)) throw new Error('private-pattern-file-must-be-outside-public-root')
     const config = JSON.parse(readFileSync(configPath, 'utf8'))
     for (const item of [...(config.tokens || []).map(x => ({ ...x, pattern: escapeRegex(x.value), flags: 'i' })), ...(config.patterns || [])]) {
       if (!/^[a-z][a-z0-9-]{0,39}$/.test(item.category) || !item.pattern) throw new Error('invalid-private-pattern')
-      activeRules.push({ category: item.category, regex: new RegExp(item.pattern, [...new Set((item.flags || '') + 'g')].join('')) })
+      privateRules.push({ category: item.category, regex: new RegExp(item.pattern, [...new Set((item.flags || '') + 'g')].join('')) })
     }
+    activeRules.push(...privateRules)
   }
   const files = new Set(execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean))
   function walk(path) {
@@ -309,7 +377,7 @@ function main() {
     if (relative(root, path).startsWith('..') || path === root) throw new Error('dist-must-be-inside-public-root')
     walk(path)
   }
-  const findings = [], coverage = { text: 0, blend: 0, glb: 0, png: 0, webp: 0, gif: 0, jpeg: 0, metadataUnits: 0 }
+  const findings = [], coverage = { text: 0, blend: 0, glb: 0, png: 0, webp: 0, gif: 0, jpeg: 0, metadataUnits: 0, staticFiles: 0, staticStrings: 0 }
   const binaryExtensions = new Set(['.blend', '.glb', '.png', '.webp', '.gif', '.jpg', '.jpeg'])
   for (const path of [...files].sort()) {
     const absolute = resolve(root, path)
@@ -328,7 +396,12 @@ function main() {
       } else {
         if (buffer.includes(0)) { findings.push({ path, category: 'unsupported-binary', location: 'file' }); continue }
         coverage.text++
-        findings.push(...findingsIn(buffer.toString('utf8'), path, 'text', activeRules))
+        const text = buffer.toString('utf8')
+        findings.push(...findingsIn(text, path, 'text', activeRules))
+        const reconstructed = staticFindingsIn(text, path, privateRules)
+        if (reconstructed.supported) coverage.staticFiles++
+        coverage.staticStrings += reconstructed.strings
+        findings.push(...reconstructed.findings)
       }
     } catch { findings.push({ path, category: 'unreadable-binary-metadata', location: 'file' }) }
   }
@@ -339,6 +412,8 @@ function main() {
     'Scans current Git tracked/unignored candidates; ignored build output is included only with --dist. Git history is not inspected.',
     'Checks text and structured binary metadata, not rendered pixels/OCR, audio, or geometric meaning. Review screenshots visually.',
     'Common credential signatures are not a proof that all secrets are absent; use external private patterns for instance names, locations and identifiers.',
+    'External policy additionally checks decoded JS/TS/JSX/TSX/JSON string literals, string concatenation and literal-array join with a literal separator. It never executes source or resolves identifiers, dynamic calls, template substitutions, encoded payloads or control flow. Other formats receive the original raw/metadata scan.',
+    'Static limits per file: 8 MiB source, 500000 syntax nodes, depth 64, 1024 join elements, 128 Ki UTF-16 characters per value and 16 Mi total decoded characters. Parser/resource failures are findings. Source locations use original UTF-16 expression offsets.',
     'Unrecognized binary files, malformed metadata, symlinks and size limits fail closed. No files are changed.',
   ] }, null, 2))
   process.exitCode = unique.length ? 1 : 0
@@ -348,4 +423,4 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   try { main() } catch { console.error(JSON.stringify({ ok: false, error: 'audit-could-not-complete', valuesRedacted: true })); process.exitCode = 2 }
 }
 
-export { findingsIn, metadataUnits, selfTest }
+export { findingsIn, staticFindingsIn, metadataUnits, selfTest }

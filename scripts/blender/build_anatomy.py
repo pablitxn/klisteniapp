@@ -4,11 +4,13 @@ No remeshing, invented body envelope, or limb stretching. Decimation is measured
 against a deterministic sample of original vertices, NOT a Hausdorff guarantee.
 The source skin territories keep their original exterior triangles unchanged.
 """
-import bpy, bmesh, json, hashlib, math, re, time, struct
+import bpy, bmesh, json, hashlib, math, re, time, struct, sys
 from pathlib import Path
 from collections import Counter
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from public_metadata import clear_file_browser_state
 ROOT=Path(__file__).resolve().parents[2]
 CACHE=ROOT/'.cache/anatomy'
 OUT=ROOT/'apps/web/public/models'
@@ -171,15 +173,8 @@ bpy.context.scene.unit_settings.system='METRIC'
 bpy.context.scene.unit_settings.scale_length=1
 # Source remains editable, named and already normalized; geometry is never joined.
 bpy.data.orphans_purge(do_recursive=True)
-# File-browser editor state is part of a .blend, even when no external assets
-# use absolute paths. Avoid publishing the workstation's last visited folder.
-for screen in bpy.data.screens:
-    for area in screen.areas:
-        for space in area.spaces:
-            params = getattr(space, 'params', None)
-            if space.type == 'FILE_BROWSER' and params is not None:
-                params.directory = b'//'
-                params.filename = ''
+# Clear full string capacities, including stale bytes after NUL terminators.
+clear_file_browser_state()
 bpy.ops.wm.save_as_mainfile(filepath=str(ASSETS/'anatomy.blend'),compress=True)
 bpy.ops.export_scene.gltf(filepath=str(OUT/'anatomy.glb'),export_format='GLB',export_yup=True,export_extras=True,export_animations=False,export_cameras=False,export_lights=False,export_materials='EXPORT',export_normals=True,export_texcoords=False,export_all_vertex_colors=True)
 glb_bytes=(OUT/'anatomy.glb').read_bytes()
