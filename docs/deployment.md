@@ -18,6 +18,8 @@ pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 
 The public `.gitlab-ci.yml` runs quality checks and browser tests with generic container images. It has no project-path restriction, required runner tags, private endpoints, registry authentication, image publishing or deployment job. The retained pinned images target Linux amd64; forks need a container-capable runner for that platform (or compatible emulation). Software-rendered 3D browser tests need sufficient CPU and memory; capacity is an operator concern rather than a dependency on a particular runner installation.
 
+Jobs use untagged runners by default. If your runner only accepts tagged jobs, set the project CI/CD variable `KLISTENI_CI_RUNNER_TAG` to one of its tags (plain text, available to the branches you validate). This conditionally includes `.gitlab/runner.yml`; the actual installation's tag stays in project settings. Leave the variable unset when untagged jobs are supported. See [GitLab's conditional includes](https://docs.gitlab.com/ci/yaml/includes/#include-with-rulesif).
+
 API integration is opt-in: run a pipeline with `RUN_API_INTEGRATION_TESTS=true`. It starts a disposable PostgreSQL service in that job, then runs `pnpm test:api` and `pnpm test:accounts`. The test credentials in CI are disposable fixtures. Never replace `TEST_DATABASE_URL` with a real account database or add instance secrets to the public project.
 
 ## Static container

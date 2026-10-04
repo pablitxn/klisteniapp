@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { exercises } from '../src/data/exercises'
 
 const progressKey = 'klisteniapp.progress.v1'
 
@@ -44,7 +45,9 @@ test('library searches muscles without accents and explains the equipment gap', 
   await openPage(page)
   await navigate(page, 'Ejercicios')
   await page.getByRole('textbox', { name: 'Buscar ejercicio o músculo' }).fill('triceps')
-  await expect(page.locator('.library-card')).toHaveCount(1)
+  await expect(page.locator('.library-card')).toHaveCount(
+    exercises.filter((exercise) => [...exercise.primaryMuscles, ...exercise.secondaryMuscles].includes('triceps')).length,
+  )
   await page.getByRole('button', { name: /Flexiones con rodillas/ }).click()
   await expect(page.locator('.workbench-title')).toContainText('Flexiones con rodillas')
   await expect(page.getByRole('button', { name: 'Pectorales', exact: true })).toBeVisible()

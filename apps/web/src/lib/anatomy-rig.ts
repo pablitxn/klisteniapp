@@ -79,6 +79,13 @@ export interface RetargetedPose {
   legs: Record<Side, Limb>
 }
 const SIDES: Side[] = ['left', 'right']
+const isBridge = (id: string) => ['glute-bridge', 'bridge-march', 'single-leg-glute-bridge'].includes(id)
+const isKneePushup = (id: string) => id === 'pushup' || id === 'knee-narrow-pushup'
+const isToePlank = (id: string) => ['full-pushup', 'pike-pushup', 'mountain-climber', 'narrow-pushup', 'plank-shoulder-tap'].includes(id)
+const isQuadruped = (id: string) => ['bird-dog', 'quadruped-leg-extension', 'quadruped-arm-raise'].includes(id)
+const isProneRaise = (id: string) => ['prone-w', 'prone-t-raise', 'prone-y-raise'].includes(id)
+const isSupine = (id: string) => ['dead-bug', 'dead-bug-heel-tap', 'dead-bug-arm-only', 'supine-march', 'supine-heel-slide'].includes(id)
+const hasSupineHands = (id: string) => isBridge(id) || ['dead-bug-heel-tap', 'supine-march', 'supine-heel-slide'].includes(id)
 const axial: BodySegment[] = ['pelvis', 'torso', 'head']
 const vector = (point: Vec3) => new Vector3(...point)
 const point = (value: Vector3): Vec3 => [value.x, value.y, value.z]
@@ -298,14 +305,18 @@ export function retargetExercisePose(
   ]
   let angle = template.torsoAngle
   const cycle = (1 - Math.cos(2 * Math.PI * phase)) / 2
+  // The narrow variant calibrates the patella surface as the thigh rotates; the
+  // original knee-pushup keeps its established landmark path unchanged.
+  const kneePushupHeight = exerciseId === 'knee-narrow-pushup'
+    ? 0.0756 + 0.0073 * cycle + 0.0034 * cycle * cycle : 0.11
   const shoulders = vector(landmarks.left.shoulder)
     .add(vector(landmarks.right.shoulder))
     .multiplyScalar(0.5)
-  if (exerciseId === 'glute-bridge') {
+  if (isBridge(exerciseId)) {
     // Preserve the actual shoulder-to-pelvis distance around supported shoulders.
     const shoulderHeight = landmarks.support?.shoulderHeight ?? 0.105
     const pelvisHeight =
-      (landmarks.support?.pelvisHeight ?? 0.16) + 0.23 * cycle
+      (landmarks.support?.pelvisHeight ?? 0.16) + 0.23 * (exerciseId === 'bridge-march' ? 1 : cycle)
     const offset = shoulders.clone().sub(vector(landmarks.pelvis))
     angle =
       -Math.acos(
@@ -321,11 +332,11 @@ export function retargetExercisePose(
       ),
     )
   }
-  if (exerciseId === 'pushup') {
+  if (isKneePushup(exerciseId)) {
     const pelvisAt = (bodyAngle: number): Vec3 => {
       const candidates = SIDES.map((side) => {
         const source = landmarks[side]
-        const knee = new Vector3(source.hip[0], 0.11, -0.64)
+        const knee = new Vector3(source.hip[0], kneePushupHeight, -0.64)
         const hip = new Vector3(0, Math.cos(bodyAngle), Math.sin(bodyAngle))
           .multiplyScalar(length(source.hip, source.knee))
           .add(knee)
@@ -347,7 +358,7 @@ export function retargetExercisePose(
             bodyAngle,
           )
         const wrist: Vec3 = [
-          shoulder[0] + Math.sign(source.shoulder[0]) * 0.06,
+          shoulder[0] + Math.sign(source.shoulder[0]) * (exerciseId === 'pushup' ? 0.06 : -0.10),
           landmarks.support?.handHeight?.[side] ?? 0.065,
           0.23,
         ]
@@ -371,21 +382,99 @@ export function retargetExercisePose(
     }
     pelvis = pelvisAt(angle)
   }
+  const rowKnee = (side: Side): Vec3 => {
+    const source = landmarks[side]
+    const shin = length(source.knee, source.ankle)
+    return [source.hip[0], source.ankle[1] + Math.sqrt(shin ** 2 - 0.07 ** 2 - (source.hip[0] - source.ankle[0]) ** 2), 0.25]
+  }
+  if (exerciseId === 'bent-knee-row') {
+    const pelvisAt = (bodyAngle: number): Vec3 => {
+      const candidates = SIDES.map((side) => {
+        const source = landmarks[side]
+        return vector(rowKnee(side))
+          .add(new Vector3(0, Math.cos(bodyAngle), Math.sin(bodyAngle)).multiplyScalar(length(source.hip, source.knee)))
+          .sub(vector(source.hip).sub(vector(landmarks.pelvis)).applyQuaternion(rotation(bodyAngle)))
+      })
+      return point(candidates[0]!.add(candidates[1]!).multiplyScalar(0.5))
+    }
+    const reachable = (bodyAngle: number) => SIDES.every((side) => {
+      const source = landmarks[side]
+      const shoulder = transformSource(source.shoulder, landmarks, pelvisAt(bodyAngle), bodyAngle)
+      const wrist: Vec3 = [shoulder[0] + Math.sign(source.shoulder[0]) * 0.055, 1.04, -0.66]
+      return length(shoulder, wrist) <= length(source.shoulder, source.elbow) + length(source.elbow, source.wrist) - 1e-5
+    })
+    // Pivot the source-length trunk and thighs around fixed bent knees. Limit
+    // descent at full arm extension so both grips remain on the actual bar.
+    if (!reachable(angle)) {
+      let low = angle, high = -1.1
+      for (let iteration = 0; iteration < 24; iteration++) {
+        const middle = (low + high) / 2
+        if (reachable(middle)) high = middle
+        else low = middle
+      }
+      angle = high
+    }
+    pelvis = pelvisAt(angle)
+  }
+  if (isToePlank(exerciseId)) {
+    // The loaded atlas has different leg/torso lengths from the teaching template.
+    // Anchor the straight support leg at the toe-supported ankle. The template's
+    // leg direction is independent of trunk incline (especially in a pike).
+    const supportSide = SIDES.reduce((rear, side) => {
+      const templateSide = landmarks[side].hip[0] >= 0 ? 'right' : 'left'
+      const rearSide = landmarks[rear].hip[0] >= 0 ? 'right' : 'left'
+      return template.legs[templateSide].end[2] < template.legs[rearSide].end[2] ? side : rear
+    })
+    const source = landmarks[supportSide]
+    const templateSide = source.hip[0] >= 0 ? 'right' : 'left'
+    const leg = template.legs[templateSide]
+    const ankle = leg.end
+    const reach = length(source.hip, source.knee) + length(source.knee, source.ankle) - 1e-5
+    pelvis = point(vector(leg.start).sub(vector(ankle)).normalize()
+      .multiplyScalar(reach)
+      .add(new Vector3(source.hip[0], ankle[1] + source.ankle[1] - 0.085, ankle[2]))
+      .sub(vector(source.hip).sub(vector(landmarks.pelvis)).applyQuaternion(rotation(angle))))
+  }
+  if (isQuadruped(exerciseId)) {
+    // Support knees determine hip height; a near-level trunk lets the shorter
+    // source arms reach the mat without sinking the wrists or lifting the knees.
+    const source = landmarks.left
+    // The atlas patella surface lies ~59 mm below its knee landmark in this pose.
+    pelvis[1] = 0.06134 + length(source.hip, source.knee)
+    angle = Math.PI / 2 - 0.06
+  }
+  if (exerciseId === 'prone-hip-extension') {
+    // In this quiet prone variant the anterior trunk rests on the mat. The
+    // raised-arm variants deliberately retain their existing chest clearance.
+    pelvis[1] -= 0.01638
+  }
+  const standingAnkle = (side: Side): Vec3 => {
+    const source = landmarks[side]
+    const templateSide = source.ankle[0] >= 0 ? 'right' : 'left'
+    const sign = source.ankle[0] >= 0 ? 1 : -1
+    if (exerciseId === 'squat' || exerciseId === 'calf-raise' || exerciseId === 'quarter-squat' || exerciseId === 'paused-squat') {
+      const squat = exerciseId !== 'calf-raise'
+      return [
+        source.ankle[0] + (squat ? sign * 0.04 : 0),
+        source.ankle[1] + (exerciseId === 'calf-raise' ? 0.085 * cycle : 0),
+        source.ankle[2] + (squat ? 0.075 : 0.015 * cycle),
+      ]
+    }
+    const target = template.legs[templateSide].end
+    return [
+      source.ankle[0] + target[0] - sign * 0.17,
+      source.ankle[1] + target[1] - 0.085,
+      source.ankle[2] + target[2] - 0.035,
+    ]
+  }
   // Standing targets must be reachable without lifting a planted heel.
   if (!template.floorExercise) {
     for (const side of SIDES) {
-      const source = landmarks[side],
-        sign = Math.sign(source.ankle[0])
-      const ankle = new Vector3(
-        source.ankle[0] + (exerciseId === 'squat' ? sign * 0.04 : 0),
-        source.ankle[1] + (exerciseId === 'calf-raise' ? 0.085 * cycle : 0),
-        source.ankle[2] +
-          (exerciseId === 'squat'
-            ? 0.075
-            : exerciseId === 'calf-raise'
-              ? 0.015 * cycle
-              : 0),
-      )
+      const source = landmarks[side]
+      // The airborne leg follows the hip; it must never lower the whole body
+      // to satisfy an absolute ankle target from the differently sized template.
+      if (exerciseId === 'single-leg-deadlift' && source.hip[0] > 0) continue
+      const ankle = vector(standingAnkle(side))
       const hipOffset = vector(source.hip)
         .sub(vector(landmarks.pelvis))
         .applyQuaternion(rotation(angle))
@@ -414,7 +503,7 @@ export function retargetExercisePose(
     const arm = template.arms[templateSide],
       leg = template.legs[templateSide]
     const shoulderSource =
-      exerciseId === 'prone-w'
+      isProneRaise(exerciseId)
         ? scapularSourcePoint(landmarks, side, source.shoulder, cycle)
         : source.shoulder
     const shoulder = transformSource(shoulderSource, landmarks, pelvis, angle)
@@ -425,12 +514,21 @@ export function retargetExercisePose(
       arm.end[2],
     ]
     if (!template.floorExercise) wrist[1] += pelvis[1] - template.pelvis[1]
-    if (exerciseId === 'pushup') {
-      wrist[0] = shoulder[0] + sign * 0.06
+    if (isKneePushup(exerciseId)) {
+      wrist[0] = shoulder[0] + sign * (exerciseId === 'pushup' ? 0.06 : -0.10)
       wrist[1] = landmarks.support?.handHeight?.[side] ?? 0.065
       wrist[2] = 0.23
     }
-    if (exerciseId === 'glute-bridge') {
+    if (isToePlank(exerciseId)) {
+      wrist[1] = (landmarks.support?.handHeight?.[side] ?? 0.065)
+        + (exerciseId === 'plank-shoulder-tap' ? arm.end[1] - 0.065 : 0)
+    }
+    if (isQuadruped(exerciseId)) {
+      wrist[1] = (landmarks.support?.handHeight?.[side] ?? 0.065) + arm.end[1] - 0.065
+    }
+    if (exerciseId === 'prone-hip-extension')
+      wrist[1] = landmarks.support?.handHeight?.[side] ?? 0.065
+    if (hasSupineHands(exerciseId)) {
       const reach =
         length(source.shoulder, source.elbow) +
         length(source.elbow, source.wrist) -
@@ -451,7 +549,9 @@ export function retargetExercisePose(
       wrist,
       length(source.shoulder, source.elbow),
       length(source.elbow, source.wrist),
-      bend(arm),
+      // A nearly straight teaching arm cannot supply a stable elbow plane for
+      // a shorter source arm. Keep the intended supine bend plane explicit.
+      exerciseId === 'dead-bug-arm-only' ? [sign * 0.1, 1, 0] : bend(arm),
     )
     const ankle: Vec3 = [
       leg.end[0] + source.ankle[0] - sign * 0.17,
@@ -459,24 +559,38 @@ export function retargetExercisePose(
       leg.end[2],
     ]
     if (!template.floorExercise) {
-      ankle[0] = source.ankle[0] + (exerciseId === 'squat' ? sign * 0.04 : 0)
-      ankle[1] =
-        source.ankle[1] + (exerciseId === 'calf-raise' ? 0.085 * cycle : 0)
-      ankle[2] =
-        source.ankle[2] +
-        (exerciseId === 'squat'
-          ? 0.075
-          : exerciseId === 'calf-raise'
-            ? 0.015 * cycle
-            : 0)
+      const target = standingAnkle(side)
+      ankle[0] = target[0]
+      ankle[1] = target[1]
+      ankle[2] = target[2]
     }
-    if (exerciseId === 'pushup') {
-      const knee: Vec3 = [source.hip[0], 0.11, -0.64]
+    if (isToePlank(exerciseId)) {
+      ankle[0] = leg.end[0] + hip[0] - leg.start[0]
+    }
+    if (exerciseId === 'prone-hip-extension') {
+      // Ground the dorsal surface of the long resting foot, then retain the
+      // source leg length as the other hip extends through its modest lift.
+      ankle[0] = hip[0]
+      ankle[1] = 0.045508 + (leg.end[1] - 0.10)
+      const reach = length(source.hip, source.knee) + length(source.knee, source.ankle) - 0.004
+      ankle[2] = hip[2] - Math.sqrt(Math.max(0, reach ** 2 - (ankle[1] - hip[1]) ** 2))
+    }
+    if (exerciseId === 'bent-knee-row') {
+      legs[side] = { start: hip, joint: rowKnee(side), end: [source.ankle[0], source.ankle[1], 0.18] }
+    } else if (isKneePushup(exerciseId)) {
+      const knee: Vec3 = [source.hip[0], kneePushupHeight, -0.64]
       legs[side] = {
         start: hip,
         joint: knee,
         end: [knee[0], knee[1], knee[2] - length(source.knee, source.ankle)],
       }
+    } else if (isQuadruped(exerciseId)
+      || (exerciseId === 'single-leg-deadlift' && source.hip[0] > 0)) {
+      const knee = vector(leg.joint).sub(vector(leg.start)).normalize()
+        .multiplyScalar(length(source.hip, source.knee)).add(vector(hip))
+      const foot = vector(leg.end).sub(vector(leg.joint)).normalize()
+        .multiplyScalar(length(source.knee, source.ankle)).add(knee)
+      legs[side] = { start: hip, joint: point(knee), end: point(foot) }
     } else {
       legs[side] = solveLimb(
         hip,
@@ -488,7 +602,7 @@ export function retargetExercisePose(
     }
   }
   const neck =
-    exerciseId === 'glute-bridge'
+    isBridge(exerciseId)
       ? point(
           vector(landmarks.neck)
             .sub(shoulders)
@@ -498,13 +612,13 @@ export function retargetExercisePose(
             ),
         )
       : transformSource(landmarks.neck, landmarks, pelvis, angle)
-  if (exerciseId === 'glute-bridge' || exerciseId === 'dead-bug')
+  if (isBridge(exerciseId) || isSupine(exerciseId))
     neck[1] = landmarks.support?.headNeckHeight ?? 0.105
   return {
     pelvis,
     torsoAngle: angle,
     neck,
-    headAngle: exerciseId === 'glute-bridge' ? -Math.PI / 2 : angle,
+    headAngle: isBridge(exerciseId) ? -Math.PI / 2 : angle,
     arms,
     legs,
   }
@@ -567,7 +681,7 @@ export function applyAnatomyPose(
       )
     } else if (segment.segment === 'scapula') {
       const amount =
-        exerciseId === 'prone-w' ? (1 - Math.cos(2 * Math.PI * phase)) / 2 : 0
+        isProneRaise(exerciseId) ? (1 - Math.cos(2 * Math.PI * phase)) / 2 : 0
       const moved = scapularSourcePoint(
         rig.landmarks,
         segment.side!,
@@ -615,7 +729,8 @@ export function applyAnatomyPose(
       else if (segment.segment === 'shin')
         setLimbFrame(segment, leg.joint, leg.end, pose.torsoAngle)
       else if (segment.segment === 'hand') {
-        if (exerciseId === 'pushup' || exerciseId === 'glute-bridge') {
+        if (isKneePushup(exerciseId) || (isToePlank(exerciseId) && exerciseId !== 'plank-shoulder-tap') || hasSupineHands(exerciseId)
+          || exerciseId === 'prone-hip-extension') {
           segment.bone.matrix.copy(
             segmentFrame(
               vector(arm.end),
@@ -629,10 +744,19 @@ export function applyAnatomyPose(
             .clone()
             .multiply(forearm.bindMatrix.clone().invert())
           segment.bone.matrix.copy(delta.multiply(segment.bindMatrix))
+          if (isQuadruped(exerciseId) || exerciseId === 'plank-shoulder-tap') {
+            const freeRotation = new Quaternion().setFromRotationMatrix(segment.bone.matrix)
+            const flatRotation = new Quaternion().setFromRotationMatrix(segmentFrame(
+              vector(arm.end), vector(arm.end).add(new Vector3(0, 0, segment.length)), new Vector3(0, -1, 0),
+            ))
+            const lift = arm.end[1] - (rig.landmarks.support?.handHeight?.[side] ?? 0.065)
+            flatRotation.slerp(freeRotation, smooth(0, 0.25, lift))
+            segment.bone.matrix.compose(vector(arm.end), flatRotation, new Vector3(1, 1, 1))
+          }
         }
       } else if (segment.segment === 'foot') {
         const source = rig.landmarks[side]
-        if (exerciseId === 'pushup' || exerciseId === 'prone-w') {
+        if (isKneePushup(exerciseId) || isProneRaise(exerciseId) || exerciseId === 'prone-hip-extension') {
           segment.bone.matrix.copy(
             segmentFrame(
               vector(leg.end),
@@ -640,15 +764,28 @@ export function applyAnatomyPose(
               new Vector3(0, -1, 0),
             ),
           )
-        } else if (exerciseId === 'dead-bug') {
+        } else if (exerciseId === 'dead-bug' || exerciseId === 'dead-bug-arm-only' || isQuadruped(exerciseId)
+          || (exerciseId === 'single-leg-deadlift' && source.hip[0] > 0)
+          || (exerciseId === 'single-leg-glute-bridge' && source.hip[0] > 0)
+          || (exerciseId === 'single-leg-calf-raise' && source.hip[0] > 0)) {
           const shin = rig.byKey.get(keyOf('shin', side))!
           const delta = shin.bone.matrix
             .clone()
             .multiply(shin.bindMatrix.clone().invert())
           segment.bone.matrix.copy(delta.multiply(segment.bindMatrix))
+          if (isQuadruped(exerciseId)) {
+            const freeRotation = new Quaternion().setFromRotationMatrix(segment.bone.matrix)
+            const supportedRotation = new Quaternion().setFromRotationMatrix(segmentFrame(
+              vector(leg.end), vector(leg.end).add(new Vector3(0, -0.035, -segment.length)), new Vector3(0, -1, 0),
+            ))
+            supportedRotation.slerp(freeRotation, smooth(0, 0.2, leg.end[1] - 0.06134))
+            segment.bone.matrix.compose(vector(leg.end), supportedRotation, new Vector3(1, 1, 1))
+          }
         } else {
           let footAngle = 0
-          if (exerciseId === 'calf-raise') {
+          if (exerciseId === 'calf-raise' || isToePlank(exerciseId) || exerciseId === 'reverse-lunge'
+            || exerciseId === 'split-squat' || exerciseId === 'single-leg-calf-raise'
+            || (exerciseId === 'forward-lunge' && side === (phase % 1 < 0.5 ? 'left' : 'right'))) {
             const offset = segment.end.clone().sub(segment.start)
             const radius = Math.hypot(offset.y, offset.z)
             footAngle =
@@ -656,6 +793,12 @@ export function applyAnatomyPose(
               Math.asin(clamp((segment.end.y - leg.end[1]) / radius, -1, 1))
           }
           setRigidSourceTransform(segment, source.ankle, leg.end, footAngle)
+          if (exerciseId === 'sumo-squat') {
+            const turnout = new Matrix4().makeTranslation(...leg.end)
+              .multiply(new Matrix4().makeRotationY(Math.sign(source.ankle[0]) * 0.42))
+              .multiply(new Matrix4().makeTranslation(-leg.end[0], -leg.end[1], -leg.end[2]))
+            segment.bone.matrix.premultiply(turnout)
+          }
         }
       }
     }

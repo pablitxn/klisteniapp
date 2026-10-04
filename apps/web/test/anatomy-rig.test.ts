@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
+import { ExerciseIdSchema } from '@klisteniapp/scene-schema'
 import {
   BufferGeometry,
   Float32BufferAttribute,
@@ -8,6 +9,7 @@ import {
   Matrix4,
   Mesh,
   MeshStandardMaterial,
+  OrthographicCamera,
   Vector3,
 } from 'three'
 import {
@@ -18,6 +20,7 @@ import {
   vertexInfluences,
 } from '../src/lib/anatomy-rig.ts'
 import { prepareAnatomy, structureAtFace } from '../src/lib/anatomy-model.ts'
+import { previewCameras } from '../src/lib/exercise-preview-config.ts'
 
 const landmarks = parseAnatomyLandmarks(
   JSON.parse(
@@ -27,15 +30,7 @@ const landmarks = parseAnatomyLandmarks(
     ),
   ),
 )
-const exercises = [
-  'pushup',
-  'squat',
-  'row',
-  'glute-bridge',
-  'dead-bug',
-  'prone-w',
-  'calf-raise',
-]
+const exercises = ExerciseIdSchema.options
 const near = (actual: number, expected: number, tolerance = 1e-7) =>
   assert.ok(
     Math.abs(actual - expected) < tolerance,
@@ -59,11 +54,11 @@ test('the complete anatomy rest pose is an identity deformation for every source
   assert.equal(rig.segments.length, 17)
 })
 
-test('all seven movements retain source shoulder/hip width and every measured limb length', () => {
+test('all catalog movements retain source shoulder/hip width and every measured limb length', () => {
   for (const exercise of exercises) {
     for (let sample = 0; sample <= 40; sample++) {
       const pose = retargetExercisePose(landmarks, exercise, sample / 40)
-      if (exercise !== 'prone-w')
+      if (!['prone-w', 'prone-t-raise', 'prone-y-raise'].includes(exercise))
         near(
           distance(pose.arms.left.start, pose.arms.right.start),
           distance(landmarks.left.shoulder, landmarks.right.shoulder),
@@ -84,7 +79,7 @@ test('all seven movements retain source shoulder/hip width and every measured li
         near(distance(leg.start, leg.joint), distance(source.hip, source.knee))
         near(distance(leg.joint, leg.end), distance(source.knee, source.ankle))
         assert.ok(
-          arm.start[0] > 0 === source.shoulder[0] > 0,
+          arm.start[0] - pose.pelvis[0] > 0 === source.shoulder[0] > 0,
           'source anatomical side must be retained',
         )
       }
@@ -132,6 +127,152 @@ test('floor supports do not drift: knee-pushup knees, bridge shoulders and resti
         near(pose.legs[side].end[1], landmarks[side].ankle[1], 1e-5)
     }
   }
+})
+
+test('new floor movements keep their supporting hands, knees and ankles fixed', () => {
+  for (const exercise of ['full-pushup', 'pike-pushup', 'mountain-climber', 'bird-dog']) {
+    const rest = retargetExercisePose(landmarks, exercise, 0)
+    for (let sample = 0; sample <= 100; sample++) {
+      const phase = sample / 100
+      const pose = retargetExercisePose(landmarks, exercise, phase)
+      // Anatomical left has positive X, opposite the teaching template's labels.
+      const supportedLeg = phase < 0.5 ? 'left' : 'right'
+      const supportedHand = supportedLeg === 'left' ? 'right' : 'left'
+      for (const side of ['left', 'right'] as const) {
+        if (exercise !== 'bird-dog' || side === supportedHand)
+          near(distance(pose.arms[side].end, rest.arms[side].end), 0, 1e-6)
+        if (exercise === 'full-pushup' || exercise === 'pike-pushup' || side === supportedLeg)
+          near(distance(pose.legs[side].end, rest.legs[side].end), 0, 1e-6)
+        if (exercise === 'bird-dog' && side === supportedLeg)
+          near(distance(pose.legs[side].joint, rest.legs[side].joint), 0, 1e-6)
+      }
+    }
+  }
+})
+
+test('new cycles close and remain continuous between support changes', () => {
+  for (const exercise of [
+    'full-pushup', 'pike-pushup', 'reverse-lunge', 'lateral-lunge',
+    'good-morning', 'bird-dog', 'mountain-climber', 'crunch',
+    'quarter-squat', 'paused-squat', 'knee-narrow-pushup', 'narrow-pushup',
+    'dead-bug-heel-tap', 'quadruped-leg-extension', 'prone-t-raise', 'prone-y-raise',
+    'split-squat', 'single-leg-calf-raise', 'bridge-march', 'single-leg-glute-bridge',
+    'bent-knee-row', 'dead-bug-arm-only', 'sumo-squat', 'single-leg-deadlift',
+    'forward-lunge', 'quadruped-arm-raise', 'prone-hip-extension',
+    'supine-march', 'supine-heel-slide', 'plank-shoulder-tap',
+  ]) {
+    const rest = retargetExercisePose(landmarks, exercise, 0)
+    let previous = rest
+    for (let sample = 1; sample <= 1000; sample++) {
+      const phase = sample / 1000
+      const pose = retargetExercisePose(landmarks, exercise, phase)
+      for (const side of ['left', 'right'] as const)
+        for (const limb of ['arms', 'legs'] as const)
+          for (const point of ['start', 'joint', 'end'] as const) {
+            assert.ok(
+              distance(pose[limb][side][point], previous[limb][side][point]) < 0.02,
+              `${exercise} phase ${phase}: ${side} ${limb} ${point} jumps across a support transition`,
+            )
+            if (sample === 1000)
+              near(distance(pose[limb][side][point], rest[limb][side][point]), 0, 1e-6)
+          }
+      previous = pose
+    }
+  }
+})
+
+test('additional variants preserve fixed supports and unilateral sets never switch their supporting leg', () => {
+  for (const exercise of ['quarter-squat', 'paused-squat', 'knee-narrow-pushup', 'narrow-pushup',
+    'dead-bug-heel-tap', 'quadruped-leg-extension', 'split-squat', 'single-leg-glute-bridge', 'bridge-march']) {
+    const rest = retargetExercisePose(landmarks, exercise, 0)
+    for (let frame = 0; frame <= 100; frame++) {
+      const phase = frame / 100
+      const pose = retargetExercisePose(landmarks, exercise, phase)
+      for (const side of ['left', 'right'] as const) {
+        if (!['quarter-squat', 'paused-squat', 'split-squat'].includes(exercise))
+          near(distance(pose.arms[side].end, rest.arms[side].end), 0, 1e-6)
+        if (['quarter-squat', 'paused-squat', 'split-squat', 'narrow-pushup'].includes(exercise)
+          || (exercise === 'single-leg-glute-bridge' && side === 'right')
+          || (exercise === 'bridge-march' && side === (phase < 0.5 ? 'left' : 'right')))
+          near(distance(pose.legs[side].end, rest.legs[side].end), 0, 1e-6)
+        if (exercise === 'single-leg-glute-bridge' && side === 'left')
+          assert.ok(pose.legs[side].end[1] > pose.legs.right.end[1] + 0.5)
+        if (exercise === 'quadruped-leg-extension' && side === (phase < 0.5 ? 'left' : 'right'))
+          near(distance(pose.legs[side].joint, rest.legs[side].joint), 0, 1e-6)
+      }
+    }
+  }
+})
+
+test('expanded movements retain planted supports, fixed tabletop legs and unilateral balance', () => {
+  for (const exercise of ['bent-knee-row', 'dead-bug-arm-only', 'sumo-squat', 'single-leg-deadlift',
+    'quadruped-arm-raise', 'prone-hip-extension', 'supine-march', 'supine-heel-slide', 'plank-shoulder-tap']) {
+    const rest = retargetExercisePose(landmarks, exercise, 0)
+    for (let sample = 0; sample <= 100; sample++) {
+      const phase = sample / 100
+      const pose = retargetExercisePose(landmarks, exercise, phase)
+      for (const side of ['left', 'right'] as const) {
+        const supportSide = phase < 0.5 ? 'left' : 'right'
+        if (['sumo-squat', 'bent-knee-row', 'quadruped-arm-raise', 'plank-shoulder-tap'].includes(exercise)
+          || (exercise === 'single-leg-deadlift' && side === 'right')
+          || (exercise === 'prone-hip-extension' && side === 'right')
+          || (exercise === 'supine-march' && side === supportSide))
+          near(distance(pose.legs[side].end, rest.legs[side].end), 0, 1e-6)
+        if (exercise === 'dead-bug-arm-only')
+          for (const point of ['start', 'joint', 'end'] as const)
+            near(distance(pose.legs[side][point], rest.legs[side][point]), 0, 1e-6)
+        if (exercise === 'quadruped-arm-raise')
+          near(distance(pose.legs[side].joint, rest.legs[side].joint), 0, 1e-6)
+        if (exercise === 'bent-knee-row') {
+          near(distance(pose.legs[side].joint, rest.legs[side].joint), 0, 1e-6)
+          near(pose.arms[side].end[1], 1.04, 1e-6)
+          near(pose.arms[side].end[2], -0.66, 1e-6)
+          const thigh = new Vector3(...pose.legs[side].start).sub(new Vector3(...pose.legs[side].joint)).normalize()
+          near(thigh.dot(new Vector3(0, Math.cos(pose.torsoAngle), Math.sin(pose.torsoAngle))), 1, 1e-6)
+          if (sample === 0)
+            near(distance(pose.arms[side].start, pose.arms[side].end),
+              distance(landmarks[side].shoulder, landmarks[side].elbow) + distance(landmarks[side].elbow, landmarks[side].wrist), 0.00002)
+        }
+        if (['bent-knee-row', 'supine-march', 'supine-heel-slide'].includes(exercise)
+          || (['quadruped-arm-raise', 'plank-shoulder-tap'].includes(exercise) && side === supportSide))
+          near(distance(pose.arms[side].end, rest.arms[side].end), 0, 1e-6)
+        if (exercise === 'single-leg-deadlift' && side === 'left')
+          assert.ok(pose.legs.left.end[1] > pose.legs.right.end[1] + 0.02)
+      }
+    }
+  }
+})
+
+test('expanded preview cameras frame complete movement cycles with room for source surfaces', () => {
+  const rig = createAnatomyRig(landmarks)
+  for (const exercise of ['bent-knee-row', 'dead-bug-arm-only', 'sumo-squat', 'single-leg-deadlift',
+    'forward-lunge', 'quadruped-arm-raise', 'prone-hip-extension', 'supine-march',
+    'supine-heel-slide', 'plank-shoulder-tap'] as const) {
+    const config = previewCameras[exercise]
+    const half = config.height / 2
+    const camera = new OrthographicCamera(-half, half, half, -half, 0.01, 80)
+    camera.position.set(...config.position)
+    camera.lookAt(...config.target)
+    camera.updateMatrixWorld(true)
+    for (let sample = 0; sample <= 40; sample++) {
+      applyAnatomyPose(rig, exercise, sample / 40)
+      for (const segment of rig.segments) {
+        const deformation = segment.bone.matrix.clone().multiply(segment.bindMatrix.clone().invert())
+        for (const source of [segment.start, segment.end]) {
+          const target = source.clone().applyMatrix4(deformation)
+          // Sample the source anchor plus an anatomical surface margin, including
+          // toes and fingers, with the exact square orthographic preview camera.
+          for (const offset of [new Vector3(), new Vector3(0.09, 0, 0), new Vector3(-0.09, 0, 0),
+            new Vector3(0, 0.09, 0), new Vector3(0, -0.09, 0), new Vector3(0, 0, 0.09), new Vector3(0, 0, -0.09)]) {
+            const projected = target.clone().add(offset).project(camera)
+            assert.ok(Math.max(Math.abs(projected.x), Math.abs(projected.y)) < 0.96,
+              `${exercise} phase ${sample / 40}: ${segment.key} leaves preview frame`)
+          }
+        }
+      }
+    }
+  }
+  rig.skeleton.dispose()
 })
 
 test('all skin weights are finite, positive, normalized and point to real bones', () => {

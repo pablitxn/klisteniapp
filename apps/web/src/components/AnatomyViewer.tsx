@@ -12,7 +12,7 @@ import { OrbitControls } from '@react-three/drei'
 import { Vector3 } from 'three'
 import { EXERCISE_PHASES, getExercisePose } from '@klisteniapp/geometry'
 import ExerciseStage from './ExerciseStage'
-import { exerciseCycleSeconds } from '../lib/exercise-animation'
+import { exerciseCycleSeconds, isAlternatingExercise } from '../lib/exercise-animation'
 import { anatomyRendererOptions, anatomyShadows } from '../lib/anatomy-render-settings'
 import './anatomy-viewer.css'
 
@@ -288,7 +288,9 @@ export default function AnatomyViewer(props: Props) {
     'Volvé al inicio',
   ]
   const phaseIndex =
-    props.exerciseId === 'dead-bug'
+    props.exerciseId === 'paused-squat'
+      ? phase < 5 / 6 ? 0 : 1
+      : isAlternatingExercise(props.exerciseId)
       ? phase % 0.5 < 0.25
         ? 0
         : 1

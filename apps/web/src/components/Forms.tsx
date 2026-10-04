@@ -328,7 +328,7 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
         ))}
       </div>
       {exercises
-        .filter((e) => e.equipment === 'none' && !ids.includes(e.id))
+        .filter((e) => !ids.includes(e.id))
         .map((e) => (
           <button
             className="text-button"
@@ -336,6 +336,7 @@ export function RoutineEditor({ onDone }: { onDone: () => void }) {
             onClick={() => setIds([...ids, e.id])}
           >
             <Icon name="plus" size={16} /> Agregar {e.shortName}
+            {e.equipment !== 'none' && ' · requiere barra o anillas'}
           </button>
         ))}
       <button

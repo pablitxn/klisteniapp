@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { exercises } from '../src/data/exercises'
 
 // Headless software WebGL compiles three tissue materials and renders the full atlas.
 test.setTimeout(process.env.CI ? 180_000 : 90_000)
@@ -73,23 +74,25 @@ test('registered atlas loads, layers switch, and enlarged view is keyboard acces
   expect(unexpectedRequests).toEqual([])
 })
 
-test('mobile atlas fits narrow screens and all six demonstrations remain controllable', async ({
+test('mobile atlas fits narrow screens and every catalog demonstration remains controllable', async ({
   page,
 }) => {
-  // Six full-atlas poses plus keyboard scrubbing take ~30s each on CI SwiftShader.
-  test.setTimeout(process.env.CI ? 300_000 : 90_000)
+  // Reuse one loaded atlas across the expanded routine, including every new motion.
+  test.setTimeout(process.env.CI ? 600_000 : 180_000)
+  const routine = exercises
+  await page.addInitScript((exerciseIds) => {
+    localStorage.setItem('klisteniapp.preferences.v1', JSON.stringify({ exerciseIds, reducedMotion: true }))
+  }, routine.map(({ id }) => id))
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
-  for (const name of [
-    'Flexiones',
-    'Sentadilla',
-    'Puente',
-    'Dead bug',
-    'W en el suelo',
-    'Talones',
-  ]) {
-    await page.locator('.exercise-row').filter({ hasText: name }).click()
+  await expect(page.locator('.exercise-row')).toHaveCount(routine.length)
+  for (const exercise of routine) {
+    await page.locator('.exercise-row').filter({
+      has: page.locator(`.exercise-preview[data-exercise="${exercise.id}"]`),
+    }).click()
+    await expect(page.locator('.workbench-title')).toContainText(exercise.name)
+    await expect(page.getByRole('tabpanel')).toContainText(exercise.steps[0]!)
     const slider = page.getByRole('slider', {
       name: 'Posición de la demostración',
     })
@@ -102,6 +105,9 @@ test('mobile atlas fits narrow screens and all six demonstrations remain control
     await page.keyboard.press('End')
     await expect(slider).toHaveValue('1')
     await expect(page.locator('.viewer-fallback')).toHaveCount(0)
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBeLessThanOrEqual(391)
   }
   await page.getByRole('button', { name: 'Ampliar visor' }).click()
   await expect(page.getByRole('dialog')).toBeVisible()

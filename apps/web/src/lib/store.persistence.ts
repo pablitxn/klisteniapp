@@ -52,7 +52,7 @@ export function loadPreferences(): Preferences {
       ? [
           ...new Set(
             data.exerciseIds.filter((id) =>
-              exercises.some((e) => e.id === id && e.equipment === 'none'),
+              exercises.some((e) => e.id === id),
             ),
           ),
         ]

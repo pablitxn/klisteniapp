@@ -7,14 +7,14 @@ import { after, before, describe, test } from 'node:test';
 import type { Server } from 'node:http';
 import { createServer as createTcpServer, type AddressInfo } from 'node:net';
 import { Pool } from 'pg';
-import { createDefaultPersonalData, createEmptyHealthData, HEALTH_DATA_MAX_BYTES, HealthDataSchema, type ServerState } from '@klisteniapp/scene-schema';
+import { createDefaultPersonalData, createEmptyHealthData, ExerciseIdSchema, HEALTH_DATA_MAX_BYTES, HealthDataSchema, type ServerState } from '@klisteniapp/scene-schema';
 import { createAuth } from '../src/auth.ts';
 import { createPool } from '../src/database.ts';
 import type { Config } from '../src/config.ts';
 import { createApiServer } from '../src/http.ts';
 import { migrate } from '../src/migrate.ts';
 import { createProvisionedUser, operateUser } from '../src/operator-service.ts';
-import { StateRepository, lockUser } from '../src/state.ts';
+import { LogRequestSchema, StateRepository, lockUser } from '../src/state.ts';
 
 const databaseUrl = process.env.TEST_DATABASE_URL;
 const password = 'test-only-password-123';
@@ -164,6 +164,39 @@ describe('PostgreSQL account API', { skip: !databaseUrl }, () => {
     assert.equal((await user.request('DELETE', '/api/me/logs/arrives-later')).status, 200);
     assert.equal((await user.request('POST', '/api/me/logs', { kind: 'cardio', log: cardio('arrives-later') })).status, 409);
     assert.equal((await user.state()).data.progress.cardio.length, 0);
+  });
+
+  test('workout log body limit accepts valid sessions above 32 KiB and rejects bodies above 64 KiB', async () => {
+    const user = await makeUser();
+    const payload = LogRequestSchema.parse({
+      kind: 'workout',
+      log: {
+        id: 'w'.repeat(200), date: '2026-10-05', completedAt: '2026-10-05T12:00:00Z',
+        exercises: Array.from({ length: 500 }, () => ({ exerciseId: 'quadruped-leg-extension', sets: 30, reps: 1000 })),
+        durationMinutes: 1440, timeZone: 'Europe/Paris',
+        routineSnapshot: { id: 'r'.repeat(200), name: 'N'.repeat(100), exerciseIds: ExerciseIdSchema.options, sets: 10 },
+      },
+    });
+    const size = Buffer.byteLength(JSON.stringify(payload));
+    assert.ok(size > 32 * 1024 && size < 64 * 1024, `Expected a valid payload between 32 and 64 KiB, got ${size} bytes`);
+    const response = await user.request('POST', '/api/me/logs', payload);
+    assert.equal(response.status, 200, await response.clone().text());
+    const saved = await user.state();
+    assert.deepEqual(saved.data.progress.workouts, [payload.log]);
+
+    // Whitespace keeps the JSON and its schema valid, isolating the HTTP size guard.
+    const oversizedJson = JSON.stringify({ ...payload, log: { ...payload.log, id: 'too-large' } });
+    const oversizedBody = oversizedJson + ' '.repeat(64 * 1024 + 1 - Buffer.byteLength(oversizedJson));
+    assert.equal(Buffer.byteLength(oversizedBody), 64 * 1024 + 1);
+    assert.ok(LogRequestSchema.safeParse(JSON.parse(oversizedBody)).success);
+    const oversized = await fetch(`${base}/api/me/logs`, {
+      method: 'POST',
+      headers: { origin: config.origin, 'content-type': 'application/json', 'x-test-ip': user.ip, 'x-klisteni-account': user.user.id, cookie: user.cookie() },
+      body: oversizedBody,
+    });
+    assert.equal(oversized.status, 413);
+    assert.equal((await oversized.json()).code, 'BODY_TOO_LARGE');
+    assert.deepEqual(await user.state(), saved);
   });
 
   test('concurrent devices append without loss and settings reject stale revisions', async () => {

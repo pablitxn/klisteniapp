@@ -88,7 +88,7 @@ Una sesión activa mantiene su avance dentro de `WorkoutSession`. Cada registro 
 
 `WorkoutLog` conserva ID, fecha local, timestamp de finalización, duración y series realizadas. `CardioLog` conserva ID, fecha local, actividad, minutos y distancia opcional. `ProgressData` usa `version: 1` y valida colecciones, límites numéricos, fechas reales e identificadores únicos antes de serializar o importar.
 
-La demostración conserva `klisteniapp.progress.v1`, `klisteniapp.preferences.v1` y la recuperación de datos ilegibles del navegador. Una cuenta usa `PersonalData` versión 2: perfil y zona horaria, rutinas con IDs estables, selección activa, revisiones semanales de planificación e historial v1. La preferencia de movimiento reducido sigue siendo del dispositivo. El inicio de sesión no importa automáticamente datos locales.
+El modo local gratuito conserva `klisteniapp.progress.v1`, `klisteniapp.preferences.v1` y la recuperación de datos ilegibles del navegador. Los datos opcionales de salud y copias personales v2 se guardan en `klisteniapp.personal.v2`; no se mezclan automáticamente con una cuenta. Una cuenta usa `PersonalData` versión 2: perfil y zona horaria, rutinas con IDs estables, selección activa, revisiones semanales de planificación e historial v1. La preferencia de movimiento reducido sigue siendo del dispositivo. El inicio de sesión no importa automáticamente datos locales.
 
 La API valida la sesión y deriva el propietario antes de acceder a PostgreSQL. Las tablas de Better Auth almacenan usuarios, cuentas de contraseña, sesiones revocables y límites de intentos. `personal_state` guarda ajustes y una revisión; `personal_log` guarda cada registro por `(user_id, id)`, con una marca de borrado para impedir su reaparición mediante una petición tardía. Las operaciones se serializan por usuario en transacciones PostgreSQL. Los registros independientes no requieren sobrescribir un JSON de todo el historial; modificar ajustes exige la revisión esperada y detecta cambios concurrentes.
 
@@ -135,3 +135,9 @@ SMTP es una integración opcional de la API: STARTTLS/TLS obligatorio, secreto p
 `VITE_APP_MODE=instance` exige un perfil público del operador mediante `KLISTENI_PUBLIC_PROFILE_FILE`. El JSON se valida durante la compilación y se incluye como datos de texto; la página de privacidad no depende de la API. El perfil es público, no un canal para secretos. El backend sigue siendo un servicio separado y explícito.
 
 Las configuraciones reales, runbooks y evidencia pertenecen a un repositorio privado del operador. El producto se compila sin submódulos ni dependencias de repositorios privados. La caché de build está desactivada para no reutilizar accidentalmente un bundle con el perfil de otra instalación.
+
+## Acceso a nube y facturación de desarrollo
+
+`account_access` separa los permisos de administrador del derecho a guardar en la nube: prueba de 15 días, acceso vitalicio o período pagado confirmado. Las mutaciones personales verifican el derecho dentro de la transacción y del bloqueo por usuario; lectura, exportación y eliminación siguen disponibles tras vencer. `account_share_invitation` ofrece altas limitadas por cupo y vencimiento. La facturación tiene un registro de suscripciones y otro de pagos del proveedor para deduplicar confirmaciones y recalcular derechos ante reembolsos. El cliente nunca concede acceso a partir de parámetros de retorno.
+
+[Suscripciones](subscriptions.md) documenta la migración, configuración, pruebas y límites actuales. El adaptador admite exclusivamente Mercado Pago de prueba y está apagado por defecto. [Integraciones de salud](health-integrations.md) explica los requisitos externos pendientes.

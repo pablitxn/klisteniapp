@@ -1,4 +1,10 @@
 # Fork-friendly validation only. No registry credentials, publishing or deploys.
+# Untagged runners by default; a project variable can opt into one runner tag.
+include:
+  - local: .gitlab/runner.yml
+    rules:
+      - if: '$KLISTENI_CI_RUNNER_TAG'
+
 stages: [quality, browser, integration]
 
 default:

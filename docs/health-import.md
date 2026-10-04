@@ -1,6 +1,6 @@
 # Perfil de salud e importación de registros
 
-La sección **Salud** permite registrar medidas corporales, sueño, actividad, comidas y suplementos, y compararlos con objetivos personales. Estos datos pertenecen a la cuenta autenticada. La vista previa de un archivo se procesa en el navegador; recién al confirmar se guarda el resultado en la cuenta. Los datos no se envían a analítica.
+La sección **Salud** permite registrar medidas corporales, sueño, actividad, comidas y suplementos, y compararlos con objetivos personales. En la demo gratuita se guardan en el navegador; en una instancia con cuenta se guardan en el servidor cuando el acceso a la nube está vigente. La vista previa de un archivo se procesa localmente; recién al confirmar se escribe en el destino activo. Los datos no se envían a analítica y la demo no consulta una API.
 
 ## Qué funciona en esta versión
 
@@ -8,7 +8,7 @@ La sección **Salud** permite registrar medidas corporales, sueño, actividad, c
 - Importación explícita de JSON en el formato `klisteniapp.health`, versión 1, descrito abajo.
 - Vista previa de cantidad de registros nuevos, duplicados, categorías, orígenes y rango de fechas.
 - Detección de duplicados y conflictos antes de guardar. Una importación inválida no guarda ninguna de sus filas.
-- Exportación de los datos de salud dentro de la copia completa de la cuenta. Esa copia completa se restaura desde el importador de cuenta; no es el JSON de intercambio de esta página.
+- Exportación de los datos de salud dentro de la copia personal completa v2. Esa copia se restaura desde Ajustes, en modo local o en la cuenta activa; no es el JSON de intercambio de esta página.
 
 **No hay sincronización automática con Samsung Health ni Health Connect en esta versión.** El archivo JSON normalizado es un contrato de intercambio de Klisteniapp. No es el formato que Samsung o Android exportan directamente. Tampoco hay un conversor de CSV de Samsung ni un lector de `Health Connect.zip`. La plantilla descargable está vacía y nunca agrega medidas de ejemplo a tu perfil.
 
@@ -111,16 +111,16 @@ Una misma identidad con valores diferentes es un conflicto: se rechaza el archiv
 
 Las correcciones manuales conservan la identidad de origen y el momento original, y agregan `modifiedAt`. Volver a importar una versión anterior debe provocar un conflicto, no deshacer la corrección. Las notas o la etiqueta del dispositivo también forman parte del contenido protegido por esta comparación.
 
-El límite de archivo es **2 MiB en UTF-8** y **10.000 registros totales por importación**. La cuenta admite como máximo 10.000 observaciones por categoría. Las fechas de observación futuras, instantes futuros, fechas de calendario inexistentes, intervalos inconsistentes, valores fuera de rango y campos desconocidos rechazan la importación. La API vuelve a validar al guardar.
+El límite de archivo es **2 MiB en UTF-8** y **10.000 registros totales por importación**. El modelo personal admite como máximo 10.000 observaciones por categoría. Las fechas de observación futuras, instantes futuros, fechas de calendario inexistentes, intervalos inconsistentes, valores fuera de rango y campos desconocidos rechazan la importación. En una instancia, la API vuelve a validar al guardar.
 
 ## Procedimiento de importación y recuperación
 
-1. Exportar una copia de la cuenta desde sus ajustes antes de modificar un historial que ya contiene datos importantes.
+1. Exportar una copia personal desde Ajustes antes de modificar un historial que ya contiene datos importantes.
 2. Preparar el JSON con registros reales y conservar el archivo de origen. La plantilla muestra la estructura; no realiza la conversión.
 3. En Salud, elegir el JSON. Comprobar el rango, las categorías y los conteos de la vista previa.
-4. Confirmar la importación. El guardado usa la revisión de cuenta que se revisó; si la cuenta cambia mientras tanto, volver a generar la vista previa.
-5. Comprobar la confirmación de guardado y el historial. Una vista previa correcta no implica que la API haya guardado los datos.
-6. Ante un error, conservar el archivo y corregir el campo o conflicto señalado. No reducir todos los valores a cero ni eliminar filas a ciegas. Los registros previos permanecen intactos si se rechaza el archivo o la API no confirma el guardado.
+4. Confirmar la importación. En modo local se actualiza la copia del navegador. En una cuenta, el guardado usa la revisión que se revisó; si la cuenta cambia mientras tanto, volver a generar la vista previa.
+5. Comprobar la confirmación de guardado y el historial. Una vista previa correcta no implica que el almacenamiento local o la API hayan confirmado la escritura.
+6. Ante un error, conservar el archivo y corregir el campo o conflicto señalado. No reducir todos los valores a cero ni eliminar filas a ciegas. Una importación rechazada no reemplaza los registros previos.
 
 Los suplementos no se traducen a recomendaciones automáticas y los objetivos no prescriben un déficit calórico. Las mediciones de composición corporal y los resúmenes sirven para seguir tendencias declaradas, sin establecer diagnósticos ni atribuir un cambio corporal a un ejercicio específico. Samsung también limita el propósito del Data SDK a bienestar y fitness. [Alcance del SDK](https://developer.samsung.com/health/data/overview.html).
 
@@ -159,10 +159,14 @@ pnpm test:analytics
 
 La suite específica de salud usa una compilación temporal y el puerto 43174 para no interferir con el visor anatómico. Sus datos son ficticios y sus respuestas de cuenta están interceptadas; la persistencia real se verifica por separado en la suite de cuentas y las pruebas de API. Las pruebas no acreditan una sincronización con Samsung ni un despliegue en producción.
 
-La arquitectura actualizada, los permisos y las diferencias entre Health Connect y las APIs cloud están detallados en [Sincronización continua](health-sync.md). El [dashboard personal](health-dashboard.md) utiliza los registros que ya están guardados en la cuenta.
+La arquitectura actualizada, los permisos y las diferencias entre Health Connect y las APIs cloud están detallados en [Sincronización continua](health-sync.md). El [dashboard personal](health-dashboard.md) utiliza los registros guardados en el modo local o en la cuenta activa.
 
 ## Capacidad del historial
 
 El estado completo de salud tiene un máximo acumulado de 4 MiB de JSON UTF-8, además del límite de 2 MiB por archivo normalizado. Se valida el resultado de cada fusión: repartir un historial entre varios archivos no evita este máximo. Si una importación lo supera, no se guarda ningún registro ni se cambia la revisión. El límite deja margen bajo los 5 MiB de la petición de guardado para seguir corrigiendo o eliminando registros.
 
 Al restaurar una copia completa desde Ajustes, una observación vinculada a un entrenamiento ausente se conserva sin esa asociación. Los entrenamientos ya eliminados no se recrean y los vínculos históricos existentes en la cuenta se mantienen. Esta normalización no permite crear vínculos nuevos inválidos desde los formularios de salud.
+
+## Disponibilidad de conexiones externas
+
+La importación manual y el dashboard están disponibles en la demo local gratuita. No hay conexión automática activa con Google Health: ver [estado actual y requisitos de integración](health-integrations.md). El acceso a la nube de una instancia se explica en [Suscripciones](subscriptions.md).

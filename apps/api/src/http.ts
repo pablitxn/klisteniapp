@@ -266,7 +266,7 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
         return json(response, 200, await repository.health(owner, HealthRequestSchema.parse(parseBody(await readBody(request, 5 * 1024 * 1024)))));
       }
       if (method === 'POST' && url.pathname === '/api/me/logs') {
-        return json(response, 200, await repository.addLog(owner, LogRequestSchema.parse(parseBody(await readBody(request, 32 * 1024)))));
+        return json(response, 200, await repository.addLog(owner, LogRequestSchema.parse(parseBody(await readBody(request, 64 * 1024)))));
       }
       if (method === 'POST' && url.pathname === '/api/me/import') {
         return json(response, 200, await repository.import(owner, ImportRequestSchema.parse(parseBody(await readBody(request, 5 * 1024 * 1024)))));

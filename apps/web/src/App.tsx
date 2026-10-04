@@ -18,6 +18,7 @@ import {
 } from './components/Forms'
 import Progress from './components/Progress'
 import ExercisePreview from './components/ExercisePreview'
+import ExercisePlanningDetails from './components/ExercisePlanningDetails'
 import { instanceMode } from './lib/deployment'
 const AccountPanel = import.meta.env.VITE_APP_MODE === 'instance' ? lazy(() => import('./components/AccountPanel')) : () => null
 import { cloudWriteAllowed } from './lib/cloud-access'
@@ -47,6 +48,8 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   } | null>(null)
   const [query, setQuery] = useState('')
   const [pattern, setPattern] = useState('Todos')
+  const [difficulty, setDifficulty] = useState('Todos')
+  const [equipment, setEquipment] = useState('all')
   const [lesson, setLesson] = useState<'steps' | 'tips' | 'variants'>('steps')
   const progress = useAppStore((s) => s.progress),
     preferences = useAppStore((s) => s.preferences),
@@ -67,6 +70,15 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
   const planStats = personalSettings && computePlanProgress(personalSettings.plans, progress.workouts, dateInTimeZone(new Date(), personalSettings.profile.timeZone))
   const stats = computeProgress(progress.workouts, progress.cardio, personalSettings ? new Date(`${dateInTimeZone(new Date(), personalSettings.profile.timeZone)}T12:00:00`) : new Date())
   const exercise = getExercise(selectedId) ?? exercises[0]!
+  const normalizeSearch = (value: string) => value.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').trim()
+  const libraryExercises = exercises.filter((item) =>
+    (pattern === 'Todos' || item.pattern === pattern) &&
+    (difficulty === 'Todos' || item.difficulty === difficulty) &&
+    (equipment === 'all' || item.equipment === equipment) &&
+    normalizeSearch(`${item.name} ${item.shortName} ${item.englishName} ${item.pattern} ${[...item.primaryMuscles, ...item.secondaryMuscles].map((id) => muscles[id].name).join(' ')}`)
+      .includes(normalizeSearch(query)),
+  )
+  const libraryFiltered = Boolean(query || pattern !== 'Todos' || difficulty !== 'Todos' || equipment !== 'all')
   const routine = preferences.exerciseIds
     .map(getExercise)
     .filter((e): e is Exercise => Boolean(e))
@@ -405,7 +417,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                       <p>{exercise.englishName}</p>
                       {exercise.equipment !== 'none' && (
                         <span className="equipment-note">
-                          Necesita barra o anillas · fuera de tu rutina
+                          Necesita barra o anillas{!preferences.exerciseIds.includes(exercise.id) && ' · fuera de tu rutina'}
                         </span>
                       )}
                     </div>
@@ -541,6 +553,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                         </div>
                       )}
                     </div>
+                    <ExercisePlanningDetails exercise={exercise} onExplore={choose} />
                     <div className="exercise-footer">
                       <span>
                         <Icon name="clock" size={14} /> Descanso orientativo:{' '}
@@ -623,6 +636,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                       <button
                         key={p}
                         className={pattern === p ? 'selected' : ''}
+                        aria-pressed={pattern === p}
                         onClick={() => setPattern(p)}
                       >
                         {p}
@@ -630,24 +644,31 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                     ),
                   )}
                 </div>
+                <div className="library-refinements">
+                  <label>
+                    Nivel
+                    <select value={difficulty} onChange={(event) => setDifficulty(event.target.value)}>
+                      <option value="Todos">Todos los niveles</option>
+                      <option value="Inicial">Inicial</option>
+                      <option value="Intermedio">Intermedio</option>
+                    </select>
+                  </label>
+                  <label>
+                    Equipo
+                    <select value={equipment} onChange={(event) => setEquipment(event.target.value)}>
+                      <option value="all">Todo el equipo</option>
+                      <option value="none">Sin equipo</option>
+                      <option value="bar-or-rings">Barra o anillas</option>
+                    </select>
+                  </label>
+                  {libraryFiltered && <button className="text-button" onClick={() => {
+                    setQuery(''); setPattern('Todos'); setDifficulty('Todos'); setEquipment('all')
+                  }}>Limpiar filtros</button>}
+                </div>
+                <p className="library-count" role="status">{libraryExercises.length} de {exercises.length} ejercicios</p>
               </div>
               <div className="library-grid">
-                {exercises
-                  .filter(
-                    (e) =>
-                      (pattern === 'Todos' || e.pattern === pattern) &&
-                      `${e.name} ${e.pattern} ${[...e.primaryMuscles, ...e.secondaryMuscles].map((id) => muscles[id].name).join(' ')}`
-                        .toLowerCase()
-                        .normalize('NFD')
-                        .replace(/\p{Diacritic}/gu, '')
-                        .includes(
-                          query
-                            .toLowerCase()
-                            .normalize('NFD')
-                            .replace(/\p{Diacritic}/gu, ''),
-                        ),
-                  )
-                  .map((e) => (
+                {libraryExercises.map((e) => (
                     <button
                       className="library-card"
                       key={e.id}
@@ -673,23 +694,10 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                     </button>
                   ))}
               </div>
-              {!exercises.some(
-                (e) =>
-                  (pattern === 'Todos' || e.pattern === pattern) &&
-                  `${e.name} ${e.pattern} ${[...e.primaryMuscles, ...e.secondaryMuscles].map((id) => muscles[id].name).join(' ')}`
-                    .toLowerCase()
-                    .normalize('NFD')
-                    .replace(/\p{Diacritic}/gu, '')
-                    .includes(
-                      query
-                        .toLowerCase()
-                        .normalize('NFD')
-                        .replace(/\p{Diacritic}/gu, ''),
-                    ),
-              ) && (
+              {libraryExercises.length === 0 && (
                 <div className="empty-state">
                   <h3>No encontramos ese movimiento.</h3>
-                  <p>Probá con otro nombre o elegí «Todos».</p>
+                  <p>Probá con otro nombre o limpiá los filtros de movimiento, nivel y equipo.</p>
                 </div>
               )}
             </section>

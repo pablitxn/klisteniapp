@@ -1,11 +1,23 @@
 import { z } from 'zod';
+import { createExercisePlanningSchema } from './exercise-planning.ts';
 import { HealthDataSchema, createEmptyHealthData } from './health.ts';
+export * from './exercise-planning.ts';
 export * from './health.ts';
 
 export const ExerciseIdSchema = z.enum([
   'pushup', 'squat', 'row', 'glute-bridge', 'dead-bug', 'prone-w', 'calf-raise',
+  'full-pushup', 'pike-pushup', 'reverse-lunge', 'lateral-lunge',
+  'good-morning', 'bird-dog', 'mountain-climber', 'crunch',
+  'quarter-squat', 'paused-squat', 'knee-narrow-pushup', 'narrow-pushup',
+  'dead-bug-heel-tap', 'quadruped-leg-extension', 'prone-t-raise', 'prone-y-raise',
+  'split-squat', 'single-leg-calf-raise', 'bridge-march', 'single-leg-glute-bridge',
+  'bent-knee-row', 'dead-bug-arm-only', 'sumo-squat', 'single-leg-deadlift',
+  'forward-lunge', 'quadruped-arm-raise', 'prone-hip-extension',
+  'supine-march', 'supine-heel-slide', 'plank-shoulder-tap',
 ]);
 export type ExerciseId = z.infer<typeof ExerciseIdSchema>;
+export const ExercisePlanningSchema = createExercisePlanningSchema(ExerciseIdSchema);
+export type ExercisePlanning = z.infer<typeof ExercisePlanningSchema>;
 
 export const MuscleIdSchema = z.enum([
   'pectorals', 'deltoids', 'triceps', 'lats', 'biceps', 'upper-back',
@@ -48,6 +60,7 @@ export const ExerciseSchema = z.object({
   primaryMuscles: z.array(MuscleIdSchema).min(1),
   secondaryMuscles: z.array(MuscleIdSchema),
   sources: z.array(z.object({ title: z.string().min(1), url: z.url() })).min(1),
+  planning: ExercisePlanningSchema,
   note: z.string().optional(),
 });
 export type Exercise = z.infer<typeof ExerciseSchema>;
@@ -91,7 +104,9 @@ export const WorkoutLogSchema = z.object({
   id: z.string().min(1).max(200),
   date: LocalDateSchema,
   completedAt: z.iso.datetime({ offset: true }),
-  exercises: z.array(CompletedExerciseSchema).min(1).max(50),
+  // The session records one entry per set so different repetition counts survive.
+  // Match the largest supported routine: 50 movements with 10 sets each.
+  exercises: z.array(CompletedExerciseSchema).min(1).max(500),
   durationMinutes: z.number().positive().max(1440),
   /** Optional for legacy v1 logs. A saved date is never recalculated from this zone. */
   timeZone: TimeZoneSchema.optional(),

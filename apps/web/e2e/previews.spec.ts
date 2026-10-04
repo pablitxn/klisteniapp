@@ -1,16 +1,9 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { exercises } from '../src/data/exercises'
 
 test.use({ reducedMotion: 'no-preference' })
 
-const exerciseIds = [
-  'pushup',
-  'squat',
-  'glute-bridge',
-  'dead-bug',
-  'prone-w',
-  'calf-raise',
-  'row',
-]
+const exerciseIds = exercises.map(({ id }) => id)
 
 function preview(page: Page, id: string) {
   return page.locator(`.exercise-preview[data-exercise="${id}"]`)
@@ -154,12 +147,12 @@ test('the app motion setting stops an already playing preview and persists', asy
   await expect(page.locator('.exercise-preview-motion')).toHaveCount(0)
 })
 
-test('all seven library previews load without creating miniature WebGL scenes', async ({
+test('every catalog preview loads without creating miniature WebGL scenes', async ({
   page,
 }) => {
   await page.goto('/')
   await navigate(page, 'Ejercicios')
-  await expect(page.locator('.library-card')).toHaveCount(7)
+  await expect(page.locator('.library-card')).toHaveCount(exerciseIds.length)
   await expect(page.locator('canvas')).toHaveCount(0)
   for (const id of exerciseIds) {
     const item = preview(page, id)
@@ -172,9 +165,45 @@ test('all seven library previews load without creating miniature WebGL scenes', 
   }
   await expect(page.locator('.exercise-preview-fallback')).toHaveCount(0)
   await expect(page.locator('canvas')).toHaveCount(0)
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(1441)
   await navigate(page, 'Mi cuerpo')
   await expect(page.locator('.pattern-grid .exercise-preview')).toHaveCount(6)
   await expect(page.locator('.pattern-grid canvas')).toHaveCount(0)
+})
+
+test('expanded library combines name search and movement filters, then opens a new exercise', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await navigate(page, 'Ejercicios')
+  const search = page.getByRole('textbox', { name: 'Buscar ejercicio o músculo' })
+  for (const pattern of new Set(exercises.map((exercise) => exercise.pattern))) {
+    await page.locator('.filter-pills').getByRole('button', { name: pattern, exact: true }).click()
+    const expected = exercises.filter((exercise) => exercise.pattern === pattern)
+    await expect(page.locator('.library-card')).toHaveCount(expected.length)
+    for (const exercise of expected) {
+      await expect(preview(page, exercise.id)).toHaveCount(1)
+    }
+  }
+  await page.locator('.filter-pills').getByRole('button', { name: 'Todos', exact: true }).click()
+  const crunch = exercises.find(({ id }) => id === 'crunch')!
+  await search.fill(crunch.name.normalize('NFD').replace(/\p{Diacritic}/gu, ''))
+  await expect(page.locator('.library-card')).toHaveCount(1)
+  await expectLoaded(preview(page, crunch.id).locator('.exercise-preview-poster'))
+  await page.locator('.filter-pills').getByRole('button', { name: 'Tracción', exact: true }).click()
+  await expect(page.locator('.library-card')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'No encontramos ese movimiento.' })).toBeVisible()
+  await page.locator('.filter-pills').getByRole('button', { name: 'Todos', exact: true }).click()
+  await page.locator('.library-card').click()
+  await expect(page.locator('.workbench-title')).toContainText(crunch.name)
+  await expectAtlasReady(page)
+  await expect(page.locator('.viewer-fallback')).toHaveCount(0)
+  await expect(page.getByRole('tabpanel')).toContainText(crunch.steps[0]!)
+  await page.getByRole('tab', { name: 'A tu nivel' }).click()
+  await expect(page.getByRole('tabpanel')).toContainText(crunch.easier.name)
 })
 
 test('failed preview files retain a usable exercise card and a visible fallback', async ({
@@ -218,6 +247,12 @@ test('previews fit mobile routine, library and body cards without page overflow'
       const firstPreview = page.locator('.exercise-preview').first()
       await firstPreview.scrollIntoViewIfNeeded()
       await expectLoaded(firstPreview.locator('.exercise-preview-poster'))
+      if (name === 'Ejercicios') {
+        await expect(page.locator('.library-card')).toHaveCount(exercises.length)
+        const lastPreview = page.locator('.exercise-preview').last()
+        await lastPreview.scrollIntoViewIfNeeded()
+        await expectLoaded(lastPreview.locator('.exercise-preview-poster'))
+      }
       const scrollWidth = await page.evaluate(
         () => document.documentElement.scrollWidth,
       )

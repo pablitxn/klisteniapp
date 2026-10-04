@@ -74,3 +74,14 @@ test('corrupt originals remain recoverable and invalid imports cannot overwrite 
   assert.notEqual(await useAppStore.getState().saveHealth(createEmptyHealthData(), 0), null)
   assert.equal(values.get(LOCAL_PERSONAL_KEY), '{broken-personal')
 })
+
+
+test('expanded and equipped local routines survive reload without admitting obsolete IDs', async () => {
+  values.set('klisteniapp.preferences.v1', JSON.stringify({ weeklyGoal: 2, sets: 2, exerciseIds: ['squat', 'bent-knee-row', 'plank-shoulder-tap', 'removed-exercise'], reducedMotion: true }))
+  reload()
+  assert.deepEqual(useAppStore.getState().preferences.exerciseIds, ['squat', 'bent-knee-row', 'plank-shoulder-tap'])
+  assert.equal(await useAppStore.getState().updatePreferences({ sets: 3 }), null)
+  reload()
+  assert.deepEqual(useAppStore.getState().preferences.exerciseIds, ['squat', 'bent-knee-row', 'plank-shoulder-tap'])
+  assert.equal(useAppStore.getState().preferences.sets, 3)
+})

@@ -50,7 +50,7 @@ node scripts/generate-exercise-previews.mjs --check
 pnpm previews:generate --help
 ```
 
-Los identificadores actuales son `pushup`, `squat`, `glute-bridge`, `dead-bug`, `prone-w`, `calf-raise` y `row`. El script valida los identificadores y arranca su propio servidor Vite en `127.0.0.1`, usando un puerto libre; no requiere una sesión de `pnpm dev` abierta. Cierra el navegador y el servidor al terminar.
+El catálogo incluye 37 identificadores, definidos en `ExerciseIdSchema` y en `apps/web/src/data/exercises.ts`. A los quince movimientos anteriores se agregan `quarter-squat`, `paused-squat`, `knee-narrow-pushup`, `narrow-pushup`, `dead-bug-heel-tap`, `quadruped-leg-extension`, `prone-t-raise`, `prone-y-raise`, `split-squat`, `single-leg-calf-raise`, `bridge-march` y `single-leg-glute-bridge`. La tercera ampliación suma `bent-knee-row`, `dead-bug-arm-only`, `sumo-squat`, `single-leg-deadlift`, `forward-lunge`, `quadruped-arm-raise`, `prone-hip-extension`, `supine-march`, `supine-heel-slide` y `plank-shoulder-tap`. El script valida los identificadores y arranca su propio servidor Vite en `127.0.0.1`, usando un puerto libre; no requiere una sesión de `pnpm dev` abierta. Cierra el navegador y el servidor al terminar.
 
 Los resultados quedan en `apps/web/public/previews`:
 
@@ -68,7 +68,9 @@ La consola informa por ejercicio la cantidad de frames, la duración y el tamañ
 
 ## Resolución, tiempo y encuadre
 
-Los valores predeterminados son **256 × 256 píxeles**, **12 frames por segundo**, DPR 1 y fondo opaco `#172526`. Cada ciclo dura **6 segundos / 72 frames**, excepto **dead bug: 10 segundos / 120 frames** para mostrar sus dos diagonales. El visor y el generador comparten esas duraciones en `exercise-animation.ts`.
+Los valores predeterminados son **256 × 256 píxeles**, **12 frames por segundo**, DPR 1 y fondo opaco `#172526`. Cada ciclo bilateral o unilateral dura **6 segundos / 72 frames**. Los movimientos con metadata `laterality: alternating` duran **10 segundos / 120 frames** para mostrar ambos lados con una vuelta al centro: dead bug, sus toques de talón, zancada atrás y lateral, bird dog, extensión de pierna en cuadrupedia, escaladores, marcha de puente, dead bug solo de brazos, zancada adelante, elevación de brazo en cuadrupedia, marcha supina, deslizamiento de talón y toques de hombro en plancha. El visor y el generador comparten esas duraciones en `exercise-animation.ts`; los rótulos del visor siguen también las dos mitades de cada ciclo alternado.
+
+`split-squat`, `single-leg-calf-raise`, `single-leg-glute-bridge`, `single-leg-deadlift` y `prone-hip-extension` se practican por series de un lado antes de cambiar. Su metadata es `unilateral`, sus repeticiones se registran por lado y la demostración muestra un lado. Las fichas explicitan el cambio de pierna; no se simula una alternancia que convertiría el movimiento en otro ejercicio. La sentadilla con pausa sigue siendo un movimiento por repeticiones, con una meseta en la trayectoria: no incorpora un registro por segundos.
 
 Se pueden explorar otras resoluciones o cadencias:
 
@@ -82,7 +84,7 @@ Las cámaras están en [`exercise-preview-config.ts`](../apps/web/src/lib/exerci
 
 ## De dónde sale cada frame
 
-[`ExerciseStage.tsx`](../apps/web/src/components/ExerciseStage.tsx) es la escena compartida entre `AnatomyViewer` y la captura. Reúne `AnatomicalModel`, `AnatomyStudio` y la barra del remo. La captura usa el GLB, las referencias articulares y el rig de la aplicación, con la capa muscular y sin resaltado de grupos. No mantiene una segunda animación dibujada a mano.
+[`ExerciseStage.tsx`](../apps/web/src/components/ExerciseStage.tsx) es la escena compartida entre `AnatomyViewer` y la captura. Reúne `AnatomicalModel`, `AnatomyStudio` y la barra de los dos remos, con piernas extendidas o rodillas flexionadas. La captura usa el GLB, las referencias articulares y el rig de la aplicación, con la capa muscular y sin resaltado de grupos. No mantiene una segunda animación dibujada a mano.
 
 [`preview-capture.tsx`](../apps/web/src/preview-capture.tsx) espera que el modelo esté preparado y expone `window.__exerciseCapture.frame(phase)`. El generador solicita fases exactas `frame / frameCount`: actualiza la pose, renderiza y obtiene el PNG de ese mismo frame. No depende de esperar una cantidad de milisegundos ni de grabar la pantalla a velocidad real. Se excluye el extremo duplicado de fase 1 para evitar una pausa al cerrar el bucle. Antes de guardar el poster se renderiza una fase de calentamiento del estudio y sus materiales.
 
@@ -92,7 +94,7 @@ La secuencia de fases y la cámara son deterministas. **No se promete igualdad d
 
 ## Detectar miniaturas desactualizadas
 
-[`generate-exercise-previews.mjs`](../scripts/generate-exercise-previews.mjs) calcula SHA-256 de las fuentes relevantes: generador, entrada de captura, cámaras, escena, modelo, estudio, rig, catálogo, geometría, esquema, GLB, referencias articulares y lockfile. Cada entrada del manifiesto conserva el hash combinado de esas fuentes, los parámetros de captura y el hash de cada archivo generado.
+[`generate-exercise-previews.mjs`](../scripts/generate-exercise-previews.mjs) calcula SHA-256 de las fuentes relevantes: generador, entrada de captura, cámaras, escena, modelo, estudio, rig, catálogo y metadata de planificación, geometría, esquemas, GLB, referencias articulares y lockfile. La metadata participa porque determina si la demostración alterna lados. Cada entrada del manifiesto conserva el hash combinado de esas fuentes, los parámetros de captura y el hash de cada archivo generado.
 
 `pnpm previews:check` comprueba **todos** los ejercicios del catálogo, aunque la última generación haya usado `--exercise`. También forma parte de `pnpm check`. Falla si falta una entrada, sus fuentes cambiaron, falta un archivo o su contenido ya no coincide con el hash registrado. No necesita Chromium ni los codificadores porque solo lee archivos.
 
