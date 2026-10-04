@@ -8,7 +8,7 @@ import { createPool } from './database.ts';
 import { AccountAdministration, ActivationInputSchema, RecoveryInputSchema, RequestRecoveryInputSchema, TokenInputSchema, InvitationInputSchema, DeliveryInputSchema, EmptyInputSchema } from './accounts.ts';
 import { HttpError } from './errors.ts';
 import { PublicRecovery } from './public-recovery.ts';
-import { ImportRequestSchema, LogRequestSchema, SettingsRequestSchema, StateRepository, lockUser } from './state.ts';
+import { HealthRequestSchema, ImportRequestSchema, LogRequestSchema, SettingsRequestSchema, StateRepository, lockUser } from './state.ts';
 
 const authRoutes = new Map([
   ['/api/auth/sign-in/email', 'POST'],
@@ -220,6 +220,9 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
       if (method === 'GET' && url.pathname === '/api/me/state') return json(response, 200, await repository.get(owner));
       if (method === 'PUT' && url.pathname === '/api/me/settings') {
         return json(response, 200, await repository.settings(owner, SettingsRequestSchema.parse(parseBody(await readBody(request, 512 * 1024)))));
+      }
+      if (method === 'PUT' && url.pathname === '/api/me/health') {
+        return json(response, 200, await repository.health(owner, HealthRequestSchema.parse(parseBody(await readBody(request, 5 * 1024 * 1024)))));
       }
       if (method === 'POST' && url.pathname === '/api/me/logs') {
         return json(response, 200, await repository.addLog(owner, LogRequestSchema.parse(parseBody(await readBody(request, 32 * 1024)))));

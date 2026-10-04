@@ -113,6 +113,14 @@ pnpm previews:check
 
 El generador inicia y cierra su propio servidor local. Los valores predeterminados son 256 × 256 y 12 fps; cámaras, parámetros, hashes y resultados quedan registrados para repetir la captura al cambiar el modelo o sus movimientos. Consultá [instalación, regeneración, revisión y límites de las miniaturas](docs/exercise-previews.md). Los renderizados conservan los [créditos y la licencia CC BY-SA 4.0](apps/web/public/previews/NOTICE.md) del modelo anatómico.
 
+## Perfil de salud
+
+**Mi salud** reúne perfil corporal, medidas y composición corporal estimada, sueño, actividad y pulso asociados a entrenamientos, comidas, suplementos y objetivos con fechas. Se guarda en la cuenta autenticada; el resumen usa observaciones reales y días de práctica sin inventar calorías, dosis ni resultados. Los registros se pueden corregir, eliminar y exportar.
+
+El dashboard permite elegir 7, 30 o 90 días y ver tendencias corporales por fuente/dispositivo, descanso, constancia, comidas y suplementos. Los faltantes no cuentan como cero; los objetivos conservan su propia fecha de inicio. [Criterios del dashboard](docs/health-dashboard.md).
+
+La importación de salud acepta un **JSON normalizado de Klisteni**, con vista previa, origen y control de duplicados. **La conexión automática con Samsung Health / Health Connect todavía requiere un puente Android**; los CSV/ZIP originales no se importan directamente. Ver [formatos, unidades, fuentes oficiales y siguientes pasos](docs/health-import.md) y [persistencia y operación de cuentas](docs/accounts.md). La [propuesta de sincronización continua](docs/health-sync.md) detalla el puente Android, permisos, frecuencia y límites de las APIs de Samsung y Google.
+
 ## Verificación
 
 ```sh

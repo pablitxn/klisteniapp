@@ -177,7 +177,7 @@ export function PreferencesForm() {
       <div className="settings-data">
         <h3>Tus datos son tuyos.</h3>
         <p>
-          {user ? 'Tu cuenta sincroniza el historial, las rutinas y la planificación. La exportación incluye todos esos datos. La importación combina registros sin borrar el historial existente.' : 'En modo local, el historial se guarda en este navegador. Exportalo para conservarlo o incorporalo a tu cuenta al iniciar sesión.'}
+          {user ? 'Tu cuenta guarda el historial, las rutinas, la planificación y los datos de Mi salud. La exportación incluye esa información personal; guardala en un lugar privado. La importación combina registros sin borrar el historial existente.' : 'En modo local, el historial se guarda en este navegador. Exportalo para conservarlo o incorporalo a tu cuenta al iniciar sesión.'}
         </p>
         <button className="secondary-button" onClick={download}>
           <Icon name="download" size={18} /> Exportar progreso
@@ -229,6 +229,7 @@ export function PreferencesForm() {
             <p>
               {user ? 'Se incorporarán los registros de esta copia a tu cuenta. Los registros repetidos no se duplican. Tu planificación actual se conserva.' : 'Esta copia reemplazará el historial de este navegador. Exportá el actual si querés conservarlo.'}
             </p>
+            {user && <p>Si una observación de salud apunta a un entrenamiento que no está disponible en tu cuenta ni se incorpora con esta copia, se conserva la observación y se quita esa asociación. Los vínculos históricos que ya guardaste se mantienen.</p>}
             {user && revision === 0 && <label className="toggle-label"><span>Restaurar también perfil, rutinas y planificación de una copia completa</span><input type="checkbox" checked={restoreSettings} onChange={e => setRestoreSettings(e.target.checked)} /></label>}
             <button
               className="secondary-button"

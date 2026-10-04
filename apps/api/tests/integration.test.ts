@@ -7,7 +7,7 @@ import { after, before, describe, test } from 'node:test';
 import type { Server } from 'node:http';
 import { createServer as createTcpServer, type AddressInfo } from 'node:net';
 import { Pool } from 'pg';
-import { createDefaultPersonalData, type ServerState } from '@klisteniapp/scene-schema';
+import { createDefaultPersonalData, createEmptyHealthData, HEALTH_DATA_MAX_BYTES, HealthDataSchema, type ServerState } from '@klisteniapp/scene-schema';
 import { createAuth } from '../src/auth.ts';
 import { createPool } from '../src/database.ts';
 import type { Config } from '../src/config.ts';
@@ -178,6 +178,208 @@ describe('PostgreSQL account API', { skip: !databaseUrl }, () => {
     })));
     assert.deepEqual(updates.map((response) => response.status).sort(), [200, 409]);
     assert.equal((await user.state()).data.progress.cardio.length, 8);
+  });
+
+  test('private health roundtrips with provenance, account isolation and revision conflicts', async () => {
+    const a = await makeUser(); const b = await makeUser();
+    const initial = await a.state();
+    const health = createEmptyHealthData();
+    health.profile = { heightCm: 180, context: 'Información privada' };
+    health.measurements = [{ id: 'body-1', date: '2026-10-01', recordedAt: '2026-10-01T10:00:00Z', source: { kind: 'samsung-health', device: 'Galaxy Watch8', externalId: 'native-1' }, weightKg: 80, bodyFatPercent: 22, skeletalMuscleKg: 31, waistCm: 96 }];
+    health.goals = [{ id: 'goal-1', title: 'Mi meta elegida', metric: 'waistCm', target: 92, startDate: '2026-10-01' }];
+    const response = await a.request('PUT', '/api/me/health', { health, expectedRevision: initial.revision });
+    assert.equal(response.status, 200, await response.clone().text());
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+    const saved = await response.json() as ServerState;
+    assert.deepEqual(saved.data.settings.health, health);
+    assert.deepEqual(saved.data.settings.routines, initial.data.settings.routines);
+    assert.deepEqual((await b.state()).data.settings.health, createEmptyHealthData());
+    assert.equal((await b.request('PUT', '/api/me/health', { health, expectedRevision: 0 }, { 'x-klisteni-account': a.user.id })).status, 401);
+    assert.equal((await a.request('PUT', '/api/me/health', { health, expectedRevision: initial.revision })).status, 409);
+    const repeated = await (await a.request('PUT', '/api/me/health', { health, expectedRevision: saved.revision })).json() as ServerState;
+    assert.equal(repeated.revision, saved.revision);
+    assert.deepEqual((await a.state()).data.settings.health, health);
+    const concurrent = await Promise.all([181, 182].map((heightCm) => a.request('PUT', '/api/me/health', { health: { ...health, profile: { heightCm } }, expectedRevision: saved.revision })));
+    assert.deepEqual(concurrent.map((result) => result.status).sort(), [200, 409]);
+  });
+
+  test('old settings and legacy backups cannot erase health or rewrite begun plans', async () => {
+    const user = await makeUser();
+    const state = await user.state();
+    const health = createEmptyHealthData(); health.profile = { heightCm: 179 };
+    const saved = await (await user.request('PUT', '/api/me/health', { health, expectedRevision: state.revision })).json() as ServerState;
+    const legacySettings = structuredClone(saved.data.settings);
+    delete legacySettings.health;
+    const plans = [{ id: 'plan-health', effectiveFrom: '2026-10-05', weekdays: [1, 3, 5], routineId: 'starter' }];
+    const changed = await user.request('PUT', '/api/me/settings', { settings: { ...legacySettings, plans, profile: { ...legacySettings.profile, displayName: 'Nuevo nombre' } }, expectedRevision: saved.revision });
+    assert.equal(changed.status, 200, await changed.clone().text());
+    const withPlan = await changed.json() as ServerState;
+    assert.deepEqual(withPlan.data.settings.health, health);
+    const legacyBackup = { ...withPlan.data, settings: { ...legacySettings, plans } };
+    const imported = await user.request('POST', '/api/me/import', { data: legacyBackup, includeSettings: true, expectedRevision: withPlan.revision });
+    assert.equal(imported.status, 200, await imported.clone().text());
+    assert.deepEqual((await user.state()).data.settings.health, health);
+    const latest = await user.state();
+    assert.equal((await user.request('PUT', '/api/me/settings', { settings: { ...latest.data.settings, plans: [] }, expectedRevision: latest.revision })).status, 409);
+    const cleared = await user.request('PUT', '/api/me/health', { health: createEmptyHealthData(), expectedRevision: latest.revision });
+    assert.equal(cleared.status, 200);
+    const result = await cleared.json() as ServerState;
+    assert.deepEqual(result.data.settings.plans, plans);
+    assert.deepEqual(result.data.settings.health, createEmptyHealthData());
+  });
+
+  test('health backup import merges observations idempotently and preserves profile/goals unless requested', async () => {
+    const user = await makeUser(); const initial = await user.state();
+    const health = createEmptyHealthData(); health.profile.heightCm = 170;
+    health.measurements = [{ id: 'existing-health', date: '2026-10-01', recordedAt: '2026-10-01T10:00:00Z', source: { kind: 'health-connect', externalId: 'provider-1' }, weightKg: 75 }];
+    await user.request('PUT', '/api/me/health', { health, expectedRevision: initial.revision });
+    const incoming = createEmptyHealthData(); incoming.profile.heightCm = 190;
+    incoming.measurements = [{ ...health.measurements[0], id: 'exporter-renamed-id' }, { ...health.measurements[0], id: 'new-health', source: { kind: 'manual' }, date: '2026-10-02', weightKg: 74.8 }];
+    incoming.goals = [{ id: 'g-import', title: 'Objetivo del archivo', metric: 'weightKg', target: 70, startDate: '2026-10-01' }];
+    const backup = createDefaultPersonalData('Imported'); backup.settings.health = incoming;
+    backup.progress.cardio = [cardio('health-import-cardio')];
+    const imported = await user.request('POST', '/api/me/import', { data: backup });
+    assert.equal(imported.status, 200, await imported.clone().text());
+    const saved = await imported.json() as ServerState;
+    assert.equal(saved.data.settings.health!.measurements.length, 2);
+    assert.equal(saved.data.settings.health!.profile.heightCm, 170);
+    assert.deepEqual(saved.data.settings.health!.goals, []);
+    const retry = await (await user.request('POST', '/api/me/import', { data: backup })).json() as ServerState;
+    assert.equal(retry.revision, saved.revision);
+    const conflict = structuredClone(backup);
+    conflict.settings.health!.measurements[0].weightKg = 71;
+    conflict.progress.cardio.push(cardio('atomic-not-added'));
+    assert.equal((await user.request('POST', '/api/me/import', { data: conflict })).status, 409);
+    assert.deepEqual(await user.state(), saved);
+    const restored = await user.request('POST', '/api/me/import', { data: backup, includeSettings: true, expectedRevision: saved.revision });
+    assert.equal(restored.status, 200, await restored.clone().text());
+    assert.equal((await user.state()).data.settings.health!.profile.heightCm, 190);
+    assert.deepEqual((await user.state()).data.settings.health!.goals, incoming.goals);
+  });
+
+  test('health writes reject invalid, duplicate and future observations through every input route', async () => {
+    const user = await makeUser(); const initial = await user.state();
+    const health = createEmptyHealthData();
+    const entry = { id: 'body-safe', date: '2026-10-01', recordedAt: '2026-10-01T10:00:00Z', source: { kind: 'manual' as const }, weightKg: 80 };
+    for (const measurements of [
+      [{ ...entry, date: '2027-01-01' }], [{ ...entry, recordedAt: '2027-01-01T00:00:00Z' }],
+      [{ ...entry, bodyFatPercent: 101 }], [entry, entry], [{ ...entry, weightLbs: 180 }],
+    ]) {
+      const invalid = { ...health, measurements };
+      assert.equal((await user.request('PUT', '/api/me/health', { health: invalid, expectedRevision: initial.revision })).status, 400);
+      assert.equal((await user.request('PUT', '/api/me/settings', { settings: { ...initial.data.settings, health: invalid }, expectedRevision: initial.revision })).status, 400);
+      assert.equal((await user.request('POST', '/api/me/import', { data: { ...initial.data, settings: { ...initial.data.settings, health: invalid } } })).status, 400);
+      assert.deepEqual(await user.state(), initial);
+    }
+    assert.equal((await user.request('PUT', '/api/me/health', { health, expectedRevision: initial.revision, userId: 'another' })).status, 400);
+  });
+
+  test('activity may link only to this account workouts and links survive later workout deletion', async () => {
+    const a = await makeUser(); const b = await makeUser();
+    const workout = { id: 'linked-strength', date: '2026-10-01', completedAt: '2026-10-01T10:00:00Z', exercises: [{ exerciseId: 'pushup', sets: 2, reps: 8 }], durationMinutes: 20 };
+    await a.request('POST', '/api/me/logs', { kind: 'workout', log: workout });
+    const health = createEmptyHealthData();
+    health.activity = [{ id: 'activity-linked', date: '2026-10-01', recordedAt: '2026-10-01T10:00:00Z', source: { kind: 'manual' }, workoutId: workout.id, averageHeartRateBpm: 120 }];
+    const aState = await a.state(); const bState = await b.state();
+    assert.equal((await b.request('PUT', '/api/me/health', { health, expectedRevision: bState.revision })).status, 400);
+    assert.equal((await a.request('PUT', '/api/me/health', { health, expectedRevision: aState.revision })).status, 200);
+    assert.equal((await a.request('DELETE', `/api/me/logs/${workout.id}`)).status, 200);
+    const current = await a.state();
+    assert.equal(current.data.settings.health!.activity[0].workoutId, workout.id);
+    assert.equal((await a.request('PUT', '/api/me/health', { health, expectedRevision: current.revision })).status, 200);
+    const newLink = { ...health, activity: [...health.activity, { ...health.activity[0], id: 'cannot-add-deleted-link' }] };
+    assert.equal((await a.request('PUT', '/api/me/health', { health: newLink, expectedRevision: current.revision })).status, 400);
+    assert.deepEqual(await a.state(), current);
+  });
+
+  test('export after workout deletion restores every health observation and repeat imports stay idempotent', async () => {
+    const original = await makeUser();
+    const workout = { id: 'export-deleted-workout', date: '2026-10-01', completedAt: '2026-10-01T10:00:00Z', exercises: [{ exerciseId: 'pushup', sets: 2, reps: 8 }], durationMinutes: 20 };
+    await original.request('POST', '/api/me/logs', { kind: 'workout', log: workout });
+    const health = createEmptyHealthData();
+    health.activity = [{ id: 'portable-activity', date: '2026-10-01', recordedAt: '2026-10-01T10:00:00Z', source: { kind: 'health-connect', externalId: 'portable-provider' }, workoutId: workout.id, averageHeartRateBpm: 120, notes: 'Se conserva toda la observación' }];
+    await original.request('PUT', '/api/me/health', { health, expectedRevision: (await original.state()).revision });
+    await original.request('DELETE', `/api/me/logs/${workout.id}`);
+    // exportData serializes this confirmed account state, which excludes deleted workouts.
+    const exported = JSON.parse(JSON.stringify((await original.state()).data));
+    assert.deepEqual(exported.progress.workouts, []);
+    assert.equal(exported.settings.health.activity[0].workoutId, workout.id);
+    const expectedActivity = { ...health.activity[0] };
+    delete expectedActivity.workoutId;
+    for (const includeSettings of [false, true]) {
+      const destination = await makeUser();
+      const initial = await destination.state();
+      const response = await destination.request('POST', '/api/me/import', { data: exported, includeSettings, expectedRevision: initial.revision });
+      assert.equal(response.status, 200, await response.clone().text());
+      const saved = await response.json() as ServerState;
+      assert.deepEqual(saved.data.settings.health!.activity, [expectedActivity]);
+      assert.deepEqual(saved.data.progress.workouts, []);
+      const repeated = await destination.request('POST', '/api/me/import', { data: exported, includeSettings, expectedRevision: saved.revision });
+      assert.equal(repeated.status, 200, await repeated.clone().text());
+      assert.deepEqual(await repeated.json(), saved);
+      assert.equal((await destination.request('PUT', '/api/me/health', { health, expectedRevision: saved.revision })).status, 400);
+    }
+    const prior = await original.state();
+    const repeatedOriginal = await original.request('POST', '/api/me/import', { data: exported });
+    assert.equal(repeatedOriginal.status, 200);
+    assert.deepEqual(await repeatedOriginal.json(), prior);
+  });
+
+  test('import resolves links only against active own workouts and does not resurrect tombstones', async () => {
+    const other = await makeUser(); const destination = await makeUser();
+    const workout = { id: 'foreign-or-missing', date: '2026-10-01', completedAt: '2026-10-01T10:00:00Z', exercises: [{ exerciseId: 'pushup' as const, sets: 2, reps: 8 }], durationMinutes: 20 };
+    await other.request('POST', '/api/me/logs', { kind: 'workout', log: workout });
+    const backup = createDefaultPersonalData('Portable');
+    backup.settings.health!.activity = [{ id: 'foreign-activity', date: workout.date, recordedAt: workout.completedAt, source: { kind: 'manual' }, workoutId: workout.id, averageHeartRateBpm: 125 }];
+    let response = await destination.request('POST', '/api/me/import', { data: backup });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json() as ServerState).data.settings.health!.activity[0].workoutId, undefined);
+    const deletedId = 'imported-tombstone';
+    await destination.request('DELETE', `/api/me/logs/${deletedId}`);
+    const incoming = createDefaultPersonalData('Portable');
+    incoming.progress.workouts = [{ ...workout, id: deletedId }, { ...workout, id: 'available-imported' }];
+    incoming.settings.health!.activity = [
+      { ...backup.settings.health!.activity[0], id: 'deleted-activity', workoutId: deletedId },
+      { ...backup.settings.health!.activity[0], id: 'available-activity', workoutId: 'available-imported' },
+    ];
+    const before = await destination.state();
+    response = await destination.request('POST', '/api/me/import', { data: incoming });
+    assert.equal(response.status, 409);
+    assert.deepEqual(await destination.state(), before);
+    // A normal export omits the deleted workout but may retain the historical link.
+    incoming.progress.workouts = incoming.progress.workouts.filter(({ id }) => id !== deletedId);
+    response = await destination.request('POST', '/api/me/import', { data: incoming });
+    assert.equal(response.status, 200, await response.clone().text());
+    const saved = await response.json() as ServerState;
+    assert.deepEqual(saved.data.progress.workouts.map(({ id }) => id), ['available-imported']);
+    assert.equal(saved.data.settings.health!.activity.find(({ id }) => id === 'deleted-activity')!.workoutId, undefined);
+    assert.equal(saved.data.settings.health!.activity.find(({ id }) => id === 'available-activity')!.workoutId, 'available-imported');
+    assert.deepEqual((await other.state()).data.progress.workouts, [workout]);
+  });
+
+  test('individually valid backup imports cannot grow health beyond its editable size and fail atomically', async () => {
+    const user = await makeUser();
+    const batch = (prefix: string) => {
+      const data = createDefaultPersonalData('Portable');
+      data.settings.health!.measurements = Array.from({ length: 600 }, (_, index) => ({ id: `${prefix}-${index}`, date: '2026-10-01', recordedAt: '2026-10-01T10:00:00Z', source: { kind: 'manual' as const }, weightKg: 80, notes: 'á'.repeat(1900) }));
+      assert.equal(HealthDataSchema.safeParse(data.settings.health).success, true);
+      assert.ok(Buffer.byteLength(JSON.stringify({ data })) < 5 * 1024 * 1024);
+      return data;
+    };
+    const first = batch('first'); const second = batch('second');
+    assert.ok(Buffer.byteLength(JSON.stringify(first.settings.health)) + Buffer.byteLength(JSON.stringify(second.settings.health)) > HEALTH_DATA_MAX_BYTES);
+    assert.equal((await user.request('POST', '/api/me/import', { data: first })).status, 200);
+    const saved = await user.state();
+    second.progress.cardio = [cardio('size-failure-atomic-log')];
+    for (const includeSettings of [false, true]) {
+      const response = await user.request('POST', '/api/me/import', { data: second, includeSettings, expectedRevision: saved.revision });
+      assert.equal(response.status, 400, await response.clone().text());
+      assert.deepEqual(await user.state(), saved);
+    }
+    const smaller = structuredClone(saved.data.settings.health!);
+    smaller.measurements.pop();
+    assert.equal((await user.request('PUT', '/api/me/health', { health: smaller, expectedRevision: saved.revision })).status, 200);
+    assert.equal((await user.state()).data.settings.health!.measurements.length, 599);
   });
 
   test('legacy import merges atomically and reimport is idempotent', async () => {

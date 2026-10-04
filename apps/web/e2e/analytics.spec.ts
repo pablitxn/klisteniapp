@@ -259,3 +259,31 @@ test('forgot-password stays untracked with saved consent, submits privately and 
   expect(models).toHaveLength(0)
   expect(apiPaths).toEqual(['/api/account/request-recovery'])
 })
+
+
+test('health profile and body records never enter the analytics visit payload', async ({ page }) => {
+  const { createDefaultPersonalData } = await import('@klisteniapp/scene-schema')
+  let state = { data: createDefaultPersonalData('Private health name'), revision: 0 }
+  await page.route('**/api/auth/get-session', route => route.fulfill({ json: { user: { id: 'private-health-owner', name: 'Private health name', email: 'private-health@example.test' } } }))
+  await page.route('**/api/me/state', route => route.fulfill({ json: state }))
+  await page.route('**/api/me/health', route => {
+    const { health } = route.request().postDataJSON()
+    state = { data: { ...state.data, settings: { ...state.data.settings, health } }, revision: state.revision + 1 }
+    return route.fulfill({ json: state })
+  })
+  const capture = await intercept(page)
+  await page.goto('/')
+  await expect(page.locator('.local-badge')).toContainText('Sincronizado con tu cuenta')
+  await page.getByTestId('analytics-accept').click()
+  await expect.poll(() => capture.posts.length).toBe(1)
+  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  await page.getByRole('navigation', { name: 'Secciones de mi salud' }).getByRole('button', { name: 'Cuerpo', exact: true }).click()
+  await page.getByRole('button', { name: 'Agregar registro', exact: true }).click()
+  await page.getByLabel('Peso (kg)', { exact: true }).fill('79.4')
+  await page.getByLabel('Cintura (cm)', { exact: true }).fill('93.2')
+  await page.getByRole('button', { name: 'Guardar en mi cuenta', exact: true }).click()
+  await expect(page.getByRole('status').filter({ hasText: 'Guardado en tu cuenta.' })).toBeVisible()
+  await idle(page)
+  expect(capture.posts).toHaveLength(1)
+  expect(capture.posts[0].postDataJSON()).toEqual({ type: 'event', payload: { website: siteId, hostname: '127.0.0.1', url: '/', title: 'Klisteni', referrer: '' } })
+})

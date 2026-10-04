@@ -1,4 +1,4 @@
-import { ServerStateSchema, type CardioLog, type PersonalData, type PersonalSettings, type ProgressData, type WorkoutLog } from '@klisteniapp/scene-schema'
+import { ServerStateSchema, type CardioLog, type HealthData, type PersonalData, type PersonalSettings, type ProgressData, type WorkoutLog } from '@klisteniapp/scene-schema'
 import { z } from 'zod'
 
 export interface AccountUser { id: string; email: string; name: string; role?: 'admin' | 'user' }
@@ -66,7 +66,14 @@ export const accountApi = {
   signIn: (email: string, password: string) => request('/api/auth/sign-in/email', 'POST', { email, password }),
   signOut: (userId?: string) => request('/api/auth/sign-out', 'POST', {}, userId),
   state: (userId: string) => stateRequest('/api/me/state', 'GET', undefined, userId),
-  settings: (settings: PersonalSettings, expectedRevision: number, userId: string) => stateRequest('/api/me/settings', 'PUT', { settings, expectedRevision }, userId),
+  settings: (settings: PersonalSettings, expectedRevision: number, userId: string) => {
+    const trainingSettings = { ...settings }
+    // Health is saved explicitly through its own endpoint. Routine/profile edits
+    // preserve it server-side and need not resend a growing private history.
+    delete trainingSettings.health
+    return stateRequest('/api/me/settings', 'PUT', { settings: trainingSettings, expectedRevision }, userId)
+  },
+  health: (health: HealthData, expectedRevision: number, userId: string) => stateRequest('/api/me/health', 'PUT', { health, expectedRevision }, userId),
   addWorkout: (log: WorkoutLog, userId: string) => stateRequest('/api/me/logs', 'POST', { kind: 'workout', log }, userId),
   addCardio: (log: CardioLog, userId: string) => stateRequest('/api/me/logs', 'POST', { kind: 'cardio', log }, userId),
   removeLog: (id: string, userId: string) => stateRequest(`/api/me/logs/${encodeURIComponent(id)}`, 'DELETE', undefined, userId),

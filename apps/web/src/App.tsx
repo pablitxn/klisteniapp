@@ -19,14 +19,16 @@ import {
 import Progress from './components/Progress'
 import ExercisePreview from './components/ExercisePreview'
 import AccountPanel from './components/AccountPanel'
+const HealthPage = lazy(() => import('./components/HealthPage'))
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
-type Page = 'routine' | 'library' | 'anatomy' | 'progress'
+type Page = 'routine' | 'library' | 'anatomy' | 'progress' | 'health'
 type Overlay = 'cardio' | 'settings' | 'routine' | 'account' | null
 const pages: { id: Page; label: string; icon: IconName }[] = [
   { id: 'routine', label: 'Mi rutina', icon: 'home' },
   { id: 'library', label: 'Ejercicios', icon: 'book' },
   { id: 'anatomy', label: 'Mi cuerpo', icon: 'body' },
   { id: 'progress', label: 'Mi progreso', icon: 'chart' },
+  { id: 'health', label: 'Mi salud', icon: 'heart' },
 ]
 
 export default function App({ privacyControls, suspended = false }: { privacyControls?: ReactNode; suspended?: boolean }) {
@@ -95,6 +97,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
     library: 'Conocé el movimiento antes de sumar repeticiones.',
     anatomy: 'Aprendé qué trabaja y cómo se complementa.',
     progress: 'Lo que cuenta es volver, a tu ritmo.',
+    health: 'Tu punto de partida, tus registros y tus próximos pasos.',
   }
   return (
     <div className="app-shell">
@@ -211,6 +214,8 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                   'Cada movimiento tiene su porqué.'
                 ) : page === 'anatomy' ? (
                   'Conocé tu cuerpo.'
+                ) : page === 'health' ? (
+                  'Conocerte también es cuidarte.'
                 ) : (
                   'Cada paso cuenta.'
                 )}
@@ -234,7 +239,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                 <Icon name="play" size={17} /> Empezar mi rutina{' '}
                 <Icon name="arrow" size={18} />
               </button>
-            ) : (
+            ) : page !== 'health' ? (
               <button
                 className="secondary-button"
                 disabled={privateUnavailable}
@@ -242,9 +247,9 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
               >
                 <Icon name="plus" size={18} /> Registrar actividad
               </button>
-            )}
+            ) : null}
           </section>
-          <div className="stats-bar">
+          {page !== 'health' && <div className="stats-bar">
             <div>
               <span className="stat-icon peach">
                 <Icon name="fire" />
@@ -301,7 +306,7 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
                 <span>Construyendo el hábito</span>
               </span>
             </div>
-          </div>
+          </div>}
           {page === 'routine' && (
             <>
               <div className="section-heading">
@@ -761,6 +766,9 @@ export default function App({ privacyControls, suspended = false }: { privacyCon
               onStart={() => navigate('routine')}
             />
           )}
+          {page === 'health' && <Suspense fallback={<p role="status">Cargando tu espacio de salud…</p>}>
+            <HealthPage onSignIn={() => setOverlay('account')} />
+          </Suspense>}
           <footer className="page-footer">
             <span>Menos prisa. Más conciencia.</span>
             <span>

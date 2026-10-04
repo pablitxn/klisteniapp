@@ -50,3 +50,33 @@ test('public recovery sends only email and accepts the generic response without 
   t.mock.method(globalThis, 'fetch', async () => new Response('{}', { status: 202, headers: { 'Content-Type': 'application/json' } }))
   await assert.rejects(accountApi.requestRecovery('person@example.test'), (error: unknown) => error instanceof AccountApiError && error.code === 'INVALID_RESPONSE')
 })
+
+
+test('health writes use private account guard and explicit revision, without health in the URL', async (t) => {
+  const state = { data: createDefaultPersonalData('Test'), revision: 1 }
+  const health = state.data.settings.health!
+  health.profile.heightCm = 178
+  t.mock.method(globalThis, 'fetch', async (url: string, options: RequestInit) => {
+    assert.equal(url, '/api/me/health')
+    assert.equal(options.method, 'PUT')
+    assert.equal(options.credentials, 'same-origin')
+    assert.equal(options.cache, 'no-store')
+    assert.equal((options.headers as Record<string, string>)['X-Klisteni-Account'], 'owner-a')
+    assert.deepEqual(JSON.parse(String(options.body)), { health, expectedRevision: 0 })
+    return new Response(JSON.stringify(state), { headers: { 'Content-Type': 'application/json' } })
+  })
+  assert.deepEqual(await accountApi.health(health, 0, 'owner-a'), state)
+})
+
+test('ordinary account settings never resend or replace sensitive health history', async (t) => {
+  const state = { data: createDefaultPersonalData('Test'), revision: 1 }
+  state.data.settings.health!.profile.heightCm = 178
+  t.mock.method(globalThis, 'fetch', async (_url: string, options: RequestInit) => {
+    const body = JSON.parse(String(options.body))
+    assert.equal(body.settings.health, undefined)
+    assert.equal(body.settings.profile.displayName, 'Test')
+    return new Response(JSON.stringify(state), { headers: { 'Content-Type': 'application/json' } })
+  })
+  await accountApi.settings(state.data.settings, 0, 'owner-a')
+  assert.equal(state.data.settings.health?.profile.heightCm, 178)
+})

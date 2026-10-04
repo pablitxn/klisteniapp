@@ -1,0 +1,54 @@
+.health-dashboard-toolbar { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; }
+.health-dashboard-toolbar h3 { font-size: 25px; margin: 7px 0; }
+.health-dashboard-toolbar p { font-size: 13px; color: #63705f; }
+.health-dashboard-toolbar .eyebrow { color: #70628f; }
+.health-dashboard-toolbar label, .health-chart-controls label { display: grid; gap: 7px; font-size: 12px; font-weight: 600; min-width: 0; }
+.health-dashboard select { min-height: 44px; width: 100%; max-width: 100%; font: inherit; }
+.health-dashboard-charts { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; }
+.health-chart-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.health-trend-value { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 22px 0 5px; }
+.health-trend-value strong { font-family: 'Manrope', sans-serif; font-size: 32px; letter-spacing: -1px; }
+.health-trend-value span, .health-trend-change { font-size: 12px; color: #687262; }
+.health-trend-change { min-height: 19px; }
+.health-time-chart { margin: 18px 0 8px; }
+.health-time-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.health-time-chart text { font-family: inherit; font-size: 20px; fill: #586453; }
+.health-chart-grid { stroke: #e4e8df; stroke-dasharray: 3 4; }
+.health-chart-dot { fill: #756196; stroke: #fff; stroke-width: 1.5px; }
+.health-chart-bar { fill: #7b8d63; }
+.health-chart-empty { min-height: 160px; display: grid; place-items: center; text-align: center; font-size: 13px; color: #697463; background: #f7f8f3; border-radius: 12px; margin: 18px 0 10px; padding: 24px; }
+.health-data-table { font-size: 12px; margin-top: 15px; }
+.health-data-table summary, .health-coverage > summary { cursor: pointer; font-weight: 600; min-height: 36px; padding: 8px 0; }
+.health-data-table > div { overflow-x: auto; }
+.health-data-table table { width: 100%; border-collapse: collapse; text-align: left; }
+.health-data-table th, .health-data-table td { padding: 10px 5px; border-bottom: 1px solid #e9ece5; }
+.health-data-table caption { text-align: left; color: #697463; padding: 6px 0; }
+.health-training-total { font-size: 23px; color: #5b7144; white-space: nowrap; }
+.health-training-days { display: grid; grid-template-columns: repeat(auto-fit, minmax(18px, 1fr)); gap: 5px; }
+.health-training-days span { height: 24px; border-radius: 4px; border: 1px solid #d9dfd0; background: #f1f4ec; }
+.health-training-days span.is-trained { background: #687f4f; border-color: #687f4f; }
+.health-calendar-caption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 10px; font-size: 11px; color: #65725a; }
+.health-food-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 20px 0; }
+.health-food-summary dt { font-size: 12px; color: #697463; }
+.health-food-summary dd { font-size: 23px; margin: 8px 0; font-weight: 600; }
+.health-food-summary small { font-size: 11px; color: #697463; }
+.health-supplement-list { display: grid; gap: 14px; margin: 20px 0; }
+.health-supplement-list > div { display: grid; gap: 5px; }
+.health-supplement-list strong { overflow-wrap: anywhere; font-size: 14px; }
+.health-supplement-list span, .health-supplement-list small { font-size: 12px; color: #687262; }
+.health-sync-note { display: flex; gap: 20px; justify-content: space-between; align-items: center; }
+.health-sync-note button { flex-shrink: 0; }
+@media (max-width: 1100px) { .health-dashboard-charts { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .health-dashboard-toolbar > label { width: 100%; }
+  .health-chart-controls { grid-template-columns: 1fr; }
+  .health-dashboard .health-metrics { grid-template-columns: 1fr; }
+  .health-dashboard .health-card-heading { flex-wrap: wrap; }
+  .health-sync-note { align-items: flex-start; flex-direction: column; }
+  .health-food-summary { gap: 12px; }
+  .health-food-summary dd { font-size: 20px; }
+}
+
+.health-dashboard .fine-print { font-size: 12px; line-height: 1.6; }
+.health-dashboard-goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+.health-recent > summary { cursor: pointer; font-size: 15px; font-weight: 600; }

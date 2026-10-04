@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { CardioLogSchema, WorkoutLogSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, dateInTimeZone, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
+import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, dateInTimeZone, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
 import { AccountApiError, accountApi, type AccountUser } from './account-api.ts'
 import { exercises, starterRoutine } from '../data/exercises.ts'
 import { emptyProgress, parseProgress, serializeProgress } from './progress.ts'
@@ -110,6 +110,7 @@ export interface AppStore {
   refreshSession: () => Promise<string | null>
   refreshState: () => Promise<string | null>
   saveSettings: (settings: PersonalSettings) => Promise<string | null>
+  saveHealth: (health: HealthData, expectedRevision: number) => Promise<string | null>
   importLocalData: (includeSettings?: boolean) => Promise<string | null>
   exportData: () => string
   exportRejectedData: () => string
@@ -415,6 +416,23 @@ export const useAppStore = create<AppStore>((set, get) => {
         } catch (error) { return handleConflict(error, token, userId) }
       })
     },
+    saveHealth: (health, expectedRevision) => {
+      const parsed = HealthDataSchema.safeParse(health)
+      if (!parsed.success) return Promise.resolve('Revisá los valores, las unidades y las fechas de tus registros de salud.')
+      return serialized(async (token, userId) => {
+        if (!canonical || get().accountLoading) return 'Tu cuenta todavía no terminó de cargar.'
+        if (canonical.revision !== expectedRevision) return 'Tus datos cambiaron mientras editabas. Conservamos el formulario; revisá la versión actual antes de volver a guardar.'
+        if (pending.length) return 'Sincronizá tus entrenamientos pendientes antes de guardar datos de salud.'
+        set({ syncStatus: 'saving', accountError: null })
+        try {
+          const state = await accountApi.health(parsed.data, expectedRevision, userId)
+          if (!current(token, userId)) return CHANGED_ACCOUNT
+          publish(state)
+          set({ syncStatus: 'idle' })
+          return null
+        } catch (error) { return handleConflict(error, token, userId) }
+      })
+    },
     updatePreferences: async (patch) => {
       if (get().authStatus === 'loading') return 'Esperá mientras verificamos tu sesión.'
       if (get().user) {
@@ -456,6 +474,8 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (!includeSettings) return importAccount(local.progress, false)
       const preferences = loadPreferences()
       const data = createDefaultPersonalData(get().personalData?.settings.profile.displayName ?? user.name, get().personalData?.settings.profile.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)
+      // Importing legacy training preferences must never clear health records.
+      delete data.settings.health
       data.progress = local.progress
       data.settings.routines[0] = { ...data.settings.routines[0]!, exerciseIds: preferences.exerciseIds as typeof data.settings.routines[number]['exerciseIds'], sets: preferences.sets }
       // A legacy weekly goal does not identify weekdays. Do not invent a schedule.

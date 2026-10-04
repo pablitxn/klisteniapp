@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 
 export type IconName =
   | 'home'
+  | 'heart'
   | 'book'
   | 'body'
   | 'chart'
@@ -26,6 +27,7 @@ export type IconName =
   | 'reset'
   | 'search'
 const paths: Record<IconName, string> = {
+  heart: 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z M3 12h5l2-4 4 8 2-4h5',
   home: 'm3 10 9-7 9 7v10H3Z M9 20v-7h6v7',
   book: 'M12 5v16 M12 5C8 2 4 3 2 4v15c3-1 6-1 10 2 4-3 7-3 10-2V4c-2-1-6-2-10 1Z',
   body: 'M9 5a3 3 0 1 0 6 0a3 3 0 1 0-6 0 M4 10l8 2 8-2 M12 12v5m0 0-5 5m5-5 5 5',

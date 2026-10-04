@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { HealthDataSchema, createEmptyHealthData } from './health.ts';
+export * from './health.ts';
 
 export const ExerciseIdSchema = z.enum([
   'pushup', 'squat', 'row', 'glute-bridge', 'dead-bug', 'prone-w', 'calf-raise',
@@ -134,6 +136,8 @@ export const TrainingPlanSchema = z.object({
 export type TrainingPlan = z.infer<typeof TrainingPlanSchema>;
 
 export const PersonalSettingsSchema = z.object({
+  /** Absent in legacy backups; omission must never clear existing health data. */
+  health: HealthDataSchema.optional(),
   profile: z.object({
     displayName: z.string().trim().min(1).max(100),
     timeZone: TimeZoneSchema,
@@ -180,6 +184,7 @@ export function createDefaultPersonalData(displayName: string, timeZone = 'UTC')
   return PersonalDataSchema.parse({
     version: 2,
     settings: {
+      health: createEmptyHealthData(),
       profile: { displayName, timeZone },
       routines: [{
         id: 'starter', name: 'Mi rutina',
