@@ -3,6 +3,7 @@ import {
   Component,
   Suspense,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -10,7 +11,9 @@ import {
 } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-import { Vector3 } from 'three'
+import { Color, Vector3 } from 'three'
+import type { AnatomicalModelVariant } from '@klisteniapp/scene-schema'
+import { selectAnatomicalModel, useAppStore } from '../lib/store'
 import { EXERCISE_PHASES, getExercisePose } from '@klisteniapp/geometry'
 import ExerciseStage from './ExerciseStage'
 import { exerciseCycleSeconds, isAlternatingExercise } from '../lib/exercise-animation'
@@ -18,12 +21,15 @@ import { anatomyRendererOptions, anatomyShadows } from '../lib/anatomy-render-se
 import './anatomy-viewer.css'
 
 interface Props {
+  modelVariant?: AnatomicalModelVariant
   exerciseId: string
   primaryMuscles: string[]
   secondaryMuscles: string[]
   selectedMuscle?: string | null
   onSelectMuscle?: (id: string | null) => void
   reducedMotion?: boolean
+  initialMode?: 'movement' | 'anatomical'
+  initialView?: View
 }
 type Layer = 'skin' | 'muscles' | 'skeleton' | 'combined'
 type View = 'perspective' | 'front' | 'side' | 'back'
@@ -87,6 +93,35 @@ function Camera({
   )
 }
 
+/** Theme the live canvas without changing the reproducible capture studio. */
+function LiveSceneBackground() {
+  const { gl, scene, invalidate } = useThree()
+  const background = useMemo(() => new Color(), [])
+  useLayoutEffect(() => {
+    const element = gl.domElement.closest('.anatomy-viewer')
+    if (!element) return
+    const previous = scene.background
+    const sync = () => {
+      const styles = getComputedStyle(element)
+      const color = styles.getPropertyValue('--studio').trim() || styles.getPropertyValue('--surface-soft').trim()
+      if (!color) return
+      background.set(color)
+      scene.background = background
+      invalidate()
+    }
+    sync()
+    const observer = new MutationObserver(sync)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-color-theme', 'style'] })
+    return () => {
+      observer.disconnect()
+      if (scene.background === background) scene.background = previous
+    }
+  }, [background, gl, scene, invalidate])
+  // The shared studio can reattach during scene updates; keep the live surface themed.
+  useFrame(() => { if (scene.background !== background) scene.background = background }, -3)
+  return null
+}
+
 function Scene({
   phaseRef,
   playing,
@@ -136,6 +171,7 @@ function Scene({
         onReady={onReady}
         onInspectStructure={onInspectStructure}
       />
+      <LiveSceneBackground />
     </>
   )
 }
@@ -195,16 +231,19 @@ function ControlIcon({
 
 export default function AnatomyViewer(props: Props) {
   const { t } = useTranslation('core')
+  const preferredModel = useAppStore(selectAnatomicalModel)
+  const modelVariant = props.modelVariant ?? preferredModel
 
   const [playing, setPlaying] = useState(
     () =>
+      props.initialMode !== 'anatomical' &&
       !props.reducedMotion &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
   const [phase, setPhase] = useState(0),
     [speed, setSpeed] = useState(1),
-    [view, setView] = useState<View>('perspective')
-  const [anatomy, setAnatomy] = useState(false),
+    [view, setView] = useState<View>(props.initialView ?? 'perspective')
+  const [anatomy, setAnatomy] = useState(props.initialMode === 'anatomical'),
     [layer, setLayer] = useState<Layer>('muscles'),
     [highlight, setHighlight] = useState(false)
   const [visible, setVisible] = useState(true)
@@ -220,6 +259,7 @@ export default function AnatomyViewer(props: Props) {
     viewer = useRef<HTMLElement>(null),
     expandButton = useRef<HTMLButtonElement>(null)
   const exerciseRef = useRef(props.exerciseId)
+  useEffect(() => setStructure(null), [modelVariant])
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setVisible(Boolean(entry?.isIntersecting)),
@@ -234,9 +274,9 @@ export default function AnatomyViewer(props: Props) {
       setPhase(0)
       setStructure(null)
       exerciseRef.current = props.exerciseId
-      setCameraReset((n) => n + 1)
+      if (!anatomy) setCameraReset((n) => n + 1)
     }
-  }, [props.exerciseId])
+  }, [props.exerciseId, anatomy])
   useEffect(() => {
     if (props.reducedMotion) setPlaying(false)
   }, [props.reducedMotion])
@@ -314,6 +354,7 @@ export default function AnatomyViewer(props: Props) {
     <section
       ref={viewer}
       className={`viewer anatomy-viewer ${expanded ? 'anatomy-expanded' : ''}`}
+      data-model={modelVariant}
       aria-label={t("Demostración 3D del ejercicio")}
       role={expanded ? 'dialog' : undefined}
       aria-modal={expanded || undefined}
@@ -322,7 +363,7 @@ export default function AnatomyViewer(props: Props) {
         <div>
           <span className="anatomy-live-dot" />
           <span>{t("ESTUDIO ANATÓMICO")}</span>
-          <span className="anatomy-version">3D</span>
+          <span className="anatomy-version">3D · {t(modelVariant === 'female' ? 'Mujer' : 'Hombre', { ns: 'settings' })}</span>
         </div>
         <button
           ref={expandButton}
@@ -398,6 +439,7 @@ export default function AnatomyViewer(props: Props) {
                 <Suspense fallback={null}>
                   <Scene
                     {...props}
+                    modelVariant={modelVariant}
                     exerciseId={anatomy ? 'anatomy' : props.exerciseId}
                     phaseRef={phaseRef}
                     playing={playing && !anatomy && loaded && visible}
@@ -569,6 +611,7 @@ export default function AnatomyViewer(props: Props) {
         </summary>
         <p>{t("Superficie corporal, músculos y huesos del atlas")}{' '}
           <strong>Z-Anatomy / BodyParts3D</strong>{t(". Las capas conservan sus relaciones en la posición anatómica. El movimiento es una animación educativa; no representa una medición de tu cuerpo ni una simulación biomecánica validada.")}</p>
+        {modelVariant === 'female' && <p>{t('Variante corporal ilustrativa; no es un atlas específico de anatomía femenina.', { ns: 'settings' })}</p>}
         <a href="/models/NOTICE.md" target="_blank" rel="noreferrer">{t("Fuentes, modificaciones y licencia CC BY-SA 4.0 ↗")}</a>
       </details>
     </section>

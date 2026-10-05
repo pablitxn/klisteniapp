@@ -1,1655 +1,3368 @@
 {
-  "version": 1,
+  "version": 2,
   "sources": {
-    "scripts/generate-exercise-previews.mjs": "0f1283e61cc34c87879833851fa6edcf2a8b3b575ed751e5dcc286486f7754c2",
+    "scripts/generate-exercise-previews.mjs": "2e63d967af8d69ed5de8275d88aaf8c24649ec32f78ebc4700bc8d85b9a1d17b",
     "apps/web/preview-capture.html": "24e7d607f48a54bb7b6cbe8d758d1f2ec7a8593878f8f52170290dae8f2f0631",
-    "apps/web/src/preview-capture.tsx": "d0bc343ec9d71d256dad2948857229956e05474fa4b783eead6cf5792aedb0d6",
+    "apps/web/src/preview-capture.tsx": "32864381ba5348239a6fe75ddb4696f5d935b2858a54b24d0bf11425e9e43b37",
     "apps/web/src/lib/exercise-preview-config.ts": "ea7f5c37d66ec7439312df346dd2db906fcb2d652d8520a67652cfe5e18ad512",
+    "apps/web/src/lib/exercise-preview-assets.ts": "fdf5f346c0773c05d1c5be39bed1889097ed2a1711bf4e9e6d9f229ce961a0b4",
     "apps/web/src/lib/exercise-animation.ts": "40bce83576bfd4dd049daa8a39482800df7b1f7ca6213f9c46a5f9d15e4c1481",
     "apps/web/src/lib/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
     "apps/web/src/components/ExerciseStage.tsx": "f016cff98175032934f0723c26b1b199448ee3aeeeaefc0d77079c9a72979883",
-    "apps/web/src/components/AnatomicalModel.tsx": "ad016bbe4305c19637c60fafd59103573b907d2fb8d910a4d9ea4f459871c67e",
+    "apps/web/src/components/AnatomicalModel.tsx": "c2bd9de23ad4b2e97b969c6f00e04f1054a5b3136ae256e5829c034e78aa9ee0",
     "apps/web/src/components/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
-    "apps/web/src/lib/anatomy-model.ts": "47b8682798b68c133e379e7760d1e768e84cc0f90be1346a027020d94cc2fa66",
-    "apps/web/src/lib/anatomy-rig.ts": "48a18da9cc1c73131bb4f6fd4264e0b068ff36d9e8b183acc486231ee8984188",
+    "apps/web/src/lib/anatomy-model.ts": "a20c3da133693c827451288d1144a2c0f221111dc8fbdd6aab97997c56673b84",
+    "apps/web/src/lib/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+    "apps/web/src/lib/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+    "apps/web/src/lib/anatomy-rig.ts": "2ebfb5746614b2ab9e748e873f09198624fd769519d1dd586a90f7fc446d225e",
     "apps/web/src/data/exercises.ts": "f27cd7e2090340a17faf35a2d16f37899b0239776a954b427a7b7f5fd73cd650",
     "apps/web/src/data/exercise-planning.ts": "2304628ddfd58b73c68ce41f816fd5a8fa4019b83a09e708bf6f256f0365065d",
     "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
-    "packages/scene-schema/src/index.ts": "3af427d7c2b0dad0b314c9e7f0324618aff888e458e0ef24f99e36553599a8cc",
+    "packages/scene-schema/src/index.ts": "4e8b08847054fc64de43674fba9622eee6c751ab496daa1fcfd166eba2ba745a",
     "packages/scene-schema/src/exercise-planning.ts": "eebd030fb10f2ce02084faeb4e87e9567d8d7ce78d4c0d173e0214f193613627",
     "apps/web/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
     "apps/web/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
     "pnpm-lock.yaml": "13bf340d8bcf0e210b2bf481ba5703555a1f2367c359db9fdfc74888dc2da4f5"
   },
-  "exercises": {
-    "squat": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:05:37.929Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3,
-          1.65,
-          3.6
-        ],
-        "target": [
-          0,
-          0.88,
-          0
-        ],
-        "height": 2.12,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "squat-poster.webp",
-        "bytes": 4064,
-        "sha256": "99f91323aec7ad027b8bef400d71141842b2ceccd50e863de14ccfa82b1132df"
-      },
-      "animation": {
-        "file": "squat.webp",
-        "bytes": 234254,
-        "sha256": "a4a416c4679afec26b293c55b0c061f478236ac2fdf5d4a0c3e5d5a8a8f9d03b"
-      },
-      "gif": {
-        "file": "squat.gif",
-        "bytes": 563217,
-        "sha256": "0b67d4babfd6c6ffc11068d32cd90fed121970abc1bff9dd486fc1243d15b4b8"
+  "generatedAt": "2026-10-05T01:18:23.289Z",
+  "variants": {
+    "male": {
+      "exercises": {
+        "squat": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:01:31.437Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3,
+              1.65,
+              3.6
+            ],
+            "target": [
+              0,
+              0.88,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "squat-poster.webp",
+            "bytes": 4064,
+            "sha256": "99f91323aec7ad027b8bef400d71141842b2ceccd50e863de14ccfa82b1132df"
+          },
+          "animation": {
+            "file": "squat.webp",
+            "bytes": 234254,
+            "sha256": "a4a416c4679afec26b293c55b0c061f478236ac2fdf5d4a0c3e5d5a8a8f9d03b"
+          },
+          "gif": {
+            "file": "squat.gif",
+            "bytes": 563217,
+            "sha256": "0b67d4babfd6c6ffc11068d32cd90fed121970abc1bff9dd486fc1243d15b4b8"
+          }
+        },
+        "pushup": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:00:44.751Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.5,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.34,
+              -0.3
+            ],
+            "height": 1.85,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "pushup-poster.webp",
+            "bytes": 5112,
+            "sha256": "415c5ebdf02072572febe03bce00de9c5ebce85c2f50f19cf5f5708875a43d82"
+          },
+          "animation": {
+            "file": "pushup.webp",
+            "bytes": 181020,
+            "sha256": "9bb3cc95992777f42a1871625914e6bbd9a7ada8c83fb665b357dc738fd2822e"
+          },
+          "gif": {
+            "file": "pushup.gif",
+            "bytes": 389328,
+            "sha256": "8ff91e0cc5222bbc9c749c22194f460395092c0381f24066c34089724d3251bd"
+          }
+        },
+        "glute-bridge": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:01:56.792Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.7,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 1.95,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "glute-bridge-poster.webp",
+            "bytes": 4808,
+            "sha256": "e5b6c26ab80e6ee4a84d2b664d572426b96aeb19539f748f65e326884baabbb4"
+          },
+          "animation": {
+            "file": "glute-bridge.webp",
+            "bytes": 212704,
+            "sha256": "716b5108ea7ee37fbc12194950f61c4733ac509e92f2e11820c9dbb5e592392a"
+          },
+          "gif": {
+            "file": "glute-bridge.gif",
+            "bytes": 403223,
+            "sha256": "01f9b0ce85f8624c936172e71e52e24fd9fab4ed2c505acdfd1c5dbeb4aa0308"
+          }
+        },
+        "dead-bug": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:02:16.708Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.45,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "dead-bug-poster.webp",
+            "bytes": 4008,
+            "sha256": "21abd48dee5baf8ce184f586e42592e4e5bd585772d26fbe67222a4c571fd9d9"
+          },
+          "animation": {
+            "file": "dead-bug.webp",
+            "bytes": 236120,
+            "sha256": "a5d3b2248eecffeb788550f60c6258279e2fd123ea1bd47acb69c8bbdfd9514f"
+          },
+          "gif": {
+            "file": "dead-bug.gif",
+            "bytes": 318537,
+            "sha256": "cd3293ff42b818ba7d28417a794a8c1ea49e783986c10276d0f8a6e7280584d5"
+          }
+        },
+        "prone-w": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:02:26.043Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.1,
+              4.8,
+              1.3
+            ],
+            "target": [
+              0,
+              0.2,
+              -0.2
+            ],
+            "height": 2.15,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "prone-w-poster.webp",
+            "bytes": 5316,
+            "sha256": "fd8386517d2b345decd7a743540df0439616c51e54c818b3d9c9d6416da002e9"
+          },
+          "animation": {
+            "file": "prone-w.webp",
+            "bytes": 116746,
+            "sha256": "949923f3df6d2003bd693421625c4c17a911f98b2648e68234874c37d0276e4b"
+          },
+          "gif": {
+            "file": "prone-w.gif",
+            "bytes": 148900,
+            "sha256": "65140c895500e966b7ff5e9e47096c4a300432d2272b52b7e01a9aa6fb6d0d47"
+          }
+        },
+        "calf-raise": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:02:40.188Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.4,
+              1.6,
+              -3
+            ],
+            "target": [
+              0,
+              0.95,
+              0
+            ],
+            "height": 2.18,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "calf-raise-poster.webp",
+            "bytes": 3936,
+            "sha256": "0a57df9c073b472466c97aef7d20372b57616037f1380427619591ecadd98073"
+          },
+          "animation": {
+            "file": "calf-raise.webp",
+            "bytes": 222064,
+            "sha256": "030cddc0636434583bd7cb9280572e620190e1d30a5704c1007d1087a8e82be5"
+          },
+          "gif": {
+            "file": "calf-raise.gif",
+            "bytes": 516818,
+            "sha256": "6ef91b0c295267e68479f650133ad660c5ae880478628a88950a11a61ddbccb3"
+          }
+        },
+        "row": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:03:10.977Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              0.8
+            ],
+            "target": [
+              0,
+              0.45,
+              -0.1
+            ],
+            "height": 2.05,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "row-poster.webp",
+            "bytes": 5476,
+            "sha256": "6b84f2ba1806019323ba987948a318addf1746556c11b4b6da1a3cf0c063eeeb"
+          },
+          "animation": {
+            "file": "row.webp",
+            "bytes": 279918,
+            "sha256": "0309b67b9260311b7ed1b0cb80eb644ac25e478b5bc14161b5366f0b75a26f71"
+          },
+          "gif": {
+            "file": "row.gif",
+            "bytes": 566795,
+            "sha256": "3f009bee33480374917c5ab262974df846eaea80a398662257651b83989a64be"
+          }
+        },
+        "full-pushup": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:03:28.509Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.35,
+              -0.15
+            ],
+            "height": 2.25,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "full-pushup-poster.webp",
+            "bytes": 4136,
+            "sha256": "83f1d84a335405de422221e920eb155ed055fe7005ab4f4207ffc347b57233af"
+          },
+          "animation": {
+            "file": "full-pushup.webp",
+            "bytes": 201796,
+            "sha256": "b1261cbde2b59b863d1d686e252b6f5b9d03288416967a85114c652fce6b9a19"
+          },
+          "gif": {
+            "file": "full-pushup.gif",
+            "bytes": 404024,
+            "sha256": "db64656c50f69537fdfd5dc2e6ec9d86765cfe84cb4aa082a0a494c2c0ed0134"
+          }
+        },
+        "pike-pushup": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:03:44.986Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              1.1
+            ],
+            "target": [
+              0,
+              0.65,
+              -0.1
+            ],
+            "height": 2.2,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "pike-pushup-poster.webp",
+            "bytes": 4132,
+            "sha256": "9286b5a17b722ea0b7d34fdaaf2a7204a3a6fa81b4344a39b84d146fee654960"
+          },
+          "animation": {
+            "file": "pike-pushup.webp",
+            "bytes": 219716,
+            "sha256": "3083f7d47ee0a8acb9fc8ed93aeb706210ff3b9d007a4a009c32835d0eb6d62a"
+          },
+          "gif": {
+            "file": "pike-pushup.gif",
+            "bytes": 426106,
+            "sha256": "3c18b2ffa38ccc8201c83b375711402c8bdf4b7dc09079c83042f540427e24cd"
+          }
+        },
+        "reverse-lunge": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:04:06.173Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.2,
+              1.8,
+              3.6
+            ],
+            "target": [
+              0,
+              0.8,
+              -0.15
+            ],
+            "height": 2.25,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "reverse-lunge-poster.webp",
+            "bytes": 3480,
+            "sha256": "690471e094fcf8b4bbb5b2e9265b18a3d0db0d6c69f30b1162a3294bf86cb387"
+          },
+          "animation": {
+            "file": "reverse-lunge.webp",
+            "bytes": 345312,
+            "sha256": "219a7a7d4b0af539149021ec51ee8d77709e9221d50f4bc544cbc51a8beeff9e"
+          },
+          "gif": {
+            "file": "reverse-lunge.gif",
+            "bytes": 852089,
+            "sha256": "267f1408ace1d94bf4c8c0d09e345194ee6b842efd5b2496fcbc2b7304668844"
+          }
+        },
+        "lateral-lunge": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:04:35.361Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              1.5,
+              1.7,
+              4.8
+            ],
+            "target": [
+              0,
+              0.8,
+              0
+            ],
+            "height": 2.35,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "lateral-lunge-poster.webp",
+            "bytes": 3794,
+            "sha256": "99f0952e03241347eee7402b2b574da66b770e4bbb6a8cc43c7220bbfa18a2fb"
+          },
+          "animation": {
+            "file": "lateral-lunge.webp",
+            "bytes": 360764,
+            "sha256": "dec5db3397cb024a3f061b0f93fcffee8426841ff7615126779d24ff982c0504"
+          },
+          "gif": {
+            "file": "lateral-lunge.gif",
+            "bytes": 889310,
+            "sha256": "9b328dcaf8928f8d61f539eddd2212a412cbb951fd4e5449b03a6202176bad40"
+          }
+        },
+        "good-morning": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:04:55.016Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.6,
+              1.4
+            ],
+            "target": [
+              0,
+              0.85,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "good-morning-poster.webp",
+            "bytes": 3462,
+            "sha256": "1fc0139a91dd24fd57a7004ad4e6306354cfd02b1b3ab95c0c07b442f8c7d853"
+          },
+          "animation": {
+            "file": "good-morning.webp",
+            "bytes": 195866,
+            "sha256": "9e63ecf64cfdf2456938120f706954a4ccbe96cd7012d96479eb2300e1259eeb"
+          },
+          "gif": {
+            "file": "good-morning.gif",
+            "bytes": 483207,
+            "sha256": "08cc36f085f1c2941313a70df9fdc03412a376b3bb289a052b61efcbfc214152"
+          }
+        },
+        "bird-dog": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:05:11.243Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.5,
+              1.4
+            ],
+            "target": [
+              0,
+              0.45,
+              -0.05
+            ],
+            "height": 2.65,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "bird-dog-poster.webp",
+            "bytes": 3856,
+            "sha256": "e09087070f21c82d68ee6ab9b0e780d6ece70053b3f8f79fc2542b2daae98abc"
+          },
+          "animation": {
+            "file": "bird-dog.webp",
+            "bytes": 223058,
+            "sha256": "4ed3b4f1e683024ad9f199e119a715a1b1f65ba5808d3665f84a5ad01b1bc1f9"
+          },
+          "gif": {
+            "file": "bird-dog.gif",
+            "bytes": 260441,
+            "sha256": "f3c40cb747a741c077df5c77579728676323340455ab166b1e40a9efdbce6254"
+          }
+        },
+        "mountain-climber": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:05:22.708Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              1.4
+            ],
+            "target": [
+              0,
+              0.4,
+              -0.15
+            ],
+            "height": 2.3,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "mountain-climber-poster.webp",
+            "bytes": 4262,
+            "sha256": "dccd5cb8fc1f13501a635c4c3eb8111a96b7d95d95a59f6c06e59092d34d732c"
+          },
+          "animation": {
+            "file": "mountain-climber.webp",
+            "bytes": 138114,
+            "sha256": "1c6c4dd91b2430cb8da66e0accfafeeb2a75029313f1d575a4e8a86d14cd8fe5"
+          },
+          "gif": {
+            "file": "mountain-climber.gif",
+            "bytes": 196988,
+            "sha256": "e74bbfd7df2dce548d9d39f6b6d01697cd782d9ea7ab7699d937bde0d52d60e9"
+          }
+        },
+        "crunch": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:05:53.745Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2,
+              0.8
+            ],
+            "target": [
+              0,
+              0.25,
+              -0.05
+            ],
+            "height": 2.05,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "crunch-poster.webp",
+            "bytes": 4388,
+            "sha256": "a4a985cfa6367369b203a3b99bc84b290c86969626729a8d4bf545bb8cd9c28e"
+          },
+          "animation": {
+            "file": "crunch.webp",
+            "bytes": 171542,
+            "sha256": "0ae3e7edd3804743eec0d997377c5b90342a3aeb1e3b2d4352a3c543489667b2"
+          },
+          "gif": {
+            "file": "crunch.gif",
+            "bytes": 333713,
+            "sha256": "37325b0f1ac0ed79708a432309e93089be22a4d1ae0912f1887a930ff1da8f93"
+          }
+        },
+        "quarter-squat": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:06:39.609Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3,
+              1.65,
+              3.6
+            ],
+            "target": [
+              0,
+              0.88,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "quarter-squat-poster.webp",
+            "bytes": 4134,
+            "sha256": "3d9879ea4a51d91cead29fd0a735933bc87d80af813237bdd032e3c1bbdd26a4"
+          },
+          "animation": {
+            "file": "quarter-squat.webp",
+            "bytes": 234620,
+            "sha256": "acd7272c2ac65ea6d3b5d16733bc4aaabb70710a9e6d4ad37e3a0819092f9dba"
+          },
+          "gif": {
+            "file": "quarter-squat.gif",
+            "bytes": 543880,
+            "sha256": "a9e5b1f8e7279f2ea684282a4ec0f86d0bc206f2482431cb3efb5dbbe1958c3e"
+          }
+        },
+        "paused-squat": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:06:50.809Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3,
+              1.65,
+              3.6
+            ],
+            "target": [
+              0,
+              0.88,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "paused-squat-poster.webp",
+            "bytes": 4064,
+            "sha256": "99f91323aec7ad027b8bef400d71141842b2ceccd50e863de14ccfa82b1132df"
+          },
+          "animation": {
+            "file": "paused-squat.webp",
+            "bytes": 116820,
+            "sha256": "8b3fab4b8865ea8fb796e6d8e7be06f0102b3c7d0566c6685d7ab6c1fa240f49"
+          },
+          "gif": {
+            "file": "paused-squat.gif",
+            "bytes": 290994,
+            "sha256": "eb67b8b9e031893c78bba4fe349999a5578938dedb5044b150826ad09687b783"
+          }
+        },
+        "knee-narrow-pushup": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:07:12.514Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.5,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.34,
+              -0.3
+            ],
+            "height": 1.85,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "knee-narrow-pushup-poster.webp",
+            "bytes": 4960,
+            "sha256": "1796ef3b18fdf81fe0018ec50950aa5a9e73be74040dbafba43e77a5081ae6b3"
+          },
+          "animation": {
+            "file": "knee-narrow-pushup.webp",
+            "bytes": 241708,
+            "sha256": "a76352efac5626b338b4c4ce185febe5152c10736a78f35453c92b104d7d0b61"
+          },
+          "gif": {
+            "file": "knee-narrow-pushup.gif",
+            "bytes": 511169,
+            "sha256": "477818ea4eb039eb7fdf34bc696507184d94a736695efae835a48967d81b3a56"
+          }
+        },
+        "narrow-pushup": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:07:22.441Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.35,
+              -0.15
+            ],
+            "height": 2.25,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "narrow-pushup-poster.webp",
+            "bytes": 4018,
+            "sha256": "a59d1fcbf15192b13be2290ddbb3213a74a8b82260b89c4b5a17354343896256"
+          },
+          "animation": {
+            "file": "narrow-pushup.webp",
+            "bytes": 194024,
+            "sha256": "56cdff6056871c4b5468b2546f99f93dc417997ee0dc61f49dff349f38a4ab97"
+          },
+          "gif": {
+            "file": "narrow-pushup.gif",
+            "bytes": 399648,
+            "sha256": "d0ce0f2fac1c5ad4bc18fa718d5ca02551c0ecf260502b7acc0f1ae613162547"
+          }
+        },
+        "dead-bug-heel-tap": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:07:34.903Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.45,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "dead-bug-heel-tap-poster.webp",
+            "bytes": 3802,
+            "sha256": "6963e8f6bd332ba54d03f2298a8d1c4a14237ccbffbb73a7b6fd0fd0caaa3956"
+          },
+          "animation": {
+            "file": "dead-bug-heel-tap.webp",
+            "bytes": 142260,
+            "sha256": "a91a4cebb396afc9488d42af9a7a919564f0c4aad67c677740b24051b286f6cf"
+          },
+          "gif": {
+            "file": "dead-bug-heel-tap.gif",
+            "bytes": 185537,
+            "sha256": "8b8252e9bcc5057107782229c457ec054201fca5a533f0ae3d0e1be956e7b099"
+          }
+        },
+        "quadruped-leg-extension": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:07:47.066Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.5,
+              1.4
+            ],
+            "target": [
+              0,
+              0.45,
+              -0.05
+            ],
+            "height": 2.65,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "quadruped-leg-extension-poster.webp",
+            "bytes": 4018,
+            "sha256": "def094e244053b3e9ec2d2d95f1ece78d03ccd19778b80cf38e2d1a2bea70d7d"
+          },
+          "animation": {
+            "file": "quadruped-leg-extension.webp",
+            "bytes": 123088,
+            "sha256": "42fd794824bdc808bec1461d05481b83f6d6bfa51b6c71e5c2d66b180ad83d36"
+          },
+          "gif": {
+            "file": "quadruped-leg-extension.gif",
+            "bytes": 164125,
+            "sha256": "cc94e7e095327c361c9ba57a528963f3b8351df6d54479cf8a7ef5fc42e470bc"
+          }
+        },
+        "prone-t-raise": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:07:57.195Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.1,
+              4.8,
+              1.3
+            ],
+            "target": [
+              0,
+              0.2,
+              -0.2
+            ],
+            "height": 2.8,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "prone-t-raise-poster.webp",
+            "bytes": 4132,
+            "sha256": "90513183098c459fa2b98d4880add57a5aa14e98fe7b86f659ca87ef0bcf36c5"
+          },
+          "animation": {
+            "file": "prone-t-raise.webp",
+            "bytes": 96812,
+            "sha256": "353945291e153aabd709cb8ad6a872ab4b54626074a2f74249e3b6bb43a5784f"
+          },
+          "gif": {
+            "file": "prone-t-raise.gif",
+            "bytes": 111703,
+            "sha256": "cc5872c53c9e45202659ce69770806ab4f3f18f1b865636fc9820f4b6d917625"
+          }
+        },
+        "prone-y-raise": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:08:05.495Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.1,
+              4.8,
+              1.3
+            ],
+            "target": [
+              0,
+              0.2,
+              0
+            ],
+            "height": 2.95,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "prone-y-raise-poster.webp",
+            "bytes": 3750,
+            "sha256": "d981780a50e872ee70db59a16e99ca442d7b3b944353766b81858eadd6dc5669"
+          },
+          "animation": {
+            "file": "prone-y-raise.webp",
+            "bytes": 82862,
+            "sha256": "9e97353845f2cad58ba433fbe336b3042dc16105b9cd8e32d90ddd2a36dc3e87"
+          },
+          "gif": {
+            "file": "prone-y-raise.gif",
+            "bytes": 93127,
+            "sha256": "2bedb21eab43e132de31885473513700b7ecb8f13c522a2d72f4b3dacec31180"
+          }
+        },
+        "split-squat": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:08:22.225Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              1.8
+            ],
+            "target": [
+              0,
+              0.8,
+              -0.15
+            ],
+            "height": 2.35,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "split-squat-poster.webp",
+            "bytes": 3460,
+            "sha256": "4488bf4e5cba058166ce4a04b5964798bb0e16cfb80c4ccf5dde07917a89b2eb"
+          },
+          "animation": {
+            "file": "split-squat.webp",
+            "bytes": 185778,
+            "sha256": "0a948614b6e3e473cfc9254e23234cd7c4699a932a6c46a40937e0afa956ddeb"
+          },
+          "gif": {
+            "file": "split-squat.gif",
+            "bytes": 369573,
+            "sha256": "04cf003d14419e1f1e920ca243d58c1ba9199b6113efc7cde02b5d6d19b3bf9a"
+          }
+        },
+        "single-leg-calf-raise": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:08:38.035Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.4,
+              1.6,
+              -3
+            ],
+            "target": [
+              0,
+              0.95,
+              0
+            ],
+            "height": 2.18,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "single-leg-calf-raise-poster.webp",
+            "bytes": 4222,
+            "sha256": "43c962f3b63d3c44a7d8a7904783d830abfe9fbad4b280aeb5edde8560591996"
+          },
+          "animation": {
+            "file": "single-leg-calf-raise.webp",
+            "bytes": 242968,
+            "sha256": "8e38b7595312340be3f5ca1c9661dfecb5284055c4f49ad94dd9e3f6f7b45a4f"
+          },
+          "gif": {
+            "file": "single-leg-calf-raise.gif",
+            "bytes": 550056,
+            "sha256": "8a06ee56964343a42a10716ce8cb939e5f7d86deb880e5802f26f99844ade932"
+          }
+        },
+        "bridge-march": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:08:48.613Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.4,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "bridge-march-poster.webp",
+            "bytes": 4132,
+            "sha256": "406c47898133bed8d32995292cb329c17e0ddb9d7d35d9ea290f3060466e2403"
+          },
+          "animation": {
+            "file": "bridge-march.webp",
+            "bytes": 168452,
+            "sha256": "c1849683feaff99b92a4433de35edcc636a86a4164cca788cef0c5f6421fc541"
+          },
+          "gif": {
+            "file": "bridge-march.gif",
+            "bytes": 218419,
+            "sha256": "46660e913ce62675948a644406de93801a41bc088df52795ac6bddf8d196a5ec"
+          }
+        },
+        "single-leg-glute-bridge": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:08:57.678Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.4,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "single-leg-glute-bridge-poster.webp",
+            "bytes": 4190,
+            "sha256": "96f1358a5d836f2328ed9997646cbf7746eb6c79d4bffad6e880442a5cffad2e"
+          },
+          "animation": {
+            "file": "single-leg-glute-bridge.webp",
+            "bytes": 175264,
+            "sha256": "9bd122b6aed9feaea276da5857d4a1297578711f49b39d72ece98ebcb3646498"
+          },
+          "gif": {
+            "file": "single-leg-glute-bridge.gif",
+            "bytes": 334148,
+            "sha256": "be20cbef7d1e93648baa265b27a90e0bf76c1779e23d36c067e74b8c776702d0"
+          }
+        },
+        "bent-knee-row": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:09:07.036Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              0.8
+            ],
+            "target": [
+              0,
+              0.5,
+              -0.36
+            ],
+            "height": 2.3,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "bent-knee-row-poster.webp",
+            "bytes": 4504,
+            "sha256": "78bde9a7873aafe3154e5d0d8022624536601d682cdbc517137519ad32c5f3bd"
+          },
+          "animation": {
+            "file": "bent-knee-row.webp",
+            "bytes": 131812,
+            "sha256": "8e7e7b498ab5bf8dc82158a69e7ff7458685f4d03a740c19962b19fcb0debe4a"
+          },
+          "gif": {
+            "file": "bent-knee-row.gif",
+            "bytes": 268534,
+            "sha256": "670180e6d0fc9bb73406c1d1cf8cdadfb7bb75c2ec5917910f97f7a95518fd15"
+          }
+        },
+        "dead-bug-arm-only": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:09:15.037Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.15
+            ],
+            "height": 2.55,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "dead-bug-arm-only-poster.webp",
+            "bytes": 3502,
+            "sha256": "ddd29df397846f946a94328508fdbbaddbe1fa929ee82a2a08718110873edce1"
+          },
+          "animation": {
+            "file": "dead-bug-arm-only.webp",
+            "bytes": 104382,
+            "sha256": "531bd414df64b39d964863542be2393a6fd694228192d20e43aba466c15dbbb7"
+          },
+          "gif": {
+            "file": "dead-bug-arm-only.gif",
+            "bytes": 130377,
+            "sha256": "d4b686c355850287094a393f3b358f743dca912123ac7423b119e2eddf566ab9"
+          }
+        },
+        "sumo-squat": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:09:23.789Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              2.8,
+              1.65,
+              3.8
+            ],
+            "target": [
+              0,
+              0.85,
+              0
+            ],
+            "height": 2.18,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "sumo-squat-poster.webp",
+            "bytes": 3858,
+            "sha256": "d40f9c2608c9be2ddef851da24a2c74c733e3063c4a3d7acaa46e1011c2fb171"
+          },
+          "animation": {
+            "file": "sumo-squat.webp",
+            "bytes": 224340,
+            "sha256": "ff14132ac1bd7782b85a39124179e30eb92550518245b457903046549a439bae"
+          },
+          "gif": {
+            "file": "sumo-squat.gif",
+            "bytes": 531299,
+            "sha256": "35aa59d960a6837fd5ce9dd6176f22ca6cef44080fb8563ea31c248b9b4e4f74"
+          }
+        },
+        "single-leg-deadlift": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:09:36.795Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.9,
+              1.4
+            ],
+            "target": [
+              0,
+              0.85,
+              -0.1
+            ],
+            "height": 2.45,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "single-leg-deadlift-poster.webp",
+            "bytes": 3200,
+            "sha256": "fdf1a038bf1f94d93c6d6e474939c3caa8cd4393614b75c5eec75c51f22203b2"
+          },
+          "animation": {
+            "file": "single-leg-deadlift.webp",
+            "bytes": 182874,
+            "sha256": "ecdbb91073418e0f861daa2e26116e0069f29d0b1c26e1d313b8f45e73dc121f"
+          },
+          "gif": {
+            "file": "single-leg-deadlift.gif",
+            "bytes": 424698,
+            "sha256": "4e574750ac731c9a05d6c68d42311c8b8cac83de3f51d805affd7f7a78213255"
+          }
+        },
+        "forward-lunge": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:09:49.952Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.2,
+              1.8,
+              3.6
+            ],
+            "target": [
+              0,
+              0.8,
+              0.2
+            ],
+            "height": 2.4,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "forward-lunge-poster.webp",
+            "bytes": 3368,
+            "sha256": "80b33dfcb71c09b3014f602f739a59606b694250638396aa273a148a4113ea5a"
+          },
+          "animation": {
+            "file": "forward-lunge.webp",
+            "bytes": 311614,
+            "sha256": "e05d5219137b116ba6b5957e6ad2d83cbfd4a1c4ca357ddf6068214015733336"
+          },
+          "gif": {
+            "file": "forward-lunge.gif",
+            "bytes": 773259,
+            "sha256": "113c285f9487e8689620668f4a5636798fd6db215cd69b78a5729a1eb8ce5652"
+          }
+        },
+        "quadruped-arm-raise": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:09:57.988Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.5,
+              1.4
+            ],
+            "target": [
+              0,
+              0.45,
+              0.05
+            ],
+            "height": 2.6,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "quadruped-arm-raise-poster.webp",
+            "bytes": 3760,
+            "sha256": "820187289b83b1778bb81c9b91217fb0438c336322cd451f15ef95f011cdb3c5"
+          },
+          "animation": {
+            "file": "quadruped-arm-raise.webp",
+            "bytes": 117146,
+            "sha256": "4eabcf093f1bb32027af25cf53ef3530f92d17e0441d4d66a320d992c42b446b"
+          },
+          "gif": {
+            "file": "quadruped-arm-raise.gif",
+            "bytes": 113353,
+            "sha256": "ce7565e01f8819d04771e21fa5f9fd46c075e0dd986e0ff5195151304c4cb900"
+          }
+        },
+        "prone-hip-extension": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:10:04.107Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.4,
+              1.2
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.15
+            ],
+            "height": 2.6,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "prone-hip-extension-poster.webp",
+            "bytes": 3502,
+            "sha256": "5276c11b6d8f162c9ff063d86f90f25cf73fcb16ae4d3c7916cc21a503df28c7"
+          },
+          "animation": {
+            "file": "prone-hip-extension.webp",
+            "bytes": 55406,
+            "sha256": "f215a38a17f521f50794361b04dea8a3ed9928fdca67a1dfbc077b31a4fa201e"
+          },
+          "gif": {
+            "file": "prone-hip-extension.gif",
+            "bytes": 83749,
+            "sha256": "5df4210356ae78b6cd0aa3a4471e8996d107dd2abb04e5aeda8b0da57629086b"
+          }
+        },
+        "supine-march": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:10:13.366Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.4,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "supine-march-poster.webp",
+            "bytes": 3912,
+            "sha256": "8f0eb029399db3f8364bc0b32f9752da567bef10f923d73d7ca0b2bbe304855b"
+          },
+          "animation": {
+            "file": "supine-march.webp",
+            "bytes": 151044,
+            "sha256": "74d26cb158cd2bc153f1cf03983f8487d435269ab5634578c6f98b5335c14c6d"
+          },
+          "gif": {
+            "file": "supine-march.gif",
+            "bytes": 204010,
+            "sha256": "179497005f99c736171a8e90ca6a893d4108149d3450aad6564f54e1a3ef0db3"
+          }
+        },
+        "supine-heel-slide": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:10:23.761Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              0.05
+            ],
+            "height": 2.5,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "supine-heel-slide-poster.webp",
+            "bytes": 3508,
+            "sha256": "a52bf3af540b127bb3b30e5e997e74b29269555c08938619486df4fcdfcad5ac"
+          },
+          "animation": {
+            "file": "supine-heel-slide.webp",
+            "bytes": 134772,
+            "sha256": "38d92d45ae490f5e73e7936e316a9ec3f951c4d1177c83c96300243dac44a4e0"
+          },
+          "gif": {
+            "file": "supine-heel-slide.gif",
+            "bytes": 166159,
+            "sha256": "2d3d446cbd2c3eba5413be01d89bae012ed1f2613845a4548796a13401bc6d6d"
+          }
+        },
+        "plank-shoulder-tap": {
+          "modelVariant": "male",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:10:42.461Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              1.4
+            ],
+            "target": [
+              0,
+              0.4,
+              -0.15
+            ],
+            "height": 2.3,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "plank-shoulder-tap-poster.webp",
+            "bytes": 3970,
+            "sha256": "d21b4869c43abd0bf7f204ac6a30276244a3355399b2e6f11af19eda3dcb227c"
+          },
+          "animation": {
+            "file": "plank-shoulder-tap.webp",
+            "bytes": 114254,
+            "sha256": "0bcd3604992311fcb75cb4dfa9aea96873cf1e2546e62274a5306d634e38aefe"
+          },
+          "gif": {
+            "file": "plank-shoulder-tap.gif",
+            "bytes": 98526,
+            "sha256": "eab3db1a3098bbe7bdea366b62dff4ab0ea212c79cae332b8043a31009905807"
+          }
+        }
       }
     },
-    "pushup": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:04:57.792Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.5,
-          2,
-          1.2
-        ],
-        "target": [
-          0,
-          0.34,
-          -0.3
-        ],
-        "height": 1.85,
-        "posterPhase": 0.15
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "pushup-poster.webp",
-        "bytes": 5112,
-        "sha256": "415c5ebdf02072572febe03bce00de9c5ebce85c2f50f19cf5f5708875a43d82"
-      },
-      "animation": {
-        "file": "pushup.webp",
-        "bytes": 181020,
-        "sha256": "9bb3cc95992777f42a1871625914e6bbd9a7ada8c83fb665b357dc738fd2822e"
-      },
-      "gif": {
-        "file": "pushup.gif",
-        "bytes": 389328,
-        "sha256": "8ff91e0cc5222bbc9c749c22194f460395092c0381f24066c34089724d3251bd"
-      }
-    },
-    "glute-bridge": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:05:50.991Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.7,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.05
-        ],
-        "height": 1.95,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "glute-bridge-poster.webp",
-        "bytes": 4808,
-        "sha256": "e5b6c26ab80e6ee4a84d2b664d572426b96aeb19539f748f65e326884baabbb4"
-      },
-      "animation": {
-        "file": "glute-bridge.webp",
-        "bytes": 212704,
-        "sha256": "716b5108ea7ee37fbc12194950f61c4733ac509e92f2e11820c9dbb5e592392a"
-      },
-      "gif": {
-        "file": "glute-bridge.gif",
-        "bytes": 403223,
-        "sha256": "01f9b0ce85f8624c936172e71e52e24fd9fab4ed2c505acdfd1c5dbeb4aa0308"
-      }
-    },
-    "dead-bug": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:06:08.350Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.6,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.05
-        ],
-        "height": 2.45,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "dead-bug-poster.webp",
-        "bytes": 4008,
-        "sha256": "21abd48dee5baf8ce184f586e42592e4e5bd585772d26fbe67222a4c571fd9d9"
-      },
-      "animation": {
-        "file": "dead-bug.webp",
-        "bytes": 236120,
-        "sha256": "a5d3b2248eecffeb788550f60c6258279e2fd123ea1bd47acb69c8bbdfd9514f"
-      },
-      "gif": {
-        "file": "dead-bug.gif",
-        "bytes": 318537,
-        "sha256": "cd3293ff42b818ba7d28417a794a8c1ea49e783986c10276d0f8a6e7280584d5"
-      }
-    },
-    "prone-w": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:06:18.166Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.1,
-          4.8,
-          1.3
-        ],
-        "target": [
-          0,
-          0.2,
-          -0.2
-        ],
-        "height": 2.15,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "prone-w-poster.webp",
-        "bytes": 5316,
-        "sha256": "fd8386517d2b345decd7a743540df0439616c51e54c818b3d9c9d6416da002e9"
-      },
-      "animation": {
-        "file": "prone-w.webp",
-        "bytes": 116746,
-        "sha256": "949923f3df6d2003bd693421625c4c17a911f98b2648e68234874c37d0276e4b"
-      },
-      "gif": {
-        "file": "prone-w.gif",
-        "bytes": 148900,
-        "sha256": "65140c895500e966b7ff5e9e47096c4a300432d2272b52b7e01a9aa6fb6d0d47"
-      }
-    },
-    "calf-raise": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:06:30.554Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.4,
-          1.6,
-          -3
-        ],
-        "target": [
-          0,
-          0.95,
-          0
-        ],
-        "height": 2.18,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "calf-raise-poster.webp",
-        "bytes": 3936,
-        "sha256": "0a57df9c073b472466c97aef7d20372b57616037f1380427619591ecadd98073"
-      },
-      "animation": {
-        "file": "calf-raise.webp",
-        "bytes": 222064,
-        "sha256": "030cddc0636434583bd7cb9280572e620190e1d30a5704c1007d1087a8e82be5"
-      },
-      "gif": {
-        "file": "calf-raise.gif",
-        "bytes": 516818,
-        "sha256": "6ef91b0c295267e68479f650133ad660c5ae880478628a88950a11a61ddbccb3"
-      }
-    },
-    "row": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:06:55.895Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.8,
-          0.8
-        ],
-        "target": [
-          0,
-          0.45,
-          -0.1
-        ],
-        "height": 2.05,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "row-poster.webp",
-        "bytes": 5476,
-        "sha256": "6b84f2ba1806019323ba987948a318addf1746556c11b4b6da1a3cf0c063eeeb"
-      },
-      "animation": {
-        "file": "row.webp",
-        "bytes": 279918,
-        "sha256": "0309b67b9260311b7ed1b0cb80eb644ac25e478b5bc14161b5366f0b75a26f71"
-      },
-      "gif": {
-        "file": "row.gif",
-        "bytes": 566795,
-        "sha256": "3f009bee33480374917c5ab262974df846eaea80a398662257651b83989a64be"
-      }
-    },
-    "full-pushup": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:07:05.997Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2,
-          1.2
-        ],
-        "target": [
-          0,
-          0.35,
-          -0.15
-        ],
-        "height": 2.25,
-        "posterPhase": 0.15
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "full-pushup-poster.webp",
-        "bytes": 4136,
-        "sha256": "83f1d84a335405de422221e920eb155ed055fe7005ab4f4207ffc347b57233af"
-      },
-      "animation": {
-        "file": "full-pushup.webp",
-        "bytes": 201796,
-        "sha256": "b1261cbde2b59b863d1d686e252b6f5b9d03288416967a85114c652fce6b9a19"
-      },
-      "gif": {
-        "file": "full-pushup.gif",
-        "bytes": 404024,
-        "sha256": "db64656c50f69537fdfd5dc2e6ec9d86765cfe84cb4aa082a0a494c2c0ed0134"
-      }
-    },
-    "pike-pushup": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:07:21.474Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.8,
-          1.1
-        ],
-        "target": [
-          0,
-          0.65,
-          -0.1
-        ],
-        "height": 2.2,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "pike-pushup-poster.webp",
-        "bytes": 4132,
-        "sha256": "9286b5a17b722ea0b7d34fdaaf2a7204a3a6fa81b4344a39b84d146fee654960"
-      },
-      "animation": {
-        "file": "pike-pushup.webp",
-        "bytes": 219716,
-        "sha256": "3083f7d47ee0a8acb9fc8ed93aeb706210ff3b9d007a4a009c32835d0eb6d62a"
-      },
-      "gif": {
-        "file": "pike-pushup.gif",
-        "bytes": 426106,
-        "sha256": "3c18b2ffa38ccc8201c83b375711402c8bdf4b7dc09079c83042f540427e24cd"
-      }
-    },
-    "reverse-lunge": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:07:43.071Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.2,
-          1.8,
-          3.6
-        ],
-        "target": [
-          0,
-          0.8,
-          -0.15
-        ],
-        "height": 2.25,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "reverse-lunge-poster.webp",
-        "bytes": 3480,
-        "sha256": "690471e094fcf8b4bbb5b2e9265b18a3d0db0d6c69f30b1162a3294bf86cb387"
-      },
-      "animation": {
-        "file": "reverse-lunge.webp",
-        "bytes": 345312,
-        "sha256": "219a7a7d4b0af539149021ec51ee8d77709e9221d50f4bc544cbc51a8beeff9e"
-      },
-      "gif": {
-        "file": "reverse-lunge.gif",
-        "bytes": 852089,
-        "sha256": "267f1408ace1d94bf4c8c0d09e345194ee6b842efd5b2496fcbc2b7304668844"
-      }
-    },
-    "lateral-lunge": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:08:11.254Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          1.5,
-          1.7,
-          4.8
-        ],
-        "target": [
-          0,
-          0.8,
-          0
-        ],
-        "height": 2.35,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "lateral-lunge-poster.webp",
-        "bytes": 3794,
-        "sha256": "99f0952e03241347eee7402b2b574da66b770e4bbb6a8cc43c7220bbfa18a2fb"
-      },
-      "animation": {
-        "file": "lateral-lunge.webp",
-        "bytes": 360764,
-        "sha256": "dec5db3397cb024a3f061b0f93fcffee8426841ff7615126779d24ff982c0504"
-      },
-      "gif": {
-        "file": "lateral-lunge.gif",
-        "bytes": 889310,
-        "sha256": "9b328dcaf8928f8d61f539eddd2212a412cbb951fd4e5449b03a6202176bad40"
-      }
-    },
-    "good-morning": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:08:34.777Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.6,
-          1.4
-        ],
-        "target": [
-          0,
-          0.85,
-          0
-        ],
-        "height": 2.12,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "good-morning-poster.webp",
-        "bytes": 3462,
-        "sha256": "1fc0139a91dd24fd57a7004ad4e6306354cfd02b1b3ab95c0c07b442f8c7d853"
-      },
-      "animation": {
-        "file": "good-morning.webp",
-        "bytes": 195866,
-        "sha256": "9e63ecf64cfdf2456938120f706954a4ccbe96cd7012d96479eb2300e1259eeb"
-      },
-      "gif": {
-        "file": "good-morning.gif",
-        "bytes": 483207,
-        "sha256": "08cc36f085f1c2941313a70df9fdc03412a376b3bb289a052b61efcbfc214152"
-      }
-    },
-    "bird-dog": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:08:55.765Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.6,
-          2.5,
-          1.4
-        ],
-        "target": [
-          0,
-          0.45,
-          -0.05
-        ],
-        "height": 2.65,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "bird-dog-poster.webp",
-        "bytes": 3856,
-        "sha256": "e09087070f21c82d68ee6ab9b0e780d6ece70053b3f8f79fc2542b2daae98abc"
-      },
-      "animation": {
-        "file": "bird-dog.webp",
-        "bytes": 223058,
-        "sha256": "4ed3b4f1e683024ad9f199e119a715a1b1f65ba5808d3665f84a5ad01b1bc1f9"
-      },
-      "gif": {
-        "file": "bird-dog.gif",
-        "bytes": 260441,
-        "sha256": "f3c40cb747a741c077df5c77579728676323340455ab166b1e40a9efdbce6254"
-      }
-    },
-    "mountain-climber": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:09:08.457Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.3,
-          1.4
-        ],
-        "target": [
-          0,
-          0.4,
-          -0.15
-        ],
-        "height": 2.3,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "mountain-climber-poster.webp",
-        "bytes": 4262,
-        "sha256": "dccd5cb8fc1f13501a635c4c3eb8111a96b7d95d95a59f6c06e59092d34d732c"
-      },
-      "animation": {
-        "file": "mountain-climber.webp",
-        "bytes": 138114,
-        "sha256": "1c6c4dd91b2430cb8da66e0accfafeeb2a75029313f1d575a4e8a86d14cd8fe5"
-      },
-      "gif": {
-        "file": "mountain-climber.gif",
-        "bytes": 196988,
-        "sha256": "e74bbfd7df2dce548d9d39f6b6d01697cd782d9ea7ab7699d937bde0d52d60e9"
-      }
-    },
-    "crunch": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:09:24.691Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2,
-          0.8
-        ],
-        "target": [
-          0,
-          0.25,
-          -0.05
-        ],
-        "height": 2.05,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "crunch-poster.webp",
-        "bytes": 4388,
-        "sha256": "a4a985cfa6367369b203a3b99bc84b290c86969626729a8d4bf545bb8cd9c28e"
-      },
-      "animation": {
-        "file": "crunch.webp",
-        "bytes": 171542,
-        "sha256": "0ae3e7edd3804743eec0d997377c5b90342a3aeb1e3b2d4352a3c543489667b2"
-      },
-      "gif": {
-        "file": "crunch.gif",
-        "bytes": 333713,
-        "sha256": "37325b0f1ac0ed79708a432309e93089be22a4d1ae0912f1887a930ff1da8f93"
-      }
-    },
-    "quarter-squat": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:09:43.846Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3,
-          1.65,
-          3.6
-        ],
-        "target": [
-          0,
-          0.88,
-          0
-        ],
-        "height": 2.12,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "quarter-squat-poster.webp",
-        "bytes": 4134,
-        "sha256": "3d9879ea4a51d91cead29fd0a735933bc87d80af813237bdd032e3c1bbdd26a4"
-      },
-      "animation": {
-        "file": "quarter-squat.webp",
-        "bytes": 234620,
-        "sha256": "acd7272c2ac65ea6d3b5d16733bc4aaabb70710a9e6d4ad37e3a0819092f9dba"
-      },
-      "gif": {
-        "file": "quarter-squat.gif",
-        "bytes": 543880,
-        "sha256": "a9e5b1f8e7279f2ea684282a4ec0f86d0bc206f2482431cb3efb5dbbe1958c3e"
-      }
-    },
-    "paused-squat": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:09:54.879Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3,
-          1.65,
-          3.6
-        ],
-        "target": [
-          0,
-          0.88,
-          0
-        ],
-        "height": 2.12,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "paused-squat-poster.webp",
-        "bytes": 4064,
-        "sha256": "99f91323aec7ad027b8bef400d71141842b2ceccd50e863de14ccfa82b1132df"
-      },
-      "animation": {
-        "file": "paused-squat.webp",
-        "bytes": 116820,
-        "sha256": "8b3fab4b8865ea8fb796e6d8e7be06f0102b3c7d0566c6685d7ab6c1fa240f49"
-      },
-      "gif": {
-        "file": "paused-squat.gif",
-        "bytes": 290994,
-        "sha256": "eb67b8b9e031893c78bba4fe349999a5578938dedb5044b150826ad09687b783"
-      }
-    },
-    "knee-narrow-pushup": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:10:09.794Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.5,
-          2,
-          1.2
-        ],
-        "target": [
-          0,
-          0.34,
-          -0.3
-        ],
-        "height": 1.85,
-        "posterPhase": 0.15
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "knee-narrow-pushup-poster.webp",
-        "bytes": 4960,
-        "sha256": "1796ef3b18fdf81fe0018ec50950aa5a9e73be74040dbafba43e77a5081ae6b3"
-      },
-      "animation": {
-        "file": "knee-narrow-pushup.webp",
-        "bytes": 241708,
-        "sha256": "a76352efac5626b338b4c4ce185febe5152c10736a78f35453c92b104d7d0b61"
-      },
-      "gif": {
-        "file": "knee-narrow-pushup.gif",
-        "bytes": 511169,
-        "sha256": "477818ea4eb039eb7fdf34bc696507184d94a736695efae835a48967d81b3a56"
-      }
-    },
-    "narrow-pushup": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:10:27.383Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2,
-          1.2
-        ],
-        "target": [
-          0,
-          0.35,
-          -0.15
-        ],
-        "height": 2.25,
-        "posterPhase": 0.15
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "narrow-pushup-poster.webp",
-        "bytes": 4018,
-        "sha256": "a59d1fcbf15192b13be2290ddbb3213a74a8b82260b89c4b5a17354343896256"
-      },
-      "animation": {
-        "file": "narrow-pushup.webp",
-        "bytes": 194024,
-        "sha256": "56cdff6056871c4b5468b2546f99f93dc417997ee0dc61f49dff349f38a4ab97"
-      },
-      "gif": {
-        "file": "narrow-pushup.gif",
-        "bytes": 399648,
-        "sha256": "d0ce0f2fac1c5ad4bc18fa718d5ca02551c0ecf260502b7acc0f1ae613162547"
-      }
-    },
-    "dead-bug-heel-tap": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:10:44.506Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.6,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.05
-        ],
-        "height": 2.45,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "dead-bug-heel-tap-poster.webp",
-        "bytes": 3802,
-        "sha256": "6963e8f6bd332ba54d03f2298a8d1c4a14237ccbffbb73a7b6fd0fd0caaa3956"
-      },
-      "animation": {
-        "file": "dead-bug-heel-tap.webp",
-        "bytes": 142260,
-        "sha256": "a91a4cebb396afc9488d42af9a7a919564f0c4aad67c677740b24051b286f6cf"
-      },
-      "gif": {
-        "file": "dead-bug-heel-tap.gif",
-        "bytes": 185537,
-        "sha256": "8b8252e9bcc5057107782229c457ec054201fca5a533f0ae3d0e1be956e7b099"
-      }
-    },
-    "quadruped-leg-extension": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:10:59.031Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.6,
-          2.5,
-          1.4
-        ],
-        "target": [
-          0,
-          0.45,
-          -0.05
-        ],
-        "height": 2.65,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "quadruped-leg-extension-poster.webp",
-        "bytes": 4018,
-        "sha256": "def094e244053b3e9ec2d2d95f1ece78d03ccd19778b80cf38e2d1a2bea70d7d"
-      },
-      "animation": {
-        "file": "quadruped-leg-extension.webp",
-        "bytes": 123088,
-        "sha256": "42fd794824bdc808bec1461d05481b83f6d6bfa51b6c71e5c2d66b180ad83d36"
-      },
-      "gif": {
-        "file": "quadruped-leg-extension.gif",
-        "bytes": 164125,
-        "sha256": "cc94e7e095327c361c9ba57a528963f3b8351df6d54479cf8a7ef5fc42e470bc"
-      }
-    },
-    "prone-t-raise": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:11:11.508Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.1,
-          4.8,
-          1.3
-        ],
-        "target": [
-          0,
-          0.2,
-          -0.2
-        ],
-        "height": 2.8,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "prone-t-raise-poster.webp",
-        "bytes": 4132,
-        "sha256": "90513183098c459fa2b98d4880add57a5aa14e98fe7b86f659ca87ef0bcf36c5"
-      },
-      "animation": {
-        "file": "prone-t-raise.webp",
-        "bytes": 96812,
-        "sha256": "353945291e153aabd709cb8ad6a872ab4b54626074a2f74249e3b6bb43a5784f"
-      },
-      "gif": {
-        "file": "prone-t-raise.gif",
-        "bytes": 111703,
-        "sha256": "cc5872c53c9e45202659ce69770806ab4f3f18f1b865636fc9820f4b6d917625"
-      }
-    },
-    "prone-y-raise": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:11:22.370Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.1,
-          4.8,
-          1.3
-        ],
-        "target": [
-          0,
-          0.2,
-          0
-        ],
-        "height": 2.95,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "prone-y-raise-poster.webp",
-        "bytes": 3750,
-        "sha256": "d981780a50e872ee70db59a16e99ca442d7b3b944353766b81858eadd6dc5669"
-      },
-      "animation": {
-        "file": "prone-y-raise.webp",
-        "bytes": 82862,
-        "sha256": "9e97353845f2cad58ba433fbe336b3042dc16105b9cd8e32d90ddd2a36dc3e87"
-      },
-      "gif": {
-        "file": "prone-y-raise.gif",
-        "bytes": 93127,
-        "sha256": "2bedb21eab43e132de31885473513700b7ecb8f13c522a2d72f4b3dacec31180"
-      }
-    },
-    "split-squat": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:11:38.337Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.8,
-          1.8
-        ],
-        "target": [
-          0,
-          0.8,
-          -0.15
-        ],
-        "height": 2.35,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "split-squat-poster.webp",
-        "bytes": 3460,
-        "sha256": "4488bf4e5cba058166ce4a04b5964798bb0e16cfb80c4ccf5dde07917a89b2eb"
-      },
-      "animation": {
-        "file": "split-squat.webp",
-        "bytes": 185778,
-        "sha256": "0a948614b6e3e473cfc9254e23234cd7c4699a932a6c46a40937e0afa956ddeb"
-      },
-      "gif": {
-        "file": "split-squat.gif",
-        "bytes": 369573,
-        "sha256": "04cf003d14419e1f1e920ca243d58c1ba9199b6113efc7cde02b5d6d19b3bf9a"
-      }
-    },
-    "single-leg-calf-raise": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:11:58.994Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.4,
-          1.6,
-          -3
-        ],
-        "target": [
-          0,
-          0.95,
-          0
-        ],
-        "height": 2.18,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "single-leg-calf-raise-poster.webp",
-        "bytes": 4222,
-        "sha256": "43c962f3b63d3c44a7d8a7904783d830abfe9fbad4b280aeb5edde8560591996"
-      },
-      "animation": {
-        "file": "single-leg-calf-raise.webp",
-        "bytes": 242968,
-        "sha256": "8e38b7595312340be3f5ca1c9661dfecb5284055c4f49ad94dd9e3f6f7b45a4f"
-      },
-      "gif": {
-        "file": "single-leg-calf-raise.gif",
-        "bytes": 550056,
-        "sha256": "8a06ee56964343a42a10716ce8cb939e5f7d86deb880e5802f26f99844ade932"
-      }
-    },
-    "bridge-march": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:12:08.131Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.3,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.05
-        ],
-        "height": 2.4,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "bridge-march-poster.webp",
-        "bytes": 4132,
-        "sha256": "406c47898133bed8d32995292cb329c17e0ddb9d7d35d9ea290f3060466e2403"
-      },
-      "animation": {
-        "file": "bridge-march.webp",
-        "bytes": 168452,
-        "sha256": "c1849683feaff99b92a4433de35edcc636a86a4164cca788cef0c5f6421fc541"
-      },
-      "gif": {
-        "file": "bridge-march.gif",
-        "bytes": 218419,
-        "sha256": "46660e913ce62675948a644406de93801a41bc088df52795ac6bddf8d196a5ec"
-      }
-    },
-    "single-leg-glute-bridge": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:12:23.063Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.3,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.05
-        ],
-        "height": 2.4,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "single-leg-glute-bridge-poster.webp",
-        "bytes": 4190,
-        "sha256": "96f1358a5d836f2328ed9997646cbf7746eb6c79d4bffad6e880442a5cffad2e"
-      },
-      "animation": {
-        "file": "single-leg-glute-bridge.webp",
-        "bytes": 175264,
-        "sha256": "9bd122b6aed9feaea276da5857d4a1297578711f49b39d72ece98ebcb3646498"
-      },
-      "gif": {
-        "file": "single-leg-glute-bridge.gif",
-        "bytes": 334148,
-        "sha256": "be20cbef7d1e93648baa265b27a90e0bf76c1779e23d36c067e74b8c776702d0"
-      }
-    },
-    "bent-knee-row": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:12:44.622Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.8,
-          0.8
-        ],
-        "target": [
-          0,
-          0.5,
-          -0.36
-        ],
-        "height": 2.3,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "bent-knee-row-poster.webp",
-        "bytes": 4504,
-        "sha256": "78bde9a7873aafe3154e5d0d8022624536601d682cdbc517137519ad32c5f3bd"
-      },
-      "animation": {
-        "file": "bent-knee-row.webp",
-        "bytes": 131812,
-        "sha256": "8e7e7b498ab5bf8dc82158a69e7ff7458685f4d03a740c19962b19fcb0debe4a"
-      },
-      "gif": {
-        "file": "bent-knee-row.gif",
-        "bytes": 268534,
-        "sha256": "670180e6d0fc9bb73406c1d1cf8cdadfb7bb75c2ec5917910f97f7a95518fd15"
-      }
-    },
-    "dead-bug-arm-only": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:12:58.740Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.6,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.15
-        ],
-        "height": 2.55,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "dead-bug-arm-only-poster.webp",
-        "bytes": 3502,
-        "sha256": "ddd29df397846f946a94328508fdbbaddbe1fa929ee82a2a08718110873edce1"
-      },
-      "animation": {
-        "file": "dead-bug-arm-only.webp",
-        "bytes": 104382,
-        "sha256": "531bd414df64b39d964863542be2393a6fd694228192d20e43aba466c15dbbb7"
-      },
-      "gif": {
-        "file": "dead-bug-arm-only.gif",
-        "bytes": 130377,
-        "sha256": "d4b686c355850287094a393f3b358f743dca912123ac7423b119e2eddf566ab9"
-      }
-    },
-    "sumo-squat": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:13:11.056Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          2.8,
-          1.65,
-          3.8
-        ],
-        "target": [
-          0,
-          0.85,
-          0
-        ],
-        "height": 2.18,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "sumo-squat-poster.webp",
-        "bytes": 3858,
-        "sha256": "d40f9c2608c9be2ddef851da24a2c74c733e3063c4a3d7acaa46e1011c2fb171"
-      },
-      "animation": {
-        "file": "sumo-squat.webp",
-        "bytes": 224340,
-        "sha256": "ff14132ac1bd7782b85a39124179e30eb92550518245b457903046549a439bae"
-      },
-      "gif": {
-        "file": "sumo-squat.gif",
-        "bytes": 531299,
-        "sha256": "35aa59d960a6837fd5ce9dd6176f22ca6cef44080fb8563ea31c248b9b4e4f74"
-      }
-    },
-    "single-leg-deadlift": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:13:27.448Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          1.9,
-          1.4
-        ],
-        "target": [
-          0,
-          0.85,
-          -0.1
-        ],
-        "height": 2.45,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "single-leg-deadlift-poster.webp",
-        "bytes": 3200,
-        "sha256": "fdf1a038bf1f94d93c6d6e474939c3caa8cd4393614b75c5eec75c51f22203b2"
-      },
-      "animation": {
-        "file": "single-leg-deadlift.webp",
-        "bytes": 182874,
-        "sha256": "ecdbb91073418e0f861daa2e26116e0069f29d0b1c26e1d313b8f45e73dc121f"
-      },
-      "gif": {
-        "file": "single-leg-deadlift.gif",
-        "bytes": 424698,
-        "sha256": "4e574750ac731c9a05d6c68d42311c8b8cac83de3f51d805affd7f7a78213255"
-      }
-    },
-    "forward-lunge": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:13:48.528Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.2,
-          1.8,
-          3.6
-        ],
-        "target": [
-          0,
-          0.8,
-          0.2
-        ],
-        "height": 2.4,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "forward-lunge-poster.webp",
-        "bytes": 3368,
-        "sha256": "80b33dfcb71c09b3014f602f739a59606b694250638396aa273a148a4113ea5a"
-      },
-      "animation": {
-        "file": "forward-lunge.webp",
-        "bytes": 311614,
-        "sha256": "e05d5219137b116ba6b5957e6ad2d83cbfd4a1c4ca357ddf6068214015733336"
-      },
-      "gif": {
-        "file": "forward-lunge.gif",
-        "bytes": 773259,
-        "sha256": "113c285f9487e8689620668f4a5636798fd6db215cd69b78a5729a1eb8ce5652"
-      }
-    },
-    "quadruped-arm-raise": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:14:01.265Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.6,
-          2.5,
-          1.4
-        ],
-        "target": [
-          0,
-          0.45,
-          0.05
-        ],
-        "height": 2.6,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "quadruped-arm-raise-poster.webp",
-        "bytes": 3760,
-        "sha256": "820187289b83b1778bb81c9b91217fb0438c336322cd451f15ef95f011cdb3c5"
-      },
-      "animation": {
-        "file": "quadruped-arm-raise.webp",
-        "bytes": 117146,
-        "sha256": "4eabcf093f1bb32027af25cf53ef3530f92d17e0441d4d66a320d992c42b446b"
-      },
-      "gif": {
-        "file": "quadruped-arm-raise.gif",
-        "bytes": 113353,
-        "sha256": "ce7565e01f8819d04771e21fa5f9fd46c075e0dd986e0ff5195151304c4cb900"
-      }
-    },
-    "prone-hip-extension": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:14:08.667Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 6,
-      "frameCount": 72,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.6,
-          2.4,
-          1.2
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.15
-        ],
-        "height": 2.6,
-        "posterPhase": 0.5
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "prone-hip-extension-poster.webp",
-        "bytes": 3502,
-        "sha256": "bca5b1324644e0b986e8cb712877d8f0ff9fefae188dfe66c4d6d55f6492ebc1"
-      },
-      "animation": {
-        "file": "prone-hip-extension.webp",
-        "bytes": 55518,
-        "sha256": "3066728bfc2f0eb3d6ed84c50d13b4c9de984659de5749b3e116726a2c89f6d3"
-      },
-      "gif": {
-        "file": "prone-hip-extension.gif",
-        "bytes": 83684,
-        "sha256": "483a494aa55199370965ea1c31d48b5bd6d3508b0ed7a8510296f22a7f2b52b9"
-      }
-    },
-    "supine-march": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:14:20.119Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.6,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          -0.05
-        ],
-        "height": 2.4,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "supine-march-poster.webp",
-        "bytes": 3912,
-        "sha256": "8f0eb029399db3f8364bc0b32f9752da567bef10f923d73d7ca0b2bbe304855b"
-      },
-      "animation": {
-        "file": "supine-march.webp",
-        "bytes": 151044,
-        "sha256": "74d26cb158cd2bc153f1cf03983f8487d435269ab5634578c6f98b5335c14c6d"
-      },
-      "gif": {
-        "file": "supine-march.gif",
-        "bytes": 204010,
-        "sha256": "179497005f99c736171a8e90ca6a893d4108149d3450aad6564f54e1a3ef0db3"
-      }
-    },
-    "supine-heel-slide": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:15:08.341Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.6,
-          0.65
-        ],
-        "target": [
-          0,
-          0.3,
-          0.05
-        ],
-        "height": 2.5,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "supine-heel-slide-poster.webp",
-        "bytes": 3508,
-        "sha256": "a52bf3af540b127bb3b30e5e997e74b29269555c08938619486df4fcdfcad5ac"
-      },
-      "animation": {
-        "file": "supine-heel-slide.webp",
-        "bytes": 134772,
-        "sha256": "38d92d45ae490f5e73e7936e316a9ec3f951c4d1177c83c96300243dac44a4e0"
-      },
-      "gif": {
-        "file": "supine-heel-slide.gif",
-        "bytes": 166159,
-        "sha256": "2d3d446cbd2c3eba5413be01d89bae012ed1f2613845a4548796a13401bc6d6d"
-      }
-    },
-    "plank-shoulder-tap": {
-      "sourceHash": "dbf9369b3f036e0efa0c1413a753b7c7c578bd4d0acb52c056078a950b516191",
-      "generatedAt": "2026-10-04T23:15:24.515Z",
-      "size": 256,
-      "fps": 12,
-      "duration": 10,
-      "frameCount": 120,
-      "renderer": {
-        "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
-      },
-      "camera": {
-        "position": [
-          3.8,
-          2.3,
-          1.4
-        ],
-        "target": [
-          0,
-          0.4,
-          -0.15
-        ],
-        "height": 2.3,
-        "posterPhase": 0.25
-      },
-      "layer": "muscles",
-      "poster": {
-        "file": "plank-shoulder-tap-poster.webp",
-        "bytes": 3970,
-        "sha256": "d21b4869c43abd0bf7f204ac6a30276244a3355399b2e6f11af19eda3dcb227c"
-      },
-      "animation": {
-        "file": "plank-shoulder-tap.webp",
-        "bytes": 114254,
-        "sha256": "0bcd3604992311fcb75cb4dfa9aea96873cf1e2546e62274a5306d634e38aefe"
-      },
-      "gif": {
-        "file": "plank-shoulder-tap.gif",
-        "bytes": 98526,
-        "sha256": "eab3db1a3098bbe7bdea366b62dff4ab0ea212c79cae332b8043a31009905807"
+    "female": {
+      "exercises": {
+        "pushup": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:10:58.719Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.5,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.34,
+              -0.3
+            ],
+            "height": 1.85,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/pushup-poster.webp",
+            "bytes": 5156,
+            "sha256": "a50b25ab4f0751adcd6e847a826066b672a15060d4e0934e0a11cff92ef7a653"
+          },
+          "animation": {
+            "file": "female/pushup.webp",
+            "bytes": 188294,
+            "sha256": "25c26e14eda6e6efe6f3824406b3d5a5eec35db23ae6b07e87fb5048bb058ee9"
+          },
+          "gif": {
+            "file": "female/pushup.gif",
+            "bytes": 406152,
+            "sha256": "62fa22e22d9e62605d4f64e2917e0d39f5ec1f2abab03b69f5208536ada56e6a"
+          }
+        },
+        "squat": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:11:17.669Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3,
+              1.65,
+              3.6
+            ],
+            "target": [
+              0,
+              0.88,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/squat-poster.webp",
+            "bytes": 4142,
+            "sha256": "44b1d122f4db2e8e713f15675847115c4a7172888f475e02184a7a9df5506c05"
+          },
+          "animation": {
+            "file": "female/squat.webp",
+            "bytes": 235398,
+            "sha256": "09ac4c56d7691c59cee21fdad32942e49ba36e90d84ab5d7386d7224f9e573e8"
+          },
+          "gif": {
+            "file": "female/squat.gif",
+            "bytes": 568132,
+            "sha256": "83619975f816f55a7fccff1265fa063e518466d06b0532c3212b435738b4e808"
+          }
+        },
+        "glute-bridge": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:11:35.220Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.7,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 1.95,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/glute-bridge-poster.webp",
+            "bytes": 4904,
+            "sha256": "d6c3a97f9cf69c9b27c0b93bbfd8ef917026dc35dd104318748c6c8f1341dce8"
+          },
+          "animation": {
+            "file": "female/glute-bridge.webp",
+            "bytes": 215694,
+            "sha256": "6b1e2f9bc2b4309818198192e6c2ff0261461ed241ecd5592c5f32349f75c624"
+          },
+          "gif": {
+            "file": "female/glute-bridge.gif",
+            "bytes": 413485,
+            "sha256": "2bd65ff04fc0ab438ebee838f0a8c669baf61a2d1d55ff358a4b4514c9720812"
+          }
+        },
+        "dead-bug": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:12:00.447Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.45,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/dead-bug-poster.webp",
+            "bytes": 4044,
+            "sha256": "17c958c28240d7e268f736f9020f57f3ef8d73405107dadb97d05b7a7e478af6"
+          },
+          "animation": {
+            "file": "female/dead-bug.webp",
+            "bytes": 243612,
+            "sha256": "b648fc09d796e10c2a30174637634aa88403d6836743ae224d4379dbe9d50b75"
+          },
+          "gif": {
+            "file": "female/dead-bug.gif",
+            "bytes": 324737,
+            "sha256": "24ad35c7ae7b9eef5553c53a62c93b266a0b81111f9ce97b655fa8927e4535bd"
+          }
+        },
+        "prone-w": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:12:17.979Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.1,
+              4.8,
+              1.3
+            ],
+            "target": [
+              0,
+              0.2,
+              -0.2
+            ],
+            "height": 2.15,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/prone-w-poster.webp",
+            "bytes": 5328,
+            "sha256": "673990606f7ef9a2c4df7ccbb5f621c0101b3217844a22c99b0876abdcf533df"
+          },
+          "animation": {
+            "file": "female/prone-w.webp",
+            "bytes": 124144,
+            "sha256": "00566614ed6e41194e42bfa2275755f2d477a320c9fe02c3e6726e6241f31fd5"
+          },
+          "gif": {
+            "file": "female/prone-w.gif",
+            "bytes": 160220,
+            "sha256": "396c70efa4bfa948b9133cfd7b321535aa65d4d1963d312eed04ae829360b207"
+          }
+        },
+        "calf-raise": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:12:35.091Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.4,
+              1.6,
+              -3
+            ],
+            "target": [
+              0,
+              0.95,
+              0
+            ],
+            "height": 2.18,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/calf-raise-poster.webp",
+            "bytes": 3966,
+            "sha256": "326b7076f5eee662742ee48c204c7cb897af3f355fd08f8619dfede2c6cc3085"
+          },
+          "animation": {
+            "file": "female/calf-raise.webp",
+            "bytes": 219808,
+            "sha256": "e0fce5b65fde3c6b63b7efa0fc45967f926b037d005a968571fc5e2a2ebeb998"
+          },
+          "gif": {
+            "file": "female/calf-raise.gif",
+            "bytes": 522098,
+            "sha256": "655ba1097a54d2bc7458a4c89bb47fec69e6eb606c0ce1da10635106cf259308"
+          }
+        },
+        "row": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:13:04.505Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              0.8
+            ],
+            "target": [
+              0,
+              0.45,
+              -0.1
+            ],
+            "height": 2.05,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/row-poster.webp",
+            "bytes": 5348,
+            "sha256": "ce342e86a6ed289fa8160d7feebd869deacd856e2108c26918d87e368ef900d9"
+          },
+          "animation": {
+            "file": "female/row.webp",
+            "bytes": 279182,
+            "sha256": "80d1a30ec397f3729a7468a8cf65726867ee9066920c12fd8b081548a279c340"
+          },
+          "gif": {
+            "file": "female/row.gif",
+            "bytes": 563339,
+            "sha256": "ffb819c1b98b77fcb39ef0fffa3177ba6172f98052ddfdf1c15f6def00069d12"
+          }
+        },
+        "full-pushup": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:13:15.960Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.35,
+              -0.15
+            ],
+            "height": 2.25,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/full-pushup-poster.webp",
+            "bytes": 4112,
+            "sha256": "1a797991ce69ad1a3f969d9fb49dab1b4471413680614bc22b6887eefb5b0842"
+          },
+          "animation": {
+            "file": "female/full-pushup.webp",
+            "bytes": 203842,
+            "sha256": "fedde6562ca098c02755b15d8f444859640b464157af74fbe4198977661a5d02"
+          },
+          "gif": {
+            "file": "female/full-pushup.gif",
+            "bytes": 405771,
+            "sha256": "7e66fcc4b52c55c019a8ccf89a5e02025c4d5ee597097088c24ecd4a9c0e63e9"
+          }
+        },
+        "pike-pushup": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:13:27.975Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              1.1
+            ],
+            "target": [
+              0,
+              0.65,
+              -0.1
+            ],
+            "height": 2.2,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/pike-pushup-poster.webp",
+            "bytes": 4084,
+            "sha256": "46fca6186441c7738af779c61113ebcf831149a180bc77d0df1b97335d20c008"
+          },
+          "animation": {
+            "file": "female/pike-pushup.webp",
+            "bytes": 218528,
+            "sha256": "459b8faa6317e0689e83d147603e7792b12d298b5ca4c361627a45d0b104672d"
+          },
+          "gif": {
+            "file": "female/pike-pushup.gif",
+            "bytes": 427035,
+            "sha256": "634ecb50c573d6517067bec5c2b7f2d0716fb6a79395b759e5b616202a4e70b9"
+          }
+        },
+        "reverse-lunge": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:13:42.200Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.2,
+              1.8,
+              3.6
+            ],
+            "target": [
+              0,
+              0.8,
+              -0.15
+            ],
+            "height": 2.25,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/reverse-lunge-poster.webp",
+            "bytes": 3456,
+            "sha256": "d0ff748b3ed7f9276e764c6166200e3bbf9dd81406323d7fa4512343fd55872b"
+          },
+          "animation": {
+            "file": "female/reverse-lunge.webp",
+            "bytes": 342642,
+            "sha256": "2f094a79bb052d6c9a2832b24e17ff1ad752003d7fa62997964836feff01d18c"
+          },
+          "gif": {
+            "file": "female/reverse-lunge.gif",
+            "bytes": 852787,
+            "sha256": "0dc3c2775a5f11168a721432dbb05449c0120af473453ce994bb842bc7edc1c6"
+          }
+        },
+        "lateral-lunge": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:14:01.173Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              1.5,
+              1.7,
+              4.8
+            ],
+            "target": [
+              0,
+              0.8,
+              0
+            ],
+            "height": 2.35,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/lateral-lunge-poster.webp",
+            "bytes": 3788,
+            "sha256": "5eb74b87ce785609fb8a1bdbc3caa89e00cace15e127d4a25eb367fb2363461e"
+          },
+          "animation": {
+            "file": "female/lateral-lunge.webp",
+            "bytes": 359290,
+            "sha256": "2fe83ec93e32219d3d7bcc156b0cc8659e2b66316dd06196e0e35df7788334a9"
+          },
+          "gif": {
+            "file": "female/lateral-lunge.gif",
+            "bytes": 887955,
+            "sha256": "744d47129d11da3b7ce83ece69b7d12326df7411b0aadd87b7ab410100262578"
+          }
+        },
+        "good-morning": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:14:15.406Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.6,
+              1.4
+            ],
+            "target": [
+              0,
+              0.85,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/good-morning-poster.webp",
+            "bytes": 3462,
+            "sha256": "45e3056cb0aa2dc1bf363fa7b849fe870b5227d26d6776b1492c38ef626a6d54"
+          },
+          "animation": {
+            "file": "female/good-morning.webp",
+            "bytes": 195166,
+            "sha256": "611567eec44a83d5e7f858a854e8260f9a97bd22c6f39ca91a2b3d035fc7d5f1"
+          },
+          "gif": {
+            "file": "female/good-morning.gif",
+            "bytes": 485082,
+            "sha256": "594da997c54f708ff9ffe798445717e9c0af3300523b9721176d1e9d93212c42"
+          }
+        },
+        "bird-dog": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:14:31.161Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.5,
+              1.4
+            ],
+            "target": [
+              0,
+              0.45,
+              -0.05
+            ],
+            "height": 2.65,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/bird-dog-poster.webp",
+            "bytes": 3944,
+            "sha256": "2cd241b7e15c0c315e5d0ff998baf43022f4730d0910d6e7f5923c87a8380608"
+          },
+          "animation": {
+            "file": "female/bird-dog.webp",
+            "bytes": 223888,
+            "sha256": "b78c075b3a6e5174bb8cbce9370b42745340f4de57bb5c7375c9d0aae7ad5a25"
+          },
+          "gif": {
+            "file": "female/bird-dog.gif",
+            "bytes": 264757,
+            "sha256": "65f494d29ece71a859b42838678f96c7b3661a50dc1757cdeb995d7e6e69650f"
+          }
+        },
+        "mountain-climber": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:14:39.678Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              1.4
+            ],
+            "target": [
+              0,
+              0.4,
+              -0.15
+            ],
+            "height": 2.3,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/mountain-climber-poster.webp",
+            "bytes": 4384,
+            "sha256": "938ba4ca4eba06a222b3b76d19d263fe3ca832bc6a6cc5fb5f39731e81a54d63"
+          },
+          "animation": {
+            "file": "female/mountain-climber.webp",
+            "bytes": 137456,
+            "sha256": "ebbf31131f55bc52d548a82284eac95bb43340783b2d5ed1a629699c436eb35f"
+          },
+          "gif": {
+            "file": "female/mountain-climber.gif",
+            "bytes": 194107,
+            "sha256": "4226a8208706cdd6222018c32c156815b47079c470301a40a1d208bcaafd6cc5"
+          }
+        },
+        "crunch": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:14:50.986Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2,
+              0.8
+            ],
+            "target": [
+              0,
+              0.25,
+              -0.05
+            ],
+            "height": 2.05,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/crunch-poster.webp",
+            "bytes": 4496,
+            "sha256": "7eeba172e69fe743f38d004bf3a9827369ae685c3d9d69af2560e41a5ebda1d3"
+          },
+          "animation": {
+            "file": "female/crunch.webp",
+            "bytes": 171002,
+            "sha256": "014e1a208b1c37f2e9a3542746ce41131969bb03f341152110860027728a2ddd"
+          },
+          "gif": {
+            "file": "female/crunch.gif",
+            "bytes": 336734,
+            "sha256": "2b09d2af60d99839bdbb22acb2d76534735496f3964d349c8d42822ec67c7360"
+          }
+        },
+        "quarter-squat": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:02.357Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3,
+              1.65,
+              3.6
+            ],
+            "target": [
+              0,
+              0.88,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/quarter-squat-poster.webp",
+            "bytes": 4210,
+            "sha256": "87a1feee5f3f8f896f6bca35b556c3d2ae83484cc6a17c3bf6afa04407489c28"
+          },
+          "animation": {
+            "file": "female/quarter-squat.webp",
+            "bytes": 236554,
+            "sha256": "f0e72999c6ac5b639df9186634267f4b84411f1f2419df9730b806f52ae42626"
+          },
+          "gif": {
+            "file": "female/quarter-squat.gif",
+            "bytes": 545377,
+            "sha256": "fbf29dc9f42bd542d1c5867b37f09303c03f6bb8c86285c08139015e61b0da25"
+          }
+        },
+        "paused-squat": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:10.034Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3,
+              1.65,
+              3.6
+            ],
+            "target": [
+              0,
+              0.88,
+              0
+            ],
+            "height": 2.12,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/paused-squat-poster.webp",
+            "bytes": 4142,
+            "sha256": "44b1d122f4db2e8e713f15675847115c4a7172888f475e02184a7a9df5506c05"
+          },
+          "animation": {
+            "file": "female/paused-squat.webp",
+            "bytes": 117810,
+            "sha256": "9fd0633859426936a99754fcbac54e3c5de92b26adb3388ebd982b31f00ac3a1"
+          },
+          "gif": {
+            "file": "female/paused-squat.gif",
+            "bytes": 292775,
+            "sha256": "6f14380d7244dc0db1f49b138b7895db65ca893edbe64253f8c41ceda931136c"
+          }
+        },
+        "knee-narrow-pushup": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:23.647Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.5,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.34,
+              -0.3
+            ],
+            "height": 1.85,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/knee-narrow-pushup-poster.webp",
+            "bytes": 4992,
+            "sha256": "efabf2fba14c08bde7914ca34e850593614c1c2f3dcb97041f711a45a0cea9ee"
+          },
+          "animation": {
+            "file": "female/knee-narrow-pushup.webp",
+            "bytes": 244080,
+            "sha256": "4c1f4676ffb15a05f2644215b9b55d087d64abc7d1157093dd200dbaafdef8a1"
+          },
+          "gif": {
+            "file": "female/knee-narrow-pushup.gif",
+            "bytes": 520431,
+            "sha256": "ac0b689370ec67b627322f4955347430c02a3a8bf2c07378d0dcb12665359148"
+          }
+        },
+        "narrow-pushup": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:32.720Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2,
+              1.2
+            ],
+            "target": [
+              0,
+              0.35,
+              -0.15
+            ],
+            "height": 2.25,
+            "posterPhase": 0.15
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/narrow-pushup-poster.webp",
+            "bytes": 4036,
+            "sha256": "e5cfbbf3fff25c3954c12e6f10281329e20177d584b068b995c7fca69daae3c3"
+          },
+          "animation": {
+            "file": "female/narrow-pushup.webp",
+            "bytes": 194450,
+            "sha256": "c996f2c8d43c02c6f4e513801f39170ce972960ba9401b968ab82673363f79c3"
+          },
+          "gif": {
+            "file": "female/narrow-pushup.gif",
+            "bytes": 401892,
+            "sha256": "a5843db968e66620c222ebd59da2c26c480429526f73702ad2f778f3f6cd1b68"
+          }
+        },
+        "dead-bug-heel-tap": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:39.952Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.45,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/dead-bug-heel-tap-poster.webp",
+            "bytes": 3762,
+            "sha256": "6faf97b1164cc440616004c0493751ffa9e1c707fefb8b67a0b4b48060e2f234"
+          },
+          "animation": {
+            "file": "female/dead-bug-heel-tap.webp",
+            "bytes": 144552,
+            "sha256": "157ee9e6d5f6a935ccb38947e1e27b8df9f1f61a66090b25a06aaedc17790dfa"
+          },
+          "gif": {
+            "file": "female/dead-bug-heel-tap.gif",
+            "bytes": 186313,
+            "sha256": "4f4683c51a4fb2347881d9524650142623a0b5064f61478a67908e3e7ed9982d"
+          }
+        },
+        "quadruped-leg-extension": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:47.855Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.5,
+              1.4
+            ],
+            "target": [
+              0,
+              0.45,
+              -0.05
+            ],
+            "height": 2.65,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/quadruped-leg-extension-poster.webp",
+            "bytes": 4102,
+            "sha256": "edf902177aaf7630bce26ca606b7aa0561d86e15ef5fa3e6ff87b2cc6f47cbf1"
+          },
+          "animation": {
+            "file": "female/quadruped-leg-extension.webp",
+            "bytes": 123380,
+            "sha256": "2b0da050fa76b2a5a5a37abfdf2b1c27a72adbb10f0f66f1cd41ba0430ea3f6f"
+          },
+          "gif": {
+            "file": "female/quadruped-leg-extension.gif",
+            "bytes": 162658,
+            "sha256": "1dd7490a748c197ba83ba3557ae7e7b0c67f61f9978fe44025c29dfa77c446f0"
+          }
+        },
+        "prone-t-raise": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:15:55.322Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.1,
+              4.8,
+              1.3
+            ],
+            "target": [
+              0,
+              0.2,
+              -0.2
+            ],
+            "height": 2.8,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/prone-t-raise-poster.webp",
+            "bytes": 4094,
+            "sha256": "b71a10785f0e434b704d233e532810f6514dd344466623a7c98f4e04b46f9d1f"
+          },
+          "animation": {
+            "file": "female/prone-t-raise.webp",
+            "bytes": 94248,
+            "sha256": "5b6ddd4369796d2c83b3e318cbaa4b46b8a458833939f46c8f20978ad9a81c17"
+          },
+          "gif": {
+            "file": "female/prone-t-raise.gif",
+            "bytes": 108918,
+            "sha256": "f06374a9094f698d9a2bde2ff1e986f36d170f1844e2df51eaa8cb0daa9272b8"
+          }
+        },
+        "prone-y-raise": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:16:02.190Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.1,
+              4.8,
+              1.3
+            ],
+            "target": [
+              0,
+              0.2,
+              0
+            ],
+            "height": 2.95,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/prone-y-raise-poster.webp",
+            "bytes": 3782,
+            "sha256": "9eb95b9518b35f1eabd0f4ee501c105eda8e701363930bd0add8e6528516b5a2"
+          },
+          "animation": {
+            "file": "female/prone-y-raise.webp",
+            "bytes": 83486,
+            "sha256": "ff3a1618e3222c487c2f163b7b75b4615f1f528b450a09cd0a21e6fd6791761e"
+          },
+          "gif": {
+            "file": "female/prone-y-raise.gif",
+            "bytes": 93606,
+            "sha256": "ac0e5b3c61969d0e25db984526dda04e37651f9e41893851be8481b1644276f1"
+          }
+        },
+        "split-squat": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:16:15.221Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              1.8
+            ],
+            "target": [
+              0,
+              0.8,
+              -0.15
+            ],
+            "height": 2.35,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/split-squat-poster.webp",
+            "bytes": 3428,
+            "sha256": "89ab4c6b2a5f2fd8d9f96217e238d36ca8724ac3ffc7ca0680ffc9716b3b5d3a"
+          },
+          "animation": {
+            "file": "female/split-squat.webp",
+            "bytes": 185000,
+            "sha256": "93a842ffb27e08c626378b0b0b427032e7d2f58164b4a033389b1c69eb1bfb2b"
+          },
+          "gif": {
+            "file": "female/split-squat.gif",
+            "bytes": 366717,
+            "sha256": "9c54b016ec8a824d55cad17a13cd21685549d02bb198844105251abd0a11d1a9"
+          }
+        },
+        "single-leg-calf-raise": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:16:29.048Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.4,
+              1.6,
+              -3
+            ],
+            "target": [
+              0,
+              0.95,
+              0
+            ],
+            "height": 2.18,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/single-leg-calf-raise-poster.webp",
+            "bytes": 4342,
+            "sha256": "e76204059a0aa791bea4c585cb29f37295791d6972b268cdec60cf0a390db8e9"
+          },
+          "animation": {
+            "file": "female/single-leg-calf-raise.webp",
+            "bytes": 245666,
+            "sha256": "5b51e51e3c608e0f908e46941fa66e5d34923a9b1799ae0f203b20e7696e2743"
+          },
+          "gif": {
+            "file": "female/single-leg-calf-raise.gif",
+            "bytes": 546602,
+            "sha256": "98702529a83d72a5b7c6f520414e0d27e940f32a2b477f7ab5ce30b07ec64651"
+          }
+        },
+        "bridge-march": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:16:39.440Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.4,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/bridge-march-poster.webp",
+            "bytes": 4144,
+            "sha256": "61b018d5d1728d81278237b6b062f6e542205af80fea6e98e4fc6a131dd42336"
+          },
+          "animation": {
+            "file": "female/bridge-march.webp",
+            "bytes": 170000,
+            "sha256": "88877807be42c48d0ad37b1446bb02a2e67f802eb66bef8801b4e8e9208b115e"
+          },
+          "gif": {
+            "file": "female/bridge-march.gif",
+            "bytes": 220186,
+            "sha256": "95f21577c4c4bb4d912b3f2f8e6eb82ff5de643b8eccf6216beb1452a9d41a8b"
+          }
+        },
+        "single-leg-glute-bridge": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:16:51.003Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.4,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/single-leg-glute-bridge-poster.webp",
+            "bytes": 4208,
+            "sha256": "7430b00796d9022c2bac1ad8fc504307640ca0c78678d465805ebff2e94522c2"
+          },
+          "animation": {
+            "file": "female/single-leg-glute-bridge.webp",
+            "bytes": 179426,
+            "sha256": "62e5c912513f05a5fbdf0f9b1bef434f23e6138bfb6990ad0d06575c9a437b94"
+          },
+          "gif": {
+            "file": "female/single-leg-glute-bridge.gif",
+            "bytes": 334874,
+            "sha256": "653661acc7322471e93ee0b69f3ece1f6922558dbfaed8b84b5a8512efc215a7"
+          }
+        },
+        "bent-knee-row": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:17:02.237Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.8,
+              0.8
+            ],
+            "target": [
+              0,
+              0.5,
+              -0.36
+            ],
+            "height": 2.3,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/bent-knee-row-poster.webp",
+            "bytes": 4588,
+            "sha256": "fd1ab719761ec6390e98fa82d751d0544062a83c491bd0cdf7bbf719bbf7de86"
+          },
+          "animation": {
+            "file": "female/bent-knee-row.webp",
+            "bytes": 151120,
+            "sha256": "1f9df3d28c684ba82059014ce429109267131ef0f35e6a43fed267a6bfeb1fbc"
+          },
+          "gif": {
+            "file": "female/bent-knee-row.gif",
+            "bytes": 291187,
+            "sha256": "2155dfda8a269725d9cc342dd3bb808352fef639a8267d42ab8c4f76cc312269"
+          }
+        },
+        "dead-bug-arm-only": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:17:08.722Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.15
+            ],
+            "height": 2.55,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/dead-bug-arm-only-poster.webp",
+            "bytes": 3570,
+            "sha256": "d0e557cb75938c44f49ba5ca27db83a09d14b458fb60c02483514ab17a2e5703"
+          },
+          "animation": {
+            "file": "female/dead-bug-arm-only.webp",
+            "bytes": 108728,
+            "sha256": "f30b12dcc49bf1ee518411009d35a3bc6936c963da625a82bd77d586a539a003"
+          },
+          "gif": {
+            "file": "female/dead-bug-arm-only.gif",
+            "bytes": 135871,
+            "sha256": "6dfbe0ef353aab1f68b0d8137b86c3724d35b4d974d449be9243a2a8a9db898c"
+          }
+        },
+        "sumo-squat": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:17:16.684Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              2.8,
+              1.65,
+              3.8
+            ],
+            "target": [
+              0,
+              0.85,
+              0
+            ],
+            "height": 2.18,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/sumo-squat-poster.webp",
+            "bytes": 3830,
+            "sha256": "d79226f096e68406b1ece968e6166b3a1cb69700d59e74752661a33b21c2bdb9"
+          },
+          "animation": {
+            "file": "female/sumo-squat.webp",
+            "bytes": 222474,
+            "sha256": "94d7b7a0c6e522708e7ae70895432994501630860ed6feb302f54764a3e17ad1"
+          },
+          "gif": {
+            "file": "female/sumo-squat.gif",
+            "bytes": 534747,
+            "sha256": "b130a85e6b424212420fbfc306c854b6d6ee9818e14a53a48dbd9f37d21756f0"
+          }
+        },
+        "single-leg-deadlift": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:17:32.463Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              1.9,
+              1.4
+            ],
+            "target": [
+              0,
+              0.85,
+              -0.1
+            ],
+            "height": 2.45,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/single-leg-deadlift-poster.webp",
+            "bytes": 3188,
+            "sha256": "01eddbc7afcd3ff14fcfc51729a96fe721772f03ea69b0b3ee1a5e6ffa52ec85"
+          },
+          "animation": {
+            "file": "female/single-leg-deadlift.webp",
+            "bytes": 184138,
+            "sha256": "caddb8446f5230be6510d08e361a7bc033ae66c612bfcc658f54a5cbc9c034b6"
+          },
+          "gif": {
+            "file": "female/single-leg-deadlift.gif",
+            "bytes": 427915,
+            "sha256": "eb6f865b5bc198b91b0d340447f6834df435956f06c195986574fd9ee69f85ac"
+          }
+        },
+        "forward-lunge": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:17:47.608Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.2,
+              1.8,
+              3.6
+            ],
+            "target": [
+              0,
+              0.8,
+              0.2
+            ],
+            "height": 2.4,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/forward-lunge-poster.webp",
+            "bytes": 3356,
+            "sha256": "6c3e311f4b67924c655b8a5acadd73ee97f7c0908cb6640fbc4da2f53b67451d"
+          },
+          "animation": {
+            "file": "female/forward-lunge.webp",
+            "bytes": 311182,
+            "sha256": "8f38c700e85595b3a6688b31ba4c2faa10b6daf23c97db3ad6c23cd8092e4e77"
+          },
+          "gif": {
+            "file": "female/forward-lunge.gif",
+            "bytes": 767821,
+            "sha256": "50e5bbd5f737de8e652c14ccf0e263118a287e2ab36e49e45daedd52806a1409"
+          }
+        },
+        "quadruped-arm-raise": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:17:55.225Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.5,
+              1.4
+            ],
+            "target": [
+              0,
+              0.45,
+              0.05
+            ],
+            "height": 2.6,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/quadruped-arm-raise-poster.webp",
+            "bytes": 3730,
+            "sha256": "35f65af83151a3e8f49c327b270f226d4c807cb87ee845a92b525999e9ca5137"
+          },
+          "animation": {
+            "file": "female/quadruped-arm-raise.webp",
+            "bytes": 117584,
+            "sha256": "eee48b484ff3266db14bb5951636121d404405e50d67d9628cf68e509dbd6634"
+          },
+          "gif": {
+            "file": "female/quadruped-arm-raise.gif",
+            "bytes": 115578,
+            "sha256": "d597bd9c71180efbc0357edc0dff67776baa7755b21c42ab89621c7c0e00ac83"
+          }
+        },
+        "prone-hip-extension": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:18:00.686Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 6,
+          "frameCount": 72,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.6,
+              2.4,
+              1.2
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.15
+            ],
+            "height": 2.6,
+            "posterPhase": 0.5
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/prone-hip-extension-poster.webp",
+            "bytes": 3472,
+            "sha256": "e4176520ed36f6b1ff8a36a32c5d04b31558d62a809f289348f1c6a9d13b36fc"
+          },
+          "animation": {
+            "file": "female/prone-hip-extension.webp",
+            "bytes": 53240,
+            "sha256": "07d78151c04374febae3ec06b9b7bc3c8be49afa9edaa910e6a660726d8d51c9"
+          },
+          "gif": {
+            "file": "female/prone-hip-extension.gif",
+            "bytes": 82869,
+            "sha256": "cb08f8df4b3f90c957de6041c8c54bb14c708aa8aed67e2b7f35ec7f1acee266"
+          }
+        },
+        "supine-march": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:18:08.195Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              -0.05
+            ],
+            "height": 2.4,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/supine-march-poster.webp",
+            "bytes": 3920,
+            "sha256": "59bc6f4c5da697d811f11c38217a267676d7288a649e20dfe74ce715c934abaa"
+          },
+          "animation": {
+            "file": "female/supine-march.webp",
+            "bytes": 153464,
+            "sha256": "043b9c761a79a1ecf868ce8f9247a39ccd14aae6851467c0f4706adeadecfb0b"
+          },
+          "gif": {
+            "file": "female/supine-march.gif",
+            "bytes": 206328,
+            "sha256": "cf2b28965f4f50099b0fdc2fc50c97a373e7a153f653ee4ddbaa0816b80a32bc"
+          }
+        },
+        "supine-heel-slide": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:18:15.835Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.6,
+              0.65
+            ],
+            "target": [
+              0,
+              0.3,
+              0.05
+            ],
+            "height": 2.5,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/supine-heel-slide-poster.webp",
+            "bytes": 3470,
+            "sha256": "3fbaf62ae0e7dbfc4f6337f361e2710b33ce92980bf1482af07ec2d95103a1fb"
+          },
+          "animation": {
+            "file": "female/supine-heel-slide.webp",
+            "bytes": 138126,
+            "sha256": "94c294b1ff3d04f591197442590e0926e6fc901ff9f508911e15c02b9d8f5163"
+          },
+          "gif": {
+            "file": "female/supine-heel-slide.gif",
+            "bytes": 170205,
+            "sha256": "2dea83975d5851b09891c17ea0bd10b5fe36e2a1ae0ea92a4c11efabce894dd4"
+          }
+        },
+        "plank-shoulder-tap": {
+          "modelVariant": "female",
+          "sourceHash": "cabe55d5834efc5657643d3f77c148e5071f3f1c1e316376b9d7e9c97cbacfed",
+          "generatedAt": "2026-10-05T01:18:23.289Z",
+          "size": 256,
+          "fps": 12,
+          "duration": 10,
+          "frameCount": 120,
+          "renderer": {
+            "browser": "153.0.8010.12",
+            "platform": "darwin",
+            "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+            "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+          },
+          "camera": {
+            "position": [
+              3.8,
+              2.3,
+              1.4
+            ],
+            "target": [
+              0,
+              0.4,
+              -0.15
+            ],
+            "height": 2.3,
+            "posterPhase": 0.25
+          },
+          "layer": "muscles",
+          "poster": {
+            "file": "female/plank-shoulder-tap-poster.webp",
+            "bytes": 4030,
+            "sha256": "d1015a28350afe72f323f6d71927dd2936139f6f94652cd26c4540ab897c9bc9"
+          },
+          "animation": {
+            "file": "female/plank-shoulder-tap.webp",
+            "bytes": 114768,
+            "sha256": "22b668a27588687fc84aac9edd76a6a2d5ebf9c49021969f54ef661a1931f650"
+          },
+          "gif": {
+            "file": "female/plank-shoulder-tap.gif",
+            "bytes": 101578,
+            "sha256": "77e762bfde1d6451e0e88f667b95416d020cf2281d518a10d1bdf584cb251158"
+          }
+        }
       }
     }
-  },
-  "generatedAt": "2026-10-04T23:15:24.517Z"
+  }
 }

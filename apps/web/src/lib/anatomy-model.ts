@@ -14,6 +14,9 @@ import {
   Vector3,
 } from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
+import { getExercisePose } from '@klisteniapp/geometry'
+import type { AnatomicalModelVariant } from '@klisteniapp/scene-schema'
+import { createAnatomyVariant } from './anatomy-variants.ts'
 import {
   createAnatomyRig,
   inferredMetadata,
@@ -134,7 +137,10 @@ export function calibrateSurfaceSupports(
     (landmarks.left.shoulder[2] + landmarks.right.shoulder[2]) / 2
   let shoulderBack = Infinity,
     headBack = Infinity,
-    pelvisBack = Infinity
+    pelvisBack = Infinity,
+    proneTorsoBottom = Infinity
+  const proneAngle = getExercisePose('prone-hip-extension', 0).torsoAngle
+  const torsoProfile: [number, number, number][] = []
   const handBottom = { left: Infinity, right: Infinity }
   const bindRig = createAnatomyRig(landmarks)
   const flatHand = segmentFrame(
@@ -168,6 +174,12 @@ export function calibrateSurfaceSupports(
     if (!vertices) return
     for (let i = 0; i < vertices.count; i++) {
       position.fromBufferAttribute(vertices, i).applyMatrix4(object.matrixWorld)
+      if (metadata.bodySegment === 'torso') {
+        proneTorsoBottom = Math.min(proneTorsoBottom,
+          (position.y - landmarks.pelvis[1]) * Math.cos(proneAngle)
+          - (position.z - landmarks.pelvis[2]) * Math.sin(proneAngle))
+        torsoProfile.push([0, position.y, position.z])
+      }
       if (
         Math.abs(position.x) < 0.24 &&
         Math.abs(position.y - shoulderY) < 0.07
@@ -192,6 +204,20 @@ export function calibrateSurfaceSupports(
   if (![shoulderBack, headBack, pelvisBack].every(Number.isFinite))
     return landmarks
   const clearance = 0.002
+  // The convex silhouette in the Y/Z plane has the same support extrema as
+  // every torso vertex, with only a few points to check while animating.
+  const points = torsoProfile.sort((a, b) => a[1] - b[1] || a[2] - b[2])
+    .filter((value, index, all) => index === 0 || value[1] !== all[index - 1]![1] || value[2] !== all[index - 1]![2])
+  const cross = (a: number[], b: number[], c: number[]) => (b[1]! - a[1]!) * (c[2]! - a[2]!) - (b[2]! - a[2]!) * (c[1]! - a[1]!)
+  const half = (values: typeof torsoProfile) => {
+    const hull: typeof torsoProfile = []
+    for (const p of values) {
+      while (hull.length > 1 && cross(hull.at(-2)!, hull.at(-1)!, p) <= 0) hull.pop()
+      hull.push(p)
+    }
+    return hull.slice(0, -1)
+  }
+  const silhouette = [...half(points), ...half([...points].reverse())]
   return {
     ...landmarks,
     ...sides,
@@ -199,6 +225,8 @@ export function calibrateSurfaceSupports(
       shoulderHeight: clearance + shoulderZ - shoulderBack,
       headNeckHeight: clearance + landmarks.neck[2] - headBack,
       pelvisHeight: clearance + landmarks.pelvis[2] - pelvisBack,
+      ...(Number.isFinite(proneTorsoBottom) ? { pronePelvisHeight: clearance - proneTorsoBottom } : {}),
+      torsoProfile: silhouette,
       ...(Number.isFinite(handBottom.left) && Number.isFinite(handBottom.right)
         ? {
             handHeight: {
@@ -564,6 +592,22 @@ export function harmonizeSkinSeams(
 
 /** Hundreds of named anatomical structures become a small set of selectable GPU batches. */
 export function prepareAnatomy(
+  source: Object3D,
+  landmarks: AnatomyLandmarks,
+  modelVariant: AnatomicalModelVariant = 'male',
+): PreparedAnatomy {
+  const variant = createAnatomyVariant(source, landmarks, modelVariant)
+  try {
+    const prepared = prepareRegisteredAnatomy(variant.source, variant.landmarks)
+    prepared.group.userData.modelVariant = modelVariant
+    prepared.group.name = `Registered anatomical atlas (${modelVariant})`
+    return prepared
+  } finally {
+    variant.dispose()
+  }
+}
+
+function prepareRegisteredAnatomy(
   source: Object3D,
   landmarks: AnatomyLandmarks,
 ): PreparedAnatomy {

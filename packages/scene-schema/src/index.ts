@@ -153,7 +153,13 @@ export type TrainingPlan = z.infer<typeof TrainingPlanSchema>;
 export const ColorThemeSchema = z.enum(['sage', 'ocean', 'sunset', 'lavender', 'rose', 'graphite']);
 export type ColorTheme = z.infer<typeof ColorThemeSchema>;
 
+/** Visual representation only; independent of identity, health and training plans. */
+export const AnatomicalModelVariantSchema = z.enum(['male', 'female']);
+export type AnatomicalModelVariant = z.infer<typeof AnatomicalModelVariantSchema>;
+
 export const PersonalSettingsSchema = z.object({
+  /** Legacy data resolves to male at display time; omission preserves a saved choice. */
+  anatomicalModel: AnatomicalModelVariantSchema.optional(),
   /** Absent in legacy backups; omission must never clear existing health data. */
   health: HealthDataSchema.optional(),
   profile: z.object({
@@ -193,6 +199,7 @@ export type PersonalSettings = z.infer<typeof PersonalSettingsSchema>;
 export function preserveOptionalPersonalSettings(current: PersonalSettings, next: PersonalSettings): PersonalSettings {
   return {
     ...next,
+    ...(next.anatomicalModel === undefined && current.anatomicalModel !== undefined ? { anatomicalModel: current.anatomicalModel } : {}),
     ...(next.health === undefined && current.health !== undefined ? { health: current.health } : {}),
     profile: {
       ...next.profile,

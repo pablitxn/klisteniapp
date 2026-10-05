@@ -4,6 +4,10 @@ Investigación realizada el 3 de octubre de 2026. Este documento registra las fu
 
 ## Fuente elegida
 
+Desde el 5 de octubre de 2026, la preferencia global **Modelo corporal** permite representar esa fuente como **Hombre** (base conservada) o **Mujer** (adaptación paramétrica ilustrativa). El código reproducible de la adaptación está en `apps/web/src/lib/anatomy-variants.ts`: aplica un campo continuo a capas y referencias articulares, conserva altura/suelo y recalibra los apoyos. El contorno del pecho se modifica sólo en la superficie de piel. No se incorporó una fuente independiente de anatomía femenina ni se validó un atlas femenino clínico. Los nombres de estructuras, músculos implicados y ejercicios conservan su significado educativo.
+
+El GLB y el Blender base permanecen intactos. Por tanto, las afirmaciones siguientes sobre conservación de coordenadas describen **la base**; las capturas de la variante femenina documentan una modificación derivada. Ambas variantes y sus capturas conservan los créditos/licencia del atlas; la preferencia visual no informa sexo, identidad ni datos médicos de la cuenta. Véase también `docs/body-model-variants.md` para persistencia, generación y verificación.
+
 La fuente elegida contiene las **mallas musculares, óseas y de superficie corporal de Z-Anatomy**, derivadas de BodyParts3D. Los tres archivos comparten coordenadas; permiten alternar entre cuerpo exterior y anatomía conservando la relación espacial de la fuente. El repositorio oficial describe el origen y los autores; la aplicación de Lluís Vinent ofrece los sistemas como archivos FBX separados. [Z-Anatomy, proyecto de modelos](https://github.com/Z-Anatomy/Models-of-human-anatomy), [Z-Anatomy, aplicación y exportaciones](https://github.com/LluisV/Z-Anatomy/tree/PC-Version).
 
 El commit de la rama `PC-Version` fijado para la importación es `6c7f9016bd5899ac8edafd31b9900c151df42ed6`. El manifiesto registra SHA-256 de cada descarga, comprobados contra los tres archivos usados, para que una actualización de la rama no cambie silenciosamente el modelo. Los tamaños siguientes son los mostrados por GitHub, no el peso del asset optimizado.

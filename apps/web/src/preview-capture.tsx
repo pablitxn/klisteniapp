@@ -1,7 +1,7 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { ExerciseIdSchema } from '@klisteniapp/scene-schema'
+import { AnatomicalModelVariantSchema, ExerciseIdSchema } from '@klisteniapp/scene-schema'
 import { getExercise } from './data/exercises'
 import ExerciseStage from './components/ExerciseStage'
 import { previewCameras } from './lib/exercise-preview-config'
@@ -13,7 +13,9 @@ declare global {
   }
 }
 
-const id = ExerciseIdSchema.parse(new URLSearchParams(location.search).get('exercise'))
+const params = new URLSearchParams(location.search)
+const id = ExerciseIdSchema.parse(params.get('exercise'))
+const modelVariant = AnatomicalModelVariantSchema.parse(params.get('model') ?? 'male')
 const config = previewCameras[id]
 const exercise = getExercise(id)!
 
@@ -55,6 +57,7 @@ export default function CaptureScene() {
   }, 1)
   return <ExerciseStage
     exerciseId={id}
+    modelVariant={modelVariant}
     phaseRef={phaseRef}
     primaryMuscles={exercise.primaryMuscles}
     secondaryMuscles={exercise.secondaryMuscles}

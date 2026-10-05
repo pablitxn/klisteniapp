@@ -6,11 +6,18 @@ const progressKey = 'klisteniapp.progress.v1'
 
 async function openPage(page: Page) {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Tu cuerpo. Tu primer gimnasio.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Hacé lugar al movimiento.' })).toBeVisible()
 }
 
 async function navigate(page: Page, name: string, mobile = false) {
   await page.getByRole('navigation', { name: mobile ? 'Navegación móvil' : 'Navegación principal', exact: true }).getByRole('button', { name, exact: true }).click()
+}
+
+async function expectProgressXP(page: Page, value: string) {
+  await expect(page.locator('.stats-bar')).toHaveCount(0)
+  await navigate(page, 'Mi rutina')
+  await expect(page.locator('.stats-bar')).toContainText(value)
+  await navigate(page, 'Mi progreso')
 }
 
 async function expectNoHorizontalOverflow(page: Page) {
@@ -38,11 +45,12 @@ test('desktop starts with honest empty progress and an educational exercise view
   await page.evaluate(() => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); window.scrollTo(0, 0) })
   await page.screenshot({ path: '/private/tmp/klisteni-desktop.png', fullPage: true })
   await navigate(page, 'Mi progreso')
-  await expect(page.locator('.stats-bar')).toContainText('0 XP')
+  await expect(page.locator('.stats-bar')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'Tu primer paso todavía está por escribir.' })).toBeVisible()
   expect(await page.evaluate(key => localStorage.getItem(key), progressKey)).toBeNull()
 })
 
-test('library searches muscles without accents and explains the equipment gap', async ({ page }) => {
+test('library searches muscles without accents and the atlas opens an equipped example', async ({ page }) => {
   await openPage(page)
   await navigate(page, 'Ejercicios')
   await page.getByRole('textbox', { name: 'Buscar ejercicio o músculo' }).fill('triceps')
@@ -53,8 +61,10 @@ test('library searches muscles without accents and explains the equipment gap', 
   await expect(page.locator('.workbench-title')).toContainText('Flexiones con rodillas')
   await expect(page.getByRole('button', { name: 'Pectorales', exact: true })).toBeVisible()
   await navigate(page, 'Mi cuerpo')
-  await expect(page.getByRole('heading', { name: 'La pieza que falta sin equipo: la tracción.' })).toBeVisible()
-  await page.getByRole('button', { name: 'Conocer el remo con barra' }).click()
+  const lats = page.locator('.body-muscle').filter({ has: page.locator('summary strong').filter({ hasText: /^Dorsales$/ }) })
+  await lats.locator('summary').click()
+  await expect(lats.locator('.body-routine-roles')).toContainText('No hay un ejercicio con este papel en tu selección.')
+  await lats.getByRole('button', { name: 'Ver el movimiento', exact: true }).click()
   await expect(page.locator('.workbench-title')).toContainText('Remo invertido')
   await expect(page.getByRole('tabpanel')).toContainText('barra o anillas instaladas')
   await expect(page.locator('.exercise-row')).toHaveCount(6)
@@ -96,14 +106,14 @@ test('cardio saves entered minutes and distance, survives reload, exports and de
   await dialog.getByRole('button', { name: 'Guardar actividad' }).click()
   await expect(dialog).not.toBeVisible()
   await expect(page.locator('.activity-history')).toContainText('Bici')
-  await expect(page.locator('.activity-history')).toContainText('25 min · 4.5 km')
-  await expect(page.locator('.stats-bar')).toContainText('25 XP')
+  await expect(page.locator('.activity-history')).toContainText('25 min · 4,5 km')
+  await expectProgressXP(page, '25 XP')
   const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), progressKey)
   expect(stored.workouts).toEqual([])
   expect(stored.cardio).toEqual([{ id: expect.any(String), activity: 'bike', date, minutes: 25, distanceKm: 4.5 }])
   await page.reload()
   await navigate(page, 'Mi progreso')
-  await expect(page.locator('.activity-history')).toContainText('25 min · 4.5 km')
+  await expect(page.locator('.activity-history')).toContainText('25 min · 4,5 km')
   await openSettings(page, 'Datos')
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Exportar mis datos', exact: true }).click()
@@ -121,7 +131,7 @@ test('cardio saves entered minutes and distance, survives reload, exports and de
   await page.getByRole('button', { name: /^Eliminar Bici del/ }).click()
   await page.getByRole('button', { name: 'Sí, eliminar' }).click()
   await expect(page.locator('.activity-history article')).toHaveCount(0)
-  await expect(page.locator('.stats-bar')).toContainText('0 XP')
+  await expectProgressXP(page, '0 XP')
 })
 
 test('routine edits and motion preferences persist without adding workout history', async ({ page }) => {
@@ -163,7 +173,7 @@ test('a completed session saves exactly the twelve sets entered by the user', as
   await session.getByRole('button', { name: 'Guardar sesión' }).click()
   await expect(session).not.toBeVisible()
   await expect(page.locator('.activity-history')).toContainText('6 ejercicios · 12 series')
-  await expect(page.locator('.stats-bar')).toContainText('120 XP')
+  await expectProgressXP(page, '120 XP')
   const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), progressKey)
   expect(stored.cardio).toEqual([])
   expect(stored.workouts).toHaveLength(1)
@@ -173,7 +183,7 @@ test('a completed session saves exactly the twelve sets entered by the user', as
   await page.reload()
   await navigate(page, 'Mi progreso')
   await expect(page.locator('.activity-history article')).toHaveCount(1)
-  await expect(page.locator('.stats-bar')).toContainText('120 XP')
+  await expectProgressXP(page, '120 XP')
 })
 
 test('an abandoned session does not award XP or invent a completed workout', async ({ page }) => {
@@ -189,7 +199,7 @@ test('an abandoned session does not award XP or invent a completed workout', asy
   await expect(session).not.toBeVisible()
   await navigate(page, 'Mi progreso')
   await expect(page.getByRole('heading', { name: 'Tu primer paso todavía está por escribir.' })).toBeVisible()
-  await expect(page.locator('.stats-bar')).toContainText('0 XP')
+  await expectProgressXP(page, '0 XP')
   expect(await page.evaluate(key => localStorage.getItem(key), progressKey)).toBeNull()
 })
 
@@ -225,7 +235,7 @@ test('saving after corrupt history retains a downloadable original and stores va
   await page.getByRole('dialog').getByLabel('Duración (minutos)').fill('18')
   await page.getByRole('button', { name: 'Guardar actividad' }).click()
   await expect(page.locator('.activity-history')).toContainText('Caminata')
-  await expect(page.locator('.stats-bar')).toContainText('18 XP')
+  await expectProgressXP(page, '18 XP')
   await expect(page.getByRole('alert')).not.toBeVisible()
   const saved = await page.evaluate(key => ({ progress: JSON.parse(localStorage.getItem(key)!), recovery: localStorage.getItem('klisteniapp.progress.recovery') }), progressKey)
   expect(saved.recovery).toBe(corrupt)

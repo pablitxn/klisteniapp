@@ -17,11 +17,13 @@ import {
   WorkoutSession,
 } from './components/Forms'
 import Progress from './components/Progress'
+import BodyGuide from './components/BodyGuide'
 import ExercisePreview from './components/ExercisePreview'
 import ExercisePlanningDetails from './components/ExercisePlanningDetails'
 import { instanceMode } from './lib/deployment'
 import SettingsPanel, { type SettingsSection } from './components/SettingsPanel'
 import { cloudWriteAllowed } from './lib/cloud-access'
+import { scrollPageToTop } from './lib/modal-scroll'
 const HealthPage = lazy(() => import('./components/HealthPage'))
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
 type Page = 'routine' | 'library' | 'anatomy' | 'progress' | 'health'
@@ -69,6 +71,11 @@ export default function App({ privacyControls, privacySettings, suspended = fals
   const accountError = useAppStore(s => s.accountError)
   const privateUnavailable = instanceMode && (authStatus === 'loading' || Boolean(user && (!personalData || accountLoading)))
   const personalSettings = personalData?.settings
+  const displayName = (personalSettings?.profile.displayName || user?.name || '').trim()
+  const nameParts = displayName.normalize('NFC').split(/\s+/u).filter(Boolean)
+  const userInitials = user && nameParts.length
+    ? [nameParts[0]!, ...(nameParts.length > 1 ? [nameParts.at(-1)!] : [])].map(part => Array.from(part)[0]).join('').toLocaleUpperCase()
+    : null
   const currentRoutine = personalSettings?.routines.find(r => r.id === personalSettings.activeRoutineId)
   const planStats = personalSettings && computePlanProgress(personalSettings.plans, progress.workouts, dateInTimeZone(new Date(), personalSettings.profile.timeZone))
   const stats = computeProgress(progress.workouts, progress.cardio, personalSettings ? new Date(`${dateInTimeZone(new Date(), personalSettings.profile.timeZone)}T12:00:00`) : new Date())
@@ -96,12 +103,12 @@ export default function App({ privacyControls, privacySettings, suspended = fals
   const navigate = (next: Page) => {
     setPage(next)
     setSelectedMuscle(null)
-    window.scrollTo({ top: 0, behavior: 'instant' })
+    scrollPageToTop()
   }
   const openExercise = (id: string) => {
     choose(id)
     setPage('routine')
-    window.scrollTo({ top: 0, behavior: 'instant' })
+    scrollPageToTop()
   }
   useEffect(() => {
     if (suspended) return
@@ -118,7 +125,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
     }
   }, [authStatus])
   const descriptions = {
-    routine: t("Un poco de práctica. Mucho por descubrir."),
+    routine: t("Seguí tu rutina, entendé cada ejercicio y descubrí cómo progresar."),
     library: t("Conocé el movimiento antes de sumar repeticiones."),
     anatomy: t("Aprendé qué trabaja y cómo se complementa."),
     progress: t("Lo que cuenta es volver, a tu ritmo."),
@@ -167,7 +174,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
             <p>{t("Tu única comparación:")}<br />{t("vos, ayer.")}</p>
           </div>
           <button className="nav-item" onClick={() => openSettings()}>
-            <Icon name="settings" />
+            <Icon name="sliders" />
             <span>{t("Ajustes")}</span>
           </button>
           <div className="local-badge">
@@ -185,15 +192,13 @@ export default function App({ privacyControls, privacySettings, suspended = fals
           <span className="mobile-brand">klisteni.</span>
           <div className="topbar-right">
             {instanceMode && !user && <button className="text-button account-login" onClick={() => openSettings('account')} disabled={Boolean(session)}>{t("Iniciar sesión")}</button>}
-            <span className="beginner-badge">
-              <span /> {t("Principiante")}</span>
             <button
               id="open-settings"
               className="profile-button"
               aria-label={t("Abrir ajustes")}
               onClick={() => openSettings()}
             >
-              <Icon name="settings" size={19} />
+              <span aria-hidden="true">{userInitials ?? <Icon name="sliders" size={21} />}</span>
             </button>
           </div>
         </header>
@@ -206,7 +211,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
             {accountError && user && <span role="alert">{accountError}</span>}
             {accountError?.includes('cerrar la sesión') && !user && <><span role="alert">{accountError}</span><button className="text-button" onClick={() => void useAppStore.getState().signOut()}>{t("Reintentar cierre de sesión")}</button></>}
           </div>}
-          {instanceMode && planStats && personalSettings?.plans.length !== 0 && <div className="plan-summary">
+          {page === 'routine' && instanceMode && planStats && personalSettings?.plans.length !== 0 && <div className="plan-summary">
             <div><strong>{t("{{completed}} / {{target}} días de fuerza esta semana", { completed: planStats.weeklyCompleted, target: planStats.weeklyTarget })}</strong><p>{t("{{count}} semanas cumpliendo tu plan. Los días de descanso no cortan tu racha.", { count: planStats.fulfilledWeeksStreak })}</p></div>
             <button className="text-button" onClick={() => openSettings('account')} disabled={Boolean(session)}>{t("Mi planificación")}</button>
           </div>}
@@ -221,7 +226,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
               <span className="eyebrow">{t("APRENDÉ. MOVETE. REPETÍ.")}</span>
               <h1>
                 {page === 'routine' ? (
-                  <>{t("Tu cuerpo.")}<br className="mobile-break" /> {t("Tu primer gimnasio.")}</>
+                  <>{t("Hacé lugar")}<br className="mobile-break" /> {t("al movimiento.")}</>
                 ) : page === 'library' ? (
                   t("Cada movimiento tiene su porqué.")
                 ) : page === 'anatomy' ? (
@@ -234,33 +239,8 @@ export default function App({ privacyControls, privacySettings, suspended = fals
               </h1>
               <p>{descriptions[page]}</p>
             </div>
-            {page === 'routine' ? (
-              <button
-                className="primary-button"
-                disabled={Boolean(session) || privateUnavailable}
-                onClick={() => {
-                  setSession({
-                    ids: preferences.exerciseIds,
-                    sets: preferences.sets,
-                    routineSnapshot: currentRoutine ? structuredClone(currentRoutine) : undefined,
-                    timeZone: personalSettings?.profile.timeZone,
-                  })
-                  choose(preferences.exerciseIds[0]!)
-                }}
-              >
-                <Icon name="play" size={17} /> {t("Empezar mi rutina")}{' '}
-                <Icon name="arrow" size={18} />
-              </button>
-            ) : page !== 'health' ? (
-              <button
-                className="secondary-button"
-                disabled={privateUnavailable}
-                onClick={() => setOverlay('cardio')}
-              >
-                <Icon name="plus" size={18} /> {t("Registrar actividad")}</button>
-            ) : null}
           </section>
-          {page !== 'health' && <div className="stats-bar">
+          {page === 'routine' && <div className="stats-bar">
             <div>
               <span className="stat-icon peach">
                 <Icon name="fire" />
@@ -322,15 +302,14 @@ export default function App({ privacyControls, privacySettings, suspended = fals
               <div className="section-heading">
                 <div>
                   <span className="eyebrow">{t("TU PUNTO DE PARTIDA")}</span>
-                  <h2>{t("Una base para empezar")}<span className="soft-dot">.</span>
-                  </h2>
+                  <h2>{t("Mi rutina de hoy")}</h2>
                 </div>
                 <button
                   className="text-button"
                   disabled={Boolean(session) || privateUnavailable}
                   onClick={() => setOverlay('routine')}
                 >
-                  <Icon name="settings" size={16} /> {t("Personalizar")}</button>
+                  <Icon name="edit" size={16} /> {t("Personalizar")}</button>
               </div>
               <div className="routine-meta">
                 <span>
@@ -344,12 +323,13 @@ export default function App({ privacyControls, privacySettings, suspended = fals
               </div>
               <details className="warmup-note">
                 <summary>
-                  <Icon name="spark" size={15} /> {t("Antes de empezar · preparación y esfuerzo")}</summary>
+                  <Icon name="spark" size={15} /> {t("Consejos antes de empezar")}</summary>
                 <p>{starterRoutine.warmup}</p>
                 <p>{starterRoutine.effort}</p>
                 <p>{starterRoutine.progression}</p>
               </details>
               <div className="routine-layout">
+                <div className="routine-selection">
                 <aside
                   className="exercise-list"
                   aria-label={t("Ejercicios de tu rutina")}
@@ -381,11 +361,28 @@ export default function App({ privacyControls, privacySettings, suspended = fals
                       <Icon name="chevron" size={15} />
                     </button>
                   ))}
+                </aside>
+                  <button
+                    className="primary-button routine-start"
+                    disabled={Boolean(session) || privateUnavailable}
+                    onClick={() => {
+                      setSession({
+                        ids: preferences.exerciseIds,
+                        sets: preferences.sets,
+                        routineSnapshot: currentRoutine ? structuredClone(currentRoutine) : undefined,
+                        timeZone: personalSettings?.profile.timeZone,
+                      })
+                      choose(preferences.exerciseIds[0]!)
+                    }}
+                  >
+                    <Icon name="play" size={17} /> {t("Empezar mi rutina")}{' '}
+                    <Icon name="arrow" size={18} />
+                  </button>
                   <div className="routine-footnote">
                     <Icon name="info" size={16} />
                     <p>{t("Dejá un día de descanso entre sesiones de fuerza. La técnica va primero.")}</p>
                   </div>
-                </aside>
+                </div>
                 <div className="workbench">
                   <div className="workbench-title">
                     <div>
@@ -658,74 +655,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
               )}
             </section>
           )}
-          {page === 'anatomy' && (
-            <section className="anatomy-section">
-              <div className="anatomy-intro">
-                <span className="eyebrow">{t("MOVIMIENTOS QUE SE COMPLEMENTAN")}</span>
-                <h2>{t("Un cuerpo, distintos trabajos.")}</h2>
-                <p>{t("Los colores muestran el papel de cada región en un ejercicio. Son una guía educativa, no porcentajes de activación muscular.")}</p>
-              </div>
-              <div className="pattern-grid">
-                {routine.map((e) => (
-                  <button key={e.id} onClick={() => openExercise(e.id)}>
-                    <span className="exercise-thumb">
-                      <ExercisePreview id={e.id} />
-                    </span>
-                    <small>{t(e.pattern)}</small>
-                    <h3>{t(e.shortName)}</h3>
-                    <p>
-                      {e.primaryMuscles
-                        .map((id) => t(muscles[id].name))
-                        .join(' · ')}
-                    </p>
-                    <Icon name="arrow" size={18} />
-                  </button>
-                ))}
-              </div>
-              <div className="pull-gap">
-                <Icon name="info" />
-                <div>
-                  <h3>{t("La pieza que falta sin equipo: la tracción.")}</h3>
-                  <p>{t("La W boca abajo practica el control de las escápulas. No reemplaza un remo o una dominada: para cargar dorsales y bíceps hace falta resistencia y un anclaje seguro.")}</p>
-                  <button
-                    className="text-button"
-                    onClick={() => openExercise('row')}
-                  >{t("Conocer el remo con barra")}<Icon name="arrow" size={16} />
-                  </button>
-                </div>
-              </div>
-              <div className="section-heading">
-                <h2>{t("Tu pequeño atlas muscular")}</h2>
-                <span className="muted">{t("Tocá una región para aprender")}</span>
-              </div>
-              <div className="muscle-atlas">
-                {Object.values(muscles).map((m) => (
-                  <details key={m.id}>
-                    <summary>
-                      <span className="muscle-atlas-dot" />
-                      <span>
-                        {t(m.name)}
-                        <small>{t(m.region)}</small>
-                      </span>
-                      <Icon name="plus" size={16} />
-                    </summary>
-                    <p>{m.description}</p>
-                    <small>{t("En tu rutina:")}{' '}
-                      {routine
-                        .filter(
-                          (e) =>
-                            e.primaryMuscles.includes(m.id) ||
-                            e.secondaryMuscles.includes(m.id),
-                        )
-                        .map((e) => t(e.shortName))
-                        .join(', ') ||
-                        t("Sin trabajo directo suficiente en esta selección.")}
-                    </small>
-                  </details>
-                ))}
-              </div>
-            </section>
-          )}
+          {page === 'anatomy' && <BodyGuide routine={routine} onOpenExercise={openExercise} />}
           {page === 'progress' && (
             <Progress
               onCardio={() => { if (!privateUnavailable) setOverlay('cardio') }}
@@ -735,10 +665,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
           {page === 'health' && <Suspense fallback={<p role="status">{t("Cargando tu espacio de salud…")}</p>}>
             <HealthPage onSignIn={() => openSettings('account')} />
           </Suspense>}
-          <footer className="page-footer">
-            <span>{t("Menos prisa. Más conciencia.")}</span>
-            <span>{t("Guía educativa · Si un movimiento duele, detenelo y buscá orientación.")}</span>
-          </footer>
+
         </main>
       </div>
       <nav className="mobile-nav" aria-label={t("Navegación móvil")}>

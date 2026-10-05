@@ -39,7 +39,8 @@ readiness. A successful local check says nothing about the public deployment.
 
 ## Settings and initial setup
 
-The header gear opens a single Settings dialog. Its sections are Account and
+The header button shows the signed-in user's initials and opens a single Settings dialog
+(anonymous users see the sliders icon). Its sections are Account and
 planning, Appearance, Privacy, Data, and Initial setup. Account identity and cloud
 access are shown inside Account and planning; Data contains full account export
 and backup import. Anonymous users can still export their local data. Privacy
@@ -52,11 +53,16 @@ sections or visiting the privacy policy keeps drafts in memory. Closing the
 dialog or reloading discards unsaved drafts. Concurrent changes require review
 before an older draft can be saved.
 
+An open dialog locks the page behind it while its content can scroll. Closing it
+restores the previous page position and focus. Visiting the privacy policy releases
+the lock; returning to the settings dialog locks the background again.
+
 ## Appearance and languages
 
 Open Settings → Appearance to select Spanish, English or French, a color palette, and Light,
 Dark or System mode. The six palettes are Sage, Ocean, Sunset, Lavender, Rose and
-Graphite; each card previews both its light and dark versions. Palette and mode
+Graphite; compact color swatches select the palette, with one miniature routine
+preview showing the selected palette in the current mode. Palette and mode
 are independent, so System follows the device appearance while keeping your
 chosen colors. The UI updates immediately; the status
 message confirms saving. Signed-in choices are saved in the account profile
@@ -76,3 +82,22 @@ strings serve as readable fallback keys; use the component's namespace and
 interpolation variables for dynamic text. User-authored values and operator
 disclosures are preserved. The extensive educational exercise explanations and
 some detailed validation messages still use their original Spanish text.
+
+## Body guide
+
+My body opens directly on the anatomical atlas. Each region has an isolated
+thumbnail from the existing anatomical model; primary/support roles are explained
+in text inside the expanded card rather than encoded as filled or empty dots.
+The exercise catalogue remains in Exercises. Filter the atlas by upper body, core or lower
+body; all 12 regions include location, component structures, joint actions,
+cooperation, everyday examples, observation cues and linked exercises. Each card
+links to the relevant OpenStax chapter and opens the existing 3D atlas in a single
+lazy-loaded dialog. Posterior regions start from the back; picking another region
+updates the explanation while preserving the camera. Text remains available if
+WebGL is unavailable. These roles describe the catalogue, not training volume or
+measured activation. Its UI and educational text live in `BodyGuide.tsx`,
+`data/body-guide.ts` and the `body` translation namespace, in ES/EN/FR.
+
+The routine start action lives below the exercise selection inside My routine.
+The stats bar also belongs only to My routine; section headers no longer repeat
+start or activity actions, and the generic page footer has been removed.

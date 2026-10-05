@@ -14,7 +14,7 @@ async function prepare(context: BrowserContext, ip: number) {
 }
 async function open(page: Page) {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Tu cuerpo. Tu primer gimnasio.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Hacé lugar al movimiento.' })).toBeVisible()
 }
 async function login(page: Page, name: string) {
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()

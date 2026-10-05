@@ -5,7 +5,7 @@ test.use({ launchOptions: { args: ['--disable-webgl'] } })
 
 test('device without WebGL keeps education and muscle information usable', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Tu cuerpo. Tu primer gimnasio.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Hacé lugar al movimiento.' })).toBeVisible()
   await expect(page.locator('.viewer-fallback')).toBeVisible({ timeout: 20_000 })
   await expect(page.getByRole('tabpanel')).toContainText('Llevá la cadera atrás y abajo')
   await page.getByRole('button', { name: 'Cuádriceps', exact: true }).click()

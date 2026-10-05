@@ -1,0 +1,98 @@
+.body-guide { display: grid; gap: 44px; }
+.body-guide h2, .body-guide h3, .body-guide h4, .body-guide p { margin: 0; }
+.body-guide dd { color: var(--muted); line-height: 1.65; }
+.body-guide h3 { font-size: 1.03rem; letter-spacing: -.025em; line-height: 1.3; }
+.body-guide .text-button { min-height: 36px; padding: 4px 0; font-size: .85rem; }
+.body-region-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 25px; }
+.body-region-filter button { min-height: 40px; padding: 9px 14px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; font-size: .85rem; font-weight: 550; }
+.body-region-filter button[aria-pressed='true'] { background: var(--purple); border-color: var(--purple-dark); color: var(--purple-dark); }
+.body-region-filter button:hover { border-color: var(--purple-dark); }
+.body-region + .body-region { margin-top: 28px; }
+.body-region-heading { display: grid; gap: 5px; margin-bottom: 12px; }
+.body-region-heading h3 { font-size: 1.12rem; }
+.body-region-heading p { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+.body-muscle-list { display: grid; gap: 9px; }
+.body-muscle { border: 1px solid var(--line); border-radius: 15px; background: var(--surface); overflow: clip; }
+.body-muscle[open] { border-color: var(--purple-line); }
+.body-muscle summary { display: flex; gap: 16px; align-items: center; padding: 17px 18px; list-style: none; cursor: pointer; }
+.body-muscle summary::-webkit-details-marker { display: none; }
+.body-muscle summary::marker { content: ''; }
+.body-muscle summary:hover { background: var(--surface-soft); }
+.body-muscle-thumbnail { display: grid; place-items: center; flex: 0 0 88px; width: 88px; height: 96px; overflow: hidden; border-radius: 12px; background: var(--surface-soft); }
+.body-muscle-thumbnail img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.body-muscle-thumbnail--fallback { color: var(--muted); }
+.body-muscle-heading { display: grid; gap: 5px; flex: 1; min-width: 0; }
+.body-muscle-heading > strong { font-size: 1rem; font-weight: 650; line-height: 1.3; }
+.body-muscle-heading > span { color: var(--muted); line-height: 1.45; font-size: .88rem; }
+.body-expand { display: grid; place-items: center; flex-shrink: 0; width: 25px; height: 25px; color: var(--muted); transition: transform .15s; }
+.body-muscle[open] .body-expand { transform: rotate(45deg); }
+.body-muscle-content { padding: 0 20px 20px; }
+.body-muscle-facts { display: grid; gap: 16px; margin: 0; padding: 18px 0; border-top: 1px solid var(--line); }
+.body-muscle-facts dt { font-size: .77rem; font-weight: 700; margin-bottom: 5px; }
+.body-muscle-facts dd { margin: 0; font-size: .9rem; }
+.body-routine-roles { display: grid; gap: 14px; padding: 17px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); }
+.body-routine-roles h4 { font-size: .9rem; }
+.body-role-label { display: inline-block; font-size: .76rem; font-weight: 650; margin-bottom: 6px; }
+.body-routine-roles p, .body-routine-roles > small { color: var(--muted); font-size: .8rem; line-height: 1.5; }
+.body-exercise-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.body-exercise-links button { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 7px 10px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 8px; font-size: .8rem; }
+.body-exercise-links button:hover { border-color: var(--purple-dark); color: var(--purple-dark); }
+.body-practice-cue { display: flex; gap: 11px; align-items: flex-start; padding-top: 20px; }
+.body-practice-cue > svg { color: var(--green-dark); flex-shrink: 0; margin-top: 2px; }
+.body-practice-cue strong { font-size: .85rem; }
+.body-practice-cue p { color: var(--muted); line-height: 1.55; font-size: .87rem; margin: 7px 0; }
+.body-routine-note { font-size: .8rem; color: var(--muted); line-height: 1.6; padding-top: 12px; border-top: 1px solid var(--line); }
+.body-sources { padding-top: 20px; border-top: 1px solid var(--line); font-size: .78rem; color: var(--muted); }
+.body-sources p { margin: 8px 0 10px; line-height: 1.5; max-width: 70ch; }
+.body-sources > div { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.body-sources a { display: inline-flex; align-items: center; gap: 6px; color: var(--purple-dark); text-underline-offset: 3px; min-height: 32px; }
+@media (max-width: 700px) {
+  .body-guide { gap: 34px; }
+  .body-muscle summary { padding: 15px; gap: 10px; }
+  .body-muscle-content { padding: 0 15px 18px; }
+  .body-region-filter { gap: 7px; }
+  .body-region-filter button { font-size: .8rem; padding-inline: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .body-guide *, .body-guide *::before { transition: none; } }
+
+.body-muscle-parts { display: grid; gap: 7px; margin: 0; padding-left: 20px; }
+.body-muscle-parts li { overflow-wrap: anywhere; }
+.body-open-model { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 16px; margin: 4px 0 18px; border: 1px solid var(--purple-line); border-radius: 12px; background: var(--purple-soft); color: var(--purple-dark); text-align: left; font-weight: 650; }
+.body-open-model span { flex: 1; min-width: 0; line-height: 1.5; }
+.body-open-model:hover { border-color: var(--purple-dark); }
+.body-fiche-sources { padding-top: 15px; margin-top: 18px; border-top: 1px solid var(--line); }
+.body-fiche-sources h4 { font-size: .77rem; margin-bottom: 7px; }
+.body-fiche-sources a { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; min-height: 36px; color: var(--purple-dark); text-underline-offset: 3px; }
+.modal-wide:has(.body-muscle-explorer) { width: 900px; max-width: calc(100vw - 28px); }
+.body-muscle-explorer { display: grid; gap: 18px; min-width: 0; }
+.body-explorer-intro { display: grid; gap: 8px; }
+.body-explorer-intro p, .body-model-selection, .body-model-limit { color: var(--muted); font-size: .85rem; line-height: 1.65; }
+.body-model-selection { padding: 12px 14px; border-radius: 10px; background: var(--purple-soft); }
+.body-model-selection strong { color: var(--purple-dark); }
+.body-muscle-explorer .anatomy-toolbar > .anatomy-icon-button { display: none; }
+.body-muscle-explorer .anatomy-layer-row { flex-wrap: wrap; }
+.body-muscle-explorer .anatomy-layers { flex: 1; }
+.body-muscle-explorer .anatomy-layers button { flex: 1; }
+.body-muscle-explorer .anatomy-stage { height: clamp(340px, 55dvh, 500px); }
+.body-muscle-explorer .anatomy-camera { flex-wrap: wrap; justify-content: center; max-width: 100%; }
+.body-muscle-explorer .anatomy-controls { flex-wrap: wrap; }
+.body-muscle-explorer .anatomy-legend { flex-wrap: wrap; }
+.body-explorer-facts { padding: 18px 0 0; }
+.body-explorer-movements { display: grid; gap: 10px; }
+.body-model-limit { padding-top: 14px; margin: 0; border-top: 1px solid var(--line); }
+.body-model-loading { display: grid; place-items: center; min-height: 340px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface-soft); color: var(--muted); text-align: center; padding: 24px; }
+@media (max-width: 486px) {
+  .body-muscle-thumbnail { flex-basis: 76px; width: 76px; height: 88px; }
+  .body-muscle-heading > strong { font-size: .95rem; }
+  .body-muscle-heading > span { font-size: .82rem; }
+  .body-open-model { padding: 12px; gap: 9px; font-size: .82rem; }
+  .body-muscle-explorer { gap: 14px; }
+  .body-muscle-explorer .anatomy-stage { height: 360px; }
+  .body-muscle-explorer .anatomy-camera button { padding-inline: 10px; }
+  .body-muscle-explorer .anatomy-provenance p { overflow-wrap: anywhere; }
+}
+@media (max-width: 359px) {
+  .body-muscle summary { padding: 13px 12px; gap: 10px; }
+  .body-muscle-explorer .anatomy-stage { height: 340px; }
+  .body-muscle-explorer .anatomy-controls { gap: 9px; }
+}

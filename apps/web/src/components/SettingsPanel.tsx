@@ -24,7 +24,7 @@ export default function SettingsPanel({ section, onSectionChange, privacySetting
   const [visited, setVisited] = useState<SettingsSection[]>([section])
   const sections: { id: SettingsSection; label: string; icon: IconName }[] = [
     ...(instanceMode ? [{ id: 'account' as const, label: 'Cuenta y planificación', icon: 'body' as const }] : []),
-    { id: 'appearance', label: 'Apariencia', icon: 'settings' },
+    { id: 'appearance', label: 'Apariencia', icon: 'sliders' },
     { id: 'privacy', label: 'Privacidad', icon: 'info' },
     { id: 'data', label: 'Datos', icon: 'download' },
     { id: 'setup', label: 'Configuración inicial', icon: 'spark' },

@@ -8,6 +8,7 @@ import { isPrivacyPath } from './lib/privacy-route'
 import { useAppStore } from './lib/store'
 import { initialAccountAccess, readAccountAccessNavigation } from './lib/account-route'
 import { instanceMode } from './lib/deployment'
+import { scrollPageToTop } from './lib/modal-scroll'
 import './privacy.css'
 
 const AccountAccessPage = import.meta.env.VITE_APP_MODE === 'instance' ? lazy(() => import('./components/AccountAccessPage')) : () => null
@@ -59,7 +60,7 @@ export default function AppRoot() {
     analytics.setPrivacyPage(value)
     setPrivacy(value)
     if (!value) setVisitedApp(true)
-    window.scrollTo({ top: 0, behavior: 'instant' })
+    scrollPageToTop()
   }
   const openPrivacy = (event: MouseEvent<HTMLAnchorElement>) => navigate(event, true)
   const banner = <PrivacyControls variant="banner" onOpenPrivacy={openPrivacy} />

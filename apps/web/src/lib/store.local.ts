@@ -1,11 +1,11 @@
 import { create } from 'zustand'
-import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, preserveOptionalPersonalSettings, type PersonalData, type ProgressData } from '@klisteniapp/scene-schema'
+import { AnatomicalModelVariantSchema, CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, preserveOptionalPersonalSettings, type PersonalData, type ProgressData } from '@klisteniapp/scene-schema'
 import type { AppStore } from './store.ts'
 import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences } from './store.persistence.ts'
 import { parseProgress, serializeProgress } from './progress.ts'
 import { saveDisplayPreferences } from '../i18n/preferences.ts'
 
-export { STORAGE_KEY, LOCAL_PERSONAL_KEY } from './store.persistence.ts'
+export { STORAGE_KEY, LOCAL_PERSONAL_KEY, selectAnatomicalModel } from './store.persistence.ts'
 export type { Preferences } from './store.persistence.ts'
 
 // This entry point has no transport dependency. Vite selects it for the demo.
@@ -41,7 +41,7 @@ export const useAppStore = create<AppStore>((set, get) => {
       const encoded = JSON.stringify(parsed)
       localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
       if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
-      set({ localPersonalData: parsed, localRevision: expectedRevision + 1, localDataAvailable: localSummary() })
+      set({ localPersonalData: parsed, localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: parsed.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
       return null
     } catch { return 'No pudimos guardar tus datos personales en este navegador. El formulario conserva tus cambios.' }
   }
@@ -78,6 +78,13 @@ export const useAppStore = create<AppStore>((set, get) => {
       return savePersonal(snapshot({ ...data, settings: { ...data.settings, health: parsed.data } }), expectedRevision)
     },
     updatePreferences: async patch => {
+      if (patch.anatomicalModel !== undefined) {
+        if (!AnatomicalModelVariantSchema.safeParse(patch.anatomicalModel).success) return 'Elegí un modelo corporal válido.'
+        const data = get().localPersonalData
+        if (!data) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+        const error = savePersonal(snapshot({ ...data, settings: { ...data.settings, anatomicalModel: patch.anatomicalModel } }), get().localRevision)
+        if (error) return error
+      }
       const preferences = { ...get().preferences, ...patch }
       try {
         localStorage.setItem(PREF_KEY, JSON.stringify(preferences))
@@ -108,6 +115,8 @@ export const useAppStore = create<AppStore>((set, get) => {
         // An older backup has no palette field and cannot clear an existing choice.
         const previousColorTheme = get().localPersonalData?.settings.profile.colorTheme
         if (data.settings.profile.colorTheme === undefined && previousColorTheme !== undefined) data.settings.profile.colorTheme = previousColorTheme
+        const previousModel = get().localPersonalData?.settings.anatomicalModel
+        if (data.settings.anatomicalModel === undefined && previousModel !== undefined) data.settings.anatomicalModel = previousModel
         const failure = savePersonal(data, get().localRevision)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }

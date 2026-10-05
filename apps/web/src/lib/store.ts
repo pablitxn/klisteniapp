@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, preserveOptionalPersonalSettings, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
+import { AnatomicalModelVariantSchema, CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, preserveOptionalPersonalSettings, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
 import { AccountApiError, accountApi, cloudWriteAllowed, type AccountAccess, type AccountUser } from './account-api.ts'
 import { emptyProgress, parseProgress, serializeProgress } from './progress.ts'
 import type {
@@ -8,7 +8,7 @@ import type {
   WorkoutLog,
 } from '@klisteniapp/scene-schema'
 
-export { STORAGE_KEY, LOCAL_PERSONAL_KEY } from './store.persistence.ts'
+export { STORAGE_KEY, LOCAL_PERSONAL_KEY, selectAnatomicalModel } from './store.persistence.ts'
 export type { Preferences } from './store.persistence.ts'
 import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, defaults, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences, type Preferences } from './store.persistence.ts'
 import { loadDisplayPreferences, saveDisplayPreferences } from '../i18n/preferences.ts'
@@ -217,7 +217,7 @@ export const useAppStore = create<AppStore>((set, get) => {
       const encoded = JSON.stringify(PersonalDataSchema.parse(data))
       localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
       if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
-      set({ localPersonalData: data, localRevision: expectedRevision + 1, localDataAvailable: localSummary() })
+      set({ localPersonalData: data, localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: data.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
       return null
     } catch { return 'No pudimos guardar tus datos personales en este navegador. El formulario conserva tus cambios.' }
   }
@@ -406,6 +406,8 @@ export const useAppStore = create<AppStore>((set, get) => {
       })
     },
     updatePreferences: async (patch) => {
+      const changesModel = patch.anatomicalModel !== undefined
+      if (changesModel && !AnatomicalModelVariantSchema.safeParse(patch.anatomicalModel).success) return 'Elegí un modelo corporal válido.'
       const changesAppearance = patch.language !== undefined || patch.theme !== undefined || patch.colorTheme !== undefined
       const changesDisplay = changesAppearance || patch.reducedMotion !== undefined
       if (changesDisplay) {
@@ -416,15 +418,21 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (get().authStatus === 'loading') return changesDisplay ? 'Guardamos la apariencia en este dispositivo. Esperá a que cargue tu cuenta para sincronizarla.' : 'Esperá mientras verificamos tu sesión.'
       if (get().user) {
         if (patch.weeklyGoal !== undefined) return 'Elegí los días de entrenamiento en tu cuenta para cambiar el objetivo semanal.'
-        if (!changesAppearance && patch.exerciseIds === undefined && patch.sets === undefined) return null
+        if (!changesAppearance && !changesModel && patch.exerciseIds === undefined && patch.sets === undefined) return null
         const data = get().personalData
         if (!data) return 'Tu cuenta todavía no terminó de cargar.'
-        const settings = { ...data.settings, profile: { ...data.settings.profile,
+        const settings = { ...data.settings, ...(changesModel ? { anatomicalModel: patch.anatomicalModel } : {}), profile: { ...data.settings.profile,
           ...(patch.language === undefined ? {} : { language: patch.language }), ...(patch.theme === undefined ? {} : { theme: patch.theme }),
           ...(patch.colorTheme === undefined ? {} : { colorTheme: patch.colorTheme }),
         }, routines: data.settings.routines.map((routine) => routine.id === data.settings.activeRoutineId
           ? { ...routine, ...(patch.sets === undefined ? {} : { sets: patch.sets }), ...(patch.exerciseIds === undefined ? {} : { exerciseIds: patch.exerciseIds as typeof routine.exerciseIds }) } : routine) }
         return get().saveSettings(settings)
+      }
+      if (changesModel) {
+        const data = get().localPersonalData
+        if (!data) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+        const error = saveLocalPersonal(localPersonalSnapshot({ ...data, settings: { ...data.settings, anatomicalModel: patch.anatomicalModel } }), get().localRevision)
+        if (error) return error
       }
       const preferences = { ...get().preferences, ...patch }
       set({ preferences })
@@ -458,6 +466,8 @@ export const useAppStore = create<AppStore>((set, get) => {
         // An older backup has no palette field and cannot clear an existing choice.
         const previousColorTheme = get().localPersonalData?.settings.profile.colorTheme
         if (data.settings.profile.colorTheme === undefined && previousColorTheme !== undefined) data.settings.profile.colorTheme = previousColorTheme
+        const previousModel = get().localPersonalData?.settings.anatomicalModel
+        if (data.settings.anatomicalModel === undefined && previousModel !== undefined) data.settings.anatomicalModel = previousModel
         const failure = saveLocalPersonal(data, get().localRevision)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }

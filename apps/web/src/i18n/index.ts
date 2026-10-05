@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import enCore from './locales/en/core.json'
+import enBody from './locales/en/body.json'
 import enCoreInstance from './locales/en/core-instance.json'
 import enAccount from './locales/en/account.json'
 import enHealth from './locales/en/health.json'
@@ -9,6 +10,7 @@ import enSettings from './locales/en/settings.json'
 import enForms from './locales/en/forms.json'
 import enFormsInstance from './locales/en/forms-instance.json'
 import frCore from './locales/fr/core.json'
+import frBody from './locales/fr/body.json'
 import frCoreInstance from './locales/fr/core-instance.json'
 import frAccount from './locales/fr/account.json'
 import frHealth from './locales/fr/health.json'
@@ -25,19 +27,20 @@ void i18n.use(initReactI18next).init({
   lng: loadDisplayPreferences().language,
   fallbackLng: 'es',
   supportedLngs: ['es', 'en', 'fr'],
-  ns: ['core', 'account', 'health', 'settings', 'forms'],
+  ns: ['core', 'account', 'health', 'settings', 'forms', 'body'],
   defaultNS: 'core',
   keySeparator: false,
   nsSeparator: false,
   returnNull: false,
   interpolation: { escapeValue: false },
   resources: {
-    es: { core: {}, account: {}, health: {}, settings: {}, forms: {} },
+    es: { core: {}, account: {}, health: {}, settings: {}, forms: {}, body: {} },
     en: {
       core: { ...enCore, ...(import.meta.env.VITE_APP_MODE === 'instance' ? enCoreInstance : {}) },
       account: import.meta.env.VITE_APP_MODE === 'instance' ? enAccount : {},
       health: { ...enHealth, ...(import.meta.env.VITE_APP_MODE === 'instance' ? enHealthInstance : {}) },
       settings: enSettings,
+      body: enBody,
       forms: { ...enForms, ...(import.meta.env.VITE_APP_MODE === 'instance' ? enFormsInstance : {}) },
     },
     fr: {
@@ -45,6 +48,7 @@ void i18n.use(initReactI18next).init({
       account: import.meta.env.VITE_APP_MODE === 'instance' ? frAccount : {},
       health: { ...frHealth, ...(import.meta.env.VITE_APP_MODE === 'instance' ? frHealthInstance : {}) },
       settings: frSettings,
+      body: frBody,
       forms: { ...frForms, ...(import.meta.env.VITE_APP_MODE === 'instance' ? frFormsInstance : {}) },
     },
   },

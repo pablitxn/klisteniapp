@@ -6,7 +6,8 @@ export type IconName =
   | 'book'
   | 'body'
   | 'chart'
-  | 'settings'
+  | 'sliders'
+  | 'edit'
   | 'arrow'
   | 'play'
   | 'plus'
@@ -32,8 +33,8 @@ const paths: Record<IconName, string> = {
   book: 'M12 5v16 M12 5C8 2 4 3 2 4v15c3-1 6-1 10 2 4-3 7-3 10-2V4c-2-1-6-2-10 1Z',
   body: 'M9 5a3 3 0 1 0 6 0a3 3 0 1 0-6 0 M4 10l8 2 8-2 M12 12v5m0 0-5 5m5-5 5 5',
   chart: 'M4 3v18h17 M8 16v-4 M13 16V8 M18 16V5',
-  settings:
-    'M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8 M10 2h4l1 3 3 1 3 3-2 3 1 3-3 3-3-1-2 3-3-2-3-1-1-4-3-2 1-4 3-1Z',
+  sliders: 'M4 7h3m4 0h9M4 17h9m4 0h3 M11 7a2 2 0 1 0-4 0a2 2 0 1 0 4 0 M17 17a2 2 0 1 0-4 0a2 2 0 1 0 4 0',
+  edit: 'm15 4 5 5M4 20l5-1L20 8a2.1 2.1 0 0 0-4-4L5 15l-1 5Z',
   arrow: 'M4 12h16m-6-6 6 6-6 6',
   play: 'm9 5 11 7-11 7Z',
   plus: 'M12 5v14M5 12h14',

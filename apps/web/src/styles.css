@@ -184,7 +184,7 @@ select {
   width: 218px;
   position: fixed;
   inset: 0 auto 0 0;
-  background: var(--green-soft);
+  background: var(--surface-soft);
   border-right: 1px solid var(--line);
   padding: 38px 18px 24px;
   display: flex;
@@ -364,14 +364,6 @@ select {
   align-items: center;
   gap: 22px;
 }
-.beginner-badge {
-  font-size: 10px;
-  display: flex;
-  gap: 7px;
-  align-items: center;
-  color: var(--muted);
-}
-.beginner-badge > span,
 .exercise-difficulty > span {
   height: 5px;
   width: 5px;
@@ -379,14 +371,37 @@ select {
   background: var(--surface-soft);
 }
 .profile-button {
+  display: grid;
+  place-items: center;
   border: 1px solid var(--line);
-  border-radius: 50%;
-  height: 34px;
-  width: 34px;
+  border-radius: 14px;
+  height: 44px;
+  width: 44px;
   font-family: Manrope, sans-serif;
-  background: var(--green);
-  color: var(--muted);
+  background: var(--surface);
+  color: var(--ink);
   font-size: 12px;
+}
+.profile-button > span {
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .035em;
+}
+.routine-start {
+  grid-column: 1 / -1;
+  width: 100%;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 6px;
+  min-height: 46px;
+}
+.routine-selection {
+  display: grid;
+  align-self: start;
+  min-width: 0;
+  gap: 8px;
 }
 .mobile-brand {
   display: none;
@@ -449,7 +464,7 @@ main {
   color: var(--muted);
 }
 .secondary-button:hover {
-  background: var(--green-soft);
+  background: var(--surface-soft);
 }
 .text-button {
   display: inline-flex;
@@ -606,6 +621,7 @@ main {
 }
 .exercise-row {
   border: 1px solid transparent;
+  background: var(--surface);
   display: flex;
   align-items: center;
   gap: 13px;
@@ -655,18 +671,18 @@ main {
   height: 100%;
   align-items: center;
   justify-content: center;
-  color: #9daaa6;
-  background: radial-gradient(ellipse at center, #2e4440, #172526 75%);
+  color: var(--muted);
+  background: var(--surface-soft);
 }
 .exercise-preview-fallback svg {
   padding: 8px;
   width: 36px;
   height: 36px;
-  border: 1px solid #748a814d;
+  border: 1px solid var(--line);
   border-radius: 50%;
 }
 .selected .exercise-preview {
-  box-shadow: 0 0 0 2px #b8a9d3;
+  box-shadow: 0 0 0 2px var(--purple-line);
 }
 .exercise-row-copy {
   min-width: 0;
@@ -762,7 +778,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--green-soft);
+  background: var(--surface-soft);
   border-radius: 13px;
   color: var(--muted);
   font-size: 12px;
@@ -904,7 +920,7 @@ main {
   justify-content: center;
   align-items: center;
   border: 1px solid var(--line);
-  background: var(--green-soft);
+  background: var(--surface-soft);
   border-radius: 50%;
   width: 21px;
   height: 21px;
@@ -1022,11 +1038,11 @@ main {
   border: 1px solid var(--line);
   padding: 22px;
   border-radius: 14px;
-  background: var(--purple-soft);
+  background: var(--surface);
 }
-.cardio-card {
-  background: var(--green-soft);
-  border-color: var(--line);
+.bottom-cards .stat-icon {
+  background: var(--purple-soft);
+  color: var(--purple-dark);
 }
 .bottom-cards h3 {
   font-size: 13px;
@@ -1041,9 +1057,6 @@ main {
 .bottom-cards .text-button {
   font-size: 10px;
   margin-top: 8px;
-}
-.cardio-card .text-button {
-  color: var(--muted);
 }
 .page-footer {
   display: flex;
@@ -1199,137 +1212,25 @@ main {
   color: var(--purple-dark);
   margin-top: 23px;
 }
-.anatomy-intro {
-  max-width: 610px;
-  margin: 10px 0 27px;
-}
-.anatomy-intro p {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 12px;
-}
-.pattern-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-.pattern-grid button {
-  position: relative;
-  border: 1px solid var(--line);
-  padding: 23px;
-  border-radius: 13px;
-  text-align: left;
-  background: var(--surface);
-}
-.pattern-grid .exercise-thumb {
-  float: right;
-  width: 82px;
-  height: 82px;
-  margin-left: 12px;
-}
-.pattern-grid small {
-  font-size: 9px;
-  letter-spacing: 1px;
-  color: var(--purple-dark);
-}
-.pattern-grid h3 {
-  font-size: 15px;
-  margin: 10px 0;
-}
-.pattern-grid p {
-  font-size: 10px;
-  color: var(--muted);
-  min-height: 34px;
-}
-.pattern-grid button > svg {
-  margin-top: 15px;
-  color: var(--muted);
-}
-.pull-gap {
-  background: var(--peach-soft);
-  border: 1px solid var(--peach-line);
-  border-radius: 14px;
-  padding: 25px;
-  display: flex;
-  gap: 15px;
-  margin: 26px 0 36px;
-  color: var(--peach-dark);
-}
-.pull-gap h3 {
-  font-size: 15px;
-  margin-bottom: 10px;
-  color: var(--peach-dark);
-}
-.pull-gap p {
-  font-size: 12px;
-}
-.pull-gap .text-button {
-  color: var(--peach-dark);
-  margin-top: 8px;
-}
 .muted {
   font-size: 10px;
   color: var(--muted);
 }
-.muscle-atlas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.muscle-atlas details {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 17px;
-}
-.muscle-atlas summary {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 12px;
-  list-style: none;
-}
-.muscle-atlas summary > span:nth-child(2) {
-  flex: 1;
-}
-.muscle-atlas summary small {
-  display: block;
-  color: var(--muted);
-  font-size: 9px;
-  margin-top: 4px;
-}
-.muscle-atlas-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--peach);
-  border-radius: 50%;
-}
-.muscle-atlas details p {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 14px;
-}
-.muscle-atlas details > small {
-  display: block;
-  margin-top: 12px;
-  font-size: 10px;
-  color: var(--purple-dark);
-  line-height: 1.65;
-}
 .modal {
+  overscroll-behavior: contain;
+  overflow-y: auto;
   border: 1px solid var(--line);
-  box-shadow: 0 25px 100px #1b221c2b;
+  box-shadow: 0 25px 100px #0003;
   border-radius: 22px;
   padding: 0;
   width: 480px;
   max-width: calc(100vw - 28px);
   max-height: calc(100dvh - 40px);
   color: var(--ink);
-  background: var(--green-soft);
+  background: var(--surface);
 }
 .modal::backdrop {
-  background: #2d382752;
+  background: rgb(0 0 0 / 0.42);
   backdrop-filter: blur(4px);
 }
 .modal-inner {
@@ -1383,7 +1284,7 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background: var(--green-soft);
+  background: var(--surface-soft);
   border: 1px solid transparent;
   border-radius: 10px;
   padding: 15px 8px;
@@ -1602,7 +1503,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--green-soft);
+  background: var(--surface-soft);
   border-radius: 50%;
   font-size: 12px;
 }
@@ -1670,7 +1571,7 @@ main {
   text-align: center;
   border: 1px dashed var(--line);
   border-radius: 17px;
-  background: var(--green-soft);
+  background: var(--surface);
   min-height: 300px;
   padding: 30px;
 }
@@ -1680,8 +1581,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--green);
-  color: var(--muted-soft);
+  background: var(--purple-soft);
+  color: var(--purple-dark);
   border-radius: 50%;
   margin-bottom: 23px;
 }
@@ -1992,12 +1893,6 @@ main {
   .library-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .pattern-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .muscle-atlas {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .progress-top {
     grid-template-columns: 1fr;
   }
@@ -2053,13 +1948,6 @@ main {
   }
   .topbar-right {
     gap: 14px;
-  }
-  .beginner-badge {
-    font-size: 9px;
-  }
-  .profile-button {
-    height: 30px;
-    width: 30px;
   }
   .mobile-nav {
     display: flex;
@@ -2209,7 +2097,7 @@ main {
     min-height: 74px;
     padding: 8px;
     gap: 8px;
-    background: var(--green-soft);
+    background: var(--surface);
     border-color: var(--line);
     border-radius: 10px;
   }
@@ -2414,52 +2302,8 @@ main {
   .search-input input {
     font-size: 11px;
   }
-  .pattern-grid {
-    gap: 10px;
-  }
-  .pattern-grid button {
-    padding: 17px 14px;
-  }
-  .pattern-grid .exercise-thumb {
-    float: none;
-    margin: 0 0 14px;
-  }
-  .pattern-grid h3 {
-    font-size: 14px;
-  }
-  .pattern-grid small {
-    font-size: 8px;
-  }
-  .pattern-grid p {
-    font-size: 9px;
-  }
-  .pull-gap {
-    padding: 18px;
-    gap: 12px;
-  }
-  .pull-gap h3 {
-    font-size: 14px;
-  }
-  .pull-gap p {
-    font-size: 11px;
-  }
-  .pull-gap .text-button {
-    font-size: 10px;
-  }
-  .muscle-atlas {
-    grid-template-columns: 1fr;
-  }
-  .muscle-atlas summary {
-    min-height: 35px;
-  }
   .muted {
     font-size: 8px;
-  }
-  .anatomy-intro h2 {
-    font-size: 21px;
-  }
-  .anatomy-intro p {
-    font-size: 11px;
   }
   .week-card {
     padding: 20px 14px;
@@ -2676,7 +2520,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 0 14px;
-  background: var(--green-soft);
+  background: var(--surface);
   color: var(--muted);
 }
 .warmup-note summary {
@@ -2753,10 +2597,7 @@ main {
 .fine-print,
 .form-intro,
 .history-copy p,
-.library-card-content p,
-.anatomy-intro p,
-.pattern-grid p,
-.muscle-atlas details p {
+.library-card-content p {
   color: var(--muted);
 }
 .eyebrow,
@@ -2766,7 +2607,6 @@ main {
 .page-footer,
 .local-badge,
 .library-card-content > small,
-.muscle-atlas summary small,
 .activity-history time {
   color: var(--muted);
 }

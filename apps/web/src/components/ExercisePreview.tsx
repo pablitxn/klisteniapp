@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { useAppStore } from '../lib/store'
+import { selectAnatomicalModel, useAppStore } from '../lib/store'
+import { exercisePreviewUrls } from '../lib/exercise-preview-assets'
 import Icon from './Icon'
 
 interface ExercisePreviewProps {
@@ -13,6 +14,8 @@ export default function ExercisePreview({
   active = false,
 }: ExercisePreviewProps) {
   const root = useRef<HTMLSpanElement>(null)
+  const modelVariant = useAppStore(selectAnatomicalModel)
+  const assets = exercisePreviewUrls(id, modelVariant)
   const reducedMotion = useAppStore((s) => s.preferences.reducedMotion)
   const [systemReducedMotion, setSystemReducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -23,8 +26,17 @@ export default function ExercisePreview({
   const [visible, setVisible] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
-  const [posterFailed, setPosterFailed] = useState(false)
-  const [animationFailed, setAnimationFailed] = useState(false)
+  // Failure belongs to a resource, so switching representation can load again.
+  // An old in-flight error cannot hide the newly selected model's preview.
+  const [failedPoster, setFailedPoster] = useState<string | null>(null)
+  const [failedAnimation, setFailedAnimation] = useState<string | null>(null)
+  const posterFailed = failedPoster === assets.poster
+  const animationFailed = failedAnimation === assets.animation
+
+  useEffect(() => {
+    setFailedPoster(null)
+    setFailedAnimation(null)
+  }, [id, modelVariant])
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -79,6 +91,7 @@ export default function ExercisePreview({
       ref={root}
       className="exercise-preview"
       data-exercise={id}
+      data-model-variant={modelVariant}
       data-state={playing ? 'playing' : 'still'}
       aria-hidden="true"
     >
@@ -89,26 +102,28 @@ export default function ExercisePreview({
       ) : (
         <img
           className="exercise-preview-poster"
-          src={`/previews/${id}-poster.webp`}
+          key={assets.poster}
+          src={assets.poster}
           width={256}
           height={256}
           alt=""
           loading="lazy"
           decoding="async"
           draggable={false}
-          onError={() => setPosterFailed(true)}
+          onError={() => setFailedPoster(assets.poster)}
         />
       )}
       {playing && (
         <img
           className="exercise-preview-motion"
-          src={`/previews/${id}.webp`}
+          key={assets.animation}
+          src={assets.animation}
           width={256}
           height={256}
           alt=""
           decoding="async"
           draggable={false}
-          onError={() => setAnimationFailed(true)}
+          onError={() => setFailedAnimation(assets.animation)}
         />
       )}
     </span>

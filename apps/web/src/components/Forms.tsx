@@ -1,11 +1,12 @@
 import { instanceMode } from '../lib/deployment'
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LanguagePreference, ThemePreference } from '../i18n/preferences'
 import type { Preferences } from '../lib/store'
 import {
   CardioLogSchema,
   dateInTimeZone,
+  type AnatomicalModelVariant,
   type CardioActivity,
   type CompletedExercise,
   type PersonalRoutine,
@@ -13,7 +14,7 @@ import {
 } from '@klisteniapp/scene-schema'
 import { exercises, getExercise } from '../data/exercises'
 import { localDateKey } from '../lib/progress'
-import { useAppStore } from '../lib/store'
+import { selectAnatomicalModel, useAppStore } from '../lib/store'
 import { cloudWriteAllowed } from '../lib/cloud-access'
 import Icon, { type IconName } from './Icon'
 import ColorThemePicker from './ColorThemePicker'
@@ -131,6 +132,8 @@ export function CardioForm({ onDone }: { onDone: () => void }) {
 }
 export function PreferencesForm({ section = 'appearance' }: { section?: 'appearance' | 'data' }) {
   const { t } = useTranslation('settings')
+  const anatomicalModel = useAppStore(selectAnatomicalModel)
+  const modelDescriptionId = useId()
   const preferences = useAppStore((s) => s.preferences),
     update = useAppStore((s) => s.updatePreferences),
     importProgress = useAppStore((s) => s.importProgress)
@@ -179,6 +182,18 @@ export function PreferencesForm({ section = 'appearance' }: { section?: 'appeara
           </div>
           <p className="fine-print">{t('Según el sistema sigue la apariencia de tu dispositivo.')}</p>
           <ColorThemePicker value={preferences.colorTheme} disabled={busy} onChange={colorTheme => void savePreferences({ colorTheme })} />
+        </div>
+        <label>
+          {t('Modelo corporal')}
+          <select value={anatomicalModel} disabled={busy || dataLoading} aria-describedby={modelDescriptionId} onChange={e => void savePreferences({ anatomicalModel: e.target.value as AnatomicalModelVariant })}>
+            <option value="female">{t('Mujer')}</option>
+            <option value="male">{t('Hombre')}</option>
+          </select>
+        </label>
+        <div id={modelDescriptionId} className="fine-print">
+          <p>{t('Se aplica a los ejemplos, las animaciones, los GIFs, las vistas previas y el atlas. No cambia tus ejercicios ni tus datos de salud.')}</p>
+          <p>{t(user ? 'Se guarda en tu cuenta y se sincroniza entre dispositivos.' : 'Se guarda en este navegador y se incluye en tus copias exportadas.')}</p>
+          {anatomicalModel === 'female' && <p>{t('Variante corporal ilustrativa; no es un atlas específico de anatomía femenina.')}</p>}
         </div>
         {!user && <label>
           {t('Objetivo semanal de fuerza')}

@@ -2,6 +2,8 @@
 
 Los posters WebP, las animaciones WebP y los GIF de este directorio son renderizados de la adaptación anatómica de Klisteni, basada en **BodyParts3D**, The Database Center for Life Science, y **Z-Anatomy**, Gauthier Kervyn y colaboradores. Los modelos FBX de origen fueron distribuidos por **Lluís Vinent Juanico** en su aplicación Z-Anatomy.
 
+Este aviso cubre también los medios de `female/`: son capturas de la adaptación paramétrica ilustrativa descrita en el aviso del modelo, no de una fuente independiente de anatomía femenina. El manifiesto identifica cada variante por separado. Los medios de regiones musculares de `body/` y `female/body/` conservan asimismo estos créditos y sus avisos específicos.
+
 Estas imágenes derivadas se distribuyen bajo **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**. La licencia del código de Klisteni no reemplaza la licencia de las imágenes anatómicas.
 
 - [Créditos completos, fuentes fijadas y adaptaciones del modelo](../models/NOTICE.md).
@@ -15,4 +17,4 @@ Klisteni añade a las mallas adaptadas poses y deformaciones educativas, cámara
 
 Las imágenes no constituyen una simulación biomecánica validada ni una evaluación clínica. No se implica aprobación de Klisteni por los autores originales.
 
-Aviso actualizado el 3 de octubre de 2026.
+Aviso actualizado el 5 de octubre de 2026.

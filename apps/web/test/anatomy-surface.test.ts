@@ -10,7 +10,7 @@ import {
 } from '../src/lib/anatomy-rig.ts'
 import { prepareAnatomy } from '../src/lib/anatomy-model.ts'
 
-test('the actual atlas head surfaces clear the mat and supported head/hands stay at calibrated contact through full cycles', async (context) => {
+for (const modelVariant of ['male', 'female'] as const) test(`${modelVariant}: the actual atlas head surfaces clear the mat and supported head/hands stay at calibrated contact through full cycles`, async (context) => {
   const buffer = readFileSync(
     new URL('../public/models/anatomy.glb', import.meta.url),
   )
@@ -54,7 +54,7 @@ test('the actual atlas head surfaces clear the mat and supported head/hands stay
     headNames.size > 50,
     'audit every actual head skin territory, not a proxy radius',
   )
-  const anatomy = prepareAnatomy(asset.scene, landmarks)
+  const anatomy = prepareAnatomy(asset.scene, landmarks, modelVariant)
   try {
     const skin = anatomy.batches.find((batch) => batch.tissue === 'skin')!
     const index = skin.mesh.geometry.index!
@@ -150,6 +150,10 @@ test('the actual atlas head surfaces clear the mat and supported head/hands stay
           }
         }
         const headHeight = minimum(head)
+        if (['pushup', 'full-pushup', 'knee-narrow-pushup', 'narrow-pushup',
+          'pike-pushup', 'prone-w', 'prone-t-raise', 'prone-y-raise',
+          'mountain-climber', 'bird-dog', 'prone-hip-extension'].includes(exercise))
+          assert.ok(minimum(torso) >= -0.0019, `${exercise} phase ${phase}: actual torso penetrates the mat`)
         if (exercise === 'prone-hip-extension')
           recordSupport(exercise + ' chest', minimum(torso))
         headMinimum = Math.min(headMinimum, headHeight)

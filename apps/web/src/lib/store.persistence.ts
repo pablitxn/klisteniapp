@@ -1,4 +1,4 @@
-import { PersonalDataSchema, createDefaultPersonalData, dateInTimeZone, type PersonalData, type PersonalSettings } from '@klisteniapp/scene-schema'
+import { PersonalDataSchema, createDefaultPersonalData, dateInTimeZone, type AnatomicalModelVariant, type PersonalData, type PersonalSettings } from '@klisteniapp/scene-schema'
 import { exercises, starterRoutine } from '../data/exercises.ts'
 import { emptyProgress, parseProgress } from './progress.ts'
 import { displayDefaults, loadDisplayPreferences, type ColorTheme, type LanguagePreference, type ThemePreference } from '../i18n/preferences.ts'
@@ -15,6 +15,7 @@ export function loadLocalPersonal(): PersonalData | null {
   return createDefaultPersonalData('Mi práctica', Intl.DateTimeFormat().resolvedOptions().timeZone)
 }
 export interface Preferences {
+  anatomicalModel: AnatomicalModelVariant
   weeklyGoal: number
   sets: number
   exerciseIds: string[]
@@ -24,6 +25,7 @@ export interface Preferences {
   colorTheme: ColorTheme
 }
 export const defaults: Preferences = {
+  anatomicalModel: 'male',
   weeklyGoal: 2,
   sets: 2,
   exerciseIds: [...starterRoutine.exerciseIds],
@@ -48,9 +50,10 @@ export function initial() {
   }
 }
 export function loadPreferences(): Preferences {
+  const anatomicalModel = loadLocalPersonal()?.settings.anatomicalModel ?? 'male'
   try {
     const raw: unknown = JSON.parse(localStorage.getItem(PREF_KEY) ?? 'null')
-    if (!raw || typeof raw !== 'object') return { ...defaults, ...loadDisplayPreferences() }
+    if (!raw || typeof raw !== 'object') return { ...defaults, ...loadDisplayPreferences(), anatomicalModel }
     const data = raw as Partial<Preferences>
     const ids = Array.isArray(data.exerciseIds)
       ? [
@@ -62,6 +65,7 @@ export function loadPreferences(): Preferences {
         ]
       : defaults.exerciseIds
     return {
+      anatomicalModel,
       weeklyGoal: [2, 3, 4].includes(data.weeklyGoal ?? 0)
         ? data.weeklyGoal!
         : 2,
@@ -70,7 +74,7 @@ export function loadPreferences(): Preferences {
       ...loadDisplayPreferences(),
     }
   } catch {
-    return { ...defaults, ...loadDisplayPreferences() }
+    return { ...defaults, ...loadDisplayPreferences(), anatomicalModel }
   }
 }
 export { DISPLAY_KEY } from '../i18n/preferences.ts'
@@ -85,7 +89,19 @@ export function accountPreferences(settings: PersonalSettings): Preferences {
   const today = dateInTimeZone(new Date(), settings.profile.timeZone)
   const plan = [...settings.plans].filter((item) => item.effectiveFrom <= today).sort((a, b) => b.effectiveFrom.localeCompare(a.effectiveFrom))[0]
   const display = loadDisplayPreferences()
-  return { exerciseIds: routine.exerciseIds, sets: routine.sets, weeklyGoal: plan?.weekdays.length ?? 2, ...display,
+  return { anatomicalModel: settings.anatomicalModel ?? 'male', exerciseIds: routine.exerciseIds, sets: routine.sets, weeklyGoal: plan?.weekdays.length ?? 2, ...display,
     language: settings.profile.language ?? display.language, theme: settings.profile.theme ?? display.theme,
     colorTheme: settings.profile.colorTheme ?? display.colorTheme }
+}
+
+/** Always derive the model from its owner, never another account's browser appearance. */
+export function selectAnatomicalModel(state: {
+  user: unknown | null
+  authStatus: 'loading' | 'anonymous' | 'authenticated'
+  personalData: PersonalData | null
+  localPersonalData: PersonalData | null
+}): AnatomicalModelVariant {
+  if (state.user) return state.personalData?.settings.anatomicalModel ?? 'male'
+  if (state.authStatus === 'loading') return 'male'
+  return state.localPersonalData?.settings.anatomicalModel ?? 'male'
 }

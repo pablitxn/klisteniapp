@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
 import Icon from './Icon'
+import { lockModalScroll } from '../lib/modal-scroll'
 export default function Modal({
   title,
   children,
@@ -21,13 +22,14 @@ export default function Modal({
   const headingId = useId()
   useEffect(() => {
     const dialog = ref.current
-    if (!suspended) {
-      if (!opener.current && document.activeElement instanceof HTMLElement) opener.current = document.activeElement
-      dialog?.showModal()
-    }
+    if (suspended || !dialog) return
+    if (!opener.current && document.activeElement instanceof HTMLElement) opener.current = document.activeElement
+    const unlockScroll = lockModalScroll()
+    dialog.showModal()
     return () => {
-      dialog?.close()
-      if (opener.current?.isConnected) opener.current.focus()
+      dialog.close()
+      unlockScroll()
+      if (opener.current?.isConnected) opener.current.focus({ preventScroll: true })
     }
   }, [suspended])
   return (

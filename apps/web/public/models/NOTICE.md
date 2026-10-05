@@ -29,6 +29,16 @@ El [archivo oficial de BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodypa
 
 ## Adaptación y alcance
 
+### Variantes corporales de visualización
+
+La opción **Hombre** mantiene la geometría de referencia descrita abajo. La opción **Mujer** es una adaptación paramétrica ilustrativa de esa misma fuente: modifica suavemente las proporciones de hombros, cintura y pelvis en piel, músculos, huesos y referencias articulares, y añade un contorno externo de pecho únicamente a la piel. La estatura normalizada se mantiene. No añade órganos ni datos anatómicos femeninos independientes y no constituye un atlas femenino clínicamente validado. Los parámetros son decisiones gráficas, no mediciones de una población ni de la persona usuaria.
+
+La adaptación se calcula en `apps/web/src/lib/anatomy-variants.ts`; el GLB y el archivo Blender de origen se conservan sin cambios. Los apoyos se recalculan a partir de la superficie adaptada. Los GIFs, WebP y miniaturas de ambas variantes son capturas del mismo renderer; sus manifiestos registran la variante, fuentes y hashes. Estas adaptaciones y sus capturas conservan la atribución y la licencia CC BY-SA 4.0 de los datos anatómicos. Elegir una variante es una preferencia visual y no cambia la prescripción de ejercicio ni los datos de salud.
+
+### Geometría base
+
+La variante Mujer sustituye además los detalles genitales masculinos de la piel por dos superficies pélvicas neutras, trianguladas a partir de los bordes externos originales. `anatomy-variant-surface.ts` conserva esos bordes y documenta la modificación; las superficies se etiquetan como ilustrativas y no representan órganos femeninos. La descripción de conservación de coordenadas y caras siguientes corresponde a la geometría base.
+
 Klisteni adapta estas fuentes para una visualización educativa en la web. El archivo [anatomy.glb](./anatomy.glb) está acompañado de un [manifiesto de procedencia y optimización](./anatomy-manifest.json) con los SHA-256 de las descargas, coordenadas, recuentos y cambios. La adaptación comprende:
 
 - Selección de estructuras; retirada de marcadores, geometría auxiliar, fascias, bursas, vainas y huesecillos auditivos.

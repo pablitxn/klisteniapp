@@ -28,7 +28,7 @@ test('demo artifacts contain no account transports, payments, analytics tracker 
 test('demo ignores account routes and analytics configuration; home and privacy make no private requests', async ({ page }) => {
   const requests = await localOnly(page)
   await page.goto('/?account=login&billing=return')
-  await expect(page.getByRole('heading', { name: 'Tu cuerpo. Tu primer gimnasio.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Hacé lugar al movimiento.' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Iniciar sesión' })).toHaveCount(0)
   await expect(page.getByTestId('analytics-consent-banner')).toHaveCount(0)
   await expect(page.getByTestId('privacy-preferences')).toHaveCount(0)
@@ -38,7 +38,7 @@ test('demo ignores account routes and analytics configuration; home and privacy 
   await expect(page).toHaveURL(/\/privacy$/)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tu práctica, bajo tu control.')
   await page.goto('/account/join#token=ignored-in-public-demo')
-  await expect(page.getByRole('heading', { name: 'Tu cuerpo. Tu primer gimnasio.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Hacé lugar al movimiento.' })).toBeVisible()
   await health(page, 'Resumen')
   await expect(page.getByRole('button', { name: 'Guardar entre dispositivos con una cuenta' })).toHaveCount(0)
   await page.evaluate(() => { window.dispatchEvent(new Event('focus')); window.dispatchEvent(new Event('online')); document.dispatchEvent(new Event('visibilitychange')) })

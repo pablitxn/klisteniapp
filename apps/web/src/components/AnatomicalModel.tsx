@@ -4,8 +4,10 @@ import { useGLTF } from '@react-three/drei'
 import { FileLoader } from 'three'
 import { applyAnatomyPose, parseAnatomyLandmarks } from '../lib/anatomy-rig'
 import { prepareAnatomy, structureAtFace } from '../lib/anatomy-model'
+import type { AnatomicalModelVariant } from '@klisteniapp/scene-schema'
 
 export interface AnatomicalModelProps {
+  modelVariant?: AnatomicalModelVariant
   exerciseId: string
   phaseRef: { current: number }
   primaryMuscles: string[]
@@ -26,8 +28,8 @@ export default function AnatomicalModel(props: AnatomicalModelProps) {
     (loader) => loader.setResponseType('json'),
   )
   const anatomy = useMemo(
-    () => prepareAnatomy(gltf.scene, parseAnatomyLandmarks(rawLandmarks)),
-    [gltf.scene, rawLandmarks],
+    () => prepareAnatomy(gltf.scene, parseAnatomyLandmarks(rawLandmarks), props.modelVariant),
+    [gltf.scene, rawLandmarks, props.modelVariant],
   )
   useEffect(() => {
     props.onReady?.()

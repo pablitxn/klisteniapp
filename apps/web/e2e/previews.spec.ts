@@ -170,8 +170,13 @@ test('every catalog preview loads without creating miniature WebGL scenes', asyn
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(1441)
   await navigate(page, 'Mi cuerpo')
-  await expect(page.locator('.pattern-grid .exercise-preview')).toHaveCount(6)
-  await expect(page.locator('.pattern-grid canvas')).toHaveCount(0)
+  const bodyThumbnails = page.locator('.body-muscle summary img')
+  await expect(bodyThumbnails).toHaveCount(12)
+  for (const thumbnail of await bodyThumbnails.all()) {
+    await thumbnail.scrollIntoViewIfNeeded()
+    await expectLoaded(thumbnail)
+  }
+  await expect(page.locator('.body-guide canvas')).toHaveCount(0)
 })
 
 test('expanded library combines name search and movement filters, then opens a new exercise', async ({

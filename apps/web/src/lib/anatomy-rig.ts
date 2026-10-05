@@ -41,6 +41,10 @@ export interface AnatomyLandmarks {
     shoulderHeight: number
     headNeckHeight: number
     pelvisHeight: number
+    /** Pelvis height that supports the actual anterior trunk in the prone pose. */
+    pronePelvisHeight?: number
+    /** Convex Y/Z silhouette of actual torso skin, used to limit floor contact. */
+    torsoProfile?: Vec3[]
     handHeight?: Record<Side, number>
   }
 }
@@ -380,6 +384,21 @@ export function retargetExercisePose(
       }
       angle = high
     }
+    const clearsTorso = (bodyAngle: number) => {
+      const at = pelvisAt(bodyAngle)
+      return (landmarks.support?.torsoProfile ?? []).every(p =>
+        at[1] + (p[1] - landmarks.pelvis[1]) * Math.cos(bodyAngle)
+          - (p[2] - landmarks.pelvis[2]) * Math.sin(bodyAngle) >= 0.002)
+    }
+    if (!clearsTorso(angle)) {
+      let low = 0, high = angle
+      for (let iteration = 0; iteration < 24; iteration++) {
+        const middle = (low + high) / 2
+        if (clearsTorso(middle)) low = middle
+        else high = middle
+      }
+      angle = low
+    }
     pelvis = pelvisAt(angle)
   }
   const rowKnee = (side: Side): Vec3 => {
@@ -444,9 +463,11 @@ export function retargetExercisePose(
     angle = Math.PI / 2 - 0.06
   }
   if (exerciseId === 'prone-hip-extension') {
-    // In this quiet prone variant the anterior trunk rests on the mat. The
-    // raised-arm variants deliberately retain their existing chest clearance.
-    pelvis[1] -= 0.01638
+    // Recalibrate against the selected body's anterior surface, including its
+    // chest contour; both hands and the supporting foot retain separate anchors.
+    pelvis[1] = landmarks.support?.pronePelvisHeight ?? pelvis[1] - 0.01638
+  } else if (isProneRaise(exerciseId) && landmarks.support?.pronePelvisHeight !== undefined) {
+    pelvis[1] = Math.max(pelvis[1], landmarks.support.pronePelvisHeight + 0.01638)
   }
   const standingAnkle = (side: Side): Vec3 => {
     const source = landmarks[side]
