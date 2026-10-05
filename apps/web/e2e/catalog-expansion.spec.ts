@@ -2,6 +2,9 @@ import { expect, test } from '@playwright/test'
 import { exercises } from '../src/data/exercises'
 
 test.use({ reducedMotion: 'reduce' })
+// This suite validates catalogue and saved routine data. Actual model loading
+// and every exercise pose remain covered by anatomy.spec.ts.
+test.beforeEach(async ({ page }) => { await page.route('**/models/*.glb', route => route.abort()) })
 
 test('the expanded gallery combines level, equipment and bilingual search and can reset an empty result', async ({ page }) => {
   await page.goto('/')
@@ -12,7 +15,7 @@ test('the expanded gallery combines level, equipment and bilingual search and ca
   await expect(status).toHaveText('37 de 37 ejercicios')
   await expect.poll(() => page.locator('.library-card .exercise-preview-poster').first()
     .evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
-  await page.screenshot({ path: '/private/tmp/klisteni-catalog-desktop.png' })
+  await page.screenshot({ path: test.info().outputPath('catalog-desktop.png') })
   await page.getByRole('combobox', { name: 'Equipo', exact: true }).selectOption('bar-or-rings')
   await expect(page.locator('.library-card')).toHaveCount(2)
   await expect(page.locator('.exercise-preview[data-exercise="bent-knee-row"]')).toBeVisible()
@@ -50,7 +53,7 @@ test('new catalog controls and the last new card fit a narrow screen', async ({ 
   expect((await page.locator('.library-card').boundingBox())!.width).toBeGreaterThan(260)
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
   await expect(page.locator('.exercise-preview-motion')).toHaveCount(0)
-  await page.screenshot({ path: '/private/tmp/klisteni-catalog-mobile.png', fullPage: true })
+  await page.screenshot({ path: test.info().outputPath('catalog-mobile.png'), fullPage: true })
 })
 
 test('an equipped exercise can be added deliberately and survives a local routine reload', async ({ page }) => {

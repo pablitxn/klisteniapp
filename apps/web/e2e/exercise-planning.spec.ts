@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test'
 
+// Educational text and routine choices remain usable through the real 3D fallback.
+// Rendering and all demonstration controls are checked in anatomy.spec.ts.
+test.beforeEach(async ({ page }) => { await page.route('**/models/*.glb', route => route.abort()) })
+
 test('planning information distinguishes related progressions and opens them without editing the routine', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')

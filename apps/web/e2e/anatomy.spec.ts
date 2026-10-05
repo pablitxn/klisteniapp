@@ -2,7 +2,9 @@ import { expect, test } from '@playwright/test'
 import { exercises } from '../src/data/exercises'
 
 // Headless software WebGL compiles three tissue materials and renders the full atlas.
-test.setTimeout(process.env.CI ? 180_000 : 90_000)
+test.setTimeout(process.env.CI ? 300_000 : 90_000)
+test.use({ reducedMotion: 'reduce' })
+const atlasReadyTimeout = process.env.CI ? 120_000 : 30_000
 
 test('registered atlas loads, layers switch, and enlarged view is keyboard accessible', async ({
   page,
@@ -23,7 +25,8 @@ test('registered atlas loads, layers switch, and enlarged view is keyboard acces
   const viewer = page.getByRole('region', {
     name: 'Demostración 3D del ejercicio',
   })
-  await expect(viewer.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
+  await expect(viewer.locator('canvas')).toBeVisible()
+  await expect(viewer.locator('.viewer-play')).toBeEnabled({ timeout: atlasReadyTimeout })
   await viewer.getByRole('button', { name: 'Anatomía', exact: true }).click()
   await expect(viewer).toContainText('Posición anatómica')
   for (const name of ['Piel', 'Huesos', 'Músculos']) {
@@ -53,9 +56,9 @@ test('registered atlas loads, layers switch, and enlarged view is keyboard acces
   await dialog
     .getByRole('button', { name: 'Quitar selección anatómica' })
     .click()
-  await page.screenshot({ path: '/private/tmp/klisteni-anatomy-muscles.png' })
+  await page.screenshot({ path: test.info().outputPath('anatomy-muscles.png') })
   await dialog.getByRole('button', { name: 'Piel', exact: true }).click()
-  await page.screenshot({ path: '/private/tmp/klisteni-anatomy-skin.png' })
+  await page.screenshot({ path: test.info().outputPath('anatomy-skin.png') })
   await dialog.getByRole('button', { name: 'Espalda', exact: true }).click()
   await expect(
     dialog.getByRole('button', { name: 'Espalda', exact: true }),
@@ -85,7 +88,7 @@ test('mobile atlas fits narrow screens and every catalog demonstration remains c
   }, routine.map(({ id }) => id))
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
-  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: atlasReadyTimeout })
   await expect(page.locator('.exercise-row')).toHaveCount(routine.length)
   for (const exercise of routine) {
     await page.locator('.exercise-row').filter({

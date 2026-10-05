@@ -1,5 +1,8 @@
 import { defineConfig } from '@playwright/test'
 
+// Browser validation owns its demo artifact, independently of operator builds.
+const output = process.env.KLISTENI_DEMO_BUILD_OUTPUT ??= `/tmp/klisteniapp-demo-build-${process.pid}`
+
 export default defineConfig({
   testDir: './e2e',
   testIgnore: ['analytics.spec.ts', 'accounts.spec.ts', 'subscriptions.spec.ts', 'account-access.spec.ts', 'forgot-password.spec.ts', 'health.spec.ts', 'ui-annotations-account.spec.ts', 'model-variant-account.spec.ts'],
@@ -30,7 +33,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'pnpm build && pnpm preview --host 127.0.0.1 --port 4174 --strictPort',
+    command: `pnpm exec vite build --outDir ${output} --emptyOutDir && pnpm exec vite preview --outDir ${output} --host 127.0.0.1 --port 4174 --strictPort`,
     env: { VITE_APP_MODE: 'demo', VITE_UMAMI_SCRIPT_URL: '', VITE_UMAMI_HOST_URL: '', VITE_UMAMI_WEBSITE_ID: '', VITE_UMAMI_ALLOWED_HOSTNAME: '' },
     timeout: 120_000,
     url: 'http://127.0.0.1:4174',

@@ -3,6 +3,17 @@ import { exercises } from '../src/data/exercises'
 import { openSettings } from './settings-helpers'
 
 const progressKey = 'klisteniapp.progress.v1'
+const rendererCases = new Set([
+  'desktop starts with honest empty progress and an educational exercise viewer',
+  'mobile navigation and routine have no horizontal overflow',
+])
+
+test.use({ reducedMotion: 'reduce' })
+test.beforeEach(async ({ page }, testInfo) => {
+  // Keep desktop/mobile renderer acceptance below. Data, navigation and routine
+  // mutations use the real fallback instead of compiling the atlas on every visit.
+  if (!rendererCases.has(testInfo.title)) await page.route('**/models/*.glb', route => route.abort())
+})
 
 async function openPage(page: Page) {
   await page.goto('/')
@@ -26,6 +37,7 @@ async function expectNoHorizontalOverflow(page: Page) {
 }
 
 test('desktop starts with honest empty progress and an educational exercise viewer', async ({ page }) => {
+  if (process.env.CI) test.setTimeout(240_000)
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   await openPage(page)
@@ -41,9 +53,10 @@ test('desktop starts with honest empty progress and an educational exercise view
   await expect(page.getByRole('tabpanel')).toContainText('Menor profundidad')
   await expectNoHorizontalOverflow(page)
   await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 })
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: process.env.CI ? 120_000 : 30_000 })
   expect(errors).toEqual([])
   await page.evaluate(() => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); window.scrollTo(0, 0) })
-  await page.screenshot({ path: '/private/tmp/klisteni-desktop.png', fullPage: true })
+  await page.screenshot({ path: test.info().outputPath('desktop.png'), fullPage: true })
   await navigate(page, 'Mi progreso')
   await expect(page.locator('.stats-bar')).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Tu primer paso todavía está por escribir.' })).toBeVisible()
@@ -71,14 +84,15 @@ test('library searches muscles without accents and the atlas opens an equipped e
 })
 
 test('mobile navigation and routine have no horizontal overflow', async ({ page }) => {
+  if (process.env.CI) test.setTimeout(240_000)
   await page.setViewportSize({ width: 390, height: 844 })
   await openPage(page)
   await expect(page.getByRole('navigation', { name: 'Navegación móvil' })).toBeVisible()
   await expectNoHorizontalOverflow(page)
   await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 })
-  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 30_000 })
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: process.env.CI ? 120_000 : 30_000 })
   await page.evaluate(() => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); window.scrollTo(0, 0) })
-  await page.screenshot({ path: '/private/tmp/klisteni-mobile.png', fullPage: true })
+  await page.screenshot({ path: test.info().outputPath('mobile.png'), fullPage: true })
   for (const name of ['Ejercicios', 'Mi cuerpo', 'Mi progreso', 'Mi rutina']) {
     await navigate(page, name, true)
     await expectNoHorizontalOverflow(page)

@@ -1,11 +1,11 @@
 import { defineConfig } from '@playwright/test'
 
 process.env.KLISTENI_ANALYTICS_E2E = '1'
-const output = '/tmp/klisteniapp-analytics-e2e'
+const output = process.env.KLISTENI_ANALYTICS_BUILD_OUTPUT ??= `/tmp/klisteniapp-analytics-build-${process.pid}`
 export default defineConfig({
   testDir: './e2e', testMatch: 'analytics.spec.ts', workers: 2,
   fullyParallel: true, forbidOnly: !!process.env.CI, retries: process.env.CI ? 1 : 0,
-  timeout: 30_000, reporter: 'list', outputDir: process.env.CI ? './analytics-test-results' : '/tmp/klisteniapp-analytics-results',
+  timeout: 30_000, reporter: 'list', outputDir: process.env.CI ? './analytics-test-results' : `/tmp/klisteniapp-analytics-results-${process.pid}`,
   use: { baseURL: 'http://127.0.0.1:4175', viewport: { width: 1440, height: 1000 }, trace: 'retain-on-failure', screenshot: 'only-on-failure', launchOptions: { args: ['--disable-webgl'] } },
   webServer: {
     command: `pnpm exec vite build --outDir ${output} --emptyOutDir && pnpm exec vite preview --outDir ${output} --host 127.0.0.1 --port 4175 --strictPort`,

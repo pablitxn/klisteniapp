@@ -3,6 +3,12 @@ import { openSettings } from './settings-helpers'
 import { exercises } from '../src/data/exercises'
 
 test.use({ reducedMotion: 'no-preference' })
+const rendererCase = 'expanded library combines name search and movement filters, then opens a new exercise'
+test.beforeEach(async ({ page }, testInfo) => {
+  // Raster preview behavior must not depend on compiling the separate full atlas.
+  // Retain the gallery-to-live-viewer integration below and the anatomy suite.
+  if (testInfo.title !== rendererCase) await page.route('**/models/*.glb', route => route.abort())
+})
 
 const exerciseIds = exercises.map(({ id }) => id)
 
@@ -38,25 +44,18 @@ async function navigate(page: Page, name: string, mobile = false) {
 }
 
 async function expectAtlasReady(page: Page) {
-  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: 45_000 })
+  await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: process.env.CI ? 120_000 : 30_000 })
 }
 
-async function openWithAtlasPaused(page: Page) {
-  // CI SwiftShader needs ~79s to load and pause the full atlas before card checks.
-  if (process.env.CI) test.setTimeout(180_000)
+async function openPreviewPage(page: Page) {
   await page.goto('/')
-  // Card motion stays enabled; pause the separate full atlas through its UI.
-  await expectAtlasReady(page)
-  await page.getByRole('button', { name: 'Pausar demostración', exact: true }).click()
-  await expect(
-    page.getByRole('button', { name: 'Reproducir demostración', exact: true }),
-  ).toBeVisible()
+  await expect(page.locator('.workbench-title')).toContainText('Sentadilla')
 }
 
 test('selected exercise, pointer and keyboard show loaded motion previews', async ({
   page,
 }) => {
-  await openWithAtlasPaused(page)
+  await openPreviewPage(page)
   const squat = preview(page, 'squat')
   await squat.scrollIntoViewIfNeeded()
   await expectLoaded(squat.locator('.exercise-preview-poster'))
@@ -110,7 +109,6 @@ for (const preference of ['system', 'saved setting'] as const) {
         animationRequests.push(pathname)
     })
     await page.goto('/')
-    await expectAtlasReady(page)
     const selected = preview(page, 'squat')
     await selected.scrollIntoViewIfNeeded()
     await expectLoaded(selected.locator('.exercise-preview-poster'))
@@ -131,7 +129,7 @@ for (const preference of ['system', 'saved setting'] as const) {
 test('the app motion setting stops an already playing preview and persists', async ({
   page,
 }) => {
-  await openWithAtlasPaused(page)
+  await openPreviewPage(page)
   const selected = preview(page, 'squat')
   await selected.scrollIntoViewIfNeeded()
   await expectLoaded(selected.locator('.exercise-preview-motion'))
@@ -142,7 +140,6 @@ test('the app motion setting stops an already playing preview and persists', asy
   await expect(page.locator('.exercise-preview-motion')).toHaveCount(0)
   await expectLoaded(selected.locator('.exercise-preview-poster'))
   await page.reload()
-  await expectAtlasReady(page)
   await selected.scrollIntoViewIfNeeded()
   await expectLoaded(selected.locator('.exercise-preview-poster'))
   await expect(page.locator('.exercise-preview-motion')).toHaveCount(0)
@@ -182,6 +179,7 @@ test('every catalog preview loads without creating miniature WebGL scenes', asyn
 test('expanded library combines name search and movement filters, then opens a new exercise', async ({
   page,
 }) => {
+  if (process.env.CI) test.setTimeout(240_000)
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await navigate(page, 'Ejercicios')
@@ -220,7 +218,7 @@ test('failed preview files retain a usable exercise card and a visible fallback'
   const animationFailure = page.waitForEvent('requestfailed', (request) =>
     request.url().endsWith('/previews/squat.webp'),
   )
-  await openWithAtlasPaused(page)
+  await openPreviewPage(page)
   const squat = preview(page, 'squat')
   await squat.scrollIntoViewIfNeeded()
   await expectLoaded(squat.locator('.exercise-preview-poster'))
@@ -244,15 +242,16 @@ test('previews fit mobile routine, library and body cards without page overflow'
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
-  await expectAtlasReady(page)
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 })
     for (const name of ['Mi rutina', 'Ejercicios', 'Mi cuerpo']) {
       await navigate(page, name, true)
-      if (name === 'Mi rutina') await expectAtlasReady(page)
-      const firstPreview = page.locator('.exercise-preview').first()
-      await firstPreview.scrollIntoViewIfNeeded()
-      await expectLoaded(firstPreview.locator('.exercise-preview-poster'))
+      const firstImage = name === 'Mi cuerpo'
+        ? page.locator('.body-muscle-thumbnail img').first()
+        : page.locator('.exercise-preview-poster').first()
+      await firstImage.scrollIntoViewIfNeeded()
+      await expectLoaded(firstImage)
+      if (name === 'Mi cuerpo') await expect(page.locator('.body-muscle-thumbnail img')).toHaveCount(12)
       if (name === 'Ejercicios') {
         await expect(page.locator('.library-card')).toHaveCount(exercises.length)
         const lastPreview = page.locator('.exercise-preview').last()
