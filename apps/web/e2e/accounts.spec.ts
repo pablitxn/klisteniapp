@@ -41,7 +41,7 @@ async function readState(page: Page): Promise<ServerState> {
   })
 }
 async function saveCardio(page: Page, minutes: number) {
-  await page.getByRole('button', { name: 'Registrar actividad', exact: true }).click()
+  await page.getByRole('button', { name: /^(?:Registrar|Agregar) actividad$/ }).click()
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('Duración (minutos)').fill(String(minutes))
   await dialog.getByRole('button', { name: 'Guardar actividad' }).click()

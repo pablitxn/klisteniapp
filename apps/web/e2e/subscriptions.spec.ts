@@ -173,7 +173,7 @@ test('expired cloud access preserves history and export; free local activity sti
   await expect(page.locator('.activity-history')).not.toContainText('26 min')
   const cloudWrites: string[] = []
   page.on('request', request => { if (request.method() !== 'GET' && request.url().includes('/api/me/')) cloudWrites.push(request.url()) })
-  await page.getByRole('button', { name: 'Registrar actividad', exact: true }).click()
+  await page.getByRole('button', { name: 'Agregar actividad', exact: true }).click()
   const activity = page.getByRole('dialog')
   await activity.getByLabel('Duración (minutos)').fill('13')
   await activity.getByRole('button', { name: 'Guardar actividad', exact: true }).click()
