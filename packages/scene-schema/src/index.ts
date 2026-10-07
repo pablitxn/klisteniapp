@@ -1,4 +1,8 @@
 import { z } from 'zod';
+import { LocalDateSchema, TimeZoneSchema } from './calendar.ts';
+import { YogaDataSchema } from './yoga.ts';
+export * from './calendar.ts';
+export * from './yoga.ts';
 import { createExercisePlanningSchema } from './exercise-planning.ts';
 import { HealthDataSchema, createEmptyHealthData } from './health.ts';
 export * from './exercise-planning.ts';
@@ -65,12 +69,6 @@ export const ExerciseSchema = z.object({
 });
 export type Exercise = z.infer<typeof ExerciseSchema>;
 
-/** Calendar dates are saved as entered locally; never convert them through UTC. */
-export const LocalDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((value) => {
-  const parsed = new Date(`${value}T12:00:00Z`);
-  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
-}, 'Fecha de calendario inválida');
-
 export const CompletedExerciseSchema = z.object({
   exerciseId: ExerciseIdSchema,
   sets: z.number().int().min(1).max(30),
@@ -78,17 +76,6 @@ export const CompletedExerciseSchema = z.object({
   reps: z.number().int().min(1).max(1000),
 });
 export type CompletedExercise = z.infer<typeof CompletedExerciseSchema>;
-
-/** Accept supported IANA names (including UTC), never a device-derived numeric offset. */
-export const TimeZoneSchema = z.string().min(1).max(100).refine((value) => {
-  if (!/^[A-Za-z][A-Za-z0-9._+-]*(?:\/[A-Za-z0-9._+-]+)*$/.test(value)) return false;
-  try {
-    new Intl.DateTimeFormat('en', { timeZone: value });
-    return true;
-  } catch {
-    return false;
-  }
-}, 'Zona horaria inválida');
 
 export const PersonalRoutineSchema = z.object({
   id: z.string().min(1).max(200),
@@ -162,6 +149,8 @@ export const PersonalSettingsSchema = z.object({
   anatomicalModel: AnatomicalModelVariantSchema.optional(),
   /** Absent in legacy backups; omission must never clear existing health data. */
   health: HealthDataSchema.optional(),
+  /** Optional so older devices and backups cannot erase yoga history. */
+  yoga: YogaDataSchema.optional(),
   profile: z.object({
     displayName: z.string().trim().min(1).max(100),
     timeZone: TimeZoneSchema,
@@ -201,6 +190,7 @@ export function preserveOptionalPersonalSettings(current: PersonalSettings, next
     ...next,
     ...(next.anatomicalModel === undefined && current.anatomicalModel !== undefined ? { anatomicalModel: current.anatomicalModel } : {}),
     ...(next.health === undefined && current.health !== undefined ? { health: current.health } : {}),
+    ...(next.yoga === undefined && current.yoga !== undefined ? { yoga: current.yoga } : {}),
     profile: {
       ...next.profile,
       ...(next.profile.language === undefined && current.profile.language !== undefined ? { language: current.profile.language } : {}),

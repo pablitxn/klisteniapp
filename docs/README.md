@@ -8,6 +8,8 @@ guides are written in Spanish, matching the application.
 | --- | --- |
 | Run the complete local demo or configure a separate instance | [Demo and instance modes](public-demo.md) |
 | Understand the educational approach and exercise sources | [Exercise criteria and references](exercise-sources.md) |
+| Explore yoga asanas, cultural context and source criteria | [Yoga library and references](yoga-sources.md) |
+| Build and record yoga practices, or extend the feature | [Yoga practices](yoga.md) |
 | Extend an exercise's planning metadata | [Exercise planning](exercise-planning.md) |
 | Inspect the anatomy's origin, preparation and limits | [Anatomy sources](anatomy-model-sources.md) |
 | Understand packages, movement and persistence | [Architecture](architecture.md) |

@@ -1,0 +1,56 @@
+.yoga-anatomy-viewer { border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden; min-width: 0; background: var(--surface); text-align: left; }
+.yoga-viewer-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 15px; font-size: 9px; color: var(--muted); }
+.yoga-viewer-heading > span:first-child { font-weight: 650; letter-spacing: .1em; color: var(--green-dark); }
+.yoga-viewer-heading > span:last-child { text-align: right; }
+.yoga-viewer-stage { position: relative; width: 100%; height: 300px; background: #172526; overflow: hidden; }
+.yoga-viewer-stage > .yoga-asana-art { height: 100%; }
+.yoga-viewer-canvas { position: absolute; inset: 0; opacity: 0; }
+.yoga-viewer-stage.is-ready .yoga-viewer-canvas { opacity: 1; }
+.yoga-viewer-stage.is-ready > .yoga-asana-preview { visibility: hidden; }
+.yoga-viewer-canvas canvas { touch-action: none; }
+.yoga-viewer-activate { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; min-height: 41px; padding: 11px 17px; border: 1px solid #8fb0a5; border-radius: 9px; color: #eff9f4; background: #243f39ed; font-size: 11px; font-weight: 600; box-shadow: 0 4px 18px #0002; }
+.yoga-viewer-activate:hover { background: #37584f; }
+.yoga-viewer-loading { position: absolute; bottom: 16px; left: 12px; right: 12px; width: fit-content; max-width: calc(100% - 24px); margin: auto; padding: 8px 13px; border-radius: 8px; color: #eff9f4; background: #172526e6; font-size: 11px; text-align: center; }
+.yoga-viewer-fallback { padding: 13px 15px; background: var(--green-soft); border-top: 1px solid var(--line); }
+.yoga-viewer-fallback p { font-size: 11px; color: var(--muted); line-height: 1.6; }
+.yoga-viewer-sides { display: flex; justify-content: center; gap: 8px; padding: 0 12px 12px; }
+.yoga-viewer-sides button { flex: 1; border: 1px solid var(--line); border-radius: 7px; padding: 8px; font-size: 10px; color: var(--muted); }
+.yoga-viewer-sides button[aria-pressed=true] { color: var(--green-dark); border-color: var(--green-strong); background: var(--green-soft); }
+.yoga-viewer-controls { display: grid; gap: 12px; padding: 13px 14px; border-top: 1px solid var(--line); }
+.yoga-viewer-views { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.yoga-viewer-views button { border: 1px solid var(--line); border-radius: 6px; padding: 8px; min-height: 33px; font-size: 10px; color: var(--muted); }
+.yoga-viewer-views button[aria-pressed=true] { color: var(--green-dark); background: var(--green-soft); border-color: var(--green-strong); }
+.yoga-viewer-views button.yoga-viewer-reset { display: inline-flex; align-items: center; justify-content: center; margin-left: auto; padding: 7px; }
+.yoga-viewer-controls > label { display: flex; align-items: center; gap: 10px; justify-content: space-between; color: var(--muted); font-size: 10px; }
+.yoga-viewer-controls select { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; font-size: 11px; padding: 7px 24px 7px 9px; min-width: 0; }
+.yoga-viewer-controls > p, p.yoga-viewer-caption { font-size: 10px; color: var(--muted); line-height: 1.65; }
+.yoga-viewer-caption { padding: 12px 15px; border-top: 1px solid var(--line); }
+.yoga-viewer-compact .yoga-viewer-stage { height: 250px; }
+.yoga-detail-model { min-width: 0; }
+@media (max-width: 480px) {
+  .yoga-viewer-stage, .yoga-viewer-compact .yoga-viewer-stage { height: 250px; }
+  .yoga-viewer-heading { padding: 12px; font-size: 8px; gap: 8px; }
+  .yoga-viewer-controls { padding: 12px; }
+  .yoga-viewer-views button { padding: 7px 6px; font-size: 9px; }
+  .yoga-viewer-controls > label { font-size: 9px; }
+  .yoga-viewer-controls select { max-width: 120px; }
+}
+.yoga-motion-controls { display: grid; gap: 10px; padding: 13px 14px; border-top: 1px solid var(--line); background: var(--green-soft); }
+.yoga-motion-transport { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+.yoga-motion-transport button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 35px; padding: 8px 11px; border: 1px solid var(--line-strong); border-radius: 7px; color: var(--green-dark); background: var(--surface); font-size: 10px; font-weight: 600; }
+.yoga-motion-transport button.yoga-motion-play { min-width: 102px; }
+.yoga-motion-symbol { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; font-weight: 800; font-size: 16px; }
+.yoga-motion-transport > label { display: flex; align-items: center; gap: 7px; margin-left: auto; font-size: 10px; color: var(--muted); }
+.yoga-motion-transport select { min-width: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); padding: 8px 22px 8px 8px; font-size: 11px; }
+.yoga-motion-phase { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.yoga-motion-phase > span:first-child { color: var(--green-dark); font-weight: 600; }
+.yoga-motion-seek { display: block; width: 100%; min-width: 0; height: 20px; margin: 0; padding: 0; accent-color: var(--green-dark); cursor: pointer; }
+.yoga-motion-controls > p { font-size: 10px; line-height: 1.6; color: var(--muted); }
+@media (max-width: 480px) {
+  .yoga-motion-controls { padding: 12px; }
+  .yoga-motion-transport { gap: 5px; }
+  .yoga-motion-transport > label { font-size: 9px; gap: 4px; }
+  .yoga-motion-transport button { padding: 8px; }
+  .yoga-motion-transport button.yoga-motion-play { min-width: 95px; }
+  .yoga-motion-transport select { padding-right: 18px; }
+}

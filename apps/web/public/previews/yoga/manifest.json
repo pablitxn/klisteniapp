@@ -1,0 +1,4703 @@
+{
+  "version": 2,
+  "sources": {
+    "scripts/generate-yoga-previews.mjs": "bef0b899a0aea24d42a90d7e59312f265dec87729349f3286dacc689fc10fcaf",
+    "apps/web/yoga-preview-capture.html": "4e59189df970eb6c42e25c3dda7f5392b873cf513d7560c93b668e7de4d96f59",
+    "apps/web/src/yoga-preview-capture.tsx": "3a3f9e685eac812edcf357fca52bd0f0670cff970040813fc352ec8681bf4a5d",
+    "apps/web/src/components/YogaStage.tsx": "0b240744eba294351e68cb1aed61fdfec7ed4b21be5df60f94cb79f845026cf9",
+    "apps/web/src/lib/yoga-rig.ts": "719b9933fe102ba062f4a32f308749e8436c0730bcc9773b88abc3596ce10dde",
+    "apps/web/src/lib/yoga-motion.ts": "117f36c55e4eda9754fe443984102e238aec5ec53617e86c7a2e1748c0fd56b6",
+    "apps/web/src/lib/yoga-rendering.ts": "97f707a49d1a09c8da82d85673cfbd6564fdec89e3a7cabcedfc8a14d2fc2961",
+    "apps/web/src/lib/yoga-preview-assets.ts": "a0cf4db499f568fbdfd52164ae63b3dc7d000b300e4a84be406ce88b997dc555",
+    "apps/web/src/data/yoga.ts": "24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a",
+    "apps/web/src/components/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
+    "apps/web/src/lib/anatomy-model.ts": "a20c3da133693c827451288d1144a2c0f221111dc8fbdd6aab97997c56673b84",
+    "apps/web/src/lib/anatomy-rig.ts": "2ebfb5746614b2ab9e748e873f09198624fd769519d1dd586a90f7fc446d225e",
+    "apps/web/src/lib/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+    "apps/web/src/lib/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+    "apps/web/src/lib/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
+    "apps/web/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+    "apps/web/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
+    "apps/web/public/models/anatomy-manifest.json": "f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778",
+    "apps/web/public/previews/yoga/NOTICE.md": "1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677",
+    "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
+    "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
+    "packages/scene-schema/src/yoga.ts": "9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e",
+    "pnpm-lock.yaml": "13bf340d8bcf0e210b2bf481ba5703555a1f2367c359db9fdfc74888dc2da4f5"
+  },
+  "poses": {
+    "male/tadasana-both.webp": {
+      "asanaId": "tadasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:07.757Z",
+      "bounds": {
+        "min": [
+          -0.43629945924810365,
+          0.007734892424196017,
+          -0.13695775380604713
+        ],
+        "max": [
+          0.436299425896634,
+          1.7960550785064697,
+          0.2715728902227831
+        ]
+      },
+      "camera": {
+        "position": [
+          2.277025785890394,
+          2.0946227868094955,
+          5.488797574318199
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.490477724832778,
+        "right": 1.490477724832778,
+        "top": 1.1178582936245836,
+        "bottom": -1.1178582936245836
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/tadasana-both.webp",
+        "bytes": 9272,
+        "sha256": "d280aa3d001f21089efe405856cc883088b7fb6d4fe7a73212f823681ec3b843",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/tadasana-both-motion.webp",
+        "bytes": 327732,
+        "sha256": "cae8ac8e7a68939ca0af594973ecc27a5f30437d28492d0d776e64cf1a6d70b3",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 84
+      }
+    },
+    "male/sukhasana-both.webp": {
+      "asanaId": "sukhasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:12.814Z",
+      "bounds": {
+        "min": [
+          -0.42656550007890537,
+          0.01857101788945327,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.4265654504278029,
+          1.0455671285064696,
+          0.5245722817325404
+        ]
+      },
+      "camera": {
+        "position": [
+          2.1529812726206865,
+          2.78757328957021,
+          5.323724024876192
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          0.1938513766884587,
+          0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.0246510601921741,
+        "right": 1.0246510601921741,
+        "top": 0.7684882951441306,
+        "bottom": -0.7684882951441306
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/sukhasana-both.webp",
+        "bytes": 14190,
+        "sha256": "6fa7e4e8c2c245724ee0ddd14ab576a2c0223e251e133b6c137f5f36ceeb53f0",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/sukhasana-both-motion.webp",
+        "bytes": 469330,
+        "sha256": "959494c6bc18a6bd87bec05fce76d1980be31c8d634d4975e1ab502307b3fb95",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 84
+      }
+    },
+    "male/balasana-both.webp": {
+      "asanaId": "balasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:18.109Z",
+      "bounds": {
+        "min": [
+          -0.29157981214413153,
+          -0.04088170884677177,
+          -0.3954923698825874
+        ],
+        "max": [
+          0.2915797537959497,
+          0.7035331002995312,
+          1.0159082159551562
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220887629462,
+          3.2103582307760723,
+          2.303384293455302
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -0.9192462144999116,
+        "right": 0.9192462144999116,
+        "top": 0.6894346608749338,
+        "bottom": -0.6894346608749338
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/balasana-both.webp",
+        "bytes": 15296,
+        "sha256": "5850e63c53f8c35800f9ab490ddbde68d1b24c3cefb19ff0b03637f533f5dab4",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/balasana-both-motion.webp",
+        "bytes": 398118,
+        "sha256": "4e87d449f9f41c03bf7dc694cf965b258ceb2cc481fa3863a10e23f3ad0deebe",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/marjaryasana-both.webp": {
+      "asanaId": "marjaryasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:23.630Z",
+      "bounds": {
+        "min": [
+          -0.2445993261441316,
+          -0.04088170884677179,
+          -0.641350815514292
+        ],
+        "max": [
+          0.24459926779594976,
+          0.7335522642455042,
+          0.6607639133213257
+        ]
+      },
+      "camera": {
+        "position": [
+          4.8722088762946205,
+          3.225367812749058,
+          2.002882919322534
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -0.8915184533803662,
+        "right": 0.8915184533803662,
+        "top": 0.6686388400352746,
+        "bottom": -0.6686388400352746
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/marjaryasana-both.webp",
+        "bytes": 17732,
+        "sha256": "b5e469c1275ca181be1c2184f931ea5f637d2ddcfa76a211f62596d42774ec99",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/marjaryasana-both-motion.webp",
+        "bytes": 382900,
+        "sha256": "143f61d60107425061028fd1616dd1efaae7e827e24f78b37f2c68671b835d76",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/bitilasana-both.webp": {
+      "asanaId": "bitilasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:28.658Z",
+      "bounds": {
+        "min": [
+          -0.2445993261441316,
+          -0.04088240257317946,
+          -0.7224594967329308
+        ],
+        "max": [
+          0.24459926779594976,
+          0.8303234213395082,
+          0.662567216927463
+        ]
+      },
+      "camera": {
+        "position": [
+          4.8722088762946205,
+          3.2737530444328566,
+          1.9632302305162839
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -0.9701592430369215,
+        "right": 0.9701592430369215,
+        "top": 0.7276194322776911,
+        "bottom": -0.7276194322776911
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/bitilasana-both.webp",
+        "bytes": 15546,
+        "sha256": "c7ae8edc6760ea892712a04cd813c2356806add396932038e9ea0c9cda69c966",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/bitilasana-both-motion.webp",
+        "bytes": 352154,
+        "sha256": "88c2bf64a6ba7bc90a117aead05060d1bec8d8a09970e057d67303826604fc46",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/adho-mukha-svanasana-both.webp": {
+      "asanaId": "adho-mukha-svanasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:34.106Z",
+      "bounds": {
+        "min": [
+          -0.3489702060397624,
+          -0.0024933404780566187,
+          -0.8364883240636033
+        ],
+        "max": [
+          0.34897016325580216,
+          0.9215817943668841,
+          0.6159082159551563
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208884076731,
+          3.3385767619941062,
+          1.8828863163647944
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.0892056476901444,
+        "right": 1.0892056476901444,
+        "top": 0.8169042357676083,
+        "bottom": -0.8169042357676083
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/adho-mukha-svanasana-both.webp",
+        "bytes": 14280,
+        "sha256": "a8aac2bbfbf5bf277d0c4e0730809081feebb872950ee26013082bd9dd4f3561",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/adho-mukha-svanasana-both-motion.webp",
+        "bytes": 341984,
+        "sha256": "250b96be5cc0bbc2736d2c664a1f3ce2b588924055cb979708862267ad826046",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/uttanasana-both.webp": {
+      "asanaId": "uttanasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:39.458Z",
+      "bounds": {
+        "min": [
+          -0.375810236441555,
+          -0.007772140700463107,
+          -0.24941612815756775
+        ],
+        "max": [
+          0.3759074751620472,
+          1.7285671285064697,
+          0.7622755318668182
+        ]
+      },
+      "camera": {
+        "position": [
+          5.263233290030986,
+          2.774282828692363,
+          2.4095507034926538
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -1.565273607242418,
+        "right": 1.565273607242418,
+        "top": 1.1739552054318136,
+        "bottom": -1.1739552054318136
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/uttanasana-both.webp",
+        "bytes": 7246,
+        "sha256": "56cb8225ccd7d95332ebffedbee764762d514e1b7060948300f1a6d035128c91",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/uttanasana-both-motion.webp",
+        "bytes": 184498,
+        "sha256": "e84893c39e185990014fcbabe0bcdda53f16f4482ef8ee481083b54c5fd6e1ec",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/ardha-uttanasana-both.webp": {
+      "asanaId": "ardha-uttanasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:44.121Z",
+      "bounds": {
+        "min": [
+          -0.3200849468649478,
+          -0.007754986065475931,
+          -0.24941612815756775
+        ],
+        "max": [
+          0.3200849143381258,
+          1.7285776683349978,
+          0.6847604331528973
+        ]
+      },
+      "camera": {
+        "position": [
+          5.26318465440733,
+          2.7742966759241203,
+          2.3707931541356935
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -1.531997013918577,
+        "right": 1.531997013918577,
+        "top": 1.1489977604389328,
+        "bottom": -1.1489977604389328
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/ardha-uttanasana-both.webp",
+        "bytes": 7566,
+        "sha256": "c252c0eca8b131e4d46a487ec39e920821c5e1d91e532a288600c553f10ae578",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/ardha-uttanasana-both-motion.webp",
+        "bytes": 167790,
+        "sha256": "50c6f3899704c378d289ef15a2772f9a62a9255b59268eab24646bb3fe9b0ddc",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/utkatasana-both.webp": {
+      "asanaId": "utkatasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:48.073Z",
+      "bounds": {
+        "min": [
+          -0.8835333213203185,
+          -0.01954465518900147,
+          -0.24109835840254873
+        ],
+        "max": [
+          0.8835333399775378,
+          1.9998997632766429,
+          0.2599927716487811
+        ]
+      },
+      "camera": {
+        "position": [
+          5.26318467999935,
+          2.9040628888331805,
+          2.162568208261145
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -1.9636500503022658,
+        "right": 1.9636500503022658,
+        "top": 1.4727375377266994,
+        "bottom": -1.4727375377266994
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/utkatasana-both.webp",
+        "bytes": 6098,
+        "sha256": "6e4428f5b7ea1f7458e148b7fceb19c5f44a001f182aee6f8d7c67e3a84697ae",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/utkatasana-both-motion.webp",
+        "bytes": 128052,
+        "sha256": "b3b49357c76620c384b3b488f4a0ae7a66a85a79a9f3bae472cddc774bcb72f2",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/virabhadrasana-i-right.webp": {
+      "asanaId": "virabhadrasana-i",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:52.166Z",
+      "bounds": {
+        "min": [
+          -0.8574938300535504,
+          -0.0346500556287293,
+          -0.5888995237111814
+        ],
+        "max": [
+          0.857493860770644,
+          1.9887815846857713,
+          0.5545848307279816
+        ]
+      },
+      "camera": {
+        "position": [
+          -5.263184655312194,
+          2.890951099317881,
+          2.135963655146429
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          -0.5500624513012673,
+          -0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -2.015561918192068,
+        "right": 2.015561918192068,
+        "top": 1.511671438644051,
+        "bottom": -1.511671438644051
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/virabhadrasana-i-right.webp",
+        "bytes": 6148,
+        "sha256": "6a06127ac52c0bc378160869726a74cf9729792a725373968dce8321cf69b068",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/virabhadrasana-i-right-motion.webp",
+        "bytes": 136376,
+        "sha256": "fb170b366520103fec3de50a687872ad5a8992b629ed21d7268dde3a58bf0248",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/virabhadrasana-i-left.webp": {
+      "asanaId": "virabhadrasana-i",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:04:56.082Z",
+      "bounds": {
+        "min": [
+          -0.8574938300535504,
+          -0.03464984500635828,
+          -0.5886932192381016
+        ],
+        "max": [
+          0.857493860770644,
+          1.9887815846857713,
+          0.5545848307279816
+        ]
+      },
+      "camera": {
+        "position": [
+          5.2631846860292875,
+          2.890951204629066,
+          2.1360668073829685
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -2.0155421599722345,
+        "right": 2.0155421599722345,
+        "top": 1.511656619979176,
+        "bottom": -1.511656619979176
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/virabhadrasana-i-left.webp",
+        "bytes": 6180,
+        "sha256": "078bc16ebe4d212708744a78ae2bf4468ee08a879119df1b59bb47eb3e09768d",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/virabhadrasana-i-left-motion.webp",
+        "bytes": 138394,
+        "sha256": "805ab1ae7769d0f11e6d4ca5084781d7899bd14a47dc5969924795eebe5bd612",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/virabhadrasana-ii-right.webp": {
+      "asanaId": "virabhadrasana-ii",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:00.162Z",
+      "bounds": {
+        "min": [
+          -1.1334539279597684,
+          0.007734892424195904,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.7361854899183782,
+          1.6565870763930888,
+          0.18719366021214295
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.475660021586824,
+          2.0248887857528057,
+          5.450378773925258
+        ],
+        "quaternion": [
+          -0.0979258856022411,
+          -0.19651892297315993,
+          -0.019729675866282475,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4300755827635903,
+        "right": 1.4300755827635903,
+        "top": 1.0725566870726928,
+        "bottom": -1.0725566870726928
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/virabhadrasana-ii-right.webp",
+        "bytes": 11428,
+        "sha256": "e4a381314d560c81e46eb1275b88c5fe2475e09f06e8296862876646560e7d33",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/virabhadrasana-ii-right-motion.webp",
+        "bytes": 268922,
+        "sha256": "67159efcc0cfcca718e68c324d8c8b9270af18fac17066620daaadb98ba8af5b",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/virabhadrasana-ii-left.webp": {
+      "asanaId": "virabhadrasana-ii",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:04.972Z",
+      "bounds": {
+        "min": [
+          -0.7361854774696802,
+          0.0077348924241959745,
+          -0.1294161245812891
+        ],
+        "max": [
+          1.1334539369905623,
+          1.6565870763930888,
+          0.1871936546451387
+        ]
+      },
+      "camera": {
+        "position": [
+          2.4756600323265703,
+          2.024888785752806,
+          5.450378771141756
+        ],
+        "quaternion": [
+          -0.0979258856022411,
+          0.19651892297315993,
+          0.019729675866282475,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4300755817539708,
+        "right": 1.4300755817539708,
+        "top": 1.072556686315478,
+        "bottom": -1.072556686315478
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/virabhadrasana-ii-left.webp",
+        "bytes": 11422,
+        "sha256": "74534b9bf17fafdb7346d8e34c479ebc066593dbd10e293dc0381a1e594ccf56",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/virabhadrasana-ii-left-motion.webp",
+        "bytes": 264254,
+        "sha256": "942aec1aecb22c6d9af0e641d4089b95a5d9cc539ba2d4c822619568e00b48bf",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/trikonasana-right.webp": {
+      "asanaId": "trikonasana",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:09.952Z",
+      "bounds": {
+        "min": [
+          -0.9785482380842631,
+          0,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.9319186568908319,
+          1.9830222443419738,
+          0.20689617812276417
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.3003405931628444,
+          2.1842389235151507,
+          5.460230032880569
+        ],
+        "quaternion": [
+          -0.0979258856022411,
+          -0.19651892297315993,
+          -0.019729675866282475,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.693022620157771,
+        "right": 1.693022620157771,
+        "top": 1.2697669651183283,
+        "bottom": -1.2697669651183283
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/trikonasana-right.webp",
+        "bytes": 8524,
+        "sha256": "b75d43f40a5fe82810d1145753a09ed8277329e35f784a8241ba4f19fa30034c",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/trikonasana-right-motion.webp",
+        "bytes": 210066,
+        "sha256": "df579737c670006e8cc9404dd65f5b7aed0733cdbf3379e46b642afb20db7104",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/trikonasana-left.webp": {
+      "asanaId": "trikonasana",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:15.390Z",
+      "bounds": {
+        "min": [
+          -0.931918647529235,
+          0,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.9785482323956487,
+          1.983022217374352,
+          0.20689620011038717
+        ]
+      },
+      "camera": {
+        "position": [
+          2.300340594999336,
+          2.184238910031339,
+          5.460230043874381
+        ],
+        "quaternion": [
+          -0.09792588560224104,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.693022601625422,
+        "right": 1.693022601625422,
+        "top": 1.2697669512190666,
+        "bottom": -1.2697669512190666
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/trikonasana-left.webp",
+        "bytes": 8570,
+        "sha256": "eb51311a23e73464d222ac3021c0a42ffaaca35b03134768f7ee74e5d61c655b",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/trikonasana-left-motion.webp",
+        "bytes": 207518,
+        "sha256": "2de7c50b1c0405d35029438d46b34c40b7d38c2b03beb05820bd93213af7b270",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/vrksasana-right.webp": {
+      "asanaId": "vrksasana",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:21.457Z",
+      "bounds": {
+        "min": [
+          -0.274370679479507,
+          -0.001741753518172442,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.4234459500381138,
+          1.7910550785064696,
+          0.31703203700055327
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.2024881672868255,
+          2.087384463838312,
+          5.515297962319464
+        ],
+        "quaternion": [
+          -0.0979258856022411,
+          -0.19651892297315993,
+          -0.019729675866282475,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4888119933778658,
+        "right": 1.4888119933778658,
+        "top": 1.1166089950333995,
+        "bottom": -1.1166089950333995
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/vrksasana-right.webp",
+        "bytes": 9194,
+        "sha256": "5051222c6dd0511f93dd66ba7efc9a3114419f04d9c625ee2771c1fe11feb9e9",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/vrksasana-right-motion.webp",
+        "bytes": 202330,
+        "sha256": "ffe71264e65d51fd903798263dfd52b139c4ca19ad5f2ff8f06ff0ce3d833931",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/vrksasana-left.webp": {
+      "asanaId": "vrksasana",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:26.517Z",
+      "bounds": {
+        "min": [
+          -0.42344598947950685,
+          -0.0017419638109286515,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.27437064003811384,
+          1.7910550785064696,
+          0.31703203700055316
+        ]
+      },
+      "camera": {
+        "position": [
+          2.2024881278454327,
+          2.0873843586919336,
+          5.515297962319464
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4888121555065956,
+        "right": 1.4888121555065956,
+        "top": 1.1166091166299468,
+        "bottom": -1.1166091166299468
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/vrksasana-left.webp",
+        "bytes": 8944,
+        "sha256": "f6577955ced250dbd0de4aa5e0e3ac1f04c09ed9b8b320141fa983baa2b8d9b1",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/vrksasana-left-motion.webp",
+        "bytes": 206862,
+        "sha256": "58cfd55bd10c0b8dd9382bdee1a0c9b695dc7cf6563cc0b4d9ecbc4dc59aff3f",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/anjaneyasana-right.webp": {
+      "asanaId": "anjaneyasana",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:30.857Z",
+      "bounds": {
+        "min": [
+          -0.8574938300535504,
+          -0.04087731917657601,
+          -0.769168643450548
+        ],
+        "max": [
+          0.857493860770644,
+          1.7968635989902957,
+          0.6645848307279817
+        ]
+      },
+      "camera": {
+        "position": [
+          -4.872208890110164,
+          3.7570256749565525,
+          1.9408844640577347
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          -0.5400295793930849,
+          -0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -2.072466537191281,
+        "right": 2.072466537191281,
+        "top": 1.554349902893461,
+        "bottom": -1.554349902893461
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/anjaneyasana-right.webp",
+        "bytes": 7010,
+        "sha256": "d423960d5a6ca4d02984a79224aa839a54484f21d851c2d447956da269f81ea2",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/anjaneyasana-right-motion.webp",
+        "bytes": 155748,
+        "sha256": "cc29c5774eec75b7c823ac6430a6d3f46822a82a83f36fa7999f6236338e6dbb",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/anjaneyasana-left.webp": {
+      "asanaId": "anjaneyasana",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:35.235Z",
+      "bounds": {
+        "min": [
+          -0.8574938300535504,
+          -0.04087730061766048,
+          -0.7691686396617509
+        ],
+        "max": [
+          0.857493860770644,
+          1.7968635989902957,
+          0.6645848307279817
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208920827258,
+          3.7570256842360097,
+          1.9408844659521332
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -2.072466523840645,
+        "right": 2.072466523840645,
+        "top": 1.5543498928804838,
+        "bottom": -1.5543498928804838
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/anjaneyasana-left.webp",
+        "bytes": 6902,
+        "sha256": "bad3b230503ad4aa82788091e1575d0d254b475f1f35f2b84064743020cde222",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/anjaneyasana-left-motion.webp",
+        "bytes": 151384,
+        "sha256": "5be6a25218b8b36ea125c0d05d5da855c9b969c9338f314709a4c4413bb97fa3",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/dandasana-both.webp": {
+      "asanaId": "dandasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:39.940Z",
+      "bounds": {
+        "min": [
+          -0.4628560981795261,
+          0,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.4627600523180365,
+          1.0455671285064696,
+          0.9005384239770153
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872160882537965,
+          3.401816099302927,
+          2.3787375201168808
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1922237769446116,
+        "right": 1.1922237769446116,
+        "top": 0.8941678327084587,
+        "bottom": -0.8941678327084587
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/dandasana-both.webp",
+        "bytes": 11886,
+        "sha256": "a9caaed4149d47c687cabe9ba16c9e5ab8422742eefc9dcf4f9a444499dee3ab",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/dandasana-both-motion.webp",
+        "bytes": 260956,
+        "sha256": "3f8d946615cb31747a4e9c1bca0a4787c8d52d80079024c89ebe1739bf15e6a7",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/baddha-konasana-both.webp": {
+      "asanaId": "baddha-konasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:45.504Z",
+      "bounds": {
+        "min": [
+          -0.4324630620586283,
+          0.024290783439185643,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.4324630917436698,
+          1.0455671285064696,
+          0.5645848307279816
+        ]
+      },
+      "camera": {
+        "position": [
+          2.1529813122887584,
+          2.7904331723450766,
+          5.343730299373912
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          0.1938513766884587,
+          0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.0327416681617687,
+        "right": 1.0327416681617687,
+        "top": 0.7745562511213266,
+        "bottom": -0.7745562511213266
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/baddha-konasana-both.webp",
+        "bytes": 13930,
+        "sha256": "af497a9049e4f5cc66d3fb9b940bdd9f06a9419af7fc58afbaa519ada9aae256",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/baddha-konasana-both-motion.webp",
+        "bytes": 324956,
+        "sha256": "21c71ad6fdd2a8a2c514ef756a1fda634970b2cbef9af82fe43392e3d208f170",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/paschimottanasana-both.webp": {
+      "asanaId": "paschimottanasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:51.063Z",
+      "bounds": {
+        "min": [
+          -0.39578942455596056,
+          0.05716290213689085,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.39578941042174726,
+          1.0455776023552321,
+          0.9005384239770153
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208898401604,
+          3.430402787295754,
+          2.3787375201168803
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1059493985102544,
+        "right": 1.1059493985102544,
+        "top": 0.8294620488826909,
+        "bottom": -0.8294620488826909
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/paschimottanasana-both.webp",
+        "bytes": 10912,
+        "sha256": "6373ba945cbf0fc4aec007cdff8f7f571d6a7d58e25469cc9c095dce9b9e6f74",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/paschimottanasana-both-motion.webp",
+        "bytes": 285228,
+        "sha256": "52e81ca46c60fabd915e8bd8ef37b054bf15edcfefb45f279e4031c0a44e5b9d",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/janu-sirsasana-right.webp": {
+      "asanaId": "janu-sirsasana",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:05:56.569Z",
+      "bounds": {
+        "min": [
+          -0.4232572478274234,
+          0.016911304404509945,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.5014805916645193,
+          1.0455781646763338,
+          0.9005382182776154
+        ]
+      },
+      "camera": {
+        "position": [
+          -4.833097233550163,
+          3.4102772695901145,
+          2.378737417267181
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          -0.5400295793930849,
+          -0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1802525428682402,
+        "right": 1.1802525428682402,
+        "top": 0.8851894071511802,
+        "bottom": -0.8851894071511802
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/janu-sirsasana-right.webp",
+        "bytes": 9660,
+        "sha256": "4e8cfcfd8cda59ac1be8d6f4c9dff724397de3e34b0056c7804cf2ce2726a246",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/janu-sirsasana-right-motion.webp",
+        "bytes": 257020,
+        "sha256": "cab4c5494e2da06e161ea0570bb5706150c9d6dca5d17281b258d30eef268a79",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/janu-sirsasana-left.webp": {
+      "asanaId": "janu-sirsasana",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:01.252Z",
+      "bounds": {
+        "min": [
+          -0.5014805934318904,
+          0.016911299065688827,
+          -0.1294161245812891
+        ],
+        "max": [
+          0.4232572190600732,
+          1.0455773295142428,
+          0.9005384239770153
+        ]
+      },
+      "camera": {
+        "position": [
+          4.833097218282802,
+          3.410276849339658,
+          2.3787375201168808
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1802519901011537,
+        "right": 1.1802519901011537,
+        "top": 0.8851889925758653,
+        "bottom": -0.8851889925758653
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/janu-sirsasana-left.webp",
+        "bytes": 9684,
+        "sha256": "f3e9c4f72fc9b7f9c5a42bb2890667f68a1924d93de3dec77278a9c32c870dea",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/janu-sirsasana-left-motion.webp",
+        "bytes": 249722,
+        "sha256": "2bc31188c1eb38355fcf7fc0049ac122236f8802a2a85fd4f366cf1f9cb2a734",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/bhujangasana-both.webp": {
+      "asanaId": "bhujangasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:05.427Z",
+      "bounds": {
+        "min": [
+          -0.29157981214413153,
+          -0.023319421704034227,
+          -1.0954085557524675
+        ],
+        "max": [
+          0.2915797537959497,
+          0.7071746952932626,
+          0.8067155992222439
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220887629462,
+          3.220960171844306,
+          1.848829892153906
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1689720668746675,
+        "right": 1.1689720668746675,
+        "top": 0.8767290501560007,
+        "bottom": -0.8767290501560007
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/bhujangasana-both.webp",
+        "bytes": 11866,
+        "sha256": "4e948924f53a98aa5a28cf8dc25f96395be5ac96314c48f3bcf7bc30660b00ce",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/bhujangasana-both-motion.webp",
+        "bytes": 250384,
+        "sha256": "7f50c9f9a08b24f2283e1858934e873735312ddefe8aec9809941c9cad8da71e",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/salabhasana-both.webp": {
+      "asanaId": "salabhasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:10.378Z",
+      "bounds": {
+        "min": [
+          -0.36632381098025635,
+          -0.02307013805286169,
+          -1.1012768911031245
+        ],
+        "max": [
+          0.3663239002968627,
+          0.40948201813725826,
+          0.8067155992222439
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208950127013,
+          3.0722384750918903,
+          1.8458957244785774
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.205571266532088,
+        "right": 1.205571266532088,
+        "top": 0.9041784498990659,
+        "bottom": -0.9041784498990659
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/salabhasana-both.webp",
+        "bytes": 11868,
+        "sha256": "7c28393e38318b48e72af845fb9fecccf1928729c4dfaed63c01bc4a813bb277",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/salabhasana-both-motion.webp",
+        "bytes": 252658,
+        "sha256": "e8e2fb97486b666d4e181f1ecf68f2acdf0d0dcf3dc2ca80073cf1b96d23acf9",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/setu-bandha-sarvangasana-both.webp": {
+      "asanaId": "setu-bandha-sarvangasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:15.873Z",
+      "bounds": {
+        "min": [
+          -0.28959932614413153,
+          -0.0031523554002801293,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.2895992677959497,
+          0.48371736931343207,
+          0.8145848307279818
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220887629462,
+          3.119315042006268,
+          1.9966249430297738
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.0152678708246832,
+        "right": 1.0152678708246832,
+        "top": 0.7614509031185124,
+        "bottom": -0.7614509031185124
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/setu-bandha-sarvangasana-both.webp",
+        "bytes": 15916,
+        "sha256": "626f074a66694015599b6ba70cfdb608bd19f13c167914caca12f5bfd1afc29a",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/setu-bandha-sarvangasana-both-motion.webp",
+        "bytes": 333606,
+        "sha256": "cdbadae8b6eb73e1992d461143a154810b9f34d035fc7c63a1202db9270c8410",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/ardha-matsyendrasana-right.webp": {
+      "asanaId": "ardha-matsyendrasana",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:21.367Z",
+      "bounds": {
+        "min": [
+          -0.37,
+          0,
+          -0.225
+        ],
+        "max": [
+          0.4021694690475883,
+          1.0455671285064696,
+          0.9005384239770153
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.1368965629224435,
+          2.7782877806254835,
+          5.4639151582890735
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          -0.1938513766884587,
+          -0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.1574857288701612,
+        "right": 1.1574857288701612,
+        "top": 0.868114296652621,
+        "bottom": -0.868114296652621
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/ardha-matsyendrasana-right.webp",
+        "bytes": 13164,
+        "sha256": "a96d73f9fbf1f19eedf3e5ab443f4630e6c89f1952c6f6af5b3e59bbb3d59cc2",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/ardha-matsyendrasana-right-motion.webp",
+        "bytes": 305524,
+        "sha256": "f151308ad5872023c05fa484f3457bb7f562db365bc1dd7a0907b2a008ef5288",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/ardha-matsyendrasana-left.webp": {
+      "asanaId": "ardha-matsyendrasana",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:26.080Z",
+      "bounds": {
+        "min": [
+          -0.4021694736239396,
+          0,
+          -0.225
+        ],
+        "max": [
+          0.37,
+          1.0455671285064696,
+          0.9005382182776154
+        ]
+      },
+      "camera": {
+        "position": [
+          2.136896560634268,
+          2.778287780625484,
+          5.463915055439374
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          0.1938513766884587,
+          0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.157485673310255,
+        "right": 1.157485673310255,
+        "top": 0.8681142549826912,
+        "bottom": -0.8681142549826912
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/ardha-matsyendrasana-left.webp",
+        "bytes": 13170,
+        "sha256": "01bb2e6bb34c5bf173de8414b849f224c5ca1113afc6355bfc76028714ac3d19",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/ardha-matsyendrasana-left-motion.webp",
+        "bytes": 291878,
+        "sha256": "a0df189ebef47081f57dc3ee48fd31b578c1f8d961d720da2ef92541c7525765",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/supta-padangusthasana-right.webp": {
+      "asanaId": "supta-padangusthasana",
+      "modelVariant": "male",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:31.387Z",
+      "bounds": {
+        "min": [
+          -0.30892372508386645,
+          0.004801112830638818,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.30299331590327766,
+          0.978969800686888,
+          0.8730026827284283
+        ]
+      },
+      "camera": {
+        "position": [
+          -5.028599856460683,
+          3.4235056703498237,
+          1.4984676054065091
+        ],
+        "quaternion": [
+          -0.2019853333687612,
+          -0.5805610070190295,
+          -0.1514890000265709,
+          0.7740813426920393
+        ],
+        "zoom": 1,
+        "left": -1.0753157907296722,
+        "right": 1.0753157907296722,
+        "top": 0.8064868430472543,
+        "bottom": -0.8064868430472543
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/supta-padangusthasana-right.webp",
+        "bytes": 13748,
+        "sha256": "3669bbd03af3a436c723fa54c7fe78fa30733442a70ce96edb424c0e107e9480",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/supta-padangusthasana-right-motion.webp",
+        "bytes": 293132,
+        "sha256": "d9e0e3274477dd5f12af8c42969e3abaf144a836203043097e59cb66de366be1",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/supta-padangusthasana-left.webp": {
+      "asanaId": "supta-padangusthasana",
+      "modelVariant": "male",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:35.592Z",
+      "bounds": {
+        "min": [
+          -0.30299322665409284,
+          0.004801112830638818,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.3090305931831091,
+          0.9789698331709521,
+          0.8730026826918034
+        ]
+      },
+      "camera": {
+        "position": [
+          5.028653335134896,
+          3.423505686591856,
+          1.4984676053881967
+        ],
+        "quaternion": [
+          -0.20198533336876118,
+          0.5805610070190295,
+          0.15148900002657087,
+          0.7740813426920393
+        ],
+        "zoom": 1,
+        "left": -1.0753552136982956,
+        "right": 1.0753552136982956,
+        "top": 0.8065164102737217,
+        "bottom": -0.8065164102737217
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/supta-padangusthasana-left.webp",
+        "bytes": 13800,
+        "sha256": "06fa2df9df1fe9d1271739609f4ab68d793c89676fd49dd8e9fb14c55e4936b1",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/supta-padangusthasana-left-motion.webp",
+        "bytes": 283952,
+        "sha256": "9c4bf117dbd673319c6b77b0024104bf6dc7abd7b09cb96de4ca5e7ece82d6ce",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "male/savasana-both.webp": {
+      "asanaId": "savasana",
+      "modelVariant": "male",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:41.221Z",
+      "bounds": {
+        "min": [
+          -0.3095044418067196,
+          0.004801112830638818,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.3094083569199067,
+          0.2828705112981596,
+          0.9736280914786928
+        ]
+      },
+      "camera": {
+        "position": [
+          3.2295146505492416,
+          4.608231299436588,
+          2.4576486537159985
+        ],
+        "quaternion": [
+          -0.3634915726294855,
+          0.41229116620804057,
+          0.18390423874412165,
+          0.8149043513603927
+        ],
+        "zoom": 1,
+        "left": -1.0630365658200718,
+        "right": 1.0630365658200718,
+        "top": 0.7972774243650539,
+        "bottom": -0.7972774243650539
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "male/savasana-both.webp",
+        "bytes": 16200,
+        "sha256": "841100f1948dab8d655339e9ab35dc5ab8e6fd1c529357d74423251ab8cc8b26",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "male/savasana-both-motion.webp",
+        "bytes": 419228,
+        "sha256": "ddd7c5434e9b2b76242d128d9c85c9ed373e792ebc53a474b54e6b0049dc3a7a",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 84
+      }
+    },
+    "female/tadasana-both.webp": {
+      "asanaId": "tadasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:45.371Z",
+      "bounds": {
+        "min": [
+          -0.4736250229043202,
+          0.007734892424195906,
+          -0.13695774972438812
+        ],
+        "max": [
+          0.47362507491970174,
+          1.7960550785064697,
+          0.2608999207407877
+        ]
+      },
+      "camera": {
+        "position": [
+          2.27702582857382,
+          2.0946227868094955,
+          5.483461091618031
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4934594328836506,
+        "right": 1.4934594328836506,
+        "top": 1.120094574662738,
+        "bottom": -1.120094574662738
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/tadasana-both.webp",
+        "bytes": 9414,
+        "sha256": "9c2494afa595c30a1d0ac1fa8a21e0e5d8696380c239a0ea1b297337d605aa0d",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/tadasana-both-motion.webp",
+        "bytes": 335104,
+        "sha256": "f1286b5870be0b8540d7e227d0d636f42fe1d200bcff45edf9a8ce4350ee6558",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 84
+      }
+    },
+    "female/sukhasana-both.webp": {
+      "asanaId": "sukhasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:49.951Z",
+      "bounds": {
+        "min": [
+          -0.4195323581672664,
+          0.01857101788945327,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.4197824904127929,
+          1.0455671285064696,
+          0.5241392355246597
+        ]
+      },
+      "camera": {
+        "position": [
+          2.153106363569001,
+          2.78757328957021,
+          5.323507503700702
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          0.1938513766884587,
+          0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.022950865298387,
+        "right": 1.022950865298387,
+        "top": 0.7672131489737902,
+        "bottom": -0.7672131489737902
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/sukhasana-both.webp",
+        "bytes": 14342,
+        "sha256": "09a2305faaea1ce61d9c31320153c2100e406e9bc7eb41fd1ecc3de637d20f7d",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/sukhasana-both-motion.webp",
+        "bytes": 480084,
+        "sha256": "b16608bd3ae193bdb18f8631899dd3d8feb9ec33ae66536c76e001ab9e605fd2",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 84
+      }
+    },
+    "female/balasana-both.webp": {
+      "asanaId": "balasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:06:55.154Z",
+      "bounds": {
+        "min": [
+          -0.29604342376052106,
+          -0.040881708846771746,
+          -0.39556788418477856
+        ],
+        "max": [
+          0.29604333494680035,
+          0.7034603003156271,
+          1.0139991951191498
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208861061851,
+          3.2103218307841197,
+          2.3023920258862027
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -0.9220528028406911,
+        "right": 0.9220528028406911,
+        "top": 0.6915396021305183,
+        "bottom": -0.6915396021305183
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/balasana-both.webp",
+        "bytes": 15448,
+        "sha256": "d68c0c6ab3bba326a14c96bc03bed496a256d1c3342bc8e3108f864f74feeb14",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/balasana-both-motion.webp",
+        "bytes": 403436,
+        "sha256": "85a200873f41a934c38bd71b7a2d699adcf66e00c7892fefd5dd66c5128cb1de",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/marjaryasana-both.webp": {
+      "asanaId": "marjaryasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:00.728Z",
+      "bounds": {
+        "min": [
+          -0.23082617368308855,
+          -0.040881708846771746,
+          -0.641572510588431
+        ],
+        "max": [
+          0.23082608486936784,
+          0.7469995196661243,
+          0.6576938771055487
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220886106185,
+          3.2320914404593677,
+          2.001237053677579
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930848,
+          0.13802764404377746,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -0.8907686430698669,
+        "right": 0.8907686430698669,
+        "top": 0.6680764823024002,
+        "bottom": -0.6680764823024002
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/marjaryasana-both.webp",
+        "bytes": 18156,
+        "sha256": "96d5c236e4647b96b0673da75cad026c8be01c5130ffd36c2235a19b09dad7d3",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/marjaryasana-both-motion.webp",
+        "bytes": 389870,
+        "sha256": "e5da356205f617ee826365f893014101b2302dbd1a19adae55704f51b97b2114",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/bitilasana-both.webp": {
+      "asanaId": "bitilasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:06.219Z",
+      "bounds": {
+        "min": [
+          -0.23082617368308855,
+          -0.04088240257317943,
+          -0.7229521920517326
+        ],
+        "max": [
+          0.23082608486936784,
+          0.8480934582028886,
+          0.6598100149240873
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208861061851,
+          3.282638062864547,
+          1.9616052818551952
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -0.972476405232519,
+        "right": 0.972476405232519,
+        "top": 0.7293573039243892,
+        "bottom": -0.7293573039243892
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/bitilasana-both.webp",
+        "bytes": 15916,
+        "sha256": "86021aa7e43e02f6f827a7622a0ba1c8252eb0ccd7a42cd6678cd9da5845d984",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/bitilasana-both-motion.webp",
+        "bytes": 347166,
+        "sha256": "29b988df056647084b84ecdf70968f4734206f5b63de86ed3cf6c44283728b0f",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/adho-mukha-svanasana-both.webp": {
+      "asanaId": "adho-mukha-svanasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:11.395Z",
+      "bounds": {
+        "min": [
+          -0.33057884449369124,
+          -0.024477055675366344,
+          -0.8364883240636033
+        ],
+        "max": [
+          0.3305787500431496,
+          0.9211723292850684,
+          0.6139991951191497
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220885824344,
+          3.3273801718545433,
+          1.8819318059467909
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.0909723100134388,
+        "right": 1.0909723100134388,
+        "top": 0.8182292325100791,
+        "bottom": -0.8182292325100791
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/adho-mukha-svanasana-both.webp",
+        "bytes": 14528,
+        "sha256": "ea6d8c2adb3d0fe7b49420299fc1a0d86282416f7b58dc01f627230ac98dd6b6",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/adho-mukha-svanasana-both-motion.webp",
+        "bytes": 334030,
+        "sha256": "737a5d87d2e935fb50a9e8039edd9a20ffc6e60099f0710fa7bd841a7168f583",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/uttanasana-both.webp": {
+      "asanaId": "uttanasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:16.073Z",
+      "bounds": {
+        "min": [
+          -0.36130211663904893,
+          -0.007902991643267517,
+          -0.24941612072438812
+        ],
+        "max": [
+          0.36130205148585315,
+          1.7285671285064697,
+          0.7622755318668182
+        ]
+      },
+      "camera": {
+        "position": [
+          5.263184638094143,
+          2.7742174032209608,
+          2.4095507072092435
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -1.5586095737291177,
+        "right": 1.5586095737291177,
+        "top": 1.1689571802968384,
+        "bottom": -1.1689571802968384
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/uttanasana-both.webp",
+        "bytes": 7376,
+        "sha256": "cf2c992f7d4b7099766b2e82c7b484f0c8af768637e59f54d59ce1226440d086",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/uttanasana-both-motion.webp",
+        "bytes": 183058,
+        "sha256": "a7da93f4d2132705d550bd574f61302505ec4b42af577ab0fa568e23cd535990",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/ardha-uttanasana-both.webp": {
+      "asanaId": "ardha-uttanasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:20.333Z",
+      "bounds": {
+        "min": [
+          -0.2956983892732986,
+          -0.007896468819395576,
+          -0.24941612072438812
+        ],
+        "max": [
+          0.2956982986131399,
+          1.7285776683349978,
+          0.6847604331528973
+        ]
+      },
+      "camera": {
+        "position": [
+          5.263184625340661,
+          2.774225934547161,
+          2.370793157852283
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -1.5207749776410857,
+        "right": 1.5207749776410857,
+        "top": 1.1405812332308143,
+        "bottom": -1.1405812332308143
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/ardha-uttanasana-both.webp",
+        "bytes": 7692,
+        "sha256": "bfb05f36494fd9034e507c7c179a46f3cf25c97be271df9f94cde29b663f4027",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/ardha-uttanasana-both-motion.webp",
+        "bytes": 167924,
+        "sha256": "2330b418dfab6dcc04e531b59fe76776a7d03d64af83ba2a6d2ee96a5b050600",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/utkatasana-both.webp": {
+      "asanaId": "utkatasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:24.422Z",
+      "bounds": {
+        "min": [
+          -0.8748859330940437,
+          -0.019647526211153198,
+          -0.24096323682795473
+        ],
+        "max": [
+          0.8748859624570786,
+          2.003797761845065,
+          0.26614208314035936
+        ]
+      },
+      "camera": {
+        "position": [
+          5.2631846853522575,
+          2.9059604526063154,
+          2.165710424794231
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -1.9631877087972907,
+        "right": 1.9631877087972907,
+        "top": 1.472390781597968,
+        "bottom": -1.472390781597968
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/utkatasana-both.webp",
+        "bytes": 6060,
+        "sha256": "39c774929d9f560cba3e6462e81575743a9476905c44c76f7cb57f737b9c5850",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/utkatasana-both-motion.webp",
+        "bytes": 127766,
+        "sha256": "d91da2ae8a21e22f9d698fde05d627fc033151c343ba07179e6939898efe0390",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/virabhadrasana-i-right.webp": {
+      "asanaId": "virabhadrasana-i",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:28.450Z",
+      "bounds": {
+        "min": [
+          -0.8518699358288049,
+          -0.03477399855183228,
+          -0.589872981175706
+        ],
+        "max": [
+          0.8518699704304157,
+          1.9921210149231325,
+          0.5545848307279817
+        ]
+      },
+      "camera": {
+        "position": [
+          -5.263184653369935,
+          2.89255884297501,
+          2.135476926414167
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          -0.5500624513012673,
+          -0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -2.0156243149097635,
+        "right": 2.0156243149097635,
+        "top": 1.5117182361823227,
+        "bottom": -1.5117182361823227
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/virabhadrasana-i-right.webp",
+        "bytes": 6102,
+        "sha256": "65de6d861fe44ea0618ccf334361f1328277ee40031c8281a05bd15930656d72",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/virabhadrasana-i-right-motion.webp",
+        "bytes": 136138,
+        "sha256": "6af1086f6fcbea6a670824350a8cbf1ebf4bd953d0627a106dd99ee931157a3b",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/virabhadrasana-i-left.webp": {
+      "asanaId": "virabhadrasana-i",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:32.421Z",
+      "bounds": {
+        "min": [
+          -0.8518699358288049,
+          -0.034773787917283125,
+          -0.5896624743050357
+        ],
+        "max": [
+          0.8518699704304157,
+          1.9921210149231325,
+          0.5545848307279817
+        ]
+      },
+      "camera": {
+        "position": [
+          5.263184687971546,
+          2.8925589482922844,
+          2.1355821798495014
+        ],
+        "quaternion": [
+          -0.1341810326832318,
+          0.5500624513012673,
+          0.09008261102004628,
+          0.8193362394818829
+        ],
+        "zoom": 1,
+        "left": -2.0156041574070294,
+        "right": 2.0156041574070294,
+        "top": 1.511703118055272,
+        "bottom": -1.511703118055272
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/virabhadrasana-i-left.webp",
+        "bytes": 6100,
+        "sha256": "de7608f55c330773eb1d5105f926df0ea62fba4e74a97721a31f4be620bdf3ef",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/virabhadrasana-i-left-motion.webp",
+        "bytes": 137582,
+        "sha256": "8cb558f7d6369f27703e8670af4b875b2789f94792f8c451e36c3719a5da0757",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/virabhadrasana-ii-right.webp": {
+      "asanaId": "virabhadrasana-ii",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:37.054Z",
+      "bounds": {
+        "min": [
+          -1.124697755769777,
+          0.007734892424195895,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.7270452050170195,
+          1.6604284951439865,
+          0.18719366021214295
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.4758520779425077,
+          2.026809495128254,
+          5.450378775853709
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          -0.19651892297315993,
+          -0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.431953461984032,
+        "right": 1.431953461984032,
+        "top": 1.073965096488024,
+        "bottom": -1.073965096488024
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/virabhadrasana-ii-right.webp",
+        "bytes": 11570,
+        "sha256": "d0bc36a12eb451237bb08d99c6327ecd3f104d7a679c3e88b38d894c9cf70ad0",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/virabhadrasana-ii-right-motion.webp",
+        "bytes": 269630,
+        "sha256": "e28160d85bc2694b2974b32790ab8901ca92add8a4e334de7c884ee9a1afe2cf",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/virabhadrasana-ii-left.webp": {
+      "asanaId": "virabhadrasana-ii",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:41.383Z",
+      "bounds": {
+        "min": [
+          -0.7270451807298091,
+          0.0077348924241959745,
+          -0.12941612072438813
+        ],
+        "max": [
+          1.1246977768516078,
+          1.6604284951439865,
+          0.1871936546451387
+        ]
+      },
+      "camera": {
+        "position": [
+          2.475852100627028,
+          2.026809495128254,
+          5.450378773070207
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4319534609872815,
+        "right": 1.4319534609872815,
+        "top": 1.0739650957404612,
+        "bottom": -1.0739650957404612
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/virabhadrasana-ii-left.webp",
+        "bytes": 11530,
+        "sha256": "66eea0b197523ceb3e04ff4205c3da0c4eb4d0a881cc62b86aa1950d80724c62",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/virabhadrasana-ii-left-motion.webp",
+        "bytes": 266574,
+        "sha256": "e7474363fa0a38d5ae673620dc828cf68e1bd439420fae2cb6b40c1a0f3e57f6",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/trikonasana-right.webp": {
+      "asanaId": "trikonasana",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:45.512Z",
+      "bounds": {
+        "min": [
+          -0.9756255974870115,
+          0,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.9232982470306536,
+          1.9704794220768866,
+          0.2034932691703713
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.303189477794308,
+          2.1779675123826063,
+          5.458528580332823
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          -0.19651892297315993,
+          -0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.6821628971287492,
+        "right": 1.6821628971287492,
+        "top": 1.261622172846562,
+        "bottom": -1.261622172846562
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/trikonasana-right.webp",
+        "bytes": 8618,
+        "sha256": "be2738815bf1d0722e0d76ccbf2219cd4bc00dd9167e7e723df36df2a9f789e5",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/trikonasana-right-motion.webp",
+        "bytes": 216506,
+        "sha256": "9d22f342fe6975f6cec2bd78f07d42dd26eed66451ff87bba549775a131b79b2",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/trikonasana-left.webp": {
+      "asanaId": "trikonasana",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:49.765Z",
+      "bounds": {
+        "min": [
+          -0.9232982256577877,
+          0,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.9756256010052258,
+          1.970479384624108,
+          0.20349328881447465
+        ]
+      },
+      "camera": {
+        "position": [
+          2.303189490239848,
+          2.177967493656217,
+          5.458528590154875
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.682162870004982,
+        "right": 1.682162870004982,
+        "top": 1.2616221525037365,
+        "bottom": -1.2616221525037365
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/trikonasana-left.webp",
+        "bytes": 8650,
+        "sha256": "379cc9587371f7acddc0f1a12d714ad58dcd5de7ccefbcac4f4bbdce4c2ec1c4",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/trikonasana-left-motion.webp",
+        "bytes": 210134,
+        "sha256": "18cf5d9a0839e67f5c4185750ca2817e01b4943e947374b10074ab234aac0d9c",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/vrksasana-right.webp": {
+      "asanaId": "vrksasana",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:54.111Z",
+      "bounds": {
+        "min": [
+          -0.2697701120816004,
+          -0.0016785961760994571,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.44219968150207456,
+          1.7910550785064696,
+          0.2560434237605212
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.190811017855892,
+          2.087416042509348,
+          5.484803657627897
+        ],
+        "quaternion": [
+          -0.09792588560224105,
+          -0.19651892297315993,
+          -0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4808270465563056,
+        "right": 1.4808270465563056,
+        "top": 1.1106202849172293,
+        "bottom": -1.1106202849172293
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/vrksasana-right.webp",
+        "bytes": 9422,
+        "sha256": "b0a30a2cc2c4507b6033c69ab1ca2c0504fbb9ff8e90766f067cb32278d89986",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/vrksasana-right-motion.webp",
+        "bytes": 201770,
+        "sha256": "2d8c9157ec38ae843e4bb2c12edda82e04e1ac4f012af45fbda7614b45ba86bc",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/vrksasana-left.webp": {
+      "asanaId": "vrksasana",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:07:59.204Z",
+      "bounds": {
+        "min": [
+          -0.442199710966802,
+          -0.0016788064404134112,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.2697700826168732,
+          1.7910550785064696,
+          0.2560434237605212
+        ]
+      },
+      "camera": {
+        "position": [
+          2.1908109883911644,
+          2.087415937377191,
+          5.484803657627897
+        ],
+        "quaternion": [
+          -0.09792588560224104,
+          0.19651892297315993,
+          0.019729675866282468,
+          0.9753981616410281
+        ],
+        "zoom": 1,
+        "left": -1.4808272086631074,
+        "right": 1.4808272086631074,
+        "top": 1.1106204064973306,
+        "bottom": -1.1106204064973306
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/vrksasana-left.webp",
+        "bytes": 9246,
+        "sha256": "ffed4a03c2fc132824185c23abf120ac2e506f72f9be103d13ebca40cda5ed77",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/vrksasana-left-motion.webp",
+        "bytes": 203278,
+        "sha256": "84c59cddea7be605b6935290ab48141e30ebb81afbeda942b4998d2b7f476ef0",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/anjaneyasana-right.webp": {
+      "asanaId": "anjaneyasana",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:03.292Z",
+      "bounds": {
+        "min": [
+          -0.851869935828805,
+          -0.04087731917657607,
+          -0.769168643450548
+        ],
+        "max": [
+          0.8518699704304159,
+          1.8001217822125408,
+          0.6645848307279818
+        ]
+      },
+      "camera": {
+        "position": [
+          -4.872208888167905,
+          3.7586547665676746,
+          1.9408844640577345
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          -0.5400295793930849,
+          -0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -2.070785665061378,
+        "right": 2.070785665061378,
+        "top": 1.5530892487960335,
+        "bottom": -1.5530892487960335
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/anjaneyasana-right.webp",
+        "bytes": 6902,
+        "sha256": "60fabdb57da5aac7c489703e0a56a428841bcd13e885752703d4ea0b64bdf91d",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/anjaneyasana-right-motion.webp",
+        "bytes": 159760,
+        "sha256": "b55ad30027582be0e770e54271e402db9657ecf168078f3f4ed0ffe6adea5410",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/anjaneyasana-left.webp": {
+      "asanaId": "anjaneyasana",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:07.639Z",
+      "bounds": {
+        "min": [
+          -0.851869935828805,
+          -0.04087730061766053,
+          -0.7691686396617509
+        ],
+        "max": [
+          0.8518699704304159,
+          1.8001217822125408,
+          0.6645848307279818
+        ]
+      },
+      "camera": {
+        "position": [
+          4.8722089227695164,
+          3.758654775847132,
+          1.9408844659521332
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -2.0707856517107412,
+        "right": 2.0707856517107412,
+        "top": 1.5530892387830562,
+        "bottom": -1.5530892387830562
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/anjaneyasana-left.webp",
+        "bytes": 6782,
+        "sha256": "3146d79b38aee908db52d0e654077c9eb9311eb28224907a4279383338d8ad87",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/anjaneyasana-left-motion.webp",
+        "bytes": 153310,
+        "sha256": "7c93470ca96149359b774f8678c30f8f76095281f344af54ad9da3e51f04176a",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/dandasana-both.webp": {
+      "asanaId": "dandasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:12.768Z",
+      "bounds": {
+        "min": [
+          -0.4471002173988086,
+          0,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.4475478749793982,
+          1.0455671285064696,
+          0.9004657033580381
+        ]
+      },
+      "camera": {
+        "position": [
+          4.8724327342590055,
+          3.4018160993029265,
+          2.378701161735845
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930848,
+          0.13802764404377746,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.181394099390104,
+        "right": 1.181394099390104,
+        "top": 0.886045574542578,
+        "bottom": -0.886045574542578
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/dandasana-both.webp",
+        "bytes": 12098,
+        "sha256": "599678bfc797cc6b4890cb6c7eb424cb29b275d390058680b7cbfb5481e53e7b",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/dandasana-both-motion.webp",
+        "bytes": 261368,
+        "sha256": "b4d0ebc61608320685b1fa8b3fb59ce32fbf073e838851eb4c6e1ce8ebd65eeb",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/baddha-konasana-both.webp": {
+      "asanaId": "baddha-konasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:19.370Z",
+      "bounds": {
+        "min": [
+          -0.4352778916498369,
+          0.02376076591256232,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.43527789494467195,
+          1.0455671285064696,
+          0.5645848307279816
+        ]
+      },
+      "camera": {
+        "position": [
+          2.152981299093655,
+          2.790168163581765,
+          5.3437303013023625
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          0.1938513766884587,
+          0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.0337726988238738,
+        "right": 1.0337726988238738,
+        "top": 0.7753295241179055,
+        "bottom": -0.7753295241179055
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/baddha-konasana-both.webp",
+        "bytes": 13920,
+        "sha256": "c0f90ffc2c348fd5740270427590b3a063a04145b8a36e1db161fb3340e2d9a5",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/baddha-konasana-both-motion.webp",
+        "bytes": 317542,
+        "sha256": "49b1c6f31126f2d090d0a17828e90baead835e92f1909aa66be002b69e2881b3",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/paschimottanasana-both.webp": {
+      "asanaId": "paschimottanasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:24.481Z",
+      "bounds": {
+        "min": [
+          -0.39863130439348593,
+          0.05716612074305168,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.39863129643067197,
+          1.0455776023552321,
+          0.9004657033580381
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208901487303,
+          3.430404396598833,
+          2.378701161735845
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930848,
+          0.13802764404377746,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1079225153404062,
+        "right": 1.1079225153404062,
+        "top": 0.8309418865053046,
+        "bottom": -0.8309418865053046
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/paschimottanasana-both.webp",
+        "bytes": 10940,
+        "sha256": "2017704d7eb2f23d8c1f9b5370ed611a87fd419c1a20cad274f26e2c391d0561",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/paschimottanasana-both-motion.webp",
+        "bytes": 286738,
+        "sha256": "79fd7484edb76149c0e7f03d7ef4a0263bfbcedde1ee86e37b4d7bd81a546058",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/janu-sirsasana-right.webp": {
+      "asanaId": "janu-sirsasana",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:29.606Z",
+      "bounds": {
+        "min": [
+          -0.43093027659470773,
+          0.016911304404509945,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.5053734308409278,
+          1.0455781646763338,
+          0.9004654976586468
+        ]
+      },
+      "camera": {
+        "position": [
+          -4.8349873283456,
+          3.4102772695901145,
+          2.378701058886147
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          -0.5400295793930849,
+          -0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1842829060274591,
+        "right": 1.1842829060274591,
+        "top": 0.8882121795205944,
+        "bottom": -0.8882121795205944
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/janu-sirsasana-right.webp",
+        "bytes": 9800,
+        "sha256": "2423f5335c74efb32fb4419ec78f5281bf9b437109dd6606a9e1ea4cc7c31f4d",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/janu-sirsasana-right-motion.webp",
+        "bytes": 258900,
+        "sha256": "75f4537a89639611d562e5fd33e5f31a08a101c94f06f9625c68e85c18049509",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/janu-sirsasana-left.webp": {
+      "asanaId": "janu-sirsasana",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:33.875Z",
+      "bounds": {
+        "min": [
+          -0.5053733894031818,
+          0.016911299065688827,
+          -0.12941612072438813
+        ],
+        "max": [
+          0.43093025198925344,
+          1.0455773295142428,
+          0.9004657033580381
+        ]
+      },
+      "camera": {
+        "position": [
+          4.834987336761746,
+          3.4102768493396574,
+          2.3787011617358456
+        ],
+        "quaternion": [
+          -0.2055967473290283,
+          0.5400295793930848,
+          0.13802764404377746,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1842823396198754,
+        "right": 1.1842823396198754,
+        "top": 0.8882117547149067,
+        "bottom": -0.8882117547149067
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/janu-sirsasana-left.webp",
+        "bytes": 9814,
+        "sha256": "9f6d24268b06b121aa0972d032eae5449f854517d65dfce426592542fbdc4260",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/janu-sirsasana-left-motion.webp",
+        "bytes": 247060,
+        "sha256": "d8c466bd1ec8dad8aa06814a07daf6473afa5916cb38fcf422f4af954e94b567",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/bhujangasana-both.webp": {
+      "asanaId": "bhujangasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:39.270Z",
+      "bounds": {
+        "min": [
+          -0.29604342376052106,
+          -0.03399202726282191,
+          -1.0953362951223706
+        ],
+        "max": [
+          0.29604333494680035,
+          0.7151110517656111,
+          0.8067155992222439
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220886106185,
+          3.2195920473010866,
+          1.8488660224689544
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.170926883074022,
+        "right": 1.170926883074022,
+        "top": 0.8781951623055165,
+        "bottom": -0.8781951623055165
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/bhujangasana-both.webp",
+        "bytes": 12202,
+        "sha256": "c5468022dd17c8936e1db1c92c2810deca4373a7aa789e2cf23225b0aefacb3d",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/bhujangasana-both-motion.webp",
+        "bytes": 267264,
+        "sha256": "f2f62120fdd8d15cabf8a39f9e570f9f63f52d3a39209fa7e11edbb4b74b5010",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/salabhasana-both.webp": {
+      "asanaId": "salabhasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:44.502Z",
+      "bounds": {
+        "min": [
+          -0.33680656880405946,
+          -0.015125082202638168,
+          -1.1012041120561211
+        ],
+        "max": [
+          0.33680643438709,
+          0.4174183746096066,
+          0.8067155992222439
+        ]
+      },
+      "camera": {
+        "position": [
+          4.872208838260226,
+          3.0801791812531762,
+          1.845932114002079
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.1923435609649513,
+        "right": 1.1923435609649513,
+        "top": 0.8942576707237135,
+        "bottom": -0.8942576707237135
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/salabhasana-both.webp",
+        "bytes": 12030,
+        "sha256": "a00559e96840f162b054e5c65fa535e2d92869547fd8c3e49d26a3d37665cc20",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/salabhasana-both-motion.webp",
+        "bytes": 253526,
+        "sha256": "c719a19380ab87ce535b6c4749bac28bde60869d46348b562a907aa16bafaf77",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/setu-bandha-sarvangasana-both.webp": {
+      "asanaId": "setu-bandha-sarvangasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:49.314Z",
+      "bounds": {
+        "min": [
+          -0.2758261736830885,
+          -0.0031523554002801293,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.27582608486936777,
+          0.4838009685319567,
+          0.8145848307279817
+        ]
+      },
+      "camera": {
+        "position": [
+          4.87220886106185,
+          3.1193568416155304,
+          1.9966249430297736
+        ],
+        "quaternion": [
+          -0.20559674732902836,
+          0.5400295793930849,
+          0.1380276440437775,
+          0.8043919444822751
+        ],
+        "zoom": 1,
+        "left": -1.0091142018840604,
+        "right": 1.0091142018840604,
+        "top": 0.7568356514130453,
+        "bottom": -0.7568356514130453
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/setu-bandha-sarvangasana-both.webp",
+        "bytes": 16366,
+        "sha256": "876dd6d647ee97ae746edf0024aa0dbf5ef3ce45854e4f53e03b246b244bc76f",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/setu-bandha-sarvangasana-both-motion.webp",
+        "bytes": 337264,
+        "sha256": "ae31552bf1f5a5ea25ce7538bdd2be7fac944de24e1b746bff2ab495a9dd8b91",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/ardha-matsyendrasana-right.webp": {
+      "asanaId": "ardha-matsyendrasana",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:54.591Z",
+      "bounds": {
+        "min": [
+          -0.37,
+          0,
+          -0.22573053470434074
+        ],
+        "max": [
+          0.405511305017334,
+          1.0455671285064696,
+          0.9004657033580381
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.135225644937571,
+          2.7782877806254835,
+          5.463513530627415
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          -0.1938513766884587,
+          -0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.1580477657127535,
+        "right": 1.1580477657127535,
+        "top": 0.8685358242845651,
+        "bottom": -0.8685358242845651
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/ardha-matsyendrasana-right.webp",
+        "bytes": 13206,
+        "sha256": "79b404e38f2be57a2cc3b465bf737a760766ee25e6fd470269971128b7a6f74a",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/ardha-matsyendrasana-right-motion.webp",
+        "bytes": 303938,
+        "sha256": "b93eea4330738d296a4176a667ad7c6d46af35e0bc3012b5cdac4357795d925d",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/ardha-matsyendrasana-left.webp": {
+      "asanaId": "ardha-matsyendrasana",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:08:59.760Z",
+      "bounds": {
+        "min": [
+          -0.40551131109556343,
+          0,
+          -0.22573049750840218
+        ],
+        "max": [
+          0.37,
+          1.0455671285064696,
+          0.9004654976586468
+        ]
+      },
+      "camera": {
+        "position": [
+          2.1352256418984563,
+          2.7782877806254835,
+          5.463513446375688
+        ],
+        "quaternion": [
+          -0.18773069780301999,
+          0.1938513766884587,
+          0.03782315365366322,
+          0.9621581148158923
+        ],
+        "zoom": 1,
+        "left": -1.1580477001833582,
+        "right": 1.1580477001833582,
+        "top": 0.8685357751375188,
+        "bottom": -0.8685357751375188
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/ardha-matsyendrasana-left.webp",
+        "bytes": 13250,
+        "sha256": "97932677ebb2c00486eaf59f4a9d47bb78475cece2ff790e553dcb6cfb4d4de9",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/ardha-matsyendrasana-left-motion.webp",
+        "bytes": 293652,
+        "sha256": "3d34cfa92a81f5286d8c94f47dc33e3213b894f7441aef886292d57c87cb4125",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/supta-padangusthasana-right.webp": {
+      "asanaId": "supta-padangusthasana",
+      "modelVariant": "female",
+      "side": "right",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:09:05.412Z",
+      "bounds": {
+        "min": [
+          -0.31474870450723125,
+          0.004801112830638818,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.29962774724616525,
+          0.9789077612803712,
+          0.872995188504808
+        ]
+      },
+      "camera": {
+        "position": [
+          -5.033195130500921,
+          3.423474650646565,
+          1.4984638582946987
+        ],
+        "quaternion": [
+          -0.20198533336876118,
+          -0.5805610070190295,
+          -0.15148900002657087,
+          0.7740813426920393
+        ],
+        "zoom": 1,
+        "left": -1.076179908111012,
+        "right": 1.076179908111012,
+        "top": 0.807134931083259,
+        "bottom": -0.807134931083259
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/supta-padangusthasana-right.webp",
+        "bytes": 13860,
+        "sha256": "ed91409e70358c3c3b1e19340a5d211a90bbc9a2546ca70b98a476487a6fc123",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/supta-padangusthasana-right-motion.webp",
+        "bytes": 292318,
+        "sha256": "4129acc5f6b913d6dc1e15e8076a509fde793ccd17e552b7e28e8b62d09e0ea0",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/supta-padangusthasana-left.webp": {
+      "asanaId": "supta-padangusthasana",
+      "modelVariant": "female",
+      "side": "left",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:09:10.985Z",
+      "bounds": {
+        "min": [
+          -0.2996276578976234,
+          0.004801112830638818,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.3147486558372923,
+          0.9789077937638686,
+          0.8729951884681829
+        ]
+      },
+      "camera": {
+        "position": [
+          5.033195150840222,
+          3.423474666888313,
+          1.4984638582763863
+        ],
+        "quaternion": [
+          -0.20198533336876112,
+          0.5805610070190295,
+          0.15148900002657087,
+          0.7740813426920393
+        ],
+        "zoom": 1,
+        "left": -1.0761798794749242,
+        "right": 1.0761798794749242,
+        "top": 0.8071349096061932,
+        "bottom": -0.8071349096061932
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/supta-padangusthasana-left.webp",
+        "bytes": 13960,
+        "sha256": "357d37fca5fec01b824a8defce60d5b12f27c938aa530518e00a3a8932bae043",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/supta-padangusthasana-left-motion.webp",
+        "bytes": 284656,
+        "sha256": "63c2fe9ef7359b5e31dbb7e13fb996af7de618ab3efe12aee1603ae19d0a14f3",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 56
+      }
+    },
+    "female/savasana-both.webp": {
+      "asanaId": "savasana",
+      "modelVariant": "female",
+      "side": "both",
+      "size": 512,
+      "sourceHash": "d497697acd7123512cfbd89ba787ad7a408e735316768964c90fa44a6e6a7444",
+      "generatedAt": "2026-10-07T13:09:16.504Z",
+      "bounds": {
+        "min": [
+          -0.30131352804293104,
+          0.004801112830638818,
+          -0.8076876855064699
+        ],
+        "max": [
+          0.3013135713566916,
+          0.2828705112981596,
+          0.9735560884225267
+        ]
+      },
+      "camera": {
+        "position": [
+          3.229562714649528,
+          4.608231299436588,
+          2.457612652187916
+        ],
+        "quaternion": [
+          -0.3634915726294855,
+          0.41229116620804057,
+          0.18390423874412165,
+          0.8149043513603927
+        ],
+        "zoom": 1,
+        "left": -1.057310319583562,
+        "right": 1.057310319583562,
+        "top": 0.7929827396876716,
+        "bottom": -0.7929827396876716
+      },
+      "renderer": {
+        "browser": "153.0.8010.12",
+        "platform": "darwin",
+        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
+        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+      },
+      "provenance": {
+        "model": "/models/anatomy.glb",
+        "modelSha256": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "creator": "Z-Anatomy contributors; BodyParts3D / Anatomography, DBCLS",
+        "sourceRepository": "https://github.com/LluisV/Z-Anatomy",
+        "sourceCommit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "notice": "/previews/yoga/NOTICE.md",
+        "method": "Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently."
+      },
+      "image": {
+        "file": "female/savasana-both.webp",
+        "bytes": 15992,
+        "sha256": "eb343249e62b45b2354d0e830fbf9aad79f6779556b63b8e7fd90274e9ef96e4",
+        "width": 512,
+        "height": 384
+      },
+      "animation": {
+        "file": "female/savasana-both-motion.webp",
+        "bytes": 429858,
+        "sha256": "a18fa66dfa78918cf5210f75853ba5a204475771c2f15a447f9ec06acc5034e3",
+        "width": 384,
+        "height": 288,
+        "durationSeconds": 12,
+        "fps": 8,
+        "frameCount": 96,
+        "uniqueFrames": 84
+      }
+    }
+  },
+  "generatedAt": "2026-10-07T13:09:16.504Z"
+}

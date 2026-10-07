@@ -6,6 +6,7 @@ import {
   dateInTimeZone, isPlanHistoryPreserved, preserveOptionalPersonalSettings,
   HealthDataSchema, createEmptyHealthData, healthHasFutureObservations, healthRecordCollections,
   type PersonalData, type PersonalSettings, type ServerState,
+  YogaDataSchema, createEmptyYogaData, type YogaData,
   type WorkoutLog, type CardioLog, type HealthData,
 } from '@klisteniapp/scene-schema';
 import { z } from 'zod';
@@ -19,6 +20,10 @@ export const SettingsRequestSchema = z.object({
 export const HealthRequestSchema = z.object({
   expectedRevision: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
   health: HealthDataSchema,
+}).strict();
+export const YogaRequestSchema = z.object({
+  expectedRevision: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+  yoga: YogaDataSchema,
 }).strict();
 export const LogRequestSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('workout'), log: WorkoutLogSchema }).strict(),
@@ -91,9 +96,16 @@ export class StateRepository {
     if (!restoreEmptyAccount && !isPlanHistoryPreserved(row.settings.plans, settings.plans, today)) {
       throw new HttpError(409, 'PLAN_HISTORY_CONFLICT', 'El historial del plan es inmutable. Los cambios empiezan el próximo lunes.');
     }
-    // Old devices and v2 backups omit health and appearance. Omission is not deletion.
+    // Old devices and v2 backups omit optional data. Omission is not deletion.
     const next = preserveOptionalPersonalSettings(row.settings, settings);
     if (next.health) this.validateHealth(next.health, next.profile.timeZone);
+    const priorYogaLogs = new Map(row.settings.yoga?.logs.map(log => [log.id, log]));
+    for (const log of next.yoga?.logs ?? []) {
+      const existing = priorYogaLogs.get(log.id);
+      if (existing && !isDeepStrictEqual(existing, log)) {
+        throw new HttpError(409, 'YOGA_LOG_CONFLICT', 'Una práctica registrada con ese identificador tiene otro contenido. El historial no se puede reescribir.');
+      }
+    }
     if (isDeepStrictEqual(row.settings, next)) return false;
     row.settings = next;
     return true;
@@ -106,6 +118,16 @@ export class StateRepository {
       if (row.settings.health) await this.validateHealthLinks(client, owner, row.settings.health, previous);
       return changed;
     });
+  }
+
+  yoga(owner: Owner, input: z.infer<typeof YogaRequestSchema>): Promise<ServerState> {
+    return this.transaction(owner, async (client, row) => {
+      // A stale deletion retry must refresh its snapshot even after access expires.
+      if (input.expectedRevision !== row.revision) throw new HttpError(409, 'REVISION_CONFLICT', 'Tus datos cambiaron en otro dispositivo. Actualizá antes de guardar.');
+      const next = { ...row.settings, yoga: input.yoga };
+      if (!isYogaRemovalOnly(row.settings, next)) await requireCloudAccess(client, owner.id, this.now());
+      return this.replaceSettings(row, next, input.expectedRevision);
+    }, false);
   }
 
   validateHealth(health: HealthData, timeZone: string): void {
@@ -216,16 +238,22 @@ export class StateRepository {
       // Normalize before merging so replaying the same portable backup is idempotent.
       const incomingHealth = rawHealth ? await this.normalizeImportedHealth(client, owner, rawHealth, previousHealth) : undefined;
       const mergedHealth = incomingHealth ? mergeHealthObservations(previousHealth ?? createEmptyHealthData(), incomingHealth) : undefined;
+      const rawYoga = input.data.version === 2 ? input.data.settings.yoga : undefined;
+      const mergedYoga = rawYoga ? mergeYogaData(row.settings.yoga ?? createEmptyYogaData(), rawYoga, Boolean(input.includeSettings)) : undefined;
       if (input.includeSettings) {
         if (input.data.version !== 2) throw new HttpError(400, 'INVALID_INPUT', 'El archivo no contiene ajustes personales.');
         const settings = mergedHealth ? { ...input.data.settings, health: {
           ...mergedHealth, profile: incomingHealth!.profile, goals: incomingHealth!.goals,
         } } : input.data.settings;
-        changed = this.replaceSettings(row, settings, input.expectedRevision, restoreEmptyAccount);
+        changed = this.replaceSettings(row, { ...settings, ...(mergedYoga ? { yoga: mergedYoga } : {}) }, input.expectedRevision, restoreEmptyAccount);
       } else if (mergedHealth) {
         this.validateHealth(mergedHealth, row.settings.profile.timeZone);
         changed = !isDeepStrictEqual(previousHealth, mergedHealth);
         row.settings = { ...row.settings, health: mergedHealth };
+      }
+      if (!input.includeSettings && mergedYoga) {
+        changed = changed || !isDeepStrictEqual(row.settings.yoga, mergedYoga);
+        row.settings = { ...row.settings, yoga: mergedYoga };
       }
       if (row.settings.health) await this.validateHealthLinks(client, owner, row.settings.health, previousHealth);
       return logsChanged || changed;
@@ -260,4 +288,28 @@ function mergeHealthObservations(current: HealthData, incoming: HealthData): Hea
     }
   }
   return HealthDataSchema.parse(result);
+}
+
+/** No profile changes, additions or edits may bypass the cloud write requirement. */
+export function isYogaRemovalOnly(current: PersonalSettings, next: PersonalSettings): boolean {
+  if (!current.yoga || !next.yoga || isDeepStrictEqual(current.yoga, next.yoga)) return false;
+  if (!isDeepStrictEqual({ ...current, yoga: undefined }, { ...next, yoga: undefined })) return false;
+  if (next.yoga.practices.length + next.yoga.logs.length >= current.yoga.practices.length + current.yoga.logs.length) return false;
+  return (['practices', 'logs'] as const).every(collection => {
+    const retainedIds = new Set(next.yoga![collection].map(record => record.id));
+    return isDeepStrictEqual(current.yoga![collection].filter(record => retainedIds.has(record.id)), next.yoga![collection]);
+  });
+}
+
+/** Observation-only imports keep library choices and merge immutable history. */
+export function mergeYogaData(current: YogaData, incoming: YogaData, includePractices: boolean): YogaData {
+  const logs = new Map(current.logs.map(log => [log.id, log]));
+  for (const log of incoming.logs) {
+    const existing = logs.get(log.id);
+    if (existing && !isDeepStrictEqual(existing, log)) {
+      throw new HttpError(409, 'YOGA_LOG_CONFLICT', 'Una práctica de esta copia coincide con un registro diferente. No se importó.');
+    }
+    logs.set(log.id, log);
+  }
+  return YogaDataSchema.parse({ practices: includePractices ? incoming.practices : current.practices, logs: [...logs.values()] });
 }

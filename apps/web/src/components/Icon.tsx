@@ -27,7 +27,9 @@ export type IconName =
   | 'spark'
   | 'reset'
   | 'search'
+  | 'yoga'
 const paths: Record<IconName, string> = {
+  yoga: 'M10 4a2 2 0 1 0 4 0a2 2 0 1 0-4 0 M12 8v7 M8 10l-3 4H2 M16 10l3 4h3 M8 17l-4 2 4 2h8l4-2-4-2 M9 14l3 2 3-2',
   heart: 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z M3 12h5l2-4 4 8 2-4h5',
   home: 'm3 10 9-7 9 7v10H3Z M9 20v-7h6v7',
   book: 'M12 5v16 M12 5C8 2 4 3 2 4v15c3-1 6-1 10 2 4-3 7-3 10-2V4c-2-1-6-2-10 1Z',

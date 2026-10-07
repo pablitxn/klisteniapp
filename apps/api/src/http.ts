@@ -10,7 +10,7 @@ import { AccessRepository } from './access.ts';
 import { BillingService, CheckoutInputSchema, validWebhookSignature } from './billing.ts';
 import { HttpError } from './errors.ts';
 import { PublicRecovery } from './public-recovery.ts';
-import { HealthRequestSchema, ImportRequestSchema, LogRequestSchema, SettingsRequestSchema, StateRepository, lockUser } from './state.ts';
+import { YogaRequestSchema, HealthRequestSchema, ImportRequestSchema, LogRequestSchema, SettingsRequestSchema, StateRepository, lockUser } from './state.ts';
 
 const authRoutes = new Map([
   ['/api/auth/sign-in/email', 'POST'],
@@ -262,6 +262,9 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
       if (method === 'PUT' && url.pathname === '/api/me/settings') {
         return json(response, 200, await repository.settings(owner, SettingsRequestSchema.parse(parseBody(await readBody(request, 512 * 1024)))));
       }
+      if (method === 'PUT' && url.pathname === '/api/me/yoga') {
+        return json(response, 200, await repository.yoga(owner, YogaRequestSchema.parse(parseBody(await readBody(request, 5 * 1024 * 1024)))));
+      }
       if (method === 'PUT' && url.pathname === '/api/me/health') {
         return json(response, 200, await repository.health(owner, HealthRequestSchema.parse(parseBody(await readBody(request, 5 * 1024 * 1024)))));
       }
@@ -269,7 +272,7 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
         return json(response, 200, await repository.addLog(owner, LogRequestSchema.parse(parseBody(await readBody(request, 64 * 1024)))));
       }
       if (method === 'POST' && url.pathname === '/api/me/import') {
-        return json(response, 200, await repository.import(owner, ImportRequestSchema.parse(parseBody(await readBody(request, 5 * 1024 * 1024)))));
+        return json(response, 200, await repository.import(owner, ImportRequestSchema.parse(parseBody(await readBody(request, 9 * 1024 * 1024)))));
       }
       const logPath = url.pathname.match(/^\/api\/me\/logs\/([^/]+)$/);
       if (method === 'DELETE' && logPath) {

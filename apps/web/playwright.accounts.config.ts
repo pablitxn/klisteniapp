@@ -5,7 +5,7 @@ const output = process.env.KLISTENI_ACCOUNTS_BUILD_OUTPUT ??= `/tmp/klisteniapp-
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: ['accounts.spec.ts', 'subscriptions.spec.ts', 'account-access.spec.ts', 'forgot-password.spec.ts', 'health.spec.ts', 'model-variant-account.spec.ts'],
+  testMatch: ['accounts.spec.ts', 'subscriptions.spec.ts', 'account-access.spec.ts', 'forgot-password.spec.ts', 'health.spec.ts', 'model-variant-account.spec.ts', 'yoga-account.spec.ts'],
   outputDir: process.env.CI ? './accounts-test-results' : `/tmp/klisteniapp-accounts-results-${process.pid}`,
   fullyParallel: false,
   forbidOnly: !!process.env.CI,

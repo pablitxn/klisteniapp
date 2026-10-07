@@ -63,6 +63,7 @@ export default function AccountPanel({ onDone }: { onDone: () => void }) {
     {local && (local.workouts > 0 || local.cardio > 0 || local.hasPreferences) && <section className="account-section">
       <h3>{t("Datos de este navegador")}</h3>
       <p>{t("Encontramos")} {local.workouts} {t("sesiones de fuerza y")} {local.cardio} {t("actividades de cardio del modo local. Incorporalos solamente si te pertenecen. La copia original seguirá disponible en modo local.")}</p>
+      <p>{t("También se incorporan los registros de yoga. Para llevar las secuencias guardadas, incluí la rutina local.")}</p>
       <label className="toggle-label"><span>{t("Incluir también la rutina local")}</span><input type="checkbox" checked={includeSettings} onChange={e => setIncludeSettings(e.target.checked)} /></label>
       <button className="secondary-button" disabled={busy || !data || cloudBlocked} onClick={async () => {
         setBusy(true)

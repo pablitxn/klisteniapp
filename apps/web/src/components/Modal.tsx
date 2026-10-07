@@ -37,7 +37,7 @@ export default function Modal({
       ref={ref}
       aria-labelledby={headingId}
       className={`modal ${wide ? 'modal-wide' : ''}`}
-      onCancel={onClose}
+      onCancel={(event) => { event.preventDefault(); onClose() }}
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { CardioLogSchema, LocalDateSchema, WorkoutLogSchema, type WorkoutLog, type CardioLog } from '@klisteniapp/scene-schema';
+import { CardioLogSchema, LocalDateSchema, WorkoutLogSchema, type WorkoutLog, type CardioLog, type YogaLog } from '@klisteniapp/scene-schema';
 import { computeProgress, emptyProgress, localDateKey, parseProgress, serializeProgress, weekStartKey } from '../src/lib/progress.ts';
 import { exercises, starterRoutine } from '../src/data/exercises.ts';
 
@@ -9,6 +9,22 @@ const workout = (date: string, id = date): WorkoutLog => ({
   durationMinutes: 15, exercises: [{ exerciseId: 'squat', sets: 2, reps: 8 }],
 });
 const cardio = (date: string, id = `walk-${date}`): CardioLog => ({ id, date, activity: 'walk', minutes: 20 });
+const yoga = (date: string, seconds = 90): YogaLog => ({
+  id: `yoga-${date}`, date, completedAt: `${date}T16:00:00Z`, durationSeconds: seconds,
+  practiceSnapshot: { id: 'practice', name: 'Una pausa', intention: '', steps: [{ id: 'rest', asanaId: 'savasana', durationSeconds: seconds, side: 'both' }] },
+  completedSteps: [{ stepId: 'rest', asanaId: 'savasana', durationSeconds: seconds, side: 'both' }],
+});
+
+test('yoga contributes actual practice minutes and active days without filling strength goals', () => {
+  const recorded = yoga('2026-10-07');
+  const result = computeProgress([], [], new Date(2026, 9, 7), [yoga('2026-10-06'), recorded, recorded, yoga('2026-10-08', 600)]);
+  assert.equal(result.streak, 2);
+  assert.equal(result.weeklyActiveDays, 2);
+  assert.equal(result.xp, 3);
+  assert.equal(result.totalSets, 0);
+  assert.equal(result.weeklyWorkouts, 0);
+  assert.equal(result.weeklyCardioMinutes, 0);
+});
 
 test('first visit has no synthetic history, streak or XP', () => {
   const parsed = parseProgress(null);

@@ -228,6 +228,7 @@ export function PreferencesForm({ section = 'appearance' }: { section?: 'appeara
         <p>
           {t(user ? 'Tu cuenta guarda el historial, las rutinas, la planificación y los datos de Mi salud. La exportación incluye esa información personal; guardala en un lugar privado. La importación combina registros sin borrar el historial existente.' : 'El historial se guarda en este navegador. Exportalo para conservarlo o llevarlo a otro dispositivo.')}
         </p>
+        <p>{t('La copia también incluye tus prácticas de yoga y sus registros.')}</p>
         {dataLoading && <p role="status">{t('Tu cuenta todavía no terminó de cargar.')}</p>}
         <button className="secondary-button" onClick={download} disabled={dataLoading}>
           <Icon name="download" size={18} /> {t(user ? 'Exportar mi cuenta' : 'Exportar mis datos')}
@@ -265,8 +266,8 @@ export function PreferencesForm({ section = 'appearance' }: { section?: 'appeara
           onChange={async (e) => {
             const f = e.target.files?.[0]
             if (!f) return
-            if (f.size > 5_000_000) {
-              setMessage('El archivo es demasiado grande. Máximo: 5 MB.')
+            if (f.size > 9 * 1024 * 1024) {
+              setMessage('El archivo es demasiado grande. Máximo: 9 MiB.')
               return
             }
             setImportText(await f.text())
@@ -279,6 +280,7 @@ export function PreferencesForm({ section = 'appearance' }: { section?: 'appeara
               {t(user ? 'Se incorporarán los registros de esta copia a tu cuenta. Los registros repetidos no se duplican. Tu planificación actual se conserva.' : 'Esta copia reemplazará el historial de este navegador. Exportá el actual si querés conservarlo.')}
             </p>
             {user && <p>{t('Si una observación de salud apunta a un entrenamiento que no está disponible en tu cuenta ni se incorpora con esta copia, se conserva la observación y se quita esa asociación. Los vínculos históricos que ya guardaste se mantienen.')}</p>}
+            {user && <p>{t('Los registros de yoga se incorporan al historial. Las secuencias guardadas se restauran al incluir los ajustes de la copia.')}</p>}
             {user && revision === 0 && <label className="toggle-label"><span>{t('Restaurar también perfil, rutinas y planificación de una copia completa')}</span><input type="checkbox" checked={restoreSettings} onChange={e => setRestoreSettings(e.target.checked)} /></label>}
             <button
               className="secondary-button"

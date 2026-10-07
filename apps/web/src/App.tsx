@@ -25,12 +25,14 @@ import SettingsPanel, { type SettingsSection } from './components/SettingsPanel'
 import { cloudWriteAllowed } from './lib/cloud-access'
 import { scrollPageToTop } from './lib/modal-scroll'
 const HealthPage = lazy(() => import('./components/HealthPage'))
+const YogaPage = lazy(() => import('./components/YogaPage'))
 const AnatomyViewer = lazy(() => import('./components/AnatomyViewer'))
-type Page = 'routine' | 'library' | 'anatomy' | 'progress' | 'health'
+type Page = 'routine' | 'library' | 'yoga' | 'anatomy' | 'progress' | 'health'
 type Overlay = 'cardio' | 'settings' | 'routine' | null
 const pages: { id: Page; label: string; icon: IconName }[] = [
   { id: 'routine', label: 'Mi rutina', icon: 'home' },
   { id: 'library', label: 'Ejercicios', icon: 'book' },
+  { id: 'yoga', label: 'Yoga', icon: 'yoga' },
   { id: 'anatomy', label: 'Mi cuerpo', icon: 'body' },
   { id: 'progress', label: 'Mi progreso', icon: 'chart' },
   { id: 'health', label: 'Mi salud', icon: 'heart' },
@@ -63,6 +65,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
   const user = instanceMode ? userState : null
   const authStatus = useAppStore(s => s.authStatus)
   const personalData = useAppStore(s => s.personalData)
+  const yogaLogs = useAppStore(s => s.yogaLogs)
   const access = useAppStore(s => s.access)
   const cloudBlocked = instanceMode && Boolean(user && !cloudWriteAllowed(access))
   const accountLoading = useAppStore(s => s.accountLoading)
@@ -78,7 +81,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
     : null
   const currentRoutine = personalSettings?.routines.find(r => r.id === personalSettings.activeRoutineId)
   const planStats = personalSettings && computePlanProgress(personalSettings.plans, progress.workouts, dateInTimeZone(new Date(), personalSettings.profile.timeZone))
-  const stats = computeProgress(progress.workouts, progress.cardio, personalSettings ? new Date(`${dateInTimeZone(new Date(), personalSettings.profile.timeZone)}T12:00:00`) : new Date())
+  const stats = computeProgress(progress.workouts, progress.cardio, personalSettings ? new Date(`${dateInTimeZone(new Date(), personalSettings.profile.timeZone)}T12:00:00`) : new Date(), yogaLogs)
   const exercise = getExercise(selectedId) ?? exercises[0]!
   const normalizeSearch = (value: string) => value.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').trim()
   const libraryExercises = exercises.filter((item) =>
@@ -127,6 +130,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
   const descriptions = {
     routine: t("Seguí tu rutina, entendé cada ejercicio y descubrí cómo progresar."),
     library: t("Conocé el movimiento antes de sumar repeticiones."),
+    yoga: t("Explorá las asanas, conocé su contexto y creá una práctica a tu ritmo."),
     anatomy: t("Aprendé qué trabaja y cómo se complementa."),
     progress: t("Lo que cuenta es volver, a tu ritmo."),
     health: t("Tu punto de partida, tus registros y tus próximos pasos."),
@@ -231,6 +235,8 @@ export default function App({ privacyControls, privacySettings, suspended = fals
                   t("Cada movimiento tiene su porqué.")
                 ) : page === 'anatomy' ? (
                   t("Conocé tu cuerpo.")
+                ) : page === 'yoga' ? (
+                  t("Hacé espacio para tu práctica.")
                 ) : page === 'health' ? (
                   t("Conocerte también es cuidarte.")
                 ) : (
@@ -656,6 +662,9 @@ export default function App({ privacyControls, privacySettings, suspended = fals
             </section>
           )}
           {page === 'anatomy' && <BodyGuide routine={routine} onOpenExercise={openExercise} />}
+          {page === 'yoga' && <Suspense fallback={<p role="status">{t("Preparando tu espacio de yoga…")}</p>}>
+            <YogaPage unavailable={privateUnavailable || cloudBlocked} suspended={suspended} />
+          </Suspense>}
           {page === 'progress' && (
             <Progress
               onCardio={() => { if (!privateUnavailable) setOverlay('cardio') }}

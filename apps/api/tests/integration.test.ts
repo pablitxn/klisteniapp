@@ -78,6 +78,78 @@ describe('PostgreSQL account API', { skip: !databaseUrl }, () => {
     } };
   }
 
+  test('yoga endpoint persists owner-scoped snapshots, rejects stale input and allows only deletion after expiry', async () => {
+    const a = await makeUser(), b = await makeUser();
+    const initial = await a.state();
+    const practice = { id: 'yoga-practice', name: 'Pausa', intention: '', steps: [{ id: 'step', asanaId: 'savasana', durationSeconds: 60, side: 'both' }] };
+    const log = { id: 'yoga-log', date: '2026-10-07', completedAt: '2026-10-07T10:00:00Z', practiceSnapshot: practice, completedSteps: [{ stepId: 'step', asanaId: 'savasana', durationSeconds: 20, side: 'both' }], durationSeconds: 20 };
+    const yoga = { practices: [practice], logs: [log] };
+    const response = await a.request('PUT', '/api/me/yoga', { yoga, expectedRevision: initial.revision });
+    assert.equal(response.status, 200, await response.clone().text());
+    const saved = await response.json() as ServerState;
+    assert.deepEqual(saved.data.settings.yoga, yoga);
+    assert.equal((await b.state()).data.settings.yoga, undefined);
+    assert.equal((await a.request('PUT', '/api/me/yoga', { yoga, expectedRevision: initial.revision })).status, 409);
+    assert.equal((await a.request('PUT', '/api/me/yoga', { yoga: { ...yoga, logs: [{ ...log, durationSeconds: 99 }] }, expectedRevision: saved.revision })).status, 400);
+    assert.equal((await a.request('PUT', '/api/me/yoga', { yoga, expectedRevision: saved.revision }, { 'x-klisteni-account': b.user.id })).status, 401);
+    await pool.query('UPDATE account_access SET lifetime = false, trial_ends_at = $2, paid_through = NULL WHERE user_id = $1', [a.user.id, new Date('2020-01-01T00:00:00Z')]);
+    assert.equal((await a.request('PUT', '/api/me/yoga', { yoga: { practices: [{ ...practice, name: 'Edit' }], logs: [log] }, expectedRevision: saved.revision })).status, 402);
+    const deleted = await a.request('PUT', '/api/me/yoga', { yoga: { practices: [], logs: [] }, expectedRevision: saved.revision });
+    assert.equal(deleted.status, 200, await deleted.clone().text());
+    assert.deepEqual((await a.state()).data.settings.yoga, { practices: [], logs: [] });
+    for (const staleYoga of [{ practices: [], logs: [] }, yoga]) {
+      const retry = await a.request('PUT', '/api/me/yoga', { yoga: staleYoga, expectedRevision: saved.revision });
+      assert.equal(retry.status, 409, await retry.clone().text());
+      assert.equal((await retry.json()).code, 'REVISION_CONFLICT');
+    }
+    assert.deepEqual((await a.state()).data.settings.yoga, { practices: [], logs: [] });
+  });
+
+  test('yoga HTTP accepts a history above the default body limit and rejects oversized bodies without changing state', async () => {
+    const account = await makeUser();
+    const initial = await account.state();
+    const practice = { id: 'large-practice', name: 'Pausa', intention: '', steps: [{ id: 'step', asanaId: 'savasana', durationSeconds: 60, side: 'both' }] };
+    const logs = Array.from({ length: 180 }, (_, index) => ({
+      id: `large-log-${index}`, date: '2026-10-07', completedAt: '2026-10-07T10:00:00Z', practiceSnapshot: practice,
+      completedSteps: [{ stepId: 'step', asanaId: 'savasana', durationSeconds: 20, side: 'both' }], durationSeconds: 20, notes: 'a'.repeat(3000),
+    }));
+    const yoga = { practices: [practice], logs };
+    assert.ok(Buffer.byteLength(JSON.stringify(yoga)) > 512 * 1024);
+    const response = await account.request('PUT', '/api/me/yoga', { yoga, expectedRevision: initial.revision });
+    assert.equal(response.status, 200, await response.clone().text());
+    const saved = await response.json() as ServerState;
+    assert.deepEqual(saved.data.settings.yoga, yoga);
+    const tooLarge = await account.request('PUT', '/api/me/yoga', { yoga, expectedRevision: saved.revision, padding: 'x'.repeat(5 * 1024 * 1024) });
+    assert.equal(tooLarge.status, 413, await tooLarge.clone().text());
+    assert.equal((await tooLarge.json()).code, 'BODY_TOO_LARGE');
+    assert.deepEqual(await account.state(), saved);
+  });
+
+  test('yoga imports roll back other observations on conflict and preserve yoga on legacy restore', async () => {
+    const account = await makeUser();
+    const initial = await account.state();
+    const practice = { id: 'import-practice', name: 'Pausa', intention: '', steps: [{ id: 'step', asanaId: 'savasana', durationSeconds: 60, side: 'both' }] };
+    const log = { id: 'import-log', date: '2026-10-07', completedAt: '2026-10-07T10:00:00Z', practiceSnapshot: practice, completedSteps: [{ stepId: 'step', asanaId: 'savasana', durationSeconds: 20, side: 'both' }], durationSeconds: 20 };
+    const created = await account.request('PUT', '/api/me/yoga', { yoga: { practices: [practice], logs: [log] }, expectedRevision: initial.revision });
+    assert.equal(created.status, 200, await created.clone().text());
+    const saved = await created.json() as ServerState;
+    const backup = createDefaultPersonalData('Backup', 'UTC');
+    backup.progress.cardio = [cardio('rollback-cardio')];
+    backup.settings.yoga = { ...saved.data.settings.yoga!, logs: [{ ...saved.data.settings.yoga!.logs[0], notes: 'Conflicting history' }] };
+    const conflict = await account.request('POST', '/api/me/import', { data: backup, includeSettings: false });
+    assert.equal(conflict.status, 409, await conflict.clone().text());
+    assert.equal((await conflict.json()).code, 'YOGA_LOG_CONFLICT');
+    assert.deepEqual(await account.state(), saved, 'cardio inserted earlier in the import must also roll back');
+    const legacy = structuredClone(saved.data);
+    delete legacy.settings.yoga;
+    legacy.settings.profile.displayName = 'Legacy restore';
+    const restored = await account.request('POST', '/api/me/import', { data: legacy, includeSettings: true, expectedRevision: saved.revision });
+    assert.equal(restored.status, 200, await restored.clone().text());
+    const result = await restored.json() as ServerState;
+    assert.equal(result.data.settings.profile.displayName, 'Legacy restore');
+    assert.deepEqual(result.data.settings.yoga, saved.data.settings.yoga);
+  });
+
   test('health, readiness, private route authentication and no registration', async () => {
     assert.equal((await fetch(`${base}/api/healthz`)).status, 200);
     assert.equal((await fetch(`${base}/api/readyz`)).status, 200);

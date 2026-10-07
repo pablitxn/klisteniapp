@@ -3,6 +3,7 @@ import {
   type CardioLog,
   type ProgressData,
   type WorkoutLog,
+  type YogaLog,
 } from '@klisteniapp/scene-schema';
 
 export const PROGRESS_STORAGE_KEY = 'klisteniapp.progress.v1';
@@ -65,6 +66,7 @@ export function computeProgress(
   workouts: readonly WorkoutLog[],
   cardio: readonly CardioLog[],
   now = new Date(),
+  yoga: readonly YogaLog[] = [],
 ): ProgressSummary {
   const today = localDateKey(now);
   const monday = weekStartKey(now);
@@ -77,7 +79,8 @@ export function computeProgress(
   });
   const completedWorkouts = counted(workouts);
   const completedCardio = counted(cardio);
-  const activeDays = [...new Set([...completedWorkouts, ...completedCardio].map((log) => log.date))].sort();
+  const completedYoga = counted(yoga);
+  const activeDays = [...new Set([...completedWorkouts, ...completedCardio, ...completedYoga].map((log) => log.date))].sort();
   const activeSet = new Set(activeDays);
   let cursor = activeSet.has(today) ? today : shiftDateKey(today, -1);
   let streak = 0;
@@ -88,7 +91,8 @@ export function computeProgress(
   const totalSets = completedWorkouts.reduce((total, log) => total + log.exercises.reduce((sum, entry) => sum + entry.sets, 0), 0);
   const totalCardioMinutes = completedCardio.reduce((total, log) => total + log.minutes, 0);
   // Reward only actual logged work. No starter bonus, invented history, or missed-day penalty.
-  const xp = totalSets * 10 + totalCardioMinutes;
+  const yogaMinutes = Math.floor(completedYoga.reduce((total, log) => total + log.durationSeconds, 0) / 60);
+  const xp = totalSets * 10 + totalCardioMinutes + yogaMinutes;
   return {
     streak,
     weeklyWorkouts: completedWorkouts.filter((log) => log.date >= monday).length,

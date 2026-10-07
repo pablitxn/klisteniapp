@@ -2,12 +2,12 @@
 
 **Learn the movement. Understand your body. Build the habit.**
 
-An educational calisthenics app that puts the explanation beside the exercise.
+An educational calisthenics and yoga app that puts the explanation beside the movement.
 Explore a moving anatomical model, discover what each movement asks of your
 body, shape a routine and keep a record of your practice. Start with your body
 weight, a browser and a little curiosity.
 
-**37 exercises & variants · 35 without equipment · Interactive 3D anatomy · Free local mode**
+**37 exercises & variants · 24 yoga asanas in 3D · Interactive anatomy · Free local mode**
 
 [Take a tour](#take-a-tour) · [Run locally](#run-locally) · [Public demo and instance modes](docs/public-demo.md) · [Documentation](docs/README.md)
 
@@ -59,6 +59,27 @@ That metadata is available today; automatic weekly programme generation is a
 future step. [Catalogue and educational criteria →](docs/exercise-sources.md) ·
 [Planning metadata →](docs/exercise-planning.md)
 
+### Make space for yoga
+
+**Yoga** includes a library of **24 asanas**, with Spanish, Sanskrit and English
+names. Explore preparation, breathing, expected sensations, adaptations and
+ways to leave each posture, alongside sourced historical and cultural context.
+Each asana uses the same anatomical model as the exercise library. Choose
+**Hombre** or **Mujer** globally; the cards, posture viewer and guided practice
+follow that choice. Explore the posture in 3D, with separately rendered left and
+right sides for asymmetric asanas. The body moves through preparation, entry,
+hold and exit while the camera stays fixed. Pause, scrub or slow the demonstration;
+watching it never starts the practice timer. Animated previews and the viewer
+respect reduced motion, while static renders keep the guidance available when
+WebGL cannot run.
+
+Build a named practice from scratch or adapt a starter sequence. Reorder or
+repeat asanas, set each hold and practice asymmetric postures on both sides.
+The guided timer pauses between postures and lets you skip or finish early.
+Save the time actually practiced, a snapshot of the sequence and optional notes.
+Practices and history use the same local or account storage as the rest of the
+app. [Yoga practices →](docs/yoga.md) · [Content and sources →](docs/yoga-sources.md)
+
 ### Turn a little practice into a visible habit
 
 **Mi rutina** starts with six equipment-free movements. Use **Personalizar** to
@@ -70,7 +91,7 @@ Walks, runs, bike rides and other aerobic activity have their own log.
 
 **Mi progreso** brings together the weekly view, activity history and XP.
 The history starts empty: watching the animation does not count as training.
-Earn **10 XP per recorded strength set** and **1 XP per recorded cardio minute**,
+Earn **10 XP per recorded strength set** and **1 XP per recorded cardio or yoga minute**,
 with a level every 100 XP. These are habit-building counters, not fitness scores
 or calorie estimates. [See the progress view →](docs/media/progress.png)
 
@@ -248,6 +269,10 @@ stale images. [Architecture →](docs/architecture.md)
 pnpm previews:generate
 pnpm previews:generate --exercise squat --gif  # Also requires FFmpeg
 pnpm previews:check
+
+# Yoga posters: the same 3D poses and anatomical variants as the live viewer
+pnpm yoga-previews:generate
+pnpm yoga-previews:check
 
 # README screenshots and GIFs: Playwright Chromium + cwebp + FFmpeg
 node scripts/capture-readme.mjs

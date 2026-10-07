@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { AnatomicalModelVariantSchema, CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, preserveOptionalPersonalSettings, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
+import { AnatomicalModelVariantSchema, CardioLogSchema, WorkoutLogSchema, HealthDataSchema, PersonalDataSchema, PersonalSettingsSchema, ProgressDataSchema, createDefaultPersonalData, preserveOptionalPersonalSettings, type YogaData, type YogaPractice, type YogaLog, type HealthData, type PersonalData, type PersonalSettings, type ServerState } from '@klisteniapp/scene-schema'
 import { AccountApiError, accountApi, cloudWriteAllowed, type AccountAccess, type AccountUser } from './account-api.ts'
 import { emptyProgress, parseProgress, serializeProgress } from './progress.ts'
 import type {
@@ -11,6 +11,7 @@ import type {
 export { STORAGE_KEY, LOCAL_PERSONAL_KEY, selectAnatomicalModel } from './store.persistence.ts'
 export type { Preferences } from './store.persistence.ts'
 import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, defaults, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences, type Preferences } from './store.persistence.ts'
+import { createYogaActions, yogaState } from './store.yoga.ts'
 import { loadDisplayPreferences, saveDisplayPreferences } from '../i18n/preferences.ts'
 const PENDING_PREFIX = 'klisteniapp.pending.v1.'
 const REJECTED_PREFIX = 'klisteniapp.rejected.v1.'
@@ -21,6 +22,12 @@ type Rejected = { operation: Pending; reason: string; rejectedAt: string }
 function errorText(error: unknown) { return error instanceof Error ? error.message : 'No pudimos guardar los cambios.' }
 export interface AppStore {
   progress: ProgressData
+  yogaPractices: YogaPractice[]
+  yogaLogs: YogaLog[]
+  saveYogaPractice: (practice: YogaPractice) => Promise<boolean>
+  deleteYogaPractice: (id: string) => Promise<boolean>
+  addYogaLog: (log: YogaLog) => Promise<boolean>
+  deleteYogaLog: (id: string) => Promise<boolean>
   preferences: Preferences
   storageError: string | null
   recoveryRaw: string | null
@@ -98,7 +105,7 @@ export const useAppStore = create<AppStore>((set, get) => {
     const profile = state.data.settings.profile
     // Only public display choices enter browser storage; account health stays private.
     if (profile.language !== undefined || profile.theme !== undefined || profile.colorTheme !== undefined) saveDisplayPreferences({ language: preferences.language, theme: preferences.theme, colorTheme: preferences.colorTheme })
-    set({ personalData: { ...state.data, progress }, progress, preferences, revision: state.revision, pendingCount: pending.length })
+    set({ personalData: { ...state.data, progress }, ...yogaState(state.data), progress, preferences, revision: state.revision, pendingCount: pending.length })
   }
   function readRejected(userId: string) {
     const prefix = `${REJECTED_PREFIX}${encodeURIComponent(userId)}.`
@@ -133,11 +140,11 @@ export const useAppStore = create<AppStore>((set, get) => {
     pending = []
     rejected = []
     canonical = null
-    set({ user: null, access: null, personalData: null, revision: null, progress: emptyProgress(), preferences: { ...defaults, ...loadDisplayPreferences() }, recoveryRaw: null, storageError: null, pendingCount: 0, rejectedCount: 0, syncStatus: 'idle', accountError: null })
+    set({ user: null, access: null, personalData: null, ...yogaState(null), revision: null, progress: emptyProgress(), preferences: { ...defaults, ...loadDisplayPreferences() }, recoveryRaw: null, storageError: null, pendingCount: 0, rejectedCount: 0, syncStatus: 'idle', accountError: null })
   }
   function anonymous(error: string | null = null) {
     clearPrivate()
-    set({ ...initial(), localPersonalData: loadLocalPersonal(), localRevision: 0, preferences: loadPreferences(), access: null, setAccess: access => set({ access }), authStatus: 'anonymous', accountLoading: false, accountError: error, localDataAvailable: localSummary() })
+    set({ ...initial(), ...yogaState(loadLocalPersonal()), localPersonalData: loadLocalPersonal(), localRevision: 0, preferences: loadPreferences(), access: null, setAccess: access => set({ access }), authStatus: 'anonymous', accountLoading: false, accountError: error, localDataAvailable: localSummary() })
   }
   function serialized(action: (token: number, userId: string) => Promise<string | null>) {
     const token = generation, userId = get().user?.id
@@ -217,7 +224,7 @@ export const useAppStore = create<AppStore>((set, get) => {
       const encoded = JSON.stringify(PersonalDataSchema.parse(data))
       localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
       if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
-      set({ localPersonalData: data, localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: data.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
+      set({ localPersonalData: data, ...yogaState(data), localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: data.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
       return null
     } catch { return 'No pudimos guardar tus datos personales en este navegador. El formulario conserva tus cambios.' }
   }
@@ -295,7 +302,42 @@ export const useAppStore = create<AppStore>((set, get) => {
       } catch (error) { return handleConflict(error, token, userId) }
     })
   }
+  async function saveYoga(yoga: YogaData, removalOnly: boolean): Promise<boolean> {
+    const unavailable = get().authStatus === 'loading' || get().accountLoading
+    if (unavailable) { set({ accountError: 'Esperá mientras verificamos tu sesión.' }); return false }
+    if (!get().user) {
+      const data = get().localPersonalData
+      const error = data ? saveLocalPersonal(localPersonalSnapshot({ ...data, settings: { ...data.settings, yoga } }), get().localRevision)
+        : 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+      set({ storageError: error })
+      return error === null
+    }
+    if (!removalOnly && !cloudWriteAllowed(get().access)) {
+      set({ accountError: 'El guardado en la nube está pausado. Revisá el acceso desde tu cuenta o seguí en modo local.' })
+      return false
+    }
+    const expectedRevision = get().revision
+    const owner = get().user!.id, token = generation
+    const error = await serialized(async (operationToken, userId) => {
+      if (!canonical || expectedRevision === null) return 'Tu cuenta todavía no terminó de cargar.'
+      if (canonical.revision !== expectedRevision) return 'Tus datos cambiaron. Conservamos la práctica; revisá la versión actual antes de guardar.'
+      if (pending.length) return 'Sincronizá tus entrenamientos pendientes antes de guardar yoga.'
+      set({ syncStatus: 'saving', accountError: null })
+      try {
+        const state = await accountApi.yoga(yoga, expectedRevision, userId)
+        if (!current(operationToken, userId)) return CHANGED_ACCOUNT
+        publish(state)
+        set({ syncStatus: 'idle' })
+        return null
+      } catch (failure) { return handleConflict(failure, operationToken, userId) }
+    })
+    if (error && current(token, owner)) set({ accountError: error })
+    return error === null
+  }
   return {
+    ...createYogaActions(() => ({ practices: get().yogaPractices, logs: get().yogaLogs }), saveYoga,
+      message => get().user ? set({ accountError: message }) : set({ storageError: message })),
+    ...yogaState(null),
     ...initial(), localPersonalData: loadLocalPersonal(), localRevision: 0, preferences: loadPreferences(), access: null, setAccess: access => set({ access }), authStatus: 'loading', user: null, accountLoading: false, accountError: null,
     personalData: null, revision: null, syncStatus: 'idle', pendingCount: 0, rejectedCount: 0, localDataAvailable: localSummary(),
     signIn: async (email, password) => {
@@ -468,6 +510,8 @@ export const useAppStore = create<AppStore>((set, get) => {
         if (data.settings.profile.colorTheme === undefined && previousColorTheme !== undefined) data.settings.profile.colorTheme = previousColorTheme
         const previousModel = get().localPersonalData?.settings.anatomicalModel
         if (data.settings.anatomicalModel === undefined && previousModel !== undefined) data.settings.anatomicalModel = previousModel
+        const previousYoga = get().localPersonalData?.settings.yoga
+        if (data.settings.yoga === undefined && previousYoga !== undefined) data.settings.yoga = previousYoga
         const failure = saveLocalPersonal(data, get().localRevision)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
@@ -487,7 +531,10 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (!user) return 'Iniciá sesión antes de incorporar el historial local.'
       const local = initial()
       if (local.storageError) return local.storageError
-      if (!includeSettings) return importAccount(local.progress, false)
+      if (!includeSettings) {
+        const personal = get().localPersonalData
+        return importAccount(personal ? { ...personal, progress: local.progress } : local.progress, false)
+      }
       const preferences = loadPreferences()
       const data = createDefaultPersonalData(get().personalData?.settings.profile.displayName ?? user.name, get().personalData?.settings.profile.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)
       // Importing legacy training preferences must never clear health records.

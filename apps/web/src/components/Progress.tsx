@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { computeProgress, localDateKey } from '../lib/progress'
 import { useAppStore } from '../lib/store'
 import { getExercise } from '../data/exercises'
+import { getAsana } from '../data/yoga'
 import { computePlanProgress, dateInTimeZone, planWeekStart } from '@klisteniapp/scene-schema'
 import Icon from './Icon'
 const labels: Record<string, string> = {
@@ -32,11 +33,13 @@ export default function Progress({
     [deleting, setDeleting] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  const yogaLogs = useAppStore(s => s.yogaLogs)
+  const deleteYogaLog = useAppStore(s => s.deleteYogaLog)
   const timeZone = useAppStore(s => s.personalData?.settings.profile.timeZone)
   const plans = useAppStore(s => s.personalData?.settings.plans)
   const todayKey = timeZone ? dateInTimeZone(new Date(), timeZone) : localDateKey()
   const today = new Date(`${todayKey}T12:00:00`)
-  const stats = computeProgress(data.workouts, data.cardio, today)
+  const stats = computeProgress(data.workouts, data.cardio, today, yogaLogs)
   const planStats = plans ? computePlanProgress(plans, data.workouts, todayKey) : null
   const monday = new Date(`${planWeekStart(todayKey)}T12:00:00`)
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -51,6 +54,7 @@ export default function Progress({
   const logs = [
     ...data.workouts.map((log) => ({ ...log, kind: 'workout' as const })),
     ...data.cardio.map((log) => ({ ...log, kind: 'cardio' as const })),
+    ...yogaLogs.map((log) => ({ ...log, kind: 'yoga' as const })),
   ].sort((a, b) => b.date.localeCompare(a.date))
   return (
     <section className="progress-section">
@@ -94,7 +98,7 @@ export default function Progress({
             <span style={{ width: `${stats.levelProgress}%` }} />
           </div>
           <p>{t("{{count}} / 100 XP al próximo nivel", { count: stats.levelProgress })}</p>
-          <small>{t("Fuerza: 10 XP por serie registrada.")}<br />{t("Aeróbico: 1 XP por minuto registrado.")}</small>
+          <small>{t("Fuerza: 10 XP por serie registrada.")}<br />{t("Aeróbico: 1 XP por minuto registrado.")}<br />{t("Yoga: 1 XP por minuto de práctica registrado.")}</small>
         </div>
       </div>
       <div className="section-heading">
@@ -108,28 +112,29 @@ export default function Progress({
             <Icon name="walk" size={46} />
           </span>
           <h3>{t("Tu primer paso todavía está por escribir.")}</h3>
-          <p>{t("Cuando termines una rutina o registres actividad aeróbica,")}<br />{t("vas a encontrarla acá. Sin apuro.")}</p>
+          <p>{t("Tus rutinas, prácticas de yoga y actividades aeróbicas se encuentran acá.")}<br />{t("A tu ritmo, un día a la vez.")}</p>
           <button className="primary-button" onClick={onStart}>{t("Explorar mi rutina")}<Icon name="arrow" size={17} />
           </button>
         </div>
       ) : (
         <div className="activity-history">
           {logs.map((log) => (
-            <article key={log.id}>
+            <article key={`${log.kind}:${log.id}`}>
               <span
                 className={`stat-icon ${log.kind === 'workout' ? 'purple' : 'green'}`}
               >
-                <Icon name={log.kind === 'workout' ? 'body' : 'walk'} />
+                <Icon name={log.kind === 'workout' ? 'body' : log.kind === 'yoga' ? 'yoga' : 'walk'} />
               </span>
               <div className="history-copy">
                 <h3>
                   {log.kind === 'workout'
                     ? t("Rutina de fuerza")
-                    : t(labels[log.activity]!)}
+                    : log.kind === 'yoga' ? `${t("Yoga")} · ${log.practiceSnapshot.name}` : t(labels[log.activity]!)}
                 </h3>
                 <p>
                   {log.kind === 'workout'
                     ? t("{{exercises}} ejercicios · {{sets}} series · {{minutes}} min", { exercises: new Set(log.exercises.map((e) => e.exerciseId)).size, sets: log.exercises.reduce((n, e) => n + e.sets, 0), minutes: Math.max(1, Math.round(log.durationMinutes)) })
+                    : log.kind === 'yoga' ? t("{{count}} posturas registradas · {{minutes}} min", { count: log.completedSteps.length, minutes: Math.round(log.durationSeconds / 60 * 10) / 10 })
                     : `${log.minutes.toLocaleString(i18n.resolvedLanguage ?? 'es')} min${log.distanceKm ? ` · ${log.distanceKm.toLocaleString(i18n.resolvedLanguage ?? 'es')} km` : ''}`}
                 </p>
                 {log.kind === 'workout' && (
@@ -146,9 +151,16 @@ export default function Progress({
                     ))}
                   </details>
                 )}
+                {log.kind === 'yoga' && <details>
+                  <summary>{t("Ver práctica")}</summary>
+                  {log.completedSteps.map(step => <p key={step.stepId}>
+                    {getAsana(step.asanaId)?.name ?? step.asanaId} · {step.durationSeconds} s{step.side === 'both' ? '' : ` · ${t(step.side === 'left' ? 'Lado izquierdo' : 'Lado derecho')}`}
+                  </p>)}
+                  {log.notes && <p>{log.notes}</p>}
+                </details>}
               </div>
               <time dateTime={log.date}>{dateLabel(log.date, i18n.resolvedLanguage ?? 'es')}</time>
-              {deleting === log.id ? (
+              {deleting === `${log.kind}:${log.id}` ? (
                 <div className="delete-confirm">
                   <span>{t("¿Eliminar registro?")}</span>
                   <button
@@ -156,7 +168,9 @@ export default function Progress({
                     disabled={busy}
                     onClick={async () => {
                       setBusy(true)
-                      const failure = await remove(log.id)
+                      const failure = log.kind === 'yoga'
+                        ? await deleteYogaLog(log.id) ? null : useAppStore.getState().accountError ?? useAppStore.getState().storageError ?? t("No pudimos eliminar la práctica.")
+                        : await remove(log.id)
                       setError(failure ?? '')
                       setBusy(false)
                       if (!failure) setDeleting(null)
@@ -170,8 +184,8 @@ export default function Progress({
               ) : (
                 <button
                   className="icon-button"
-                  aria-label={t("Eliminar {{activity}} del {{date}}", { activity: log.kind === 'workout' ? t("rutina") : t(labels[log.activity]!), date: dateLabel(log.date, i18n.resolvedLanguage ?? 'es') })}
-                  onClick={() => setDeleting(log.id)}
+                  aria-label={t("Eliminar {{activity}} del {{date}}", { activity: log.kind === 'workout' ? t("rutina") : log.kind === 'yoga' ? t("práctica de yoga") : t(labels[log.activity]!), date: dateLabel(log.date, i18n.resolvedLanguage ?? 'es') })}
+                  onClick={() => setDeleting(`${log.kind}:${log.id}`)}
                 >
                   <Icon name="close" size={16} />
                 </button>

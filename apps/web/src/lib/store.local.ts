@@ -3,6 +3,7 @@ import { AnatomicalModelVariantSchema, CardioLogSchema, WorkoutLogSchema, Health
 import type { AppStore } from './store.ts'
 import { STORAGE_KEY, RECOVERY_KEY, PREF_KEY, LOCAL_PERSONAL_KEY, initial, loadPreferences, loadLocalPersonal, localSummary, accountPreferences } from './store.persistence.ts'
 import { parseProgress, serializeProgress } from './progress.ts'
+import { createYogaActions, yogaState } from './store.yoga.ts'
 import { saveDisplayPreferences } from '../i18n/preferences.ts'
 
 export { STORAGE_KEY, LOCAL_PERSONAL_KEY, selectAnatomicalModel } from './store.persistence.ts'
@@ -41,11 +42,19 @@ export const useAppStore = create<AppStore>((set, get) => {
       const encoded = JSON.stringify(parsed)
       localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
       if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
-      set({ localPersonalData: parsed, localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: parsed.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
+      set({ localPersonalData: parsed, ...yogaState(parsed), localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: parsed.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
       return null
     } catch { return 'No pudimos guardar tus datos personales en este navegador. El formulario conserva tus cambios.' }
   }
   return {
+    ...createYogaActions(() => ({ practices: get().yogaPractices, logs: get().yogaLogs }), async yoga => {
+      const data = get().localPersonalData
+      const error = data ? savePersonal(snapshot({ ...data, settings: { ...data.settings, yoga } }), get().localRevision)
+        : 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+      set({ storageError: error })
+      return error === null
+    }, message => set({ storageError: message })),
+    ...yogaState(loadLocalPersonal()),
     ...initial(), preferences: loadPreferences(), localPersonalData: loadLocalPersonal(), localRevision: 0,
     authStatus: 'anonymous', user: null, access: null, accountLoading: false, accountError: null,
     personalData: null, revision: null, syncStatus: 'idle', pendingCount: 0, rejectedCount: 0, localDataAvailable: localSummary(),
@@ -117,6 +126,8 @@ export const useAppStore = create<AppStore>((set, get) => {
         if (data.settings.profile.colorTheme === undefined && previousColorTheme !== undefined) data.settings.profile.colorTheme = previousColorTheme
         const previousModel = get().localPersonalData?.settings.anatomicalModel
         if (data.settings.anatomicalModel === undefined && previousModel !== undefined) data.settings.anatomicalModel = previousModel
+        const previousYoga = get().localPersonalData?.settings.yoga
+        if (data.settings.yoga === undefined && previousYoga !== undefined) data.settings.yoga = previousYoga
         const failure = savePersonal(data, get().localRevision)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
