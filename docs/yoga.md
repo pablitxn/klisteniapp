@@ -39,12 +39,32 @@ derecha. En una práctica guiada el modelo sigue el lado del tramo actual. Cambi
 la cámara no cambia el lado anatómico, y la interfaz no espeja una imagen para
 simular el otro lado.
 
-El rig conserva los 17 segmentos del atlas y sus longitudes. La columna se
-aproxima con pelvis, torso y cabeza: no articula cada vértebra ni simula tejidos
-blandos. Algunos tendones largos ligados a la tibia pueden intersectar el piso
+Yoga conserva los 17 segmentos originales y las longitudes de las extremidades,
+y añade nueve controles axiales y dos controles intermedios de hombro:
+**28 huesos en el rig de Yoga**. La
+influencia del torso se reparte a lo largo de esos controles para representar la
+curva de Gato/Vaca, flexiones y extensiones sin mover los anclajes de hombros y
+pelvis. Los controles de hombro reparten el giro entre torso y húmero para
+conservar la superficie al elevar o plegar los brazos. Cada estructura ósea usa
+un control rígido; la piel y los músculos interpolan sus influencias.
+El atlas fuente y el rig de los ejercicios conservan
+su geometría y comportamiento. La curva de la columna es una aproximación
+educativa, no una simulación vértebra por vértebra ni de tejidos blandos.
+
+La entrada y la salida coordinan base, torso, cabeza y extremidades con tiempos
+propios; las manos libres siguen arcos y los apoyos se resuelven de nuevo en cada
+cuadro. Una pequeña variación del tórax durante la permanencia evita un cuerpo
+inmóvil, sin prescribir un patrón respiratorio. El encuadre mide todo el ciclo,
+incluidos la salida y esos pequeños cambios. El estudio de Yoga emplea luz suave,
+sombras cortas, una colchoneta con espesor y bloques de bordes redondeados. Los
+ángulos predeterminados muestran el perfil de la columna y los apoyos.
+
+Algunos tendones largos ligados a la tibia pueden intersectar el piso
 en la capa muscular al flexionar mucho el tobillo; los apoyos se verifican sobre
-la superficie de piel. Las pruebas del GLB comprueban esa superficie para ambos
-modelos y el apoyo de cabeza y espalda en las posturas supinas.
+la superficie de piel. Yoga calibra rodillas y apoyo anterior de pelvis usando
+la superficie deformada de cada modelo, para evitar que queden suspendidos sobre
+la colchoneta. Las pruebas del GLB comprueban esa superficie para ambos modelos
+y el apoyo de cabeza y espalda en las posturas supinas.
 
 ## Prácticas y registro
 
@@ -89,11 +109,14 @@ contenido se rechazan.
 - `apps/web/src/components/YogaViewer.tsx`: visor interactivo y alternativa estática.
 - `apps/web/src/components/YogaStage.tsx`: atlas, pose y cámara compartidos con la captura.
 - `apps/web/src/lib/yoga-rig.ts`: poses de las 24 asanas sobre el rig anatómico.
+- `apps/web/src/lib/yoga-anatomy.ts`: preparación del atlas y controles axiales exclusivos de Yoga.
 - `apps/web/src/lib/yoga-motion.ts`: ciclo, fases e interpolación del movimiento.
 - `apps/web/src/lib/yoga-rendering.ts`: encuadre de la pose y vistas del modelo.
 - `apps/web/src/lib/yoga-preview-assets.ts`: rutas de las imágenes por asana, modelo y lado.
 - `apps/web/src/lib/store.yoga.ts`: operaciones compartidas de persistencia.
 - `apps/web/src/lib/yoga-practice.ts`: búsqueda, lados y tiempos.
+- `scripts/export-yoga-blender.mjs`: exportación del rig y sus ciclos a GLB con animaciones.
+- `scripts/blender/build_yoga.py`: preparación de la escena editable de Blender.
 
 Las validaciones de yoga se ejecutan con las pruebas de schema, web y API.
 La aceptación del flujo de usuario está en `apps/web/e2e/yoga.spec.ts`.
@@ -164,10 +187,17 @@ La entrada de captura es `apps/web/yoga-preview-capture.html`, servida por un Vi
 aislado durante la generación. Usa `YogaStage` con la capa muscular y una cámara
 ortográfica que encuadra el ciclo completo una sola vez, incluida la morfología
 elegida. Los posters predeterminados miden **512 × 384 píxeles** y las animaciones
-**384 × 288**, con 96 muestras a 8 cuadros por segundo para el ciclo de 12
+**384 × 288**, con 240 muestras a 20 cuadros por segundo para el ciclo de 12
 segundos. `--size` cambia el ancho del poster entre 128 y 1024; la altura conserva
 la relación 4:3 y la animación limita su ancho a 384. `--fps` admite 4, 5, 8, 10,
 20 o 25. Las capturas de desarrollo no se incorporan al build público.
+
+Para revisar otras capas sin cambiar los posters, esa entrada admite
+`?asana=marjaryasana&model=female&layer=skin&view=side`. `layer` acepta `muscles`,
+`skin`, `skeleton` o `combined`; `view` acepta `perspective`, `front`, `side` o
+`back`. Los valores predeterminados siguen siendo `muscles` y `perspective`.
+La API de captura `window.__yogaCapture.frame(fase)` permite inspeccionar de
+forma determinista cualquier punto del ciclo entre 0 y 1.
 
 `--contact-sheets` exporta tanto las posturas de permanencia como comparaciones
 de preparación, entrada y permanencia, para revisar las trayectorias de ambos
@@ -181,3 +211,38 @@ generador exige que el cuerpo produzca cuadros distintos manteniendo la cámara
 y los límites del encuadre constantes en cada cuadro. Las imágenes son
 renders derivados del atlas y conservan sus [créditos y licencia](../apps/web/public/previews/yoga/NOTICE.md).
 No se promete igualdad de píxeles entre GPU o versiones de Chromium distintas.
+
+## Taller de Blender
+
+`node scripts/export-yoga-blender.mjs` exporta a
+`artifacts/yoga-quality/blender/` el atlas preparado, los pesos y los mismos
+movimientos que utiliza el visor. Produce un GLB por modelo, con 32 clips cada
+uno: **64 clips** para las 24 asanas y sus lados.
+Los clips se muestrean a 24 cuadros por segundo e incluyen preparación, entrada,
+permanencia y salida. Un manifiesto enumera modelos, huesos y acciones.
+
+`scripts/blender/build_yoga.py` prepara esos archivos como un taller editable y
+guarda `assets/blender/yoga-quality.blend`, con una escena por modelo y acciones
+que se pueden elegir en el editor de acciones. Ese archivo se genera desde las
+fuentes; el atlas original permanece en su propio archivo.
+
+El constructor verifica los hashes de fuentes y GLB, los huesos, las acciones y
+sus tiempos antes de guardar. La reproducción cubre los cuadros 1–288 a 24 fps;
+el cuadro 289 conserva la clave de cierre, igual al primero.
+Elimina sólo claves interiores redundantes de tramos constantes con interpolación
+lineal, conservando ambos extremos y cada muestra que cambia. También limpia los
+buffers del explorador de archivos antes de guardar el archivo público.
+La cámara fija mide la geometría deformada en 33 fases de cada acción, incluye
+los bloques y ambas orientaciones de colchoneta, y conserva margen en los bordes.
+El archivo incluye los créditos del atlas y el texto completo de su licencia.
+
+Los bloques se organizan en colecciones por acción bajo **Pose supports**,
+excluidas por defecto. Activá la colección correspondiente cuando una asana usa
+bloques y desactivala al cambiar de postura. La colchoneta se puede girar 90°
+alrededor de Z para Guerrero II y Triángulo. No requiere ejecutar scripts al
+abrir el archivo para reproducir las acciones o mostrar los apoyos.
+
+Las exportaciones son artefactos de trabajo derivados del atlas; los ajustes
+permanentes de la aplicación siguen viviendo en las fuentes de Yoga. Después de
+cambiar esos ajustes, regenerá el taller y las miniaturas para mantenerlos de
+acuerdo con el visor, y conservá los créditos y la licencia del atlas.

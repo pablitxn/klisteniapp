@@ -9,7 +9,7 @@ import { createAnatomyRig, parseAnatomyLandmarks } from '../src/lib/anatomy-rig.
 import { prepareAnatomy } from '../src/lib/anatomy-model.ts';
 import { mapAnatomyLandmarks } from '../src/lib/anatomy-variants.ts';
 import { asanas } from '../src/data/yoga.ts';
-import { applyYogaPose, getYogaPose } from '../src/lib/yoga-rig.ts';
+import { applyYogaPose, getYogaPose, type YogaPose } from '../src/lib/yoga-rig.ts';
 import { applyYogaMotion, createYogaMotion, YOGA_HOLD_PHASE, YOGA_MOTION_DURATION_SECONDS, yogaMotionTimeline } from '../src/lib/yoga-motion.ts';
 
 const source = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../public/models/rig-landmarks.json', import.meta.url), 'utf8')));
@@ -51,7 +51,7 @@ test('all 24 motion demonstrations articulate real joints, close their loop and 
   }
 });
 
-test('motion uses the same 17 rigid GPU bones and converges to the static asana at the poster phase', () => {
+test('motion uses rigid GPU bones and converges to the static asana at the poster phase', () => {
   for (const variant of variants) {
     const rig = createAnatomyRig(mapAnatomyLandmarks(source, variant));
     for (const id of YogaAsanaIdSchema.options) {
@@ -69,6 +69,44 @@ test('motion uses the same 17 rigid GPU bones and converges to the static asana 
         }
       }
     }
+  }
+});
+
+test('every hold breathes gently while the exact teaching pose and supported contacts remain stable', () => {
+  for (const variant of variants) {
+    const landmarks = mapAnatomyLandmarks(source, variant);
+    for (const id of YogaAsanaIdSchema.options) {
+      const motion = createYogaMotion(landmarks, id), still = motion.sample(YOGA_HOLD_PHASE);
+      for (const phase of [0.43, 0.58]) {
+        const breathing = motion.sample(phase);
+        const angle = breathing.torsoRotation.angleTo(still.torsoRotation);
+        assert.ok(angle > 0.002 && angle < 0.008, `${variant} ${id}: quiet breathing must remain visible without rocking the whole body`);
+        assert.ok(distance(breathing.pelvis, still.pelvis) < 0.003, `${id}: keep the base settled`);
+        for (const side of sides) {
+          const movingFoot = id === 'salabhasana' || id === 'supta-padangusthasana' && side === 'right' || id === 'vrksasana' && side === 'left';
+          if (!movingFoot) near(distance(breathing.legs[side].end, still.legs[side].end), 0, `${id} breathing support`, 0.00005);
+          const onBlock = still.props.some(prop => Math.abs(still.arms[side].end[0] - prop.position[0]) <= prop.size[0] / 2 && Math.abs(still.arms[side].end[2] - prop.position[2]) <= prop.size[2] / 2);
+          if (onBlock) near(distance(breathing.arms[side].end, still.arms[side].end), 0, `${id} breathing palm on block`, 0.00005);
+        }
+      }
+    }
+  }
+});
+
+test('the standing base settles before the arms reach, and seated folds lengthen the arms before the torso', () => {
+  const limbProgress = (start: YogaPose, current: YogaPose, goal: YogaPose) => {
+    const direction = (pose: YogaPose) => new Vector3(...pose.arms.left.end).sub(new Vector3(...pose.arms.left.start)).normalize();
+    return 1 - direction(current).angleTo(direction(goal)) / direction(start).angleTo(direction(goal));
+  };
+  for (const id of ['utkatasana', 'virabhadrasana-i', 'virabhadrasana-ii'] as const) {
+    const motion = createYogaMotion(source, id), start = motion.sample(0), current = motion.sample(0.22), goal = motion.sample(0.5);
+    const baseProgress = (start.pelvis[1] - current.pelvis[1]) / (start.pelvis[1] - goal.pelvis[1]);
+    assert.ok(baseProgress > limbProgress(start, current, goal) + 0.1, `${id}: avoid simultaneous robotic joint timing`);
+  }
+  for (const id of ['paschimottanasana', 'janu-sirsasana'] as const) {
+    const motion = createYogaMotion(source, id), start = motion.sample(0), current = motion.sample(0.22), goal = motion.sample(0.5);
+    const torsoProgress = 1 - current.torsoRotation.angleTo(goal.torsoRotation) / start.torsoRotation.angleTo(goal.torsoRotation);
+    assert.ok(limbProgress(start, current, goal) > torsoProgress + 0.1, `${id}: reach and lengthen before folding`);
   }
 });
 
@@ -105,16 +143,72 @@ test('chair and lunges actually lower the pelvis from a less flexed preparation'
 });
 
 test('palms, soles and all other bones rotate continuously without terminal-frame flips', () => {
-  const rig = createAnatomyRig(source);
-  for (const id of YogaAsanaIdSchema.options) {
-    const motion = createYogaMotion(source, id);
-    let previous: Quaternion[] | undefined;
-    for (let frame = 0; frame <= 240; frame++) {
-      applyYogaMotion(rig, motion, frame / 240);
-      const current = rig.segments.map(segment => new Quaternion().setFromRotationMatrix(segment.bone.matrix));
-      if (previous) current.forEach((rotation, index) => assert.ok(rotation.angleTo(previous![index]!) < 0.20,
-        `${id} ${frame / 240} ${rig.segments[index]!.key}: sudden rotational jump`));
-      previous = current;
+  for (const variant of variants) {
+    const rig = createAnatomyRig(mapAnatomyLandmarks(source, variant));
+    for (const id of YogaAsanaIdSchema.options) for (const side of sides) {
+      const motion = createYogaMotion(rig.landmarks, id, side);
+      let previous: Quaternion[] | undefined;
+      for (let frame = 0; frame <= 240; frame++) {
+        applyYogaMotion(rig, motion, frame / 240);
+        const current = rig.segments.map(segment => new Quaternion().setFromRotationMatrix(segment.bone.matrix));
+        if (previous) current.forEach((rotation, index) => assert.ok(rotation.angleTo(previous![index]!) < 0.20,
+          `${variant} ${id} ${side} ${frame / 240} ${rig.segments[index]!.key}: sudden rotational jump`));
+        previous = current;
+      }
+    }
+  }
+});
+
+test('Downward Dog keeps its arms extended while the supported knees lift and lower', () => {
+  for (const variant of variants) {
+    const landmarks = mapAnatomyLandmarks(source, variant), motion = createYogaMotion(landmarks, 'adho-mukha-svanasana');
+    for (let frame = 0; frame <= 120; frame++) for (const side of sides) {
+      const pose = motion.sample(frame / 120), arm = pose.arms[side];
+      const length = distance(landmarks[side].shoulder, landmarks[side].elbow) + distance(landmarks[side].elbow, landmarks[side].wrist);
+      assert.ok(distance(arm.start, arm.end) / length > 0.97, `${variant} ${side} ${frame}: elbows must not collapse during the hip lift`);
+      if (frame === 0) near(pose.legs[side].joint[1], 0.105, `${variant} ${side} supported knee`);
+    }
+  }
+});
+
+test('supine leg raising keeps the anatomical knee bend plane instead of rolling the knee inward', () => {
+  for (const variant of variants) for (const side of sides) {
+    const motion = createYogaMotion(mapAnatomyLandmarks(source, variant), 'supta-padangusthasana', side);
+    for (let frame = 0; frame <= 120; frame++) {
+      const leg = motion.sample(frame / 120).legs[side];
+      const normal = new Vector3(...leg.joint).sub(new Vector3(...leg.start))
+        .cross(new Vector3(...leg.end).sub(new Vector3(...leg.joint))).normalize();
+      assert.ok(normal.x > 0.999, `${variant} ${side} ${frame}: anatomical knee flexion must remain in the sagittal plane`);
+    }
+  }
+});
+
+test('prone knees bend away from the mat and never turn the calf surface underneath the leg', () => {
+  for (const variant of variants) for (const id of ['bhujangasana', 'salabhasana'] as const) {
+    const motion = createYogaMotion(mapAnatomyLandmarks(source, variant), id);
+    for (let frame = 0; frame <= 120; frame++) for (const side of sides) {
+      const leg = motion.sample(frame / 120).legs[side];
+      const normal = new Vector3(...leg.joint).sub(new Vector3(...leg.start))
+        .cross(new Vector3(...leg.end).sub(new Vector3(...leg.joint))).normalize();
+      assert.ok(normal.x < -0.999, `${variant} ${id} ${side} ${frame}: posterior knee flexion must face away from the mat`);
+    }
+  }
+});
+
+test('standing folds retain the posterior thigh and calf surface behind the legs', () => {
+  for (const variant of variants) {
+    const rig = createAnatomyRig(mapAnatomyLandmarks(source, variant));
+    for (const id of ['uttanasana', 'ardha-uttanasana'] as const) {
+      const motion = createYogaMotion(rig.landmarks, id);
+      for (const phase of [0, 0.2, 0.5, 0.8]) {
+        applyYogaMotion(rig, motion, phase);
+        for (const side of sides) for (const bone of ['thigh', 'shin']) {
+          const segment = rig.byKey.get(`${bone}.${side}`)!;
+          const deformation = segment.bone.matrix.clone().multiply(segment.bindMatrix.clone().invert());
+          const posterior = new Vector3(0, 0, -1).transformDirection(deformation);
+          assert.ok(posterior.z < -0.75, `${variant} ${id} ${phase} ${bone}.${side}: source skin must not roll half a turn around the leg`);
+        }
+      }
     }
   }
 });
@@ -150,7 +244,7 @@ test('representative movement samples keep the actual male and female external s
       const vertices = skin.geometry.getAttribute('position').count;
       for (const id of YogaAsanaIdSchema.options) {
         const motion = createYogaMotion(anatomy.rig.landmarks, id);
-        for (const phase of [0, 0.15, 0.22, 0.3, 0.5]) {
+        for (const phase of [0, 0.15, 0.22, 0.3, 0.43, 0.5, 0.58, 0.8]) {
           applyYogaMotion(anatomy.rig, motion, phase);
           let bottom = Infinity;
           for (let vertex = 0; vertex < vertices; vertex++) { skin.getVertexPosition(vertex, point); bottom = Math.min(bottom, point.y); }

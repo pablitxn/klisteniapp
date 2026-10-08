@@ -60,3 +60,12 @@ Las páginas de Yoga Journal incluyen enseñanza de docentes, variaciones y, en 
 ## Verificación del catálogo
 
 `apps/web/test/yoga-catalog.test.ts` comprueba correspondencia con los IDs persistidos, unicidad, contenido imprescindible, resolución de fuentes, semántica de lateralidad, validación de las tres plantillas, equilibrio de lados, descanso final y coincidencia entre duración anunciada y segundos programados. No reemplaza una revisión por un docente de yoga ni una validación clínica.
+
+## Revisión visual del 8 de octubre de 2026
+
+La revisión del rig contrasta las líneas de apoyo de [Downward-Facing Dog](https://www.yogajournal.com/poses/downward-facing-dog/?scope=anon)
+y las alternativas de alcance de [Extended Triangle, por Andrew McGonigle](https://www.yogajournal.com/practice/ways-to-practice-triangle-pose/?scope=anon).
+Las referencias se usan para orientar la silueta y los apoyos; los parámetros del
+rig, la respiración ilustrada y el ciclo de doce segundos son decisiones de
+animación propias. No se incorporan fotografías ni ilustraciones ajenas. El
+taller de Blender y las previews derivan del mismo atlas anatómico acreditado.

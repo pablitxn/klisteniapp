@@ -192,6 +192,25 @@ test('Warriors extend the rear leg while quadruped arms reach toward the floor w
   }
 });
 
+test('Dog and Triangle retain their characteristic long support lines in both morphologies and sides', () => {
+  const extension = (limb: { start: Vec3; joint: Vec3; end: Vec3 }) =>
+    distance(limb.start, limb.end) / (distance(limb.start, limb.joint) + distance(limb.joint, limb.end));
+  for (const variant of variants) {
+    const landmarks = mapAnatomyLandmarks(source, variant);
+    const dog = getYogaPose(landmarks, 'adho-mukha-svanasana');
+    for (const side of sides) {
+      assert.ok(extension(dog.arms[side]) > 0.998, `${variant} dog: elbows should extend rather than lower into a push-up`);
+      assert.ok(extension(dog.legs[side]) > 0.998, `${variant} dog: elongated support leg`);
+      assert.ok(dog.pelvis[1] > dog.arms[side].start[1] + 0.3);
+      assert.ok(dog.arms[side].end[2] > dog.pelvis[2] && dog.legs[side].end[2] < dog.pelvis[2]);
+      const triangle = getYogaPose(landmarks, 'trikonasana', side);
+      assert.ok(extension(triangle.arms[side]) > 0.995, `${variant} triangle: straight reaching arm`);
+      for (const leg of Object.values(triangle.legs)) assert.ok(extension(leg) > 0.998, `${variant} triangle: straight leg`);
+      near(triangle.arms[side].start[0], triangle.arms[side].end[0], 'stack supporting wrist below shoulder');
+    }
+  }
+});
+
 test('actual male and female skin clears the floor; reclined head and back retain calibrated surface contact', async () => {
   const file = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url));
   const asset = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '');

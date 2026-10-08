@@ -43,6 +43,8 @@ export interface AnatomyLandmarks {
     pelvisHeight: number
     /** Pelvis height that supports the actual anterior trunk in the prone pose. */
     pronePelvisHeight?: number
+    /** Anterior pelvic surface at a horizontal pelvis, independent of chest contour. */
+    pronePelvisFloorHeight?: number
     /** Convex Y/Z silhouette of actual torso skin, used to limit floor contact. */
     torsoProfile?: Vec3[]
     handHeight?: Record<Side, number>

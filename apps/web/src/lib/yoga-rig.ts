@@ -2,6 +2,7 @@ import { Matrix4, Quaternion, Vector3 } from 'three';
 import { solveLimb, type Limb, type Side, type Vec3 } from '@klisteniapp/geometry';
 import type { YogaAsanaId } from '@klisteniapp/scene-schema';
 import { retargetExercisePose, segmentFrame, type AnatomyLandmarks, type AnatomyRig, type RigSegment } from './anatomy-rig.ts';
+import { applyYogaSpine, getYogaKneeHeight, getYogaPronePelvisHeight } from './yoga-anatomy.ts';
 
 export type YogaSide = 'both' | Side;
 export type YogaTerminal = { direction: Vec3; normal: Vec3 };
@@ -16,6 +17,8 @@ export interface YogaPose {
   pelvisRotation: Quaternion;
   torsoRotation: Quaternion;
   headRotation: Quaternion;
+  /** Amount of the authored axial curve; zero is the contextual preparation. */
+  spineActivation?: number;
   arms: Record<Side, Limb>;
   legs: Record<Side, Limb>;
   hands: Record<Side, YogaTerminal | null>;
@@ -52,6 +55,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
   const shin = (s: Side) => length(landmarks[s].knee, landmarks[s].ankle);
   const legLength = (s: Side) => thigh(s) + shin(s);
   const handHeight = (s: Side) => landmarks.support?.handHeight?.[s] ?? 0.065;
+  const kneeHeight = getYogaKneeHeight(landmarks, asanaId) ?? 0.105;
   let pelvis: Vec3 = [...landmarks.pelvis];
   let torsoAngle = 0, torsoRotation = q(), pelvisRotation = q(), headRotation: Quaternion | undefined;
   let neckOverride: Vec3 | undefined;
@@ -93,8 +97,12 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
   const handsOnThighs = () => SIDES.forEach(s => {
     armTargets[s] = [sign(s) * 0.27, 0.25, 0.28];
     armHints[s] = [sign(s), -0.6, -0.3];
+    hands[s] = { direction: [-sign(s) * 0.3, -0.3, 1], normal: [0, -1, -0.3] };
   });
-  const raisedArms = () => SIDES.forEach(s => { armDirections[s] = [sign(s) * 0.24, 0.97, 0.04]; });
+  const raisedArms = () => SIDES.forEach(s => {
+    armDirections[s] = [sign(s) * 0.12, 1, 0.06];
+    hands[s] = { direction: [sign(s) * 0.10, 1, 0.04], normal: [-sign(s), 0.10, 0] };
+  });
   const blockHand = (s: Side, wrist: Vec3, width = 0.18) => {
     armTargets[s] = wrist; hands[s] = palmDown;
     const height = Math.max(0.025, wrist[1] - handHeight(s));
@@ -163,7 +171,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       armHints[passive] = [-active, -0.5, 0.2];
       break;
     case 'balasana':
-      floorExercise = true; pelvis = [0, 0.225, -0.26];
+      floorExercise = true; pelvis = [0, kneeHeight + 0.12, -0.26];
       trunk(Math.acos((0.16 - pelvis[1]) / length(landmarks.pelvis, landmarks.neck)));
       // Keep the actual external chest profile above the mat in both visual
       // morphologies; the adjustment opens the fold instead of shrinking it.
@@ -175,7 +183,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       }
       pelvisRotation = q(0.45); headRotation = q(Math.PI / 2);
       for (const s of SIDES) {
-        knees[s] = { height: 0.105 };
+        knees[s] = { height: kneeHeight };
         armTargets[s] = [sign(s) * 0.23, handHeight(s), 0.84];
         armHints[s] = [sign(s) * 0.1, 1, 0];
         hands[s] = palmDown; feet[s] = proneFoot;
@@ -184,7 +192,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
     case 'marjaryasana':
     case 'bitilasana': {
       const cat = asanaId === 'marjaryasana';
-      floorExercise = true; pelvis = [0, cat ? 0.53 : 0.55, -0.22];
+      floorExercise = true; pelvis = [0, kneeHeight + (cat ? 0.425 : 0.445), -0.22];
       // Match shoulder height to the measured arm span. Shortening the torso
       // to draw a pronounced cartoon arch would otherwise turn Cat into a push-up.
       const shoulder = landmarks.left.shoulder;
@@ -194,7 +202,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       pelvisRotation = q(cat ? 1.18 : 1.85);
       headRotation = q(cat ? 2.15 : 0.85);
       for (const s of SIDES) {
-        knees[s] = { height: 0.105 };
+        knees[s] = { height: kneeHeight };
         const shoulderZ = transform(landmarks[s].shoulder, landmarks.pelvis, pelvis, torsoRotation)[2];
         armTargets[s] = [landmarks[s].shoulder[0], handHeight(s), shoulderZ];
         armHints[s] = [sign(s) * 0.15, 0, -1];
@@ -202,25 +210,40 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       }
       break;
     }
-    case 'adho-mukha-svanasana':
-      inherit('pike-pushup', 0); floorExercise = true;
+    case 'adho-mukha-svanasana': {
+      // A long inverted V, rather than the bent-arm bottom of a pike push-up.
+      // Solve the slope from the measured shoulder + arm reach and palm plane.
+      floorExercise = true; pelvis = [0, 0.86, -0.25];
+      const source = landmarks.left;
+      const dy = source.shoulder[1] - landmarks.pelvis[1] + armLength('left') - 0.0005;
+      const dz = source.shoulder[2] - landmarks.pelvis[2];
+      trunk(Math.acos((handHeight('left') - pelvis[1]) / Math.hypot(dy, dz)) - Math.atan2(dz, dy));
+      pelvisRotation = torsoRotation.clone();
       for (const s of SIDES) {
+        const shoulder = transform(landmarks[s].shoulder, landmarks.pelvis, pelvis, torsoRotation);
+        const reach = armLength(s) - 0.0005;
+        armTargets[s] = [shoulder[0], handHeight(s), shoulder[2] + Math.sqrt(reach ** 2 - (shoulder[1] - handHeight(s)) ** 2)];
+        armHints[s] = [sign(s) * 0.05, 0, -1];
+        const ankleY = landmarks[s].ankle[1] + 0.025;
+        legTargets[s] = [landmarks[s].hip[0], ankleY, pelvis[2] - Math.sqrt((legLength(s) - 0.0005) ** 2 - (pelvis[1] - ankleY) ** 2)];
         hands[s] = palmDown;
         const source = landmarks[s], offset = v(source.toe ?? [source.ankle[0], 0.02, source.ankle[2] + 0.18]).sub(v(source.ankle));
         const footPitch = Math.atan2(offset.y, offset.z) - Math.asin(Math.max(-1, Math.min(1,
-          ((source.toe?.[1] ?? 0.02) - baseLegs![s].end[1]) / Math.hypot(offset.y, offset.z))));
+          ((source.toe?.[1] ?? 0.02) - ankleY) / Math.hypot(offset.y, offset.z))));
         footRotation(s, q(footPitch));
       }
       break;
+    }
     case 'uttanasana':
     case 'ardha-uttanasana': {
       const half = asanaId === 'ardha-uttanasana';
-      pelvis = [0, 0.84, -0.12]; trunk(half ? 1.10 : 2.22); pelvisRotation = q(half ? 0.30 : 0.55);
+      pelvis = [0, 0.875, -0.09]; trunk(half ? 1.40 : 2.45); pelvisRotation = q(half ? 0.55 : 0.85);
       for (const s of SIDES) {
         legTargets[s] = [landmarks[s].ankle[0] + sign(s) * 0.035, landmarks[s].ankle[1], 0];
-        armTargets[s] = half ? [sign(s) * 0.15, 0.56, 0.20] : [sign(s) * 0.15, handHeight(s) + 0.12, 0.28];
+        armTargets[s] = half ? [sign(s) * 0.12, 0.42, 0.16] : [sign(s) * 0.19, handHeight(s) + 0.12, 0.24];
         armHints[s] = [sign(s) * 0.3, 0.1, 1];
         if (!half) blockHand(s, armTargets[s]!);
+        else hands[s] = { direction: [0, -1, 0], normal: [0, 0, -1] };
       }
       flatFeet();
       break;
@@ -245,21 +268,29 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       const reach = Math.sqrt((legLength(passive) - 0.00001) ** 2 - drop ** 2);
       legTargets[passive] = [pelvis[0] + landmarks[passive].hip[0] - active * reach, landmarks[passive].ankle[1], 0];
       legHints[side] = [active, 0, 0]; legHints[passive] = [-active, 0, 0];
-      for (const s of SIDES) armDirections[s] = [sign(s), 0, 0];
+      for (const s of SIDES) {
+        armDirections[s] = [sign(s), 0, 0];
+        hands[s] = { direction: [sign(s), 0, 0], normal: [0, -1, 0] };
+      }
       footRotation(side, q(0, active * Math.PI / 2)); footRotation(passive, q(0, active * 0.15));
       break;
     }
-    case 'trikonasana':
-      pelvis = [0, 0.75, 0]; trunk(0, 0, -active * 1.02);
+    case 'trikonasana': {
+      const spread = 0.54;
+      pelvis = [0, Math.min(...SIDES.map(s => landmarks[s].ankle[1] + Math.sqrt((legLength(s) - 0.0003) ** 2 - (spread - Math.abs(landmarks[s].hip[0])) ** 2))), 0];
+      trunk(0, 0, -active * 1.15);
       for (const s of SIDES) {
-        legTargets[s] = [sign(s) * 0.55, landmarks[s].ankle[1], 0];
+        legTargets[s] = [sign(s) * spread, landmarks[s].ankle[1], 0];
         legHints[s] = [sign(s), 0, 0.4];
       }
-      blockHand(side, [active * 0.63, 0.39, 0.02]);
+      const shoulder = transform(landmarks[side].shoulder, landmarks.pelvis, pelvis, torsoRotation);
+      blockHand(side, [shoulder[0], shoulder[1] - armLength(side) + 0.002, shoulder[2]]);
       armHints[side] = [active, 0, -0.2];
       armDirections[passive] = [0, 1, 0];
+      hands[passive] = { direction: [0, 1, 0], normal: [0, 0, 1] };
       footRotation(side, q(0, active * Math.PI / 2)); footRotation(passive, q(0, active * 0.12));
       break;
+    }
     case 'vrksasana':
       pelvis = [-landmarks[side].hip[0], landmarks.pelvis[1] - 0.005, 0];
       legTargets[side] = [0, landmarks[side].ankle[1], landmarks[side].ankle[2]];
@@ -275,9 +306,9 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       break;
     case 'anjaneyasana': {
       const kneeZ = -0.20;
-      pelvis = [0, 0.105 + Math.sqrt(thigh(passive) ** 2 - kneeZ ** 2), 0];
+      pelvis = [0, kneeHeight + Math.sqrt(thigh(passive) ** 2 - kneeZ ** 2), 0];
       trunk(0.03); raisedArms(); floorExercise = true;
-      knees[passive] = { height: 0.105, z: kneeZ };
+      knees[passive] = { height: kneeHeight, z: kneeZ };
       legTargets[side] = [active * 0.13, landmarks[side].ankle[1], 0.48];
       legHints[side] = [0, 0, 1];
       footRotation(side, q()); feet[passive] = proneFoot;
@@ -287,10 +318,16 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
     case 'salabhasana': {
       const cobra = asanaId === 'bhujangasana';
       floorExercise = true;
-      pelvis = [0, Math.max(landmarks.support?.pronePelvisHeight ?? 0.18, 0.18), -0.08];
+      // The abdomen/pelvis carries the pose. A chest-derived clearance leaves
+      // the whole body floating, especially for the female chest surface.
+      pelvis = [0, getYogaPronePelvisHeight(landmarks, asanaId)
+        ?? (landmarks.support?.pronePelvisFloorHeight ?? 0.135) - (cobra ? 0.008 : 0), -0.08];
       trunk(cobra ? 1.10 : 1.39); pelvisRotation = q(Math.PI / 2); headRotation = q(cobra ? 0.50 : 1.5);
       for (const s of SIDES) {
-        legDirections[s] = cobra ? [0, -0.12, -1] : [0, 0.12, -1];
+        const ankleDrop = pelvis[1] - 0.065;
+        legDirections[s] = cobra ? [0, -ankleDrop / Math.sqrt(legLength(s) ** 2 - ankleDrop ** 2), -1] : [0, 0.12, -1];
+        // Posterior knee flexion points away from the mat in prone poses.
+        legHints[s] = [0, 1, 0];
         feet[s] = proneFoot;
         if (cobra) {
           armTargets[s] = [sign(s) * 0.23, handHeight(s), 0.27];
@@ -313,6 +350,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       }
       if (asanaId === 'supta-padangusthasana') {
         legDirections[side] = [0, 0.92, -0.39];
+        legHints[side] = [0, 0, -1];
         delete legDirections[passive];
         legTargets[passive] = [landmarks[passive].hip[0], landmarks[passive].ankle[1], pelvis[2] + 0.58];
         legHints[passive] = [0, 1, 0]; footRotation(passive, q());
@@ -347,7 +385,7 @@ export function getYogaPose(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, s
       const vertical = hip[1] - anchor.height;
       const forward = Math.sqrt(Math.max(0, thigh(s) ** 2 - vertical ** 2));
       const knee: Vec3 = [hip[0], anchor.height, anchor.z ?? hip[2] + forward];
-      const ankleDrop = 0.04;
+      const ankleDrop = kneeHeight - 0.065;
       const ankle: Vec3 = [knee[0], knee[1] - ankleDrop, knee[2] - Math.sqrt(shin(s) ** 2 - ankleDrop ** 2)];
       legs[s] = { start: hip, joint: knee, end: ankle };
     } else {
@@ -372,14 +410,38 @@ function rigid(segment: RigSegment, source: Vec3, target: Vec3, rotation: Quater
   segment.bone.matrix.copy(delta.multiply(segment.bindMatrix));
 }
 
-function limbFrame(segment: RigSegment, start: Vec3, end: Vec3, rotation: Quaternion) {
-  const from = segment.direction.clone().applyQuaternion(rotation);
-  const to = v(end).sub(v(start)).normalize();
-  const orientation = new Quaternion().setFromUnitVectors(from, to).multiply(rotation).multiply(segment.bindRotation);
+/** Preserve body-referenced roll for hips and shoulders. Upper arms swing via
+ * their outward lateral axis to avoid the overhead antipode; forearms use the
+ * complete elbow plane, whose source bend is sufficiently well defined. */
+export function yogaLimbRotation(source: Limb, target: Limb, distal: boolean, bodyRotation: Quaternion, limb: 'arms' | 'legs'): Quaternion {
+  const from = v(distal ? source.end : source.joint).sub(v(distal ? source.joint : source.start)).normalize().applyQuaternion(bodyRotation);
+  const to = v(distal ? target.end : target.joint).sub(v(distal ? target.joint : target.start)).normalize();
+  const swing = new Quaternion().setFromUnitVectors(from, to).multiply(bodyRotation);
+  // The atlas' nearly straight resting knees have a slight reverse bend. That
+  // tiny plane must not define thigh roll: doing so turns the buttock/calf
+  // surface inward by half a turn. Preserve pelvic roll for the leg chain.
+  if (limb === 'legs') return swing;
+  if (!distal) {
+    const lateral = new Vector3(Math.sign(source.start[0]), 0, 0).applyQuaternion(bodyRotation);
+    return new Quaternion().setFromUnitVectors(lateral, to)
+      .multiply(new Quaternion().setFromUnitVectors(from, lateral)).multiply(bodyRotation);
+  }
+  const normal = (limb: Limb) => v(limb.joint).sub(v(limb.start)).cross(v(limb.end).sub(v(limb.joint)));
+  const sourceNormal = normal(source).normalize(), targetNormal = normal(target);
+  if (targetNormal.lengthSq() < 1e-12) targetNormal.copy(sourceNormal).applyQuaternion(bodyRotation);
+  const frame = (limb: Limb, reference: Vector3) => new Quaternion().setFromRotationMatrix(segmentFrame(
+    v(distal ? limb.joint : limb.start), v(distal ? limb.end : limb.joint), reference));
+  return frame(target, targetNormal).multiply(frame(source, sourceNormal).invert());
+}
+
+function limbFrame(segment: RigSegment, source: Limb, target: Limb, distal: boolean, rotation: Quaternion) {
+  const start = distal ? target.joint : target.start;
+  const limb = segment.segment === 'thigh' || segment.segment === 'shin' ? 'legs' : 'arms';
+  const orientation = yogaLimbRotation(source, target, distal, rotation, limb).multiply(segment.bindRotation);
   segment.bone.matrix.compose(v(start), orientation, new Vector3(1, 1, 1));
 }
 
-/** Update only the existing 17 GPU bones. The GLB and bind geometry are untouched. */
+/** Pose the source-length anatomical rig and its optional Yoga axial controls. */
 export function applyYogaPose(rig: AnatomyRig, asanaId: YogaAsanaId, side: YogaSide = 'both'): YogaPose {
   const pose = getYogaPose(rig.landmarks, asanaId, side);
   return applyYogaPoseFrame(rig, pose);
@@ -389,15 +451,18 @@ export function applyYogaPose(rig: AnatomyRig, asanaId: YogaAsanaId, side: YogaS
 export function applyYogaPoseFrame(rig: AnatomyRig, pose: YogaPose): YogaPose {
   for (const segment of rig.segments) {
     const s = segment.side!;
+    const source = s ? rig.landmarks[s] : undefined;
+    const arm = source ? { start: source.shoulder, joint: source.elbow, end: source.wrist } : undefined;
+    const leg = source ? { start: source.hip, joint: source.knee, end: source.ankle } : undefined;
     switch (segment.segment) {
       case 'pelvis': rigid(segment, rig.landmarks.pelvis, pose.pelvis, pose.pelvisRotation); break;
       case 'torso':
       case 'scapula': rigid(segment, rig.landmarks.pelvis, pose.pelvis, pose.torsoRotation); break;
       case 'head': rigid(segment, rig.landmarks.neck, pose.neck, pose.headRotation); break;
-      case 'upperArm': limbFrame(segment, pose.arms[s].start, pose.arms[s].joint, pose.torsoRotation); break;
-      case 'forearm': limbFrame(segment, pose.arms[s].joint, pose.arms[s].end, pose.torsoRotation); break;
-      case 'thigh': limbFrame(segment, pose.legs[s].start, pose.legs[s].joint, pose.pelvisRotation); break;
-      case 'shin': limbFrame(segment, pose.legs[s].joint, pose.legs[s].end, pose.pelvisRotation); break;
+      case 'upperArm': limbFrame(segment, arm!, pose.arms[s], false, pose.torsoRotation); break;
+      case 'forearm': limbFrame(segment, arm!, pose.arms[s], true, pose.torsoRotation); break;
+      case 'thigh': limbFrame(segment, leg!, pose.legs[s], false, pose.pelvisRotation); break;
+      case 'shin': limbFrame(segment, leg!, pose.legs[s], true, pose.pelvisRotation); break;
       case 'hand':
       case 'foot': {
         const hand = segment.segment === 'hand';
@@ -414,6 +479,7 @@ export function applyYogaPoseFrame(rig: AnatomyRig, pose: YogaPose): YogaPose {
     }
     segment.bone.matrixWorld.copy(segment.bone.matrix);
   }
+  applyYogaSpine(rig, pose);
   rig.skeleton.update();
   return pose;
 }

@@ -7,6 +7,7 @@ import YogaStage, { YogaCamera } from './components/YogaStage'
 import { yogaPreviewSide } from './lib/yoga-preview-assets'
 import { anatomyRendererOptions, anatomyShadows } from './lib/anatomy-render-settings'
 import { YOGA_HOLD_PHASE } from './lib/yoga-motion'
+import type { YogaLayer, YogaView } from './lib/yoga-rendering'
 
 interface YogaCapture {
   png: string
@@ -25,6 +26,10 @@ const params = new URLSearchParams(location.search)
 const asanaId = YogaAsanaIdSchema.parse(params.get('asana'))
 const modelVariant = AnatomicalModelVariantSchema.parse(params.get('model') ?? 'male')
 const side = yogaPreviewSide(asanaId, YogaSideSchema.parse(params.get('side') ?? 'both'))
+const layer = (params.get('layer') ?? 'muscles') as YogaLayer
+const view = (params.get('view') ?? 'perspective') as YogaView
+if (!['skin', 'muscles', 'skeleton', 'combined'].includes(layer)) throw new Error('Invalid yoga capture layer')
+if (!['perspective', 'front', 'side', 'back'].includes(view)) throw new Error('Invalid yoga capture view')
 
 export default function CaptureScene() {
   const { gl, scene, camera, invalidate } = useThree()
@@ -56,8 +61,8 @@ export default function CaptureScene() {
     })
   }, 1)
   return <>
-    <YogaStage asanaId={asanaId} modelVariant={modelVariant} side={side} phaseRef={phaseRef} layer="muscles" onReady={onReady} />
-    <YogaCamera bounds={bounds} asanaId={asanaId} side={side} interactive={false} />
+    <YogaStage asanaId={asanaId} modelVariant={modelVariant} side={side} phaseRef={phaseRef} layer={layer} onReady={onReady} />
+    <YogaCamera bounds={bounds} asanaId={asanaId} side={side} view={view} interactive={false} />
   </>
 }
 

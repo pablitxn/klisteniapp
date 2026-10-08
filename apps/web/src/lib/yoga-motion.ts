@@ -2,7 +2,8 @@ import { Quaternion, Vector3 } from 'three';
 import { solveLimb, type Limb, type Side, type Vec3 } from '@klisteniapp/geometry';
 import type { YogaAsanaId } from '@klisteniapp/scene-schema';
 import { retargetExercisePose, segmentFrame, type AnatomyLandmarks, type AnatomyRig } from './anatomy-rig.ts';
-import { applyYogaPoseFrame, getYogaPose, type YogaPose, type YogaSide, type YogaTerminal } from './yoga-rig.ts';
+import { getYogaKneeHeight } from './yoga-anatomy.ts';
+import { applyYogaPoseFrame, getYogaPose, yogaLimbRotation, type YogaPose, type YogaSide, type YogaTerminal } from './yoga-rig.ts';
 
 export const YOGA_MOTION_DURATION_SECONDS = 12;
 export const YOGA_HOLD_PHASE = 0.5;
@@ -36,8 +37,35 @@ export function yogaMotionPhaseLabel(value: number) {
   const phase = phaseOf(value);
   return yogaMotionTimeline.find(interval => phase >= interval.start && phase < interval.end)!.label;
 }
-const amountAt = (phase: number) => phase < 0.36 ? smooth((phase - 0.08) / 0.28)
-  : phase < 0.66 ? 1 : 1 - smooth((phase - 0.66) / 0.28);
+type MotionChannel = 'base' | 'torso' | 'head' | 'arms' | 'legs';
+type MotionTiming = Record<MotionChannel, readonly [number, number]>;
+const standingTiming: MotionTiming = { base: [0, 0.86], torso: [0.04, 0.94], head: [0.16, 1], arms: [0.12, 1], legs: [0, 0.86] };
+const seatedTiming: MotionTiming = { base: [0, 0.94], torso: [0.12, 1], head: [0.20, 1], arms: [0, 0.87], legs: [0, 0.94] };
+const supportedTiming: MotionTiming = { base: [0, 1], torso: [0, 1], head: [0.12, 1], arms: [0, 1], legs: [0, 1] };
+const balanceTiming: MotionTiming = { base: [0, 0.86], torso: [0, 0.94], head: [0.12, 1], arms: [0.22, 1], legs: [0, 0.84] };
+function motionTiming(asanaId: YogaAsanaId): MotionTiming {
+  if (['vrksasana', 'supta-padangusthasana'].includes(asanaId)) return balanceTiming;
+  if (['sukhasana', 'baddha-konasana', 'dandasana', 'paschimottanasana', 'janu-sirsasana', 'ardha-matsyendrasana'].includes(asanaId)) return seatedTiming;
+  if (['balasana', 'marjaryasana', 'bitilasana', 'adho-mukha-svanasana', 'bhujangasana', 'salabhasana', 'setu-bandha-sarvangasana', 'savasana'].includes(asanaId)) return supportedTiming;
+  return standingTiming;
+}
+/** A base settles before a free limb reaches; on release the hands soften
+ * before the body returns. Each channel still stops with zero acceleration. */
+function channelAmount(phase: number, timing: readonly [number, number]) {
+  if (phase >= 0.36 && phase <= 0.66) return 1;
+  const entering = phase < 0.36;
+  const progress = entering ? (phase - 0.08) / 0.28 : (phase - 0.66) / 0.28;
+  const [start, end] = entering ? timing : [1 - timing[1], 1 - timing[0]];
+  const amount = smooth((progress - start) / (end - start));
+  return entering ? amount : 1 - amount;
+}
+/** Two quiet thorax excursions settle at the exact teaching/poster phase.
+ * The fourth power avoids a visible start/stop at any hold boundary. */
+function breathAt(phase: number) {
+  if (phase <= 0.36 || phase >= 0.66) return 0;
+  const progress = phase < YOGA_HOLD_PHASE ? (phase - 0.36) / (YOGA_HOLD_PHASE - 0.36) : (phase - YOGA_HOLD_PHASE) / (0.66 - YOGA_HOLD_PHASE);
+  return Math.sin(Math.PI * progress) ** 4;
+}
 const transformed = (point: Vec3, source: Vec3, target: Vec3, rotation: Quaternion): Vec3 =>
   p(v(point).sub(v(source)).applyQuaternion(rotation).add(v(target)));
 function clone(pose: YogaPose): YogaPose {
@@ -72,13 +100,11 @@ function terminal(landmarks: AnatomyLandmarks, pose: YogaPose, side: Side, hand:
   const explicit = hand ? pose.hands[side] : pose.feet[side];
   if (explicit) return explicit;
   const source = landmarks[side], limb = hand ? pose.arms[side] : pose.legs[side];
-  const sourceStart = hand ? source.elbow : source.knee, sourceEnd = hand ? source.wrist : source.ankle;
-  const rotation = (hand ? pose.torsoRotation : pose.pelvisRotation).clone();
-  const from = v(sourceEnd).sub(v(sourceStart)).normalize().applyQuaternion(rotation);
-  const to = v(limb.end).sub(v(limb.joint)).normalize();
-  const delta = new Quaternion().setFromUnitVectors(from, to).multiply(rotation);
-  const endpoint = hand ? source.handEnd ?? [source.wrist[0], source.wrist[1] - 0.17, source.wrist[2]] as Vec3
-    : source.toe ?? [source.ankle[0], 0.02, source.ankle[2] + 0.18] as Vec3;
+  const sourceEnd = hand ? source.wrist : source.ankle;
+  const sourceLimb = hand ? { start: source.shoulder, joint: source.elbow, end: source.wrist } : { start: source.hip, joint: source.knee, end: source.ankle };
+  const delta = yogaLimbRotation(sourceLimb, limb, true, hand ? pose.torsoRotation : pose.pelvisRotation, hand ? 'arms' : 'legs');
+  const endpoint = hand ? source.handEnd ?? p(v(source.wrist).add(v(source.wrist).sub(v(source.elbow)).normalize().multiplyScalar(0.17)))
+    : source.toe ?? [source.ankle[0], source.ankle[1] - 0.045, source.ankle[2] + 0.18] as Vec3;
   return { direction: p(v(endpoint).sub(v(sourceEnd)).applyQuaternion(delta)),
     normal: p(new Vector3(...(hand ? [0, 0, 1] : [0, 1, 0]) as Vec3).applyQuaternion(delta)) };
 }
@@ -89,21 +115,45 @@ function blendTerminal(a: YogaTerminal, b: YogaTerminal, amount: number): YogaTe
   const rotation = frame(a).slerp(frame(b), amount);
   return { direction: p(new Vector3(0, 1, 0).applyQuaternion(rotation)), normal: p(new Vector3(0, 0, 1).applyQuaternion(rotation)) };
 }
+function transportedHint(from: Limb, to: Limb, direction: Vector3, amount: number, mirrorSign: number): Vec3 {
+  const transport = (limb: Limb) => {
+    const axis = v(limb.end).sub(v(limb.start)).normalize(), hint = v(limb.joint).sub(v(limb.start));
+    return hint.addScaledVector(axis, -hint.dot(axis)).normalize()
+      .applyQuaternion(new Quaternion().setFromUnitVectors(axis, direction));
+  };
+  const fromPole = transport(from), toPole = transport(to);
+  const twistSine = direction.dot(fromPole.clone().cross(toPole)), twistCosine = fromPole.dot(toPole);
+  const twist = Math.abs(twistSine) < 1e-8 && twistCosine < 0 ? mirrorSign * Math.PI : Math.atan2(twistSine, twistCosine);
+  return p(fromPole.applyAxisAngle(direction, twist * smooth(amount)));
+}
 /** Swing a free limb around its own joint; a Cartesian hand tween would pass
  * through the ribcage when arms rise from beside the body to overhead. */
-function swingingTarget(start: Vec3, from: Limb, to: Limb, amount: number): Vec3 {
+function swingingLimb(start: Vec3, from: Limb, to: Limb, amount: number, soften: number, mirrorSign: number): { target: Vec3; hint: Vec3 } {
   const a = v(from.end).sub(v(from.start)), b = v(to.end).sub(v(to.start));
-  const length = a.length() + (b.length() - a.length()) * amount;
-  const rotation = new Quaternion().identity().slerp(new Quaternion().setFromUnitVectors(a.normalize(), b.normalize()), amount);
-  return p(a.applyQuaternion(rotation).multiplyScalar(length).add(v(start)));
+  // A slightly flexed elbow travels more naturally than a locked straight arm.
+  // This modifies reach, never either anatomical segment length.
+  const length = a.length() + (b.length() - a.length()) * amount - soften * Math.sin(Math.PI * amount) ** 2;
+  a.normalize(); b.normalize();
+  const fullRotation = new Quaternion().setFromUnitVectors(a, b);
+  const rotation = new Quaternion().identity().slerp(fullRotation, amount);
+  const direction = a.applyQuaternion(rotation);
+  // Carry the elbow/knee bend plane with its limb, then ease its remaining
+  // twist. Cartesian pole blending can cross the reach axis and flip an elbow.
+  const hint = transportedHint(from, to, direction, amount, mirrorSign);
+  return { target: p(direction.multiplyScalar(length).add(v(start))), hint };
 }
 
 /** Cache contextual preparation and support constraints once, then sample only
  * joint transforms. No mesh scaling, moving camera, or standing-to-floor tween. */
 export function createYogaMotion(landmarks: AnatomyLandmarks, asanaId: YogaAsanaId, side: YogaSide = 'both'): YogaMotion {
   const goal = getYogaPose(landmarks, asanaId, side), prep = clone(goal);
+  prep.spineActivation = 0;
+  const timing = motionTiming(asanaId);
   const active = goal.side, passive = opposite(active);
   const fixedHands = new Set<Side>(), fixedFeet = new Set<Side>(SIDES);
+  const blockHands = new Set(SIDES.filter(s => goal.props.some(prop =>
+    Math.abs(goal.arms[s].end[0] - prop.position[0]) <= prop.size[0] / 2 &&
+    Math.abs(goal.arms[s].end[2] - prop.position[2]) <= prop.size[2] / 2)));
   let preparation = 'Acomodá la base antes de entrar.';
   let anchoredKnee: Side | undefined, supportedNeck = false, bridge = false;
   const upright = () => { prep.torsoRotation = q(); prep.pelvisRotation = q(); prep.headRotation = q(); prep.torsoAngle = 0; };
@@ -188,12 +238,20 @@ export function createYogaMotion(landmarks: AnatomyLandmarks, asanaId: YogaAsana
       preparation = 'Desde cuatro apoyos y los dedos recogidos, elevá las rodillas y llevá la pelvis hacia arriba.';
       const ankle = goal.legs.left.end, shin = distance(landmarks.left.knee, landmarks.left.ankle);
       const thigh = distance(landmarks.left.hip, landmarks.left.knee);
-      const kneeZ = ankle[2] + Math.sqrt(shin ** 2 - (ankle[1] - 0.105) ** 2);
-      prep.pelvis = [0, 0.105 + Math.sqrt(thigh ** 2 - 0.10 ** 2), kneeZ + 0.10];
-      prep.torsoAngle = Math.PI / 2; prep.torsoRotation = q(Math.PI / 2); prep.pelvisRotation = q(Math.PI / 2); prep.headRotation = q(Math.PI / 2);
+      const kneeHeight = getYogaKneeHeight(landmarks, 'adho-mukha-svanasana') ?? 0.105;
+      const kneeZ = ankle[2] + Math.sqrt(shin ** 2 - (ankle[1] - kneeHeight) ** 2);
+      // Fit the preparation between its real knee and palm anchors. Starting
+      // from an arbitrary horizontal trunk left the elbows deeply collapsed.
+      const shoulderOffset = v(landmarks.left.shoulder).sub(v(landmarks.pelvis));
+      const trunkLength = Math.hypot(shoulderOffset.y, shoulderOffset.z);
+      const armLength = distance(landmarks.left.shoulder, landmarks.left.elbow) + distance(landmarks.left.elbow, landmarks.left.wrist);
+      const shoulder: Vec3 = [0, goal.arms.left.end[1] + armLength - 0.008, goal.arms.left.end[2]];
+      prep.pelvis = solveLimb([0, kneeHeight, kneeZ], shoulder, thigh, trunkLength, [0, 1, -1]).joint;
+      prep.torsoAngle = Math.atan2(shoulder[2] - prep.pelvis[2], shoulder[1] - prep.pelvis[1]) - Math.atan2(shoulderOffset.z, shoulderOffset.y);
+      prep.torsoRotation = q(prep.torsoAngle); prep.pelvisRotation = q(Math.PI / 2); prep.headRotation = q(prep.torsoAngle);
       for (const s of SIDES) {
         fixedHands.add(s);
-        prep.legs[s] = { start: [landmarks[s].hip[0], prep.pelvis[1], prep.pelvis[2]], joint: [landmarks[s].hip[0], 0.105, kneeZ], end: goal.legs[s].end };
+        prep.legs[s] = { start: [landmarks[s].hip[0], prep.pelvis[1], prep.pelvis[2]], joint: [landmarks[s].hip[0], kneeHeight, kneeZ], end: goal.legs[s].end };
       }
       break;
     }
@@ -205,7 +263,13 @@ export function createYogaMotion(landmarks: AnatomyLandmarks, asanaId: YogaAsana
         if (bottom >= 0.005) break;
         prep.torsoAngle -= 0.01; prep.torsoRotation = q(prep.torsoAngle);
       }
-      if (asanaId === 'bhujangasana') SIDES.forEach(s => fixedHands.add(s));
+      if (asanaId === 'bhujangasana') {
+        // The soft lower abdomen follows both pelvis and spine controls. Give
+        // the preparation a little more chest clearance than a rigid profile
+        // predicts, without lifting the calibrated pelvic support off the mat.
+        prep.torsoAngle -= 0.05; prep.torsoRotation = q(prep.torsoAngle);
+        SIDES.forEach(s => fixedHands.add(s));
+      }
       else {
         const lower = getYogaPose(landmarks, 'bhujangasana');
         for (const s of SIDES) {
@@ -254,25 +318,37 @@ export function createYogaMotion(landmarks: AnatomyLandmarks, asanaId: YogaAsana
     feet: { from: SIDES.map(s => terminal(landmarks, prep, s, false)), to: SIDES.map(s => terminal(landmarks, goal, s, false)) } };
 
   const sample = (rawPhase: number): YogaPose => {
-    const phase = phaseOf(rawPhase), amount = amountAt(phase), pose = clone(goal);
-    pose.pelvis = mix(prep.pelvis, goal.pelvis, amount);
-    pose.pelvisRotation = prep.pelvisRotation.clone().slerp(goal.pelvisRotation, amount);
-    pose.torsoRotation = prep.torsoRotation.clone().slerp(goal.torsoRotation, amount);
-    pose.headRotation = prep.headRotation.clone().slerp(goal.headRotation, amount);
-    pose.torsoAngle = prep.torsoAngle + (goal.torsoAngle - prep.torsoAngle) * amount;
-    if (phase > 0.36 && phase < 0.66 && ['tadasana', 'sukhasana', 'savasana'].includes(asanaId)) {
-      const hold = (phase - 0.36) / 0.30;
-      // A tiny thorax articulation suggests quiet breathing without stretching
-      // the atlas. Keep the exact teaching pose at the canonical poster phase.
-      const breathing = 0.004 * Math.sin(Math.PI * hold) ** 2 * Math.sin(Math.PI * (phase - YOGA_HOLD_PHASE) / 0.15) ** 2;
-      pose.torsoAngle += breathing;
-      pose.torsoRotation.multiply(q(breathing));
+    const phase = phaseOf(rawPhase), pose = clone(goal);
+    const baseAmount = channelAmount(phase, timing.base), torsoAmount = channelAmount(phase, timing.torso);
+    const headAmount = channelAmount(phase, timing.head), armAmount = channelAmount(phase, timing.arms), legAmount = channelAmount(phase, timing.legs);
+    pose.spineActivation = torsoAmount;
+    pose.pelvis = mix(prep.pelvis, goal.pelvis, baseAmount);
+    pose.pelvisRotation = prep.pelvisRotation.clone().slerp(goal.pelvisRotation, baseAmount);
+    pose.torsoRotation = prep.torsoRotation.clone().slerp(goal.torsoRotation, torsoAmount);
+    pose.headRotation = prep.headRotation.clone().slerp(goal.headRotation, headAmount);
+    pose.torsoAngle = prep.torsoAngle + (goal.torsoAngle - prep.torsoAngle) * torsoAmount;
+    if (asanaId === 'adho-mukha-svanasana') {
+      // Keep the long shoulder-to-palm line while the hips rise. Interpolating
+      // torso angles alone creates a push-up dip in the middle of this entry.
+      const offset = v(landmarks.left.shoulder).sub(v(landmarks.pelvis));
+      const fromReach = distance(prep.arms.left.start, prep.arms.left.end), toReach = distance(goal.arms.left.start, goal.arms.left.end);
+      const shoulder = solveLimb(pose.pelvis, [0, goal.arms.left.end[1], goal.arms.left.end[2]],
+        Math.hypot(offset.y, offset.z), fromReach + (toReach - fromReach) * torsoAmount, [0, 1, 1]).joint;
+      pose.torsoAngle = Math.atan2(shoulder[2] - pose.pelvis[2], shoulder[1] - pose.pelvis[1]) - Math.atan2(offset.z, offset.y);
+      pose.torsoRotation = q(pose.torsoAngle);
     }
+    // Opening the chest moves the exposed surface away from the mat in prone
+    // and folded poses; supine poses use the opposite pitch. Ground contacts
+    // below are solved again after the breath, so palms and soles cannot drift.
+    const breathing = breathAt(phase) * (supportedNeck ? 0.003 : -0.005);
+    pose.torsoAngle += breathing;
+    pose.torsoRotation.multiply(q(breathing));
+    if (!supportedNeck) pose.headRotation.multiply(q(breathing * 0.45));
     if (anchoredKnee) {
       const knee = goal.legs[anchoredKnee].joint;
       const from = v(prep.pelvis).sub(new Vector3(0, knee[1], knee[2]));
       const to = v(goal.pelvis).sub(new Vector3(0, knee[1], knee[2]));
-      const rotation = new Quaternion().identity().slerp(new Quaternion().setFromUnitVectors(from.clone().normalize(), to.clone().normalize()), amount);
+      const rotation = new Quaternion().identity().slerp(new Quaternion().setFromUnitVectors(from.clone().normalize(), to.clone().normalize()), baseAmount);
       pose.pelvis = p(from.applyQuaternion(rotation).add(new Vector3(0, knee[1], knee[2])));
     }
     if (bridge) {
@@ -282,15 +358,18 @@ export function createYogaMotion(landmarks: AnatomyLandmarks, asanaId: YogaAsana
     }
     for (const [index, s] of SIDES.entries()) {
       for (const limb of ['arms', 'legs'] as const) {
-        const fixed = limb === 'arms' ? fixedHands.has(s) : fixedFeet.has(s);
+        const fixed = limb === 'arms' ? fixedHands.has(s) || blockHands.has(s) && phase >= 0.36 && phase <= 0.66 : fixedFeet.has(s);
         const sourceStart = limb === 'arms' ? landmarks[s].shoulder : landmarks[s].hip;
         const start = transformed(sourceStart, landmarks.pelvis, pose.pelvis, limb === 'arms' ? pose.torsoRotation : pose.pelvisRotation);
-        const target = fixed ? goal[limb][s].end : swingingTarget(start, prep[limb][s], goal[limb][s], amount);
-        const hint = mix(p(v(prep[limb][s].joint).sub(v(prep[limb][s].start))), p(v(goal[limb][s].joint).sub(v(goal[limb][s].start))), amount);
+        const amount = limb === 'arms' ? armAmount : legAmount;
+        const softness = limb === 'arms' ? Math.min(0.045, distance(prep.arms[s].end, goal.arms[s].end) * 0.065) : 0;
+        const swing = fixed ? undefined : swingingLimb(start, prep[limb][s], goal[limb][s], amount, softness, sign(s));
+        const target = swing?.target ?? goal[limb][s].end;
+        const hint = swing?.hint ?? transportedHint(prep[limb][s], goal[limb][s], v(target).sub(v(start)).normalize(), amount, sign(s));
         pose[limb][s] = reach(landmarks, pose, limb, s, target, hint);
       }
-      pose.hands[s] = blendTerminal(terminals.hands.from[index]!, terminals.hands.to[index]!, amount);
-      pose.feet[s] = blendTerminal(terminals.feet.from[index]!, terminals.feet.to[index]!, amount);
+      pose.hands[s] = blendTerminal(terminals.hands.from[index]!, terminals.hands.to[index]!, armAmount);
+      pose.feet[s] = blendTerminal(terminals.feet.from[index]!, terminals.feet.to[index]!, legAmount);
     }
     updateAxial(landmarks, pose, supportedNeck ? goal.neck : undefined);
     return pose;

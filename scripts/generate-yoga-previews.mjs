@@ -21,13 +21,13 @@ const { values } = parseArgs({ options: {
   asana: { type: 'string', multiple: true },
   model: { type: 'string', default: 'all' },
   size: { type: 'string', default: '512' },
-  fps: { type: 'string', default: '8' },
+  fps: { type: 'string', default: '20' },
   check: { type: 'boolean', default: false },
   'contact-sheets': { type: 'string' },
   help: { type: 'boolean', default: false },
 } })
 if (values.help) {
-  console.log(`Usage: pnpm yoga-previews:generate [--asana vrksasana] [--model male|female|all] [--size 512] [--fps 8]
+  console.log(`Usage: pnpm yoga-previews:generate [--asana vrksasana] [--model male|female|all] [--size 512] [--fps 20]
        pnpm yoga-previews:generate --contact-sheets artifacts/yoga-3d
        pnpm yoga-previews:check
 
@@ -62,6 +62,7 @@ const sourcePaths = [
   'apps/web/src/yoga-preview-capture.tsx',
   'apps/web/src/components/YogaStage.tsx',
   'apps/web/src/lib/yoga-rig.ts',
+  'apps/web/src/lib/yoga-anatomy.ts',
   'apps/web/src/lib/yoga-motion.ts',
   'apps/web/src/lib/yoga-rendering.ts',
   'apps/web/src/lib/yoga-preview-assets.ts',

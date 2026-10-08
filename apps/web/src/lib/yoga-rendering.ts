@@ -28,10 +28,16 @@ export function yogaCameraDirection(id: YogaAsanaId, view: YogaView = 'perspecti
   if (view === 'front') return new Vector3(0, 0.08, 1)
   if (view === 'back') return new Vector3(0, 0.08, -1)
   if (view === 'side') return new Vector3(sign, 0.08, 0)
-  if (id === 'supta-padangusthasana') return new Vector3(sign * 4.8, 2.8, 1.4).normalize()
-  if (id === 'savasana') return new Vector3(sign * 3.4, 4.7, 2.5).normalize()
-  if (profile.has(id)) return new Vector3(sign * 4.4, yogaFloorExercise(id) ? 2.6 : 1.6, 1.8).normalize()
-  return new Vector3(sign * 2.1, yogaFloorExercise(id) ? 2.2 : 1.1, 5).normalize()
+  if (id === 'supta-padangusthasana') return new Vector3(sign * 5.2, 2.2, 1.6).normalize()
+  if (id === 'savasana') return new Vector3(sign * 3.5, 4.2, 2.2).normalize()
+  // Low side views expose the spine's curve, elbow extension and hip hinge;
+  // looking down at these poses obscures the very alignment being taught.
+  if (id === 'marjaryasana' || id === 'bitilasana') return new Vector3(sign * 5.2, 1.25, 1.45).normalize()
+  if (id === 'balasana' || id === 'bhujangasana' || id === 'salabhasana') return new Vector3(sign * 5.2, 1.7, 2).normalize()
+  if (profile.has(id)) return new Vector3(sign * 4.8, yogaFloorExercise(id) ? 1.9 : 1.25, 2).normalize()
+  if (id === 'virabhadrasana-ii' || id === 'trikonasana') return new Vector3(sign * 1.2, 1.2, 5.4).normalize()
+  if (id === 'ardha-matsyendrasana') return new Vector3(sign * 3, 2.8, 5).normalize()
+  return new Vector3(sign * 1.9, yogaFloorExercise(id) ? 2.4 : 1, 5.2).normalize()
 }
 
 /** Measure the actual posed vertices, including the selected visual morphology. */

@@ -25,6 +25,7 @@ import {
   type AnatomyLandmarks,
   type AnatomyRig,
   type StructureMetadata,
+  type SkinInfluence,
   type Tissue,
 } from './anatomy-rig.ts'
 
@@ -49,6 +50,16 @@ export interface PreparedAnatomy {
   triangles: number
   dispose: () => void
 }
+/** Optional preparation hooks keep specialised educational rigs isolated. */
+export interface AnatomyPreparationOptions {
+  createRig?: (landmarks: AnatomyLandmarks) => AnatomyRig
+  influences?: (
+    rig: AnatomyRig,
+    position: Vector3,
+    metadata: StructureMetadata,
+    structureCenter: Vector3,
+  ) => SkinInfluence
+}
 interface PendingBatch {
   geometries: BufferGeometry[]
   tissue: Tissue
@@ -63,6 +74,7 @@ function prepareGeometry(
   rig: AnatomyRig,
   metadata: StructureMetadata,
   territory: number,
+  options: AnatomyPreparationOptions,
 ): BufferGeometry {
   const source = mesh.geometry
   const geometry = new BufferGeometry()
@@ -76,6 +88,12 @@ function prepareGeometry(
     position.toArray(positions, i * 3)
   }
   geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+  // A rigid source structure must receive one transform for all its vertices.
+  const structureCenter = new Vector3()
+  if (options.influences && metadata.tissue === 'bone') {
+    geometry.computeBoundingBox()
+    geometry.boundingBox!.getCenter(structureCenter)
+  }
   // Recomputing would erase creases and the original smooth shading. Transform source normals.
   const normal = source.getAttribute('normal')
   if (normal) {
@@ -106,7 +124,9 @@ function prepareGeometry(
     skinWeights = new Float32Array(sourcePosition.count * 4)
   for (let i = 0; i < sourcePosition.count; i++) {
     position.fromArray(positions, i * 3)
-    const influence = vertexInfluences(rig, position, metadata)
+    const influence = options.influences
+      ? options.influences(rig, position, metadata, structureCenter)
+      : vertexInfluences(rig, position, metadata)
     skinIndices.set(influence.indices, i * 4)
     skinWeights.set(influence.weights, i * 4)
   }
@@ -138,6 +158,7 @@ export function calibrateSurfaceSupports(
   let shoulderBack = Infinity,
     headBack = Infinity,
     pelvisBack = Infinity,
+    pelvisFront = -Infinity,
     proneTorsoBottom = Infinity
   const proneAngle = getExercisePose('prone-hip-extension', 0).torsoAngle
   const torsoProfile: [number, number, number][] = []
@@ -190,8 +211,10 @@ export function calibrateSurfaceSupports(
       if (
         Math.abs(position.x) < 0.22 &&
         Math.abs(position.y - landmarks.pelvis[1]) < 0.115
-      )
+      ) {
         pelvisBack = Math.min(pelvisBack, position.z)
+        pelvisFront = Math.max(pelvisFront, position.z)
+      }
       if (metadata.bodySegment === 'hand' && metadata.side) {
         const flat = position
           .clone()
@@ -225,6 +248,7 @@ export function calibrateSurfaceSupports(
       shoulderHeight: clearance + shoulderZ - shoulderBack,
       headNeckHeight: clearance + landmarks.neck[2] - headBack,
       pelvisHeight: clearance + landmarks.pelvis[2] - pelvisBack,
+      ...(Number.isFinite(pelvisFront) ? { pronePelvisFloorHeight: clearance + pelvisFront - landmarks.pelvis[2] } : {}),
       ...(Number.isFinite(proneTorsoBottom) ? { pronePelvisHeight: clearance - proneTorsoBottom } : {}),
       torsoProfile: silhouette,
       ...(Number.isFinite(handBottom.left) && Number.isFinite(handBottom.right)
@@ -595,10 +619,11 @@ export function prepareAnatomy(
   source: Object3D,
   landmarks: AnatomyLandmarks,
   modelVariant: AnatomicalModelVariant = 'male',
+  options: AnatomyPreparationOptions = {},
 ): PreparedAnatomy {
   const variant = createAnatomyVariant(source, landmarks, modelVariant)
   try {
-    const prepared = prepareRegisteredAnatomy(variant.source, variant.landmarks)
+    const prepared = prepareRegisteredAnatomy(variant.source, variant.landmarks, options)
     prepared.group.userData.modelVariant = modelVariant
     prepared.group.name = `Registered anatomical atlas (${modelVariant})`
     return prepared
@@ -610,9 +635,10 @@ export function prepareAnatomy(
 function prepareRegisteredAnatomy(
   source: Object3D,
   landmarks: AnatomyLandmarks,
+  options: AnatomyPreparationOptions,
 ): PreparedAnatomy {
   source.updateMatrixWorld(true)
-  const rig = createAnatomyRig(calibrateSurfaceSupports(source, landmarks)),
+  const rig = (options.createRig ?? createAnatomyRig)(calibrateSurfaceSupports(source, landmarks)),
     group = new Group(),
     pending = new Map<string, PendingBatch>()
   group.name = 'Registered anatomical atlas'
@@ -626,7 +652,7 @@ function prepareRegisteredAnatomy(
       { ...object.parent?.userData, ...object.userData },
       object.name,
     )
-    const geometry = prepareGeometry(object, rig, metadata, sourceStructures)
+    const geometry = prepareGeometry(object, rig, metadata, sourceStructures, options)
     const key = metadata.tissue + ':' + (metadata.muscleId ?? 'unassigned')
     let batch = pending.get(key)
     if (!batch) {
