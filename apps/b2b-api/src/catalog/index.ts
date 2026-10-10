@@ -3,8 +3,11 @@ import type { PoolClient } from 'pg';
 import type { z } from 'zod';
 import { exercises as baseExercises } from '@klisteniapp/catalog-base';
 import {
-  ExerciseInputSchema, MachineInputSchema,
-  type ContentStatus, type Exercise, type Machine,
+  ExerciseInputSchema,
+  MachineInputSchema,
+  type ContentStatus,
+  type Exercise,
+  type Machine,
 } from '@klisteniapp/b2b-contracts';
 import { conflict, HttpError, missing } from '../errors.ts';
 import { admin, audit, staff, type Context, type ValidateAssets } from '../organization-context.ts';
@@ -23,12 +26,20 @@ type CatalogRow<T> = {
 type ExerciseRow = CatalogRow<ExerciseInput>;
 type MachineRow = CatalogRow<MachineInput>;
 const exerciseDTO = (row: ExerciseRow): Exercise => ({
-  ...row.data, id: row.id, scope: row.organization_id ? 'organization' : 'base',
-  status: row.status, version: row.version, revision: row.revision,
+  ...row.data,
+  id: row.id,
+  scope: row.organization_id ? 'organization' : 'base',
+  status: row.status,
+  version: row.version,
+  revision: row.revision,
 });
 const machineDTO = (row: MachineRow): Machine => ({
-  ...row.data, id: row.id, scope: row.organization_id ? 'organization' : 'base',
-  status: row.status, version: row.version, revision: row.revision,
+  ...row.data,
+  id: row.id,
+  scope: row.organization_id ? 'organization' : 'base',
+  status: row.status,
+  version: row.version,
+  revision: row.revision,
 });
 
 /** Reusable definitions, adaptations and editorial transitions. Every mutation
@@ -63,25 +74,53 @@ export class CatalogModule {
 
   private async validateMachineSource(context: Context, input: MachineInput) {
     if (Boolean(input.derivedFromId) !== Boolean(input.derivedFromVersion)) {
-      throw new HttpError(400, 'INVALID_MODEL_SOURCE', 'La adaptación requiere modelo y versión de origen.');
+      throw new HttpError(
+        400,
+        'INVALID_MODEL_SOURCE',
+        'La adaptación requiere modelo y versión de origen.',
+      );
     }
-    if (input.derivedFromId && !(await context.db.query(
-      'SELECT 1 FROM b2b_machine WHERE id=$1 AND version=$2 AND (organization_id IS NULL OR organization_id=$3)',
-      [input.derivedFromId, input.derivedFromVersion, context.org.id],
-    )).rowCount) {
-      throw new HttpError(409, 'MODEL_SOURCE_CHANGED', 'El modelo de origen no está disponible en esa versión.');
+    if (
+      input.derivedFromId &&
+      !(
+        await context.db.query(
+          'SELECT 1 FROM b2b_machine WHERE id=$1 AND version=$2 AND (organization_id IS NULL OR organization_id=$3)',
+          [input.derivedFromId, input.derivedFromVersion, context.org.id],
+        )
+      ).rowCount
+    ) {
+      throw new HttpError(
+        409,
+        'MODEL_SOURCE_CHANGED',
+        'El modelo de origen no está disponible en esa versión.',
+      );
     }
   }
 
-  async updateMachine(context: Context, id: string, input: MachineInput, revision: number): Promise<Machine> {
+  async updateMachine(
+    context: Context,
+    id: string,
+    input: MachineInput,
+    revision: number,
+  ): Promise<Machine> {
     admin(context);
     await this.validateAssets(context, input.assets);
-    const previous = (await context.db.query<MachineRow>(
-      'SELECT * FROM b2b_machine WHERE organization_id=$1 AND id=$2', [context.org.id, id],
-    )).rows[0];
+    const previous = (
+      await context.db.query<MachineRow>(
+        'SELECT * FROM b2b_machine WHERE organization_id=$1 AND id=$2',
+        [context.org.id, id],
+      )
+    ).rows[0];
     if (!previous || previous.revision !== revision) throw conflict();
-    if (input.derivedFromId !== previous.data.derivedFromId || input.derivedFromVersion !== previous.data.derivedFromVersion) {
-      throw new HttpError(400, 'IMMUTABLE_MODEL_SOURCE', 'Conservá la referencia de origen de esta adaptación.');
+    if (
+      input.derivedFromId !== previous.data.derivedFromId ||
+      input.derivedFromVersion !== previous.data.derivedFromVersion
+    ) {
+      throw new HttpError(
+        400,
+        'IMMUTABLE_MODEL_SOURCE',
+        'Conservá la referencia de origen de esta adaptación.',
+      );
     }
     const found = await context.db.query<MachineRow>(
       "UPDATE b2b_machine SET data=$3,status='draft',version=version+1,revision=revision+1 WHERE organization_id=$1 AND id=$2 RETURNING *",
@@ -92,17 +131,34 @@ export class CatalogModule {
   }
 
   async validateMachine(context: Context, id: string) {
-    if (!(await context.db.query(
-      'SELECT 1 FROM b2b_machine WHERE id=$1 AND (organization_id IS NULL OR organization_id=$2)',
-      [id, context.org.id],
-    )).rowCount) throw missing();
+    if (
+      !(
+        await context.db.query(
+          'SELECT 1 FROM b2b_machine WHERE id=$1 AND (organization_id IS NULL OR organization_id=$2)',
+          [id, context.org.id],
+        )
+      ).rowCount
+    )
+      throw missing();
   }
 
-  async transitionMachine(context: Context, id: string, revision: number, publish: boolean): Promise<Machine> {
+  async transitionMachine(
+    context: Context,
+    id: string,
+    revision: number,
+    publish: boolean,
+  ): Promise<Machine> {
     admin(context);
     const found = await context.db.query<MachineRow>(
       'UPDATE b2b_machine SET status=$4,revision=revision+1,version=version+$5 WHERE organization_id=$1 AND id=$2 AND revision=$3 AND status=$6 RETURNING *',
-      [context.org.id, id, revision, publish ? 'published' : 'reviewed', 0, publish ? 'reviewed' : 'draft'],
+      [
+        context.org.id,
+        id,
+        revision,
+        publish ? 'published' : 'reviewed',
+        0,
+        publish ? 'reviewed' : 'draft',
+      ],
     );
     if (!found.rows[0]) throw conflict();
     await audit(context, publish ? 'machine.publish' : 'machine.review', id);
@@ -120,10 +176,17 @@ export class CatalogModule {
   private async validateExercise(context: Context, input: ExerciseInput) {
     await this.validateAssets(context, input.assets);
     for (const id of exerciseMachineIds(input)) await this.validateMachine(context, id);
-    if (input.baseExerciseId && !(await context.db.query(
-      'SELECT 1 FROM b2b_exercise WHERE id=$1 AND organization_id IS NULL', [input.baseExerciseId],
-    )).rowCount) throw missing();
-    if (input.animationId && !baseExercises.some(exercise => exercise.id === input.animationId)) {
+    if (
+      input.baseExerciseId &&
+      !(
+        await context.db.query(
+          'SELECT 1 FROM b2b_exercise WHERE id=$1 AND organization_id IS NULL',
+          [input.baseExerciseId],
+        )
+      ).rowCount
+    )
+      throw missing();
+    if (input.animationId && !baseExercises.some((exercise) => exercise.id === input.animationId)) {
       throw new HttpError(400, 'INVALID_ANIMATION', 'La animación no pertenece a la biblioteca.');
     }
   }
@@ -140,7 +203,12 @@ export class CatalogModule {
     return exerciseDTO(found.rows[0]);
   }
 
-  async updateExercise(context: Context, id: string, input: ExerciseInput, revision: number): Promise<Exercise> {
+  async updateExercise(
+    context: Context,
+    id: string,
+    input: ExerciseInput,
+    revision: number,
+  ): Promise<Exercise> {
     staff(context);
     await this.validateExercise(context, input);
     const found = await context.db.query<ExerciseRow>(
@@ -182,16 +250,22 @@ export class CatalogModule {
       [ids, context.org.id, published],
     );
     if (found.rowCount !== ids.length) {
-      throw new HttpError(400, 'EXERCISE_UNAVAILABLE', 'La rutina contiene ejercicios no disponibles o sin publicar.');
+      throw new HttpError(
+        400,
+        'EXERCISE_UNAVAILABLE',
+        'La rutina contiene ejercicios no disponibles o sin publicar.',
+      );
     }
     return found.rows.map(exerciseDTO);
   }
 
   async resolvePublishedMachines(context: Context, ids: string[]): Promise<Machine[]> {
-    const machines = (await context.db.query<MachineRow>(
-      "SELECT * FROM b2b_machine WHERE id=ANY($1::text[]) AND (organization_id IS NULL OR organization_id=$2) AND status='published'",
-      [ids, context.org.id],
-    )).rows.map(machineDTO);
+    const machines = (
+      await context.db.query<MachineRow>(
+        "SELECT * FROM b2b_machine WHERE id=ANY($1::text[]) AND (organization_id IS NULL OR organization_id=$2) AND status='published'",
+        [ids, context.org.id],
+      )
+    ).rows.map(machineDTO);
     if (machines.length !== ids.length) {
       throw new HttpError(409, 'MODEL_UNPUBLISHED', 'Revisá y publicá los modelos de la rutina.');
     }
@@ -200,15 +274,21 @@ export class CatalogModule {
 
   /** Public reads never include drafts, even for an authenticated visitor. */
   async publishedCatalog(db: PoolClient, organizationId: string) {
-    const machines = (await db.query<MachineRow>(
-      "SELECT * FROM b2b_machine WHERE (organization_id IS NULL OR organization_id=$1) AND status='published'",
-      [organizationId],
-    )).rows.map(machineDTO);
-    const publishedModels = new Set(machines.map(machine => machine.id));
-    const exercises = (await db.query<ExerciseRow>(
-      "SELECT * FROM b2b_exercise WHERE (organization_id IS NULL OR organization_id=$1) AND status='published'",
-      [organizationId],
-    )).rows.map(exerciseDTO).filter(exercise => exerciseMachineIds(exercise).every(id => publishedModels.has(id)));
+    const machines = (
+      await db.query<MachineRow>(
+        "SELECT * FROM b2b_machine WHERE (organization_id IS NULL OR organization_id=$1) AND status='published'",
+        [organizationId],
+      )
+    ).rows.map(machineDTO);
+    const publishedModels = new Set(machines.map((machine) => machine.id));
+    const exercises = (
+      await db.query<ExerciseRow>(
+        "SELECT * FROM b2b_exercise WHERE (organization_id IS NULL OR organization_id=$1) AND status='published'",
+        [organizationId],
+      )
+    ).rows
+      .map(exerciseDTO)
+      .filter((exercise) => exerciseMachineIds(exercise).every((id) => publishedModels.has(id)));
     return { machines, exercises };
   }
 }

@@ -11,7 +11,7 @@
     "dev": "pnpm --filter @klisteniapp/web dev",
     "dev:accounts": "VITE_APP_MODE=instance turbo run dev --filter=@klisteniapp/web --filter=@klisteniapp/api",
     "build": "turbo run build",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint && pnpm format:b2b:check",
     "typecheck": "turbo run typecheck",
     "test": "node --test scripts/preview-provenance.test.mjs && turbo run test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
@@ -34,18 +34,21 @@
     "prepare:b2b": "node scripts/dev-b2b.mjs --prepare",
     "build:b2b": "pnpm --filter @klisteniapp/member-web build && pnpm --filter @klisteniapp/backoffice build",
     "test:b2b:api": "pnpm --filter @klisteniapp/b2b-api test",
-    "test:b2b:e2e": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.b2b.config.ts"
+    "test:b2b:e2e": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.b2b.config.ts",
+    "format:b2b": "prettier --config .prettierrc.b2b.json --write \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/{b2b-ui,b2b-contracts}/{src,tests}/**/*.{ts,tsx}\"",
+    "format:b2b:check": "prettier --config .prettierrc.b2b.json --check \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/{b2b-ui,b2b-contracts}/{src,tests}/**/*.{ts,tsx}\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@klisteniapp/geometry": "workspace:*",
+    "@klisteniapp/scene-schema": "workspace:*",
+    "@types/node": "^24.13.6",
     "eslint": "^10.11.0",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.12.0",
+    "prettier": "3.6.2",
     "turbo": "^2.11.3",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.70.1",
-    "@types/node": "^24.13.6",
-    "@klisteniapp/scene-schema": "workspace:*",
-    "@klisteniapp/geometry": "workspace:*"
+    "typescript-eslint": "^8.70.1"
   }
 }

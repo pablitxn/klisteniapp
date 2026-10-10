@@ -1,84 +1,146 @@
-import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
-import type { Asset, Exercise, Machine } from '@klisteniapp/b2b-contracts'
-import { AssetSchema, ExerciseInputSchema } from '@klisteniapp/b2b-contracts'
-import { ExercisePreview } from '@klisteniapp/anatomy-viewer/preview'
-import { ApiError, useAccountClient, Field, Notice } from '@klisteniapp/b2b-ui'
-import { AssetEditor, Heading, useAction } from './shared'
-import { DraftConflict, DraftRecovery, useEditorDraft } from './useEditorDraft'
+import { useState } from 'react'
+import type { Exercise, Machine } from '@klisteniapp/b2b-contracts'
+import { useAccountClient, Field } from '@klisteniapp/b2b-ui'
+import { Heading, useAction } from './shared'
+import { latestEditorEntity } from './editorEntity'
+import { ExerciseEditor } from './features/catalog/ExerciseEditor'
+import { ExerciseCard } from './features/catalog/ExerciseCard'
+import { ExerciseReview } from './features/catalog/ExerciseReview'
 
-const MovementViewer = lazy(() => import('@klisteniapp/anatomy-viewer/movement').then(module => ({ default: module.MovementViewer })))
-const EquipmentModelViewer = lazy(() => import('@klisteniapp/anatomy-viewer/equipment').then(module => ({ default: module.EquipmentModelViewer })))
-
-export function Catalog({ orgId, exercises, machines, active, reload }: { orgId: string; exercises: Exercise[]; machines: Machine[]; active: boolean; reload: () => void }) {
+export function Catalog({
+  orgId,
+  exercises,
+  machines,
+  active,
+  reload,
+}: {
+  orgId: string
+  exercises: Exercise[]
+  machines: Machine[]
+  active: boolean
+  reload: () => void
+}) {
   const client = useAccountClient()
-  const [editing, setEditing] = useState<Exercise | 'new' | null>(null), [query, setQuery] = useState(''), [filter, setFilter] = useState('all'), [preview, setPreview] = useState<Exercise | null>(null), [reviewAccepted, setReviewAccepted] = useState(false)
+  const [editing, setEditing] = useState<Exercise | 'new' | null>(null)
+  const [query, setQuery] = useState(''),
+    [filter, setFilter] = useState('all')
+  const [preview, setPreview] = useState<Exercise | null>(null),
+    [reviewAccepted, setReviewAccepted] = useState(false)
   const action = useAction()
-  async function publish(exercise: Exercise) { await action.run(async () => { const result = await client.catalog.publishExercise(orgId, exercise.id, { expectedRevision: exercise.revision }); if (preview?.id === exercise.id) setPreview(result.exercise); reload() }, 'Ejercicio publicado. Ya se puede usar en nuevas rutinas.') }
-  async function review(exercise: Exercise) { if (!reviewAccepted) return; await action.run(async () => { const result = await client.catalog.reviewExercise(orgId, exercise.id, { expectedRevision: exercise.revision }); setPreview(result.exercise); setReviewAccepted(false); reload() }, 'Revisión guardada. El ejercicio está listo para publicar.') }
-  function openPreview(exercise: Exercise) { setPreview(exercise); setReviewAccepted(false); action.clear() }
-  if (editing) return <ExerciseEditor orgId={orgId} exercise={editing === 'new' ? undefined : exercises.find(item => item.id === editing.id) ?? editing} exercises={exercises} machines={machines} active={active} onClose={() => setEditing(null)} onSaved={exercise => { setEditing(exercise); reload() }} />
-  return <><Heading title="Una biblioteca que crece." description="Los movimientos publicados de la biblioteca ya están disponibles para tus rutinas. Adaptá una plantilla o creá una variante cuando necesites instrucciones propias."><button className="button primary" disabled={!active} onClick={() => { setPreview(null); setEditing('new') }}>+ Crear ejercicio</button></Heading>
-    {action.notices}<div className="form-grid"><Field label="Buscar ejercicio"><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Nombre, patrón o equipamiento" /></Field><Field label="Mostrar ejercicios"><select value={filter} onChange={event => setFilter(event.target.value)}><option value="all">Todos</option><option value="base">Biblioteca reutilizable</option><option value="organization">Mi gimnasio</option><option value="draft">Borradores y plantillas</option><option value="reviewed">Revisados por publicar</option></select></Field></div>
-    {preview && <section className="card review-panel"><div className="card-head"><div><p className="eyebrow">{preview.scope === 'organization' && preview.status === 'draft' ? 'REVISIÓN DE CONTENIDO' : 'GUÍA DEL MOVIMIENTO'}</p><h2>{preview.name}</h2></div><button className="text-button" onClick={() => setPreview(null)}>Cerrar vista</button></div>
-      {preview.scope === 'base' && preview.status !== 'published' && <Notice>Esta plantilla necesita adaptarse a tu equipo y revisarse antes de usarse. Creá una variante para completar el contenido del gimnasio.</Notice>}
-      <p>{preview.description}</p><p className="small muted">{preview.equipment} · {preview.pattern}</p>
-      {preview.animationId ? <Suspense fallback={<p role="status">Preparando visor…</p>}><MovementViewer exerciseId={preview.animationId} height={320} fallback={<p>Este movimiento se explica con instrucciones y recursos.</p>} /></Suspense> : <p className="muted">Las instrucciones y los recursos del gimnasio guían este movimiento.</p>}
-      <ol>{preview.instructions.map((instruction, i) => <li key={i}>{instruction}</li>)}</ol>
-      <div className="review-media">{preview.assets.map(asset => <figure key={asset.id}>{asset.kind === 'video' ? <video className="media" controls preload="none" src={asset.url} aria-label={asset.label} /> : asset.kind === 'image' ? <img className="media" src={asset.url} alt={asset.label} loading="lazy" /> : <Suspense fallback={<p role="status">Preparando visor…</p>}><EquipmentModelViewer url={asset.url} label={asset.label} attribution={asset.attribution} /></Suspense>}<figcaption className="small muted">{asset.label}{asset.attribution && ` · ${asset.attribution}`}</figcaption></figure>)}</div>
-      {preview.scope === 'organization' && preview.status === 'draft' && <><label className="check" style={{ marginTop: 20 }}><input type="checkbox" checked={reviewAccepted} onChange={event => setReviewAccepted(event.target.checked)} />Revisé las instrucciones, el equipo compatible y los recursos de este ejercicio.</label><button className="button primary" style={{ marginTop: 18 }} disabled={!active || action.busy || !reviewAccepted} onClick={() => void review(preview)}>Confirmar revisión del ejercicio</button></>}
-      {preview.scope === 'organization' && preview.status === 'reviewed' && <button className="button primary" style={{ marginTop: 18 }} disabled={!active || action.busy} onClick={() => void publish(preview)}>Publicar ejercicio revisado</button>}
-    </section>}
-    <div className="grid three" style={{ marginTop: 24 }}>{exercises.filter(exercise => (filter === 'all' || exercise.scope === filter || exercise.status === filter) && `${exercise.name} ${exercise.pattern} ${exercise.equipment}`.toLocaleLowerCase().includes(query.toLocaleLowerCase())).map(exercise => <article className="card" key={exercise.id}>
-      <div className="exercise-art">{exercise.animationId ? <ExercisePreview exerciseId={exercise.animationId} alt={exercise.name} /> : <span aria-hidden="true">↗</span>}</div>
-      <div className="row spread"><span className={`pill ${exercise.status === 'draft' ? 'warning' : ''}`}>{exercise.scope === 'base' ? exercise.status === 'published' ? 'BASE · DISPONIBLE' : 'PLANTILLA PARA ADAPTAR' : exercise.status === 'draft' ? 'BORRADOR' : exercise.status === 'reviewed' ? 'REVISADO' : 'PUBLICADO'}</span><small className="muted">v{exercise.version}</small></div><h3 style={{ marginTop: 16 }}>{exercise.name}</h3><p className="small muted">{exercise.pattern || exercise.equipment}</p>
-      {exercise.scope === 'base' && <p className="small muted">{exercise.status === 'published' ? 'Usalo directamente en una rutina. La biblioteca conserva el original.' : 'Punto de partida: completá las instrucciones para la máquina de tu gimnasio.'}</p>}
-      <div className="row"><button className="text-button" onClick={() => openPreview(exercise)}>{exercise.scope === 'organization' && exercise.status === 'draft' ? 'Revisar contenido' : 'Ver movimiento'}</button><button className="text-button" disabled={!active} onClick={() => { setPreview(null); setEditing(exercise) }}>{exercise.scope === 'base' ? exercise.status === 'draft' ? 'Adaptar plantilla' : 'Crear variante' : 'Editar'}</button>{exercise.scope === 'organization' && exercise.status === 'reviewed' && <button className="button small" disabled={!active || action.busy} onClick={() => void publish(exercise)}>Publicar</button>}</div>
-    </article>)}</div></>
-}
-type ExerciseDraft = { name: string; description: string; instructions: string; equipment: string; pattern: string; muscles: string; machineId: string; animationId: string; machineIds: string[]; assets: Asset[] }
-function exerciseDraft(exercise?: Exercise): ExerciseDraft {
-  return { name: exercise?.name ?? '', description: exercise?.description ?? '', instructions: exercise?.instructions.join('\n') ?? '', equipment: exercise?.equipment ?? 'none', pattern: exercise?.pattern ?? '', muscles: exercise?.muscles.join(', ') ?? '', machineId: exercise?.machineId ?? '', animationId: exercise?.animationId ?? '', machineIds: exercise?.compatibleMachineIds ?? [], assets: exercise?.assets ?? [] }
-}
-function isExerciseDraft(value: unknown): value is ExerciseDraft {
-  if (!value || typeof value !== 'object') return false
-  const draft = value as Partial<ExerciseDraft>
-  return ['name', 'description', 'instructions', 'equipment', 'pattern', 'muscles', 'machineId', 'animationId'].every(key => typeof draft[key as keyof ExerciseDraft] === 'string') && Array.isArray(draft.machineIds) && draft.machineIds.length <= 30 && draft.machineIds.every(id => typeof id === 'string') && Array.isArray(draft.assets) && draft.assets.length <= 10 && draft.assets.every(asset => AssetSchema.safeParse(asset).success)
-}
-function ExerciseEditor({ orgId, exercise, exercises, machines, active, onClose, onSaved }: { orgId: string; exercise?: Exercise; exercises: Exercise[]; machines: Machine[]; active: boolean; onClose: () => void; onSaved: (exercise: Exercise) => void }) {
-  const client = useAccountClient(), editing = exercise?.scope === 'organization'
-  const [latest, setLatest] = useState(exercise), [conflict, setConflict] = useState(false), [showMotion, setShowMotion] = useState(false)
-  const local = useEditorDraft(orgId, 'exercise', exercise ? `${editing ? 'edit' : 'variant'}:${exercise.id}` : 'new', exerciseDraft(exercise), editing ? exercise.revision : null, isExerciseDraft)
-  const draft = local.value, action = useAction()
-  useEffect(() => { if (exercise && (!latest || exercise.revision > latest.revision)) setLatest(exercise) }, [exercise, latest])
-  const stale = Boolean(editing && latest && local.revision !== latest.revision)
-  const blocked = Boolean(local.pending) || conflict || stale
-  function change(patch: Partial<ExerciseDraft>) { local.change({ ...draft, ...patch }) }
-  async function readLatest() {
-    const { exercises: current } = await client.catalog.listExercises(orgId)
-    const updated = current.find(item => item.id === exercise?.id)
-    if (!updated) throw new Error('Este ejercicio ya no está disponible. Tu borrador local sigue conservado.')
-    setLatest(updated)
-  }
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (blocked) return
+  async function publish(exercise: Exercise) {
     await action.run(async () => {
-      const body = ExerciseInputSchema.parse({ name: draft.name, description: draft.description, instructions: draft.instructions.split('\n').map(value => value.trim()).filter(Boolean), equipment: draft.equipment, pattern: draft.pattern, muscles: draft.muscles.split(',').map(value => value.trim()).filter(Boolean), machineId: draft.machineId || null, compatibleMachineIds: draft.machineIds, animationId: draft.animationId || null, assets: draft.assets, baseExerciseId: exercise?.scope === 'base' ? exercise.id : exercise?.baseExerciseId ?? null })
-      try {
-        const result = editing ? await client.catalog.updateExercise(orgId, exercise.id, { ...body, expectedRevision: local.revision! }) : await client.catalog.createExercise(orgId, body)
-        local.reset(exerciseDraft(result.exercise), result.exercise.revision); setLatest(result.exercise); setConflict(false); onSaved(result.exercise)
-      } catch (error) {
-        if (error instanceof ApiError && error.status === 409 && editing) { setConflict(true); await readLatest() }
-        throw error
-      }
-    }, 'Borrador guardado. Revisalo y publicalo desde el catálogo cuando esté listo.')
+      const result = await client.catalog.publishExercise(orgId, exercise.id, {
+        expectedRevision: exercise.revision,
+      })
+      if (preview?.id === exercise.id) setPreview(result.exercise)
+      reload()
+    }, 'Ejercicio publicado. Ya se puede usar en nuevas rutinas.')
   }
-  const animations = exercises.filter(item => item.scope === 'base' && item.animationId)
-  return <><Heading title={editing ? 'Refiná el movimiento.' : 'Un nuevo movimiento.'} description="Guardá el borrador, revisá sus instrucciones y publicalo para incorporarlo a las rutinas."><button className="button" onClick={onClose}>Volver al catálogo</button></Heading>
-    <DraftRecovery pending={Boolean(local.pending)} error={local.storageError} disabled={action.busy || !active} onRecover={local.recover} onDiscard={() => local.reset(exerciseDraft(latest), editing ? latest!.revision : null)} />
-    {!local.pending && (stale || conflict) && <DraftConflict key={latest?.revision} busy={action.busy || !active} currentAvailable={stale} onRefresh={() => void action.run(readLatest, '')} onKeep={() => { local.rebase(latest!.revision); setConflict(false); action.clear() }} onDiscard={() => { local.reset(exerciseDraft(latest), latest!.revision); setConflict(false); action.clear() }}>
-      <h3>{latest?.name}</h3><p>{latest?.description}</p><p className="small muted">{latest?.pattern} · {latest?.equipment} · {latest?.muscles.join(', ')}</p><p className="small muted">Máquinas: {[latest?.machineId, ...(latest?.compatibleMachineIds ?? [])].filter(Boolean).map(id => machines.find(machine => machine.id === id)?.name ?? id).join(', ') || 'Sin máquina específica'}</p><p className="small muted">Animación: {exercises.find(item => item.animationId === latest?.animationId)?.name ?? 'Sin animación'}</p><ol>{latest?.instructions.map((text, index) => <li key={index}>{text}</li>)}</ol><ul>{latest?.assets.map(asset => <li key={asset.id}><a href={asset.url} target="_blank" rel="noreferrer">{asset.label}</a>{asset.attribution && ` · ${asset.attribution}`}</li>)}</ul>
-    </DraftConflict>}
-    <form className="card form-stack" onSubmit={submit}><fieldset disabled={action.busy || !active || Boolean(local.pending)} style={{ border: 0, padding: 0, minWidth: 0 }}><div className="form-grid"><Field label="Nombre del ejercicio"><input name="name" value={draft.name} onChange={event => change({ name: event.target.value })} required maxLength={150} /></Field><Field label="Patrón de movimiento"><input name="pattern" value={draft.pattern} onChange={event => change({ pattern: event.target.value })} maxLength={150} placeholder="Ej.: empuje horizontal" /></Field><Field label="Equipamiento"><input name="equipment" value={draft.equipment} onChange={event => change({ equipment: event.target.value })} maxLength={150} placeholder="Ej.: máquina de poleas" /></Field><Field label="Músculos" hint="Separados por comas."><input name="muscles" value={draft.muscles} onChange={event => change({ muscles: event.target.value })} maxLength={1000} /></Field><Field label="Modelo de máquina principal"><select name="machineId" value={draft.machineId} onChange={event => change({ machineId: event.target.value })}><option value="">Sin máquina específica</option>{machines.map(machine => <option key={machine.id} value={machine.id}>{machine.name}</option>)}</select></Field><Field label="Animación existente compatible" hint="Dejá sin animación si el movimiento no corresponde exactamente al ejemplo."><select value={draft.animationId} onChange={event => change({ animationId: event.target.value })}><option value="">Sin animación · usar instrucciones y multimedia</option>{animations.map(item => <option key={item.id} value={item.animationId!}>{item.name}</option>)}</select></Field></div><Field label="Descripción"><textarea name="description" value={draft.description} onChange={event => change({ description: event.target.value })} maxLength={3000} /></Field><Field label="Instrucciones paso a paso" hint="Un paso por línea."><textarea name="instructions" value={draft.instructions} onChange={event => change({ instructions: event.target.value })} required maxLength={12000} rows={5} /></Field><details style={{ margin: '20px 0' }}><summary>Otros modelos de máquina compatibles</summary><div className="grid two" style={{ marginTop: 15 }}>{machines.map(machine => <label className="check" key={machine.id}><input type="checkbox" checked={draft.machineIds.includes(machine.id)} onChange={event => change({ machineIds: event.target.checked ? [...draft.machineIds, machine.id] : draft.machineIds.filter(id => id !== machine.id) })} />{machine.name}</label>)}</div></details><AssetEditor orgId={orgId} value={draft.assets} onChange={assets => change({ assets })} disabled={action.busy || !active || Boolean(local.pending)} />{draft.animationId && <><button type="button" className="text-button" onClick={() => setShowMotion(value => !value)}>Previsualizar animación</button>{showMotion && <Suspense fallback={<p role="status">Preparando visor…</p>}><MovementViewer exerciseId={draft.animationId} height={280} /></Suspense>}</>}<button className="button primary" disabled={blocked} style={{ marginTop: 20 }}>{action.busy ? 'Guardando…' : 'Guardar borrador'}</button></fieldset>{action.notices}</form></>
+  async function review(exercise: Exercise) {
+    if (!reviewAccepted) return
+    await action.run(async () => {
+      const result = await client.catalog.reviewExercise(orgId, exercise.id, {
+        expectedRevision: exercise.revision,
+      })
+      setPreview(result.exercise)
+      setReviewAccepted(false)
+      reload()
+    }, 'Revisión guardada. El ejercicio está listo para publicar.')
+  }
+  function openPreview(exercise: Exercise) {
+    setPreview(exercise)
+    setReviewAccepted(false)
+    action.clear()
+  }
+  if (editing)
+    return (
+      <ExerciseEditor
+        orgId={orgId}
+        exercise={editing === 'new' ? undefined : latestEditorEntity(editing, exercises)}
+        exercises={exercises}
+        machines={machines}
+        active={active}
+        onClose={() => setEditing(null)}
+        onSaved={(exercise) => {
+          setEditing(exercise)
+          reload()
+        }}
+      />
+    )
+  return (
+    <>
+      <Heading
+        title="Una biblioteca que crece."
+        description="Los movimientos publicados de la biblioteca ya están disponibles para tus rutinas. Adaptá una plantilla o creá una variante cuando necesites instrucciones propias."
+      >
+        <button
+          className="button primary"
+          disabled={!active}
+          onClick={() => {
+            setPreview(null)
+            setEditing('new')
+          }}
+        >
+          + Crear ejercicio
+        </button>
+      </Heading>
+      {action.notices}
+      <div className="form-grid">
+        <Field label="Buscar ejercicio">
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Nombre, patrón o equipamiento"
+          />
+        </Field>
+        <Field label="Mostrar ejercicios">
+          <select value={filter} onChange={(event) => setFilter(event.target.value)}>
+            <option value="all">Todos</option>
+            <option value="base">Biblioteca reutilizable</option>
+            <option value="organization">Mi gimnasio</option>
+            <option value="draft">Borradores y plantillas</option>
+            <option value="reviewed">Revisados por publicar</option>
+          </select>
+        </Field>
+      </div>
+      {preview && (
+        <ExerciseReview
+          exercise={preview}
+          active={active}
+          busy={action.busy}
+          reviewAccepted={reviewAccepted}
+          onReviewAccepted={setReviewAccepted}
+          onClose={() => setPreview(null)}
+          onReview={() => void review(preview)}
+          onPublish={() => void publish(preview)}
+        />
+      )}
+      <div className="grid three" style={{ marginTop: 24 }}>
+        {exercises
+          .filter(
+            (exercise) =>
+              (filter === 'all' || exercise.scope === filter || exercise.status === filter) &&
+              `${exercise.name} ${exercise.pattern} ${exercise.equipment}`
+                .toLocaleLowerCase()
+                .includes(query.toLocaleLowerCase()),
+          )
+          .map((exercise) => (
+            <ExerciseCard
+              key={exercise.id}
+              exercise={exercise}
+              active={active}
+              busy={action.busy}
+              onPreview={() => openPreview(exercise)}
+              onEdit={() => {
+                setPreview(null)
+                setEditing(exercise)
+              }}
+              onPublish={() => void publish(exercise)}
+            />
+          ))}
+      </div>
+    </>
+  )
 }
 export { Equipment } from './Equipment'

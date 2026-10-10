@@ -1,7 +1,14 @@
 import { Pool } from 'pg';
 import type { Config } from './config.ts';
 export function createPool(config: Pick<Config, 'databaseUrl'>): Pool {
-  const pool = new Pool({ connectionString: config.databaseUrl, max: 10, connectionTimeoutMillis: 5000, idleTimeoutMillis: 30000, statement_timeout: 10000, application_name: 'klisteni-b2b-api' });
+  const pool = new Pool({
+    connectionString: config.databaseUrl,
+    max: 10,
+    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 30000,
+    statement_timeout: 10000,
+    application_name: 'klisteni-b2b-api',
+  });
   pool.on('error', () => console.error('B2B database connection failed'));
   return pool;
 }

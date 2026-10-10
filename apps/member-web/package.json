@@ -8,7 +8,8 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "preview": "vite preview --host 127.0.0.1 --port 4194"
+    "preview": "vite preview --host 127.0.0.1 --port 4194",
+    "test": "node --test tests/*.test.ts"
   },
   "dependencies": {
     "@klisteniapp/b2b-ui": "workspace:*",
