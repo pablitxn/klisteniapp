@@ -1,25 +1,22 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 import type { Pool, PoolClient } from 'pg';
-import { exercises as baseExercises } from '@klisteniapp/catalog-base';
 import {
-  ExerciseInputSchema, MachineInputSchema, BrandInputSchema, WebsiteInputSchema,
+  BrandInputSchema, WebsiteInputSchema,
   type Organization, type Membership, type Me, type Member, type Role, type Brand,
-  type Exercise, type Machine, type Unit, type Program, type ProgramVersion, type Assignment, type Execution,
-  type ExecutionInput, type Report, type PublicSite, type PublicUnit, type StepAvailability, type Asset, type Media, type Website, type WebsiteInput, type SetupProgress, type ContentStatus,
+  type Exercise, type Program, type ProgramVersion, type Assignment, type Execution,
+  type ExecutionInput, type Report, type PublicSite, type PublicUnit, type Asset, type Media, type Website, type WebsiteInput, type SetupProgress,
 } from '@klisteniapp/b2b-contracts';
-import type { z } from 'zod';
 import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
-import { HttpError } from './errors.ts';
+import { conflict, denied, HttpError, missing } from './errors.ts';
+import { admin, audit, staff, type Context, type OrgRow } from './organization-context.ts';
+import { CatalogModule } from './catalog/index.ts';
+import { EquipmentModule } from './equipment/index.ts';
+import { exerciseMachineIds, programAvailability, supportsMachine } from './catalog/compatibility.ts';
 import type { StoredMedia } from './media.ts';
 
-type OrgRow = { id: string; slug: string; brand: Brand; service_enabled: boolean; service_ends_at: Date | null };
-type Context = { db: PoolClient; actorId: string; org: OrgRow; role: Role };
-type ExerciseRow = { id: string; organization_id: string | null; data: z.infer<typeof ExerciseInputSchema>; status: ContentStatus; version: number; revision: number };
-type MachineRow = { status: ContentStatus; id: string; organization_id: string | null; data: z.infer<typeof MachineInputSchema>; version: number; revision: number };
 type ProgramRow = { id: string; data: Omit<Program, 'id' | 'publishedVersion' | 'revision'>; published_version: number | null; revision: number };
-type UnitRow = { id: string; machine_id: string; label: string; location: string; assets: Unit['assets']; adjustments: string; revision: number; archived: boolean; public: boolean };
 export type MediaRow = { id: string; organization_id: string; kind: Asset['kind']; label: string; attribution: string; relative_path: string; mime: string; bytes: string | number; sha256: string; created_at: Date };
 const mediaDTO = (r: MediaRow): Media => ({ id: r.id, kind: r.kind, label: r.label, attribution: r.attribution, url: `/api/b2b/media/${r.id}`, mime: r.mime, bytes: Number(r.bytes), sha256: r.sha256, createdAt: r.created_at.toISOString() });
 function referencesMedia(value: unknown, url: string): boolean {
@@ -30,14 +27,8 @@ function referencesMedia(value: unknown, url: string): boolean {
 }
 type WebsiteRow = { draft: WebsiteInput; revision: number; published: { content: WebsiteInput; brand: Brand } | null; published_revision: number | null; published_at: Date | null };
 const websiteDTO = (r: WebsiteRow): Website => ({ draft: r.draft, revision: r.revision, publishedRevision: r.published_revision, publishedAt: r.published_at?.toISOString() ?? null });
-const missing = () => new HttpError(404, 'NOT_FOUND', 'Recurso no disponible.');
-const denied = () => new HttpError(403, 'FORBIDDEN', 'No tenés permiso para esta operación.');
-const conflict = () => new HttpError(409, 'REVISION_CONFLICT', 'El contenido cambió. Actualizá antes de guardar.');
 const hashToken = (token: string) => createHash('sha256').update(token).digest('hex');
-const exerciseDTO = (r: ExerciseRow): Exercise => ({ ...r.data, id: r.id, scope: r.organization_id ? 'organization' : 'base', status: r.status, version: r.version, revision: r.revision });
-const machineDTO = (r: MachineRow): Machine => ({ ...r.data, id: r.id, scope: r.organization_id ? 'organization' : 'base', version: r.version, revision: r.revision, status: r.status });
 const programDTO = (r: ProgramRow): Program => ({ ...r.data, id: r.id, publishedVersion: r.published_version, revision: r.revision });
-const unitDTO = (r: UnitRow, slug: string): Unit => ({ id: r.id, machineId: r.machine_id, label: r.label, location: r.location, assets: r.assets, adjustments: r.adjustments, publicPath: `/g/${slug}/units/${r.id}`, revision: r.revision, archived: r.archived, public: r.public });
 const organizationDTO = (r: OrgRow): Organization => ({ id: r.id, slug: r.slug, brand: r.brand, serviceActive: r.service_enabled && (!r.service_ends_at || r.service_ends_at > new Date()), serviceEndsAt: r.service_ends_at?.toISOString() ?? null });
 
 export async function createUser(db: PoolClient, auth: Auth, input: { email: string; name: string; password: string }) {
@@ -50,7 +41,14 @@ export async function createUser(db: PoolClient, auth: Auth, input: { email: str
 
 export class B2BService {
   pool: Pool; auth: Auth; config: Config;
-  constructor(pool: Pool, auth: Auth, config: Config) { this.pool = pool; this.auth = auth; this.config = config; }
+  readonly catalog: CatalogModule;
+  readonly equipment: EquipmentModule;
+  constructor(pool: Pool, auth: Auth, config: Config) {
+    this.pool = pool; this.auth = auth; this.config = config;
+    const validateAssets = (context: Context, assets: Asset[]) => this.validateAssets(context, assets);
+    this.catalog = new CatalogModule(validateAssets);
+    this.equipment = new EquipmentModule(this.catalog, validateAssets);
+  }
   async transaction<T>(operation: (db: PoolClient) => Promise<T>): Promise<T> {
     const db = await this.pool.connect();
     try { await db.query('BEGIN'); const result = await operation(db); await db.query('COMMIT'); return result; }
@@ -76,9 +74,9 @@ export class B2BService {
       return operation({ db, actorId, org, role: membership.rows[0].role });
     });
   }
-  staff(c: Context) { if (c.role === 'member') throw denied(); }
-  admin(c: Context) { if (c.role !== 'admin') throw denied(); }
-  async audit(c: Context, action: string, resourceId: string) { await c.db.query('INSERT INTO b2b_audit(organization_id,actor_id,action,resource_id) VALUES($1,$2,$3,$4)', [c.org.id, c.actorId, action, resourceId]); }
+  staff(c: Context) { staff(c); }
+  admin(c: Context) { admin(c); }
+  audit(c: Context, action: string, resourceId: string) { return audit(c, action, resourceId); }
   async memberAccess(c: Context, memberId: string): Promise<void> {
     const member = await c.db.query('SELECT role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active', [c.org.id, memberId]);
     if (member.rows[0]?.role !== 'member') throw missing();
@@ -192,75 +190,21 @@ export class B2BService {
       });
     } catch (error) { if (error instanceof HttpError && [401, 403].includes(error.status)) throw missing(); throw error; }
   }
-  async machines(c: Context): Promise<Machine[]> { return (await c.db.query<MachineRow>('SELECT * FROM b2b_machine WHERE (organization_id IS NULL OR organization_id=$1) AND ($2<>$$member$$ OR status=$$published$$) ORDER BY id', [c.org.id, c.role])).rows.map(machineDTO); }
-  async createMachine(c: Context, input: z.infer<typeof MachineInputSchema>): Promise<Machine> {
-    this.admin(c); await this.validateAssets(c, input.assets); await this.validateMachineSource(c, input); const id = randomUUID(); const found = await c.db.query<MachineRow>('INSERT INTO b2b_machine(id,organization_id,data) VALUES($1,$2,$3) RETURNING *', [id, c.org.id, input]); await this.audit(c, 'machine.create', id); return machineDTO(found.rows[0]);
-  }
-  async validateMachineSource(c: Context, input: z.infer<typeof MachineInputSchema>) {
-    if (Boolean(input.derivedFromId) !== Boolean(input.derivedFromVersion)) throw new HttpError(400, 'INVALID_MODEL_SOURCE', 'La adaptación requiere modelo y versión de origen.');
-    if (input.derivedFromId && !(await c.db.query('SELECT 1 FROM b2b_machine WHERE id=$1 AND version=$2 AND (organization_id IS NULL OR organization_id=$3)', [input.derivedFromId, input.derivedFromVersion, c.org.id])).rowCount) throw new HttpError(409, 'MODEL_SOURCE_CHANGED', 'El modelo de origen no está disponible en esa versión.');
-  }
-  async updateMachine(c: Context, id: string, input: z.infer<typeof MachineInputSchema>, revision: number): Promise<Machine> {
-    this.admin(c); await this.validateAssets(c, input.assets);
-    const previous = (await c.db.query<MachineRow>('SELECT * FROM b2b_machine WHERE organization_id=$1 AND id=$2', [c.org.id, id])).rows[0];
-    if (!previous || previous.revision !== revision) throw conflict();
-    if (input.derivedFromId !== previous.data.derivedFromId || input.derivedFromVersion !== previous.data.derivedFromVersion) throw new HttpError(400, 'IMMUTABLE_MODEL_SOURCE', 'Conservá la referencia de origen de esta adaptación.');
-    const found = await c.db.query<MachineRow>("UPDATE b2b_machine SET data=$3,status='draft',version=version+1,revision=revision+1 WHERE organization_id=$1 AND id=$2 RETURNING *", [c.org.id, id, input]);
-    await this.audit(c, 'machine.update', id); return machineDTO(found.rows[0]);
-  }
-  async validateMachine(c: Context, id: string) { if (!(await c.db.query('SELECT 1 FROM b2b_machine WHERE id=$1 AND (organization_id IS NULL OR organization_id=$2)', [id, c.org.id])).rowCount) throw missing(); }
-  async units(c: Context): Promise<Unit[]> { return (await c.db.query<UnitRow>("SELECT * FROM b2b_unit WHERE organization_id=$1 AND ($2 <> 'member' OR (NOT archived AND EXISTS(SELECT 1 FROM b2b_machine m WHERE m.id=machine_id AND m.status='published'))) ORDER BY label", [c.org.id, c.role])).rows.map(r => unitDTO(r, c.org.slug)); }
-  async createUnit(c: Context, input: Omit<Unit, 'id' | 'publicPath' | 'revision'>): Promise<Unit> {
-    this.admin(c); await this.validateAssets(c, input.assets); await this.validateMachine(c, input.machineId); const id = randomUUID();
-    const found = await c.db.query<UnitRow>('INSERT INTO b2b_unit(id,organization_id,machine_id,label,location,assets,adjustments,archived,public) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *', [id, c.org.id, input.machineId, input.label, input.location, JSON.stringify(input.assets), input.adjustments, input.archived, input.public]);
-    await this.audit(c, 'unit.create', id); return unitDTO(found.rows[0], c.org.slug);
-  }
-  async updateUnit(c: Context, id: string, input: Omit<Unit, 'id' | 'publicPath' | 'revision'>, revision: number): Promise<Unit> {
-    this.admin(c); await this.validateAssets(c, input.assets); await this.validateMachine(c, input.machineId);
-    const found = await c.db.query<UnitRow>('UPDATE b2b_unit SET machine_id=$3,label=$4,location=$5,assets=$6,adjustments=$7,archived=$8,public=$9,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$10 RETURNING *', [c.org.id, id, input.machineId, input.label, input.location, JSON.stringify(input.assets), input.adjustments, input.archived, input.public, revision]);
-    if (!found.rows[0]) throw conflict(); await this.audit(c, 'unit.update', id); return unitDTO(found.rows[0], c.org.slug);
-  }
-  async exercises(c: Context): Promise<Exercise[]> {
-    return (await c.db.query<ExerciseRow>("SELECT * FROM b2b_exercise WHERE (organization_id IS NULL OR organization_id=$1) AND ($2 <> 'member' OR status='published') ORDER BY id", [c.org.id, c.role])).rows.map(exerciseDTO);
-  }
-  async validateExercise(c: Context, input: z.infer<typeof ExerciseInputSchema>) {
-    await this.validateAssets(c, input.assets);
-    for (const id of new Set([...(input.machineId ? [input.machineId] : []), ...input.compatibleMachineIds])) await this.validateMachine(c, id);
-    if (input.baseExerciseId && !(await c.db.query("SELECT 1 FROM b2b_exercise WHERE id=$1 AND organization_id IS NULL", [input.baseExerciseId])).rowCount) throw missing();
-    if (input.animationId && !baseExercises.some(e => e.id === input.animationId)) throw new HttpError(400, 'INVALID_ANIMATION', 'La animación no pertenece a la biblioteca.');
-  }
-  async createExercise(c: Context, input: z.infer<typeof ExerciseInputSchema>): Promise<Exercise> {
-    this.staff(c); await this.validateExercise(c, input); const id = randomUUID();
-    const found = await c.db.query<ExerciseRow>("INSERT INTO b2b_exercise(id,organization_id,data,status) VALUES($1,$2,$3,'draft') RETURNING *", [id, c.org.id, input]); await this.audit(c, 'exercise.create', id); return exerciseDTO(found.rows[0]);
-  }
-  async updateExercise(c: Context, id: string, input: z.infer<typeof ExerciseInputSchema>, revision: number): Promise<Exercise> {
-    this.staff(c); await this.validateExercise(c, input);
-    const found = await c.db.query<ExerciseRow>("UPDATE b2b_exercise SET data=$3,status='draft',revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$4 RETURNING *", [c.org.id, id, input, revision]);
-    if (!found.rows[0]) throw conflict(); await this.audit(c, 'exercise.update', id); return exerciseDTO(found.rows[0]);
-  }
-  async publishExercise(c: Context, id: string, revision: number): Promise<Exercise> {
-    this.staff(c);
-    const found = await c.db.query<ExerciseRow>("UPDATE b2b_exercise SET status='published',version=version+1,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$3 AND status='reviewed' RETURNING *", [c.org.id, id, revision]);
-    if (!found.rows[0]) throw conflict(); await this.audit(c, 'exercise.publish', id); return exerciseDTO(found.rows[0]);
-  }
-  async reviewExercise(c: Context, id: string, revision: number): Promise<Exercise> {
-    this.staff(c);
-    const found = await c.db.query<ExerciseRow>("UPDATE b2b_exercise SET status='reviewed',revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$3 AND status='draft' RETURNING *", [c.org.id, id, revision]);
-    if (!found.rows[0]) throw conflict(); await this.audit(c, 'exercise.review', id); return exerciseDTO(found.rows[0]);
-  }
-  async transitionMachine(c: Context, id: string, revision: number, publish: boolean): Promise<Machine> {
-    this.admin(c);
-    const found = await c.db.query<MachineRow>("UPDATE b2b_machine SET status=$4,revision=revision+1,version=version+$5 WHERE organization_id=$1 AND id=$2 AND revision=$3 AND status=$6 RETURNING *", [c.org.id, id, revision, publish ? 'published' : 'reviewed', 0, publish ? 'reviewed' : 'draft']);
-    if (!found.rows[0]) throw conflict(); await this.audit(c, publish ? 'machine.publish' : 'machine.review', id); return machineDTO(found.rows[0]);
-  }
-  async batchUnits(c: Context, input: { id: string; units: Omit<Unit, 'id' | 'publicPath' | 'revision'>[] }) {
-    this.admin(c);
-    const previous = (await c.db.query<{ input: unknown; result: Unit[] }>('SELECT input,result FROM b2b_unit_batch WHERE organization_id=$1 AND id=$2', [c.org.id, input.id])).rows[0];
-    if (previous) { if (!isDeepStrictEqual(previous.input, input)) throw new HttpError(409, 'BATCH_CONFLICT', 'Este lote ya se guardó con otro contenido.'); return previous.result; }
-    const units: Unit[] = []; for (const item of input.units) units.push(await this.createUnit(c, item));
-    await c.db.query('INSERT INTO b2b_unit_batch(organization_id,id,input,result) VALUES($1,$2,$3,$4)', [c.org.id, input.id, input, JSON.stringify(units)]);
-    return units;
-  }
+  // Keep the HTTP/service interface stable while domain modules own their rules.
+  machines(...args: Parameters<CatalogModule['machines']>) { return this.catalog.machines(...args); }
+  createMachine(...args: Parameters<CatalogModule['createMachine']>) { return this.catalog.createMachine(...args); }
+  updateMachine(...args: Parameters<CatalogModule['updateMachine']>) { return this.catalog.updateMachine(...args); }
+  transitionMachine(...args: Parameters<CatalogModule['transitionMachine']>) { return this.catalog.transitionMachine(...args); }
+  exercises(...args: Parameters<CatalogModule['exercises']>) { return this.catalog.exercises(...args); }
+  createExercise(...args: Parameters<CatalogModule['createExercise']>) { return this.catalog.createExercise(...args); }
+  updateExercise(...args: Parameters<CatalogModule['updateExercise']>) { return this.catalog.updateExercise(...args); }
+  reviewExercise(...args: Parameters<CatalogModule['reviewExercise']>) { return this.catalog.reviewExercise(...args); }
+  publishExercise(...args: Parameters<CatalogModule['publishExercise']>) { return this.catalog.publishExercise(...args); }
+  units(...args: Parameters<EquipmentModule['units']>) { return this.equipment.units(...args); }
+  createUnit(...args: Parameters<EquipmentModule['createUnit']>) { return this.equipment.createUnit(...args); }
+  updateUnit(...args: Parameters<EquipmentModule['updateUnit']>) { return this.equipment.updateUnit(...args); }
+  batchUnits(...args: Parameters<EquipmentModule['batchUnits']>) { return this.equipment.batchUnits(...args); }
+  activeModels(...args: Parameters<EquipmentModule['activeModels']>) { return this.equipment.activeModels(...args); }
   async website(c: Context): Promise<Website> {
     this.admin(c);
     const row = (await c.db.query<WebsiteRow>('SELECT * FROM b2b_website WHERE organization_id=$1', [c.org.id])).rows[0];
@@ -288,7 +232,7 @@ export class B2BService {
     const checks: SetupProgress['checks'] = [
       { id: 'brand', label: 'Identidad y contacto', complete: Boolean(c.org.brand.name && c.org.brand.contact && c.org.brand.address) },
       { id: 'inventory', label: 'Equipos cargados', complete: units.some(u => !u.archived) },
-      { id: 'content', label: 'Ejercicios de equipos publicados', complete: exercises.some(e => e.status === 'published' && units.some(u => !u.archived && (e.machineId === u.machineId || e.compatibleMachineIds.includes(u.machineId)))) },
+      { id: 'content', label: 'Ejercicios de equipos publicados', complete: exercises.some(e => e.status === 'published' && units.some(u => !u.archived && supportsMachine(e, u.machineId))) },
       { id: 'activities', label: 'Actividades', complete: Boolean(website?.draft.activities.length) },
       { id: 'hours', label: 'Horarios', complete: Boolean(website?.draft.openingHours.length) },
       { id: 'gallery', label: 'Galería', complete: Boolean(website?.draft.gallery.length) },
@@ -299,10 +243,9 @@ export class B2BService {
   async programs(c: Context): Promise<Program[]> { this.staff(c); return (await c.db.query<ProgramRow>('SELECT * FROM b2b_program WHERE organization_id=$1 ORDER BY id', [c.org.id])).rows.map(programDTO); }
   async validateProgram(c: Context, input: ProgramRow['data'], published: boolean): Promise<Exercise[]> {
     const ids = [...new Set(input.steps.flatMap(s => [s.exerciseId, ...s.alternatives]))];
-    const found = await c.db.query<ExerciseRow>("SELECT * FROM b2b_exercise WHERE id=ANY($1::text[]) AND (organization_id IS NULL OR organization_id=$2) AND (NOT $3::boolean OR status='published')", [ids, c.org.id, published]);
-    if (found.rowCount !== ids.length) throw new HttpError(400, 'EXERCISE_UNAVAILABLE', 'La rutina contiene ejercicios no disponibles o sin publicar.');
+    const exercises = await this.catalog.resolveExercises(c, ids, published);
     for (const step of input.steps) if (new Set(step.alternatives).size !== step.alternatives.length || step.alternatives.includes(step.exerciseId)) throw new HttpError(400, 'INVALID_ALTERNATIVE', 'Las alternativas deben ser distintas del ejercicio principal y entre sí.');
-    return found.rows.map(exerciseDTO);
+    return exercises;
   }
   async createProgram(c: Context, input: ProgramRow['data']): Promise<Program> {
     this.staff(c); await this.validateProgram(c, input, false); const id = randomUUID();
@@ -317,9 +260,8 @@ export class B2BService {
     this.staff(c); const row = (await c.db.query<ProgramRow>('SELECT * FROM b2b_program WHERE organization_id=$1 AND id=$2', [c.org.id, id])).rows[0];
     if (!row) throw missing(); if (row.revision !== revision) throw conflict();
     const exercises = await this.validateProgram(c, row.data, true); const version = (row.published_version ?? 0) + 1;
-    const machineIds = [...new Set(exercises.flatMap(e => [...(e.machineId ? [e.machineId] : []), ...e.compatibleMachineIds]))];
-    const machines = (await c.db.query<MachineRow>("SELECT * FROM b2b_machine WHERE id=ANY($1::text[]) AND (organization_id IS NULL OR organization_id=$2) AND status='published'", [machineIds, c.org.id])).rows.map(machineDTO);
-    if (machines.length !== machineIds.length) throw new HttpError(409, 'MODEL_UNPUBLISHED', 'Revisá y publicá los modelos de la rutina.');
+    const machineIds = [...new Set(exercises.flatMap(exerciseMachineIds))];
+    const machines = await this.catalog.resolvePublishedMachines(c, machineIds);
     const snapshot: ProgramVersion = { ...row.data, programId: id, version, exercises, machines, publishedAt: new Date().toISOString() };
     await c.db.query('INSERT INTO b2b_program_version(organization_id,program_id,version,snapshot) VALUES($1,$2,$3,$4)', [c.org.id, id, version, snapshot]);
     await c.db.query('UPDATE b2b_program SET published_version=$3,revision=revision+1 WHERE organization_id=$1 AND id=$2', [c.org.id, id, version]);
@@ -329,16 +271,9 @@ export class B2BService {
     this.staff(c); const row = (await c.db.query<{ snapshot: ProgramVersion }>('SELECT snapshot FROM b2b_program_version WHERE organization_id=$1 AND program_id=$2 AND version=$3', [c.org.id, id, version])).rows[0];
     if (!row) throw missing(); return row.snapshot;
   }
-  availability(snapshot: ProgramVersion, activeModels: Set<string>): StepAvailability[] {
-    return snapshot.steps.map(step => ({ stepId: step.id, exercises: [step.exerciseId, ...step.alternatives].map(exerciseId => {
-      const exercise = snapshot.exercises.find(e => e.id === exerciseId);
-      if (!exercise) return { exerciseId, status: 'unavailable' as const, equipment: '' };
-      const models = [...(exercise.machineId ? [exercise.machineId] : []), ...exercise.compatibleMachineIds];
-      const status = models.length ? models.some(id => activeModels.has(id)) ? 'available' as const : 'unavailable' as const : exercise.equipment && exercise.equipment !== 'none' ? 'equipment-required' as const : 'available' as const;
-      return { exerciseId, status, equipment: exercise.equipment };
-    }) }));
+  availability(snapshot: ProgramVersion, activeModels: ReadonlySet<string>) {
+    return programAvailability(snapshot, activeModels);
   }
-  async activeModels(c: Context): Promise<Set<string>> { return new Set((await c.db.query<{ machine_id: string }>('SELECT DISTINCT machine_id FROM b2b_unit WHERE organization_id=$1 AND NOT archived', [c.org.id])).rows.map(r => r.machine_id)); }
   async assignments(c: Context, memberId?: string): Promise<Assignment[]> {
     if (memberId) await this.memberAccess(c, memberId);
     const found = await c.db.query<{ id: string; member_id: string; name: string; assigned_by: string; created_at: Date; snapshot: ProgramVersion }>(`SELECT a.*,u.name,v.snapshot FROM b2b_program_assignment a JOIN b2b_auth_user u ON u.id=a.member_id JOIN b2b_program_version v ON v.organization_id=a.organization_id AND v.program_id=a.program_id AND v.version=a.version
@@ -398,12 +333,11 @@ export class B2BService {
       const site = (await db.query<WebsiteRow>('SELECT * FROM b2b_website WHERE organization_id=$1', [org.id])).rows[0]; if (!site?.published) throw missing();
       // Explicit current public references only. Drafts and historical snapshots are never public.
       const organization = { id: org.id, slug: org.slug, brand: site.published.brand };
-      const machines = (await db.query<MachineRow>("SELECT * FROM b2b_machine WHERE (organization_id IS NULL OR organization_id=$1) AND status='published'", [org.id])).rows.map(machineDTO);
-      const units = (await db.query<UnitRow>('SELECT * FROM b2b_unit WHERE organization_id=$1 AND public AND NOT archived', [org.id])).rows.filter(r => machines.some(m => m.id === r.machine_id)).map(r => unitDTO(r, org.slug));
-      const exercises = (await db.query<ExerciseRow>("SELECT * FROM b2b_exercise WHERE (organization_id IS NULL OR organization_id=$1) AND status='published'", [org.id])).rows.map(exerciseDTO).filter(e => [...(e.machineId ? [e.machineId] : []), ...e.compatibleMachineIds].every(id => machines.some(m => m.id === id)));
+      const { machines, exercises } = await this.catalog.publishedCatalog(db, org.id);
+      const units = await this.equipment.publicUnits(db, org, new Set(machines.map(machine => machine.id)));
       if (!unitId) return { organization, website: site.published.content, units, machines, exercises };
       const unit = units.find(u => u.id === unitId); if (!unit) throw missing(); const machine = machines.find(m => m.id === unit.machineId); if (!machine) throw missing();
-      return { organization, unit, machine, exercises: exercises.filter(e => e.machineId === machine.id || e.compatibleMachineIds.includes(machine.id)) };
+      return { organization, unit, machine, exercises: exercises.filter(e => supportsMachine(e, machine.id)) };
     });
   }
   async limit(key: string, max = 20) {
@@ -412,30 +346,5 @@ export class B2BService {
   }
 }
 
-/** Immutable initial snapshots: shared package data are copied, never read from B2C. */
-export async function seedBaseCatalog(db: PoolClient) {
-  for (const base of baseExercises) {
-    const data = ExerciseInputSchema.parse({ name: base.name, description: base.description, instructions: [...base.setup, ...base.steps, ...base.cues], equipment: base.equipment, muscles: base.primaryMuscles, pattern: base.pattern, animationId: base.id, assets: [{ id: `base-${base.id}-poster-v1`, kind: 'image', label: base.name, url: `/previews/${base.id}-poster.webp`, attribution: 'Klisteni exercise preview; see /models/NOTICE.md for anatomical model attribution.' }] });
-    await db.query("INSERT INTO b2b_exercise(id,data,status,version) VALUES($1,$2,'published',1) ON CONFLICT(id) DO NOTHING", [base.id, data]);
-  }
-  const models = [
-    { id: 'base-cable-station-v1', name: 'Estación de poleas', type: 'cable', manufacturer: 'Genérico', model: 'Biblioteca v1', instructions: 'Ajustá el anclaje y seleccioná la carga con la máquina detenida.' },
-    { id: 'base-chest-press-v1', name: 'Press de pecho guiado', type: 'chest-press', manufacturer: 'Genérico', model: 'Biblioteca v1', instructions: 'Identificá los ajustes y topes de seguridad con un instructor antes de usar el equipo.' },
-    { id: 'base-leg-press-v1', name: 'Prensa de piernas', type: 'leg-press', manufacturer: 'Genérico', model: 'Biblioteca v1', instructions: 'Ajustá el respaldo y los topes según las indicaciones del instructor.' },
-  ];
-  for (const { id, ...data } of models) await db.query("INSERT INTO b2b_machine(id,data,status) VALUES($1,$2,'published') ON CONFLICT(id) DO NOTHING", [id, MachineInputSchema.parse(data)]);
-  // Editorial templates require local human review; no unsupported animation or model is invented.
-  const templates = [
-    { id: 'template-cable-row-v1', name: 'Remo en polea sentado', machineId: 'base-cable-station-v1', pattern: 'Tracción horizontal', muscles: ['lats', 'biceps'], instructions: ['Revisá con el instructor la altura del anclaje, el agarre y la posición del asiento.', 'Con el tronco estable, acercá el agarre al torso en un recorrido cómodo.', 'Regresá con control sin soltar la carga.'] },
-    { id: 'template-cable-pulldown-v1', name: 'Jalón en polea', machineId: 'base-cable-station-v1', pattern: 'Tracción vertical', muscles: ['lats', 'biceps'], instructions: ['Comprobá con el instructor que la estación y el agarre admitan el movimiento.', 'Llevá el agarre hacia la zona superior del torso sin balancearte.', 'Volvé con control siguiendo el recorrido indicado por el instructor.'] },
-    { id: 'template-cable-curl-v1', name: 'Curl en polea', machineId: 'base-cable-station-v1', pattern: 'Flexión de codo', muscles: ['biceps'], instructions: ['Ajustá el anclaje bajo y el agarre con la máquina detenida.', 'Flexioná los codos manteniendo el tronco estable.', 'Descendé con control hasta la posición acordada con tu instructor.'] },
-    { id: 'template-leg-press-v1', name: 'Prensa de piernas', machineId: 'base-leg-press-v1', pattern: 'Empuje de piernas', muscles: ['quadriceps', 'glutes'], instructions: ['Revisá asiento, topes y posición de los pies con el instructor.', 'Empujá la plataforma sin perder el apoyo del tronco.', 'Regresá con control dentro del recorrido indicado para vos.'] },
-    { id: 'template-leg-press-calf-v1', name: 'Elevación de talones en prensa', machineId: 'base-leg-press-v1', pattern: 'Flexión plantar', muscles: ['calves'], instructions: ['Confirmá con el instructor que el modelo permita este uso y cómo asegurar los topes.', 'Realizá la elevación de talones manteniendo un apoyo estable.', 'Descendé lentamente dentro del recorrido autorizado.'] },
-    { id: 'template-chest-press-v1', name: 'Press de pecho guiado', machineId: 'base-chest-press-v1', pattern: 'Empuje horizontal', muscles: ['pectorals', 'triceps'], instructions: ['Ajustá asiento y agarres según tu cuerpo con asistencia del instructor.', 'Empujá manteniendo el tronco apoyado y las muñecas alineadas.', 'Volvé sin golpes al recorrido inicial indicado.'] },
-  ];
-  for (const { id, ...template } of templates) {
-    const data = ExerciseInputSchema.parse({ ...template, description: 'Plantilla editorial de referencia: adaptar al equipo real y revisar antes de publicar.', equipment: 'machine', compatibleMachineIds: [template.machineId] });
-    await db.query("INSERT INTO b2b_exercise(id,data,status,version) VALUES($1,$2,'draft',1) ON CONFLICT(id) DO NOTHING", [id, data]);
-  }
-}
+export { seedBaseCatalog } from './catalog/seed.ts';
 export { BrandInputSchema };

@@ -3,7 +3,7 @@ import { ExecutionInputSchema, ExecutionSetSchema } from '@klisteniapp/b2b-contr
 import type { Assignment, Asset, Exercise, Execution, ExecutionInput, Me, Membership, PublicSite, PublicUnit } from '@klisteniapp/b2b-contracts'
 import { ExercisePreview } from '@klisteniapp/anatomy-viewer/preview'
 import { exercisePreviewUrls } from '@klisteniapp/model-assets'
-import { watchSessionChange, AccountProvider, useAccountApi, api, ApiError, dateLabel, Empty, errorMessage, Field, Login, Notice, Shell, useLoad } from '@klisteniapp/b2b-ui'
+import { watchSessionChange, AccountProvider, useAccountClient, b2bClient, createB2BClient, ApiError, dateLabel, Empty, errorMessage, Field, Login, Notice, Shell, useLoad } from '@klisteniapp/b2b-ui'
 
 const MovementViewer = lazy(() => import('@klisteniapp/anatomy-viewer/movement').then(module => ({ default: module.MovementViewer })))
 const EquipmentModelViewer = lazy(() => import('@klisteniapp/anatomy-viewer/equipment').then(module => ({ default: module.EquipmentModelViewer })))
@@ -16,7 +16,7 @@ function ExerciseDetails({ exercise, previewAlreadyShown = false }: { exercise: 
   return <details className="exercise-details" onToggle={event => setShow(event.currentTarget.open)}><summary>Cómo hacer {exercise.name}</summary><div className="exercise-step"><p>{exercise.description}</p>{exercise.animationId && show && <Suspense fallback={<p role="status">Preparando movimiento…</p>}><MovementViewer exerciseId={exercise.animationId} height={280} fallback={<p>Consultá las instrucciones para este movimiento.</p>} /></Suspense>}<ol>{exercise.instructions.map((step, index) => <li key={index}>{step}</li>)}</ol><Media assets={exercise.assets.filter(asset => !previewAlreadyShown || !exercise.animationId || asset.url !== exercisePreviewUrls(exercise.animationId).poster)} /></div></details>
 }
 function PublicGym({ slug, unitId }: { slug: string; unitId?: string }) {
-  const { data, error, loading, reload } = useLoad(() => api<PublicSite | PublicUnit>(`/public/${encodeURIComponent(slug)}${unitId ? `/units/${encodeURIComponent(unitId)}` : ''}`), `${slug}/${unitId}`)
+  const { data, error, loading, reload } = useLoad<PublicSite | PublicUnit>(() => unitId ? b2bClient.public.unit(slug, unitId) : b2bClient.public.site(slug), `${slug}/${unitId}`)
   const brand = data?.organization.brand
   const unit = data && 'unit' in data ? data : null
   const website = data && 'website' in data ? data.website : null
@@ -26,7 +26,7 @@ function PublicGym({ slug, unitId }: { slug: string; unitId?: string }) {
       {unit ? <section style={{ marginTop: 30 }}><div className="page-heading"><div><p className="eyebrow">{unit.machine.type}</p><h2>{unit.machine.name}</h2><p>{[unit.machine.manufacturer, unit.machine.model, unit.unit.location].filter(Boolean).join(' · ')}</p></div></div><Media assets={[...unit.machine.assets, ...unit.unit.assets]} />{unit.unit.adjustments && <section className="card" style={{ marginBottom: 24 }}><h3>Ajustes de este equipo</h3><p>{unit.unit.adjustments}</p></section>}<div className="row spread" style={{ marginBottom: 24 }}><h2>Movimientos para este equipo</h2><a className="button primary" href={`/app?gym=${encodeURIComponent(slug)}&unit=${encodeURIComponent(unit.unit.id)}&machine=${encodeURIComponent(unit.machine.id)}`}>Ver este equipo en mi rutina →</a></div>{unit.exercises.length ? <div className="grid two">{unit.exercises.map(exercise => <article className="card" key={exercise.id}><h3>{exercise.name}</h3><ExerciseDetails exercise={exercise} /></article>)}</div> : <Empty title="Pronto, más movimientos">Consultá al equipo del gimnasio para conocer el uso de esta máquina.</Empty>}</section> : <>
         {website && website.activities.length > 0 && <section className="website-content"><p className="eyebrow">ENCONTRÁ TU PRÁCTICA</p><h2>Actividades del gimnasio</h2><div className="grid three">{website.activities.map(activity => <article className="card" key={activity.id}><h3>{activity.name}</h3><p>{activity.description}</p>{activity.schedule && <p className="small muted">{activity.schedule}</p>}</article>)}</div></section>}
         {website && website.gallery.length > 0 && <section className="website-content"><p className="eyebrow">CONOCÉ EL LUGAR</p><h2>Un espacio para moverte</h2><div className="website-gallery"><Media assets={website.gallery} /></div></section>}
-        <section style={{ marginTop: 30 }}><p className="eyebrow">EXPLORÁ EL ESPACIO</p><h2>Equipos que acompañan tu práctica</h2><PublicUnits site={data as PublicSite} /></section><section className="card" style={{ marginTop: 30 }}><h2>Nos encontramos acá</h2><p>{brand?.address || 'Consultá con el gimnasio la ubicación y los horarios.'}</p>{brand?.contact && <p>{brand.contact}</p>}{website && website.openingHours.length > 0 && <><h3>Horarios de apertura</h3><dl>{website.openingHours.map(hours => <div className="row spread" style={{ maxWidth: 600, padding: '8px 0' }} key={hours.id}><dt><strong>{hours.days}</strong></dt><dd style={{ margin: 0 }}>{hours.hours}</dd></div>)}</dl></>}</section></>}
+        <section style={{ marginTop: 30 }}><p className="eyebrow">EXPLORÁ EL ESPACIO</p><h2>Equipos que acompañan tu práctica</h2>{'units' in data && <PublicUnits site={data} />}</section><section className="card" style={{ marginTop: 30 }}><h2>Nos encontramos acá</h2><p>{brand?.address || 'Consultá con el gimnasio la ubicación y los horarios.'}</p>{brand?.contact && <p>{brand.contact}</p>}{website && website.openingHours.length > 0 && <><h3>Horarios de apertura</h3><dl>{website.openingHours.map(hours => <div className="row spread" style={{ maxWidth: 600, padding: '8px 0' }} key={hours.id}><dt><strong>{hours.days}</strong></dt><dd style={{ margin: 0 }}>{hours.hours}</dd></div>)}</dl></>}</section></>}
     </>}
   </Shell>
 }
@@ -39,17 +39,17 @@ function Invitation() {
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState(false), [existing, setExisting] = useState(false), [signedIn, setSignedIn] = useState('')
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError(''); const values = new FormData(event.currentTarget)
-    try { await api('/invitations/accept', 'POST', { token, name: values.get('name'), password: values.get('password') }); setDone(true); history.replaceState(null, '', '/app/invite') }
+    try { await b2bClient.invitations.accept({ token, name: String(values.get('name') ?? ''), password: String(values.get('password') ?? '') }); setDone(true); history.replaceState(null, '', '/app/invite') }
     catch (error) { setError(errorMessage(error)) } finally { setBusy(false) }
   }
-  async function join() { setBusy(true); setError(''); try { await api('/invitations/join', 'POST', { token }, signedIn); setDone(true); history.replaceState(null, '', '/app/invite') } catch (error) { setError(errorMessage(error)) } finally { setBusy(false) } }
-  if (existing && !signedIn) return <Shell eyebrow="BIENVENIDO"><button className="text-button" onClick={() => setExisting(false)}>Volver a la invitación</button><Login onDone={() => { void api<Me>('/me').then(value => setSignedIn(value.user.id)).catch(error => setError(errorMessage(error))) }} /></Shell>
+  async function join() { setBusy(true); setError(''); try { await createB2BClient(signedIn).invitations.join({ token }); setDone(true); history.replaceState(null, '', '/app/invite') } catch (error) { setError(errorMessage(error)) } finally { setBusy(false) } }
+  if (existing && !signedIn) return <Shell eyebrow="BIENVENIDO"><button className="text-button" onClick={() => setExisting(false)}>Volver a la invitación</button><Login onDone={() => { void b2bClient.me().then(value => setSignedIn(value.user.id)).catch(error => setError(errorMessage(error))) }} /></Shell>
   return <Shell eyebrow="BIENVENIDO"><section className="card" style={{ maxWidth: 500, margin: '40px auto' }}><p className="eyebrow">TU PRÓXIMO PASO</p><h1>Hagamos espacio.</h1>{done ? <><Notice>Tu cuenta está lista. Ya podés iniciar sesión con el email de tu invitación.</Notice><a className="button primary" href="/app">Iniciar sesión</a></> : signedIn ? <><p>Con tu cuenta actual, aceptá la invitación para sumarte a este gimnasio.</p><Notice error>{error}</Notice><button className="button primary" disabled={busy || !token} onClick={() => void join()}>{busy ? 'Aceptando…' : 'Aceptar invitación con mi cuenta'}</button></> : <form className="form-stack" onSubmit={submit}><p>Completá tu nombre y elegí una contraseña para activar la invitación del gimnasio.</p><Field label="Tu nombre"><input name="name" required maxLength={100} autoComplete="name" /></Field><Field label="Nueva contraseña" hint="Al menos 12 caracteres."><input name="password" type="password" minLength={12} maxLength={128} autoComplete="new-password" required /></Field><Notice error>{error || (!token ? 'Falta el enlace de invitación. Pedile uno nuevo al gimnasio.' : '')}</Notice><button className="button primary" disabled={busy || !token}>{busy ? 'Activando…' : 'Activar mi cuenta'}</button><button type="button" className="text-button" onClick={() => setExisting(true)}>Ya tengo una cuenta de gimnasio</button></form>}</section></Shell>
 }
 type DraftSet = { stepId: string; set: number; exerciseId: string; reps: number; loadKg: number | null; reason: string; done: boolean }
 type SessionDraft = { id: string; assignmentId: string; sets: DraftSet[]; notes: string; pending?: ExecutionInput }
 function Session({ assignment, orgId, userId, active, onSaved, onClose }: { assignment: Assignment; orgId: string; userId: string; active: boolean; onSaved: () => void; onClose: () => void }) {
-  const api = useAccountApi()
+  const client = useAccountClient()
   const key = `klisteni.b2b.session.v1.${orgId}.${userId}.${assignment.id}`
   const [recovered] = useState(() => { try { return Boolean(localStorage.getItem(key)) } catch { return false } }), [storageError, setStorageError] = useState('')
   const [draft, setDraft] = useState<SessionDraft>(() => {
@@ -69,7 +69,7 @@ function Session({ assignment, orgId, userId, active, onSaved, onClose }: { assi
     }
     const payload = draft.pending ?? { id: draft.id, assignmentId: assignment.id, status, sets, notes: draft.notes, completedAt: new Date().toISOString() }
     setDraft(current => ({ ...current, pending: payload })); setBusy(true); setError('')
-    try { await api(`/orgs/${orgId}/executions`, 'POST', payload); try { localStorage.removeItem(key) } catch { /* Confirmed server history remains authoritative. */ } onSaved() }
+    try { await client.executions.create(orgId, payload); try { localStorage.removeItem(key) } catch { /* Confirmed server history remains authoritative. */ } onSaved() }
     catch (error) { setError(errorMessage(error)); if (error instanceof ApiError && error.status >= 400 && error.status < 500 && error.status !== 408 && error.status !== 429) setDraft(current => ({ ...current, pending: undefined })) }
     finally { setBusy(false) }
   }
@@ -87,10 +87,10 @@ function History({ executions }: { executions: Execution[] }) {
   return executions.length ? <div className="list">{executions.map(execution => <article className="card" key={execution.id}><div className="card-head"><div><p className="eyebrow">{dateLabel(execution.completedAt)}</p><h2>{execution.program.name}</h2></div><span className={`pill ${execution.status === 'completed' ? 'done' : 'warning'}`}>{execution.status === 'completed' ? 'Completada' : 'Parcial'}</span></div><p>{execution.sets.length} series registradas · Versión {execution.program.version}</p>{execution.notes && <p className="muted">{execution.notes}</p>}<details><summary>Ver lo que hiciste</summary><div className="table-wrap"><table><thead><tr><th>Ejercicio</th><th>Serie</th><th>Reps</th><th>Carga</th><th>Cambio</th></tr></thead><tbody>{execution.sets.map(set => <tr key={`${set.stepId}-${set.set}`}><td>{execution.program.exercises.find(exercise => exercise.id === set.exerciseId)?.name ?? set.exerciseId}</td><td>{set.set}</td><td>{set.reps}</td><td>{set.loadKg === null ? '—' : `${set.loadKg} kg`}</td><td>{set.reason || '—'}</td></tr>)}</tbody></table></div></details></article>)}</div> : <Empty title="Cada comienzo cuenta">Cuando guardes tu primera sesión, vas a encontrarla acá.</Empty>
 }
 function MemberSpace({ me, membership, dataRefresh, onSignOut, onOrganization }: { me: Me; membership: Membership; dataRefresh: number; onSignOut: () => void; onOrganization: (id: string) => void }) {
-  const api = useAccountApi()
+  const client = useAccountClient()
   const org = membership.organization
   const [page, setPage] = useState<'routine' | 'catalog' | 'history'>('routine'), [session, setSession] = useState<Assignment | null>(null), [message, setMessage] = useState(''), [query, setQuery] = useState('')
-  const { data, error, loading, reload } = useLoad(async () => { const [assignments, executions, exercises] = await Promise.all([api<{ assignments: Assignment[] }>(`/orgs/${org.id}/assignments`), api<{ executions: Execution[] }>(`/orgs/${org.id}/executions`), api<{ exercises: Exercise[] }>(`/orgs/${org.id}/exercises`)]); return { ...assignments, ...executions, ...exercises } }, `${org.id}/${dataRefresh}`)
+  const { data, error, loading, reload } = useLoad(async () => { const [assignments, executions, exercises] = await Promise.all([client.assignments.list(org.id), client.executions.list(org.id), client.catalog.listExercises(org.id)]); return { ...assignments, ...executions, ...exercises } }, `${org.id}/${dataRefresh}`)
   const currentSession = session ? data?.assignments.find(assignment => assignment.id === session.id) : null
   const machineContext = new URLSearchParams(location.search).get('machine')
   const ownAssignments = data?.assignments.filter(item => item.memberId === me.user.id) ?? [], ownExecutions = data?.executions.filter(item => item.memberId === me.user.id) ?? []
@@ -117,14 +117,14 @@ export default function App() {
     const generation = ++requestGeneration.current
     if (immediate) { setMe(null); setOrgId(''); setLoading(true) }
     setError('')
-    try { const value = await api<Me>('/me'); if (generation === requestGeneration.current) { setMe(value); setDataRefresh(value => value + 1) } }
+    try { const value = await b2bClient.me(); if (generation === requestGeneration.current) { setMe(value); setDataRefresh(value => value + 1) } }
     catch (error) { if (generation === requestGeneration.current) { setMe(null); setOrgId(''); if (!(error instanceof ApiError && error.status === 401)) setError(errorMessage(error)) } }
     finally { if (generation === requestGeneration.current) setLoading(false) }
   }
   useEffect(() => { if (publicRoute || location.pathname === '/app/invite') { setLoading(false); return } void refresh(); return watchSessionChange(immediate => { void refresh(immediate) }) }, [])
   async function signOut() {
     signingOut.current = true; ++requestGeneration.current; setLoading(true)
-    try { await api('/auth/sign-out', 'POST', {}); setMe(null); setOrgId('') }
+    try { await b2bClient.auth.signOut(); setMe(null); setOrgId('') }
     catch (error) { setError(errorMessage(error)) }
     finally { ++requestGeneration.current; signingOut.current = false; setLoading(false) }
   }

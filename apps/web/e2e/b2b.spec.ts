@@ -313,6 +313,10 @@ test('admin prepares a gym with reused models and uploaded content, publishes it
     })
     await nav('Registrar 2 equipos')
     await expect(page.getByRole('button', { name: 'Confirmar alta pendiente', exact: true })).toBeVisible()
+    // The pending batch is persisted before fetch finishes. Wait for the lost
+    // response, otherwise reload/unroute can race the still-running handler.
+    await expect(page.getByRole('alert')).toContainText('No pudimos conectar')
+    await expect(page.getByRole('button', { name: 'Confirmar alta pendiente', exact: true })).toBeEnabled()
     await page.unroute(`**/api/b2b/orgs/${gym}/units/batch`)
     await page.reload(); await nav('Equipamiento')
     await expect(page.getByRole('button', { name: 'Confirmar alta pendiente', exact: true })).toBeVisible()
@@ -424,4 +428,50 @@ test('admin prepares a gym with reused models and uploaded content, publishes it
     await publishWebsite()
     expect((await orgGet<{ media: Media[] }>(page, '/media', gym)).media).toHaveLength(1)
   } finally { await visitor.close().catch(() => undefined) }
+})
+
+test('backoffice loads sections independently, refreshes only changed resources and clears revoked data', async ({ page }) => {
+  const requests: string[] = []
+  page.on('request', request => {
+    const path = new URL(request.url()).pathname
+    if (request.method() === 'GET' && path.startsWith('/api/b2b/orgs/')) requests.push(path.split('/').at(-1)!)
+  })
+  await login(page, 'admin')
+  await expect(page.getByRole('heading', { name: 'Preparemos tu gimnasio.', exact: true })).toBeVisible()
+  expect(new Set(requests)).toEqual(new Set(['machines', 'units', 'setup-progress']))
+
+  await page.route('**/api/b2b/orgs/atlas-demo/reports', route => route.fulfill({ status: 503, json: { error: 'Informes temporalmente no disponibles.', code: 'UNAVAILABLE' } }))
+  await page.getByRole('button', { name: 'Seguimiento', exact: true }).click()
+  await expect(page.getByRole('alert')).toHaveText('Informes temporalmente no disponibles.')
+  requests.length = 0
+  await page.getByRole('button', { name: 'Identidad', exact: true }).click()
+  await expect(page.getByLabel('Nombre del gimnasio', { exact: true })).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  expect(requests).toEqual([])
+
+  await page.getByRole('button', { name: 'Ejercicios', exact: true }).click()
+  await page.getByRole('button', { name: '+ Crear ejercicio', exact: true }).click()
+  expect(new Set(requests)).toEqual(new Set(['exercises', 'machines']))
+  await page.getByLabel('Nombre del ejercicio', { exact: true }).fill('Ejercicio con actualización aislada')
+  await page.getByLabel('Instrucciones paso a paso', { exact: true }).fill('Realizá el movimiento de forma controlada.')
+  requests.length = 0
+  const refreshed = page.waitForResponse(response => response.url().endsWith('/orgs/atlas-demo/exercises') && response.request().method() === 'GET')
+  await page.getByRole('button', { name: 'Guardar borrador', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Borrador guardado')
+  await refreshed
+  expect(requests).toEqual(['exercises'])
+  await page.getByRole('button', { name: 'Volver al catálogo', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Ejercicio con actualización aislada', exact: true })).toBeVisible()
+
+  await page.route('**/api/b2b/orgs/atlas-demo/exercises', route => route.fulfill({ status: 403, json: { error: 'El acceso al catálogo fue revocado.', code: 'FORBIDDEN' } }))
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')))
+  await expect(page.getByRole('alert')).toHaveText('El acceso al catálogo fue revocado.')
+  await expect(page.getByRole('heading', { name: 'Ejercicio con actualización aislada', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '+ Crear ejercicio', exact: true })).toHaveCount(0)
+
+  await page.route('**/api/b2b/orgs/atlas-demo/setup-progress', route => route.fulfill({ status: 503, json: { error: 'No pudimos consultar la publicación.', code: 'UNAVAILABLE' } }))
+  await page.getByRole('button', { name: 'Equipamiento', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Conocé cada equipo.', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: '+ Registrar equipo', exact: true })).toBeEnabled()
+  await expect(page.getByRole('alert')).toHaveText('No pudimos consultar la publicación.')
 })

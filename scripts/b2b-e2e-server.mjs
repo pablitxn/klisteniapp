@@ -42,6 +42,9 @@ try {
   pool = createPool(config);
   await migrate(pool, createAuth(pool, config, { migrating: true }));
   const auth = createAuth(pool, config);
+  // All browser contexts share localhost, so their independent login scenarios
+  // consume one IP bucket. Raise its capacity only in this disposable test server.
+  (await auth.$context).rateLimit.customRules = { '/sign-in/email': { window: 60, max: 100 } };
   await seedDemo(pool, auth, config, 'browser-tests-only-password-2026');
   server = createApiServer({ config, pool, auth });
   await new Promise((resolve, reject) => { server.once('error', reject); server.listen(4203, '127.0.0.1', resolve); });

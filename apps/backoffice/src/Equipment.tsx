@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
 import { UnitBatchSchema, type Asset, type Machine, type Unit } from '@klisteniapp/b2b-contracts'
-import { ApiError, Empty, Field, Notice, useAccountApi } from '@klisteniapp/b2b-ui'
+import { ApiError, Empty, Field, Notice, useAccountClient } from '@klisteniapp/b2b-ui'
 import QRCode from 'qrcode'
 import { AssetEditor, Heading, useAction } from './shared'
 
@@ -21,8 +21,8 @@ function UnitQr({ unit }: { unit: Unit }) {
   return <div className="row" style={{ marginTop: 15 }}>{image && <a href={image} download={`qr-${unit.id}.png`} aria-label={`Descargar QR de ${unit.label}`}><img className="qr" src={image} alt={`QR de ${unit.label}`} /></a>}<div style={{ flex: 1, minWidth: 150 }}><a href={url} target="_blank" rel="noreferrer">Abrir ficha pública ↗</a><p className="small muted" style={{ overflowWrap: 'anywhere' }}>{url}</p>{image && <a className="text-button small" href={image} download={`qr-${unit.id}.png`}>Descargar QR para imprimir</a>}<Notice error>{error}</Notice></div></div>
 }
 
-export function Equipment({ orgId, userId, machines, units, active, admin, websitePublished, reload }: { orgId: string; userId: string; machines: Machine[]; units: Unit[]; active: boolean; admin: boolean; websitePublished: boolean; reload: () => void }) {
-  const api = useAccountApi(), action = useAction()
+export function Equipment({ orgId, userId, machines, units, active, admin, websitePublished, reload }: { orgId: string; userId: string; machines: Machine[]; units: Unit[]; active: boolean; admin: boolean; websitePublished: boolean; reload: (resource: 'machines' | 'units') => void }) {
+  const client = useAccountClient(), action = useAction()
   const batchStorageKey = `klisteni.b2b.unit-batch.v1.${orgId}.${userId}`
   const [mode, setMode] = useState<'units' | 'models'>('units'), [creating, setCreating] = useState(false), [assets, setAssets] = useState<Asset[]>([])
   const [editingMachine, setEditingMachine] = useState<Machine | null>(null), [editingUnit, setEditingUnit] = useState<Unit | null>(null), [selectedModel, setSelectedModel] = useState('')
@@ -34,13 +34,13 @@ export function Equipment({ orgId, userId, machines, units, active, admin, websi
   function editMachine(machine: Machine) { if (pendingBatch) return; closeEditor(); setMode('models'); setEditingMachine(machine); setAssets(machine.assets); setCreating(true); setReviewing(null); action.clear() }
   function editUnit(unit: Unit) { if (pendingBatch) return; closeEditor(); setMode('units'); setEditingUnit(unit); setSelectedModel(unit.machineId); setAssets(unit.assets); setPublicUnit(unit.public); setCreating(true); action.clear() }
   async function retireUnit(unit: Unit) {
-    await action.run(async () => { await api(`/orgs/${orgId}/units/${unit.id}`, 'PUT', { machineId: unit.machineId, label: unit.label, location: unit.location, assets: unit.assets, adjustments: unit.adjustments, archived: !unit.archived, public: unit.public, expectedRevision: unit.revision }); reload() }, unit.archived ? 'Equipo restaurado.' : 'Equipo retirado. Su ficha deja de estar disponible públicamente.')
+    await action.run(async () => { await client.equipment.updateUnit(orgId, unit.id, { machineId: unit.machineId, label: unit.label, location: unit.location, assets: unit.assets, adjustments: unit.adjustments, archived: !unit.archived, public: unit.public, expectedRevision: unit.revision }); reload('units') }, unit.archived ? 'Equipo restaurado.' : 'Equipo retirado. Su ficha deja de estar disponible públicamente.')
   }
   async function sendBatch(batch: Batch) {
     const saved = await action.run(async () => {
       try { sessionStorage.setItem(batchStorageKey, JSON.stringify(batch)) } catch { throw new Error('No pudimos conservar el alta en esta pestaña. No se enviaron nuevas unidades; mantené los datos en pantalla e intentá nuevamente.') }
       setPendingBatch(batch)
-      try { await api(`/orgs/${orgId}/units/batch`, 'POST', batch); sessionStorage.removeItem(batchStorageKey); setPendingBatch(null); reload() }
+      try { await client.equipment.createUnitsBatch(orgId, batch); sessionStorage.removeItem(batchStorageKey); setPendingBatch(null); reload('units') }
       catch (error) { if (error instanceof ApiError && (error.status === 400 || error.status === 422)) { sessionStorage.removeItem(batchStorageKey); setPendingBatch(null) } throw error }
     }, batch.units.length === 1 ? 'Equipo guardado. Podés revisar sus ajustes y habilitar su ficha.' : `${batch.units.length} equipos guardados. Cada unidad tiene ajustes y QR propios.`)
     if (saved) closeEditor()
@@ -51,22 +51,22 @@ export function Equipment({ orgId, userId, machines, units, active, admin, websi
       if (publicUnit && !unitReviewed) return
       const body: UnitInput = { machineId: selectedModel, label: String(data.get('label')), location: String(data.get('location')), adjustments: String(data.get('adjustments')), assets, public: publicUnit, archived: editingUnit?.archived ?? false }
       if (!editingUnit) { const start = Number(data.get('start') || 1); await sendBatch({ id: crypto.randomUUID(), units: Array.from({ length: quantity }, (_, i) => ({ ...body, label: quantity === 1 ? body.label : `${body.label} ${String(start + i).padStart(2, '0')}` })) }); return }
-      const saved = await action.run(async () => { await api(`/orgs/${orgId}/units/${editingUnit.id}`, 'PUT', { ...body, expectedRevision: editingUnit.revision }); reload() }, 'Equipo guardado. Su ficha refleja los ajustes revisados.')
+      const saved = await action.run(async () => { await client.equipment.updateUnit(orgId, editingUnit.id, { ...body, expectedRevision: editingUnit.revision }); reload('units') }, 'Equipo guardado. Su ficha refleja los ajustes revisados.')
       if (saved) closeEditor(); return
     }
     const own = editingMachine?.scope === 'organization'
     const saved = await action.run(async () => {
-      const body = { name: data.get('name'), type: data.get('type'), manufacturer: data.get('manufacturer'), model: data.get('model'), instructions: data.get('instructions'), assets, derivedFromId: editingMachine?.scope === 'base' ? editingMachine.id : editingMachine?.derivedFromId ?? null, derivedFromVersion: editingMachine?.scope === 'base' ? editingMachine.version : editingMachine?.derivedFromVersion ?? null, ...(own ? { expectedRevision: editingMachine.revision } : {}) }
-      await api(`/orgs/${orgId}/machines${own ? `/${editingMachine.id}` : ''}`, own ? 'PUT' : 'POST', body); reload()
+      const body = { name: String(data.get('name') ?? ''), type: String(data.get('type') ?? ''), manufacturer: String(data.get('manufacturer') ?? ''), model: String(data.get('model') ?? ''), instructions: String(data.get('instructions') ?? ''), assets, derivedFromId: editingMachine?.scope === 'base' ? editingMachine.id : editingMachine?.derivedFromId ?? null, derivedFromVersion: editingMachine?.scope === 'base' ? editingMachine.version : editingMachine?.derivedFromVersion ?? null }
+      if (own) await client.equipment.updateMachine(orgId, editingMachine.id, { ...body, expectedRevision: editingMachine.revision }); else await client.equipment.createMachine(orgId, body); reload('machines')
     }, 'Modelo guardado como borrador. Revisalo y publicalo para habilitar sus fichas públicas.')
     if (saved) closeEditor()
   }
   async function reviewModel(machine: Machine) {
     if (!reviewAccepted) return
-    await action.run(async () => { const result = await api<{ machine: Machine }>(`/orgs/${orgId}/machines/${machine.id}/review`, 'POST', { expectedRevision: machine.revision }); setReviewing(result.machine); setReviewAccepted(false); reload() }, 'Modelo revisado. Ya podés publicarlo.')
+    await action.run(async () => { const result = await client.equipment.reviewMachine(orgId, machine.id, { expectedRevision: machine.revision }); setReviewing(result.machine); setReviewAccepted(false); reload('machines') }, 'Modelo revisado. Ya podés publicarlo.')
   }
   async function publishModel(machine: Machine) {
-    await action.run(async () => { const result = await api<{ machine: Machine }>(`/orgs/${orgId}/machines/${machine.id}/publish`, 'POST', { expectedRevision: machine.revision }); if (reviewing?.id === machine.id) setReviewing(result.machine); reload() }, 'Modelo publicado. Las unidades públicas ya pueden usar sus instrucciones y recursos.')
+    await action.run(async () => { const result = await client.equipment.publishMachine(orgId, machine.id, { expectedRevision: machine.revision }); if (reviewing?.id === machine.id) setReviewing(result.machine); reload('machines') }, 'Modelo publicado. Las unidades públicas ya pueden usar sus instrucciones y recursos.')
   }
   const model = machines.find(machine => machine.id === selectedModel)
   const visibleMachines = machines.filter(machine => `${machine.name} ${machine.type} ${machine.manufacturer}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()))

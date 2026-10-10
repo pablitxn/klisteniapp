@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { Asset, Media } from '@klisteniapp/b2b-contracts'
-import { Empty, errorMessage, Field, Notice, useAccountApi, useLoad } from '@klisteniapp/b2b-ui'
+import { Empty, errorMessage, Field, Notice, useAccountClient, useLoad } from '@klisteniapp/b2b-ui'
 
 export function mediaAsset(media: Media): Asset {
   return { id: media.id, kind: media.kind, url: media.url, label: media.label, attribution: media.attribution }
@@ -13,7 +13,7 @@ const fileTypes: Record<string, { kind: Asset['kind']; mime: string; limit: numb
 }
 
 export function UploadMedia({ orgId, disabled = false, onUploaded, imagesOnly = false }: { orgId: string; disabled?: boolean; onUploaded: (media: Media) => void; imagesOnly?: boolean }) {
-  const api = useAccountApi(), input = useRef<HTMLInputElement>(null)
+  const client = useAccountClient(), input = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null), [label, setLabel] = useState(''), [attribution, setAttribution] = useState('')
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('')
   async function upload() {
@@ -23,8 +23,7 @@ export function UploadMedia({ orgId, disabled = false, onUploaded, imagesOnly = 
     if (!file.size || file.size > type.limit * 1024 * 1024) { setError(`El archivo debe tener contenido y pesar hasta ${type.limit} MB.`); return }
     setBusy(true); setError(''); setMessage('')
     try {
-      const query = new URLSearchParams({ kind: type.kind, label: label.trim(), attribution: attribution.trim() })
-      const result = await api<{ media: Media }>(`/orgs/${orgId}/media?${query}`, 'POST', new Blob([file], { type: type.mime }))
+      const result = await client.media.upload(orgId, { kind: type.kind, label: label.trim(), attribution: attribution.trim() }, new Blob([file], { type: type.mime }))
       onUploaded(result.media); setFile(null); setLabel(''); setAttribution(''); if (input.current) input.current.value = ''
       setMessage('Archivo guardado en la biblioteca del gimnasio.')
     } catch (error) { setError(errorMessage(error)) } finally { setBusy(false) }
@@ -39,10 +38,10 @@ export function UploadMedia({ orgId, disabled = false, onUploaded, imagesOnly = 
   </fieldset>
 }
 
-export function MediaLibrary({ orgId, disabled = false, onChoose, selectedIds = [], imagesOnly = false }: { orgId: string; disabled?: boolean; onChoose?: (asset: Asset) => void; selectedIds?: string[]; imagesOnly?: boolean }) {
-  const api = useAccountApi()
+export function MediaLibrary({ orgId, disabled = false, onChoose, selectedIds = [], imagesOnly = false, dataRefresh = 0 }: { orgId: string; disabled?: boolean; onChoose?: (asset: Asset) => void; selectedIds?: string[]; imagesOnly?: boolean; dataRefresh?: number }) {
+  const client = useAccountClient()
   const [query, setQuery] = useState('')
-  const { data, error, loading, reload } = useLoad(() => api<{ media: Media[]; usage?: { bytes: number; quotaBytes: number } }>(`/orgs/${orgId}/media`), orgId)
+  const { data, error, loading, reload } = useLoad(() => client.media.list(orgId), `${orgId}/${dataRefresh}`)
   const items = data?.media.filter(media => (!imagesOnly || media.kind === 'image') && media.label.toLocaleLowerCase().includes(query.toLocaleLowerCase())) ?? []
   return <div>
     {data?.usage && <p className="small muted">Biblioteca: {(data.usage.bytes / 1024 / 1024).toFixed(1)} MB de {(data.usage.quotaBytes / 1024 / 1024).toFixed(0)} MB utilizados.</p>}

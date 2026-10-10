@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { WebsiteInputSchema, type Organization, type Website, type WebsiteInput } from '@klisteniapp/b2b-contracts'
-import { ApiError, dateLabel, Field, Notice, useAccountApi } from '@klisteniapp/b2b-ui'
+import { ApiError, dateLabel, Field, Notice, useAccountClient } from '@klisteniapp/b2b-ui'
 import { AssetEditor, Heading, useAction } from './shared'
 
 function readLocalCopy(key: string): WebsiteInput | null {
@@ -16,7 +16,7 @@ function readLocalCopy(key: string): WebsiteInput | null {
 }
 
 export function WebsiteEditor({ userId, organization, website, active, reload }: { userId: string; organization: Organization; website: Website; active: boolean; reload: () => void }) {
-  const api = useAccountApi(), action = useAction()
+  const client = useAccountClient(), action = useAction()
   const backupKey = `klisteni.b2b.website-copy.v1.${organization.id}.${userId}`
   const [saved, setSaved] = useState(website), [draft, setDraft] = useState<WebsiteInput>(website.draft)
   const [reviewing, setReviewing] = useState(false), [confirmed, setConfirmed] = useState(false)
@@ -35,7 +35,7 @@ export function WebsiteEditor({ userId, organization, website, active, reload }:
         try { sessionStorage.setItem(backupKey, JSON.stringify(draft)) } catch { throw new Error('No pudimos conservar una copia local. El borrador sigue en pantalla; no lo reemplazamos.') }
         setLocalCopy(draft)
       }
-      const result = await api<{ website: Website }>(`/orgs/${organization.id}/website`)
+      const result = await client.website.get(organization.id)
       setSaved(result.website); setDraft(result.website.draft); setNewer(null); setReviewing(false); setConfirmed(false); reload()
     }, dirty ? 'Versión actual cargada. Conservamos una copia de tus cambios en esta pestaña.' : 'Versión actual cargada. Revisala antes de publicar.')
   }
@@ -45,7 +45,7 @@ export function WebsiteEditor({ userId, organization, website, active, reload }:
     await action.run(async () => {
       const body = WebsiteInputSchema.parse(draft)
       let result: { website: Website }
-      try { result = await api<{ website: Website }>(`/orgs/${organization.id}/website`, 'PUT', { ...body, expectedRevision: saved.revision }) }
+      try { result = await client.website.update(organization.id, { ...body, expectedRevision: saved.revision }) }
       catch (error) { if (error instanceof ApiError && error.status === 409) reload(); throw error }
       setSaved(result.website); setDraft(result.website.draft); setReviewing(false); setConfirmed(false); reload()
     }, 'Borrador del website guardado. Revisalo antes de publicar.')
@@ -54,7 +54,7 @@ export function WebsiteEditor({ userId, organization, website, active, reload }:
     if (stale || publish && (!confirmed || dirty)) return
     await action.run(async () => {
       let result: { website: Website }
-      try { result = await api<{ website: Website }>(`/orgs/${organization.id}/website/${publish ? 'publish' : 'unpublish'}`, 'POST', { expectedRevision: saved.revision }) }
+      try { result = await client.website[publish ? 'publish' : 'unpublish'](organization.id, { expectedRevision: saved.revision }) }
       catch (error) { if (error instanceof ApiError && error.status === 409) reload(); throw error }
       setSaved(result.website); setReviewing(false); setConfirmed(false); reload()
     }, publish ? 'Website publicado. La web y los QR habilitados ya se pueden visitar.' : 'Website despublicado. Conservamos el borrador para volver a publicarlo.')
