@@ -13,7 +13,8 @@ import { bodyPreviewCameras, bodyPreviewPadding } from '../apps/web/src/lib/body
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const webRoot = join(root, 'apps/web')
-const outputFor = model => join(webRoot, 'public/previews', model === 'female' ? 'female/body' : 'body')
+const assetRoot = join(root, 'packages/model-assets')
+const outputFor = model => join(assetRoot, 'public/previews', model === 'female' ? 'female/body' : 'body')
 const { values } = parseArgs({ options: {
   model: { type: 'string', multiple: true },
   region: { type: 'string', multiple: true },
@@ -28,7 +29,7 @@ if (values.help) {
        node scripts/generate-body-previews.mjs --check
 
 Renders the twelve isolated atlas regions from each model variant with natural tissue colours.
-Outputs: apps/web/public/previews/body/{MuscleId}.webp and female/body/{MuscleId}.webp, each with a manifest.
+Outputs: packages/model-assets/public/previews/body/{MuscleId}.webp and female/body/{MuscleId}.webp, each with a manifest.
 Defaults to both male and female variants; repeat --model to select variants.
 Repeat --region to regenerate a subset. Default 256px, transparent background.
 --check validates BOTH models and ALL source/output hashes, dimensions, structure selections and provenance.
@@ -47,6 +48,17 @@ const ids = [...new Set(values.region ?? allIds)]
 for (const id of ids) if (!allIds.includes(id)) throw new Error(`Unknown region: ${id}`)
 
 const sourcePaths = [
+  'packages/anatomy-viewer/package.json',
+  'packages/model-assets/package.json',
+  'packages/catalog-base/package.json',
+  'packages/anatomy-viewer/src/anatomy-model.ts',
+  'packages/anatomy-viewer/src/anatomy-rig.ts',
+  'packages/anatomy-viewer/src/anatomy-variants.ts',
+  'packages/anatomy-viewer/src/anatomy-variant-surface.ts',
+  'packages/anatomy-viewer/src/anatomy-render-settings.ts',
+  'packages/model-assets/src/index.ts',
+  'packages/model-assets/src/vite.ts',
+
   'scripts/generate-body-previews.mjs',
   'apps/web/body-preview-capture.html',
   'apps/web/src/body-preview-capture.ts',
@@ -57,11 +69,11 @@ const sourcePaths = [
   'apps/web/src/lib/anatomy-variant-surface.ts',
   'apps/web/src/lib/anatomy-render-settings.ts',
   'apps/web/src/data/body-guide.ts',
-  'apps/web/public/models/anatomy.glb',
-  'apps/web/public/models/rig-landmarks.json',
-  'apps/web/public/models/anatomy-manifest.json',
-  'apps/web/public/previews/body/NOTICE.md',
-  'apps/web/public/previews/female/body/NOTICE.md',
+  'packages/model-assets/public/models/anatomy.glb',
+  'packages/model-assets/public/models/rig-landmarks.json',
+  'packages/model-assets/public/models/anatomy-manifest.json',
+  'packages/model-assets/public/previews/body/NOTICE.md',
+  'packages/model-assets/public/previews/female/body/NOTICE.md',
   'packages/geometry/src/index.ts',
   'packages/scene-schema/src/index.ts',
   'pnpm-lock.yaml',
@@ -69,11 +81,11 @@ const sourcePaths = [
 const hash = bytes => createHash('sha256').update(bytes).digest('hex')
 const sources = Object.fromEntries(await Promise.all(sourcePaths.map(async path => [path, hash(await readFile(join(root, path)))])))
 const sourceHash = hash(JSON.stringify(sources))
-const modelManifest = JSON.parse(await readFile(join(webRoot, 'public/models/anatomy-manifest.json'), 'utf8'))
+const modelManifest = JSON.parse(await readFile(join(assetRoot, 'public/models/anatomy-manifest.json'), 'utf8'))
 const provenanceFor = model => ({
   modelVariant: model,
   model: '/models/anatomy.glb',
-  modelSha256: sources['apps/web/public/models/anatomy.glb'],
+  modelSha256: sources['packages/model-assets/public/models/anatomy.glb'],
   creator: modelManifest.creator,
   sourceRepository: modelManifest.sourceRepository,
   sourceCommit: modelManifest.sourceCommit,

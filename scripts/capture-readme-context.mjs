@@ -21,10 +21,11 @@ export async function captureSources(root, script) {
   }
   const files = [script, 'scripts/capture-readme-context.mjs', 'pnpm-lock.yaml',
     'apps/web/index.html', 'apps/web/vite.config.ts', 'apps/web/config/deployment.ts',
-    'apps/web/instance-profile.example.json', 'apps/web/public/models/anatomy.glb',
-    'apps/web/public/models/rig-landmarks.json', 'apps/web/public/previews/manifest.json',
+    'apps/web/instance-profile.example.json', 'packages/model-assets/public/models/anatomy.glb',
+    'packages/model-assets/public/models/rig-landmarks.json', 'packages/model-assets/public/previews/manifest.json',
     ...await filesBelow('apps/web/src'), ...await filesBelow('packages/geometry/src'),
-    ...await filesBelow('packages/scene-schema/src')].sort()
+    ...await filesBelow('packages/scene-schema/src'), ...await filesBelow('packages/catalog-base/src'),
+    ...await filesBelow('packages/anatomy-viewer/src'), ...await filesBelow('packages/model-assets/src')].sort()
   return Object.fromEntries(await Promise.all(files.map(async file => [file, hash(await readFile(join(root, file)))])))
 }
 

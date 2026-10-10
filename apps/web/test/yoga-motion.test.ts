@@ -12,7 +12,7 @@ import { asanas } from '../src/data/yoga.ts';
 import { applyYogaPose, getYogaPose, type YogaPose } from '../src/lib/yoga-rig.ts';
 import { applyYogaMotion, createYogaMotion, YOGA_HOLD_PHASE, YOGA_MOTION_DURATION_SECONDS, yogaMotionTimeline } from '../src/lib/yoga-motion.ts';
 
-const source = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../public/models/rig-landmarks.json', import.meta.url), 'utf8')));
+const source = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../../../packages/model-assets/public/models/rig-landmarks.json', import.meta.url), 'utf8')));
 const variants = ['male', 'female'] as const, sides = ['left', 'right'] as const;
 const distance = (a: Vec3, b: Vec3) => new Vector3(...a).distanceTo(new Vector3(...b));
 const near = (actual: number, expected: number, label: string, tolerance = 1e-6) =>
@@ -234,7 +234,7 @@ test('unilateral entrances preserve anatomical laterality throughout the whole c
 });
 
 test('representative movement samples keep the actual male and female external surface above the mat', async () => {
-  const file = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url));
+  const file = readFileSync(new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url));
   const asset = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '');
   const point = new Vector3(), failures: string[] = [];
   for (const variant of variants) {

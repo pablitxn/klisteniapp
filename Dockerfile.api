@@ -8,6 +8,9 @@ COPY apps/api/package.json apps/api/package.json
 COPY apps/web/package.json apps/web/package.json
 COPY packages/scene-schema/package.json packages/scene-schema/package.json
 COPY packages/geometry/package.json packages/geometry/package.json
+COPY packages/catalog-base/package.json packages/catalog-base/package.json
+COPY packages/anatomy-viewer/package.json packages/anatomy-viewer/package.json
+COPY packages/model-assets/package.json packages/model-assets/package.json
 RUN pnpm --filter @klisteniapp/api... install --prod --frozen-lockfile --ignore-scripts
 
 FROM ${NODE_IMAGE} AS runtime

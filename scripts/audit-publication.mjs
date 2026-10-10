@@ -38,19 +38,59 @@ const rules = [
   { category: 'credential-url', regex: /\b(?:postgres(?:ql)?|mysql|redis|amqps?):\/\/[^\s:/]+:[^\s@]+@[^\s"'`]+/gi },
 ]
 const sha256 = value => createHash('sha256').update(value).digest('hex')
-// Exact public fixtures/copyright only. Hashes keep the detector's own source
+// Exact public fixtures/templates/copyright only. Hashes keep the detector's own source
 // free of credential-shaped values and operator-specific personal information.
 const approvedFixtures = new Map([
   [
     ".gitlab-ci.yml:credential-url",
     [
-      "48ccffacf6fea106c8c6377968afa94fdff216da5505c7fc5ac44e2d0728225d"
+      "48ccffacf6fea106c8c6377968afa94fdff216da5505c7fc5ac44e2d0728225d",
+      "3187c1f7c1548972d3be39c2c2256678f6272e63d663019711d195315f25e619"
     ]
   ],
   [
     "apps/api/.env.example:credential-url",
     [
       "478537ba773bf14447b01ebc4f10ff7962471d93ee02685decd0ed07112d7226"
+    ]
+  ],
+  // B2B examples use replace-me; tests use synthetic identities/passwords.
+  // Deployment hashes match literal interpolation expressions, never resolved secrets.
+  [
+    "apps/b2b-api/.env.example:credential-url",
+    [
+      "ac7a35cfa68855c943de18873f04a52ee8642cd5b8d742619ca2d91d080ce26c",
+      "289b0237bba135fec1aa0db77e76291edbde1bdd83263c4a578480314cdbbcf9",
+      "95fdb3d401fde5914d10b9c46fb90026f4bcbdf3717b50a5f1998622641e8ccc"
+    ]
+  ],
+  [
+    "apps/b2b-api/tests/integration.test.ts:credential-assignment",
+    [
+      "8a482e888fd2526fdc5363fc6183c5de16b4e9fd491dc6d2c02c18b78eae0d60",
+      "87777f5b67c8b9366cac827581f4ad0b70571ffa8ca8e2eada37fcff3233951b",
+      "840910f0a0cbf2765b7a4f38377a1e1a7a3bb0cf5fab5bee2c77db0d97c3105f",
+      "eb4c8a57f4a5ea813addcf105b6b0afe791cc43da0fdb0153ededfe671243874"
+    ]
+  ],
+  [
+    "apps/web/e2e/b2b.spec.ts:credential-assignment",
+    [
+      "cb8bbe91f5af670dc3e33afbc1cccc74bad5c94fc687583f83cc750bebed9585"
+    ]
+  ],
+  [
+    "deploy/compose.b2b.instance.yaml:credential-url",
+    [
+      "129dfd312a04b04183226414c8f05e315c0c7366c3a64f2bcc60fab15e7811f7",
+      "8fe9dcc0a8ac96d0dcdd2961b63c1f44b281df59d027ca204e82a5c8d94ef70d"
+    ]
+  ],
+  [
+    "deploy/init-b2b-env.mjs:credential-url",
+    [
+      "4624fb069f39dddddfc067b2dc3aebc558c5bc9b63109c62b249a8a9a424a3f1",
+      "51534aeed2b19a56e78fe53eb93db6458c69e67f83e8ca83087cc5eeb9dde1c8"
     ]
   ],
   [
@@ -381,6 +421,11 @@ function selfTest() {
   const glb = Buffer.alloc(20 + json.length); glb.write('glTF'); glb.writeUInt32LE(2, 4); glb.writeUInt32LE(glb.length, 8); glb.writeUInt32LE(json.length, 12); glb.writeUInt32LE(0x4e4f534a, 16); json.copy(glb, 20)
   tests.push(['glb-json', checkEmail(glb, '.glb')])
   tests.push(['scope-does-not-exempt-a-different-file', !allowed('credential-url', 'unapproved', '', '.env.example')])
+  const b2bFixturePath = 'apps/b2b-api/.env.example'
+  const b2bFixture = readFileSync(new URL(`../${b2bFixturePath}`, import.meta.url), 'utf8').split('\n')[0].split('=')[1]
+  tests.push(['b2b-example-exact-fixture', findingsIn(b2bFixture, b2bFixturePath, 'text').length === 0])
+  tests.push(['b2b-example-other-path-rejected', findingsIn(b2bFixture, 'sample.txt', 'text').some(x => x.category === 'credential-url')])
+  tests.push(['b2b-example-changed-password-rejected', findingsIn(b2bFixture.replace('replace-me', 'other-synthetic-password'), b2bFixturePath, 'text').some(x => x.category === 'credential-url')])
   // All regression identifiers are invented. Never embed operator policy here.
   const fakePolicy = [{ category: 'private-token', regex: /sample-operator\.invalid/g }]
   const residualBlend = Buffer.from('BLENDER-v500\0//\0sample-operator.invalid\0')

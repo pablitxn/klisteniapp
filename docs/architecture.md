@@ -10,25 +10,27 @@ apps/web/
     App.tsx                     Navegación, selección y composición de pantallas
     components/
       AnatomyViewer.tsx         Visor R3F, capas, controles y modo ampliado
-      AnatomicalModel.tsx       Mallas registradas y skinning en GPU
-      AnatomyStudio.tsx         Iluminación de estudio generada localmente
+      AnatomicalModel.tsx       Adaptador B2C del modelo compartido
+      AnatomyStudio.tsx         Reexport del estudio compartido
       Forms.tsx                 Rutina, sesión, cardio, ajustes y transferencia JSON
       Progress.tsx              Historial, semana y gamificación
       Modal.tsx                 Contenedor de diálogos
-    data/exercises.ts           Catálogo, músculos, fuentes y rutina inicial
+    data/exercises.ts           Reexport compatible del catálogo compartido
     lib/
       store.ts                  Estado Zustand, demo local y sincronización de cuenta
       account-api.ts            Cliente HTTP del mismo origen, sesiones y operaciones
       progress.ts               Fechas, validación y métricas puras
   test/                         Pruebas del dominio de la aplicación
   e2e/                          Flujos de navegador con Playwright
-  public/models/                GLB, manifiesto, referencias articulares y licencia
 apps/api/                       Better Auth, sesiones, operaciones PostgreSQL y CLI
   src/                          Servidor, repositorio de datos, migraciones y operador
   tests/                        Contratos y aceptación con PostgreSQL de prueba
 assets/blender/                 Escena anatómica editable e informe de optimización
 scripts/blender/                Importación, inspección y conversión de los FBX
 packages/
+  catalog-base/src/             Catálogo, planificación y fuentes compartidas
+  anatomy-viewer/src/           Rig, capas, estudio y viewers sin estado de producto
+  model-assets/public/          GLB, landmarks, previews, procedencia y licencias
   scene-schema/src/index.ts     Contratos Zod y tipos inferidos
   geometry/src/index.ts         Poses, articulaciones y cinemática
 docs/
@@ -36,7 +38,9 @@ docs/
   anatomy-model-sources.md      Procedencia, licencias y límites de las mallas
 ```
 
-El paquete `scene-schema` conserva el nombre de la arquitectura de referencia para sus contratos compartidos. No contiene geometría ni acceso al almacenamiento. `geometry` calcula coordenadas; `web` decide cómo mostrarlas. Ningún paquete compartido debe importar componentes de `apps/web`.
+El paquete `scene-schema` conserva el nombre de la arquitectura de referencia para sus contratos compartidos. No contiene geometría ni acceso al almacenamiento. `geometry` calcula coordenadas; `anatomy-viewer` prepara y representa los modelos; cada aplicación decide navegación, preferencias y permisos. Ningún paquete compartido debe importar componentes de `apps/web`.
+
+La separación B2B y sus despliegues independientes están documentados en [Marca blanca y backoffice](b2b.md). `catalog-base` conserva los IDs originales. `anatomy-viewer` recibe preferencias y resolución de assets por props; los adaptadores B2C mantienen store e i18n dentro de `apps/web`. `model-assets` sirve y copia los recursos a cada build con su plugin Vite, sin depender del origen HTTP de otra app.
 
 ## Flujo de datos
 
@@ -80,7 +84,7 @@ El rig incluye segmentos independientes para las escápulas y una retracción ed
 
 La reproducción combina esa geometría con las poses de `geometry`. Su deformación es ilustrativa: no calcula fuerzas, cargas articulares, activación ni calidad técnica de una persona. El color expresa el papel asignado en el catálogo. La W y el remo no se consideran equivalentes por compartir parte de la espalda coloreada. El detalle de las mallas no convierte el gesto animado en una simulación biomecánica validada.
 
-Blender interviene en la preparación de assets, no en el arranque, build web o runtime. Los archivos ya generados se sirven desde `public/models`. Cada adaptación conserva los [avisos de atribución y CC BY-SA 4.0](../apps/web/public/models/NOTICE.md), separados de la licencia del código. La [documentación de fuentes anatómicas](anatomy-model-sources.md) registra tanto el origen MRI y las reconstrucciones artísticas como los límites de precisión.
+Blender interviene en la preparación de assets, no en el arranque, build web o runtime. Los archivos ya generados se mantienen en `packages/model-assets/public/models` y se sirven como `/models` en cada aplicación. Cada adaptación conserva los [avisos de atribución y CC BY-SA 4.0](../packages/model-assets/public/models/NOTICE.md), separados de la licencia del código. La [documentación de fuentes anatómicas](anatomy-model-sources.md) registra tanto el origen MRI y las reconstrucciones artísticas como los límites de precisión.
 
 ## Sesiones, métricas y persistencia
 

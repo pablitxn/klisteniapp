@@ -2,6 +2,7 @@
 /* global window */
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { loadRetainedCaptures } from './preview-provenance.mjs'
 import { execFileSync } from 'node:child_process'
 import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -15,7 +16,8 @@ import { YOGA_HOLD_PHASE, YOGA_MOTION_DURATION_SECONDS } from '../apps/web/src/l
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const webRoot = join(root, 'apps/web')
-const output = join(webRoot, 'public/previews/yoga')
+const assetRoot = join(root, 'packages/model-assets')
+const output = join(assetRoot, 'public/previews/yoga')
 const manifestPath = join(output, 'manifest.json')
 const { values } = parseArgs({ options: {
   asana: { type: 'string', multiple: true },
@@ -57,6 +59,19 @@ const variants = (selectedModels, selectedIds) => selectedModels.flatMap(model =
   .flatMap(asana => (asana.bilateral ? ['both'] : ['right', 'left']).map(side => ({ asana, model, side, file: yogaPreviewFile(asana.id, model, side) }))))
 const allVariants = variants(allModels, asanas.map(asana => asana.id))
 const sourcePaths = [
+  'scripts/preview-provenance.mjs',
+  'packages/anatomy-viewer/package.json',
+  'packages/model-assets/package.json',
+  'packages/catalog-base/package.json',
+  'packages/anatomy-viewer/src/anatomy-model.ts',
+  'packages/anatomy-viewer/src/anatomy-rig.ts',
+  'packages/anatomy-viewer/src/anatomy-variants.ts',
+  'packages/anatomy-viewer/src/anatomy-variant-surface.ts',
+  'packages/anatomy-viewer/src/anatomy-render-settings.ts',
+  'packages/anatomy-viewer/src/AnatomyStudio.tsx',
+  'packages/model-assets/src/index.ts',
+  'packages/model-assets/src/vite.ts',
+
   'scripts/generate-yoga-previews.mjs',
   'apps/web/yoga-preview-capture.html',
   'apps/web/src/yoga-preview-capture.tsx',
@@ -73,10 +88,10 @@ const sourcePaths = [
   'apps/web/src/lib/anatomy-variants.ts',
   'apps/web/src/lib/anatomy-variant-surface.ts',
   'apps/web/src/lib/anatomy-render-settings.ts',
-  'apps/web/public/models/anatomy.glb',
-  'apps/web/public/models/rig-landmarks.json',
-  'apps/web/public/models/anatomy-manifest.json',
-  'apps/web/public/previews/yoga/NOTICE.md',
+  'packages/model-assets/public/models/anatomy.glb',
+  'packages/model-assets/public/models/rig-landmarks.json',
+  'packages/model-assets/public/models/anatomy-manifest.json',
+  'packages/model-assets/public/previews/yoga/NOTICE.md',
   'packages/geometry/src/index.ts',
   'packages/scene-schema/src/index.ts',
   'packages/scene-schema/src/yoga.ts',
@@ -85,9 +100,9 @@ const sourcePaths = [
 const hash = bytes => createHash('sha256').update(bytes).digest('hex')
 const sources = Object.fromEntries(await Promise.all(sourcePaths.map(async path => [path, hash(await readFile(join(root, path)))])))
 const sourceHash = hash(JSON.stringify(sources))
-const anatomy = JSON.parse(await readFile(join(webRoot, 'public/models/anatomy-manifest.json'), 'utf8'))
+const anatomy = JSON.parse(await readFile(join(assetRoot, 'public/models/anatomy-manifest.json'), 'utf8'))
 const provenance = {
-  model: '/models/anatomy.glb', modelSha256: sources['apps/web/public/models/anatomy.glb'],
+  model: '/models/anatomy.glb', modelSha256: sources['packages/model-assets/public/models/anatomy.glb'],
   creator: anatomy.creator, sourceRepository: anatomy.sourceRepository, sourceCommit: anatomy.sourceCommit,
   license: anatomy.license, licenseUrl: anatomy.licenseUrl, notice: '/previews/yoga/NOTICE.md',
   method: 'Source anatomical atlas, selected morphology, source-length yoga movement cycle (preparation, entry, hold, exit); shared live YogaStage, muscles layer, local studio and orthographic camera fitted once to the whole cycle. Anatomical sides rendered independently.',
@@ -121,12 +136,13 @@ function webpAnimation(bytes) {
   return { frames, durationMs, loops }
 }
 if (values.check) {
+  const retained = await loadRetainedCaptures({ root, family: 'yoga', manifest, sources, sourceHash })
   const failures = []
   for (const { asana, model, side, file } of allVariants) {
     try {
       const entry = manifest.poses[file]
       assert.ok(entry, 'missing entry')
-      assert.equal(entry.sourceHash, sourceHash, 'stale sources; regenerate')
+      assert.ok(entry.sourceHash === sourceHash || retained(file, entry), 'stale sources; regenerate')
       assert.equal(entry.asanaId, asana.id); assert.equal(entry.modelVariant, model); assert.equal(entry.side, side)
       assert.deepEqual(entry.provenance, provenance)
       assert.equal(entry.image.file, file)

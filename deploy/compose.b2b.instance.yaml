@@ -1,0 +1,75 @@
+# Standalone B2B instance behind a TLS reverse proxy. No B2C services or volumes.
+# Build frontends with pnpm build:b2b before building these images.
+name: klisteni-b2b-instance
+services:
+  db:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_DB: klisteni_b2b_instance
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${B2B_POSTGRES_PASSWORD:?Set a dedicated migration password}
+      B2B_DB_PASSWORD: ${B2B_DB_PASSWORD:?Set a dedicated runtime password}
+    volumes:
+      - instance-db:/var/lib/postgresql/data
+      - ./init-b2b-db.sh:/docker-entrypoint-initdb.d/10-b2b.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d klisteni_b2b_instance]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  migrate:
+    image: klisteni-b2b-api:local
+    build:
+      context: ..
+      dockerfile: Dockerfile.b2b-api
+    command: [node, apps/b2b-api/src/migrate.ts]
+    environment:
+      B2B_DATABASE_URL: postgres://postgres:${B2B_POSTGRES_PASSWORD}@db:5432/klisteni_b2b_instance
+      B2B_AUTH_SECRET: ${B2B_AUTH_SECRET:?Set an independent B2B auth secret}
+      B2B_APP_ORIGIN: ${B2B_APP_ORIGIN:?Set the exact external HTTPS origin}
+      NODE_ENV: ${B2B_NODE_ENV:-production}
+    depends_on:
+      db: { condition: service_healthy }
+  b2b-api:
+    image: klisteni-b2b-api:local
+    environment:
+      B2B_DATABASE_URL: postgres://klisteni_b2b:${B2B_DB_PASSWORD}@db:5432/klisteni_b2b_instance
+      B2B_AUTH_SECRET: ${B2B_AUTH_SECRET}
+      B2B_APP_ORIGIN: ${B2B_APP_ORIGIN}
+      B2B_HOST: 0.0.0.0
+      B2B_PORT: 4201
+      B2B_DEMO_MODE: "false"
+      B2B_MEDIA_ROOT: /var/lib/klisteni-b2b/media
+      B2B_MEDIA_QUOTA_MB: ${B2B_MEDIA_QUOTA_MB:-256}
+      NODE_ENV: ${B2B_NODE_ENV:-production}
+    volumes:
+      - instance-media:/var/lib/klisteni-b2b/media
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:4201/api/b2b/readyz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  web:
+    image: klisteni-b2b-web:local
+    build:
+      context: ..
+      dockerfile: Dockerfile.b2b-web
+    ports: ["127.0.0.1:${B2B_HTTP_PORT:-4204}:8080"]
+    depends_on:
+      b2b-api: { condition: service_healthy }
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+volumes:
+  instance-db:
+  instance-media:

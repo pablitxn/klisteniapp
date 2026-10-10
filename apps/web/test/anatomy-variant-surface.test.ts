@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { createIllustrativePelvis } from '../src/lib/anatomy-variant-surface.ts'
 
 test('neutral pelvic caps preserve the actual atlas perimeter while removing the male protrusion', async () => {
-  const buffer = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url))
+  const buffer = readFileSync(new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url))
   const asset = await new GLTFLoader().parseAsync(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength), '')
   const original: Mesh[] = []
   asset.scene.traverse(object => {

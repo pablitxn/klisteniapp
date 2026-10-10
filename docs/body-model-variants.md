@@ -13,7 +13,7 @@ En **Ajustes → Apariencia → Modelo corporal**, elegir **Mujer** o **Hombre**
 
 ## Geometría y alcance
 
-`apps/web/src/lib/anatomy-variants.ts` contiene parámetros reproducibles de hombros, cintura, pelvis y contorno externo de pecho. El campo común modifica piel, músculos, huesos y referencias de articulación de forma coherente; sólo el contorno de pecho es propio de la superficie cutánea. Se mantiene la altura normalizada. Las normales se adaptan conservando los bordes de la fuente, y los apoyos posteriores, palmas y torso anterior se calibran desde la superficie seleccionada.
+`packages/anatomy-viewer/src/anatomy-variants.ts` contiene parámetros reproducibles de hombros, cintura, pelvis y contorno externo de pecho. El campo común modifica piel, músculos, huesos y referencias de articulación de forma coherente; sólo el contorno de pecho es propio de la superficie cutánea. Se mantiene la altura normalizada. Las normales se adaptan conservando los bordes de la fuente, y los apoyos posteriores, palmas y torso anterior se calibran desde la superficie seleccionada.
 
 La variante **Mujer es una adaptación ilustrativa de la fuente existente**, no una segunda adquisición anatómica ni un atlas femenino clínicamente validado. Los parámetros no son promedios poblacionales. El GLB y el Blender originales se conservan intactos; cada preparación crea y libera su propia geometría. La procedencia se muestra en los ajustes y en el desplegable de precisión del visor, y se conserva en `public/models/NOTICE.md`.
 

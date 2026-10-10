@@ -6,8 +6,8 @@ These anatomical media are distributed under **Creative Commons Attribution-Shar
 
 This notice applies to `hero-desktop.webp`, `mobile-routine.webp`, `anatomy-exploration.gif`, `exercise-library.webp`, `exercise-library.gif`, and `routine-flow.gif`. It also applies to any future media in this directory that reproduce the anatomy model or its previews. The health dashboard and progress captures contain application UI and fictional demonstration records; they do not reproduce the anatomy model and use the project's [MIT license](../../LICENSE).
 
-- [Complete source credits, pinned upstream revision, and Klisteni adaptations](../../apps/web/public/models/NOTICE.md).
-- [Complete CC BY-SA 4.0 license](../../apps/web/public/models/LICENSE-anatomy.txt).
+- [Complete source credits, pinned upstream revision, and Klisteni adaptations](../../packages/model-assets/public/models/NOTICE.md).
+- [Complete CC BY-SA 4.0 license](../../packages/model-assets/public/models/LICENSE-anatomy.txt).
 - [CC BY-SA 4.0 summary](https://creativecommons.org/licenses/by-sa/4.0/).
 - [Z-Anatomy models and authors](https://github.com/Z-Anatomy/Models-of-human-anatomy).
 

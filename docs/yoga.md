@@ -170,7 +170,7 @@ que las miniaturas anatómicas de ejercicios. No requiere una cuenta ni datos
 personales.
 
 Las imágenes se guardan en
-`apps/web/public/previews/yoga/{male|female}/{asanaId}-{both|left|right}.webp` y la
+`packages/model-assets/public/previews/yoga/{male|female}/{asanaId}-{both|left|right}.webp` y la
 animación añade el sufijo `-motion.webp`. Cada modelo tiene una pareja para cada
 postura bilateral y dos parejas para cada postura asimétrica: **64 posters y 64
 animaciones para las 24 asanas y los dos modelos**. El manifiesto
@@ -209,7 +209,7 @@ fuentes y WebP. El chequeo también valida la duración y el bucle del archivo
 animado a través de sus bloques ANIM/ANMF. El manifiesto usa la versión 2 y el
 generador exige que el cuerpo produzca cuadros distintos manteniendo la cámara
 y los límites del encuadre constantes en cada cuadro. Las imágenes son
-renders derivados del atlas y conservan sus [créditos y licencia](../apps/web/public/previews/yoga/NOTICE.md).
+renders derivados del atlas y conservan sus [créditos y licencia](../packages/model-assets/public/previews/yoga/NOTICE.md).
 No se promete igualdad de píxeles entre GPU o versiones de Chromium distintas.
 
 ## Taller de Blender

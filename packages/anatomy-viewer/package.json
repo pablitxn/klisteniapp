@@ -1,0 +1,41 @@
+{
+  "name": "@klisteniapp/anatomy-viewer",
+  "license": "MIT",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts",
+    "./ExerciseStage": "./src/ExerciseStage.tsx",
+    "./AnatomicalModel": "./src/AnatomicalModel.tsx",
+    "./AnatomyStudio": "./src/AnatomyStudio.tsx",
+    "./preview": "./src/ExercisePreview.tsx",
+    "./movement": "./src/MovementViewer.tsx",
+    "./equipment": "./src/EquipmentModelViewer.tsx"
+  },
+  "dependencies": {
+    "@klisteniapp/catalog-base": "workspace:*",
+    "@klisteniapp/geometry": "workspace:*",
+    "@klisteniapp/scene-schema": "workspace:*",
+    "@klisteniapp/model-assets": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "~19.3.0",
+    "react-dom": "~19.3.0",
+    "@react-three/fiber": "^9.8.0",
+    "@react-three/drei": "^10.7.8",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0"
+  }
+}

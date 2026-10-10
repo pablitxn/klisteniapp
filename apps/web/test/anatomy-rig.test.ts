@@ -25,7 +25,7 @@ import { previewCameras } from '../src/lib/exercise-preview-config.ts'
 const landmarks = parseAnatomyLandmarks(
   JSON.parse(
     readFileSync(
-      new URL('../public/models/rig-landmarks.json', import.meta.url),
+      new URL('../../../packages/model-assets/public/models/rig-landmarks.json', import.meta.url),
       'utf8',
     ),
   ),

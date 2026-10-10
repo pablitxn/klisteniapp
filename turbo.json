@@ -30,7 +30,16 @@
         "MP_MONTHLY_AMOUNT",
         "MP_YEARLY_AMOUNT",
         "VITE_APP_MODE",
-        "KLISTENI_PUBLIC_PROFILE_FILE"
+        "KLISTENI_PUBLIC_PROFILE_FILE",
+        "B2B_DATABASE_URL",
+        "B2B_AUTH_SECRET",
+        "B2B_APP_ORIGIN",
+        "B2B_PORT",
+        "B2B_HOST",
+        "B2B_DEMO_MODE",
+        "B2B_MEDIA_ROOT",
+        "B2B_MEDIA_QUOTA_MB",
+        "B2B_GATEWAY_PORT"
       ]
     },
     "build": {
@@ -70,6 +79,13 @@
       "cache": false,
       "passThroughEnv": [
         "TEST_DATABASE_URL"
+      ],
+      "outputs": []
+    },
+    "@klisteniapp/b2b-api#test": {
+      "cache": false,
+      "passThroughEnv": [
+        "B2B_TEST_DATABASE_URL"
       ],
       "outputs": []
     }

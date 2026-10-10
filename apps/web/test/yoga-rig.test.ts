@@ -11,7 +11,7 @@ import { mapAnatomyLandmarks } from '../src/lib/anatomy-variants.ts';
 import { prepareAnatomy } from '../src/lib/anatomy-model.ts';
 import { applyYogaPose, getYogaPose } from '../src/lib/yoga-rig.ts';
 
-const source = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../public/models/rig-landmarks.json', import.meta.url), 'utf8')));
+const source = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../../../packages/model-assets/public/models/rig-landmarks.json', import.meta.url), 'utf8')));
 const variants = ['male', 'female'] as const;
 const sides: Side[] = ['left', 'right'];
 const selectedSides = ['both', 'left', 'right'] as const;
@@ -212,7 +212,7 @@ test('Dog and Triangle retain their characteristic long support lines in both mo
 });
 
 test('actual male and female skin clears the floor; reclined head and back retain calibrated surface contact', async () => {
-  const file = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url));
+  const file = readFileSync(new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url));
   const asset = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '');
   const point = new Vector3();
   for (const variant of variants) {

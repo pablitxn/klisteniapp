@@ -56,8 +56,8 @@ def validate_export():
 
 
 MANIFEST = validate_export()
-ATLAS = json.loads((ROOT / 'apps/web/public/models/anatomy-manifest.json').read_text())
-ATLAS_LICENSE = (ROOT / 'apps/web/public/models/LICENSE-anatomy.txt').read_text()
+ATLAS = json.loads((ROOT / 'packages/model-assets/public/models/anatomy-manifest.json').read_text())
+ATLAS_LICENSE = (ROOT / 'packages/model-assets/public/models/LICENSE-anatomy.txt').read_text()
 
 
 def enum_value(owner, name, preferred):

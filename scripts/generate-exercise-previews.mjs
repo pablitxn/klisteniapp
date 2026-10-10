@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* global window */
 import { createHash } from 'node:crypto'
+import { loadRetainedCaptures } from './preview-provenance.mjs'
 import { mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
@@ -15,7 +16,8 @@ import { exerciseCycleSeconds } from '../apps/web/src/lib/exercise-animation.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const webRoot = join(root, 'apps/web')
-const output = join(webRoot, 'public/previews')
+const assetRoot = join(root, 'packages/model-assets')
+const output = join(assetRoot, 'public/previews')
 const manifestPath = join(output, 'manifest.json')
 const { values } = parseArgs({ options: {
   exercise: { type: 'string', multiple: true },
@@ -33,7 +35,7 @@ if (values.help) {
 Captures the application's actual atlas, rig and studio at deterministic phases.
 Requires Playwright Chromium, cwebp and img2webp (WebP tools); --gif also needs FFmpeg.
 The script starts and closes its own local Vite server on an available port.
-Outputs: apps/web/public/previews/{id}.webp and {id}-poster.webp (male), female/{id}... (female).
+Outputs: packages/model-assets/public/previews/{id}.webp and {id}-poster.webp (male), female/{id}... (female).
 Both anatomical models are captured by default. --model selects one while iterating.
 Repeat --exercise to regenerate a subset. --check validates source/output hashes for ALL exercises and models.
 WEBP_CWEBP_BIN, WEBP_IMG2WEBP_BIN and FFMPEG_BIN can override executable paths.`)
@@ -49,6 +51,28 @@ if (values.model !== 'all' && !allModels.includes(values.model)) throw new Error
 const models = values.model === 'all' ? allModels : [values.model]
 
 const sourcePaths = [
+  'scripts/preview-provenance.mjs',
+  'packages/anatomy-viewer/package.json',
+  'packages/model-assets/package.json',
+  'packages/catalog-base/package.json',
+  'packages/anatomy-viewer/src/movement-library.ts',
+  'packages/anatomy-viewer/src/index.ts',
+  'packages/anatomy-viewer/src/anatomy-model.ts',
+  'packages/anatomy-viewer/src/anatomy-rig.ts',
+  'packages/anatomy-viewer/src/anatomy-variants.ts',
+  'packages/anatomy-viewer/src/anatomy-variant-surface.ts',
+  'packages/anatomy-viewer/src/anatomy-render-settings.ts',
+  'packages/anatomy-viewer/src/exercise-preview-config.ts',
+  'packages/anatomy-viewer/src/exercise-animation.ts',
+  'packages/anatomy-viewer/src/AnatomicalModel.tsx',
+  'packages/anatomy-viewer/src/AnatomyStudio.tsx',
+  'packages/anatomy-viewer/src/ExerciseStage.tsx',
+  'packages/catalog-base/src/exercises.ts',
+  'packages/catalog-base/src/exercise-planning.ts',
+  'packages/model-assets/src/index.ts',
+  'packages/model-assets/src/vite.ts',
+  'packages/catalog-base/src/index.ts',
+
   'scripts/generate-exercise-previews.mjs',
   'apps/web/preview-capture.html',
   'apps/web/src/preview-capture.tsx',
@@ -68,8 +92,8 @@ const sourcePaths = [
   'packages/geometry/src/index.ts',
   'packages/scene-schema/src/index.ts',
   'packages/scene-schema/src/exercise-planning.ts',
-  'apps/web/public/models/anatomy.glb',
-  'apps/web/public/models/rig-landmarks.json',
+  'packages/model-assets/public/models/anatomy.glb',
+  'packages/model-assets/public/models/rig-landmarks.json',
   'pnpm-lock.yaml',
 ]
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -87,12 +111,13 @@ manifest.version = 2
 delete manifest.exercises
 delete manifest.renderer // Older manifests stored this globally; provenance is per exercise.
 if (values.check) {
+  const retained = await loadRetainedCaptures({ root, family: 'exercise', manifest, sources, sourceHash })
   const failures = []
   for (const modelVariant of allModels) {
     for (const { id } of exercises) {
       const entry = manifest.variants[modelVariant].exercises[id]
       const label = `${modelVariant}/${id}`
-      if (!entry || entry.sourceHash !== sourceHash || entry.modelVariant !== modelVariant) {
+      if (!entry || (entry.sourceHash !== sourceHash && !retained(label, entry)) || entry.modelVariant !== modelVariant) {
         failures.push(`${label}: missing or stale sources; regenerate`)
         continue
       }

@@ -12,7 +12,7 @@ import { prepareAnatomy } from '../src/lib/anatomy-model.ts'
 
 for (const modelVariant of ['male', 'female'] as const) test(`${modelVariant}: the actual atlas head surfaces clear the mat and supported head/hands stay at calibrated contact through full cycles`, async (context) => {
   const buffer = readFileSync(
-    new URL('../public/models/anatomy.glb', import.meta.url),
+    new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url),
   )
   const asset = await new GLTFLoader().parseAsync(
     buffer.buffer.slice(
@@ -24,7 +24,7 @@ for (const modelVariant of ['male', 'female'] as const) test(`${modelVariant}: t
   const landmarks = parseAnatomyLandmarks(
     JSON.parse(
       readFileSync(
-        new URL('../public/models/rig-landmarks.json', import.meta.url),
+        new URL('../../../packages/model-assets/public/models/rig-landmarks.json', import.meta.url),
         'utf8',
       ),
     ),

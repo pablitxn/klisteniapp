@@ -9,11 +9,11 @@
   },
   "scripts": {
     "dev": "pnpm --filter @klisteniapp/web dev",
-    "dev:accounts": "VITE_APP_MODE=instance turbo run dev",
+    "dev:accounts": "VITE_APP_MODE=instance turbo run dev --filter=@klisteniapp/web --filter=@klisteniapp/api",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "test": "turbo run test",
+    "test": "node --test scripts/preview-provenance.test.mjs && turbo run test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
@@ -26,10 +26,15 @@
     "test:analytics": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.analytics.config.ts",
     "test:api": "pnpm --filter @klisteniapp/api test",
     "test:accounts": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.accounts.config.ts",
-    "build:demo": "VITE_APP_MODE=demo pnpm build",
-    "build:instance": "VITE_APP_MODE=instance pnpm build",
+    "build:demo": "VITE_APP_MODE=demo turbo run build --filter=@klisteniapp/web",
+    "build:instance": "VITE_APP_MODE=instance turbo run build --filter=@klisteniapp/web",
     "dev:instance": "VITE_APP_MODE=instance pnpm --filter @klisteniapp/web dev",
-    "audit:publication": "node scripts/audit-publication.mjs"
+    "audit:publication": "node scripts/audit-publication.mjs",
+    "dev:b2b": "node scripts/dev-b2b.mjs",
+    "prepare:b2b": "node scripts/dev-b2b.mjs --prepare",
+    "build:b2b": "pnpm --filter @klisteniapp/member-web build && pnpm --filter @klisteniapp/backoffice build",
+    "test:b2b:api": "pnpm --filter @klisteniapp/b2b-api test",
+    "test:b2b:e2e": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.b2b.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

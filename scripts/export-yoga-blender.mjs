@@ -32,13 +32,23 @@ globalThis.FileReader = class {
 
 const output = resolve(process.argv[2] ?? join(root, 'artifacts/yoga-quality/blender'))
 await mkdir(output, { recursive: true })
-const file = await readFile(join(root, 'apps/web/public/models/anatomy.glb'))
+const file = await readFile(join(root, 'packages/model-assets/public/models/anatomy.glb'))
 const source = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '')
-const landmarks = parseAnatomyLandmarks(JSON.parse(await readFile(join(root, 'apps/web/public/models/rig-landmarks.json'), 'utf8')))
-const sourcePaths = ['apps/web/src/lib/yoga-anatomy.ts', 'apps/web/src/lib/yoga-rig.ts', 'apps/web/src/lib/yoga-motion.ts',
+const landmarks = parseAnatomyLandmarks(JSON.parse(await readFile(join(root, 'packages/model-assets/public/models/rig-landmarks.json'), 'utf8')))
+const sourcePaths = [
+  'packages/anatomy-viewer/package.json',
+  'packages/model-assets/package.json',
+  'packages/catalog-base/package.json',
+  'packages/anatomy-viewer/src/anatomy-model.ts',
+  'packages/anatomy-viewer/src/anatomy-rig.ts',
+  'packages/anatomy-viewer/src/anatomy-variants.ts',
+  'packages/anatomy-viewer/src/anatomy-variant-surface.ts',
+  'packages/model-assets/src/index.ts',
+  'packages/model-assets/src/vite.ts',
+  'apps/web/src/lib/yoga-anatomy.ts', 'apps/web/src/lib/yoga-rig.ts', 'apps/web/src/lib/yoga-motion.ts',
   'apps/web/src/lib/anatomy-model.ts', 'apps/web/src/lib/anatomy-rig.ts', 'apps/web/src/lib/anatomy-variants.ts',
-  'apps/web/src/lib/anatomy-variant-surface.ts', 'apps/web/public/models/anatomy.glb', 'apps/web/public/models/rig-landmarks.json',
-  'apps/web/src/data/yoga.ts', 'apps/web/public/models/anatomy-manifest.json', 'apps/web/public/models/LICENSE-anatomy.txt',
+  'apps/web/src/lib/anatomy-variant-surface.ts', 'packages/model-assets/public/models/anatomy.glb', 'packages/model-assets/public/models/rig-landmarks.json',
+  'apps/web/src/data/yoga.ts', 'packages/model-assets/public/models/anatomy-manifest.json', 'packages/model-assets/public/models/LICENSE-anatomy.txt',
   'packages/geometry/src/index.ts', 'packages/scene-schema/src/index.ts',
   'packages/scene-schema/src/yoga.ts', 'pnpm-lock.yaml', 'scripts/export-yoga-blender.mjs']
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')

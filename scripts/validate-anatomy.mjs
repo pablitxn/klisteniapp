@@ -5,7 +5,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const modelDir = resolve(root, 'apps/web/public/models');
+const modelDir = resolve(root, 'packages/model-assets/public/models');
 const bytes = await readFile(resolve(modelDir, 'anatomy.glb'));
 assert.equal(bytes.toString('ascii', 0, 4), 'glTF');
 assert.equal(bytes.readUInt32LE(4), 2);

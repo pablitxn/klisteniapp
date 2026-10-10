@@ -37,6 +37,10 @@ variables:
     value: "false"
     options: ["false", "true"]
     description: "Opt in to disposable PostgreSQL and account browser tests from New pipeline."
+  RUN_B2B_INTEGRATION_TESTS:
+    value: "false"
+    options: ["false", "true"]
+    description: "Opt in to isolated B2B PostgreSQL, tenancy and member/backoffice browser tests."
 
 .install:
   before_script:
@@ -54,7 +58,7 @@ quality:
   stage: quality
   image: node:24-bookworm@sha256:5a750d3be5e5c80275f8c9a5367c3aed99c2875656590c8d0701c7ee687f5f0a
   script:
-    - unset TEST_DATABASE_URL DATABASE_URL BETTER_AUTH_SECRET
+    - unset TEST_DATABASE_URL DATABASE_URL BETTER_AUTH_SECRET B2B_TEST_DATABASE_URL B2B_DATABASE_URL B2B_AUTH_SECRET
     - pnpm lint
     - pnpm typecheck
     - pnpm test
@@ -115,4 +119,28 @@ api-integration-tests:
   artifacts:
     when: on_failure
     paths: [apps/web/accounts-test-results/]
+    expire_in: 7 days
+
+b2b-integration-tests:
+  extends: .install
+  stage: integration
+  resource_group: klisteni-heavy-validation
+  image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $RUN_B2B_INTEGRATION_TESTS == "true"'
+  services:
+    - name: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+      alias: postgres
+  variables:
+    POSTGRES_USER: klisteni_b2b_test
+    POSTGRES_PASSWORD: disposable_b2b_ci_only
+    POSTGRES_DB: klisteni_b2b_test
+    B2B_TEST_DATABASE_URL: postgres://klisteni_b2b_test:disposable_b2b_ci_only@postgres:5432/klisteni_b2b_test
+  script:
+    - unset DATABASE_URL TEST_DATABASE_URL BETTER_AUTH_SECRET B2B_DATABASE_URL B2B_AUTH_SECRET
+    - pnpm test:b2b:api
+    - pnpm test:b2b:e2e
+  artifacts:
+    when: on_failure
+    paths: [apps/web/b2b-test-results/]
     expire_in: 7 days

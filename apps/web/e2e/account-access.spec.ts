@@ -74,6 +74,9 @@ test('invalid and wrong-purpose invitation links never offer account mutation', 
 })
 
 test('admin creates an invitation, revokes its link and controls access without showing passwords', async ({ page }, testInfo) => {
+  // This suite validates account administration; dedicated atlas tests exercise
+  // the real WebGL renderer without starving API mock handling on software GPUs.
+  await page.route('**/models/*.glb', route => route.abort())
   const origin = new URL(testInfo.project.use.baseURL!).origin
   const admin = { id: 'admin-a', email: 'admin@example.test', name: 'Administración', role: 'admin', disabled: false, createdAt: '2026-10-01T12:00:00Z' }
   const member = { id: 'member-b', email: 'member@example.test', name: 'Persona invitada', role: 'user', disabled: false, createdAt: '2026-10-01T12:00:00Z' }

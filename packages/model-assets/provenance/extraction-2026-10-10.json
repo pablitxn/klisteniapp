@@ -1,0 +1,1700 @@
+{
+  "schemaVersion": 1,
+  "method": "verified-source-extraction",
+  "originalRevision": "81e7369bdd4583349df5e4fb4f66bac1cba181f1",
+  "recordedAt": "2026-10-10T22:23:13.907Z",
+  "description": "Exercise and yoga captures are retained byte-for-byte with their original generation timestamp, renderer and sourceHash. Only the finite mechanical source extraction below is accepted. Body previews were rendered again.",
+  "originalDependencies": {
+    "packages": {
+      "'@babel/runtime@7.29.7'": "378273d9ba34bd237e8f875968998307c17cb09872fa2d5fad186dd70fb70299",
+      "'@better-auth/core@1.7.7'": "2a4bf0188534742e940055eedb797d4593055d851af9d5cbf1ecf3d957aeecb0",
+      "'@better-auth/drizzle-adapter@1.7.7'": "b6f337ffabf889dde35210f8b52f8a2008ea3dacf1aad93bcee456897f211168",
+      "'@better-auth/kysely-adapter@1.7.7'": "eb8a9f9a5cec3478b05a7598bfdc41f60cebc92f5595cdcf3db3425ddb712a87",
+      "'@better-auth/memory-adapter@1.7.7'": "6bf7c4e8f56ef7ace855953bb6f1f4f2610685ccf222db83b2f86499eff65981",
+      "'@better-auth/mongo-adapter@1.7.7'": "4b3a193e55cfb0272b0149fbacf7607306d555379a933fc7a202bce5f5f4feb5",
+      "'@better-auth/prisma-adapter@1.7.7'": "57ea5976e21d6e7810707874948be7a26b1589c2f8dc71d6c1f0cfac8cd68140",
+      "'@better-auth/telemetry@1.7.7'": "03c53338af53ae6ebf4c6a2ccad9fa59bc10cc798c1b9462afbde4e48233f3eb",
+      "'@better-auth/utils@0.4.2'": "18717c76f05f7632efb01049e3184b43b968c94025217c00f56e2e5ff4c868da",
+      "'@better-auth/utils@0.5.0'": "ecbe2b3b18f86ad2d74b329d1838582a105c77144a8f36cd1bacd8e5269ac061",
+      "'@better-fetch/fetch@1.3.2'": "80d2b071ffeb0b85fef56487a22b3eb20d384deeed2f433a1fb37ab73730078e",
+      "'@cacheable/memory@2.2.0'": "595bb251d4412f622169bd08d1943528a04d957f1a00d3e2d17f194e47a7529d",
+      "'@cacheable/utils@2.5.0'": "7af0b3538a6a245457df338cf86340477b277d231cb10e8fb111a50dfd7b2383",
+      "'@dimforge/rapier3d-compat@0.12.0'": "9623a6d8b185850c3ad2ba25fdaefa70a12cb68707faeac659eb2754e12b0164",
+      "'@eslint-community/eslint-utils@4.10.1'": "42cce74f7f4c4537ca484efbb6374419dc42eb2189ec7eec14ac56016eadb4a7",
+      "'@eslint-community/regexpp@4.12.2'": "aa8fae3013e7d4d1ee737281749d4de2f9573b1918df3c3de7f11cb81f8cbd9f",
+      "'@eslint/config-array@0.23.5'": "c5a06b79e53e7c53bbddc35dd496e78e8a61db390687f10afc9a4959e4272719",
+      "'@eslint/config-helpers@0.7.0'": "f616265a2f9e6a045dcb23b29031832bbc86ba6740488ca306004c038c451cc5",
+      "'@eslint/core@1.2.1'": "a4bb8b628c4261102bdcfbdc184909a4b0a6c0d058145b5b993ef8150797ee9b",
+      "'@eslint/js@10.0.1'": "d6fcf09972231207de75c3792e08de9534086e3de38f253ed7f9142f980228fd",
+      "'@eslint/object-schema@3.0.5'": "b768bc220ec3113704117ef35db288e865a04b6b3d2f168900ec2cf1e39bec36",
+      "'@eslint/plugin-kit@0.7.3'": "f884aaa121f44533d17cd59fc1467614626a405edc43e0f135b64b33620ed03f",
+      "'@humanfs/core@0.19.2'": "7f1378c4209e6f45802f027548629936dab02a8b12cd0cc97caa865d3e4e8766",
+      "'@humanfs/node@0.16.8'": "d7833ca25ab7032e1f34d3337cb296610c7f18b990eb5f223195841cf5a7d66c",
+      "'@humanfs/types@0.15.0'": "d3059851d1f24e0f4bf9b3217dc64768f7c3ac0d9f2be57b43b97699d0fafb37",
+      "'@humanwhocodes/module-importer@1.0.1'": "825101d46b340941f7159161d5dd8aa28c2060ab22125dc3c78e42e4fac5212f",
+      "'@humanwhocodes/retry@0.4.3'": "dc231808ff9baa8d5b01f6e5de91e69b1bc9de8ba2a3606023ecc65f5fa64e9c",
+      "'@keyv/bigmap@1.3.1'": "447831a0c99479b73f9dd2d1571a8454a7f4911c7d615d06aed3f94c666bb905",
+      "'@keyv/serialize@1.1.1'": "c2676e5428436e87ae5e6274c07b12f51f23e6472d245f80d2c79542fa2cc8ca",
+      "'@mediapipe/tasks-vision@0.10.17'": "cd039045d3c03766ced8b2c072294c16bb5230d9b169c282815edd1a04378d16",
+      "'@monogrid/gainmap-js@3.4.0'": "1a46bb23d591ad284aba358bbe1eaccbc5ef722bbccc928ec29ee7199b1da8ee",
+      "'@noble/ciphers@2.4.0'": "1606dd37670f003bc0a207341f8a3202a4ec7c8c831122396585ecda1868b20e",
+      "'@noble/hashes@2.4.0'": "315169f25ccbd138a76b57acf6ecece2c34a74bea9e7d2a72028cb19256d2498",
+      "'@opentelemetry/semantic-conventions@1.43.0'": "0cf388915a29c161e09ac3e8381a5f7db43d1b180f4b2756be01e7bab4949be9",
+      "'@oxc-project/types@0.151.0'": "f1ed9e3923ca01f24684b0b7fbd4d78e5ba647c86ca24912324d809d7310f925",
+      "'@playwright/test@1.63.0'": "a20bc86b8e439993ff53570988c2f8696f88cd3c9c776c56562d0ed1f1db254d",
+      "'@react-three/drei@10.7.8'": "7c1d1959a1cb46d57ea81492ae95cee8172c3b565d21f31f181161e8317d157e",
+      "'@react-three/fiber@9.8.0'": "a9f00a12a8d8af2203a1cf95e643fa3f89f52b4c3dbf73db2cef7a019b387295",
+      "'@rolldown/binding-android-arm-eabi@1.2.10'": "42519749bd4343bc7ed6c7a1bc0f07e5aa5fcc9f45e8b6ae91d14414b515263b",
+      "'@rolldown/binding-android-arm64@1.2.10'": "f84ffba82749c534ff342ca08eeab31331305baf2ad00819b45fb99a248e8bb9",
+      "'@rolldown/binding-darwin-arm64@1.2.10'": "8cdcf85c8a204d7fb479711deea4fc1ed2147c2344a0ce31680f9a858a16baff",
+      "'@rolldown/binding-darwin-x64@1.2.10'": "f3fdec689cf2bb5ed42b0bd60e3723fe61e761d059bca5df6bc9f58e8d4ff47b",
+      "'@rolldown/binding-freebsd-x64@1.2.10'": "d1f13cc585c9de7a5d697212fba082c4ef5f16c970029374c6f1274e1f0a136c",
+      "'@rolldown/binding-linux-arm-gnueabihf@1.2.10'": "525dc18562b31d8805c78fdf0ddff85e9390f8f8b59a2f5f3bde6ab12f04fa46",
+      "'@rolldown/binding-linux-arm64-gnu@1.2.10'": "afb6df44a6547f200296298b4a1e8153c95a302c1decd5b38eda010e83b7d643",
+      "'@rolldown/binding-linux-arm64-musl@1.2.10'": "b203b9b3c570d3e44a4c662f471e5154f05b002ef1a65ab74a446f1c4a827f75",
+      "'@rolldown/binding-linux-ppc64-gnu@1.2.10'": "398a45171cc58513be72d3155ba4c6b627427934a3eb449fbac71ee645c794d8",
+      "'@rolldown/binding-linux-s390x-gnu@1.2.10'": "0240feb702b7ee2e62505ef9281a96d2f26012f031bee45a486da7feba4d418b",
+      "'@rolldown/binding-linux-x64-gnu@1.2.10'": "1c5b1a9dbad67fbd6b3254e7f42a2957eed3bfe073db6e996f8bbc9d54cc24dd",
+      "'@rolldown/binding-linux-x64-musl@1.2.10'": "fc503e75925344a9ddebde060d0821c2a1e60bd71b4caf22c1bd05e1d7b6ef5c",
+      "'@rolldown/binding-openharmony-arm64@1.2.10'": "4d921dfd9f1239cc7fda97668b966379a0d88d12087edd9a0faf96cfa34b0576",
+      "'@rolldown/binding-win32-arm64-msvc@1.2.10'": "7afb3731b481fd2bc2f98d184e28a1b1998b8187d04a0aa3a278594b3dfcb7b2",
+      "'@rolldown/binding-win32-x64-msvc@1.2.10'": "3db4c0ee993c4c51fb7d87d733afe249528b86ce0d855389652f575a74db9cb5",
+      "'@rolldown/pluginutils@1.0.1'": "b574a82d3fd3194bd9c3ede5f4a69cd24d9bead4fa743fb6ec23a6b81aa1c915",
+      "'@standard-schema/spec@1.1.0'": "abea26f2ca699d9b0bd47c2804e150aaaeba54236c5d8093e360b19971ff3a52",
+      "'@turbo/darwin-64@2.11.3'": "fcea4bbfe1eeb75cf6ca52db278f15a48a6e31bd4c22db4994eb79dba3209041",
+      "'@turbo/darwin-arm64@2.11.3'": "9e675730b45e16adc9fb191deb50d5f7bca64e1bb7a53fbe66dbab3c40a38107",
+      "'@turbo/linux-64@2.11.3'": "15731937487100459440684f8ac9e273d6271de93ade2119374243cb3647ae0d",
+      "'@turbo/linux-arm64@2.11.3'": "44347cd6d7ad6c73679824ea8b48f8810575b1205ad4513587985ea068e9f5c4",
+      "'@turbo/windows-64@2.11.3'": "a61d2b61ae26cd2315ea431bb447db33ace3c7c80b98fb89a18ab293aed4e420",
+      "'@turbo/windows-arm64@2.11.3'": "8a62051418814bd41d503b3c006ddb74ddae69494589ac8dc701eca7afa2b61a",
+      "'@tweenjs/tween.js@23.1.3'": "3fdc0576396bdbbaf5ea46ca6d78752927069ec8784d11ee8177c51e4cb96793",
+      "'@types/draco3d@1.4.10'": "bc9c5e2e9c906f53b69d6b32a6068c3c3902c4acc543db9f45deaeeca0149b16",
+      "'@types/esrecurse@4.3.1'": "53dfda69c97fe96b49790706b7fed2d99b192efc023f15e642a55b0ae50591dc",
+      "'@types/estree@1.0.9'": "bca74c47d1dd6c7210b04f2b2d5321353b960f0444cb3dd9dc80247cbb21f3e8",
+      "'@types/json-schema@7.0.15'": "72b5ab9ab42b5315cb2d242b4fc9a16acc757a97b14e3d1147b1614714abdedc",
+      "'@types/node@24.13.6'": "0a2950963c56f15387e68f346a162706ecd41d62e62fa10391d2decb218f792e",
+      "'@types/nodemailer@8.0.2'": "b1439373d25e784c4e4c64665b0d2a9e204903ef4bafe3c33fcbaa1643030372",
+      "'@types/offscreencanvas@2019.7.3'": "f7fcc21c89a7433271e29d30f6866e2a3c52ce898650820e2204f6c3b91b71a1",
+      "'@types/pg@8.23.1'": "beb6e073a7df34afdf53010a9744ee3326a59c5a92244e532b71ce499049ec47",
+      "'@types/react-dom@19.3.0'": "3c976a05e74b6d7469c5b23130985a7589841e25309ebda0f8bd6c43b355c8f1",
+      "'@types/react-reconciler@0.28.9'": "6bb08bbc3a4ee27e274cfed22e258c67cf5bd54eaf25fe15168844f5a3161b73",
+      "'@types/react@19.3.0'": "1a1c6d88eb7500c1c6a56500bc44a3972f571b3d6010427750a8063a36465d5e",
+      "'@types/stats.js@0.17.4'": "ab6da84762f23e2ad4baf16db95c964f54f57996050d70212ae0130f9ed672fe",
+      "'@types/three@0.186.0'": "b945fbfc70ff3bbe9488d2bb6e75ff00dcb74237e655dcf89ac21e1f09c42f0f",
+      "'@types/webxr@0.5.24'": "3fcd25ebc5e96824c3a63d5f35e4d0e41a4fc9452ece356ceab9dd05d453ad66",
+      "'@typescript-eslint/eslint-plugin@8.70.1'": "fbd9e9d0c5c9ce573576f300ddab59ec9949102f753a9f60d3c8314101c56f53",
+      "'@typescript-eslint/parser@8.70.1'": "1b2a706d1ea56c19303ef6a6308e3e05162e174c99c6bcee00278cda529a693c",
+      "'@typescript-eslint/project-service@8.70.1'": "bdf22900fd49ba003a9c68a1a48a3bc473cc03c9857190b8222d1b93b491fb97",
+      "'@typescript-eslint/scope-manager@8.70.1'": "f95484ce9500af0892ea8fb56881ba6b5e38c33eca8a8fd6c26aaff3d499e8e8",
+      "'@typescript-eslint/tsconfig-utils@8.70.1'": "ffca7400f7572a26ada511527a9e394c07855fd150c96015eede604df545b241",
+      "'@typescript-eslint/type-utils@8.70.1'": "a497b3263e3d7b449dc3d761bd2dc4f1876d5ebab772e7944750be6989851f13",
+      "'@typescript-eslint/types@8.70.1'": "1ca9797be50f3e9679380f6d73f150baa7cad463e20ceb746056fab74d053c31",
+      "'@typescript-eslint/typescript-estree@8.70.1'": "c96f8bd7bfb0d2e6f8b38291fce80b006779c40cc1ffea551c54918e6e8f7ebe",
+      "'@typescript-eslint/utils@8.70.1'": "db9043080c1eccdc9e2300b2876384679e26af1108c3c00e46367140279c3531",
+      "'@typescript-eslint/visitor-keys@8.70.1'": "081e04e65d1faf56979d1b2cb0145353a853e717622dd4d41c988a3686e45b62",
+      "'@use-gesture/core@10.3.1'": "75c118dc4696b32ec198336f7c627b5f0c2627b7bbd3d2cb18838a73c9c623ac",
+      "'@use-gesture/react@10.3.1'": "49c2e17cc06fad03082be02a02600c4ae664ebeb4e524c595300d07560b36ed1",
+      "'@vitejs/plugin-react@6.1.1'": "9fb2c90d2e8c97481db67df39c1845f08f81d62720b63bbb08db66c92e65b490",
+      "acorn-jsx@5.3.2": "c41a37b27aa8932bac99647387a9dee64d4cdaf2331ced1646be6639c9c056a4",
+      "acorn@8.18.0": "85401c330073daa742b7fff332231b532c86126867a0ad5cbbab37acc56af187",
+      "ajv@6.15.0": "a269b31b6e9b61c6a8f36ac0fe87e2769a08e912a633282b270dd0fcc4e9418b",
+      "balanced-match@4.0.4": "0ea3059564f5072ecb27678824838f1db5249b33095c2af2dde142c16ffadffa",
+      "base64-js@1.5.1": "1d40cad9c63dc436a6f5839a9ab15377c3014a0a09d411f2ea61565008696a6b",
+      "better-auth@1.7.7": "a441a4cac26b77715c18a8d91d717140d39683682842a0e5f9fd0080685815d3",
+      "better-call@1.4.0": "fb8294cfd9143e2f34ae54718897d52efc86e220dbe77fb1bf09f3bd9fd0b5aa",
+      "bidi-js@1.1.0": "7bfc7c974c72cfe94b7ae32246a343f6172923981366ec93c10bbc5e6f52f510",
+      "brace-expansion@5.0.12": "601bc2202b03a83d8af18ba82b914c5dbd8cae9e145c21258fa7b0cd87e0ee2b",
+      "buffer@6.0.3": "e1dd4dee0a27e207bd1fbf4ce36e042a97fe34434b81d778cbcfaccd52544bed",
+      "cacheable@2.5.0": "8b3e3a0b10f3e011afd75c4ef52929c9ef4bbf420dcc4a7cd490cbce52316b4d",
+      "camera-controls@3.1.2": "6cd2098b25295c0619cf5a10ec1de11bff298147935fd0ac11973de5db518451",
+      "cross-env@7.0.3": "641e12ec253baf826a4401af69c31017d7964642e03fe4e1de54bbaa44f0a034",
+      "cross-spawn@7.0.6": "93634018018620a548ff16c822a2555ce2d1b8a40ed9bdfe47618d883bf79556",
+      "csstype@3.2.3": "429765c467415108f695ae3acacbd8fd0f6e544cf9f227798f3247d7e6202157",
+      "debug@4.4.3": "500761655596485f73d580ae4639f6101e56c39c05b6b7286f9ca88e5283509e",
+      "deep-is@0.1.4": "953c2e54bc1d221c678baca7dd73b87c7cf18221ad182093373d13e3f28d9c63",
+      "defu@6.1.7": "3ec8d6168de00e81c8425e43d27b1fe17a9248182790e076b22bda5ad4d128a8",
+      "detect-gpu@5.0.70": "9fd46295e0167e5e35110984840168a59aea89a9cdbdb3dc6889f752f3ea26f5",
+      "detect-libc@2.1.2": "19148aedd68921b5b5b99061214d95e36c1d7613350bb9ec4106c32fe78eba21",
+      "draco3d@1.5.7": "be90678c1fde31317dd9ee5aec5c120e98fc55926bdb74cc823f6408ce0d5aee",
+      "escape-string-regexp@4.0.0": "cea440c476fe88834889c751bd31557cf07fa55fc413b6dd99ccc8f3b4765727",
+      "eslint-plugin-react-refresh@0.5.7": "6422e7e6a6335b9ac4eb970824316aeeb05f35d5faa3cbb26284d73d95b1d83b",
+      "eslint-scope@9.1.2": "894d39e3f8358038708b5a37a45ff17b0d5d59217ee0fb6e6201b9fbfde87317",
+      "eslint-visitor-keys@3.4.3": "78763ead9c069bc9bd521af9c6c05f3a267529309fd6c6db3a3229f868494236",
+      "eslint-visitor-keys@5.0.1": "9a9e72217377b4bde5acf8bff5890a37292174d45235315748aa551c5d829af2",
+      "eslint@10.11.0": "9b443c252db283d44967d0d39619b08f9e38fdf2453996781c0a4974edee07fe",
+      "espree@11.2.0": "cbb13c7c699570cdc0e29a4fc09c261f23f384361b7d106be511ee6987713294",
+      "esquery@1.7.0": "828aef5392051fc219e8815197b59753c414902723f307749b064a5356be075c",
+      "esrecurse@4.3.0": "b3bf3f42fae67a0626f5183f6304e029edccf27e7d926f109f6708cba0f8b9f6",
+      "estraverse@5.3.0": "b76749579e7cd34074826a208d121de49e769b6362066b475d8a8bdbf53337bc",
+      "esutils@2.0.3": "aa946a8e74890d51092c07c1c9eea46220a88bff8146d08938d66ffce00f7aeb",
+      "fast-deep-equal@3.1.3": "153879a597b5be44be2bd5b0eed9280fa209d8ca0707503b4de1f4478289f0b3",
+      "fast-json-stable-stringify@2.1.0": "e68c80db8fa27f63f630e93d2cde17a6dde8df356f91c19615a9225de2e4283a",
+      "fast-levenshtein@2.0.6": "9c4de5b4de6b666d87de1385d4106dab4a5cb855f532eb3b6d1b506400b9d6ab",
+      "fdir@6.5.0": "174f4456f7590668026c0217b1841f84407534640bdcb8f3e4887d8964525f6f",
+      "fflate@0.6.11": "26c592efb3f9f3f1806083be325a2593b318303e533db78791a27600ef4ac894",
+      "fflate@0.8.3": "144568c2b4e367ff9e43588cc2bc8059f2de4340a4be797b752441c8fab3416f",
+      "file-entry-cache@11.1.5": "c5610a389d544f1eddbab1c902d4d15bf83c53db64c2154a97751df880a541c4",
+      "find-up@5.0.0": "3e37e31725d9bfe5c077cebc1c6d1e6b89aeb85b1c11d0dd286ee51aeb6d2d76",
+      "flat-cache@6.1.23": "db20e1c6eae2a624a0f823b273b1fe06066470478a63ecdf40dbd4a742a901f2",
+      "flatted@3.4.4": "4a1c45196febc62904d899d9843f3802cce065a0fb6c12ffdf027f972dfdaa76",
+      "fsevents@2.3.3": "867a22a64a603feb53a61aa13dd996f76a28cad7b45921ffd9e83e8027f900cd",
+      "glob-parent@6.0.2": "cf2b8c2ea9199bbabd38ed264e2c1691768ed5eb1b2e677affbd5286d1505f9f",
+      "globals@17.12.0": "9638496f18b946f7c41a656f0e6131b7c5765453c57912da59b109d8047ccc5b",
+      "glsl-noise@0.0.0": "ebbfe6e9ea92921c0303af28c8eaa8d92462a8785471a5d310e3a6ef5c60bf76",
+      "hashery@1.5.1": "49a35eb589e605c132305d283dfa2222ad07bbe50af9aa26f967e17b333543c2",
+      "hls.js@1.7.3": "caf414e67d9861fdb4c721170fa3744bc7ce59d53e19b9f3de0c66047c949dc6",
+      "hookified@1.15.1": "ab85c9b249d253aed40df7a075436cacf38dd9e7654f007da93ccec9730fccaf",
+      "hookified@2.2.0": "eb124b87fd4904815fe76b310c9175e519095fc2d5f1f899f47bd8088d4e4d7e",
+      "html-parse-stringify@4.0.1": "1151f56b474d91601a00b0daf118a5d48a8637da3132ebc7adaf045111cd95a4",
+      "i18next@26.4.2": "1197555798444bb0d893d0dfa760c61d2ead3486e2879b31ef8439bc5e45501c",
+      "ieee754@1.2.1": "c84be830b2c929fbd3d1acc0913a759ceffa8729cb500b6c69cf634387da8318",
+      "ignore@5.3.2": "e07d18c7a454c5c4f7ca8a44d32780ce86f5e4bfc99f0e92235ac19bcbb81032",
+      "ignore@7.0.10": "93fe33a06cecada96003db27a7f212ee4ab2849d456b7e8c3d5eeef465ba81a8",
+      "immediate@3.0.6": "5987d81e60d36d5839a6407953e9999a98416c184494939145dc82a3a206eedf",
+      "imurmurhash@0.1.4": "4a061694be2a9cb87ef6bac9641a65f8553708096ed5aba7f4ae90d84cbbaf6d",
+      "is-extglob@2.1.1": "97cc79e366609190acd2ce02f9f2d4f6e02262a31389d2ad4c496b9e89f84cc7",
+      "is-glob@4.0.3": "6edeaf48a19a5f0e2532e1b31e8991ea84025f34fdf53c8a80502009b02c1256",
+      "is-promise@2.2.2": "cc9a293100ab7c5f0cf1b62994f8b48fbf5f58408c25223a53e49562d55e08f1",
+      "isexe@2.0.0": "d8eaef3aad1209618724fc4cb8d52879d7972b48e57ef95b20f33ebe4a2f7d8e",
+      "its-fine@2.0.0": "e43429d13f1235c8bba334acbf57e6172302965b323e5dcd57540078d39185d0",
+      "jose@6.2.12": "47cee51051745e9c02682844b64bf0375085fac41d376443fcd8be5c471c2c6b",
+      "json-schema-traverse@0.4.1": "7ae4259d5d99412a19480ef874def6ccbf1934c9d36b99a75cf63baa15a107cc",
+      "json-stable-stringify-without-jsonify@1.0.1": "9658b7fb1c91d0b125732ee545d43663bef981bc565d0ef9c60753ede48c5371",
+      "keyv@5.6.0": "119090145266f49f7200c438743400b239f09719cc9fdf9d6b2b141bab9ab6f1",
+      "kysely@0.29.6": "451a791225e50e941be3b303b9707e57ba00069e3374d97252742f8b6e4d8f9f",
+      "levn@0.4.1": "619250844caee76ed7dcf83c2b50176d0a63679954c4238cf5f1bed9bb39a970",
+      "lie@3.3.0": "7c973a36ec12f155da483e6aa0c6600579eb8e80250a57dde3ddf687d4921cf4",
+      "lightningcss-android-arm64@1.33.0": "b9107ac24aa0a032b7077e20bc7b5e510fa5b1ee1573b08d64787f8fb6012b0f",
+      "lightningcss-darwin-arm64@1.33.0": "7c7559d53eb85fc35180d45403cd0d56d303082e7befc1caa893c64151b1fd8a",
+      "lightningcss-darwin-x64@1.33.0": "c4b93d214feba7ea1c651750a1049947d5ca37aa713ebf4944ad0f5a84d4c2ab",
+      "lightningcss-freebsd-x64@1.33.0": "b8447a610bd4291a9411e6a572504918c90ac0f1b4e0763488adcb07657b1f17",
+      "lightningcss-linux-arm-gnueabihf@1.33.0": "dac94db446b75767b8192225b0682ea67ad20a91f650df95a9299b3adc738d03",
+      "lightningcss-linux-arm64-gnu@1.33.0": "5b85445283553473e15f57f5180f0009dde90adef3f3da653ba779d1ce857fde",
+      "lightningcss-linux-arm64-musl@1.33.0": "82b23ab7d24517d4f7b5224d75241adb01bce0faa232ebe9773bdaf9d95bfe78",
+      "lightningcss-linux-x64-gnu@1.33.0": "7813c2e1b422c4f1291236fe0052cab845c44a55d7ab83beefeac54a51ea832f",
+      "lightningcss-linux-x64-musl@1.33.0": "a2811e227a008b3d22a7b5fe75984424cb48966d91e20dc474a744f91d22ef5c",
+      "lightningcss-win32-arm64-msvc@1.33.0": "bfc033a6f0258fc29baa392f1d1b5e9e41de1c7de058427d24045e589d08f5c5",
+      "lightningcss-win32-x64-msvc@1.33.0": "6340917136a2ef0e568e555e855cc3da0ecd6ce27c9e9f9be5a9d3717a8679ce",
+      "lightningcss@1.33.0": "3fd4e84ec933c987cd4aa741f8df6f7ae869bc687664eb4da1a9c9575eff167d",
+      "locate-path@6.0.0": "a54e19b091692203221ffa4485eaffe451fc139a6f103d8799f326d1eefc42f2",
+      "maath@0.10.8": "ee7723553dd417a3306f69c1c4aa6e6c9e6b79376d127c54d24121e8ebccdfe5",
+      "meshline@3.3.1": "49af2d9f84bda19b670178b9b1f7bda2e09f1a1a2f8d9d7279ac75814e9997d7",
+      "meshoptimizer@1.1.1": "e1063799d161c1f4a30888f162e20ad36992b9a5b1ecb437b7321d1296b426d2",
+      "minimatch@10.2.6": "4f3f24969e4ee3096e2875c7b89af3ba112fc42bc08213acdce441070afb4df9",
+      "ms@2.1.3": "dec7ca6494ffd053f0c59385577ccfd44185296d6b42d0078b0be3273f14d76d",
+      "nanoid@3.3.19": "d67dc9f45b6a0eb2e0445ad765f87b78e497cd8fa6ebe8e245214a6b10275a96",
+      "nanostores@1.5.4": "e92507611d29bf75dfeb285115ae29c4ad0301a18601fbba603cd3af189d9722",
+      "natural-compare@1.4.0": "3271e96355e5b96860b83663523ef7c5c767f29a5d0a7b1aeda93ce195813642",
+      "nodemailer@10.0.13": "64a78ce34cc12050b6b03538551d7e304f9828df9fcff94196ff8e7fabfd6e1e",
+      "optionator@0.9.4": "831e9854df1092730ea2dc3330480eee41d866929029e073a022cc30b2ece1aa",
+      "p-limit@3.1.0": "1b7057df601df00643c12eb6b3d67745b2e102b0c6394656a835f4cff921b714",
+      "p-locate@5.0.0": "cb04c7d8ab347ee36be1f9a7432addae51eb5230f6b72e58285b84d1998fa157",
+      "path-exists@4.0.0": "9a1fc74d9898732db19acb527459d459a46dc287bd49d7590497c8329adb3233",
+      "path-key@3.1.1": "ce2bad907fe2daa71b66d4c0d38b13ef3a744726171d3c6cba7b54c3efe2fe61",
+      "pg-cloudflare@1.4.1": "39167e89bec54d8d73993f2e00f83a2608fe35db291db777b6b8862aa9003ef9",
+      "pg-connection-string@2.14.1": "07199b7e87dec779c313e8ed05d641d7414a67ec6eb60e9e21aeb3cfd05e63b4",
+      "pg-int8@1.0.1": "543ebed9f881799899195b5d6b44b38fe18b1313b05be22c8b6041815e24cb47",
+      "pg-pool@3.14.0": "3370a9a528dbd39bb804997c4bca224b4f25d24c94060063ab3ac875349f05b6",
+      "pg-protocol@1.16.1": "cf4a258a04bbe1dbceb482e36087826ca68a7b0751b40b05cb4e173737068384",
+      "pg-types@2.2.0": "aaabbe3f074e3505bc38f906743e888790e4d9350b909d4955ffdbfa13400603",
+      "pg@8.23.1": "a385296f570d2cb24aa8dee928324122ba9d6222c2744d65d114c70a6b76a948",
+      "pgpass@1.0.5": "8df9b633355e54db6b13a448a95c87b497e312b1a28fa0bc72e3252216bc85ae",
+      "picocolors@1.1.1": "61e95beedb79c115f811873d3416ef2b8f217b1fd770225383f5aaec8288bdf6",
+      "picomatch@4.0.7": "146e63f45f4229fbb100606e97e9ad329d611491c312bd34ff288bca79464974",
+      "playwright-core@1.63.0": "95581e6d6f2f61ec4346465dff578c784e1fff86bf2148cbfe9c182d2adbf24b",
+      "playwright@1.63.0": "f3b6192d0399bd0b3acb4e1265d838c886fa39df2af5c0443c52282e1caa7561",
+      "postcss@8.5.28": "dee78e576d98eef9061340e976c99ec5e9bdac4df259474fed3904a625fd8240",
+      "postgres-array@2.0.0": "1f184f908920a1f7cbad4d34ffcb6b16e7579c31fc7872e049a519260d3f4eea",
+      "postgres-bytea@1.0.1": "a5f5f150a99680e2ad4b95df7edf211f56a363de98a934e65c69b9191f159dfa",
+      "postgres-date@1.0.7": "2c94bd0c7e8c68795fd4e5b51f28153f3578002aa734925d3c2d6e1555d90da3",
+      "postgres-interval@1.2.0": "af665943e6ce8f58b71cdb4cd92406121d52931741e3354505a580e702e74262",
+      "potpack@1.0.2": "6cd7c03e85c6a256c2449d4ab422357abcf44be238619610a56796fb4bcf5574",
+      "prelude-ls@1.2.1": "f5ab9f4318e3ae061959f5424bf86c2c90fbb7f2b55fb10fc8df5df95f33bde9",
+      "promise-worker-transferable@1.0.4": "22f228eca7f8bf6d42ceb5d2c59d16bd5d8dc5e7e27eb8e5d3fb0fe5ea86eec7",
+      "punycode@2.3.1": "a4c0ecef85b05021be141896596017346cf161ceb20d3e5a124202b468c8f144",
+      "qified@0.10.1": "5826a6ad83d285e2af6fdec451f494597ec773f76347c8e63572ea415629dedf",
+      "react-dom@19.3.0": "8142a6fb534eb6faf0fa7499a9c00d35f60ad172ec68514cc662a2aed3ebd3dc",
+      "react-i18next@17.0.15": "76fb75d2befb59cfdd2ee568b54dd0d2846dc7a048960003748cb58bbae3f2cf",
+      "react-use-measure@2.1.7": "11a4800b2c3f0ac00370059c483d813feba75242df7e747d5304a8da46afaadc",
+      "react@19.3.0": "9628a96f0853a2a561bc2f5dc68d0ff9240afe0b5e526957dea2b80c47ab1d78",
+      "require-from-string@2.0.2": "cb4fe1d44b498f77202ff9d906eaa300930ad662f38ac19aea929647f19af40c",
+      "rolldown@1.2.10": "677d45765989fac8171b429ab679de5450e1d67754d44b039759a31e5f20b9b8",
+      "rou3@0.9.2": "2eec77f3c5860e2b29d6736fff7112a04ef38f25895e7d8bd5108d9251542686",
+      "scheduler@0.28.0": "ab8d3a845b724d8eff3c895fc179e705d1777fb1b7e6bb6c56093c8997f3cccf",
+      "semver@7.8.5": "a2442372d9d7cc2013e12a8aba39ba2e432c93bcd0ee6a137e6129dbe4ac2407",
+      "set-cookie-parser@3.1.2": "18e08bde15c960917e3c2741f47055551cf601a5ec88fc3ef2b90d834cb26407",
+      "shebang-command@2.0.0": "3c7eb17341c523dc8348445fc0f9f93baf151c64f9018d8296b482cb4cea7f5c",
+      "shebang-regex@3.0.0": "991fa1f944855e22952e3e16484f496b85f22be20c9c7f82085809616b7b3833",
+      "source-map-js@1.2.1": "49e1d21aa920be00fc1a98c63f20b062fc2d7bd410fbe7d932a85ec2a07ad1b0",
+      "split2@4.2.0": "6ccdfd3db446588748b0d56080e7069d41576fdd849057b8ce1cf8681ac0d1e5",
+      "stats-gl@2.4.2": "4642edaa971d9431411099ae5d1651383dfe73d39a732a4bc418619d13407e9f",
+      "stats.js@0.17.0": "10657c38ac7687caace3d0a7f29717a0f488aa543d4a7021cbbb3266879ec926",
+      "suspend-react@0.1.3": "2a767aed1939c211411c110323a6491bea5d3e3291141bc909ab8fd11a447cd6",
+      "three-mesh-bvh@0.8.3": "6c9f1c47c71a18a56c86812e2ef9a3c98d651dd5876bb2cf25bf0eaf9c9304d8",
+      "three-stdlib@2.36.1": "0decfd98e647fcdfe146520aeca3eb47285831fcc17318d6e539862e6413aa00",
+      "three@0.186.0": "a673380d45cd3a402520605bbb89b3e8824aac8389284fff3e2bd9aeb985fcaf",
+      "tinyglobby@0.2.17": "d6cbc0d70eea74b2c8b0d486ae22f5bf8e555629f196bb1bdeb1cd2a3d01f9d0",
+      "troika-three-text@0.52.5": "7f5ec7833ef16ccc66662fa97919ac0d1f49341d953a1630b4b6e16a3f3697fd",
+      "troika-three-utils@0.52.5": "154f67f3be3b3de3860887fd6e8216d56e4eae5feee587cd4bc44420f1cbad3e",
+      "troika-worker-utils@0.52.0": "e20b97d6b703510d97dd29dff7c86f0766e70ce427fface6c3ddb5e60e388090",
+      "ts-api-utils@2.5.0": "b5d756f20eda17b3b6a480501b4ba90ad249287fa7c8f0cbe5f37affb3f4791c",
+      "tunnel-rat@0.1.2": "bf13e44506f24717ee82c8aebb156abd341a04b68d29c9edb3101f1f14c8cdfa",
+      "turbo@2.11.3": "60b8bbc18581f64819cbf2bfecb3d6824d530a0c33e513f0795d742a373fe4f6",
+      "type-check@0.4.0": "be4c84e132640876ac4bc58cb05d05e15e1c056501076203f063ac34838a8939",
+      "typescript-eslint@8.70.1": "b276172d2e77bb36ffe9a5c76d788f9123a41d0d45779c48a699f767f9efcd37",
+      "typescript@6.0.3": "613e6c1d603473c9074621f8761478081b5152b5e60d5e366c3ffbb0dfc8ed21",
+      "undici-types@7.18.2": "0f8739b8261173c4522b7379e7298d5399443787e444ca10e933952346d347d7",
+      "uri-js@4.4.1": "ad13b91798faaf25b6f9c25dcb9ab499ef9897fd82504a7ed0d3442c534fd123",
+      "use-sync-external-store@1.7.0": "f3e2eefeeb646cc1dc4249f83191f5fc32d5752bdba3eb8f0bea0804d4b91839",
+      "utility-types@3.11.0": "8aed72d066506790a95bf0a35819c8804931a8148811c4be32334bd405018ebc",
+      "vite@8.3.1": "1cc72476c41bbf7fa2a0c1ad6423efc982313bc40f67faaa17b938d1e4ba1900",
+      "webgl-constants@1.1.1": "53f41d16b0cbaaeaac4c3f8eee9a4b15b5eb77e9af53a44dcc446d4d0c1dfc46",
+      "webgl-sdf-generator@1.1.1": "4c99f08d9741162b73d3579f85930760d259f11e76be393b421eb4c84a391e0e",
+      "which@2.0.2": "25e1c1f0cf330fcfcd9d8d7507277f865325169b3489d7a9c4a189813fb6fff2",
+      "word-wrap@1.2.5": "35950b87b4db95d18b942a999861631fc0e239374569efd95971787f8bad85b5",
+      "xtend@4.0.2": "dcc8a1a77c12c8dff82cbc09f0d620f48dc5837099d1a63bd985a3fc984e0184",
+      "yocto-queue@0.1.0": "64bdfa966d68c7f49758c39d9c61c47f4358918fdbb45765bb47e20e05fec42b",
+      "zod@4.6.5": "2bc7180288b0709df8ace8ff788907a1a13e5a8c084684b9fb77b9fdd8bfd7d9",
+      "zustand@4.5.7": "a6d600fc8172d35368979dfbe4085240abaadceb8828f63cea2bec89cee72269",
+      "zustand@5.0.15": "1a97c54600c050221814225bdc4177c9c08f293e0c689d575b1e1a935e724b66"
+    },
+    "snapshots": {
+      "'@babel/runtime@7.29.7'": "14010e5e2cd921c9dc34d598c9f996ddb74b1165d7802114540caeafd71f2db3",
+      "'@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4)'": "54dc03cb840db294243e49217ccd5e1af3c8d8cd82e1596aa69623a94c70dd4f",
+      "'@better-auth/drizzle-adapter@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4))(@better-auth/utils@0.4.2)'": "bb764d24119654acb1acbb9b92fcd402d2b3ad8833771f29e34d7c5a953712e8",
+      "'@better-auth/kysely-adapter@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4))(@better-auth/utils@0.4.2)(kysely@0.29.6)'": "88b5698d6ffaaf27da10d32bcbc201f4a4554f53a23836e558038db97255935f",
+      "'@better-auth/memory-adapter@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4))(@better-auth/utils@0.4.2)'": "53e065f103b6dd1a1281654db8510b40f54a0cb5f38e3c5345aef62dfcd218d6",
+      "'@better-auth/mongo-adapter@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4))(@better-auth/utils@0.4.2)'": "d69f24848cd58ad6b101d3151b65a9022e3bfd230d480fc24386be81743cc50e",
+      "'@better-auth/prisma-adapter@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4))(@better-auth/utils@0.4.2)'": "ed08da3ee6300c2c0626a0cfc10b9653a6c9c926a0880d73cd9f7df7309f4e53",
+      "'@better-auth/telemetry@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.4))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)'": "dddce856f84f478ccd36dab1a42a5384263baf939b963496577821f9cfd12bc3",
+      "'@better-auth/utils@0.4.2'": "f719872f8b4ba5758d47939a96bb6632d3f186ec7e28a1514fb24d510770fd65",
+      "'@better-auth/utils@0.5.0'": "aef0818ad3fb502a2b1fcbdd63ac34362bc251527b625ff221bc0ed434908386",
+      "'@better-fetch/fetch@1.3.2'": "c572db163949d51c91f7db6fd02f3fe3ce7c37e969257c962ef6701a410f2a1f",
+      "'@cacheable/memory@2.2.0'": "8b0ef65cf30e82b45b057f51ca64bcd20acfd8a1220d185a0e1814f93ba9b48f",
+      "'@cacheable/utils@2.5.0'": "0fe22195831f7e5bb46208b59b6a87f290cc108687fde5b4a7827ca960c5f974",
+      "'@dimforge/rapier3d-compat@0.12.0'": "0880798158950e6078fe237eb5ba54fe6f0a563616fcf1e3787b6dbd5b8ab6eb",
+      "'@eslint-community/eslint-utils@4.10.1(eslint@10.11.0)'": "aac1caf668e8caeb61ce8fbfe8549482d3894dcff7a2eb170caeb020524cbecf",
+      "'@eslint-community/regexpp@4.12.2'": "5396564fb97b4053e3fb949ebd921853ac5ffad4bccc24b891207ca2dd94f95e",
+      "'@eslint/config-array@0.23.5'": "a956fea13737632366fc0f8efd66c413310bd1cb1af4c529c001b96dd5508581",
+      "'@eslint/config-helpers@0.7.0'": "77a1bbd88e609edc0e34ebb6bcda3af9e2ec640297b36e9b9293e5895054a94c",
+      "'@eslint/core@1.2.1'": "506eb800d664a902c8a2e74fae11934e9e609b8dfa103173ef7eb5e3ba808cec",
+      "'@eslint/js@10.0.1(eslint@10.11.0)'": "93d5f6aa143bee4bac6e9894e8bdc8bc64d6f7fb999160dad7103f6b34eb5825",
+      "'@eslint/object-schema@3.0.5'": "ac85ba79833ab5d84e622140cd32e7c6dd1796ebe848487209bc0f3e4d82b83a",
+      "'@eslint/plugin-kit@0.7.3'": "3b348705b4e4f169bf80a43ab459e3e513150321cc595d2d75b7c185c80243ed",
+      "'@humanfs/core@0.19.2'": "7c5cb47d527f26844fc79e10d9fb830c26d6a7d363f379cd961cf8191449ac7f",
+      "'@humanfs/node@0.16.8'": "ba9810262d83744ed212a537ef195092501b03642decec96171c4f1e9e48c026",
+      "'@humanfs/types@0.15.0'": "29a8fd4aa29fdd86eb1020987a172cdabebb298420a923c58f621e0140e125d0",
+      "'@humanwhocodes/module-importer@1.0.1'": "f34ddf8e8ae17e6622d993817ec89a485793caed4ed4fbd01b787de5a3a94a88",
+      "'@humanwhocodes/retry@0.4.3'": "da8cfbdcca7f7e1ba756c934b4729d15f30b0be940b23f9ffbd27ea3c0859c1d",
+      "'@keyv/bigmap@1.3.1(keyv@5.6.0)'": "fcb7caeef2f6e8046810cf793f38df5d34fa032b9e22a021241e1d6a9ee16c81",
+      "'@keyv/serialize@1.1.1'": "58b7aa5cc2d610f1b4f19e1317fbc617dc5829b9555cc8171dfccf5048f26ea2",
+      "'@mediapipe/tasks-vision@0.10.17'": "dc0dc6e9f442f931077131e1f7f9a10b20adfd585ec380b773ae05b033eb5f5b",
+      "'@monogrid/gainmap-js@3.4.0(three@0.186.0)'": "90177cde15f45f23fb3d4f405c2b8c06f7f6cbdce1cfbc1bec4f74e3bc5858a2",
+      "'@noble/ciphers@2.4.0'": "fe11ff89a5985afb62d60a13d17b206462bb21bf20ae552386cb8194b43c9a0f",
+      "'@noble/hashes@2.4.0'": "933a56bc4d0e836bd40b0624fbf3a11aa967c241c1cad33358845ecff4dd8487",
+      "'@opentelemetry/semantic-conventions@1.43.0'": "2891afe84e0b630fe81a1ed63def941a1b5cd7f4297e550345c6b6f79ab0cb54",
+      "'@oxc-project/types@0.151.0'": "2cb22e301c92590dc9a34a3b9280967873e1ad756ac773fc087658a225596d36",
+      "'@playwright/test@1.63.0'": "34c37b491cc17c27dbec5cde15ebf897134c264abf0e3fc0797187d3843455ff",
+      "'@react-three/drei@10.7.8(@react-three/fiber@9.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.186.0))(@types/react@19.3.0)(@types/three@0.186.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.186.0)'": "caab63287a20325b513b7a978843d5aaa19fb7e86da3e7c9572a68b1f8f7b29b",
+      "'@react-three/fiber@9.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.186.0)'": "ac997f79c9a1b9527312049b20207b015ee7b6ffb503de7d260b227ebe3991a5",
+      "'@rolldown/binding-android-arm-eabi@1.2.10'": "c8fc19b5ca69224ea368bb536188932e162c5e1ef64c655b660ae80b0595aa67",
+      "'@rolldown/binding-android-arm64@1.2.10'": "fd1ca7b4e17368207bebed7055be5ad221c5de1cfefebdb8c682845bbc35b2ef",
+      "'@rolldown/binding-darwin-arm64@1.2.10'": "007006abe9381e018b87cc73b590f39c41c1dc893ec143f3f18f859205be8be3",
+      "'@rolldown/binding-darwin-x64@1.2.10'": "bebac995191c3452fb1bd26a522995b33ac765a906a1aecbdafe652ca81d19da",
+      "'@rolldown/binding-freebsd-x64@1.2.10'": "d60c09171288a990187167b1414c05b5efdb86096f2256d55ed07574d613f3a2",
+      "'@rolldown/binding-linux-arm-gnueabihf@1.2.10'": "84ce615bca615a5ac151fd2d19884d141aca79206631152bf3bb105b44a83ada",
+      "'@rolldown/binding-linux-arm64-gnu@1.2.10'": "a0d11fb3eb70d889f72554ef4900418a615711b3e4553297f67b17898265376a",
+      "'@rolldown/binding-linux-arm64-musl@1.2.10'": "89a7ca408ac94bd23aec0e95c6093277f2c01322106681d8592c82a180329d3b",
+      "'@rolldown/binding-linux-ppc64-gnu@1.2.10'": "66cecbfae33a00cf241b1a60b0b9873e416926b2aa97c3ba9b4534e619212a03",
+      "'@rolldown/binding-linux-s390x-gnu@1.2.10'": "cb3977892a55518de2128eefac7197548073b20e77112c12655d98f1be547d01",
+      "'@rolldown/binding-linux-x64-gnu@1.2.10'": "d1234e20958fd1d49a20ca9425c0fbd992fd7985c4c3ba8a61001bf4828a40b7",
+      "'@rolldown/binding-linux-x64-musl@1.2.10'": "b8571e9a81cff89eeb34c66a7e59d7af266d2870f2b4f895c1285ceb774a0d3a",
+      "'@rolldown/binding-openharmony-arm64@1.2.10'": "4afdab6c622c49f0366855cb6e5cb3025c2822babb3a8c5c62e50f2cda58c13d",
+      "'@rolldown/binding-win32-arm64-msvc@1.2.10'": "2149e84c57ce35b0e246e10795e67c540cbbb93787b1817610b1d656c768bffa",
+      "'@rolldown/binding-win32-x64-msvc@1.2.10'": "90b21998c20220940f2a29896430d3a886b95f6f5252d57429ad7cd26730e396",
+      "'@rolldown/pluginutils@1.0.1'": "42d1ea1ba3198c22172376b7145e7bde6a36d08336b58128d14d980f58a2f846",
+      "'@standard-schema/spec@1.1.0'": "5e8280f2c8ed5af7a8b20b278bc722722284e708ad86c3c66b1124e5afb3fd83",
+      "'@turbo/darwin-64@2.11.3'": "aa70334d8f82ff9f46a8a4968bee3022e7748f1c438be1f9b8830a4d7cf6967b",
+      "'@turbo/darwin-arm64@2.11.3'": "d8cf1f2305a70c1ee7c10a4a4f7a21821c5fd488ca99654cebc918854b9d1b0e",
+      "'@turbo/linux-64@2.11.3'": "a989c7d15f01b2093dfa8bebbcef5299db73d785cdef70c2a7d16f942c1df85b",
+      "'@turbo/linux-arm64@2.11.3'": "5d4b5640ffbee99fb8fc3da5ae3aeb4081bcc87e70b35cdda541796f459cc9b7",
+      "'@turbo/windows-64@2.11.3'": "22d3a954a90a608504079199e1db454c006874b238df980abf26c4dab09fd7cd",
+      "'@turbo/windows-arm64@2.11.3'": "289c61f1f5d0a896d68833beb25ffe7ccd3e7b67fff1d898c49f845efb626025",
+      "'@tweenjs/tween.js@23.1.3'": "74f9272fe4782d84dc8274bb2d31f528f83338de91c4a1ea41424f51bf6f5bfb",
+      "'@types/draco3d@1.4.10'": "94e68d9d50c59ffa81efe755fc595596b24b6702a021ba315e276c84e25dd59c",
+      "'@types/esrecurse@4.3.1'": "901374e60940719d06dc3f15063891364a0c619090e0f955c7572ae63186981b",
+      "'@types/estree@1.0.9'": "490cc276a16a8c8139607432bef7474755650f915ea1facc487fe81731be978c",
+      "'@types/json-schema@7.0.15'": "6a212d2685019974f32785a835e10d8c4881260e4915ee2e55ce1013777512c8",
+      "'@types/node@24.13.6'": "0ae053c10a36a8cdb7c7d5aa051cde63767218915f22ed2903e2e449d7e67e90",
+      "'@types/nodemailer@8.0.2'": "0a50649767183da0ac62d6b639c11922761cc0bedc13cf06f3f00b62dd4767c2",
+      "'@types/offscreencanvas@2019.7.3'": "8246d3cb86c274bd264b4025541040c7ddfc0a33b7141cccf77abe5f6355f170",
+      "'@types/pg@8.23.1'": "3f54a078c16ff7fa170ff4290eec3d8e68cc29c48a2759912b9700cb1e8438ec",
+      "'@types/react-dom@19.3.0(@types/react@19.3.0)'": "bb9415cbfdc8abc1e234817c0089e3250119e86f886a79f4993242b030d19c28",
+      "'@types/react-reconciler@0.28.9(@types/react@19.3.0)'": "fd71cd9c59f03397e34cf915315031d0b537c21ed63e7473fe8f944170455381",
+      "'@types/react@19.3.0'": "00b7dffb14e680ff6af839c363b42ef542b61a8179dc9b7b119096518698a41c",
+      "'@types/stats.js@0.17.4'": "8eb0d8e882ef762ed82a09df497b5434631476c975616d67d755d734c02ede03",
+      "'@types/three@0.186.0'": "fce6c422f1a190addc53ea856597312d919de0871edb8f558262413b35324349",
+      "'@types/webxr@0.5.24'": "387ccebe8eac8568a48cd8e4ac87210914ab6bf56e333599931f90ed2a58b009",
+      "'@typescript-eslint/eslint-plugin@8.70.1(@typescript-eslint/parser@8.70.1(eslint@10.11.0)(typescript@6.0.3))(eslint@10.11.0)(typescript@6.0.3)'": "1b78e30d4ac46424a764013d70aa5effa264879d3349069d619bd3302b898e53",
+      "'@typescript-eslint/parser@8.70.1(eslint@10.11.0)(typescript@6.0.3)'": "f73113ac0e215865a8264b96fd09fbe0ef9cecdaec0e25256a87ea6e824b216d",
+      "'@typescript-eslint/project-service@8.70.1(typescript@6.0.3)'": "3bd6dab32d7bc202b292be229c75007b8bb47c4d23c4203ba93fee5211444741",
+      "'@typescript-eslint/scope-manager@8.70.1'": "4d2641f6e433bbf71e8afb2ebdafe33e2248d8609f566c3d2b5b19fa7e1b4e61",
+      "'@typescript-eslint/tsconfig-utils@8.70.1(typescript@6.0.3)'": "7f4bf22f130a87e6641b84a715b7680a0cf598881ab646ff41a6d921ed761f8a",
+      "'@typescript-eslint/type-utils@8.70.1(eslint@10.11.0)(typescript@6.0.3)'": "70f0e1d3d42912a1ef46ff259bd7da0c75f01c4cb0a8024c1e9e643cac881eb1",
+      "'@typescript-eslint/types@8.70.1'": "ff6c15c7ea4e2d91769ec1ee5d22435c3e147784ba8f67d16aba4dac2527a874",
+      "'@typescript-eslint/typescript-estree@8.70.1(typescript@6.0.3)'": "d7bf347fb9be5bfa62db13f8eb5b9a6eb76774a920e167069914fba4a089b581",
+      "'@typescript-eslint/utils@8.70.1(eslint@10.11.0)(typescript@6.0.3)'": "18addd8de5207141855ef670ec9ff347f633f810e6552b89bfafbd8b19032b1d",
+      "'@typescript-eslint/visitor-keys@8.70.1'": "b320bd4c94b631f3e45990240868bffc595592a5843c9ad622c28628e91d6873",
+      "'@use-gesture/core@10.3.1'": "411f36e5ebd5578b97948f7e0070ba2f5236a54c4c871b2db84760b06dd0c6fd",
+      "'@use-gesture/react@10.3.1(react@19.3.0)'": "58d94e260a5b3e278fbd66d0dbb481c360f9f608c7d5e21a4ea2a7008e6b9785",
+      "'@vitejs/plugin-react@6.1.1(vite@8.3.1(@types/node@24.13.6))'": "25cdd8b7c89fe931cf319467d77ec9856720be3de84b219789dc0b60878f63cc",
+      "acorn-jsx@5.3.2(acorn@8.18.0)": "4dcd551ddb6eca59b51b92a0705415ffc83244a8ddea1dff2bb971019a6e38b2",
+      "acorn@8.18.0": "05c2a32434537b593bfc4209fd9f4d23120de7c9372c0907d032cbc1c49e0a37",
+      "ajv@6.15.0": "5170db95737b39b4d79d01f6757c34b72ec75142098f1b9ef3592826936270bc",
+      "balanced-match@4.0.4": "314d0720b276e7afe7574dc62e55a6a4f39fbf84b0c41930a24e767b60c2ad8c",
+      "base64-js@1.5.1": "d485f53ee23bcef6c7b4308480adf9440d610132c0d6b2549e891cd05c147ecd",
+      "better-auth@1.7.7(pg@8.23.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)": "7348e78a5dd9f2eefeb4ff41e9ec610ee85f417b9c2d0239145d03a855f27068",
+      "better-call@1.4.0(zod@4.6.5)": "03d655338409fe1de6a5d482f631c3f20fe6a6db1c0d652677474d5502466c30",
+      "bidi-js@1.1.0": "a59171c7b4056ffc1e519c398ca501a418f920d1e18e6d13d0f7c4256cb74e8d",
+      "brace-expansion@5.0.12": "52858940d62d436febe2fae11a868d942808fe12da66f9672814703ed84b6e69",
+      "buffer@6.0.3": "1ed4a82388bc91ba5daeeb8c43a192434330d1a8e91e2b22722826f1b337c456",
+      "cacheable@2.5.0": "80b0b38c50b05a610c1593ef493d103991fc98a73bb3c0588a3c171a9ffff1ad",
+      "camera-controls@3.1.2(three@0.186.0)": "42d50e4ad795847402c00b7d481c4448511e07a0919df0a2054f64d79b4275f3",
+      "cross-env@7.0.3": "19c722760e50d874a36851b9c94a9014747ab6eeb6b67f6c5af63055ec5c9ffc",
+      "cross-spawn@7.0.6": "5b09df6b5012fe9c259e2511bf01e7de5b036febdd47befd6b2f5791a40c99f3",
+      "csstype@3.2.3": "a66128fe39852ee5830165526de97fe28949d6e1d978fcc72bd8ced78d06a13b",
+      "debug@4.4.3": "9e1400d0b2ae069eba3d3b00e96a0c32bd57e3fe28fc55122660245e2d247556",
+      "deep-is@0.1.4": "b81868938fb314e7b322bedcf62e40e04a7a849e0c61ae95ebda680d76cdaf2b",
+      "defu@6.1.7": "962e9f20ab59d9017de440c545dba44526e14adff2b9ad097d2a5d92bcff1afa",
+      "detect-gpu@5.0.70": "fe9607f0ffb41a121eec40cc00affb06cddb39954fadbc696a2940bab756616c",
+      "detect-libc@2.1.2": "b8a959e4a62a7adca6460de32d81188125fa5acc29b545a5f50ce89861c99c94",
+      "draco3d@1.5.7": "b70b0936d70323c08943ee5bbefafe61aebf9c263855941d68ecdaecb6a74a05",
+      "escape-string-regexp@4.0.0": "1e55246a45ac1e62f31d9172111bff1fdd197423c6d9fa51ce98e63b87d0a4d4",
+      "eslint-plugin-react-refresh@0.5.7(eslint@10.11.0)": "3656022977473dfb90285cac2ece8a70935802b997667c387d4e27ca20d0b142",
+      "eslint-scope@9.1.2": "ddde2c35e3f53fd6551f1dc3984b9f5ed84cad09b5d79c418ec1282f2831a1e1",
+      "eslint-visitor-keys@3.4.3": "963f9d7fdda3225151a5ade4eac3a5eb8bb4931335b9c6fd3b9f095c2915ae23",
+      "eslint-visitor-keys@5.0.1": "a0ecaf6b54f89842016e95ef2dd64b87ba09c03b2d3395799dc49b37d0659354",
+      "eslint@10.11.0": "2f325099bf8dad10194a21fb544faca777b1fe9bb2687aba4c3a978402e4d59c",
+      "espree@11.2.0": "be0dfa2f856c4d155ad708ca959e3211efb78bd2306823477d8162dbfb02ff3c",
+      "esquery@1.7.0": "89f562d7c97b8e55890d58abc5ca9589a5311463ca034f7ffeb25ad6c8f0f4bc",
+      "esrecurse@4.3.0": "b5544e9c1216ae43b7d703f848fc981b30dc1d98e54cb29c15b4c869d752aca2",
+      "estraverse@5.3.0": "995c5396ee652eed51211ff707a56b6d15f59f7570f71fb226dbf2bb30b0f489",
+      "esutils@2.0.3": "dd0edfde00681fcc1acc4f7ee5b166503ec8fe943e118c7a52039b8a9480a541",
+      "fast-deep-equal@3.1.3": "fd9aba9cbef7b0c863ce92d943c1f11cd3cd1d833ff5afa6cdba322128a8a821",
+      "fast-json-stable-stringify@2.1.0": "8b25f03a09899cc0be6fd325214bcbfba6e587bde6e673867eb7867692c73c4e",
+      "fast-levenshtein@2.0.6": "3845a1afd5c172f9c6e154b38dd7a2dd985eacb16a67ee4c9d950bc6ceff2ac8",
+      "fdir@6.5.0(picomatch@4.0.7)": "c4e3c1abc3f70e86d6ef1159534da5f955dce5f314cf24aad8d151c892f89b05",
+      "fflate@0.6.11": "b12f67747e2e52e43b7e5454be6db86da70880904974e10a3329febcf0fdd1d5",
+      "fflate@0.8.3": "6245d4d3d8bfe40d1cb9bcf50b080bf0bb90fc4771406ca191c6484b2f8a98f4",
+      "file-entry-cache@11.1.5": "c9b63426e1372c3ed4a807e3be5bba2a43370b59c0d753642f11427c74099783",
+      "find-up@5.0.0": "62e1f47a05bd6752274a686cd2b55546a8eb6c94fd242ba1c8eb8e91f4acaf9a",
+      "flat-cache@6.1.23": "60f868fce6fa5304a05c696996206ef399674f34d929a270c3f12c72569dc4cf",
+      "flatted@3.4.4": "a7c8fddd8927fb47d3c980acecec5bf403f622c176269b377a70b423b7d9ee19",
+      "fsevents@2.3.3": "c7425b7aee8d0cdd78ad4e13a49ff562c2ebaaf7646b44c54e769ba53f85c566",
+      "glob-parent@6.0.2": "e910c9fbc7407f797f1cb63522307e6cdf1d7efc142110a337219db201f04273",
+      "globals@17.12.0": "9509a588fc59652029841df6b747e65b579838298ac4ca4d6b2b8a84a4cff780",
+      "glsl-noise@0.0.0": "d50758d53223f209913d1cf9a2a76e6729647455863e4fb6247303de5a394285",
+      "hashery@1.5.1": "69c5aec2351e3839e45610e23a7a09e74805c053160e31ec4abf73752749a78f",
+      "hls.js@1.7.3": "25b9748608e81f629e1ac0933cf0eb3ce6dfe1e906c98781e92ca6a422511865",
+      "hookified@1.15.1": "9d1cf0b0999625d51b30dc6fa541a7c0bf59f7dffa7b6baa64d8a17788323df3",
+      "hookified@2.2.0": "c67222bd7e6fc5baa7a1453ecb0641cded37e149075e61285937caf8313b866f",
+      "html-parse-stringify@4.0.1": "84a68a09b91aefb770dab948fb02ffe0a8deec75dbf1d16e5c8e09d8fc7f539f",
+      "i18next@26.4.2(typescript@6.0.3)": "389912f9e536133fdb8f4f77c8c4dc6652d3631337acf896c4a7723ca1dfaa09",
+      "ieee754@1.2.1": "2ab8f7c062186bc2db9cf35f1c6e5480bca9f80c2c1880265fc561ba6a7331f4",
+      "ignore@5.3.2": "edd71db6b839e1f3e177eb25eb656139c5a25c841d3f458fa5ece96e36a5b11e",
+      "ignore@7.0.10": "415e441d1864584f45bb6352f1133e26b40e79a704faa8814878f7732c21c45c",
+      "immediate@3.0.6": "3388e73284affa69f078f82f8ac7093318453089a91962aa058ccb9c1d94b016",
+      "imurmurhash@0.1.4": "2b2e4307037f45e5878cdda373ceb8e566e2bbb420900bfd6b0ae3bd65a42b0e",
+      "is-extglob@2.1.1": "e5b552728746206ef33f47be3a5be372abca05714dcac525f1602680db191ed6",
+      "is-glob@4.0.3": "43ee68936519a6198a06c45982359b9795f58c3d362057fedca7b816c9914aa2",
+      "is-promise@2.2.2": "9edfe418a3dca928bae0aa936e2aa581b23ca55d06462c8ae6920d7319fbef1a",
+      "isexe@2.0.0": "0d170d48bbf5bf951e730935c98705bd46758382bbea1079dea4b5890066408c",
+      "its-fine@2.0.0(@types/react@19.3.0)(react@19.3.0)": "5c25b203f899bf56eb4613c256abb3c90bbb64c5593200e49d3c6f5cac0c1974",
+      "jose@6.2.12": "cb1521c048bd256021d9467bd849d76914b6aae1a6bd0bcfc28a9914a3480c5e",
+      "json-schema-traverse@0.4.1": "1f6eda93ec42ec0e1f5e2c8e9b1e4f2893fb72d1187ffeacd51c488bf3b875bf",
+      "json-stable-stringify-without-jsonify@1.0.1": "a35ad9ef8479aa2026f4c1debfaca605844dc3aadc48e7202433cdf5678136fd",
+      "keyv@5.6.0": "4e3b0dddba4d53a90e0240829e53121fe9fd9e621244590887e5dda59727f489",
+      "kysely@0.29.6": "f352e5158c72fd7d93daad689c9ede189ca35d016bf33292d719cc7dea1fc4ce",
+      "levn@0.4.1": "9d5bb326fe121636dcd5b93d80ee2e2215b051e6b6b9add230bc63679c42c595",
+      "lie@3.3.0": "3a120fd65454eb8d13301dd1ab883e2a943c01ec68a151207e05ab8e6c041555",
+      "lightningcss-android-arm64@1.33.0": "12398d2f9601d15181ff3e22a887b1ed272cc2906465ea3c2feaec99e90c42c5",
+      "lightningcss-darwin-arm64@1.33.0": "adb2d340b5af7676f40c8879eb8ae07b69cc556d0bdf3d1e7c2ca641a640e706",
+      "lightningcss-darwin-x64@1.33.0": "2c8f17ee11c7f0145f8ee3a2f379f953bc6ba2097e5e393a7b21507b14a2fb47",
+      "lightningcss-freebsd-x64@1.33.0": "ff0369a8bddd4162232b004f95c66eddf299dd151ae8303c8e942c26ad43fdad",
+      "lightningcss-linux-arm-gnueabihf@1.33.0": "cfffa5589300a4b2c6ee17e15f73228874f1d1e6e577daeb790cc4747c8d0c2e",
+      "lightningcss-linux-arm64-gnu@1.33.0": "919da2f2e56eda5ae1c7844def1a1047da63ce8794846b9fa6fb9f29b215da5f",
+      "lightningcss-linux-arm64-musl@1.33.0": "fc0498e42f51a5e07e2ea31aed14bbb64674d77b4eb2b67403647fba0878e3fa",
+      "lightningcss-linux-x64-gnu@1.33.0": "21701ceb49a71697024de6e872bdda6fbcc418709318e269a65c14dc1c808a2a",
+      "lightningcss-linux-x64-musl@1.33.0": "36aac92d03608ef387b77847e545a2a80979b9e70598e853160dec0f5b0d56ba",
+      "lightningcss-win32-arm64-msvc@1.33.0": "b2184249e50c805cc0e214f34a711990eb92068920f2f59eebd10f9b603bfa64",
+      "lightningcss-win32-x64-msvc@1.33.0": "deadcf93855cbbe9191308691812d67eed5489835e586e64d78854fdffed3247",
+      "lightningcss@1.33.0": "743e127e58d9b6a899798c0dcb6750cf738a825f30d5034ed04e2fa2ecb968aa",
+      "locate-path@6.0.0": "9e80ef03f4e1db1015faba335463212c072a87f6ffa7805d60ae706c49d4edad",
+      "maath@0.10.8(@types/three@0.186.0)(three@0.186.0)": "c22fa592636ad1e715d52b026d3e3c1277bc731c7a4f03f8525313bccb0c40f9",
+      "meshline@3.3.1(three@0.186.0)": "25dd49ff1934d6b9212a1ddd09af0249ac469ff739d593cae8f3662c3790cebc",
+      "meshoptimizer@1.1.1": "0febb241e118fa5fca08d88e875568b4ed2ca76be4619e55f64b0b7ef29aa9e8",
+      "minimatch@10.2.6": "cce7b9056052a48a0957261a80fb36678ef7b520ffc576ec15b1c8d7e5dc3f13",
+      "ms@2.1.3": "5da8de6db72c9dfb27b7d76f9c8a84efbca4a7eeec83ae8738155e933067cb49",
+      "nanoid@3.3.19": "77fe9d55473fcc50b04ed75f9b7a33bba2c4dda92304d888d8361ce42823a392",
+      "nanostores@1.5.4": "88c54cff40c3d55f31b196a59420da9dea3a92e6d0cf53c33c1fc00b37ae0eaa",
+      "natural-compare@1.4.0": "1c017beeb2d2c2b7010dabbe8e703e125976f68a808db8317dbeda89681c9456",
+      "nodemailer@10.0.13": "517b2cfdc7cad6c202323d5c95cd3e8aa5ce5d1d1f1782f7a497f5b2274a66a1",
+      "optionator@0.9.4": "302b96ad66502eca3a4f9db1327d379c70d168f6f77fcc3b4c07153d7f79a092",
+      "p-limit@3.1.0": "7f94bea6920f85c993b1fb5b1789619bb8fd7aa648f6f8c68c1b8af0ce49de24",
+      "p-locate@5.0.0": "de2c3bef12515d5bc86fbd4d01dab9e6b33b87728e37366799415d4494641950",
+      "path-exists@4.0.0": "37523965902af460f24b3cab5fe6541056a8c79aaa6852d5c05583b31f911d26",
+      "path-key@3.1.1": "ab1ffeb186ef1de992c1de94e00f4793ee28e0ddcc6fb92f9912c5c4c4d8469b",
+      "pg-cloudflare@1.4.1": "96cd2b78bffd5c603e1bc1936630634b15c8aad48e76c79206d94ff98d7481de",
+      "pg-connection-string@2.14.1": "2ee7d843b251b125d1e7f83b1e8513e6f0567e77e504c52f88bb8d921a0c62b1",
+      "pg-int8@1.0.1": "c6c864c7b2b68c0e8f25a472092e9832400db0fec7eece3563a14c028cab2724",
+      "pg-pool@3.14.0(pg@8.23.1)": "3f3829a8c230d10336d7b7ea6020d3fa5aa8663f7531284af313787df1cbed30",
+      "pg-protocol@1.16.1": "7d30f79d687760973fdc7603f99eaa9b6fc9ce38591751e03af321a95040bb90",
+      "pg-types@2.2.0": "90a6880932ab50b5c94be5094022f13f2161ef4a85b29d2caa942d6fd334ff6d",
+      "pg@8.23.1": "35279541decdada32dfcf929326437bd59be181d015a137c77633e677ceca2b2",
+      "pgpass@1.0.5": "7620c7535b535c4e383135ece5ee4c880666fd9e5a3703ee4c85bba96968a03f",
+      "picocolors@1.1.1": "4d13eb7b7fbbcebb353c1cddaf47be2e8f3deeb4c112b7c827a1218cf2c27138",
+      "picomatch@4.0.7": "efe2442dae5d554b0ce70bb15e2bb5acdb26e0f9586edb1fa557a8b26305016f",
+      "playwright-core@1.63.0": "576aac5e6cfb43c673e7e1c4285c37d12e0d98ed82a159edbb563cc4bd4af6cc",
+      "playwright@1.63.0": "633cbf5bca756b184a7cbc7a99b2129161cd97b0af6543e541a137e647f9f6f7",
+      "postcss@8.5.28": "327f6ade805db36c311db89870ea8fd77ed29b5f160050a35f273b40ec454eab",
+      "postgres-array@2.0.0": "d1dd80051c301903748df87680832b8195d36781acb7b64476ecb04ddd6e65a7",
+      "postgres-bytea@1.0.1": "4449b0f808c9d0dca39ad35855470b55b68ba58d4c00aa7f09ce4977b3480176",
+      "postgres-date@1.0.7": "1c16b70d558a1ee8e5c48615649376cee58e5b682075433e7f22da41236c75a3",
+      "postgres-interval@1.2.0": "611d9256e5768e469c6dfa46ac741ceb0526dd95ff9d42a7890df83f4ceb4790",
+      "potpack@1.0.2": "bcb9219b7c7842607280119c41a235a974322bc8a9afcd9658ab448d689568fa",
+      "prelude-ls@1.2.1": "bd5c8b2dd46d1bfa27f2fa27d679dd2930efec6d2a3a0ac96d8bf95f3468b976",
+      "promise-worker-transferable@1.0.4": "fccefe7141395cde34ce950311cabe9af6df86eb8e7c9629486a35e5be95f237",
+      "punycode@2.3.1": "3822f034826de0e1a953fe2e755180fccf5cbd0ecc0b9628f9671ec5e2dc00d2",
+      "qified@0.10.1": "24c5ceaf522848e91d4be9f7f96b7851f2e39ac725b1b522e91e596156a14855",
+      "react-dom@19.3.0(react@19.3.0)": "96ad7eb31ced0d027fdf0ba136270eec0111cd2a9da007fbf68f68c4e3ce11b2",
+      "react-i18next@17.0.15(i18next@26.4.2(typescript@6.0.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)": "96af04cd7d7118f922434cecedf8d1d61df4ed1b473e4f8fbcfc97034a14998b",
+      "react-use-measure@2.1.7(react-dom@19.3.0(react@19.3.0))(react@19.3.0)": "a0d1de2d779f9dee7745bfcf7d9d2960d89faa51276c1963522a12d953b4be11",
+      "react@19.3.0": "8156d546078183aa41c5543c150f9b008e5c1fe5825ac7bb8d66a34408281d14",
+      "require-from-string@2.0.2": "29d4c9b3e1208ff1e6bcb7fe814d424f285dac7798e0b8cddeff52475505d559",
+      "rolldown@1.2.10": "c6f1802dcfea25f796c142708380c1063e025845045d8f7d561249faef78895f",
+      "rou3@0.9.2": "999dddc9135203ee0b0c1e9765f09ab0f09431f86ae4b5d69aa7e3363812e79b",
+      "scheduler@0.28.0": "09057a55e7cbaaf25542e1ed7c65c35b5ac756def8e63e64e2feb797f9a4d988",
+      "semver@7.8.5": "d619d94a468bfffb1e4801308d78314502105240b04836981eb49db307fef955",
+      "set-cookie-parser@3.1.2": "8e530d372508301a5d3e79959bed037cf06f6195266b35a38688cc40a44a8ccf",
+      "shebang-command@2.0.0": "675905e6a60151a1e2aee3e0c3cd0e9a9a44f65122f9fd3d790f1e72d77896e3",
+      "shebang-regex@3.0.0": "1e9327080ba48b51e63dc833f66677186cfba8484a2a2cefd650d0788b7594de",
+      "source-map-js@1.2.1": "49d060a5b6724b660f3fbc7a0726affb9275018509a3bfa510cbc78a596c7cbd",
+      "split2@4.2.0": "12b7e2ff0a1fc858486730884457ccea2c771b52d4e8ba4029cd7a414df08578",
+      "stats-gl@2.4.2(@types/three@0.186.0)(three@0.186.0)": "5ce4ca2722ca068cc6b97367bdf455b970fd4e9c2c644bcd1573a3193f84c7d0",
+      "stats.js@0.17.0": "50138971609d788904314d3d35521c611e7589cd4caff5e9ff67a5bac8f7e2cd",
+      "suspend-react@0.1.3(react@19.3.0)": "871efe281b78f17b321e59f02b763f6f60e2c5177806f8b5bd70f5fd54dc4191",
+      "three-mesh-bvh@0.8.3(three@0.186.0)": "ff4d19c333d6dab03a838343573bb54899dadf8aeeb1c6b4147ff361e20e4d27",
+      "three-stdlib@2.36.1(three@0.186.0)": "c4fcfa005e56408373cd7b7e164ee57b82ab3aafa472d0e49d79ce6c8cad23c3",
+      "three@0.186.0": "717a726a3d5d5afe197bcc14fd0647965c9a9d0b72d5e0eb2698ab4dd803ca12",
+      "tinyglobby@0.2.17": "bb06fc4a4d2b8abf67734820979dc6bd57b19fb5af0d941341534dc3785e78c3",
+      "troika-three-text@0.52.5(three@0.186.0)": "554f6bf2a9e0a2e058f684e97c765a071da47d5debb5a35fbaea73608979d9a5",
+      "troika-three-utils@0.52.5(three@0.186.0)": "19a3482dcd50cdd3eb09707a5231963c34601638b851431f404218152716260a",
+      "troika-worker-utils@0.52.0": "3123927339c90f32557f84b70b09ecbaebcdef40fe21dba0e205dcb0a1b2263b",
+      "ts-api-utils@2.5.0(typescript@6.0.3)": "00eb8633ba62bbb571227bc97447cff934aac560d8ff149be3fa4bbdec0f00df",
+      "tunnel-rat@0.1.2(@types/react@19.3.0)(react@19.3.0)": "8ea522d93b2365e0b403e593d65bd149101238f83cef1edb2c72573164cd6fee",
+      "turbo@2.11.3": "b400fe8844ba2f1f7abf2ece8a6f840906ca53312936d08f4d1857e41e6c7baf",
+      "type-check@0.4.0": "01c496caa6f4faa905377a977456cc33e202f132b90353bf310c6a8b26758345",
+      "typescript-eslint@8.70.1(eslint@10.11.0)(typescript@6.0.3)": "4818b771d579b62600ef6f4ee506f1ed95414a20fa453ad2cf42ae0caa5260e9",
+      "typescript@6.0.3": "504103faec471a635aff80f13cf5832c67fc3322ad03cbd40cb00649af984909",
+      "undici-types@7.18.2": "cb15c4155e99921a5ec3cba399c5f2459ff52615d01e2b3aec4e2c96b950dbf6",
+      "uri-js@4.4.1": "b5ee6929bfd7aba255ce0c6f248745c195e106ee7a707f8671bf39da1b1447bb",
+      "use-sync-external-store@1.7.0(react@19.3.0)": "cb8f098d6b655bcf9bce4ae74df54a3796f21e7974e616c3c62062f3d48c9160",
+      "utility-types@3.11.0": "af60cf24ad7461b1ae385ba41c111b809d096c2ac843dfc89579d372cef8cd0c",
+      "vite@8.3.1(@types/node@24.13.6)": "c9c930a212d34fc1a77834754c8273c1242de8cca28f0a84155eaa361b7b478e",
+      "webgl-constants@1.1.1": "d7483db1a65595ca4026f19599a3519b65b227094f25791eda5c5bed4940eb98",
+      "webgl-sdf-generator@1.1.1": "b53a2aeb3d0cc7fb247a249e6869b22916823e4e8c1370b3faa3d928b08ccf6e",
+      "which@2.0.2": "168ad2fbf77f2edb1e89667c9933bffb3a6d4de598574a6e378bfa6271b0cdd0",
+      "word-wrap@1.2.5": "ca7def82bf1d64e8b101a45ec646b3fbbbdea3fda15db8222bd9c4505ee073f3",
+      "xtend@4.0.2": "c2ab9f3ad2bdae82983ab394a726c9bd27b0d3909cbc840bed9b0c5e6928c098",
+      "yocto-queue@0.1.0": "8cc7326dce40b92668dafa92e762667fd77288db950ea36708e96eb6b108277c",
+      "zod@4.6.5": "4ddfff08ec1d25e3e23a9fc988ff69a9d914cd1d9f1073149b10fa17b267c64a",
+      "zustand@4.5.7(@types/react@19.3.0)(react@19.3.0)": "b943af86041b4cc57a609b79d135c8abdd1a71004b46b726472a597f78a5ef03",
+      "zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0))": "bcc008a92f42f47adac0a0f77f989ec13817e64ffc265d6fbd0b9c4f26dffdd7"
+    },
+    "runtime": {
+      "'@klisteniapp/geometry'": "bd7218587531169d9816a0f1dc5800f25e3cb4ecd758d5947b49bd56e6d7431d",
+      "'@klisteniapp/scene-schema'": "30305cafad59e9007b917ae537b38538762e2abc9ed2181aebb448cbcdfd2f7d",
+      "'@react-three/drei'": "29d6ac4a3c5d74693a895c43f454f5c5e0d51a17e52638d468f396c0a3516e76",
+      "'@react-three/fiber'": "e32ca28bb2ef51defe109ffe99fb94a7fc83476fc1cc185115cef1338e317d98",
+      "i18next": "b315ed0274f5c83885f38c89a9817def2b198c8cf08d373367dd73ff6f7053c7",
+      "react": "ad6537f09d0953e8b61f9116644e9df43179b61d97eabb24375f614fd7320ee4",
+      "react-dom": "59281f74ea539df632bb42c946f45ccabcf639f6da4ada8ed14ee4d6ba15fc68",
+      "react-i18next": "39706310c2b5cd9b61374a8236820f299a006a359eddf9c4090a9280d16cf5b9",
+      "three": "7065b5c731e3018c69246c9e515f091b78b52cfc788f9ff03847b15a594b6c0c",
+      "zod": "7a42340000638d7a2a4a33f065d054ba64ae1ee214599230d1d2e663d3d96290",
+      "zustand": "303dcf12882c5838ea61f1595f0de2543eae1e9dc8538696ed1f3e67f3993504"
+    }
+  },
+  "previewPaths": [
+    {
+      "id": "squat",
+      "model": "male",
+      "files": {
+        "poster": "squat-poster.webp",
+        "animation": "squat.webp",
+        "gif": "squat.gif"
+      }
+    },
+    {
+      "id": "pushup",
+      "model": "male",
+      "files": {
+        "poster": "pushup-poster.webp",
+        "animation": "pushup.webp",
+        "gif": "pushup.gif"
+      }
+    },
+    {
+      "id": "glute-bridge",
+      "model": "male",
+      "files": {
+        "poster": "glute-bridge-poster.webp",
+        "animation": "glute-bridge.webp",
+        "gif": "glute-bridge.gif"
+      }
+    },
+    {
+      "id": "dead-bug",
+      "model": "male",
+      "files": {
+        "poster": "dead-bug-poster.webp",
+        "animation": "dead-bug.webp",
+        "gif": "dead-bug.gif"
+      }
+    },
+    {
+      "id": "prone-w",
+      "model": "male",
+      "files": {
+        "poster": "prone-w-poster.webp",
+        "animation": "prone-w.webp",
+        "gif": "prone-w.gif"
+      }
+    },
+    {
+      "id": "calf-raise",
+      "model": "male",
+      "files": {
+        "poster": "calf-raise-poster.webp",
+        "animation": "calf-raise.webp",
+        "gif": "calf-raise.gif"
+      }
+    },
+    {
+      "id": "row",
+      "model": "male",
+      "files": {
+        "poster": "row-poster.webp",
+        "animation": "row.webp",
+        "gif": "row.gif"
+      }
+    },
+    {
+      "id": "full-pushup",
+      "model": "male",
+      "files": {
+        "poster": "full-pushup-poster.webp",
+        "animation": "full-pushup.webp",
+        "gif": "full-pushup.gif"
+      }
+    },
+    {
+      "id": "pike-pushup",
+      "model": "male",
+      "files": {
+        "poster": "pike-pushup-poster.webp",
+        "animation": "pike-pushup.webp",
+        "gif": "pike-pushup.gif"
+      }
+    },
+    {
+      "id": "reverse-lunge",
+      "model": "male",
+      "files": {
+        "poster": "reverse-lunge-poster.webp",
+        "animation": "reverse-lunge.webp",
+        "gif": "reverse-lunge.gif"
+      }
+    },
+    {
+      "id": "lateral-lunge",
+      "model": "male",
+      "files": {
+        "poster": "lateral-lunge-poster.webp",
+        "animation": "lateral-lunge.webp",
+        "gif": "lateral-lunge.gif"
+      }
+    },
+    {
+      "id": "good-morning",
+      "model": "male",
+      "files": {
+        "poster": "good-morning-poster.webp",
+        "animation": "good-morning.webp",
+        "gif": "good-morning.gif"
+      }
+    },
+    {
+      "id": "bird-dog",
+      "model": "male",
+      "files": {
+        "poster": "bird-dog-poster.webp",
+        "animation": "bird-dog.webp",
+        "gif": "bird-dog.gif"
+      }
+    },
+    {
+      "id": "mountain-climber",
+      "model": "male",
+      "files": {
+        "poster": "mountain-climber-poster.webp",
+        "animation": "mountain-climber.webp",
+        "gif": "mountain-climber.gif"
+      }
+    },
+    {
+      "id": "crunch",
+      "model": "male",
+      "files": {
+        "poster": "crunch-poster.webp",
+        "animation": "crunch.webp",
+        "gif": "crunch.gif"
+      }
+    },
+    {
+      "id": "quarter-squat",
+      "model": "male",
+      "files": {
+        "poster": "quarter-squat-poster.webp",
+        "animation": "quarter-squat.webp",
+        "gif": "quarter-squat.gif"
+      }
+    },
+    {
+      "id": "paused-squat",
+      "model": "male",
+      "files": {
+        "poster": "paused-squat-poster.webp",
+        "animation": "paused-squat.webp",
+        "gif": "paused-squat.gif"
+      }
+    },
+    {
+      "id": "knee-narrow-pushup",
+      "model": "male",
+      "files": {
+        "poster": "knee-narrow-pushup-poster.webp",
+        "animation": "knee-narrow-pushup.webp",
+        "gif": "knee-narrow-pushup.gif"
+      }
+    },
+    {
+      "id": "narrow-pushup",
+      "model": "male",
+      "files": {
+        "poster": "narrow-pushup-poster.webp",
+        "animation": "narrow-pushup.webp",
+        "gif": "narrow-pushup.gif"
+      }
+    },
+    {
+      "id": "dead-bug-heel-tap",
+      "model": "male",
+      "files": {
+        "poster": "dead-bug-heel-tap-poster.webp",
+        "animation": "dead-bug-heel-tap.webp",
+        "gif": "dead-bug-heel-tap.gif"
+      }
+    },
+    {
+      "id": "quadruped-leg-extension",
+      "model": "male",
+      "files": {
+        "poster": "quadruped-leg-extension-poster.webp",
+        "animation": "quadruped-leg-extension.webp",
+        "gif": "quadruped-leg-extension.gif"
+      }
+    },
+    {
+      "id": "prone-t-raise",
+      "model": "male",
+      "files": {
+        "poster": "prone-t-raise-poster.webp",
+        "animation": "prone-t-raise.webp",
+        "gif": "prone-t-raise.gif"
+      }
+    },
+    {
+      "id": "prone-y-raise",
+      "model": "male",
+      "files": {
+        "poster": "prone-y-raise-poster.webp",
+        "animation": "prone-y-raise.webp",
+        "gif": "prone-y-raise.gif"
+      }
+    },
+    {
+      "id": "split-squat",
+      "model": "male",
+      "files": {
+        "poster": "split-squat-poster.webp",
+        "animation": "split-squat.webp",
+        "gif": "split-squat.gif"
+      }
+    },
+    {
+      "id": "single-leg-calf-raise",
+      "model": "male",
+      "files": {
+        "poster": "single-leg-calf-raise-poster.webp",
+        "animation": "single-leg-calf-raise.webp",
+        "gif": "single-leg-calf-raise.gif"
+      }
+    },
+    {
+      "id": "bridge-march",
+      "model": "male",
+      "files": {
+        "poster": "bridge-march-poster.webp",
+        "animation": "bridge-march.webp",
+        "gif": "bridge-march.gif"
+      }
+    },
+    {
+      "id": "single-leg-glute-bridge",
+      "model": "male",
+      "files": {
+        "poster": "single-leg-glute-bridge-poster.webp",
+        "animation": "single-leg-glute-bridge.webp",
+        "gif": "single-leg-glute-bridge.gif"
+      }
+    },
+    {
+      "id": "bent-knee-row",
+      "model": "male",
+      "files": {
+        "poster": "bent-knee-row-poster.webp",
+        "animation": "bent-knee-row.webp",
+        "gif": "bent-knee-row.gif"
+      }
+    },
+    {
+      "id": "dead-bug-arm-only",
+      "model": "male",
+      "files": {
+        "poster": "dead-bug-arm-only-poster.webp",
+        "animation": "dead-bug-arm-only.webp",
+        "gif": "dead-bug-arm-only.gif"
+      }
+    },
+    {
+      "id": "sumo-squat",
+      "model": "male",
+      "files": {
+        "poster": "sumo-squat-poster.webp",
+        "animation": "sumo-squat.webp",
+        "gif": "sumo-squat.gif"
+      }
+    },
+    {
+      "id": "single-leg-deadlift",
+      "model": "male",
+      "files": {
+        "poster": "single-leg-deadlift-poster.webp",
+        "animation": "single-leg-deadlift.webp",
+        "gif": "single-leg-deadlift.gif"
+      }
+    },
+    {
+      "id": "forward-lunge",
+      "model": "male",
+      "files": {
+        "poster": "forward-lunge-poster.webp",
+        "animation": "forward-lunge.webp",
+        "gif": "forward-lunge.gif"
+      }
+    },
+    {
+      "id": "quadruped-arm-raise",
+      "model": "male",
+      "files": {
+        "poster": "quadruped-arm-raise-poster.webp",
+        "animation": "quadruped-arm-raise.webp",
+        "gif": "quadruped-arm-raise.gif"
+      }
+    },
+    {
+      "id": "prone-hip-extension",
+      "model": "male",
+      "files": {
+        "poster": "prone-hip-extension-poster.webp",
+        "animation": "prone-hip-extension.webp",
+        "gif": "prone-hip-extension.gif"
+      }
+    },
+    {
+      "id": "supine-march",
+      "model": "male",
+      "files": {
+        "poster": "supine-march-poster.webp",
+        "animation": "supine-march.webp",
+        "gif": "supine-march.gif"
+      }
+    },
+    {
+      "id": "supine-heel-slide",
+      "model": "male",
+      "files": {
+        "poster": "supine-heel-slide-poster.webp",
+        "animation": "supine-heel-slide.webp",
+        "gif": "supine-heel-slide.gif"
+      }
+    },
+    {
+      "id": "plank-shoulder-tap",
+      "model": "male",
+      "files": {
+        "poster": "plank-shoulder-tap-poster.webp",
+        "animation": "plank-shoulder-tap.webp",
+        "gif": "plank-shoulder-tap.gif"
+      }
+    },
+    {
+      "id": "pushup",
+      "model": "female",
+      "files": {
+        "poster": "female/pushup-poster.webp",
+        "animation": "female/pushup.webp",
+        "gif": "female/pushup.gif"
+      }
+    },
+    {
+      "id": "squat",
+      "model": "female",
+      "files": {
+        "poster": "female/squat-poster.webp",
+        "animation": "female/squat.webp",
+        "gif": "female/squat.gif"
+      }
+    },
+    {
+      "id": "glute-bridge",
+      "model": "female",
+      "files": {
+        "poster": "female/glute-bridge-poster.webp",
+        "animation": "female/glute-bridge.webp",
+        "gif": "female/glute-bridge.gif"
+      }
+    },
+    {
+      "id": "dead-bug",
+      "model": "female",
+      "files": {
+        "poster": "female/dead-bug-poster.webp",
+        "animation": "female/dead-bug.webp",
+        "gif": "female/dead-bug.gif"
+      }
+    },
+    {
+      "id": "prone-w",
+      "model": "female",
+      "files": {
+        "poster": "female/prone-w-poster.webp",
+        "animation": "female/prone-w.webp",
+        "gif": "female/prone-w.gif"
+      }
+    },
+    {
+      "id": "calf-raise",
+      "model": "female",
+      "files": {
+        "poster": "female/calf-raise-poster.webp",
+        "animation": "female/calf-raise.webp",
+        "gif": "female/calf-raise.gif"
+      }
+    },
+    {
+      "id": "row",
+      "model": "female",
+      "files": {
+        "poster": "female/row-poster.webp",
+        "animation": "female/row.webp",
+        "gif": "female/row.gif"
+      }
+    },
+    {
+      "id": "full-pushup",
+      "model": "female",
+      "files": {
+        "poster": "female/full-pushup-poster.webp",
+        "animation": "female/full-pushup.webp",
+        "gif": "female/full-pushup.gif"
+      }
+    },
+    {
+      "id": "pike-pushup",
+      "model": "female",
+      "files": {
+        "poster": "female/pike-pushup-poster.webp",
+        "animation": "female/pike-pushup.webp",
+        "gif": "female/pike-pushup.gif"
+      }
+    },
+    {
+      "id": "reverse-lunge",
+      "model": "female",
+      "files": {
+        "poster": "female/reverse-lunge-poster.webp",
+        "animation": "female/reverse-lunge.webp",
+        "gif": "female/reverse-lunge.gif"
+      }
+    },
+    {
+      "id": "lateral-lunge",
+      "model": "female",
+      "files": {
+        "poster": "female/lateral-lunge-poster.webp",
+        "animation": "female/lateral-lunge.webp",
+        "gif": "female/lateral-lunge.gif"
+      }
+    },
+    {
+      "id": "good-morning",
+      "model": "female",
+      "files": {
+        "poster": "female/good-morning-poster.webp",
+        "animation": "female/good-morning.webp",
+        "gif": "female/good-morning.gif"
+      }
+    },
+    {
+      "id": "bird-dog",
+      "model": "female",
+      "files": {
+        "poster": "female/bird-dog-poster.webp",
+        "animation": "female/bird-dog.webp",
+        "gif": "female/bird-dog.gif"
+      }
+    },
+    {
+      "id": "mountain-climber",
+      "model": "female",
+      "files": {
+        "poster": "female/mountain-climber-poster.webp",
+        "animation": "female/mountain-climber.webp",
+        "gif": "female/mountain-climber.gif"
+      }
+    },
+    {
+      "id": "crunch",
+      "model": "female",
+      "files": {
+        "poster": "female/crunch-poster.webp",
+        "animation": "female/crunch.webp",
+        "gif": "female/crunch.gif"
+      }
+    },
+    {
+      "id": "quarter-squat",
+      "model": "female",
+      "files": {
+        "poster": "female/quarter-squat-poster.webp",
+        "animation": "female/quarter-squat.webp",
+        "gif": "female/quarter-squat.gif"
+      }
+    },
+    {
+      "id": "paused-squat",
+      "model": "female",
+      "files": {
+        "poster": "female/paused-squat-poster.webp",
+        "animation": "female/paused-squat.webp",
+        "gif": "female/paused-squat.gif"
+      }
+    },
+    {
+      "id": "knee-narrow-pushup",
+      "model": "female",
+      "files": {
+        "poster": "female/knee-narrow-pushup-poster.webp",
+        "animation": "female/knee-narrow-pushup.webp",
+        "gif": "female/knee-narrow-pushup.gif"
+      }
+    },
+    {
+      "id": "narrow-pushup",
+      "model": "female",
+      "files": {
+        "poster": "female/narrow-pushup-poster.webp",
+        "animation": "female/narrow-pushup.webp",
+        "gif": "female/narrow-pushup.gif"
+      }
+    },
+    {
+      "id": "dead-bug-heel-tap",
+      "model": "female",
+      "files": {
+        "poster": "female/dead-bug-heel-tap-poster.webp",
+        "animation": "female/dead-bug-heel-tap.webp",
+        "gif": "female/dead-bug-heel-tap.gif"
+      }
+    },
+    {
+      "id": "quadruped-leg-extension",
+      "model": "female",
+      "files": {
+        "poster": "female/quadruped-leg-extension-poster.webp",
+        "animation": "female/quadruped-leg-extension.webp",
+        "gif": "female/quadruped-leg-extension.gif"
+      }
+    },
+    {
+      "id": "prone-t-raise",
+      "model": "female",
+      "files": {
+        "poster": "female/prone-t-raise-poster.webp",
+        "animation": "female/prone-t-raise.webp",
+        "gif": "female/prone-t-raise.gif"
+      }
+    },
+    {
+      "id": "prone-y-raise",
+      "model": "female",
+      "files": {
+        "poster": "female/prone-y-raise-poster.webp",
+        "animation": "female/prone-y-raise.webp",
+        "gif": "female/prone-y-raise.gif"
+      }
+    },
+    {
+      "id": "split-squat",
+      "model": "female",
+      "files": {
+        "poster": "female/split-squat-poster.webp",
+        "animation": "female/split-squat.webp",
+        "gif": "female/split-squat.gif"
+      }
+    },
+    {
+      "id": "single-leg-calf-raise",
+      "model": "female",
+      "files": {
+        "poster": "female/single-leg-calf-raise-poster.webp",
+        "animation": "female/single-leg-calf-raise.webp",
+        "gif": "female/single-leg-calf-raise.gif"
+      }
+    },
+    {
+      "id": "bridge-march",
+      "model": "female",
+      "files": {
+        "poster": "female/bridge-march-poster.webp",
+        "animation": "female/bridge-march.webp",
+        "gif": "female/bridge-march.gif"
+      }
+    },
+    {
+      "id": "single-leg-glute-bridge",
+      "model": "female",
+      "files": {
+        "poster": "female/single-leg-glute-bridge-poster.webp",
+        "animation": "female/single-leg-glute-bridge.webp",
+        "gif": "female/single-leg-glute-bridge.gif"
+      }
+    },
+    {
+      "id": "bent-knee-row",
+      "model": "female",
+      "files": {
+        "poster": "female/bent-knee-row-poster.webp",
+        "animation": "female/bent-knee-row.webp",
+        "gif": "female/bent-knee-row.gif"
+      }
+    },
+    {
+      "id": "dead-bug-arm-only",
+      "model": "female",
+      "files": {
+        "poster": "female/dead-bug-arm-only-poster.webp",
+        "animation": "female/dead-bug-arm-only.webp",
+        "gif": "female/dead-bug-arm-only.gif"
+      }
+    },
+    {
+      "id": "sumo-squat",
+      "model": "female",
+      "files": {
+        "poster": "female/sumo-squat-poster.webp",
+        "animation": "female/sumo-squat.webp",
+        "gif": "female/sumo-squat.gif"
+      }
+    },
+    {
+      "id": "single-leg-deadlift",
+      "model": "female",
+      "files": {
+        "poster": "female/single-leg-deadlift-poster.webp",
+        "animation": "female/single-leg-deadlift.webp",
+        "gif": "female/single-leg-deadlift.gif"
+      }
+    },
+    {
+      "id": "forward-lunge",
+      "model": "female",
+      "files": {
+        "poster": "female/forward-lunge-poster.webp",
+        "animation": "female/forward-lunge.webp",
+        "gif": "female/forward-lunge.gif"
+      }
+    },
+    {
+      "id": "quadruped-arm-raise",
+      "model": "female",
+      "files": {
+        "poster": "female/quadruped-arm-raise-poster.webp",
+        "animation": "female/quadruped-arm-raise.webp",
+        "gif": "female/quadruped-arm-raise.gif"
+      }
+    },
+    {
+      "id": "prone-hip-extension",
+      "model": "female",
+      "files": {
+        "poster": "female/prone-hip-extension-poster.webp",
+        "animation": "female/prone-hip-extension.webp",
+        "gif": "female/prone-hip-extension.gif"
+      }
+    },
+    {
+      "id": "supine-march",
+      "model": "female",
+      "files": {
+        "poster": "female/supine-march-poster.webp",
+        "animation": "female/supine-march.webp",
+        "gif": "female/supine-march.gif"
+      }
+    },
+    {
+      "id": "supine-heel-slide",
+      "model": "female",
+      "files": {
+        "poster": "female/supine-heel-slide-poster.webp",
+        "animation": "female/supine-heel-slide.webp",
+        "gif": "female/supine-heel-slide.gif"
+      }
+    },
+    {
+      "id": "plank-shoulder-tap",
+      "model": "female",
+      "files": {
+        "poster": "female/plank-shoulder-tap-poster.webp",
+        "animation": "female/plank-shoulder-tap.webp",
+        "gif": "female/plank-shoulder-tap.gif"
+      }
+    }
+  ],
+  "families": {
+    "exercise": {
+      "originalManifestHash": "208b37db5f039d3943d82177b03e5c490447d9f1c24a1764f8d86ac585e56dec",
+      "originalSources": {
+        "scripts/generate-exercise-previews.mjs": "2e63d967af8d69ed5de8275d88aaf8c24649ec32f78ebc4700bc8d85b9a1d17b",
+        "apps/web/preview-capture.html": "24e7d607f48a54bb7b6cbe8d758d1f2ec7a8593878f8f52170290dae8f2f0631",
+        "apps/web/src/preview-capture.tsx": "32864381ba5348239a6fe75ddb4696f5d935b2858a54b24d0bf11425e9e43b37",
+        "apps/web/src/lib/exercise-preview-config.ts": "ea7f5c37d66ec7439312df346dd2db906fcb2d652d8520a67652cfe5e18ad512",
+        "apps/web/src/lib/exercise-preview-assets.ts": "fdf5f346c0773c05d1c5be39bed1889097ed2a1711bf4e9e6d9f229ce961a0b4",
+        "apps/web/src/lib/exercise-animation.ts": "40bce83576bfd4dd049daa8a39482800df7b1f7ca6213f9c46a5f9d15e4c1481",
+        "apps/web/src/lib/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
+        "apps/web/src/components/ExerciseStage.tsx": "f016cff98175032934f0723c26b1b199448ee3aeeeaefc0d77079c9a72979883",
+        "apps/web/src/components/AnatomicalModel.tsx": "c2bd9de23ad4b2e97b969c6f00e04f1054a5b3136ae256e5829c034e78aa9ee0",
+        "apps/web/src/components/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
+        "apps/web/src/lib/anatomy-model.ts": "42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa",
+        "apps/web/src/lib/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+        "apps/web/src/lib/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+        "apps/web/src/lib/anatomy-rig.ts": "7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5",
+        "apps/web/src/data/exercises.ts": "f27cd7e2090340a17faf35a2d16f37899b0239776a954b427a7b7f5fd73cd650",
+        "apps/web/src/data/exercise-planning.ts": "2304628ddfd58b73c68ce41f816fd5a8fa4019b83a09e708bf6f256f0365065d",
+        "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
+        "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
+        "packages/scene-schema/src/exercise-planning.ts": "eebd030fb10f2ce02084faeb4e87e9567d8d7ce78d4c0d173e0214f193613627",
+        "apps/web/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "apps/web/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
+        "pnpm-lock.yaml": "13bf340d8bcf0e210b2bf481ba5703555a1f2367c359db9fdfc74888dc2da4f5"
+      },
+      "originalSourceHash": "59b1aa0fbb79ee7cccdb439b674f7db47f0e11b712bae855f681a7479d7215a2",
+      "currentSources": {
+        "scripts/preview-provenance.mjs": "c046df8afe8a771437642486e0c0d0bf9bcf317e4626df05d584b1e96029234c",
+        "packages/anatomy-viewer/package.json": "4ac29d459121ae42d8f011bb73e4519b8be4a3beb8606f1364527f8e441102b2",
+        "packages/model-assets/package.json": "978eee973c33157871e0e1d851768c84d9f6b79e0b4097d3ac30c119decc9f3e",
+        "packages/catalog-base/package.json": "587d2a1fe1ae8cda97c2a86f111e262bbb6a3f55c3473390a31b0daa7c0f7b7e",
+        "packages/anatomy-viewer/src/movement-library.ts": "49b5fe274f05ddd99f510f1461df9f1178e580cb211fd79965a82caba5d9ae25",
+        "packages/anatomy-viewer/src/index.ts": "f050d5c385705c5360c558d9e24109b821701a6856a609c2c85a6c17536bb8a3",
+        "packages/anatomy-viewer/src/anatomy-model.ts": "42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa",
+        "packages/anatomy-viewer/src/anatomy-rig.ts": "7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5",
+        "packages/anatomy-viewer/src/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+        "packages/anatomy-viewer/src/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+        "packages/anatomy-viewer/src/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
+        "packages/anatomy-viewer/src/exercise-preview-config.ts": "ea7f5c37d66ec7439312df346dd2db906fcb2d652d8520a67652cfe5e18ad512",
+        "packages/anatomy-viewer/src/exercise-animation.ts": "50c5178406bdac81ae968b097e7807295bc8597e61255b44a2eaf75d35d7a3de",
+        "packages/anatomy-viewer/src/AnatomicalModel.tsx": "f38eaed2da2dffa8c63300bd1d23b7d8ac8d9be0c53bd016fd76ee5a8f4d3eba",
+        "packages/anatomy-viewer/src/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
+        "packages/anatomy-viewer/src/ExerciseStage.tsx": "bb00943d3b50f84dde535259d0af1efdcf37c6c1e5720981f30760cb80558246",
+        "packages/catalog-base/src/exercises.ts": "f27cd7e2090340a17faf35a2d16f37899b0239776a954b427a7b7f5fd73cd650",
+        "packages/catalog-base/src/exercise-planning.ts": "2304628ddfd58b73c68ce41f816fd5a8fa4019b83a09e708bf6f256f0365065d",
+        "packages/model-assets/src/index.ts": "a19e09aed8e401b237a920a4cdf890c9e824fb5d6bf4b6faff6b48494ce8b2fe",
+        "packages/model-assets/src/vite.ts": "e8a46e71940e5fc333de169eaa2af84092249b1f69db14d8aed7c2f74fb56b98",
+        "packages/catalog-base/src/index.ts": "b14a6f05cf8892bfa9f142e699f82f30acbaee2a1e89cbd0ad9679da961a7c18",
+        "scripts/generate-exercise-previews.mjs": "818619ef5bd1b5072587671c9bcaac2afcec92c9b99b0f9e34bff3dfe47df081",
+        "apps/web/preview-capture.html": "24e7d607f48a54bb7b6cbe8d758d1f2ec7a8593878f8f52170290dae8f2f0631",
+        "apps/web/src/preview-capture.tsx": "32864381ba5348239a6fe75ddb4696f5d935b2858a54b24d0bf11425e9e43b37",
+        "apps/web/src/lib/exercise-preview-config.ts": "f4d6112fc1faa1a63e0bb2be11a325875568520599d3a705ae3d1722cc277de2",
+        "apps/web/src/lib/exercise-preview-assets.ts": "5c76ec4f1fa109a47bba8e5f3d8d79ef061c13c561e9a4e19c896ed50724b524",
+        "apps/web/src/lib/exercise-animation.ts": "543472b57543966cfe9a74f68f4f6d2791e3a6f62297613d4022f86f43148bed",
+        "apps/web/src/lib/anatomy-render-settings.ts": "f4806b04faa64f0b3b4fa1dd2eacc3b3be9bc1b87b657e407424cfc595423907",
+        "apps/web/src/components/ExerciseStage.tsx": "a8929d083375c01f2022551827fbf36db985d6460cc4a0d64d76d095d482682a",
+        "apps/web/src/components/AnatomicalModel.tsx": "45cf0b5b644f5ce7d31eac3fc5d00be838b99d39b33da6e55739fde0fedc4100",
+        "apps/web/src/components/AnatomyStudio.tsx": "39ad02ce1176393808c01352546dfe9a3a8f3a6d3e2243725189a956a2c1763a",
+        "apps/web/src/lib/anatomy-model.ts": "78993bd645e335572000fdcc72a3288c618d0f160df6669acf1f626bac01de66",
+        "apps/web/src/lib/anatomy-variants.ts": "af2f46206281607de86359bcead8e7e5c5882fabe30da5ea663086f701874e4c",
+        "apps/web/src/lib/anatomy-variant-surface.ts": "05257bd67c2c12f6b182777757bce2ca87cd22f19d2bf591749be020ac090626",
+        "apps/web/src/lib/anatomy-rig.ts": "84d503afda0856146c392f2d5b7ad3840b7ac243c04990187c63dbdb65474628",
+        "apps/web/src/data/exercises.ts": "2a3dc0e34642ac7e76381c2a187267ea1c4216f3073332a69289cbdbc26292fd",
+        "apps/web/src/data/exercise-planning.ts": "5d12536df42d98a1c68092f7b72532ef215dd322bda520a2fb5e702ab3f7d879",
+        "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
+        "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
+        "packages/scene-schema/src/exercise-planning.ts": "eebd030fb10f2ce02084faeb4e87e9567d8d7ce78d4c0d173e0214f193613627",
+        "packages/model-assets/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "packages/model-assets/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
+        "pnpm-lock.yaml": "e5ca0a48172a1df35d73fcf0ce850ee774aa8931517851a60b86a7080b4236eb"
+      },
+      "sourceProofs": [
+        {
+          "originalPath": "scripts/generate-exercise-previews.mjs",
+          "currentPath": "scripts/generate-exercise-previews.mjs",
+          "normalization": "capture-infrastructure"
+        },
+        {
+          "originalPath": "apps/web/preview-capture.html",
+          "currentPath": "apps/web/preview-capture.html",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/preview-capture.tsx",
+          "currentPath": "apps/web/src/preview-capture.tsx",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/exercise-preview-config.ts",
+          "currentPath": "packages/anatomy-viewer/src/exercise-preview-config.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/exercise-animation.ts",
+          "currentPath": "packages/anatomy-viewer/src/exercise-animation.ts",
+          "normalization": "animation-import"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-render-settings.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-render-settings.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/components/ExerciseStage.tsx",
+          "currentPath": "packages/anatomy-viewer/src/ExerciseStage.tsx",
+          "normalization": "exercise-stage"
+        },
+        {
+          "originalPath": "apps/web/src/components/AnatomicalModel.tsx",
+          "currentPath": "packages/anatomy-viewer/src/AnatomicalModel.tsx",
+          "normalization": "anatomical-model"
+        },
+        {
+          "originalPath": "apps/web/src/components/AnatomyStudio.tsx",
+          "currentPath": "packages/anatomy-viewer/src/AnatomyStudio.tsx",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-model.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-model.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-variants.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-variants.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-variant-surface.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-variant-surface.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-rig.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-rig.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/data/exercises.ts",
+          "currentPath": "packages/catalog-base/src/exercises.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/data/exercise-planning.ts",
+          "currentPath": "packages/catalog-base/src/exercise-planning.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "packages/geometry/src/index.ts",
+          "currentPath": "packages/geometry/src/index.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "packages/scene-schema/src/index.ts",
+          "currentPath": "packages/scene-schema/src/index.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "packages/scene-schema/src/exercise-planning.ts",
+          "currentPath": "packages/scene-schema/src/exercise-planning.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/public/models/anatomy.glb",
+          "currentPath": "packages/model-assets/public/models/anatomy.glb",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/public/models/rig-landmarks.json",
+          "currentPath": "packages/model-assets/public/models/rig-landmarks.json",
+          "normalization": "identity"
+        }
+      ],
+      "entries": {
+        "male/squat": "974060b99f9c17d7d9c44af39c8703a6608bc27fea3dcb4bd0ca2fef69d743d5",
+        "male/pushup": "cc223f6c8b82f7d9b23571528890e2ad6190d28b2b04e7262a96fa57923616bc",
+        "male/glute-bridge": "2fabbc36606884107b658d8802c904d5420251b33842f94fa7d96b143615e1b3",
+        "male/dead-bug": "7cef7199eaa6eb2929f19371adad791c49bfc0693c28598099a9574b2f7ba6af",
+        "male/prone-w": "13fb854d8fe58eebeb1efb20d7a3da0923998b877fc424a203f9e7d4775759a6",
+        "male/calf-raise": "e5af6403c986cbe25f96ef253b976aba46db36cb8e84ef808041da4bf909c19e",
+        "male/row": "34154989647560b9e48911e1145754ef0c91a52c5be43e6da8b7394ba27d5afa",
+        "male/full-pushup": "4bf2851cfb0a19ee5f7816bc08cf510d7f25723375c10d1a964598eac3f1ad35",
+        "male/pike-pushup": "8b2916d677cde47a5fc50fca57603d0b35851b3ca1cfd76eb7e728264ed7999c",
+        "male/reverse-lunge": "46edd5d4baa26d8d3e38102c03472c8e48151e665ceca8d46712131e9198cacf",
+        "male/lateral-lunge": "6757a6c78b50a3a57d809f2bc57c63a02e70d6cc28292445282129cceac62ff5",
+        "male/good-morning": "f2ce2f1ff1c20c44428da199271364186fd53bcfe245bc6349cf2178ab49d88d",
+        "male/bird-dog": "7f631b7701c53e2a77592768722b9c1cabb77da023a1ff10d48e822842280bad",
+        "male/mountain-climber": "315c24969b21b17a467044ac9e3cb82491b940be1db968dae4099ade8709bed7",
+        "male/crunch": "f5b9350bae856282751b3d08d2b07b08d6b14f8e799336702229219e84429608",
+        "male/quarter-squat": "fa95f99959a6a4825dcf63d48fcb8f3a0b2fbf09622a9988cbe0f2288f2d363b",
+        "male/paused-squat": "9476b5c206f5f4b558491cc76bfb79bc873196d866fc0d0522f6434d51b7384c",
+        "male/knee-narrow-pushup": "332504b937f90197a56dcd2335d570ce3223acbe896a5f55d3ae3e9f2a6fbb4a",
+        "male/narrow-pushup": "6c43c026592e882c46841c0f808c874603b59f714d56e0a7ce7f0282e9092c97",
+        "male/dead-bug-heel-tap": "8c277d680ec7a64dc345e90377cf966bc03592afa3a5166c8f50ed57d1757516",
+        "male/quadruped-leg-extension": "73b0cf7ab5bd850a8eca225a519d96879536a5f16bbac349a8434852fad926fb",
+        "male/prone-t-raise": "5d28df32ff5d506d8dcb34f5d62fe23286f3f85cd8134a581a23b0665d6d4b0b",
+        "male/prone-y-raise": "f203030142eafb4d476eedf2c8f042b4e42ddf492ee4fa0aa6bf9ca0f0cac14b",
+        "male/split-squat": "b75d9ee49400c45293449a5066c7e6d83c99c9b3203a47dc377c557bc8c7d2d1",
+        "male/single-leg-calf-raise": "c03992760462d5352385ae724e213f3c35bc82f31ea3c022cb00284ffbd49663",
+        "male/bridge-march": "3b36ea472e5da1b5f07edf337e584f6b46e6d3b4f9ea7f302db502daed8a5355",
+        "male/single-leg-glute-bridge": "640421e59e8a30815d6b22e7c09acacaff327b2c727a686878c693f89eec50b2",
+        "male/bent-knee-row": "c93972504f3d0d4414ebd1b908db2886ac70b4cbe675a2e54991bb3cb64d8e50",
+        "male/dead-bug-arm-only": "fca3232ef4df1b0d30d5876136b07065c5959d3ac8c6d390ca4ab9844a010b66",
+        "male/sumo-squat": "8dbbcab89e23d316edd787b49530a00fb04e229283569f3549e8fa5f96087b96",
+        "male/single-leg-deadlift": "4d27730d51c2d9787ffd685e385d7bda03af66f62539d4fc092dbd58bc38862c",
+        "male/forward-lunge": "3df76bb46981a96dbea07da20d9a406c500f995fe14fb6e784ee9bf69c3caa2f",
+        "male/quadruped-arm-raise": "9fb9cf693e3c24d94b7b9a8a27b885a03547eeb1362539249964c20978654185",
+        "male/prone-hip-extension": "64c33743b0c35e91cfad58f1dfb887573e9f36a1db484ecc02064db9522a3a20",
+        "male/supine-march": "fbd52598a0faa01c4ddc20945e709b96b0704391ec0ee0c278b0f45ee48e8307",
+        "male/supine-heel-slide": "22d4a57126e9143588bd2a89561812ca92a5008e3c153ce2676401528bb8d769",
+        "male/plank-shoulder-tap": "1360ae529c09ed6a4b2252055363b69c16e0e725e8535eb1b4278bcda7cd5a5d",
+        "female/pushup": "208a50cb289d99cc33a3bbf8a9b8d3a87de80314d8456c382c5bb16aded25751",
+        "female/squat": "8017ba192e2ace0f0a11d0bf70c9327664016612160a827a0b3174b13f1b9ecc",
+        "female/glute-bridge": "e11f4c5830614fad7f778be9a26a11f830dfc812c097eb18a7fc98ce396978a3",
+        "female/dead-bug": "cfb121d0a5e079977fda54fadb4e6a329ab360085f0d8d83c2b2dc0944b6ffdd",
+        "female/prone-w": "ed21b95b0e3d540e1ad2811f553aac8ee46886343169ffaa7de6b8407f3fbdc9",
+        "female/calf-raise": "ed0ef5d1ce9b8ddb6138f75affd74c7205348a6dc7b4b0a7643fc6b6fe36b842",
+        "female/row": "7d5e76194c4056bed9a6c9aa271b5111712a93200f3c971ce6d56253d5e30d33",
+        "female/full-pushup": "6c595c11108d8bf33eef5b3a82968a018f868fa8fe3d1b3d03046043fa59dbf5",
+        "female/pike-pushup": "b38db45e3ea3a1e589d1f0e6d2d5eb5d6bf09f4780acb566e22c45ed6a11c8b7",
+        "female/reverse-lunge": "d66f8a942be93399824272f73dd8096de31164cd71e781bf1f68a5606f0428a0",
+        "female/lateral-lunge": "e0062fcce05596a6e83f30f5b7eb1f9edd5bf9176cd57cba7a846015cea9b1c7",
+        "female/good-morning": "91aac0f34d3bca36dc5082aeba9cab99501e93afca9ce23e1373018ff70cfb6e",
+        "female/bird-dog": "31ba4f323d55c316a40f72700d81bbe458a45e8eb253a2c6f027b7f3472aa7fd",
+        "female/mountain-climber": "ee371990c3d562620c75cf142ac53c2e312f28953b5c6b8ba42bb6146f6df16a",
+        "female/crunch": "c68b613b5747d807f121bc95a7724645f446fcf5a3a96b0ad3b9f2946c30398b",
+        "female/quarter-squat": "ffa65da68f67d03c0ea9688c39ec54e6055c5e248ee9ceb6b5104d37637441fa",
+        "female/paused-squat": "0bece9e8994c97fdf87985a545491c79b9bb4b3d30b9f268893017f4723545c9",
+        "female/knee-narrow-pushup": "6507b963a5b509e647e126e9e4dcfa51f5e4a8968e4bf52a9ada1a0db570380c",
+        "female/narrow-pushup": "c8e917865f822e716b4fc20629788b157d1d37188527500970c9292d0c23a718",
+        "female/dead-bug-heel-tap": "341a03bd93f3e86953a818fcf6a68daa78ecc4771b08a6db449a529f28ed5387",
+        "female/quadruped-leg-extension": "bbb4b2b2ab2b965372d6b3136a15355588d4f1d0f808f5d8f46489a3e2a42402",
+        "female/prone-t-raise": "b35d62d6da504773f78e60a5ce6503cc14a3ab77842753d37eb2399ec6ad34e1",
+        "female/prone-y-raise": "fdcf57c9f7717d00deb82df394472700dc052bd4bdb89377e758b939fce445da",
+        "female/split-squat": "cea322d590262c04e7778f36bd99de31a338c3dd623deec93c67ba57a4b89028",
+        "female/single-leg-calf-raise": "2a6fd105fa094e64a68a845d8760071e6b2ec38b18c6b405f9305df985b05231",
+        "female/bridge-march": "cd8c9bfcef7c4c98dbf13344189cbebfe08a523df696500b6f40f7d95d9c8779",
+        "female/single-leg-glute-bridge": "433f67ceab97e0013892400fe94323f4d977fa2e3402d7bee029d4eb912f1e44",
+        "female/bent-knee-row": "854a342afe368326cb9c6563d2df64b1ec7e9e97435fb67cbbb56f31aee48073",
+        "female/dead-bug-arm-only": "63163c31e7de032e3693518204e85c6bbe41781ed1bf592198a31417cd9dc8e9",
+        "female/sumo-squat": "8e2852ccf7756df2cdefb5e003d5d013b389a484b435d55b0cb58a90b7fb74db",
+        "female/single-leg-deadlift": "81790e053f4ca9051c1af6a0424c5db3c75f1caeb010e93fbd88cfa785f0f863",
+        "female/forward-lunge": "541a666cec4f6d047c7a4ebee747ad325eb1f4c1cc0aa1ba05d6701cd8be4efd",
+        "female/quadruped-arm-raise": "0f3e175101051b198346820576f6620c1f016a2a59b152bc6d7c58e17240d994",
+        "female/prone-hip-extension": "9f68b2afc8903527494b6ae97a740994d4a80c074fbb8131fb544a0bcacb47a1",
+        "female/supine-march": "11f3e35ab620c8505e42154b6731a5f7d7d30d8e213223e8a083a96ba07e5e3d",
+        "female/supine-heel-slide": "5a4e94e34166ac0ba4f70939f38cdc8fc713ac758e543effbbf4bcda238fccb4",
+        "female/plank-shoulder-tap": "88bb97d4d8bbad14b27a8898ce8618403fbc58737a60c359a503e1fe4ef47c0a"
+      }
+    },
+    "yoga": {
+      "originalManifestHash": "4749f5a61ae16983702e21b8f946965fd2eb026c59d2569cfa08a6164b5cd419",
+      "originalSources": {
+        "scripts/generate-yoga-previews.mjs": "5b1f6d879ae3363217b05541f50c6211ac5f8b0aaa6cad9db035335fdddeec07",
+        "apps/web/yoga-preview-capture.html": "4e59189df970eb6c42e25c3dda7f5392b873cf513d7560c93b668e7de4d96f59",
+        "apps/web/src/yoga-preview-capture.tsx": "689e4b0bcdfe6fc56ca9505e2bee833b0dc0f5c392ebab4ef2a2c411b44903eb",
+        "apps/web/src/components/YogaStage.tsx": "f647df65fba9a1f4e6478b75e88a9e74850dfb0151d6c5c412d903ff27dada9e",
+        "apps/web/src/lib/yoga-rig.ts": "8c90d0752cd69d18c9c49ed2f66247a31d29ac30ec483ed531e14dfe8c6fd139",
+        "apps/web/src/lib/yoga-anatomy.ts": "756a3cc896ce14be8119a9901fb02300ecfbe61307b32b3397633562fde8e2f5",
+        "apps/web/src/lib/yoga-motion.ts": "0b8dd83bb9ba39bd7f599cef281ce85a9d35b72adb512a0605f46bbb526aa9cf",
+        "apps/web/src/lib/yoga-rendering.ts": "84e4c3f320a4eeca39a5347b9ebc4a78aab08c51affceacd1692f6be699e9289",
+        "apps/web/src/lib/yoga-preview-assets.ts": "a0cf4db499f568fbdfd52164ae63b3dc7d000b300e4a84be406ce88b997dc555",
+        "apps/web/src/data/yoga.ts": "24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a",
+        "apps/web/src/components/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
+        "apps/web/src/lib/anatomy-model.ts": "42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa",
+        "apps/web/src/lib/anatomy-rig.ts": "7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5",
+        "apps/web/src/lib/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+        "apps/web/src/lib/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+        "apps/web/src/lib/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
+        "apps/web/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "apps/web/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
+        "apps/web/public/models/anatomy-manifest.json": "f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778",
+        "apps/web/public/previews/yoga/NOTICE.md": "1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677",
+        "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
+        "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
+        "packages/scene-schema/src/yoga.ts": "9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e",
+        "pnpm-lock.yaml": "13bf340d8bcf0e210b2bf481ba5703555a1f2367c359db9fdfc74888dc2da4f5"
+      },
+      "originalSourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
+      "currentSources": {
+        "scripts/preview-provenance.mjs": "c046df8afe8a771437642486e0c0d0bf9bcf317e4626df05d584b1e96029234c",
+        "packages/anatomy-viewer/package.json": "4ac29d459121ae42d8f011bb73e4519b8be4a3beb8606f1364527f8e441102b2",
+        "packages/model-assets/package.json": "978eee973c33157871e0e1d851768c84d9f6b79e0b4097d3ac30c119decc9f3e",
+        "packages/catalog-base/package.json": "587d2a1fe1ae8cda97c2a86f111e262bbb6a3f55c3473390a31b0daa7c0f7b7e",
+        "packages/anatomy-viewer/src/anatomy-model.ts": "42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa",
+        "packages/anatomy-viewer/src/anatomy-rig.ts": "7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5",
+        "packages/anatomy-viewer/src/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+        "packages/anatomy-viewer/src/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+        "packages/anatomy-viewer/src/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
+        "packages/anatomy-viewer/src/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
+        "packages/model-assets/src/index.ts": "a19e09aed8e401b237a920a4cdf890c9e824fb5d6bf4b6faff6b48494ce8b2fe",
+        "packages/model-assets/src/vite.ts": "e8a46e71940e5fc333de169eaa2af84092249b1f69db14d8aed7c2f74fb56b98",
+        "scripts/generate-yoga-previews.mjs": "91048bc18549545d0436f9e4203aa2fd7941cb5af425a6ecfce6dc53b29a43f8",
+        "apps/web/yoga-preview-capture.html": "4e59189df970eb6c42e25c3dda7f5392b873cf513d7560c93b668e7de4d96f59",
+        "apps/web/src/yoga-preview-capture.tsx": "689e4b0bcdfe6fc56ca9505e2bee833b0dc0f5c392ebab4ef2a2c411b44903eb",
+        "apps/web/src/components/YogaStage.tsx": "f647df65fba9a1f4e6478b75e88a9e74850dfb0151d6c5c412d903ff27dada9e",
+        "apps/web/src/lib/yoga-rig.ts": "8c90d0752cd69d18c9c49ed2f66247a31d29ac30ec483ed531e14dfe8c6fd139",
+        "apps/web/src/lib/yoga-anatomy.ts": "756a3cc896ce14be8119a9901fb02300ecfbe61307b32b3397633562fde8e2f5",
+        "apps/web/src/lib/yoga-motion.ts": "0b8dd83bb9ba39bd7f599cef281ce85a9d35b72adb512a0605f46bbb526aa9cf",
+        "apps/web/src/lib/yoga-rendering.ts": "84e4c3f320a4eeca39a5347b9ebc4a78aab08c51affceacd1692f6be699e9289",
+        "apps/web/src/lib/yoga-preview-assets.ts": "a0cf4db499f568fbdfd52164ae63b3dc7d000b300e4a84be406ce88b997dc555",
+        "apps/web/src/data/yoga.ts": "24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a",
+        "apps/web/src/components/AnatomyStudio.tsx": "39ad02ce1176393808c01352546dfe9a3a8f3a6d3e2243725189a956a2c1763a",
+        "apps/web/src/lib/anatomy-model.ts": "78993bd645e335572000fdcc72a3288c618d0f160df6669acf1f626bac01de66",
+        "apps/web/src/lib/anatomy-rig.ts": "84d503afda0856146c392f2d5b7ad3840b7ac243c04990187c63dbdb65474628",
+        "apps/web/src/lib/anatomy-variants.ts": "af2f46206281607de86359bcead8e7e5c5882fabe30da5ea663086f701874e4c",
+        "apps/web/src/lib/anatomy-variant-surface.ts": "05257bd67c2c12f6b182777757bce2ca87cd22f19d2bf591749be020ac090626",
+        "apps/web/src/lib/anatomy-render-settings.ts": "f4806b04faa64f0b3b4fa1dd2eacc3b3be9bc1b87b657e407424cfc595423907",
+        "packages/model-assets/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+        "packages/model-assets/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
+        "packages/model-assets/public/models/anatomy-manifest.json": "f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778",
+        "packages/model-assets/public/previews/yoga/NOTICE.md": "1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677",
+        "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
+        "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
+        "packages/scene-schema/src/yoga.ts": "9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e",
+        "pnpm-lock.yaml": "e5ca0a48172a1df35d73fcf0ce850ee774aa8931517851a60b86a7080b4236eb"
+      },
+      "sourceProofs": [
+        {
+          "originalPath": "scripts/generate-yoga-previews.mjs",
+          "currentPath": "scripts/generate-yoga-previews.mjs",
+          "normalization": "capture-infrastructure"
+        },
+        {
+          "originalPath": "apps/web/yoga-preview-capture.html",
+          "currentPath": "apps/web/yoga-preview-capture.html",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/yoga-preview-capture.tsx",
+          "currentPath": "apps/web/src/yoga-preview-capture.tsx",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/components/YogaStage.tsx",
+          "currentPath": "apps/web/src/components/YogaStage.tsx",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/yoga-rig.ts",
+          "currentPath": "apps/web/src/lib/yoga-rig.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/yoga-anatomy.ts",
+          "currentPath": "apps/web/src/lib/yoga-anatomy.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/yoga-motion.ts",
+          "currentPath": "apps/web/src/lib/yoga-motion.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/yoga-rendering.ts",
+          "currentPath": "apps/web/src/lib/yoga-rendering.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/yoga-preview-assets.ts",
+          "currentPath": "apps/web/src/lib/yoga-preview-assets.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/data/yoga.ts",
+          "currentPath": "apps/web/src/data/yoga.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/components/AnatomyStudio.tsx",
+          "currentPath": "packages/anatomy-viewer/src/AnatomyStudio.tsx",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-model.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-model.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-rig.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-rig.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-variants.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-variants.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-variant-surface.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-variant-surface.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/src/lib/anatomy-render-settings.ts",
+          "currentPath": "packages/anatomy-viewer/src/anatomy-render-settings.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/public/models/anatomy.glb",
+          "currentPath": "packages/model-assets/public/models/anatomy.glb",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/public/models/rig-landmarks.json",
+          "currentPath": "packages/model-assets/public/models/rig-landmarks.json",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/public/models/anatomy-manifest.json",
+          "currentPath": "packages/model-assets/public/models/anatomy-manifest.json",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "apps/web/public/previews/yoga/NOTICE.md",
+          "currentPath": "packages/model-assets/public/previews/yoga/NOTICE.md",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "packages/geometry/src/index.ts",
+          "currentPath": "packages/geometry/src/index.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "packages/scene-schema/src/index.ts",
+          "currentPath": "packages/scene-schema/src/index.ts",
+          "normalization": "identity"
+        },
+        {
+          "originalPath": "packages/scene-schema/src/yoga.ts",
+          "currentPath": "packages/scene-schema/src/yoga.ts",
+          "normalization": "identity"
+        }
+      ],
+      "entries": {
+        "male/tadasana-both.webp": "f84e3927e913db7562d7b5ae60047f9db104255a02f1ee51f85cebe074541d55",
+        "male/sukhasana-both.webp": "0ac261794ff52208b61a31b1d4951f696bf02c8b18efc5735a8caaf522cdfe28",
+        "male/balasana-both.webp": "4f5a8a682a4e3a533680b238e84d88c6a8810c0c17c3796c7131a57e0885a1e3",
+        "male/marjaryasana-both.webp": "2cef51c7792d60677e25513b8fff8109e2a1e279a89f16d7de754dfbf8bf2ebf",
+        "male/bitilasana-both.webp": "ed20b5c2fc8a606d5e2feae6e1ec2c827f215c5ab4469f6d89ab9478bf694e53",
+        "male/adho-mukha-svanasana-both.webp": "1a29e252bb6f7e5847c201b84221961d57df83dd8838bd3b07c976dffba967e3",
+        "male/uttanasana-both.webp": "01ec014124c55062371e67590a66f935350b69a6b3a74d20a9063fa436dd8e15",
+        "male/ardha-uttanasana-both.webp": "bf7dc0f076148c64441730ec68415bab9b5df5d1cfda1d59a872548df1272280",
+        "male/utkatasana-both.webp": "443068e5663cffeb4556ae4814912744ed38cfc0f013eb6e9c9bfbc13b38c27c",
+        "male/virabhadrasana-i-right.webp": "1251be12551b42b573a39a5bbdd0e4184ed2765890038926c4121766b8726e0b",
+        "male/virabhadrasana-i-left.webp": "270aea75799eec10e48042aea9155480cf68fd07bf71a4d4ebeb026abe173d78",
+        "male/virabhadrasana-ii-right.webp": "360e5d76ee1ea9c95ba8daab215f6df6a931aaf85a44dc5e47c039a43de8f168",
+        "male/virabhadrasana-ii-left.webp": "7c06a3c20f4aab3889e98a36abeb01fbe0d1fab7873afc1dc54fe554087f99e9",
+        "male/trikonasana-right.webp": "1fa2ec10a350ea0f6d48566d3f3aa334ca69285b24258012909b23f3a0883064",
+        "male/trikonasana-left.webp": "9f8758bcd2404b9f2e2bae61043bdbd95abd6df6bd607ea5d023f86d768c4ce2",
+        "male/vrksasana-right.webp": "962b3d6832c2d7967e46f2cc6f7fa2ac500464f5637f57391e3b3af715854c71",
+        "male/vrksasana-left.webp": "6a64b4981629cc9b2d414871f7c7fa2a862d83113f7f79418bb1e8eff671484a",
+        "male/anjaneyasana-right.webp": "e97ac1d9592bbadc06f73d8c375b81049730b7af19b18b884990c4fe16861aa2",
+        "male/anjaneyasana-left.webp": "02d7cec84b0adc1a02499e9d44effe17a9c2587d49784c74d91aa5484d38965f",
+        "male/dandasana-both.webp": "14a582d35e179a7eb93219a594ccc279dc8cd966dc931afc8bf0e74dfb8d12f0",
+        "male/baddha-konasana-both.webp": "4f5df557aa1dacf77090a44d320a04af443493ad26b5a3935fd4d837869f35fa",
+        "male/paschimottanasana-both.webp": "95aaee5274f603edd7190c15a11a8dc46491969db284be506fc52ff02d596cb1",
+        "male/janu-sirsasana-right.webp": "6fd0ca335c0b90d9c48d9d7317dd2ddef411e6dcbe521be0c95b1576d3c386d5",
+        "male/janu-sirsasana-left.webp": "44bb430f61c476503d6b30ea8a9837c80aa6ad4c3a0eaf7eea407f79eb9d2023",
+        "male/bhujangasana-both.webp": "938d16b7a4ced44309d96b022498014017446135703277360d22b1e3b6d52013",
+        "male/salabhasana-both.webp": "7360518c11c97a390f969d2e44d0150c872ddb228f9a3a3b56b546a03204f653",
+        "male/setu-bandha-sarvangasana-both.webp": "181b25517420a5f72f7e95c403e663c5e4630ddde8d7b91224ee07363bc25b0b",
+        "male/ardha-matsyendrasana-right.webp": "08d78c17c5b737081c78126d3273f620da466a11c8d4bc09803b282e1261ab8b",
+        "male/ardha-matsyendrasana-left.webp": "f064656716e3af63877345d1eeb4cca29bef558c57fe11c3ab8040b29d6f2039",
+        "male/supta-padangusthasana-right.webp": "3703ca527bbb9c605f2adcfd7a7b3896d8ae5d18729200e8ee502e5670248f1d",
+        "male/supta-padangusthasana-left.webp": "745c16f23e950c80dd4b6817848c71b4a42dc950a3863d6dfc46477a623cd1c5",
+        "male/savasana-both.webp": "e1b529519b8d7e04351159e988821a25d8befc0856f756a8dcab15465eb7e7a1",
+        "female/tadasana-both.webp": "2bf20dbc84137434dde977a8ece02074202a00c62ce29105ac7c7f49d30831f0",
+        "female/sukhasana-both.webp": "995eb42c1143dd38bb125bceea7c74f8e165a41a75adf65e1e56b6127b454669",
+        "female/balasana-both.webp": "b93d139026eb743db731e31dfda3a5e48492b0ec56118e9b1e9d3b2bc3dceaad",
+        "female/marjaryasana-both.webp": "f1cc41ca99cb6c9ffbe00e007656b097cf72c39646f28711af5826bd892938d1",
+        "female/bitilasana-both.webp": "76f76d3bfed41a6665392b686d11bf5c5d3fa853c981d5ca323573c33216c735",
+        "female/adho-mukha-svanasana-both.webp": "76b244c0e42e8915d65a64c10042d94d50d6bf32e3f881345d895b4d521600f4",
+        "female/uttanasana-both.webp": "d1cc835e37be96e7c703c3a820c260a34501d3b08d966dc7007ae8138f9b1ce1",
+        "female/ardha-uttanasana-both.webp": "0c9215652c82b8284244d653d9e7c27744bb986ac39b9e9599149953c86a8433",
+        "female/utkatasana-both.webp": "d529f7be53f7ad5d8f76080c16db6a6749765f21c7424a1d0c2c8e84c91de0fe",
+        "female/virabhadrasana-i-right.webp": "119b50e1707a61ee1c17eca2425be61e00df57396575431c134ebc973012dd7d",
+        "female/virabhadrasana-i-left.webp": "47ffd4dab08651147e1c6a0831a4094c8bca11955a3150b93f7bbe88096e395d",
+        "female/virabhadrasana-ii-right.webp": "2ad0d0001bf55e4453b61b598e773894dddb34bc6d63288a7e4d4f5925321915",
+        "female/virabhadrasana-ii-left.webp": "2c8dddf751308ec54d66b891d51b714e335fbe6647d2cabea604d10a86cd50e1",
+        "female/trikonasana-right.webp": "f8c902ee020bb8709410473b56e711e8a3ad83da808f0d3498aed38fb1e8722d",
+        "female/trikonasana-left.webp": "739add789fe626debcc4894a86afc2bedb487fb23db912e396b2ebbeeb0c081b",
+        "female/vrksasana-right.webp": "04308b2a0e4c831aa234ce725aeaf769972413d9f33e5015481cad0178f8cb5f",
+        "female/vrksasana-left.webp": "d2afe0b978bf95386558ad70bf29b1d6dfa1def23ae4604ebe5e2d44c1d56ba6",
+        "female/anjaneyasana-right.webp": "f69894ba5745fc03138611c9cc4385455420ca5df400b72e99d7b8b310f9fe2b",
+        "female/anjaneyasana-left.webp": "b50e4162398ebec9a0ed4b0eef13981c2175fa0e86714ae000714825396baf83",
+        "female/dandasana-both.webp": "cc01f0b1691a33e7c43688c6034ea780f27ac842491ee013a0a1e17bbc5b1ad7",
+        "female/baddha-konasana-both.webp": "7f70e74ab426877ba7ba536c502d7b553903f008ae120e016690bfacf7b1b55d",
+        "female/paschimottanasana-both.webp": "ef0c70d458c5dd23e369473cf59ea367af6aaca8e0cafef963256eb7d9d8a760",
+        "female/janu-sirsasana-right.webp": "124324a649e0389421d3039b13cdd4f8fcca6dbc88f8620ec85257532f14c34e",
+        "female/janu-sirsasana-left.webp": "7489c1728f25f4904022f63664a340fc04f0ea6073915403544acefa4da108df",
+        "female/bhujangasana-both.webp": "f68eacdcf309000860177617b3433c0ce1e1b25ee04936fdd37bf27c73e74874",
+        "female/salabhasana-both.webp": "0822355fb19a394dba36f5199c8dd53271936aa75b0f6d925f154821c3afc840",
+        "female/setu-bandha-sarvangasana-both.webp": "8dc5a9333cebb0c6da46f8ca2606a0df4d09590e590c0f1f8fdfe3cef24dddcb",
+        "female/ardha-matsyendrasana-right.webp": "af26a7720b0fcd3f5d9973f345f93504ccd7cc862513a6a5aef0c5f13a0903bd",
+        "female/ardha-matsyendrasana-left.webp": "161a3b6907773024fee48978790cb41ed4ddfb5cf757c63147660b90b5d92927",
+        "female/supta-padangusthasana-right.webp": "c7d637fab0ce26ae6e3626cb8563a0c4203e4359acd4c58fb3198d20b5a61370",
+        "female/supta-padangusthasana-left.webp": "bd8e848ab3dd4f6d24f815ca005dcc49ac5209f33890d2c92f8b99e4e0471820",
+        "female/savasana-both.webp": "69666868a10d975a32a533b4f8dfd668a12646103f14ebeb60e2b4c92ebf0ad2"
+      }
+    }
+  }
+}

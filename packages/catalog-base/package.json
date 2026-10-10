@@ -1,0 +1,23 @@
+{
+  "name": "@klisteniapp/catalog-base",
+  "license": "MIT",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./exercises": "./src/exercises.ts",
+    "./exercise-planning": "./src/exercise-planning.ts"
+  },
+  "dependencies": {
+    "@klisteniapp/scene-schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6"
+  }
+}

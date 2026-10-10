@@ -7,7 +7,7 @@ import { spawn } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const cache = resolve(root, '.cache/anatomy');
-const manifest = JSON.parse(await readFile(resolve(root, 'apps/web/public/models/anatomy-manifest.json'), 'utf8'));
+const manifest = JSON.parse(await readFile(resolve(root, 'packages/model-assets/public/models/anatomy-manifest.json'), 'utf8'));
 await mkdir(cache, { recursive: true });
 for (const source of manifest.sources) {
   const path = resolve(cache, source.name);

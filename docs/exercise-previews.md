@@ -9,7 +9,7 @@ La preferencia global **Modelo corporal** selecciona la representación masculin
 ## Requisitos
 
 - Node.js 24 o superior y pnpm 12.7.0, como el resto del repositorio.
-- Dependencias instaladas y los archivos anatómicos existentes en `apps/web/public/models`.
+- Dependencias instaladas y los archivos anatómicos existentes en `packages/model-assets/public/models`.
 - Chromium de Playwright, con WebGL disponible para renderizar la escena.
 - `cwebp` e `img2webp`, incluidos en las herramientas de WebP.
 - Solo para `--gif`: FFmpeg.
@@ -55,9 +55,9 @@ node scripts/generate-exercise-previews.mjs --check
 pnpm previews:generate --help
 ```
 
-El catálogo incluye 37 identificadores, definidos en `ExerciseIdSchema` y en `apps/web/src/data/exercises.ts`. A los quince movimientos anteriores se agregan `quarter-squat`, `paused-squat`, `knee-narrow-pushup`, `narrow-pushup`, `dead-bug-heel-tap`, `quadruped-leg-extension`, `prone-t-raise`, `prone-y-raise`, `split-squat`, `single-leg-calf-raise`, `bridge-march` y `single-leg-glute-bridge`. La tercera ampliación suma `bent-knee-row`, `dead-bug-arm-only`, `sumo-squat`, `single-leg-deadlift`, `forward-lunge`, `quadruped-arm-raise`, `prone-hip-extension`, `supine-march`, `supine-heel-slide` y `plank-shoulder-tap`. El script valida los identificadores y arranca su propio servidor Vite en `127.0.0.1`, usando un puerto libre; no requiere una sesión de `pnpm dev` abierta. Cierra el navegador y el servidor al terminar.
+El catálogo incluye 37 identificadores, definidos en `ExerciseIdSchema` y en `packages/catalog-base/src/exercises.ts`. A los quince movimientos anteriores se agregan `quarter-squat`, `paused-squat`, `knee-narrow-pushup`, `narrow-pushup`, `dead-bug-heel-tap`, `quadruped-leg-extension`, `prone-t-raise`, `prone-y-raise`, `split-squat`, `single-leg-calf-raise`, `bridge-march` y `single-leg-glute-bridge`. La tercera ampliación suma `bent-knee-row`, `dead-bug-arm-only`, `sumo-squat`, `single-leg-deadlift`, `forward-lunge`, `quadruped-arm-raise`, `prone-hip-extension`, `supine-march`, `supine-heel-slide` y `plank-shoulder-tap`. El script valida los identificadores y arranca su propio servidor Vite en `127.0.0.1`, usando un puerto libre; no requiere una sesión de `pnpm dev` abierta. Cierra el navegador y el servidor al terminar.
 
-Los resultados quedan en `apps/web/public/previews`:
+Los resultados quedan en `packages/model-assets/public/previews`:
 
 | Archivo | Uso |
 | --- | --- |
@@ -88,11 +88,11 @@ pnpm previews:generate --exercise squat --size 384 --fps 16
 
 `--size` admite enteros entre 64 y 1024; `--fps`, entre 1 y 60. Cambiar estos valores modifica los archivos con los mismos nombres. Los parámetros usados quedan registrados por ejercicio; para recuperar los valores predeterminados, regenerá sin esas opciones. El poster se codifica con calidad 86 y la animación con calidad 78. El GIF opcional utiliza una paleta calculada desde sus frames.
 
-Las cámaras están en [`exercise-preview-config.ts`](../apps/web/src/lib/exercise-preview-config.ts). Cada ejercicio define posición, objetivo, altura del encuadre ortográfico y `posterPhase`. La cámara permanece fija durante todo el ciclo. Para mejorar un ángulo o evitar recortes, cambiá esos datos y revisá todo el movimiento; no ajustes la imagen de una única fase olvidando los extremos.
+Las cámaras están en [`exercise-preview-config.ts`](../packages/anatomy-viewer/src/exercise-preview-config.ts). Cada ejercicio define posición, objetivo, altura del encuadre ortográfico y `posterPhase`. La cámara permanece fija durante todo el ciclo. Para mejorar un ángulo o evitar recortes, cambiá esos datos y revisá todo el movimiento; no ajustes la imagen de una única fase olvidando los extremos.
 
 ## De dónde sale cada frame
 
-[`ExerciseStage.tsx`](../apps/web/src/components/ExerciseStage.tsx) es la escena compartida entre `AnatomyViewer` y la captura. Reúne `AnatomicalModel`, `AnatomyStudio` y la barra de los dos remos, con piernas extendidas o rodillas flexionadas. La captura usa el GLB, las referencias articulares y el rig de la aplicación, con la capa muscular y sin resaltado de grupos. No mantiene una segunda animación dibujada a mano.
+[`ExerciseStage.tsx`](../packages/anatomy-viewer/src/ExerciseStage.tsx) es la escena compartida entre `AnatomyViewer` y la captura. Reúne `AnatomicalModel`, `AnatomyStudio` y la barra de los dos remos, con piernas extendidas o rodillas flexionadas. La captura usa el GLB, las referencias articulares y el rig de la aplicación, con la capa muscular y sin resaltado de grupos. No mantiene una segunda animación dibujada a mano.
 
 [`preview-capture.tsx`](../apps/web/src/preview-capture.tsx) espera que el modelo esté preparado y expone `window.__exerciseCapture.frame(phase)`. El generador solicita fases exactas `frame / frameCount`: actualiza la pose, renderiza y obtiene el PNG de ese mismo frame. No depende de esperar una cantidad de milisegundos ni de grabar la pantalla a velocidad real. Se excluye el extremo duplicado de fase 1 para evitar una pausa al cerrar el bucle. Antes de guardar el poster se renderiza una fase de calentamiento del estudio y sus materiales.
 
@@ -103,6 +103,8 @@ La secuencia de fases y la cámara son deterministas. **No se promete igualdad d
 ## Detectar miniaturas desactualizadas
 
 [`generate-exercise-previews.mjs`](../scripts/generate-exercise-previews.mjs) calcula SHA-256 de las fuentes relevantes: generador, entrada de captura, cámaras, rutas de recursos, escena, modelo, morfología paramétrica, estudio, rig, catálogo y metadata de planificación, geometría, esquemas, GLB, referencias articulares y lockfile. La metadata participa porque determina si la demostración alterna lados. Cada entrada del manifiesto conserva el hash combinado de esas fuentes, los parámetros de captura y el hash de cada archivo generado.
+
+La extracción a paquetes conserva las capturas originales de ejercicios y yoga, incluidos GIF, fecha y hashes originales. Un [registro de procedencia verificable](../packages/model-assets/provenance/README.md) demuestra la equivalencia de las fuentes trasladadas y fija los hashes actuales; cualquier cambio posterior lo invalida y requiere capturar otra vez. Las 24 imágenes de regiones musculares sí se generaron nuevamente con la implementación compartida.
 
 `pnpm previews:check` comprueba **todos los ejercicios en ambos modelos** (74 combinaciones), aunque la última generación haya usado `--exercise` o `--model`. También forma parte de `pnpm check`. Falla si falta una entrada, sus fuentes cambiaron, el modelo o la ruta no corresponden, falta un archivo o su contenido ya no coincide con el hash registrado. No necesita Chromium ni los codificadores porque solo lee archivos.
 
@@ -152,4 +154,4 @@ Si falta un codificador, el error identifica su ejecutable. Si Chromium no está
 
 La fidelidad de estas imágenes es **respecto del modelo y las trayectorias implementadas**. Comparte sus límites de deformación educativa: no certifica técnica, activación muscular, contacto físico ni validez clínica. Consultá [fuentes y límites anatómicos](anatomy-model-sources.md) y [criterio educativo](exercise-sources.md).
 
-Las imágenes derivan de Z-Anatomy / BodyParts3D y conservan **CC BY-SA 4.0**, separada de la licencia del código. Los créditos y las adaptaciones están en [`public/previews/NOTICE.md`](../apps/web/public/previews/NOTICE.md).
+Las imágenes derivan de Z-Anatomy / BodyParts3D y conservan **CC BY-SA 4.0**, separada de la licencia del código. Los créditos y las adaptaciones están en [`public/previews/NOTICE.md`](../packages/model-assets/public/previews/NOTICE.md).

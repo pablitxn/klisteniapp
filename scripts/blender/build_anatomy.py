@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from public_metadata import clear_file_browser_state
 ROOT=Path(__file__).resolve().parents[2]
 CACHE=ROOT/'.cache/anatomy'
-OUT=ROOT/'apps/web/public/models'
+OUT=ROOT/'packages/model-assets/public/models'
 ASSETS=ROOT/'assets/blender'
 for folder in (CACHE,OUT,ASSETS):folder.mkdir(parents=True,exist_ok=True)
 HEIGHT=1.8

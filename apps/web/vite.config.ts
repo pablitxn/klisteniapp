@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import { sharedModelAssetsPlugin } from '@klisteniapp/model-assets/vite'
 import { loadDeployment } from './config/deployment.ts'
 
 const root = fileURLToPath(new URL('.', import.meta.url))
@@ -11,7 +12,7 @@ export default defineConfig(({ mode }) => {
   const localStore = fileURLToPath(new URL('./src/lib/store.local.ts', import.meta.url))
   const proxy = deployment.instanceMode ? { '/api': { target: env.KLISTENI_API_URL ?? 'http://127.0.0.1:3001', changeOrigin: false } } : undefined
   return {
-    plugins: [react(), ...(!deployment.instanceMode ? [{
+    plugins: [react(), sharedModelAssetsPlugin(), ...(!deployment.instanceMode ? [{
       name: 'enforce-local-demo-boundary',
       generateBundle(_options, bundle) {
         const forbidden = /\/src\/(?:lib\/(?:store|account-api|analytics)\.ts|components\/(?:AccountPanel|AdminAccounts|BillingPanel|AccountAccessPage|ForgotPasswordPage)\.tsx)$/

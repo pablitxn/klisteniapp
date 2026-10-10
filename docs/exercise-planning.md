@@ -2,7 +2,7 @@
 
 La primera fase clasificó y validó los quince ejercicios existentes antes de ampliar la galería. La segunda añadió doce variantes y la tercera diez fichas completas: el catálogo actual tiene treinta y siete ejercicios con metadatos y relaciones revisables. No genera semanas, asigna sesiones, decide la aptitud de una persona ni modifica rutinas o registros existentes.
 
-El contrato vive en `packages/scene-schema/src/exercise-planning.ts`, se expone desde `@klisteniapp/scene-schema` y es obligatorio en `ExerciseSchema.planning`. Los datos se mantienen en `apps/web/src/data/exercise-planning.ts` y se incorporan al catálogo desde `exercises.ts`. La ficha muestra esta información en «Cómo encaja en tu rutina»; explorar una relación abre el ejercicio destino, sin reemplazarlo en una rutina.
+El contrato vive en `packages/scene-schema/src/exercise-planning.ts`, se expone desde `@klisteniapp/scene-schema` y es obligatorio en `ExerciseSchema.planning`. Los datos se mantienen en `packages/catalog-base/src/exercise-planning.ts` y se incorporan al catálogo desde `exercises.ts`. La ficha muestra esta información en «Cómo encaja en tu rutina»; explorar una relación abre el ejercicio destino, sin reemplazarlo en una rutina.
 
 ## Campos
 

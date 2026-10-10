@@ -1,0 +1,30 @@
+{
+  "name": "@klisteniapp/backoffice",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4211 --strictPort",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "preview": "vite preview --host 127.0.0.1 --port 4195"
+  },
+  "dependencies": {
+    "@klisteniapp/b2b-ui": "workspace:*",
+    "@klisteniapp/b2b-contracts": "workspace:*",
+    "react": "~19.3.0",
+    "react-dom": "~19.3.0",
+    "@klisteniapp/anatomy-viewer": "workspace:*",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/node": "^24.13.6",
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1",
+    "@klisteniapp/model-assets": "workspace:*",
+    "@types/qrcode": "^1.5.6"
+  }
+}

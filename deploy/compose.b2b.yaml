@@ -1,0 +1,21 @@
+# Separate development environment; no reference to the B2C database or volume.
+name: klisteni-b2b
+services:
+  db:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_DB: klisteni_b2b_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${B2B_POSTGRES_PASSWORD:?Generate the local B2B environment first}
+      B2B_DB_PASSWORD: ${B2B_DB_PASSWORD:?Generate the local B2B environment first}
+    ports: ["127.0.0.1:54330:5432"]
+    volumes:
+      - b2b-db:/var/lib/postgresql/data
+      - ./init-b2b-db.sh:/docker-entrypoint-initdb.d/10-b2b.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d klisteni_b2b_demo]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  b2b-db:

@@ -253,7 +253,9 @@ Zustand and Zod**. The API uses **Better Auth and PostgreSQL**.
 | [`apps/api`](apps/api) | Accounts, invitations, access rules, personal data and development billing |
 | [`packages/scene-schema`](packages/scene-schema) | Shared validated contracts for exercises, records and plans |
 | [`packages/geometry`](packages/geometry) | Exercise poses and kinematics, independent of React |
-| [`apps/web/public/models`](apps/web/public/models) | Anatomical GLB, joint landmarks and provenance |
+| [`packages/catalog-base`](packages/catalog-base) | Shared exercise catalog and reviewed planning metadata |
+| [`packages/anatomy-viewer`](packages/anatomy-viewer) | Shared anatomy and optional equipment viewers |
+| [`packages/model-assets/public/models`](packages/model-assets/public/models) | Anatomical GLB, joint landmarks and provenance |
 | [`assets/blender`](assets/blender) | Editable anatomy scene and optimization report |
 | [`scripts`](scripts) | Anatomy builds, validation and reproducible media capture |
 
@@ -328,6 +330,8 @@ Center for Life Science**, **Z-Anatomy — Gauthier Kervyn and contributors**, a
 **Lluís Vinent Juanico** for the source FBX distribution. Code licensing does not
 replace the anatomy license.
 
-[License scope and third-party notices](NOTICE) · [Full anatomy attribution and license](apps/web/public/models/NOTICE.md) ·
-[Preview attribution](apps/web/public/previews/NOTICE.md) ·
+[License scope and third-party notices](NOTICE) · [Full anatomy attribution and license](packages/model-assets/public/models/NOTICE.md) ·
+[Preview attribution](packages/model-assets/public/previews/NOTICE.md) ·
 [README media attribution](docs/media/NOTICE.md)
+
+For the separate gym product, member application, backoffice and local deployment, see [B2B architecture and operation](docs/b2b.md). The existing web/API remain the personal B2C product.

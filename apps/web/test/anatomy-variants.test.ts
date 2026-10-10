@@ -8,7 +8,7 @@ import { prepareAnatomy, structureAtFace } from '../src/lib/anatomy-model.ts'
 import { applyAnatomyPose, parseAnatomyLandmarks, retargetExercisePose } from '../src/lib/anatomy-rig.ts'
 import { exercises } from '../src/data/exercises.ts'
 
-const landmarks = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../public/models/rig-landmarks.json', import.meta.url), 'utf8')))
+const landmarks = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../../../packages/model-assets/public/models/rig-landmarks.json', import.meta.url), 'utf8')))
 
 test('body presets keep floor/height, symmetric joints and legacy coordinates', () => {
   const female = mapAnatomyLandmarks(landmarks, 'female')
@@ -27,7 +27,7 @@ test('body presets keep floor/height, symmetric joints and legacy coordinates', 
 })
 
 test('female atlas retains selectable regions and finite poses, leaving the shared GLTF untouched', async () => {
-  const file = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url))
+  const file = readFileSync(new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url))
   const asset = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '')
   const original: { mesh: Mesh; positions: number[] }[] = []
   asset.scene.traverse(object => {

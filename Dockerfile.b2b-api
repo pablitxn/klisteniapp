@@ -1,0 +1,26 @@
+ARG NODE_IMAGE=node:24-bookworm@sha256:5a750d3be5e5c80275f8c9a5367c3aed99c2875656590c8d0701c7ee687f5f0a
+FROM ${NODE_IMAGE} AS dependencies
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@12.7.0 --activate
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/b2b-api/package.json apps/b2b-api/package.json
+COPY packages/b2b-contracts/package.json packages/b2b-contracts/package.json
+COPY packages/catalog-base/package.json packages/catalog-base/package.json
+COPY packages/scene-schema/package.json packages/scene-schema/package.json
+COPY packages/geometry/package.json packages/geometry/package.json
+RUN pnpm --filter @klisteniapp/b2b-api... install --prod --frozen-lockfile --ignore-scripts
+
+FROM ${NODE_IMAGE} AS runtime
+ARG OCI_REVISION=dev
+LABEL org.opencontainers.image.title="Klisteni B2B API" org.opencontainers.image.revision="${OCI_REVISION}"
+WORKDIR /app
+ENV NODE_ENV=production B2B_HOST=0.0.0.0 B2B_PORT=4201 B2B_MEDIA_ROOT=/var/lib/klisteni-b2b/media
+RUN mkdir -p /var/lib/klisteni-b2b/media && chown node:node /var/lib/klisteni-b2b/media
+COPY --from=dependencies --chown=node:node /app/ /app/
+COPY --chown=node:node apps/b2b-api/src/ apps/b2b-api/src/
+COPY --chown=node:node packages/b2b-contracts/src/ packages/b2b-contracts/src/
+COPY --chown=node:node packages/catalog-base/src/ packages/catalog-base/src/
+COPY --chown=node:node packages/scene-schema/src/ packages/scene-schema/src/
+USER node:node
+EXPOSE 4201
+CMD ["node", "apps/b2b-api/src/server.ts"]

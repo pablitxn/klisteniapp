@@ -1,0 +1,11 @@
+{
+  "name": "@klisteniapp/b2b-api", "version": "0.0.0", "private": true, "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/server.ts", "start": "node --env-file-if-exists=.env src/server.ts",
+    "migrate": "node --env-file-if-exists=.env src/migrate.ts", "bootstrap": "node --env-file-if-exists=.env src/operator.ts bootstrap",
+    "seed-demo": "node --env-file-if-exists=.env src/operator.ts seed-demo", "reset-demo": "node --env-file-if-exists=.env src/operator.ts reset-demo",
+    "lint": "eslint .", "typecheck": "tsc --noEmit", "test": "node --test --test-concurrency=1 tests/*.test.ts"
+  },
+  "dependencies": { "@klisteniapp/b2b-contracts": "workspace:*", "@klisteniapp/catalog-base": "workspace:*", "better-auth": "1.7.7", "pg": "^8.16.3", "zod": "^4.6.5" },
+  "devDependencies": { "@types/node": "^24.13.6", "@types/pg": "^8.15.5" }
+}

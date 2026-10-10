@@ -10,7 +10,7 @@ import { applyYogaSpine, createYogaAnatomyRig, prepareYogaAnatomy, yogaVertexInf
 import { applyYogaMotion, createYogaMotion } from '../src/lib/yoga-motion.ts'
 import { asanas } from '../src/data/yoga.ts'
 
-const landmarks = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../public/models/rig-landmarks.json', import.meta.url), 'utf8')))
+const landmarks = parseAnatomyLandmarks(JSON.parse(readFileSync(new URL('../../../packages/model-assets/public/models/rig-landmarks.json', import.meta.url), 'utf8')))
 const near = (a: number, b: number, tolerance = 1e-7) => assert.ok(Math.abs(a - b) < tolerance, `${a} differs from ${b}`)
 const metadata: StructureMetadata = { tissue: 'skin', bodySegment: 'torso', side: null, muscleId: null, anatomyName: 'trunk' }
 
@@ -108,7 +108,7 @@ test('soft tissue weights remain continuous; every rigid bone structure shares o
 })
 
 test('shoulder corrections retain outward skin faces in deep folds and overhead elevation', async () => {
-  const file = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url))
+  const file = readFileSync(new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url))
   const asset = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '')
   const edge = new Vector3(), sourceNormal = new Vector3(), posedNormal = new Vector3(), expected = new Vector3(), direction = new Vector3()
   for (const variant of ['male', 'female'] as const) {
@@ -151,7 +151,7 @@ test('shoulder corrections retain outward skin faces in deep folds and overhead 
 })
 
 test('actual 28-bone Yoga surfaces retain floor contact through every motion, side, transition and peak breath', async () => {
-  const file = readFileSync(new URL('../public/models/anatomy.glb', import.meta.url))
+  const file = readFileSync(new URL('../../../packages/model-assets/public/models/anatomy.glb', import.meta.url))
   const asset = await new GLTFLoader().parseAsync(file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength), '')
   const point = new Vector3(), failures: string[] = []
   // Entry/exit are deliberately asynchronous. Audit both paths, their boundaries,
