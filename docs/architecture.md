@@ -1,6 +1,6 @@
 # Arquitectura de Klisteni
 
-Klisteni separa datos comprobables, cálculo geométrico y presentación. El catálogo y el visor se distribuyen como web estática; una API propia incorpora cuentas administradas y persistencia personal en PostgreSQL. La demostración pública sigue disponible sin iniciar sesión. La implementación de cuentas requiere una activación de infraestructura explícita; el código por sí solo no acredita un despliegue.
+Klisteni separa datos comprobables, cálculo geométrico y presentación. B2C distribuye catálogo y visor como web estática; su API incorpora cuentas administradas y persistencia personal en PostgreSQL. B2B tiene website, app del socio, backoffice, API, PostgreSQL y medios independientes. Ambos productos comparten paquetes de catálogo, geometría y visualización, sin compartir identidades ni datos. La demostración personal sigue disponible sin iniciar sesión. El código por sí solo no acredita un despliegue.
 
 ## Mapa del repositorio
 
@@ -25,9 +25,17 @@ apps/web/
 apps/api/                       Better Auth, sesiones, operaciones PostgreSQL y CLI
   src/                          Servidor, repositorio de datos, migraciones y operador
   tests/                        Contratos y aceptación con PostgreSQL de prueba
+apps/member-web/src/            Website público, QR y entrenamiento del socio B2B
+apps/backoffice/src/            Preparación, biblioteca, prescripción y publicación
+apps/b2b-api/                   API, identidades, PostgreSQL y medios propios B2B
 assets/blender/                 Escena anatómica editable e informe de optimización
 scripts/blender/                Importación, inspección y conversión de los FBX
 packages/
+  b2b-contracts/src/            Schemas y tipos B2B por dominio
+  b2b-domain/src/               Reglas puras de prescripción y ejecución
+  b2b-client/src/               HTTP, errores y cancelación, sin React
+  b2b-react/src/                Sesión y cargas aisladas por cuenta/organización
+  b2b-ui/src/                   Controles y contenido con acciones inyectadas
   catalog-base/src/             Catálogo, planificación y fuentes compartidas
   anatomy-viewer/src/           Rig, capas, estudio y viewers sin estado de producto
   model-assets/public/          GLB, landmarks, previews, procedencia y licencias
@@ -42,7 +50,19 @@ El paquete `scene-schema` conserva el nombre de la arquitectura de referencia pa
 
 La separación B2B y sus despliegues independientes están documentados en [Marca blanca y backoffice](b2b.md). `catalog-base` conserva los IDs originales. `anatomy-viewer` recibe preferencias y resolución de assets por props; los adaptadores B2C mantienen store e i18n dentro de `apps/web`. `model-assets` sirve y copia los recursos a cada build con su plugin Vite, sin depender del origen HTTP de otra app.
 
-## Flujo de datos
+## Prescripción, ejecución y medios B2B
+
+El backend deriva organización y permisos desde la sesión y la membresía; cada escritura exige el origen y la guardia de cuenta. `b2b-contracts` define los formatos, `b2b-domain` concentra reglas puras y la API aplica autorización y transacciones. Cliente, hooks y UI consumen entrypoints públicos; `pnpm check:b2b:boundaries` comprueba dependencias y ciclos.
+
+La publicación de una rutina crea una versión inmutable. La asignación conserva snapshots de ejercicios y modelos; editar el catálogo no cambia lo prescrito. Una serie se prescribe por repeticiones o duración, con carga y RPE objetivo opcionales. La ejecución guarda cantidades y esfuerzo declarados, diferenciados del objetivo. El borrador del socio se recupera tras recargar y conserva el ID de un envío pendiente. Una sesión parcial o completa confirmada es inmutable: repetir ID/contenido devuelve el mismo registro; cambiar su contenido produce conflicto. El temporizador de descanso, la voz y la visualización nunca registran trabajo por sí solos.
+
+Los editores conservan borradores aislados por cuenta/organización y usan revisiones esperadas para detectar conflictos. Publicar el website congela su contenido y marca; guardar el borrador no lo publica. El plano enlaza unidades físicas y filtra las privadas o retiradas en la lectura pública. El GLB espacial opcional es estático. Comparar clips autorizados conserva procedencia y evaluación humana, sin crear animaciones ni aprobar técnica automáticamente.
+
+La biblioteca almacena bytes inmutables en un volumen B2B y metadatos/hashes en PostgreSQL. La API verifica acceso por membresía, publicación vigente o snapshot histórico autorizado antes de servir un archivo, incluidos rangos HTTP; el volumen no se publica como directorio estático. Los snapshots de referencias remotas no controlan los bytes del proveedor. Base y medios requieren backup consistente y restauración conjunta.
+
+Las migraciones se ejecutan con credenciales DDL separadas antes del arranque; la API usa un rol sin DDL. Readiness comprueba esquema y autenticación. API y ambos frontend B2B se actualizan como una entrega coordinada: los parsers estrictos anteriores no aceptan los campos nuevos, aunque sean `null`. Ver [compatibilidad y operación](b2b.md#compatibilidad-y-despliegue-de-esta-actualización) y [runtime verificado](b2b-runtime-validation.md).
+
+## Flujo de datos B2C
 
 ```mermaid
 flowchart LR
@@ -86,7 +106,7 @@ La reproducción combina esa geometría con las poses de `geometry`. Su deformac
 
 Blender interviene en la preparación de assets, no en el arranque, build web o runtime. Los archivos ya generados se mantienen en `packages/model-assets/public/models` y se sirven como `/models` en cada aplicación. Cada adaptación conserva los [avisos de atribución y CC BY-SA 4.0](../packages/model-assets/public/models/NOTICE.md), separados de la licencia del código. La [documentación de fuentes anatómicas](anatomy-model-sources.md) registra tanto el origen MRI y las reconstrucciones artísticas como los límites de precisión.
 
-## Sesiones, métricas y persistencia
+## Sesiones, métricas y persistencia B2C
 
 Una sesión activa mantiene su avance dentro de `WorkoutSession`. Cada registro de serie guarda el ejercicio y las repeticiones introducidas; `sets: 1` representa esa serie concreta. La suma de esas entradas constituye una sesión guardada. No se infiere trabajo realizado a partir de la reproducción 3D, del tiempo abierto o de la rutina planeada.
 

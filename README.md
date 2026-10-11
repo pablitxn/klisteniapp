@@ -11,11 +11,25 @@ weight, a browser and a little curiosity.
 
 [Take a tour](#take-a-tour) · [Run locally](#run-locally) · [Public demo and instance modes](docs/public-demo.md) · [Documentation](docs/README.md)
 
+This repository also contains an **independent gym platform**: a public gym
+website, staff backoffice and member app, with its own API, database and media.
+It supports reviewed equipment catalogues, per-unit QR codes, versioned programmes,
+timed or repetition-based prescriptions, optional RPE, recoverable training drafts,
+floor plans and optional voice guidance. [Gym product and setup →](docs/b2b.md)
+
+**October 11 handoff:** the VPS code delivery and local production-runtime checks
+are recorded in the [release evidence](docs/b2b-release.md). Continue from `main`
+using the [Mac workspace guide](docs/development-macos.md) and
+[current roadmap](docs/roadmap-implementacion.md). New Blender models and movement
+authoring remain local work; preview regeneration is deferred until those assets
+are ready. Physical-phone acceptance and a public deployment remain pending.
+
 ![Klisteni's desktop routine workspace, with an anatomical exercise demonstration and technique guidance](docs/media/hero-desktop.webp)
 
-*Designed for phone and desktop. The application is currently in Spanish; this
-README is in English. The tour shows the public demo build, with fictional
-records in the health and progress examples.*
+*Designed for phone and desktop. B2C offers Spanish, English and French interface
+preferences, with Spanish fallback; educational content may remain in Spanish.
+This English README tours the Spanish public demo build, with fictional records
+in the health and progress examples.*
 
 ## Take a tour
 
@@ -195,7 +209,7 @@ requires the API, database and deployment to be configured and verified.
   legacy v1 training-history imports remain supported.
 - **Saved means confirmed.** Account synchronization distinguishes pending,
   confirmed and failed writes, and detects conflicting settings changes.
-- **Finish before you leave.** An active workout lives in memory until you save
+- **Finish before you leave in B2C.** An active workout lives in memory until you save
   it. Reloading discards its unfinished sets.
 - **The public demo has no analytics.** An operator can configure optional
   Umami in an instance; it loads after consent and sends a sanitized site visit,
@@ -230,6 +244,17 @@ belongs outside this repository. [Instance setup →](docs/public-demo.md)
 For UI iteration with the full local API, database and a fictional administrator,
 run `node scripts/dev-ui-instance.mjs`. [Local UI workspace →](docs/ui-iteration.md)
 
+For the independent gym product, start Docker with Compose available and run:
+
+```sh
+pnpm dev:b2b
+```
+
+Open `http://127.0.0.1:4200/backoffice/` or `http://127.0.0.1:4200/app`.
+The helper creates private local credentials, migrates its own PostgreSQL and
+seeds Atlas/Sur. [Demo accounts and ports →](docs/b2b.md#demo-local) ·
+[Continue on a Mac →](docs/development-macos.md)
+
 ```sh
 # Build all packages, then serve the web bundle locally
 pnpm build
@@ -251,6 +276,10 @@ Zustand and Zod**. The API uses **Better Auth and PostgreSQL**.
 | --- | --- |
 | [`apps/web`](apps/web) | Responsive UI, 3D viewer, forms, health dashboard and browser state |
 | [`apps/api`](apps/api) | Accounts, invitations, access rules, personal data and development billing |
+| [`apps/member-web`](apps/member-web) | B2B public websites, QR destinations and member training |
+| [`apps/backoffice`](apps/backoffice) | Gym preparation, publication, programmes and staff workflows |
+| [`apps/b2b-api`](apps/b2b-api) | Independent B2B identities, tenancy, PostgreSQL and protected media |
+| [`packages/b2b-contracts`](packages/b2b-contracts), [`b2b-domain`](packages/b2b-domain), [`b2b-client`](packages/b2b-client), [`b2b-react`](packages/b2b-react), [`b2b-ui`](packages/b2b-ui) | B2B contracts, pure rules, HTTP, session hooks and shared presentation |
 | [`packages/scene-schema`](packages/scene-schema) | Shared validated contracts for exercises, records and plans |
 | [`packages/geometry`](packages/geometry) | Exercise poses and kinematics, independent of React |
 | [`packages/catalog-base`](packages/catalog-base) | Shared exercise catalog and reviewed planning metadata |
@@ -265,6 +294,10 @@ renders the live viewer and the catalogue previews, with source hashes to detect
 stale images. [Architecture →](docs/architecture.md)
 
 ### Reproduce the visuals
+
+Preview production is currently deferred until the Blender work is ready. Keep
+the existing files and provenance; the commands below document the later workflow.
+The full preview check is not recorded as passing for this handoff.
 
 ```sh
 # Catalogue previews: Playwright Chromium + cwebp / img2webp
@@ -293,6 +326,22 @@ personal account data. [README media, reproduction and attribution →](docs/rea
 
 ### Check a change
 
+For code-only work during the preview deferral, run the applicable checks below.
+These do not replace the complete release gate or its outstanding asset check.
+
+```sh
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+
+# B2B integration requires a disposable B2B_TEST_DATABASE_URL
+pnpm test:b2b:api
+pnpm test:b2b:e2e
+```
+
+Full gates, once the preview backlog is resolved:
+
 ```sh
 pnpm check            # Lint, types, domain tests, preview hashes and build
 pnpm test:e2e         # Public desktop/mobile browser flows
@@ -304,11 +353,17 @@ pnpm test:api
 pnpm test:accounts
 ```
 
-Install Chromium once with
-`pnpm --filter @klisteniapp/web exec playwright install chromium`.
+Install Chromium and WebKit for the B2B matrix with
+`pnpm --filter @klisteniapp/web exec playwright install chromium webkit`.
 The public browser suite uses `127.0.0.1:4174`; run build-owning browser suites
 sequentially. Database tests skipped without `TEST_DATABASE_URL` do not validate
-PostgreSQL behavior. [Account test setup →](docs/accounts.md#verificación-reproducible)
+PostgreSQL behavior. [Account test setup →](docs/accounts.md#verification)
+
+`pnpm check:release` requires independent disposable B2C and B2B database URLs
+and runs the suites sequentially without browser retries. Both that command and
+the default GitLab `quality` job still require `previews:check`; the deferred
+previews prevent claiming a complete green gate. See the
+[recorded results and remaining acceptance](docs/b2b-release.md).
 
 For anatomy changes, run `node scripts/validate-anatomy.mjs` and visually review
 poses from multiple angles. Rebuilding the source asset uses
@@ -317,10 +372,13 @@ establish biomechanical accuracy.
 
 ## What's next
 
-Professional review of movement trajectories, recovery of unfinished sessions,
-weekly programme generation, automatic health connectors, more languages and
+Professional review of movement trajectories, recovery of unfinished B2C sessions,
+weekly programme generation, automatic health connectors, broader translations and
 installable/offline support are future work. The current focus is a complete,
-inspectable loop: **see → understand → practice → record**.
+inspectable loop: **see → understand → practice → record**. B2B training drafts
+already recover after reload. Its next content work is the first reviewed machine
+and authored movement in Blender, followed by phone/QR acceptance and the deferred
+derivatives; follow the [roadmap](docs/roadmap-implementacion.md).
 
 ## Credits and licenses
 
@@ -333,7 +391,3 @@ replace the anatomy license.
 [License scope and third-party notices](NOTICE) · [Full anatomy attribution and license](packages/model-assets/public/models/NOTICE.md) ·
 [Preview attribution](packages/model-assets/public/previews/NOTICE.md) ·
 [README media attribution](docs/media/NOTICE.md)
-
-For the separate gym product, member application, backoffice and local deployment, see [B2B architecture and operation](docs/b2b.md). The existing web/API remain the personal B2C product.
-
-The [roadmap delivery and release checks](docs/b2b-release.md) cover timed prescriptions, optional voice guidance, gym floor plans, media review and cross-browser acceptance. Use `pnpm check:release` with independent disposable B2C/B2B database URLs for the complete release gate, and `pnpm equipment:check` to validate a static Blender export before upload.

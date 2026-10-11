@@ -2,7 +2,11 @@
 
 Implementación del 11 de octubre de 2026, commit `508e9e1`, sobre `d70b2cb`. El modelado y la autoría de recursos 3D quedan a cargo del usuario en Blender. Esta entrega distingue código comprobado, contenido por producir y aceptación en dispositivos reales.
 
+La continuación desde `main` está descrita en [el relevo a macOS](development-macos.md); el [roadmap](roadmap-implementacion.md) separa trabajo terminado y aceptación pendiente. El informe de runtime se incorporó en `5187b27` y mantiene `508e9e1` como revisión del código realmente ejecutado.
+
 **Alcance actualizado por decisión del usuario:** se difieren la regeneración de miniaturas/previews y su validación completa hasta terminar los modelos 3D y los cambios relacionados. Se conservan los derivados existentes. Este trabajo de contenido no bloquea el cierre de código, builds, auditoría de publicación y runtime; tampoco se afirma que el catálogo completo de previews esté regenerado o validado.
+
+El job GitLab `quality` mantiene `pnpm previews:check` como requisito; no se lo ha desactivado ni se declara CI completamente verde. Lo mismo aplica a `check`, `check:all` y `check:release`. La integración en `main` conserva este pendiente explícito y no activa un despliegue automático.
 
 ## Recorrido de referencia
 

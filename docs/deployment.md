@@ -2,6 +2,11 @@
 
 The repository is a software distribution, not a hosted account service. Its default build is a static **demo** with browser-local data. It needs no API, PostgreSQL, payment account, analytics collector or operator credentials. An **instance** is an explicit build owned and configured by its operator; its users, database, invitations and public information belong to that instance.
 
+This guide describes B2C deployment and shared CI. The independent gym product
+has its own [B2B deployment and coordinated upgrade procedure](b2b.md#instancia-independiente),
+[production-runtime smoke](b2b-runtime-validation.md) and [recorded release evidence](b2b-release.md).
+For the VPS-to-Mac handoff, start with [the macOS workspace guide](development-macos.md).
+
 ## Reproduce the default demo
 
 Use Node 24+ and the package manager pinned in `package.json`:
@@ -10,7 +15,7 @@ Use Node 24+ and the package manager pinned in `package.json`:
 corepack enable
 corepack prepare pnpm@12.7.0 --activate
 pnpm install --frozen-lockfile --ignore-scripts
-pnpm check
+pnpm build:demo
 pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 ```
 
@@ -18,11 +23,24 @@ pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 
 The public `.gitlab-ci.yml` runs `quality` by default: lint, type checks, unit tests without a database, preview/source integrity checks, anatomical asset validation, the demo build, and publication/privacy audits. It retains the reviewed demo artifact for seven days. This path launches no Chromium, PostgreSQL service or preview renderer. The configuration has no project-path restriction, required runner tags, private endpoints, registry authentication, image publishing or deployment job; operator publication and runtime smoke checks remain in the operator's private pipeline. The retained pinned images target Linux amd64; forks need a container-capable runner for that platform (or compatible emulation).
 
+**October 11 handoff:** full preview regeneration and validation are deferred by
+the project owner until the Blender assets are ready. `pnpm check`, `check:all`,
+`check:release` and CI `quality` still require `previews:check`; no full green gate
+is claimed. Code, builds and local production-runtime results are recorded
+separately in the release guide. Building the demo above is not a release check.
+The merge to `main` does not publish an image or deploy a service.
+
 Jobs use untagged runners by default. If your runner only accepts tagged jobs, set the project CI/CD variable `KLISTENI_CI_RUNNER_TAG` to one of its tags (plain text, available to the branches you validate). This conditionally includes `.gitlab/runner.yml`; the actual installation's tag stays in project settings. Leave the variable unset when untagged jobs are supported. See [GitLab's conditional includes](https://docs.gitlab.com/ci/yaml/includes/#include-with-rulesif).
 
 Heavy suites are explicit opt-ins under **Build > Pipelines > New pipeline** (called **Run pipeline** in some GitLab versions). Select `RUN_BROWSER_TESTS=true` for the complete Playwright/WebGL suite and analytics checks, and/or `RUN_API_INTEGRATION_TESTS=true` for API integration and account browser tests. Both default to `false` and require a pipeline whose source is `web`; push, merge-request, tag-push, scheduled and API-triggered pipelines do not run them, even if a project/group variable is set to `true`. Selected suites remain required: a failure fails that validation pipeline. They run after quality, with browser before integration when both are selected; a shared resource group prevents these heavy jobs from overlapping across pipelines in this project. This does not reserve CPU or memory against other projects, so only opt in when runner capacity is available.
 
-The same suites remain available locally with `pnpm test:e2e`, `pnpm test:analytics`, and, against a disposable test database, `pnpm test:api` / `pnpm test:accounts`. Keep their results with release evidence for changes to 3D, browser behavior or account persistence. A default green pipeline proves its quality/build checks; it does not claim those opt-in suites ran.
+`RUN_B2B_INTEGRATION_TESTS=true` independently opts into the gym API and browser
+matrix, under the same manual-pipeline rules and shared resource group. It starts
+its own disposable PostgreSQL with `B2B_TEST_DATABASE_URL`; never use the B2C or
+a deployed database for this job. All opt-in suites depend on `quality`, including
+its outstanding preview check.
+
+The same suites remain available locally with `pnpm test:e2e`, `pnpm test:analytics`, and, against disposable test databases, `pnpm test:api` / `pnpm test:accounts` for B2C and `pnpm test:b2b:api` / `pnpm test:b2b:e2e` for B2B. Keep their results with release evidence for changes to 3D, browser behavior or account persistence. A default green pipeline proves its quality/build checks; it does not claim those opt-in suites ran. `pnpm check:release` runs the full sequence serially with distinct disposable B2C/B2B URLs and no browser retries; it also requires current previews. The Docker runtime smoke and physical-device acceptance are separate checks.
 
 The API integration job starts its own disposable PostgreSQL service before running `pnpm test:api` and `pnpm test:accounts`. The test credentials in CI are disposable fixtures. Never replace `TEST_DATABASE_URL` with a real account database or add instance secrets to the public project.
 

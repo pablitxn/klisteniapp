@@ -4,6 +4,8 @@ El producto de gimnasios usa API, PostgreSQL, credenciales y sesiones propios. E
 
 Para el orden de próximas entregas, la producción 3D y el ciclo de diseño y prueba de UI, consultar el [roadmap de implementación](roadmap-implementacion.md). Esta guía describe el comportamiento y la operación actuales.
 
+La entrega del 11 de octubre incorpora recuperación/concurrencia de editores, prescripción por duración/RPE, registro móvil, voz opcional, plano y comparación audiovisual. Los [resultados de código y runtime](b2b-release.md) conservan su revisión de origen. Para continuar desde `main` en la Mac, seguir la [guía de relevo](development-macos.md). La nueva autoría Blender, la aceptación física y la regeneración de previews siguen pendientes; no hay un despliegue público acreditado.
+
 ## Componentes y límites
 
 ```mermaid

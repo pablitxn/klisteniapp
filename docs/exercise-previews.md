@@ -1,5 +1,7 @@
 # Miniaturas del movimiento
 
+**Estado del 11 de octubre de 2026:** la generación y validación completa de previews están diferidas por decisión del usuario hasta terminar los modelos 3D y sus cambios relacionados. Conservar los archivos existentes. Esta guía describe cómo retomarlas después; no es una tarea de arranque en la Mac. El [roadmap](roadmap-implementacion.md) y la [entrega](b2b-release.md) registran qué quedó pendiente y por qué no se declara el gate completo de previews aprobado.
+
 Las tarjetas de **Mi rutina** y **Ejercicios** usan imágenes del mismo atlas anatómico y del mismo movimiento que el visor 3D. Las miniaturas se generan localmente con Chromium, desde una entrada de captura de Vite. La interfaz sirve los archivos resultantes como imágenes: cada tarjeta no crea otro canvas ni carga otra instancia del modelo. **Mi cuerpo** muestra miniaturas estáticas de las regiones anatómicas aisladas, descritas al final de esta guía.
 
 El formato que consume la aplicación es **WebP animado**, acompañado de un **poster WebP estático**. Se puede exportar también GIF para compartir o comparar, pero la interfaz no lo necesita.

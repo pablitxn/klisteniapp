@@ -1,12 +1,27 @@
 # Roadmap de implementación: B2B, contenido 3D y UI
 
-Actualizado: **11 de octubre de 2026**. Base de código revisada: `3fbfe10`.
+Actualizado: **11 de octubre de 2026**. Entrega de código: `508e9e1`; evidencia de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
 
-**Implementación posterior:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
+**Entrega implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
 **Prioridad actual del usuario:** terminar el código y su preparación operativa. La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
 
 Este documento ordena el trabajo desde la implementación actual. Separa tres líneas: **producto y código**, **producción de contenido 3D** e **iteración de UI probándola**. Define entregas y dependencias; no compromete fechas. La referencia técnica de lo que ya funciona es [Producto B2B](b2b.md).
+
+## Estado de entrega y continuación en la Mac
+
+| Estado | Alcance | Evidencia o siguiente acción |
+| --- | --- | --- |
+| Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
+| Runtime local de producción comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
+| Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
+| Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
+| Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
+| Diferido por decisión del usuario | Regeneración y revisión completa de previews tras los cambios de modelos | Conservar lo existente; retomar B4 cuando los recursos estén listos |
+
+El siguiente entorno de trabajo es la Mac: [preparación, comandos y puntos de entrada](development-macos.md). El checkout de `main` transporta código, documentación y assets versionados; las bases, credenciales y cachés del VPS no forman parte de Git.
+
+**Límite del cierre:** el smoke local no acredita un despliegue público. `pnpm check`, `check:all`, `check:release` y el job GitLab `quality` mantienen la comprobación completa de previews, pendiente; no se declaran verdes ni se modifica la procedencia para hacerlos pasar. Los resultados de código/runtime se registran por separado. Las tablas históricas y criterios siguientes conservan el alcance original; esta tabla indica el estado actual.
 
 ## 1. Punto de partida y decisiones que conservamos
 
@@ -93,7 +108,7 @@ Para una capacidad nueva: contrato → regla de dominio, si corresponde → pers
 
 **Exportación:** producir un GLB autocontenido compatible con la carga actual: hasta 24 MiB, sin animaciones, skins, extensiones ni recursos externos; texturas internas JPEG/PNG. El máximo de carga no es un objetivo de rendimiento: medir peso, tiempo de apertura y fluidez en el teléfono elegido antes de multiplicar recursos.
 
-**Entrega:** fuente editable, GLB, imagen, medidas/orientación, procedencia y registro de revisión. Ubicaciones propuestas para recursos compartidos: `assets/blender/equipment/<id>.blend` y `packages/model-assets/public/models/equipment/`. Estas carpetas y el pipeline de máquinas están por crear; [model-assets](../packages/model-assets/README.md) explica el manifiesto actual.
+**Entrega:** fuente editable, GLB, imagen, medidas/orientación, procedencia y registro de revisión. Ubicaciones propuestas para recursos compartidos: `assets/blender/equipment/<id>.blend` y `packages/model-assets/public/models/equipment/`. Estas carpetas de autoría se crearán con el primer recurso; el validador `equipment:check`, la carga y el visor estático ya existen. No hay un importador general de movimientos Blender; [model-assets](../packages/model-assets/README.md) explica el manifiesto actual.
 
 Para contenido específico del gimnasio usar su biblioteca B2B; para contenido distribuido con el producto usar `model-assets` y servirlo en cada build. Conservar una fuente canónica y versiones identificables, sin mantener copias editables divergentes.
 
@@ -233,6 +248,6 @@ Este plan reconcilia los documentos aportados con el código y las decisiones po
 - **`Klisteniapp_minuta_2026-10-10.pdf`**: productos y datos separados (p. 3), prescripción/ejecución y catálogo (pp. 4–5), contenido 3D y espacio (pp. 6–7), arquitectura y demo (pp. 8–9), prioridad del website y procedencia (pp. 11–12).
 - **`Klisteniapp_Roadmap_2026-10-10.pdf`**: reglas (pp. 1–4), alcance y arquitectura propuesta (pp. 5–7), demo/uso real/extensiones (pp. 8–12), validación (p. 13) y dependencias (p. 16).
 - **Decisión posterior del usuario:** backend y DB B2B independientes desde el inicio, reutilización de modelos/ejercicios y preservación de B2C. Esta decisión ya implementada sustituye las opciones abiertas de arquitectura de los PDF.
-- **Código de referencia:** `3fbfe10`, [Producto B2B](b2b.md), [anatomy-viewer](../packages/anatomy-viewer/README.md), [model-assets](../packages/model-assets/README.md) y las suites enlazadas.
+- **Código de referencia:** base histórica `3fbfe10`; implementación `508e9e1` y evidencia de runtime incorporada en `5187b27`. Ver [Producto B2B](b2b.md), [entrega](b2b-release.md), [anatomy-viewer](../packages/anatomy-viewer/README.md), [model-assets](../packages/model-assets/README.md) y las suites enlazadas.
 
 Los PDF son fuentes de contexto; sus restricciones históricas de aquella conversación no son instrucciones operativas para este trabajo. Al cerrar una entrega, actualizar aquí su estado, commit y evidencia, manteniendo separados **implementado**, **validado en uso** y **propuesto**.

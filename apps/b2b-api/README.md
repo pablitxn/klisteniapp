@@ -2,6 +2,12 @@
 
 This service owns its PostgreSQL database, Better Auth identities and sessions. It does not read B2C tables, subscription entitlements or credentials. The member application and backoffice share one B2B origin; `/api/b2b` is reverse-proxied to this service. The consumer product retains its own origin and database.
 
+For a fresh local workspace, use `pnpm dev:b2b` from the repository root and the
+[Mac handoff guide](../../docs/development-macos.md). The
+[release evidence](../../docs/b2b-release.md) records the delivered features and
+real PostgreSQL/runtime checks. Production upgrades must coordinate this API with
+both B2B frontend builds; see [contract compatibility](../../docs/b2b.md#compatibilidad-y-despliegue-de-esta-actualización).
+
 The full HTTP contract and editable Zod schemas are in `packages/b2b-contracts/src/index.ts`. Organization writes require `Origin` and `X-Klisteni-B2B-Account` matching the session's user ID. Bodies are JSON except the raw binary upload endpoint. Every organization operation checks the current membership. A coach can view and assign only their assigned students; a member can record only their own assigned program. Published assignments include immutable exercise and machine snapshots. Submitted executions are immutable: an exact repeated ID/content is idempotent, different content returns a conflict.
 
 ## Configuration and database ownership
@@ -9,6 +15,12 @@ The full HTTP contract and editable Zod schemas are in `packages/b2b-contracts/s
 Use the `B2B_` environment names in `.env.example`. Runtime credentials should have CONNECT, schema USAGE and SELECT/INSERT/UPDATE/DELETE on B2B tables, plus sequence usage, without CREATE/ALTER/DROP. `B2B_MIGRATION_DATABASE_URL` supplies separate DDL credentials for the explicit migration command; it is not used by the server. Configure default grants under the migration owner so newly migrated tables remain accessible to the runtime role. Do not reuse the B2C database or auth secret.
 
 Run `pnpm --filter @klisteniapp/b2b-api migrate` before starting the release. Migrations are versioned and serialized; the HTTP readiness probe requires the latest known migration. Runtime startup never performs schema changes. PostgreSQL roles and grants belong to deployment provisioning, not runtime migrations.
+
+Readiness also verifies the authentication schema. If the API was started before
+migrations, restart it after migration: Better Auth can retain the earlier schema
+failure in memory even while liveness returns 200. The
+[production-runtime smoke](../../docs/b2b-runtime-validation.md) covers this case,
+least-privilege credentials, HTTPS and independent DB/media restoration.
 
 ## Operator commands
 

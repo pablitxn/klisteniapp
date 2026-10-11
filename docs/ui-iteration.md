@@ -1,5 +1,10 @@
 # Iterate on the full local application
 
+This workspace is for the personal **B2C** app. For gym preparation, staff and
+member flows, use `pnpm dev:b2b` and the [B2B local guide](b2b.md#demo-local).
+The [Mac handoff](development-macos.md) covers both environments and the remaining
+Blender work.
+
 Run this from the repository with Node 24+, pnpm and Docker running:
 
 ```sh

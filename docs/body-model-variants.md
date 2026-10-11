@@ -23,6 +23,8 @@ Los nombres y colores musculares describen el mismo catálogo educativo en ambas
 
 ## Generación de medios
 
+La regeneración y revisión completa de derivados están diferidas hasta estabilizar los modelos 3D, según el [roadmap](roadmap-implementacion.md). Conservar los archivos actuales; los comandos siguientes corresponden al trabajo posterior de contenido.
+
 ```sh
 # 37 ejercicios × 2 variantes, pósteres, WebP y GIFs.
 pnpm previews:generate --gif
@@ -33,7 +35,7 @@ pnpm previews:generate --model female --exercise squat --gif
 # 12 miniaturas musculares × 2 variantes.
 pnpm body-previews:generate
 
-# Comprueba ambas colecciones: fuentes, variantes y archivos generados.
+# Comprueba ejercicios, regiones corporales y yoga: fuentes y archivos generados.
 pnpm previews:check
 ```
 
