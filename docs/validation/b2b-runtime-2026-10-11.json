@@ -1,0 +1,27 @@
+{
+  "startedAt": "2026-10-11T01:11:46.494Z",
+  "production": true,
+  "checks": [
+    "production API and web images built from repository Dockerfiles",
+    "liveness is distinct from readiness; migrations repeat safely; cached auth mismatch remains unready until restart",
+    "both services run nonroot and read-only; API has no DDL or migration credential",
+    "production HTTPS cookies, real bootstrap, same-identity gyms, foreign-origin guard and independent SPA routing",
+    "upload larger than 1 MiB, media SHA256 and range serving, private/public lifecycle and idempotent unit QR batch",
+    "invitation, timed prescription/RPE, immutable assignment snapshot, exact execution retry and cross-gym denial",
+    "sessions, executions and exact media bytes survive API/web restart",
+    "independent DB/media restore retains identities, snapshots, execution, media hash, isolation and logout invalidation"
+  ],
+  "images": {
+    "api": "sha256:3f012727af6837b789e026407c9b2ab3a5fc716fbc2d5950edb125c2010b0f13",
+    "web": "sha256:c72df48a6c3943becdfa9a1f2042e486dec42388a2a5d54cba024d279cb3777e"
+  },
+  "success": true,
+  "sourceRevision": "d70b2cbb3abee0dcfa27aecd74b438c26cc5ed7a",
+  "workingTreeChanges": true,
+  "backup": {
+    "databaseBytes": 64792,
+    "mediaBytes": 2099000
+  },
+  "cleanupComplete": true,
+  "completedAt": "2026-10-11T01:13:20.485Z"
+}

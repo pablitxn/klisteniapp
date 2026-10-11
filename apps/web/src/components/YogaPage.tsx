@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { YogaPracticeSchema, type YogaLog, type YogaPractice } from '@klisteniapp/scene-schema'
+import { YogaPracticeSchema, type YogaLog, type YogaPractice, type YogaAsanaId } from '@klisteniapp/scene-schema'
 import { asanas, getAsana, yogaContext, yogaPracticeTemplates, yogaSources, type Asana } from '../data/yoga'
 import { useAppStore } from '../lib/store'
 import { expandYogaSides, yogaDuration, yogaPracticeSeconds, yogaSearch, yogaStepsForAsana } from '../lib/yoga-practice'
@@ -16,13 +16,15 @@ const YogaViewer = lazy(() => import('./YogaViewer'))
 type Tab = 'library' | 'practices' | 'history'
 type Editor = { practice: YogaPractice; isNew: boolean }
 
-export default function YogaPage({ unavailable, suspended = false }: { unavailable: boolean; suspended?: boolean }) {
+type YogaPageProps = { unavailable: boolean; suspended?: boolean; initialAsanaId?: YogaAsanaId }
+
+export default function YogaPage({ unavailable, suspended = false, initialAsanaId }: YogaPageProps) {
   const owner = useAppStore(state => state.user?.id ?? 'local')
   // A session, notes and practice drafts belong to one account, just like saved data.
-  return <YogaWorkspace key={owner} unavailable={unavailable} suspended={suspended} />
+  return <YogaWorkspace key={owner} initialAsanaId={initialAsanaId} unavailable={unavailable} suspended={suspended} />
 }
 
-function YogaWorkspace({ unavailable, suspended }: { unavailable: boolean; suspended: boolean }) {
+function YogaWorkspace({ unavailable, suspended = false, initialAsanaId }: YogaPageProps) {
   const { t, i18n } = useTranslation('yoga')
   const practices = useAppStore(state => state.yogaPractices)
   const logs = useAppStore(state => state.yogaLogs)
@@ -32,7 +34,7 @@ function YogaWorkspace({ unavailable, suspended }: { unavailable: boolean; suspe
   const [search, setSearch] = useState('')
   const [family, setFamily] = useState('Todas')
   const [level, setLevel] = useState('Todos los niveles')
-  const [selected, setSelected] = useState<Asana | null>(null)
+  const [selected, setSelected] = useState<Asana | null>(() => initialAsanaId ? getAsana(initialAsanaId) ?? null : null)
   const [editor, setEditor] = useState<Editor | null>(null)
   const [session, setSession] = useState<YogaPractice | null>(null)
   const [deleting, setDeleting] = useState<{ kind: 'practice' | 'log'; id: string } | null>(null)

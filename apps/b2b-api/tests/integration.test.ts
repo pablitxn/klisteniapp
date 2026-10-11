@@ -32,6 +32,7 @@ import { migrate } from '../src/migrate.ts';
 import { seedDemo, resetDemo } from '../src/demo.ts';
 import { B2BService, createUser } from '../src/service.ts';
 import { createOrganization } from '../src/operator.ts';
+import { glb } from './fixtures/glb.ts';
 
 const databaseUrl = process.env.B2B_TEST_DATABASE_URL;
 const password = 'b2b-integration-only-password';
@@ -496,6 +497,8 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
           set: 1,
           exerciseId: 'quarter-squat',
           reps: 8,
+          durationSeconds: null,
+          rpe: null,
           loadKg: null,
           reason: 'Alternativa indicada por el instructor',
         },
@@ -697,7 +700,16 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       notes: '',
       completedAt: new Date().toISOString(),
       sets: [
-        { stepId: 'press-step', set: 1, exerciseId: exercise.id, reps: 10, loadKg: 15, reason: '' },
+        {
+          stepId: 'press-step',
+          set: 1,
+          exerciseId: exercise.id,
+          reps: 10,
+          durationSeconds: null,
+          rpe: null,
+          loadKg: 15,
+          reason: '',
+        },
       ],
     };
     await result(await member.request('POST', route('/executions'), execution), 201);
@@ -914,6 +926,221 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       404,
     );
     assert.equal((await pool.query('SELECT id FROM b2b_unit')).rowCount, before);
+  });
+  test('timed prescriptions retain actual dose, RPE, immutable history and normalized legacy replays', async () => {
+    const program = (
+      await result<{ program: Program }>(
+        await coach.request('POST', route('/programs'), {
+          name: 'Práctica por tiempo',
+          steps: [
+            {
+              id: 'timed',
+              exerciseId: 'squat',
+              sets: 1,
+              reps: null,
+              durationSeconds: 30,
+              targetRpe: 6,
+            },
+          ],
+        }),
+        201,
+      )
+    ).program;
+    await result(
+      await coach.request('POST', route(`/programs/${program.id}/publish`), {
+        expectedRevision: program.revision,
+      }),
+      201,
+    );
+    const assignment = (
+      await result<{ assignment: Assignment }>(
+        await coach.request('POST', route('/assignments'), {
+          memberId: member.id,
+          programId: program.id,
+          version: 1,
+        }),
+        201,
+      )
+    ).assignment;
+    const execution = {
+      id: randomUUID(),
+      assignmentId: assignment.id,
+      status: 'completed',
+      completedAt: new Date().toISOString(),
+      sets: [
+        { stepId: 'timed', exerciseId: 'squat', set: 1, reps: null, durationSeconds: 25, rpe: 7 },
+      ],
+    };
+    assert.equal(
+      (
+        await member.request('POST', route('/executions'), {
+          ...execution,
+          sets: [{ ...execution.sets[0], reps: 10, durationSeconds: null }],
+        })
+      ).status,
+      400,
+    );
+    assert.equal(
+      (
+        await member.request('POST', route('/executions'), {
+          ...execution,
+          sets: [{ ...execution.sets[0], durationSeconds: 0 }],
+        })
+      ).status,
+      400,
+    );
+    const first = await result(await member.request('POST', route('/executions'), execution), 201);
+    assert.deepEqual(
+      await result(await member.request('POST', route('/executions'), execution), 201),
+      first,
+    );
+    assert.equal(
+      (
+        await member.request('POST', route('/executions'), {
+          ...execution,
+          sets: [{ ...execution.sets[0], rpe: 8 }],
+        })
+      ).status,
+      409,
+    );
+    await result(
+      await coach.request('PUT', route(`/programs/${program.id}`), {
+        name: 'Versión futura',
+        description: '',
+        steps: [{ ...program.steps[0], durationSeconds: 60 }],
+        expectedRevision: 1,
+      }),
+    );
+    const history = (
+      await result<{
+        executions: Array<{
+          id: string;
+          program: ProgramVersion;
+          sets: Array<{ durationSeconds: number; rpe: number }>;
+        }>;
+      }>(await coach.request('GET', route(`/executions?memberId=${member.id}`)))
+    ).executions.find((item) => item.id === execution.id)!;
+    assert.equal(history.program.steps[0].durationSeconds, 30);
+    assert.equal(history.program.steps[0].targetRpe, 6);
+    assert.equal(history.sets[0].durationSeconds, 25);
+    assert.equal(history.sets[0].rpe, 7);
+    // Simulate an accepted execution from before these optional observations existed.
+    const legacy = {
+      id: randomUUID(),
+      assignmentId: seeded.gyms[0].assignmentId,
+      status: 'partial',
+      completedAt: new Date().toISOString(),
+      sets: [{ stepId: 'squat-step', set: 1, exerciseId: 'squat', reps: 8 }],
+    };
+    await result(await member.request('POST', route('/executions'), legacy), 201);
+    await pool.query(
+      "UPDATE b2b_execution SET data=jsonb_set(data,'{sets}',(SELECT jsonb_agg(value-'durationSeconds'-'rpe') FROM jsonb_array_elements(data->'sets'))) WHERE organization_id='atlas-demo' AND id=$1",
+      [legacy.id],
+    );
+    await result(await member.request('POST', route('/executions'), legacy), 201);
+  });
+  test('floor plans publish snapshots, reject foreign units and remove revoked markers immediately', async () => {
+    let website = (
+      await result<{ website: Website }>(await admin.request('GET', route('/website')))
+    ).website;
+    const original = website.draft;
+    const publicSite = await result<PublicSite>(await fetch(`${base}/api/b2b/public/atlas-demo`));
+    const unit = publicSite.units[0];
+    assert.ok(unit);
+    const plan = {
+      title: 'Orientación',
+      description: 'Sector de entrenamiento',
+      image: {
+        id: 'plan-image',
+        kind: 'image',
+        url: '/models/plan.png',
+        label: 'Croquis',
+        attribution: 'Contenido ficticio',
+      },
+      points: [{ unitId: unit.id, x: 20, y: 40 }],
+    };
+    assert.equal(
+      (
+        await admin.request('PUT', route('/website'), {
+          ...original,
+          floorPlan: { ...plan, points: [{ unitId: 'sur-demo-cable-01', x: 1, y: 1 }] },
+          expectedRevision: website.revision,
+        })
+      ).status,
+      400,
+    );
+    website = (
+      await result<{ website: Website }>(
+        await admin.request('PUT', route('/website'), {
+          ...original,
+          floorPlan: plan,
+          expectedRevision: website.revision,
+        }),
+      )
+    ).website;
+    assert.equal(
+      (await result<PublicSite>(await fetch(`${base}/api/b2b/public/atlas-demo`))).website
+        .floorPlan,
+      null,
+    );
+    website = (
+      await result<{ website: Website }>(
+        await admin.request('POST', route('/website/publish'), {
+          expectedRevision: website.revision,
+        }),
+        201,
+      )
+    ).website;
+    assert.equal(
+      (await result<PublicSite>(await fetch(`${base}/api/b2b/public/atlas-demo`))).website.floorPlan
+        ?.points[0].unitId,
+      unit.id,
+    );
+    await pool.query('UPDATE b2b_unit SET public=false WHERE organization_id=$1 AND id=$2', [
+      'atlas-demo',
+      unit.id,
+    ]);
+    const revoked = await result<PublicSite>(await fetch(`${base}/api/b2b/public/atlas-demo`));
+    assert.equal(revoked.website.floorPlan?.points.length, 0);
+    assert.equal(JSON.stringify(revoked.website).includes(unit.id), false);
+    await pool.query(
+      'UPDATE b2b_unit SET public=true,archived=true WHERE organization_id=$1 AND id=$2',
+      ['atlas-demo', unit.id],
+    );
+    assert.equal(
+      (
+        await admin.request('POST', route('/website/publish'), {
+          expectedRevision: website.revision,
+        })
+      ).status,
+      400,
+    );
+    website = (
+      await result<{ website: Website }>(
+        await admin.request('POST', route('/website/unpublish'), {
+          expectedRevision: website.revision,
+        }),
+        201,
+      )
+    ).website;
+    await pool.query('UPDATE b2b_unit SET archived=false WHERE organization_id=$1 AND id=$2', [
+      'atlas-demo',
+      unit.id,
+    ]);
+    website = (
+      await result<{ website: Website }>(
+        await admin.request('PUT', route('/website'), {
+          ...original,
+          expectedRevision: website.revision,
+        }),
+      )
+    ).website;
+    await result(
+      await admin.request('POST', route('/website/publish'), {
+        expectedRevision: website.revision,
+      }),
+      201,
+    );
   });
   test('website drafts preserve public snapshots, explicit publication and derived completion', async () => {
     let site = (await result<{ website: Website }>(await admin.request('GET', route('/website'))))
@@ -1202,6 +1429,95 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
     assert.equal(list.media.length, 1);
     assert.equal(list.usage.bytes, bytes.length);
   });
+  test('website floor plan images and spatial models reject another gym’s uploaded media without changing either snapshot', async () => {
+    const { media: library } = await result<{ media: Media[] }>(
+      await admin.request('GET', route('/media')),
+    );
+    const image = library.find((media) => media.kind === 'image');
+    assert.ok(image, 'Use the real validated PNG uploaded in the media fixture');
+    const bytes = glb();
+    const model = (
+      await result<{ media: Media }>(
+        await fetch(`${base}${route('/media?kind=model3d&label=Spatial%20test%20triangle')}`, {
+          method: 'POST',
+          headers: {
+            origin: config.origin,
+            cookie: admin.cookie(),
+            'x-klisteni-b2b-account': admin.id,
+            'content-type': 'model/gltf-binary',
+          },
+          body: bytes,
+        }),
+        201,
+      )
+    ).media;
+    const privateModel = await admin.request('GET', model.url);
+    assert.equal(privateModel.status, 200);
+    assert.deepEqual(Buffer.from(await privateModel.arrayBuffer()), bytes);
+    assert.equal((await fetch(base + model.url)).status, 404);
+    const before = (
+      await result<{ website: Website }>(
+        await otherAdmin.request('GET', route('/website', 'sur-demo')),
+      )
+    ).website;
+    const publicBefore = await result<PublicSite>(await fetch(`${base}/api/b2b/public/sur-demo`));
+
+    for (const media of [image, model]) {
+      assert.equal((await otherAdmin.request('GET', media.url)).status, 404);
+      const asset = {
+        id: media.id,
+        kind: media.kind,
+        url: media.url,
+        label: media.label,
+        attribution: media.attribution,
+      };
+      const variants = [
+        [asset, 'INVALID_MEDIA_REFERENCE'],
+        // Development's absolute HTTP origin is rejected by the asset input schema.
+        [{ ...asset, url: config.origin + media.url }, 'INVALID_INPUT'],
+        [{ ...asset, url: media.url.replace('/media/', '/%6dedia/') }, 'INVALID_MEDIA_REFERENCE'],
+        [{ ...asset, id: `forged-${media.id}` }, 'INVALID_MEDIA_REFERENCE'],
+      ] as const;
+      for (const [foreign, expectedCode] of variants) {
+        const field =
+          media.kind === 'image'
+            ? {
+                floorPlan: {
+                  title: 'Foreign floor plan',
+                  description: '',
+                  image: foreign,
+                  points: [],
+                },
+              }
+            : { spatialModel: foreign };
+        const rejected = await result<{ code: string }>(
+          await otherAdmin.request('PUT', route('/website', 'sur-demo'), {
+            ...before.draft,
+            ...field,
+            expectedRevision: before.revision,
+          }),
+          400,
+        );
+        assert.equal(rejected.code, expectedCode);
+        assert.deepEqual(
+          (
+            await result<{ website: Website }>(
+              await otherAdmin.request('GET', route('/website', 'sur-demo')),
+            )
+          ).website,
+          before,
+          'A rejected foreign asset must preserve the draft, revision and publication metadata',
+        );
+      }
+      assert.equal((await otherAdmin.request('GET', media.url)).status, 404);
+    }
+    assert.deepEqual(
+      await result<PublicSite>(await fetch(`${base}/api/b2b/public/sur-demo`)),
+      publicBefore,
+      'Rejected draft writes must not add foreign assets to the published website',
+    );
+    assert.equal((await fetch(base + model.url)).status, 404);
+  });
   test(
     'membership revocation during an upload prevents its commit and cleans the unreferenced file',
     { timeout: 10000 },
@@ -1426,7 +1742,16 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       completedAt: new Date().toISOString(),
       notes: '',
       sets: [
-        { stepId: 'squat-step', set: 1, exerciseId: 'squat', reps: 5, loadKg: null, reason: '' },
+        {
+          stepId: 'squat-step',
+          set: 1,
+          exerciseId: 'squat',
+          reps: 5,
+          durationSeconds: null,
+          rpe: null,
+          loadKg: null,
+          reason: '',
+        },
       ],
     };
     const pending = member.request('POST', route('/executions'), input);
@@ -1527,7 +1852,16 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       completedAt: new Date().toISOString(),
       notes: '',
       sets: [
-        { stepId: 'squat-step', set: 1, exerciseId: 'squat', reps: 5, loadKg: null, reason: '' },
+        {
+          stepId: 'squat-step',
+          set: 1,
+          exerciseId: 'squat',
+          reps: 5,
+          durationSeconds: null,
+          rpe: null,
+          loadKg: null,
+          reason: '',
+        },
       ],
     };
     const pending = member.request('POST', route('/executions'), input);

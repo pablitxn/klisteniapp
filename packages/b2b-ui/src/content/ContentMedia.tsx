@@ -10,6 +10,7 @@ export function ContentMedia({ assets }: { assets: readonly Asset[] }) {
         <Suspense fallback={<p role="status">Preparando visor…</p>}>
           <EquipmentModelViewer
             url={asset.url}
+            format="glb"
             label={asset.label}
             attribution={asset.attribution}
           />

@@ -1,6 +1,8 @@
 {
   "version": 1,
   "sources": {
+    "scripts/preview-browser.mjs": "3d54351c1fb068ec4b3780c403278d4a80af7b10c9aa31be71032088049ec8ac",
+    "scripts/preview-capture-state.mjs": "b26f2ad47df272d8cad2e9d4bd2caa4f0b4bb855ad326371276bfae0e5feedec",
     "packages/anatomy-viewer/package.json": "4ac29d459121ae42d8f011bb73e4519b8be4a3beb8606f1364527f8e441102b2",
     "packages/model-assets/package.json": "978eee973c33157871e0e1d851768c84d9f6b79e0b4097d3ac30c119decc9f3e",
     "packages/catalog-base/package.json": "587d2a1fe1ae8cda97c2a86f111e262bbb6a3f55c3473390a31b0daa7c0f7b7e",
@@ -11,7 +13,7 @@
     "packages/anatomy-viewer/src/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
     "packages/model-assets/src/index.ts": "a19e09aed8e401b237a920a4cdf890c9e824fb5d6bf4b6faff6b48494ce8b2fe",
     "packages/model-assets/src/vite.ts": "e8a46e71940e5fc333de169eaa2af84092249b1f69db14d8aed7c2f74fb56b98",
-    "scripts/generate-body-previews.mjs": "0e7036d7ae7eb82945fcbb70bb5298d2fc35e726b206e61b974413805dcc9c2b",
+    "scripts/generate-body-previews.mjs": "fca86cb50a34e83680e34b63f17a788c6243acae5f0cf492325a50fc4ba51c58",
     "apps/web/body-preview-capture.html": "d2ea4df4ec632fd8fdef4652527efe9b462db4d8f474241814e564a631e1942b",
     "apps/web/src/body-preview-capture.ts": "a86c0dce65dda2deff3fa0922ccbc979d950cdf3171f92535aefeca030ea368c",
     "apps/web/src/lib/body-preview-config.ts": "36e1f3736e9d7962161281d092108b78b6841dc3622696361a8d577c677ce2cd",
@@ -28,13 +30,13 @@
     "packages/model-assets/public/previews/female/body/NOTICE.md": "273fe76a2f3b0e7f3b23374ecf13ddd1728fd9795a0bd08318482964c0c2ac83",
     "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
     "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
-    "pnpm-lock.yaml": "e5ca0a48172a1df35d73fcf0ce850ee774aa8931517851a60b86a7080b4236eb"
+    "pnpm-lock.yaml": "caf39635007fd2c811e47f92c9cd7bc1fddda9b76a4b8c9c5be7c6d5ef2b9ba8"
   },
   "regions": {
     "pectorals": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:11.030Z",
+      "generatedAt": "2026-10-11T07:27:28.457Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -84,6 +86,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -107,9 +114,9 @@
       }
     },
     "deltoids": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:11.593Z",
+      "generatedAt": "2026-10-11T07:27:29.027Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -156,6 +163,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -179,9 +191,9 @@
       }
     },
     "triceps": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:12.113Z",
+      "generatedAt": "2026-10-11T07:27:29.608Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -228,6 +240,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -251,9 +268,9 @@
       }
     },
     "lats": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:12.920Z",
+      "generatedAt": "2026-10-11T07:27:30.373Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -299,6 +316,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -322,9 +344,9 @@
       }
     },
     "biceps": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:13.419Z",
+      "generatedAt": "2026-10-11T07:27:30.925Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -370,6 +392,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -393,9 +420,9 @@
       }
     },
     "upper-back": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:14.279Z",
+      "generatedAt": "2026-10-11T07:27:31.621Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -449,6 +476,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -472,9 +504,9 @@
       }
     },
     "abdominals": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:15.306Z",
+      "generatedAt": "2026-10-11T07:27:32.368Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -522,6 +554,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -545,9 +582,9 @@
       }
     },
     "obliques": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:16.006Z",
+      "generatedAt": "2026-10-11T07:27:33.147Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -595,6 +632,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -618,9 +660,9 @@
       }
     },
     "glutes": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:16.815Z",
+      "generatedAt": "2026-10-11T07:27:33.848Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -670,6 +712,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -693,9 +740,9 @@
       }
     },
     "quadriceps": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:17.428Z",
+      "generatedAt": "2026-10-11T07:27:34.446Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -743,6 +790,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -766,9 +818,9 @@
       }
     },
     "hamstrings": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:18.019Z",
+      "generatedAt": "2026-10-11T07:27:34.988Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -816,6 +868,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -839,9 +896,9 @@
       }
     },
     "calves": {
-      "sourceHash": "846f505e56ebbba01811339e5fe73dcc68da6f3486a56b446232353e654ffaf5",
+      "sourceHash": "f290e3c0cfc236891001da627ca9e4b74bf8faf39c1796be407fe945e1d44038",
       "modelVariant": "male",
-      "generatedAt": "2026-10-10T22:06:18.612Z",
+      "generatedAt": "2026-10-11T07:27:35.634Z",
       "size": 256,
       "background": "transparent",
       "selection": {
@@ -888,6 +945,11 @@
       "renderer": {
         "browser": "153.0.8010.12",
         "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
         "cwebp": "1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
@@ -911,6 +973,6 @@
       }
     }
   },
-  "generatedAt": "2026-10-10T22:06:18.612Z",
+  "generatedAt": "2026-10-11T07:27:35.634Z",
   "modelVariant": "male"
 }

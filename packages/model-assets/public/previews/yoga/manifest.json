@@ -1,7 +1,21 @@
 {
   "version": 2,
   "sources": {
-    "scripts/generate-yoga-previews.mjs": "5b1f6d879ae3363217b05541f50c6211ac5f8b0aaa6cad9db035335fdddeec07",
+    "scripts/preview-browser.mjs": "3d54351c1fb068ec4b3780c403278d4a80af7b10c9aa31be71032088049ec8ac",
+    "scripts/preview-capture-state.mjs": "b26f2ad47df272d8cad2e9d4bd2caa4f0b4bb855ad326371276bfae0e5feedec",
+    "scripts/preview-provenance.mjs": "c046df8afe8a771437642486e0c0d0bf9bcf317e4626df05d584b1e96029234c",
+    "packages/anatomy-viewer/package.json": "4ac29d459121ae42d8f011bb73e4519b8be4a3beb8606f1364527f8e441102b2",
+    "packages/model-assets/package.json": "978eee973c33157871e0e1d851768c84d9f6b79e0b4097d3ac30c119decc9f3e",
+    "packages/catalog-base/package.json": "587d2a1fe1ae8cda97c2a86f111e262bbb6a3f55c3473390a31b0daa7c0f7b7e",
+    "packages/anatomy-viewer/src/anatomy-model.ts": "42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa",
+    "packages/anatomy-viewer/src/anatomy-rig.ts": "7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5",
+    "packages/anatomy-viewer/src/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
+    "packages/anatomy-viewer/src/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
+    "packages/anatomy-viewer/src/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
+    "packages/anatomy-viewer/src/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
+    "packages/model-assets/src/index.ts": "a19e09aed8e401b237a920a4cdf890c9e824fb5d6bf4b6faff6b48494ce8b2fe",
+    "packages/model-assets/src/vite.ts": "e8a46e71940e5fc333de169eaa2af84092249b1f69db14d8aed7c2f74fb56b98",
+    "scripts/generate-yoga-previews.mjs": "10cefcbb02c045f1ae59c1663655728763e3fd12daabeb1d79bb8ea4751214f8",
     "apps/web/yoga-preview-capture.html": "4e59189df970eb6c42e25c3dda7f5392b873cf513d7560c93b668e7de4d96f59",
     "apps/web/src/yoga-preview-capture.tsx": "689e4b0bcdfe6fc56ca9505e2bee833b0dc0f5c392ebab4ef2a2c411b44903eb",
     "apps/web/src/components/YogaStage.tsx": "f647df65fba9a1f4e6478b75e88a9e74850dfb0151d6c5c412d903ff27dada9e",
@@ -11,20 +25,20 @@
     "apps/web/src/lib/yoga-rendering.ts": "84e4c3f320a4eeca39a5347b9ebc4a78aab08c51affceacd1692f6be699e9289",
     "apps/web/src/lib/yoga-preview-assets.ts": "a0cf4db499f568fbdfd52164ae63b3dc7d000b300e4a84be406ce88b997dc555",
     "apps/web/src/data/yoga.ts": "24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a",
-    "apps/web/src/components/AnatomyStudio.tsx": "1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2",
-    "apps/web/src/lib/anatomy-model.ts": "42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa",
-    "apps/web/src/lib/anatomy-rig.ts": "7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5",
-    "apps/web/src/lib/anatomy-variants.ts": "6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e",
-    "apps/web/src/lib/anatomy-variant-surface.ts": "af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e",
-    "apps/web/src/lib/anatomy-render-settings.ts": "08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2",
-    "apps/web/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
-    "apps/web/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
-    "apps/web/public/models/anatomy-manifest.json": "f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778",
-    "apps/web/public/previews/yoga/NOTICE.md": "1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677",
+    "apps/web/src/components/AnatomyStudio.tsx": "39ad02ce1176393808c01352546dfe9a3a8f3a6d3e2243725189a956a2c1763a",
+    "apps/web/src/lib/anatomy-model.ts": "78993bd645e335572000fdcc72a3288c618d0f160df6669acf1f626bac01de66",
+    "apps/web/src/lib/anatomy-rig.ts": "84d503afda0856146c392f2d5b7ad3840b7ac243c04990187c63dbdb65474628",
+    "apps/web/src/lib/anatomy-variants.ts": "af2f46206281607de86359bcead8e7e5c5882fabe30da5ea663086f701874e4c",
+    "apps/web/src/lib/anatomy-variant-surface.ts": "05257bd67c2c12f6b182777757bce2ca87cd22f19d2bf591749be020ac090626",
+    "apps/web/src/lib/anatomy-render-settings.ts": "f4806b04faa64f0b3b4fa1dd2eacc3b3be9bc1b87b657e407424cfc595423907",
+    "packages/model-assets/public/models/anatomy.glb": "1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c",
+    "packages/model-assets/public/models/rig-landmarks.json": "99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3",
+    "packages/model-assets/public/models/anatomy-manifest.json": "f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778",
+    "packages/model-assets/public/previews/yoga/NOTICE.md": "1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677",
     "packages/geometry/src/index.ts": "d455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5",
     "packages/scene-schema/src/index.ts": "4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769",
     "packages/scene-schema/src/yoga.ts": "9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e",
-    "pnpm-lock.yaml": "13bf340d8bcf0e210b2bf481ba5703555a1f2367c359db9fdfc74888dc2da4f5"
+    "pnpm-lock.yaml": "caf39635007fd2c811e47f92c9cd7bc1fddda9b76a4b8c9c5be7c6d5ef2b9ba8"
   },
   "poses": {
     "male/tadasana-both.webp": {
@@ -32,8 +46,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:33:27.857Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T07:38:10.393Z",
       "bounds": {
         "min": [
           -0.4368264463709685,
@@ -66,9 +80,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -83,15 +102,15 @@
       },
       "image": {
         "file": "male/tadasana-both.webp",
-        "bytes": 9960,
-        "sha256": "bb9aad973e877c7bcaf3c6bb23316b735d1c606b6a89392f979ac14e86856028",
+        "bytes": 10108,
+        "sha256": "4d41a67e0eb1797990e01bae40136d0484d2fbc949232ca8ca9589a8afe657b0",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/tadasana-both-motion.webp",
-        "bytes": 725126,
-        "sha256": "b2b087df8b6ef960e3c0c62c4f5e71ccda6f323bc3f190c38ea1416d5f04d3b2",
+        "bytes": 732726,
+        "sha256": "b4784463c493fcc3ede29612de591e5736775fae06f3d978fcfacfd0ba669ac6",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -105,8 +124,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:33:41.575Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T07:49:28.730Z",
       "bounds": {
         "min": [
           -0.4224490534424976,
@@ -139,9 +158,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -156,21 +180,21 @@
       },
       "image": {
         "file": "male/sukhasana-both.webp",
-        "bytes": 13982,
-        "sha256": "aff307fb87b2a3da8d92fdd2fbc26638c34972f2346c3d62048ac1f35b93dd1c",
+        "bytes": 14100,
+        "sha256": "0704280fdae9e8c1689bfa01c98e4498b58c8e67395fad5a5c3cdf4d2af519fb",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/sukhasana-both-motion.webp",
-        "bytes": 1082818,
-        "sha256": "e4fd107864a6c321e0f533ed88c1bff74ea74db8ec458e6c4465c6de01c139a9",
+        "bytes": 1097760,
+        "sha256": "6d85f964c9133989bc8ef4867e86a841cd09d9450f20cd265da636d31fee3c8d",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 202
       }
     },
     "male/balasana-both.webp": {
@@ -178,8 +202,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:33:54.963Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T08:01:39.132Z",
       "bounds": {
         "min": [
           -0.29957981214413154,
@@ -212,9 +236,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -229,21 +258,21 @@
       },
       "image": {
         "file": "male/balasana-both.webp",
-        "bytes": 14014,
-        "sha256": "7c627c88887f26c56b26a3059e1441e6ca973f81812b2ae4fa4c7cf54d700fbf",
+        "bytes": 14132,
+        "sha256": "a6b122cfec16f012d3ff235bb40e2ffeafa96ba233e4a4f1b5b08fbce70e8008",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/balasana-both-motion.webp",
-        "bytes": 1287132,
-        "sha256": "e207a7ce6153cd49f2ca1f5821ab78ee81f578e5ed676c965ed7b47278c95b1b",
+        "bytes": 1286194,
+        "sha256": "539af774925794c9c2fdebad11cb17a8dc7f768603fb22d5f6d918a71920501f",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 202
       }
     },
     "male/marjaryasana-both.webp": {
@@ -251,8 +280,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:34:07.439Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T08:14:13.819Z",
       "bounds": {
         "min": [
           -0.26427942750116407,
@@ -285,9 +314,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -302,15 +336,15 @@
       },
       "image": {
         "file": "male/marjaryasana-both.webp",
-        "bytes": 18490,
-        "sha256": "8d9a3f05007d8089fad08f4e3800c157404ede070f5e5f63851721d285bc3cc0",
+        "bytes": 18696,
+        "sha256": "e9923374246a6a9bb95d782500c3e33418169842763c788f1c4d64d4835cd5fb",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/marjaryasana-both-motion.webp",
-        "bytes": 1546050,
-        "sha256": "4e5da4f99f31146ef62fba91f61a448067d6ca6ea752094d9544c836b2068601",
+        "bytes": 1533470,
+        "sha256": "93cc37d0fe409fb109f894c5c9ff6cb3a400aeaaba4e93ecd3c05706c7689a69",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -324,8 +358,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:34:19.893Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T08:26:27.868Z",
       "bounds": {
         "min": [
           -0.2649979130696765,
@@ -358,9 +392,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -375,21 +414,21 @@
       },
       "image": {
         "file": "male/bitilasana-both.webp",
-        "bytes": 16876,
-        "sha256": "ae6bb2dc7c888a900b44807f9b42552f44b955e03f727b02aa59cf03bab1d721",
+        "bytes": 17020,
+        "sha256": "625de8ff75b0995eb886ef23eb8dfbb0a88e2df5fc46aafa3617def88b5ed14f",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/bitilasana-both-motion.webp",
-        "bytes": 1397860,
-        "sha256": "9633eea5cddae05ca9b0c522ba431bacbc76091181b2fdd0c22035ec2b8ec816",
+        "bytes": 1424908,
+        "sha256": "5aac9a3aa49d9d1b0cc170d9dbd0040e0ce31ac6641e33bb78d7258978f9d5b1",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 202
       }
     },
     "male/adho-mukha-svanasana-both.webp": {
@@ -397,8 +436,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:34:32.154Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T08:38:23.409Z",
       "bounds": {
         "min": [
           -0.27538155779635815,
@@ -431,9 +470,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -448,21 +492,21 @@
       },
       "image": {
         "file": "male/adho-mukha-svanasana-both.webp",
-        "bytes": 15922,
-        "sha256": "fd423a8b5a1efe6e0e2ce208ebdeac80207da0019b4917df86213e41d006cc44",
+        "bytes": 15988,
+        "sha256": "1ecd869ac155acf22519e40ce5ab2329727ec19ad8d9b770be582432e3c5d844",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/adho-mukha-svanasana-both-motion.webp",
-        "bytes": 1219318,
-        "sha256": "0922589efaaa8791b7af92ed706c611204aeb4380858b83afddc80d830bf3d82",
+        "bytes": 1232706,
+        "sha256": "f7d2f4441e56e35ab2e18409be37584ac9b907b144f1360474a567fa5d96d63c",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 202
+        "uniqueFrames": 203
       }
     },
     "male/uttanasana-both.webp": {
@@ -470,8 +514,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:34:44.162Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T08:48:10.890Z",
       "bounds": {
         "min": [
           -0.4417930635309697,
@@ -504,9 +548,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -521,15 +570,15 @@
       },
       "image": {
         "file": "male/uttanasana-both.webp",
-        "bytes": 7848,
-        "sha256": "c6c9583657c00e6a0a1ecd4c6d5432390edd8ce8e01c8dd7e949e47704db52b2",
+        "bytes": 7866,
+        "sha256": "aadb1842a870b3fcff5d12b52a7df3d43d41e33fd0ef92248d3a1c98561ea2d6",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/uttanasana-both-motion.webp",
-        "bytes": 641364,
-        "sha256": "b5fa01132bd22b0d45ef4d3cdfd5d813a09fdff8261f29750f6c0d613d40e729",
+        "bytes": 653516,
+        "sha256": "24ef181d95edf3b860f50d1d3ce1fe025bb3f56c8657f9a9379036dc5d3db30c",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -543,8 +592,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:34:57.015Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T08:59:18.642Z",
       "bounds": {
         "min": [
           -0.33251774818621466,
@@ -577,9 +626,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -594,21 +648,21 @@
       },
       "image": {
         "file": "male/ardha-uttanasana-both.webp",
-        "bytes": 8164,
-        "sha256": "e466579ab39d337b896dedf16c4910b3c886e3751c2ff8c1457879a69e33f2d6",
+        "bytes": 8226,
+        "sha256": "b17fa1d9a00d604024a0283ca79adaa4be3618155eb9d9ce5a562971dc3db1ec",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/ardha-uttanasana-both-motion.webp",
-        "bytes": 679182,
-        "sha256": "7bd6cdc04ff3b9342ea6cd2584e6cc1bbbc6ce8b3f8c1a2e2c963ea31a5b6d5a",
+        "bytes": 683726,
+        "sha256": "4739f1579021ccfb06d0e8e6267cabc3323cbfeaa22ed5522ade6444fbe10b6a",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 202
       }
     },
     "male/utkatasana-both.webp": {
@@ -616,8 +670,8 @@
       "modelVariant": "male",
       "side": "both",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:35:10.830Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T09:08:41.822Z",
       "bounds": {
         "min": [
           -0.7031125251451256,
@@ -650,9 +704,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -667,21 +726,21 @@
       },
       "image": {
         "file": "male/utkatasana-both.webp",
-        "bytes": 7178,
-        "sha256": "2b1f03ba399214779a3cea7c4b7fe2b0e69e62773bd2422f14858710b616387d",
+        "bytes": 7286,
+        "sha256": "c7723c686400438db6b93f83a0be7a4398d9fdb19394ef0ace31e0bd32b4a059",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/utkatasana-both-motion.webp",
-        "bytes": 580052,
-        "sha256": "ef23a8bed389c12a158bdaca27c28bd26ef38949f8a7116f030871460bfb265e",
+        "bytes": 587130,
+        "sha256": "550732ce8459b6d05e412ebc593489dc8ebafd25f4c80a89e903a69caebdd44d",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 202
       }
     },
     "male/virabhadrasana-i-right.webp": {
@@ -689,8 +748,8 @@
       "modelVariant": "male",
       "side": "right",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:35:24.246Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T09:17:54.074Z",
       "bounds": {
         "min": [
           -0.7031125251451256,
@@ -723,9 +782,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -740,15 +804,15 @@
       },
       "image": {
         "file": "male/virabhadrasana-i-right.webp",
-        "bytes": 7260,
-        "sha256": "142a5b3f86c594e9a0ec1474f84fc388c54ef38ca15dad17cf2290a0064678e0",
+        "bytes": 7340,
+        "sha256": "2c70d97715a5277b6f74d7227e01b0ea58fbcf9e3eeef158f28051cd69eb4c39",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/virabhadrasana-i-right-motion.webp",
-        "bytes": 616090,
-        "sha256": "e4b48b7fa8bf1f526d5eb926831fc9fa9a155d2a043f56fa312ede138b11fe4c",
+        "bytes": 615446,
+        "sha256": "cc291fa6b73f926897ca154e1c40a71826f68c4cb7a80e5108534f6af90df110",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -762,8 +826,8 @@
       "modelVariant": "male",
       "side": "left",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:35:38.081Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T09:27:07.306Z",
       "bounds": {
         "min": [
           -0.7031125251451256,
@@ -796,9 +860,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -813,21 +882,21 @@
       },
       "image": {
         "file": "male/virabhadrasana-i-left.webp",
-        "bytes": 7206,
-        "sha256": "2b79eb77ef3d2a1a5e4f00105409f317db23148748acd77653b908af22d2096f",
+        "bytes": 7248,
+        "sha256": "6555eab59c1681d885c6ff43055aa0288c0c4aef3d95aedea0e718582e8c1ddb",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/virabhadrasana-i-left-motion.webp",
-        "bytes": 598536,
-        "sha256": "093357dd331dec3b43b0785e40731ccf2c342c079e2d3fd1d572c73401565f67",
+        "bytes": 602820,
+        "sha256": "fe546f5bc4436de6bc2a5ce0822953ffb0db737b3426f5dc3ada19ecf996e95b",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 202
+        "uniqueFrames": 203
       }
     },
     "male/virabhadrasana-ii-right.webp": {
@@ -835,8 +904,8 @@
       "modelVariant": "male",
       "side": "right",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:35:52.300Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T09:37:30.623Z",
       "bounds": {
         "min": [
           -1.1360442352099012,
@@ -869,9 +938,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -886,21 +960,21 @@
       },
       "image": {
         "file": "male/virabhadrasana-ii-right.webp",
-        "bytes": 12158,
-        "sha256": "54ca9437c4c8523cb058acce90b3d3d738071f1c3cc253028f141b15fcacac04",
+        "bytes": 12268,
+        "sha256": "47238d16c2d9f4042a22cc5fa78d09f9b8c8385e10188d2bbca966d0e0269b61",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/virabhadrasana-ii-right-motion.webp",
-        "bytes": 1032026,
-        "sha256": "d7c9cc9351305a1c54c39836957b00d537e7d1195fbc97d9d1d4daa65fec759b",
+        "bytes": 1041602,
+        "sha256": "110e4a982b5d7e1cacf651cd13015be392f5dc06747e2f78d783b7e6399a64ab",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 202
+        "uniqueFrames": 203
       }
     },
     "male/virabhadrasana-ii-left.webp": {
@@ -908,8 +982,8 @@
       "modelVariant": "male",
       "side": "left",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:36:06.079Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T09:48:05.056Z",
       "bounds": {
         "min": [
           -0.7360442352099013,
@@ -942,9 +1016,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -959,21 +1038,21 @@
       },
       "image": {
         "file": "male/virabhadrasana-ii-left.webp",
-        "bytes": 12302,
-        "sha256": "b255ea00159d8236866440f7688805e40863bb59dfe24458b53a3f541a3dc5ff",
+        "bytes": 12434,
+        "sha256": "b8780b45cc56ef62822181ce7fa5fa056e508aee9bed9447486f25020886060f",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/virabhadrasana-ii-left-motion.webp",
-        "bytes": 1024012,
-        "sha256": "b3dc0e55924082bc54443f34836aaaffa726b59fb7614b7176d39915dbb868a0",
+        "bytes": 1018386,
+        "sha256": "9864acc89db7f06a21ea353a5c0b3a494c3180a2196c9662fcf00cbc083edea3",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 202
       }
     },
     "male/trikonasana-right.webp": {
@@ -981,8 +1060,8 @@
       "modelVariant": "male",
       "side": "right",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:36:19.927Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T09:57:56.976Z",
       "bounds": {
         "min": [
           -1.0616064577642639,
@@ -1015,9 +1094,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -1032,15 +1116,15 @@
       },
       "image": {
         "file": "male/trikonasana-right.webp",
-        "bytes": 9588,
-        "sha256": "9e55d72a2692fdc4f2ec9e85824172b04eaa6ef34341a9e958bca25ff21cb261",
+        "bytes": 9678,
+        "sha256": "46a4bc18032bd54a7dadf576b23eb220c8c1f52905343676023e0d94c047ed64",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/trikonasana-right-motion.webp",
-        "bytes": 866330,
-        "sha256": "c7e9e232291bc602b1b3cf0db88c4653fca32be85bd8baa37ee312cb39cea015",
+        "bytes": 863672,
+        "sha256": "c5e2bc5a341f54516fb0c7e3ca1ebcac71cb71807f20a80edbadb0be9f8c9965",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -1054,8 +1138,8 @@
       "modelVariant": "male",
       "side": "left",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:36:33.509Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T10:07:46.373Z",
       "bounds": {
         "min": [
           -0.9398722321427242,
@@ -1088,9 +1172,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -1105,15 +1194,15 @@
       },
       "image": {
         "file": "male/trikonasana-left.webp",
-        "bytes": 9600,
-        "sha256": "37f02d61e402faf39270ff2661bf8252e2d356e3dcce958d25189e602e798e6d",
+        "bytes": 9716,
+        "sha256": "47f7de28d9a36eccb22583b69e43c03c4f2abe016ac5b2cd976c3bf647abe499",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/trikonasana-left-motion.webp",
-        "bytes": 834248,
-        "sha256": "75ddd764a86d786f33f4c5f42715e660919bb7aa8c3ed3962794f87deb4e9402",
+        "bytes": 838040,
+        "sha256": "8c117f513439f87e71901aa85ff9f2d77ad315c49e039eed1e9b45a94225e1f9",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -1127,8 +1216,8 @@
       "modelVariant": "male",
       "side": "right",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:36:47.925Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T10:17:33.230Z",
       "bounds": {
         "min": [
           -0.2868074203607266,
@@ -1161,9 +1250,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -1178,15 +1272,15 @@
       },
       "image": {
         "file": "male/vrksasana-right.webp",
-        "bytes": 9452,
-        "sha256": "2384bc6c98be81a39c88c4693985b1898a232de7a13bed2b02c0783f07374fd1",
+        "bytes": 9568,
+        "sha256": "f59dc7b10e89c9e59a401d1a8ebf1c4cbff8093dd0c5ce47ed61dd49c6f71776",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/vrksasana-right-motion.webp",
-        "bytes": 721208,
-        "sha256": "7b0f3c1d3f445f7edca36ec8a5c2d50c8b935b3daf886326e45b1889ecdd617e",
+        "bytes": 735004,
+        "sha256": "ab1e7dfbad2aaee8b2f41223e45d5e1297b3fcfdd789500987fccb8593cafb65",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
@@ -1200,8 +1294,8 @@
       "modelVariant": "male",
       "side": "left",
       "size": 512,
-      "sourceHash": "0a13bf5653905914ccbf65f29dc1fe19777d54fcc4733e22dbca36d7b5c8477a",
-      "generatedAt": "2026-10-08T12:37:01.889Z",
+      "sourceHash": "a526393a022a46b3017d7dd034a75035d994d969dbd319f35375ee8163f66389",
+      "generatedAt": "2026-10-11T10:27:32.263Z",
       "bounds": {
         "min": [
           -0.43588273036072667,
@@ -1234,9 +1328,14 @@
       },
       "renderer": {
         "browser": "153.0.8010.12",
-        "platform": "darwin",
-        "cwebp": "1.6.0\nlibsharpyuv: 0.4.2",
-        "img2webp": "WebP Encoder version: 1.6.0\nWebP Mux version: 1.6.0\nlibsharpyuv: 0.4.2"
+        "platform": "linux",
+        "launchArgs": [
+          "--use-gl=angle",
+          "--use-angle=swiftshader",
+          "--enable-unsafe-swiftshader"
+        ],
+        "cwebp": "1.3.2\nlibsharpyuv: 0.2.1",
+        "img2webp": "WebP Encoder version: 1.3.2\nWebP Mux version: 1.3.2\nlibsharpyuv: 0.2.1"
       },
       "provenance": {
         "model": "/models/anatomy.glb",
@@ -1251,21 +1350,21 @@
       },
       "image": {
         "file": "male/vrksasana-left.webp",
-        "bytes": 9566,
-        "sha256": "6fd248bf5dc47ec9cc4b62de4c4eeb0dbdddbf6957be342515b92395c5c520ba",
+        "bytes": 9660,
+        "sha256": "f4b63eee837a4cf2db75fa7c330d108737680e642dd394eeb01749ce1d2bee39",
         "width": 512,
         "height": 384
       },
       "animation": {
         "file": "male/vrksasana-left-motion.webp",
-        "bytes": 705240,
-        "sha256": "8de6160f8a1b3e50e69e78c09c2b9bf6dd5a805c821f2ea89f1c30236d6c09ba",
+        "bytes": 710182,
+        "sha256": "b3e7b0747e453f3259eb1bc886a8a8571206322e06f204392cd59bae1f601575",
         "width": 384,
         "height": 288,
         "durationSeconds": 12,
         "fps": 20,
         "frameCount": 240,
-        "uniqueFrames": 203
+        "uniqueFrames": 201
       }
     },
     "male/anjaneyasana-right.webp": {
@@ -4700,5 +4799,5 @@
       }
     }
   },
-  "generatedAt": "2026-10-08T12:46:30.792Z"
+  "generatedAt": "2026-10-11T10:27:32.265Z"
 }

@@ -25,7 +25,11 @@ function isDraftStep(value: unknown): value is ProgramStep {
     'sets' in value &&
     isFiniteNumber(value.sets) &&
     'reps' in value &&
-    isFiniteNumber(value.reps) &&
+    (value.reps === null || isFiniteNumber(value.reps)) &&
+    (!('durationSeconds' in value) ||
+      value.durationSeconds === null ||
+      isFiniteNumber(value.durationSeconds)) &&
+    (!('targetRpe' in value) || value.targetRpe === null || isFiniteNumber(value.targetRpe)) &&
     'restSeconds' in value &&
     isFiniteNumber(value.restSeconds) &&
     'loadKg' in value &&
@@ -64,6 +68,8 @@ export function newProgramStep(exerciseId: string): ProgramStep {
     exerciseId,
     sets: 3,
     reps: 10,
+    durationSeconds: null,
+    targetRpe: null,
     loadKg: null,
     restSeconds: 60,
     alternatives: [],

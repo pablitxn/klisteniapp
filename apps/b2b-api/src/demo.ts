@@ -21,6 +21,7 @@ export const DEMO_GYMS = [
     color: '#c75b35',
     adminEmail: 'admin@atlas.example.test',
     coachEmail: 'coach@atlas.example.test',
+    unassignedCoachEmail: 'unassigned-coach@atlas.example.test',
     memberEmail: 'member@atlas.example.test',
   },
   {
@@ -30,10 +31,17 @@ export const DEMO_GYMS = [
     color: '#246b63',
     adminEmail: 'admin@sur.example.test',
     coachEmail: 'coach@sur.example.test',
+    unassignedCoachEmail: 'unassigned-coach@sur.example.test',
     memberEmail: 'member@sur.example.test',
   },
 ] as const;
 const passwordSchema = z.string().min(12).max(128);
+const demoRoleLabels = {
+  admin: 'Administrador',
+  coach: 'Instructor',
+  unassignedCoach: 'Instructor sin socios asignados',
+  member: 'Socio',
+} as const;
 export async function requireDemoDatabase(pool: Pool, config: Config) {
   if (!config.demoMode || config.production)
     throw new Error('Demo operations require B2B_DEMO_MODE=true outside production');
@@ -64,8 +72,9 @@ export async function seedDemo(pool: Pool, auth: Auth, config: Config, password:
       for (const [role, email] of [
         ['admin', gym.adminEmail],
         ['coach', gym.coachEmail],
+        ['unassignedCoach', gym.unassignedCoachEmail],
         ['member', gym.memberEmail],
-      ]) {
+      ] as const) {
         const existing = (
           await db.query<{ id: string; email: string; name: string }>(
             'SELECT id,email,name FROM b2b_auth_user WHERE email=$1',
@@ -76,7 +85,7 @@ export async function seedDemo(pool: Pool, auth: Auth, config: Config, password:
           existing ??
           (await createUser(db, auth, {
             email,
-            name: `${gym.name} ${role === 'member' ? 'Socio' : role === 'coach' ? 'Instructor' : 'Administrador'}`,
+            name: `${gym.name} ${demoRoleLabels[role]}`,
             password,
           }));
       }
@@ -108,10 +117,10 @@ export async function seedDemo(pool: Pool, auth: Auth, config: Config, password:
         'INSERT INTO b2b_website(organization_id,draft,published,published_revision,published_at) VALUES($1,$2,$3,0,now()) ON CONFLICT DO NOTHING',
         [gym.id, website, { content: website, brand }],
       );
-      for (const role of ['admin', 'coach', 'member'])
+      for (const role of ['admin', 'coach', 'unassignedCoach', 'member'])
         await db.query(
           'INSERT INTO b2b_membership(organization_id,user_id,role) VALUES($1,$2,$3) ON CONFLICT DO NOTHING',
-          [gym.id, users[role].id, role],
+          [gym.id, users[role].id, role === 'unassignedCoach' ? 'coach' : role],
         );
       await db.query(
         'INSERT INTO b2b_coach_assignment(organization_id,coach_id,member_id) VALUES($1,$2,$3) ON CONFLICT DO NOTHING',
@@ -135,6 +144,20 @@ export async function seedDemo(pool: Pool, auth: Auth, config: Config, password:
           'Comprobá el pasador y ajustá el asiento antes de empezar.',
         ],
       );
+      // Two physical units deliberately share one catalog model. A long label
+      // exercises the same wrapping and QR layout used by real inventories.
+      const secondUnitId = `${gym.id}-cable-02`;
+      await db.query(
+        'INSERT INTO b2b_unit(id,organization_id,machine_id,label,location,adjustments) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(id) DO NOTHING',
+        [
+          secondUnitId,
+          gym.id,
+          'base-cable-station-v1',
+          'Polea 02 · estación de tracción y fortalecimiento con ajuste de asiento independiente',
+          'Sala principal · sector de entrenamiento acompañado',
+          'Esta unidad tiene otro ajuste de asiento. Verificá tu posición con el instructor.',
+        ],
+      );
       const exercise = ExerciseInputSchema.parse({
         name: 'Remo en polea sentado',
         description: 'Ejercicio propio del gimnasio usando un modelo compartido de polea.',
@@ -152,6 +175,20 @@ export async function seedDemo(pool: Pool, auth: Auth, config: Config, password:
       await db.query(
         "INSERT INTO b2b_exercise(id,organization_id,data,status) VALUES($1,$2,$3,'published') ON CONFLICT(id) DO NOTHING",
         [exerciseId, gym.id, exercise],
+      );
+      const unpublishedExerciseId = `${gym.id}-cable-row-draft`;
+      await db.query(
+        "INSERT INTO b2b_exercise(id,organization_id,data,status) VALUES($1,$2,$3,'draft') ON CONFLICT(id) DO NOTHING",
+        [
+          unpublishedExerciseId,
+          gym.id,
+          ExerciseInputSchema.parse({
+            ...exercise,
+            name: 'Remo en polea · adaptación pendiente de revisión y publicación del instructor',
+            description:
+              'Borrador privado para validar que el catálogo público no adelanta contenido.',
+          }),
+        ],
       );
       const data = ProgramInputSchema.parse({
         name: 'Inicio · fuerza y técnica',
@@ -231,8 +268,11 @@ export async function seedDemo(pool: Pool, auth: Auth, config: Config, password:
         slug: gym.slug,
         admin: users.admin,
         coach: users.coach,
+        unassignedCoach: users.unassignedCoach,
         member: users.member,
         unitId,
+        secondUnitId,
+        unpublishedExerciseId,
         assignmentId,
       });
     }

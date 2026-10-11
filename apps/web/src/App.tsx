@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react'
-import { computePlanProgress, dateInTimeZone, type Exercise, type MuscleId, type PersonalRoutine } from '@klisteniapp/scene-schema'
+import { computePlanProgress, dateInTimeZone, type Exercise, type MuscleId, type PersonalRoutine, type YogaAsanaId } from '@klisteniapp/scene-schema'
 import {
   exercises,
   muscles,
@@ -20,6 +20,7 @@ import Progress from './components/Progress'
 import BodyGuide from './components/BodyGuide'
 import ExercisePreview from './components/ExercisePreview'
 import ExercisePlanningDetails from './components/ExercisePlanningDetails'
+import ContextualMobility from './components/ContextualMobility'
 import { instanceMode } from './lib/deployment'
 import SettingsPanel, { type SettingsSection } from './components/SettingsPanel'
 import { cloudWriteAllowed } from './lib/cloud-access'
@@ -42,6 +43,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
   const { t } = useTranslation('core')
 
   const [page, setPage] = useState<Page>('routine')
+  const [selectedAsanaId, setSelectedAsanaId] = useState<YogaAsanaId | undefined>()
   const [selectedId, setSelectedId] = useState('squat')
   const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null)
   const [overlay, setOverlay] = useState<Overlay>(() => instanceMode && (new URLSearchParams(location.search).get('account') === 'login' || new URLSearchParams(location.search).get('billing') === 'return') ? 'settings' : null)
@@ -105,7 +107,13 @@ export default function App({ privacyControls, privacySettings, suspended = fals
   }
   const navigate = (next: Page) => {
     setPage(next)
+    setSelectedAsanaId(undefined)
     setSelectedMuscle(null)
+    scrollPageToTop()
+  }
+  const openAsana = (id: YogaAsanaId) => {
+    setSelectedAsanaId(id)
+    setPage('yoga')
     scrollPageToTop()
   }
   const openExercise = (id: string) => {
@@ -527,6 +535,7 @@ export default function App({ privacyControls, privacySettings, suspended = fals
                       )}
                     </div>
                     <ExercisePlanningDetails exercise={exercise} onExplore={choose} />
+                    <ContextualMobility muscleIds={exercise.primaryMuscles} onOpenAsana={openAsana} />
                     <div className="exercise-footer">
                       <span>
                         <Icon name="clock" size={14} /> {t("Descanso orientativo:")}{' '}
@@ -661,9 +670,9 @@ export default function App({ privacyControls, privacySettings, suspended = fals
               )}
             </section>
           )}
-          {page === 'anatomy' && <BodyGuide routine={routine} onOpenExercise={openExercise} />}
+          {page === 'anatomy' && <BodyGuide routine={routine} onOpenExercise={openExercise} onOpenAsana={openAsana} />}
           {page === 'yoga' && <Suspense fallback={<p role="status">{t("Preparando tu espacio de yoga…")}</p>}>
-            <YogaPage unavailable={privateUnavailable || cloudBlocked} suspended={suspended} />
+            <YogaPage initialAsanaId={selectedAsanaId} unavailable={privateUnavailable || cloudBlocked} suspended={suspended} />
           </Suspense>}
           {page === 'progress' && (
             <Progress

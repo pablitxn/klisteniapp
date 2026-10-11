@@ -1,0 +1,12 @@
+.contextual-mobility { margin-block: 22px; border: 1px solid var(--line); border-radius: 14px; padding: 16px; color: var(--ink); background: var(--surface-soft); }
+.contextual-mobility summary { cursor: pointer; font-weight: 650; line-height: 1.5; }
+.contextual-mobility > h4 { margin: 0; font-size: .95rem; }
+.contextual-mobility > h4 > svg, .contextual-mobility summary > svg { vertical-align: middle; margin-right: 8px; }
+.contextual-mobility > p { font-size: .85rem; color: var(--muted); line-height: 1.7; margin-block: 14px; }
+.contextual-mobility-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.contextual-mobility-links button { display: flex; flex-direction: column; align-items: start; gap: 10px; padding: 16px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; text-align: left; line-height: 1.5; }
+.contextual-mobility-links button > span { font-size: .83rem; color: var(--muted); }
+.contextual-mobility-links button > small { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; color: var(--purple-dark); }
+.contextual-mobility-links button:focus-visible, .contextual-mobility summary:focus-visible { outline: 3px solid var(--purple-dark); outline-offset: 3px; }
+.body-muscle .contextual-mobility-links { grid-template-columns: 1fr; }
+@media(max-width:720px) { .contextual-mobility-links { grid-template-columns: 1fr; } }

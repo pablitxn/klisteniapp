@@ -81,8 +81,8 @@ test('mobile atlas fits narrow screens and every catalog demonstration remains c
   page,
 }) => {
   // Reuse one loaded atlas across the expanded routine, including every new motion.
-  test.setTimeout(process.env.CI ? 600_000 : 180_000)
   const routine = exercises
+  test.setTimeout(process.env.CI ? atlasReadyTimeout + routine.length * 35_000 + 60_000 : 180_000)
   await page.addInitScript((exerciseIds) => {
     localStorage.setItem('klisteniapp.preferences.v1', JSON.stringify({ exerciseIds, reducedMotion: true }))
   }, routine.map(({ id }) => id))
@@ -91,26 +91,28 @@ test('mobile atlas fits narrow screens and every catalog demonstration remains c
   await expect(page.locator('.viewer-play')).toBeEnabled({ timeout: atlasReadyTimeout })
   await expect(page.locator('.exercise-row')).toHaveCount(routine.length)
   for (const exercise of routine) {
-    await page.locator('.exercise-row').filter({
-      has: page.locator(`.exercise-preview[data-exercise="${exercise.id}"]`),
-    }).click()
-    await expect(page.locator('.workbench-title')).toContainText(exercise.name)
-    await expect(page.getByRole('tabpanel')).toContainText(exercise.steps[0]!)
-    const slider = page.getByRole('slider', {
-      name: 'Posición de la demostración',
-    })
-    await slider.focus()
-    await page.keyboard.press('End')
-    await page.keyboard.press('Home')
-    await expect(
-      page.getByRole('button', { name: 'Reproducir demostración' }),
-    ).toBeVisible()
-    await page.keyboard.press('End')
-    await expect(slider).toHaveValue('1')
-    await expect(page.locator('.viewer-fallback')).toHaveCount(0)
-    expect(
-      await page.evaluate(() => document.documentElement.scrollWidth),
-    ).toBeLessThanOrEqual(391)
+    await test.step(`${exercise.id}: ${exercise.name}`, async () => {
+      await page.locator('.exercise-row').filter({
+        has: page.locator(`.exercise-preview[data-exercise="${exercise.id}"]`),
+      }).click()
+      await expect(page.locator('.workbench-title')).toContainText(exercise.name)
+      await expect(page.getByRole('tabpanel')).toContainText(exercise.steps[0]!)
+      const slider = page.getByRole('slider', {
+        name: 'Posición de la demostración',
+      })
+      await slider.focus()
+      await page.keyboard.press('End')
+      await page.keyboard.press('Home')
+      await expect(
+        page.getByRole('button', { name: 'Reproducir demostración' }),
+      ).toBeVisible()
+      await page.keyboard.press('End')
+      await expect(slider).toHaveValue('1')
+      await expect(page.locator('.viewer-fallback')).toHaveCount(0)
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBeLessThanOrEqual(391)
+    }, { timeout: process.env.CI ? 45_000 : 15_000 })
   }
   await page.getByRole('button', { name: 'Ampliar visor' }).click()
   await expect(page.getByRole('dialog')).toBeVisible()

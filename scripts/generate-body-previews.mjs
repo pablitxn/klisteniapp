@@ -2,8 +2,10 @@
 /* global window */
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { previewBrowserOptions } from './preview-browser.mjs'
+import { publishCapture, reusableCapture } from './preview-capture-state.mjs'
 import { execFileSync } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -20,6 +22,7 @@ const { values } = parseArgs({ options: {
   region: { type: 'string', multiple: true },
   size: { type: 'string', default: '256' },
   check: { type: 'boolean', default: false },
+  'only-stale': { type: 'boolean', default: false },
   'contact-sheet': { type: 'string' },
   help: { type: 'boolean', default: false },
 } })
@@ -34,6 +37,7 @@ Defaults to both male and female variants; repeat --model to select variants.
 Repeat --region to regenerate a subset. Default 256px, transparent background.
 --check validates BOTH models and ALL source/output hashes, dimensions, structure selections and provenance.
 --contact-sheet saves a labelled light/dark visual review at large and thumbnail sizes.
+--only-stale preserves captures whose settings, renderer and saved file hashes still match.
 Requires installed Playwright Chromium and cwebp; WEBP_CWEBP_BIN can override the encoder.
 Starts and closes its own Vite server on an available port; leaves running app servers alone.`)
   process.exit(0)
@@ -48,6 +52,8 @@ const ids = [...new Set(values.region ?? allIds)]
 for (const id of ids) if (!allIds.includes(id)) throw new Error(`Unknown region: ${id}`)
 
 const sourcePaths = [
+  'scripts/preview-browser.mjs',
+  'scripts/preview-capture-state.mjs',
   'packages/anatomy-viewer/package.json',
   'packages/model-assets/package.json',
   'packages/catalog-base/package.json',
@@ -163,13 +169,13 @@ try {
   server = await createServer({ root: webRoot, server: { host: '127.0.0.1', port: 0, strictPort: true }, logLevel: 'error' })
   await server.listen()
   const port = server.httpServer.address().port
-  browser = await chromium.launch({ args: process.platform === 'darwin' ? ['--enable-gpu', '--use-angle=metal'] : [] })
+  browser = await chromium.launch(previewBrowserOptions())
   const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 })
   page.setDefaultTimeout(90_000)
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
-  const renderer = { browser: await browser.version(), platform: process.platform, cwebp: encoderVersion }
+  const renderer = { browser: await browser.version(), platform: process.platform, launchArgs: previewBrowserOptions().args, cwebp: encoderVersion }
   for (const model of models) {
   const output = outputFor(model)
   const manifestPath = join(output, 'manifest.json')
@@ -178,9 +184,20 @@ try {
   manifest.regions ??= {}
   const provenance = provenanceFor(model)
   await mkdir(output, { recursive: true })
-  await page.goto(`http://127.0.0.1:${port}/body-preview-capture.html?model=${model}`)
-  await page.waitForFunction(() => Boolean(window.__bodyCapture))
+  let loaded = false
   for (const id of ids) {
+    if (values['only-stale'] && await reusableCapture({
+      entry: manifest.regions[id], output, files: { image: `${id}.webp` },
+      expected: { sourceHash, modelVariant: model, size, background: 'transparent', selection: bodyPreviewCameras[id], padding: bodyPreviewPadding, renderer, provenance, image: { width: size, height: size } },
+    })) {
+      console.log(`Verified current ${model}/${id}; preserving capture timestamp.`)
+      continue
+    }
+    if (!loaded) {
+      await page.goto(`http://127.0.0.1:${port}/body-preview-capture.html?model=${model}`)
+      await page.waitForFunction(() => Boolean(window.__bodyCapture))
+      loaded = true
+    }
     console.log(`Capturing ${model}/${id}…`)
     let timer
     let capture
@@ -203,19 +220,19 @@ try {
     for (const [path, expected] of Object.entries(sources)) {
       assert.equal(hash(await readFile(join(root, path))), expected, `Source changed during capture: ${path}; rerun after it stabilises`)
     }
-    await rename(join(temporary, file), join(output, file))
     manifest.regions[id] = {
       sourceHash, modelVariant: model, generatedAt: new Date().toISOString(), size, background: 'transparent',
       selection: bodyPreviewCameras[id], padding: bodyPreviewPadding,
       structures: capture.structures, triangles: capture.triangles, bounds: capture.bounds, camera: capture.camera,
       renderer, provenance,
-      image: { file, bytes: (await stat(join(output, file))).size, sha256: hash(bytes), width: size, height: size },
+      image: { file, bytes: bytes.length, sha256: hash(bytes), width: size, height: size },
     }
     manifest.sources = sources
     manifest.generatedAt = new Date().toISOString()
-    const nextManifest = join(temporary, 'manifest.json')
-    await writeFile(nextManifest, `${JSON.stringify(manifest, null, 2)}\n`)
-    await rename(nextManifest, manifestPath)
+    await publishCapture({ manifest, manifestPath, stagedManifestPath: join(temporary, 'manifest.json'),
+      assets: [{ staged: join(temporary, file), published: join(output, file) }],
+    })
+    await rm(png)
     console.log(`  ${capture.structures.length} structures · ${capture.triangles} source faces · ${(bytes.length / 1024).toFixed(1)} KiB`)
   }
   if (values['contact-sheet']) {

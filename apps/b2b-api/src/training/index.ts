@@ -18,6 +18,7 @@ import type { EquipmentModule } from '../equipment/index.ts';
 import { conflict, denied, HttpError, missing } from '../errors.ts';
 import { audit, staff, type Context } from '../organization-context.ts';
 import { TrainingRepository } from './repository.ts';
+import { ExecutionInputSchema } from '@klisteniapp/b2b-contracts';
 import {
   requireAssignableEquipment,
   requireExecutionEquipment,
@@ -175,7 +176,10 @@ export class TrainingModule {
     const repository = new TrainingRepository(context);
     const prior = await repository.priorExecution(input.id);
     if (prior) {
-      if (prior.member_id !== context.actorId || !isDeepStrictEqual(prior.data, input)) {
+      if (
+        prior.member_id !== context.actorId ||
+        !isDeepStrictEqual(ExecutionInputSchema.parse(prior.data), input)
+      ) {
         throw new HttpError(
           409,
           'EXECUTION_CONFLICT',

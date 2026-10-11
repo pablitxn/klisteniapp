@@ -49,6 +49,8 @@ export function requireAssignableEquipment(
 }
 
 const executionMessages: Record<ExecutionIssue, string> = {
+  INVALID_MEASUREMENT:
+    'Registrá la serie en la misma unidad de la prescripción: repeticiones o segundos.',
   INVALID_SET: 'La serie no pertenece a la rutina asignada.',
   INVALID_SUBSTITUTION: 'La sustitución debe estar permitida y explicar el motivo.',
   INCOMPLETE_EXECUTION: 'Completá todas las series o guardá la sesión como parcial.',

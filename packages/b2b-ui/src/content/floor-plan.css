@@ -1,0 +1,7 @@
+.floor-plan { position: relative; margin: 24px; border: 1px solid var(--line); background: var(--paper, #faf8f4); }
+.floor-plan > img { display: block; width: 100%; height: auto; }
+.floor-plan-point { position: absolute; transform: translate(-50%, -50%); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 2px solid #fff; color: #fff; background: #243d36; font-weight: 700; text-decoration: none; box-shadow: 0 1px 6px #0005; }
+.floor-plan-point:hover, .floor-plan-point:focus-visible { outline: 3px solid #c75b35; outline-offset: 3px; z-index: 1; }
+.floor-plan-list { padding-inline-start: 24px; }
+.floor-plan-list li { padding: 8px 0; overflow-wrap: anywhere; }
+.floor-plan-list a { display: inline-block; padding: 8px 0; }

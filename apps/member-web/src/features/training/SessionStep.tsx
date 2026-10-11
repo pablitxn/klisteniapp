@@ -1,8 +1,11 @@
 import type { Assignment, ProgramStep } from '@klisteniapp/b2b-contracts'
-import { Field, Notice } from '@klisteniapp/b2b-ui'
+import { Field, Notice, prescriptionStepLabel } from '@klisteniapp/b2b-ui'
 import { ExerciseDetails } from '../../components/ExerciseDetails'
 import { exerciseAvailability, substituteExercise } from './sessionDraft'
 import type { DraftSet } from './sessionDraft'
+import { RestTimer } from './RestTimer'
+
+const rpeValues = Array.from({ length: 19 }, (_, index) => 1 + index / 2)
 
 type SessionStepProps = {
   assignment: Assignment
@@ -25,17 +28,21 @@ export function SessionStep({
   const exercise = exercises.find((item) => item.id === step.exerciseId)
   const plannedAvailability = exerciseAvailability(assignment, step.id, step.exerciseId)
   const completed = sets.filter((set) => set.stepId === step.id && set.done).length
+  const selectedAlternatives = [
+    ...new Set(
+      sets
+        .filter((set) => set.stepId === step.id && set.exerciseId !== step.exerciseId)
+        .map((set) => set.exerciseId),
+    ),
+  ]
 
   return (
-    <section className="card">
+    <section className="card session-step" aria-labelledby={`movement-${step.id}`}>
       <div className="card-head">
         <div>
           <p className="eyebrow">MOVIMIENTO {stepIndex + 1}</p>
-          <h2>{exercise?.name ?? step.exerciseId}</h2>
-          <p className="muted">
-            {step.sets} series × {step.reps} repeticiones
-            {step.loadKg !== null ? ` · ${step.loadKg} kg` : ''} · {step.restSeconds} s de descanso
-          </p>
+          <h2 id={`movement-${step.id}`}>{exercise?.name ?? step.exerciseId}</h2>
+          <p className="muted">{prescriptionStepLabel(step)}</p>
           {step.notes && <p>{step.notes}</p>}
         </div>
         <span className="pill">
@@ -43,6 +50,10 @@ export function SessionStep({
         </span>
       </div>
       {exercise && <ExerciseDetails exercise={exercise} />}
+      {selectedAlternatives.map((id) => {
+        const alternative = exercises.find((item) => item.id === id)
+        return alternative ? <ExerciseDetails key={id} exercise={alternative} /> : null
+      })}
       {plannedAvailability?.status === 'unavailable' && (
         <Notice>
           El equipo planificado no está disponible actualmente. Usá únicamente una alternativa
@@ -57,26 +68,44 @@ export function SessionStep({
       )}
       {sets.map((set, index) =>
         set.stepId !== step.id ? null : (
-          <div
-            className="subtle"
-            style={{ padding: 12, borderRadius: 10, marginTop: 12 }}
+          <fieldset
+            className="subtle session-set"
             key={`${set.stepId}:${set.set}`}
+            disabled={locked}
           >
+            <legend>Serie {set.set}</legend>
             <div className="set-row">
-              <span>Serie {set.set}</span>
-              <Field label={`Repeticiones · ${stepIndex + 1}/${set.set}`}>
-                <input
-                  type="number"
-                  min={0}
-                  max={1000}
-                  value={set.reps}
-                  disabled={locked}
-                  onChange={(event) => onChangeSet(index, { reps: Number(event.target.value) })}
-                />
-              </Field>
+              {step.durationSeconds != null ? (
+                <Field label={`Duración segundos · ${stepIndex + 1}/${set.set}`}>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    max={86400}
+                    value={set.durationSeconds ?? ''}
+                    disabled={locked}
+                    onChange={(event) =>
+                      onChangeSet(index, { durationSeconds: Number(event.target.value) })
+                    }
+                  />
+                </Field>
+              ) : (
+                <Field label={`Repeticiones · ${stepIndex + 1}/${set.set}`}>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    max={1000}
+                    value={set.reps ?? ''}
+                    disabled={locked}
+                    onChange={(event) => onChangeSet(index, { reps: Number(event.target.value) })}
+                  />
+                </Field>
+              )}
               <Field label={`Carga kg · ${stepIndex + 1}/${set.set}`}>
                 <input
                   type="number"
+                  inputMode="decimal"
                   min={0}
                   max={1000}
                   step="0.5"
@@ -90,7 +119,7 @@ export function SessionStep({
                   }
                 />
               </Field>
-              <label className="check" style={{ paddingBottom: 12 }}>
+              <label className="check set-completed">
                 <input
                   type="checkbox"
                   checked={set.done}
@@ -100,6 +129,32 @@ export function SessionStep({
                 Hecha
               </label>
             </div>
+            <Field
+              label={`Esfuerzo percibido · ${stepIndex + 1}/${set.set}`}
+              hint="Opcional: de 1 (muy suave) a 10 (máximo)."
+            >
+              <select
+                value={set.rpe ?? ''}
+                disabled={locked}
+                onChange={(event) =>
+                  onChangeSet(index, {
+                    rpe: event.target.value ? Number(event.target.value) : null,
+                  })
+                }
+              >
+                <option value="">Sin registrar</option>
+                {set.rpe != null &&
+                  Number.isFinite(set.rpe) &&
+                  set.rpe >= 1 &&
+                  set.rpe <= 10 &&
+                  !rpeValues.includes(set.rpe) && <option value={set.rpe}>{set.rpe} / 10</option>}
+                {rpeValues.map((value) => (
+                  <option value={value} key={value}>
+                    {value} / 10
+                  </option>
+                ))}
+              </select>
+            </Field>
             {step.alternatives.length > 0 && (
               <div className="form-grid">
                 <Field
@@ -138,9 +193,10 @@ export function SessionStep({
                 )}
               </div>
             )}
-          </div>
+          </fieldset>
         ),
       )}
+      <RestTimer seconds={step.restSeconds} movement={exercise?.name ?? step.exerciseId} />
     </section>
   )
 }

@@ -4,7 +4,8 @@ import { createDefaultPersonalData, type YogaPractice } from '@klisteniapp/scene
 import { asanas } from '../src/data/yoga'
 import { openSettings } from './settings-helpers'
 
-test.use({ video: { mode: 'on', size: { width: 1440, height: 1000 } } })
+// Video readbacks and encoding compete with software WebGL; CI keeps raster assertions and PNGs.
+test.use({ video: process.env.CI ? 'off' : { mode: 'on', size: { width: 1440, height: 1000 } } })
 
 const practice: YogaPractice = {
   id: 'yoga-anatomy-sides', name: 'Lados de yoga', intention: 'Reconocer cada lado',
@@ -211,9 +212,37 @@ async function observeCamera(page: Page) {
     Object.assign(window, { __yogaCameraMatrices: matrices })
     const names = new WeakMap<WebGLUniformLocation, { name: string; program: WebGLProgram }>()
     const programs = new WeakMap<WebGLProgram, { view?: number[]; projection?: number[] }>()
+    const bindings = new WeakMap<WebGLRenderingContext | WebGL2RenderingContext, { program: WebGLProgram | null; framebuffer: WebGLFramebuffer | null }>()
+    function contextBindings(context: WebGLRenderingContext | WebGL2RenderingContext) {
+      let state = bindings.get(context)
+      if (!state) {
+        state = { program: null, framebuffer: null }
+        bindings.set(context, state)
+      }
+      return state
+    }
     for (const prototype of [WebGLRenderingContext.prototype, WebGL2RenderingContext.prototype]) {
       const locate = prototype.getUniformLocation
       const matrix = prototype.uniformMatrix4fv
+      const useProgram = prototype.useProgram
+      const bindFramebuffer = prototype.bindFramebuffer
+      const deleteFramebuffer = prototype.deleteFramebuffer
+      // Observe the actual GL calls without synchronous GPU queries on every draw.
+      prototype.useProgram = function (program: WebGLProgram | null) {
+        useProgram.call(this, program)
+        contextBindings(this).program = program
+      }
+      prototype.bindFramebuffer = function (target: number, framebuffer: WebGLFramebuffer | null) {
+        bindFramebuffer.call(this, target, framebuffer)
+        // FRAMEBUFFER updates both targets; READ_FRAMEBUFFER does not affect drawing.
+        if (target === this.FRAMEBUFFER || target === 0x8ca9 /* DRAW_FRAMEBUFFER */) contextBindings(this).framebuffer = framebuffer
+      }
+      prototype.deleteFramebuffer = function (framebuffer: WebGLFramebuffer | null) {
+        deleteFramebuffer.call(this, framebuffer)
+        const state = contextBindings(this)
+        if (state.framebuffer === framebuffer) state.framebuffer = null
+      }
+      // Deleting a current program only marks it for deletion; useProgram changes its binding.
       prototype.getUniformLocation = function (program: WebGLProgram, name: string) {
         const location = locate.call(this, program, name)
         if (location) names.set(location, { name, program })
@@ -234,8 +263,9 @@ async function observeCamera(page: Page) {
         if (typeof draw !== 'function') continue
         methods[name] = function (this: WebGLRenderingContext, ...args: unknown[]) {
           // Exclude the initial exercise viewer, shadow maps and environment captures.
-          if (this.canvas instanceof HTMLCanvasElement && this.canvas.closest('.yoga-anatomy-viewer') && this.getParameter(this.FRAMEBUFFER_BINDING) === null) {
-            const camera = programs.get(this.getParameter(this.CURRENT_PROGRAM) as WebGLProgram)
+          const state = contextBindings(this)
+          if (this.canvas instanceof HTMLCanvasElement && this.canvas.closest('.yoga-anatomy-viewer') && state.framebuffer === null) {
+            const camera = state.program && programs.get(state.program)
             if (camera?.view && camera.projection) {
               matrices.view = [...camera.view]
               matrices.projection = [...camera.projection]
@@ -286,89 +316,109 @@ test.describe('anatomical movement playback', () => {
   test.use({ reducedMotion: 'no-preference' })
 
   test('both bodies and sides move under a fixed camera; pause freezes the raster and seeking changes the pose', async ({ page }) => {
-    test.setTimeout(process.env.CI ? 360_000 : 180_000)
+    const models = ['male', 'female'] as const
+    const sides = ['left', 'right'] as const
+    const setupBudget = 180_000
+    const combinationBudget = 240_000
+    test.setTimeout(process.env.CI ? models.length * setupBudget + models.length * sides.length * combinationBudget + 60_000 : 180_000)
     const recordedAt = Date.now()
     const clips: { model: string; side: string; startSeconds: number; durationSeconds: number; canvas: { x: number; y: number; width: number; height: number } }[] = []
     await observeCamera(page)
     await openYoga(page)
-    for (const model of ['male', 'female'] as const) {
-      if (model === 'female') await selectModel(page, model)
-      const detail = await openTree(page)
-      const viewer = detail.locator('.yoga-anatomy-viewer')
-      await readyMotion(viewer)
-      await expect(viewer.getByRole('button', { name: 'Pausar movimiento', exact: true })).toBeVisible()
-      await pauseMotion(viewer)
-      await viewer.getByRole('combobox', { name: 'Capa del modelo', exact: true }).selectOption({ label: 'Piel' })
-      await viewer.getByRole('button', { name: 'Frontal', exact: true }).click()
-      const canvas = viewer.locator('canvas')
-      for (const side of ['left', 'right'] as const) {
-        await viewer.getByRole('button', { name: side === 'left' ? 'Lado izquierdo' : 'Lado derecho', exact: true }).click()
-        await expect(viewer).toHaveAttribute('data-side', side)
-        await expect(viewer.getByRole('button', { name: 'Restablecer vista', exact: true })).toBeEnabled()
-        const slider = await seekMotion(viewer, 0)
-        await expect(viewer).toContainText('Preparación')
-        const prepared = await canvas.screenshot({ path: test.info().outputPath(`motion-${model}-${side}-prepare.png`) })
-        const fixedCamera = await cameraMatrices(page)
-        await seekMotion(viewer, 0.5)
-        await expect(viewer).toContainText('Permanencia')
-        const hold = await canvas.screenshot({ path: test.info().outputPath(`motion-${model}-${side}-hold.png`) })
-        expect(prepared.equals(hold)).toBe(false)
-        expect(await cameraMatrices(page)).toEqual(fixedCamera)
-        await page.waitForTimeout(500)
-        expect((await canvas.screenshot()).equals(hold)).toBe(true)
-        await seekMotion(viewer, 0.1)
-        const before = await canvas.screenshot()
-        await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
-        await canvas.scrollIntoViewIfNeeded()
-        const clipStart = Date.now()
-        const canvasBounds = await canvas.boundingBox()
-        await expect.poll(async () => Number(await slider.inputValue())).toBeGreaterThan(0.25)
-        const moving = await canvas.screenshot({ path: test.info().outputPath(`motion-${model}-${side}-playing.png`) })
-        expect(moving.equals(before)).toBe(false)
-        expect(await cameraMatrices(page)).toEqual(fixedCamera)
-        clips.push({ model, side, startSeconds: (clipStart - recordedAt) / 1000, durationSeconds: (Date.now() - clipStart) / 1000, canvas: canvasBounds! })
+    for (const model of models) {
+      const { detail, viewer, canvas } = await test.step(`Prepare ${model}`, async () => {
+        if (model === 'female') await selectModel(page, model)
+        const detail = await openTree(page)
+        const viewer = detail.locator('.yoga-anatomy-viewer')
+        await readyMotion(viewer)
+        await expect(viewer.getByRole('button', { name: 'Pausar movimiento', exact: true })).toBeVisible()
         await pauseMotion(viewer)
-        const paused = await canvas.screenshot()
-        const phase = await slider.inputValue()
-        await page.waitForTimeout(700)
-        await expect(slider).toHaveValue(phase)
-        expect((await canvas.screenshot()).equals(paused)).toBe(true)
+        await viewer.getByRole('combobox', { name: 'Capa del modelo', exact: true }).selectOption({ label: 'Piel' })
+        await viewer.getByRole('button', { name: 'Frontal', exact: true }).click()
+        const canvas = viewer.locator('canvas')
+        return { detail, viewer, canvas }
+      }, { timeout: process.env.CI ? setupBudget : 0 })
+      for (const side of sides) {
+        await test.step(`${model} · ${side}`, async () => {
+          await viewer.getByRole('button', { name: side === 'left' ? 'Lado izquierdo' : 'Lado derecho', exact: true }).click()
+          await expect(viewer).toHaveAttribute('data-side', side)
+          await expect(viewer.getByRole('button', { name: 'Restablecer vista', exact: true })).toBeEnabled()
+          const slider = await seekMotion(viewer, 0)
+          await expect(viewer).toContainText('Preparación')
+          const prepared = await canvas.screenshot({ path: test.info().outputPath(`motion-${model}-${side}-prepare.png`) })
+          const fixedCamera = await cameraMatrices(page)
+          await seekMotion(viewer, 0.5)
+          await expect(viewer).toContainText('Permanencia')
+          const hold = await canvas.screenshot({ path: test.info().outputPath(`motion-${model}-${side}-hold.png`) })
+          expect(prepared.equals(hold)).toBe(false)
+          expect(await cameraMatrices(page)).toEqual(fixedCamera)
+          await page.waitForTimeout(500)
+          expect((await canvas.screenshot()).equals(hold)).toBe(true)
+          await seekMotion(viewer, 0.1)
+          const before = await canvas.screenshot()
+          await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
+          await canvas.scrollIntoViewIfNeeded()
+          const clipStart = Date.now()
+          const canvasBounds = await canvas.boundingBox()
+          await expect.poll(async () => Number(await slider.inputValue()), { timeout: process.env.CI ? 30_000 : 5_000 }).toBeGreaterThan(0.25)
+          const moving = await canvas.screenshot({ path: test.info().outputPath(`motion-${model}-${side}-playing.png`) })
+          expect(moving.equals(before)).toBe(false)
+          expect(await cameraMatrices(page)).toEqual(fixedCamera)
+          clips.push({ model, side, startSeconds: (clipStart - recordedAt) / 1000, durationSeconds: (Date.now() - clipStart) / 1000, canvas: canvasBounds! })
+          await pauseMotion(viewer)
+          const paused = await canvas.screenshot()
+          const phase = await slider.inputValue()
+          await page.waitForTimeout(700)
+          await expect(slider).toHaveValue(phase)
+          expect((await canvas.screenshot()).equals(paused)).toBe(true)
+        }, { timeout: process.env.CI ? combinationBudget : 0 })
       }
       await detail.getByRole('button', { name: 'Cerrar', exact: true }).click()
     }
-    await writeFile(test.info().outputPath('motion-video-clips.json'), JSON.stringify(clips, null, 2))
+    if (page.video()) await writeFile(test.info().outputPath('motion-video-clips.json'), JSON.stringify(clips, null, 2))
   })
 
   test('speed changes movement timing and hidden or suspended views stay paused when restored', async ({ page }) => {
     test.setTimeout(process.env.CI ? 240_000 : 120_000)
+    const transitionTimeout = process.env.CI ? 60_000 : 5_000
+    await page.clock.install({ time: new Date('2026-01-01T00:00:00Z') })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
     await openYoga(page)
     const detail = await openTree(page)
     const viewer = detail.locator('.yoga-anatomy-viewer')
     await readyMotion(viewer)
     await pauseMotion(viewer)
+    // Measure the real renderer against a known elapsed interval, independently of CDP/GPU latency.
+    await page.clock.pauseAt(new Date('2026-01-01T02:00:00Z'))
     const slider = viewer.getByRole('slider', { name: 'Recorrido del movimiento', exact: true })
     const rates: number[] = []
     for (const speed of ['0.5', '1']) {
       await seekMotion(viewer, 0.05)
       await viewer.getByRole('combobox', { name: 'Velocidad del movimiento', exact: true }).selectOption(speed)
-      const started = Date.now()
       await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
-      await page.waitForTimeout(1200)
+      await expect(viewer.getByRole('button', { name: 'Pausar movimiento', exact: true })).toBeVisible()
+      await page.clock.runFor(16)
+      const startedPhase = Number(await slider.inputValue())
+      await page.clock.fastForward(1200)
+      rates.push((Number(await slider.inputValue()) - startedPhase) / 1200)
       await pauseMotion(viewer)
-      rates.push((Number(await slider.inputValue()) - 0.05) / (Date.now() - started))
       const expectedRate = Number(speed) / 12 / 1000
       expect(rates.at(-1)!).toBeGreaterThan(expectedRate * 0.65)
       expect(rates.at(-1)!).toBeLessThan(expectedRate * 1.35)
     }
     expect(rates[1] / rates[0]).toBeGreaterThan(1.5)
     expect(rates[1] / rates[0]).toBeLessThan(2.6)
+    await page.clock.resume()
     await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
     await detail.evaluate(node => { node.scrollTop = node.scrollHeight })
+    await expect(viewer).not.toBeInViewport({ timeout: transitionTimeout })
+    await expect(viewer).toHaveAttribute('data-playback', 'paused', { timeout: transitionTimeout })
     await expect(viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true })).toBeVisible()
     const offscreenPhase = await slider.inputValue()
     await page.waitForTimeout(600)
     await expect(slider).toHaveValue(offscreenPhase)
     await detail.evaluate(node => { node.scrollTop = 0 })
+    await expect(viewer).toBeInViewport({ timeout: transitionTimeout })
     await expect(viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true })).toBeVisible()
     await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
     await page.evaluate(() => {
@@ -376,6 +426,7 @@ test.describe('anatomical movement playback', () => {
       Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' })
       document.dispatchEvent(new Event('visibilitychange'))
     })
+    await expect(viewer).toHaveAttribute('data-playback', 'paused', { timeout: transitionTimeout })
     await expect(viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true })).toBeVisible()
     const hiddenPhase = await slider.inputValue()
     await page.waitForTimeout(600)
@@ -389,7 +440,9 @@ test.describe('anatomical movement playback', () => {
     await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
     await page.evaluate(() => { history.pushState(null, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) })
     await expect(detail).not.toBeVisible()
-    const suspendedSlider = page.locator('.yoga-anatomy-viewer input[type="range"]')
+    const suspendedViewer = page.locator('.yoga-anatomy-viewer')
+    await expect(suspendedViewer).toHaveAttribute('data-playback', 'paused', { timeout: transitionTimeout })
+    const suspendedSlider = suspendedViewer.locator('input[type="range"]')
     const suspendedPhase = await suspendedSlider.inputValue()
     await page.waitForTimeout(600)
     expect(await suspendedSlider.inputValue()).toBe(suspendedPhase)
@@ -418,7 +471,7 @@ test.describe('anatomical movement playback', () => {
     await expect(slider).toHaveValue(initial)
     await seekMotion(viewer, 0)
     await viewer.getByRole('button', { name: 'Reproducir movimiento', exact: true }).click()
-    await expect.poll(async () => Number(await slider.inputValue())).toBeGreaterThan(0.08)
+    await expect.poll(async () => Number(await slider.inputValue()), { timeout: process.env.CI ? 30_000 : 5_000 }).toBeGreaterThan(0.08)
     await expect(session.getByRole('timer', { name: 'Tiempo restante', exact: true })).toHaveText('0:30')
     await expect(session.getByRole('button', { name: 'Comenzar asana', exact: true })).toBeVisible()
     await session.getByRole('button', { name: 'Terminar ahora', exact: true }).click()

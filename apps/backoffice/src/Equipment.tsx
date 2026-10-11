@@ -1,18 +1,17 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { UnitBatchSchema, type Asset, type Machine, type Unit } from '@klisteniapp/b2b-contracts'
 import { ApiError } from '@klisteniapp/b2b-client'
 import { Empty, Field, Notice } from '@klisteniapp/b2b-ui'
 import { useAccountClient } from '@klisteniapp/b2b-react'
 import QRCode from 'qrcode'
-import { AssetEditor, Heading, useAction } from './shared'
+import { Heading, useAction } from './shared'
+import { EquipmentEditor, type EquipmentBatch } from './features/equipment/EquipmentEditor'
+import type { EquipmentEditorSource } from './features/equipment/equipmentDraft'
+import { editorDraftKey } from './editorDraftStorage'
+import { latestEditorEntity } from './editorEntity'
+import { qrOriginReadiness, unitPublicationBlockers } from './equipmentReadiness'
 
 import { ContentMedia } from '@klisteniapp/b2b-ui/content'
-
-type UnitInput = Pick<
-  Unit,
-  'machineId' | 'label' | 'location' | 'assets' | 'adjustments' | 'public' | 'archived'
->
-type Batch = { id: string; units: UnitInput[] }
 
 function Resources({ assets }: { assets: Asset[] }) {
   return (
@@ -25,8 +24,11 @@ function UnitQr({ unit }: { unit: Unit }) {
   const [image, setImage] = useState(''),
     [error, setError] = useState('')
   const url = new URL(unit.publicPath, location.origin).href
+  const origin = qrOriginReadiness(location.origin)
   useEffect(() => {
     let live = true
+    setImage('')
+    setError('')
     void QRCode.toDataURL(url, {
       width: 360,
       margin: 2,
@@ -61,6 +63,12 @@ function UnitQr({ unit }: { unit: Unit }) {
             Descargar QR para imprimir
           </a>
         )}
+        {!origin.ready && (
+          <p className="small muted">
+            QR de prueba. Usá la dirección HTTPS accesible del gimnasio para imprimir la etiqueta
+            definitiva.
+          </p>
+        )}
         <Notice error>{error}</Notice>
       </div>
     </div>
@@ -89,68 +97,45 @@ export function Equipment({
   const client = useAccountClient(),
     action = useAction()
   const batchStorageKey = `klisteni.b2b.unit-batch.v1.${orgId}.${userId}`
-  const [mode, setMode] = useState<'units' | 'models'>('units'),
-    [creating, setCreating] = useState(false),
-    [assets, setAssets] = useState<Asset[]>([])
-  const [editingMachine, setEditingMachine] = useState<Machine | null>(null),
-    [editingUnit, setEditingUnit] = useState<Unit | null>(null),
-    [selectedModel, setSelectedModel] = useState('')
-  const [quantity, setQuantity] = useState(1),
-    [publicUnit, setPublicUnit] = useState(false),
-    [unitReviewed, setUnitReviewed] = useState(false),
-    [pendingBatch, setPendingBatch] = useState<Batch | null>(() => {
-      try {
-        const stored = sessionStorage.getItem(batchStorageKey)
-        if (stored) {
-          const parsed = UnitBatchSchema.safeParse(JSON.parse(stored))
-          if (parsed.success) return parsed.data
-        }
-      } catch {
-        /* A new batch is sent only after its durable draft can be stored. */
+  const [mode, setMode] = useState<'units' | 'models'>('units')
+  const [editor, setEditor] = useState<EquipmentEditorSource | null>(null)
+  const creating = Boolean(editor)
+  const [pendingBatch, setPendingBatch] = useState<EquipmentBatch | null>(() => {
+    try {
+      const stored = sessionStorage.getItem(batchStorageKey)
+      if (stored) {
+        const parsed = UnitBatchSchema.safeParse(JSON.parse(stored))
+        if (parsed.success) return parsed.data
       }
-      return null
-    })
+    } catch {
+      /* A new batch is sent only after its durable draft can be stored. */
+    }
+    return null
+  })
   const [reviewing, setReviewing] = useState<Machine | null>(null),
     [reviewAccepted, setReviewAccepted] = useState(false),
     [query, setQuery] = useState('')
   const canEdit = active && admin
   function closeEditor() {
-    setCreating(false)
-    setAssets([])
-    setEditingMachine(null)
-    setEditingUnit(null)
-    setSelectedModel('')
-    setQuantity(1)
-    setPublicUnit(false)
-    setUnitReviewed(false)
+    setEditor(null)
   }
-  function createUnits(modelId = '') {
+  function createUnits(machineId = '') {
     if (pendingBatch) return
-    closeEditor()
     setMode('units')
-    setSelectedModel(modelId)
-    setCreating(true)
+    setEditor({ kind: 'unit', machineId })
     action.clear()
   }
   function editMachine(machine: Machine) {
     if (pendingBatch) return
-    closeEditor()
     setMode('models')
-    setEditingMachine(machine)
-    setAssets(machine.assets)
-    setCreating(true)
+    setEditor({ kind: 'machine', machine })
     setReviewing(null)
     action.clear()
   }
   function editUnit(unit: Unit) {
     if (pendingBatch) return
-    closeEditor()
     setMode('units')
-    setEditingUnit(unit)
-    setSelectedModel(unit.machineId)
-    setAssets(unit.assets)
-    setPublicUnit(unit.public)
-    setCreating(true)
+    setEditor({ kind: 'unit', unit })
     action.clear()
   }
   async function retireUnit(unit: Unit) {
@@ -173,7 +158,7 @@ export function Equipment({
         : 'Equipo retirado. Su ficha deja de estar disponible públicamente.',
     )
   }
-  async function sendBatch(batch: Batch) {
+  async function sendBatch(batch: EquipmentBatch) {
     const saved = await action.run(
       async () => {
         try {
@@ -187,6 +172,7 @@ export function Equipment({
         try {
           await client.equipment.createUnitsBatch(orgId, batch)
           sessionStorage.removeItem(batchStorageKey)
+          sessionStorage.removeItem(editorDraftKey(userId, orgId, 'unit', 'new'))
           setPendingBatch(null)
           reload('units')
         } catch (error) {
@@ -201,71 +187,7 @@ export function Equipment({
         ? 'Equipo guardado. Podés revisar sus ajustes y habilitar su ficha.'
         : `${batch.units.length} equipos guardados. Cada unidad tiene ajustes y QR propios.`,
     )
-    if (saved) closeEditor()
-  }
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    if (mode === 'units') {
-      if (publicUnit && !unitReviewed) return
-      const body: UnitInput = {
-        machineId: selectedModel,
-        label: String(data.get('label')),
-        location: String(data.get('location')),
-        adjustments: String(data.get('adjustments')),
-        assets,
-        public: publicUnit,
-        archived: editingUnit?.archived ?? false,
-      }
-      if (!editingUnit) {
-        const start = Number(data.get('start') || 1)
-        await sendBatch({
-          id: crypto.randomUUID(),
-          units: Array.from({ length: quantity }, (_, i) => ({
-            ...body,
-            label:
-              quantity === 1 ? body.label : `${body.label} ${String(start + i).padStart(2, '0')}`,
-          })),
-        })
-        return
-      }
-      const saved = await action.run(async () => {
-        await client.equipment.updateUnit(orgId, editingUnit.id, {
-          ...body,
-          expectedRevision: editingUnit.revision,
-        })
-        reload('units')
-      }, 'Equipo guardado. Su ficha refleja los ajustes revisados.')
-      if (saved) closeEditor()
-      return
-    }
-    const own = editingMachine?.scope === 'organization'
-    const saved = await action.run(async () => {
-      const body = {
-        name: String(data.get('name') ?? ''),
-        type: String(data.get('type') ?? ''),
-        manufacturer: String(data.get('manufacturer') ?? ''),
-        model: String(data.get('model') ?? ''),
-        instructions: String(data.get('instructions') ?? ''),
-        assets,
-        derivedFromId:
-          editingMachine?.scope === 'base'
-            ? editingMachine.id
-            : (editingMachine?.derivedFromId ?? null),
-        derivedFromVersion:
-          editingMachine?.scope === 'base'
-            ? editingMachine.version
-            : (editingMachine?.derivedFromVersion ?? null),
-      }
-      if (own)
-        await client.equipment.updateMachine(orgId, editingMachine.id, {
-          ...body,
-          expectedRevision: editingMachine.revision,
-        })
-      else await client.equipment.createMachine(orgId, body)
-      reload('machines')
-    }, 'Modelo guardado como borrador. Revisalo y publicalo para habilitar sus fichas públicas.')
-    if (saved) closeEditor()
+    return saved
   }
   async function reviewModel(machine: Machine) {
     if (!reviewAccepted) return
@@ -287,7 +209,6 @@ export function Equipment({
       reload('machines')
     }, 'Modelo publicado. Las unidades públicas ya pueden usar sus instrucciones y recursos.')
   }
-  const model = machines.find((machine) => machine.id === selectedModel)
   const visibleMachines = machines.filter((machine) =>
     `${machine.name} ${machine.type} ${machine.manufacturer}`
       .toLocaleLowerCase()
@@ -308,7 +229,7 @@ export function Equipment({
               else if (mode === 'units') createUnits()
               else {
                 closeEditor()
-                setCreating(true)
+                setEditor({ kind: 'machine' })
                 action.clear()
               }
             }}
@@ -350,241 +271,38 @@ export function Equipment({
         </p>
       )}
       {action.notices}
-      {creating && (
-        <form
-          key={`${mode}/${editingMachine?.id ?? editingUnit?.id ?? 'new'}`}
-          className="card form-stack"
-          style={{ marginBottom: 24 }}
-          onSubmit={submit}
-        >
-          <h2>
-            {mode === 'models'
-              ? editingMachine?.scope === 'base'
-                ? 'Crear versión propia del modelo base'
-                : editingMachine
-                  ? 'Editar modelo propio'
-                  : 'Nuevo modelo de máquina'
-              : editingUnit
-                ? 'Editar unidad física'
-                : 'Registrar unidades físicas'}
-          </h2>
-          {editingMachine?.status === 'published' && editingMachine.scope === 'organization' && (
-            <Notice>
-              Guardar cambios deja el modelo en borrador. Sus fichas públicas vuelven a estar
-              disponibles cuando revisás y publicás la nueva versión.
-            </Notice>
-          )}
-          <fieldset
-            disabled={!canEdit || action.busy || Boolean(pendingBatch)}
-            style={{ border: 0, padding: 0, minWidth: 0 }}
-          >
-            <div className="form-grid">
-              {mode === 'models' ? (
-                <>
-                  <Field label="Nombre del modelo">
-                    <input
-                      name="name"
-                      required
-                      maxLength={150}
-                      defaultValue={editingMachine?.name ?? ''}
-                    />
-                  </Field>
-                  <Field label="Tipo de máquina">
-                    <input
-                      name="type"
-                      required
-                      maxLength={100}
-                      defaultValue={editingMachine?.type ?? ''}
-                      placeholder="Prensa, poleas, bicicleta…"
-                    />
-                  </Field>
-                  <Field label="Fabricante">
-                    <input
-                      name="manufacturer"
-                      maxLength={100}
-                      defaultValue={editingMachine?.manufacturer ?? ''}
-                    />
-                  </Field>
-                  <Field label="Referencia del fabricante">
-                    <input
-                      name="model"
-                      maxLength={100}
-                      defaultValue={editingMachine?.model ?? ''}
-                    />
-                  </Field>
-                </>
-              ) : (
-                <>
-                  <Field label="Modelo de máquina">
-                    <select
-                      name="machineId"
-                      required
-                      value={selectedModel}
-                      onChange={(event) => {
-                        setSelectedModel(event.target.value)
-                        setUnitReviewed(false)
-                        if (
-                          machines.find((machine) => machine.id === event.target.value)?.status !==
-                          'published'
-                        )
-                          setPublicUnit(false)
-                      }}
-                    >
-                      <option value="">Elegí un modelo</option>
-                      {machines.map((machine) => (
-                        <option key={machine.id} value={machine.id}>
-                          {machine.name}
-                          {machine.status !== 'published' ? ' · sin publicar' : ''}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                  <Field
-                    label="Nombre de esta unidad"
-                    hint={
-                      !editingUnit
-                        ? 'Para varias unidades, agregamos un número al nombre base.'
-                        : undefined
-                    }
-                  >
-                    <input
-                      name="label"
-                      required
-                      maxLength={quantity > 1 ? 90 : 100}
-                      defaultValue={editingUnit?.label ?? ''}
-                      onChange={() => setUnitReviewed(false)}
-                      placeholder="Ej.: Prensa"
-                    />
-                  </Field>
-                  {!editingUnit && (
-                    <Field label="Cantidad de unidades">
-                      <input
-                        type="number"
-                        min={1}
-                        max={20}
-                        value={quantity}
-                        onChange={(event) => {
-                          const count = Number(event.target.value)
-                          setQuantity(
-                            Number.isFinite(count)
-                              ? Math.max(1, Math.min(20, Math.floor(count)))
-                              : 1,
-                          )
-                          setUnitReviewed(false)
-                        }}
-                      />
-                    </Field>
-                  )}
-                  {!editingUnit && quantity > 1 && (
-                    <Field label="Número inicial">
-                      <input
-                        name="start"
-                        type="number"
-                        min={1}
-                        max={9999}
-                        defaultValue={1}
-                        onChange={() => setUnitReviewed(false)}
-                      />
-                    </Field>
-                  )}
-                  <Field label="Ubicación">
-                    <input
-                      name="location"
-                      maxLength={200}
-                      defaultValue={editingUnit?.location ?? ''}
-                      onChange={() => setUnitReviewed(false)}
-                      placeholder="Planta baja · sector piernas"
-                    />
-                  </Field>
-                </>
-              )}
-            </div>
-            <Field
-              label={
-                mode === 'models'
-                  ? 'Instrucciones del modelo'
-                  : 'Ajustes y particularidades de esta unidad'
-              }
-            >
-              <textarea
-                name={mode === 'models' ? 'instructions' : 'adjustments'}
-                defaultValue={
-                  mode === 'models'
-                    ? (editingMachine?.instructions ?? '')
-                    : (editingUnit?.adjustments ?? '')
+      {editor && (
+        <EquipmentEditor
+          key={`${editor.kind}/${editor.kind === 'machine' ? (editor.machine?.id ?? 'new') : (editor.unit?.id ?? editor.machineId ?? 'new')}`}
+          orgId={orgId}
+          source={
+            editor.kind === 'machine'
+              ? {
+                  ...editor,
+                  machine: editor.machine
+                    ? latestEditorEntity(editor.machine, machines)
+                    : undefined,
                 }
-                maxLength={mode === 'models' ? 5000 : 3000}
-                onChange={() => setUnitReviewed(false)}
-              />
-            </Field>
-            {mode === 'units' && quantity > 1 && (
-              <p className="small muted">
-                Ubicación, ajustes y recursos iniciales se aplican a todas. Después podés editar
-                cada unidad por separado.
-              </p>
-            )}
-            <AssetEditor
-              orgId={orgId}
-              value={assets}
-              onChange={(value) => {
-                setAssets(value)
-                setUnitReviewed(false)
-              }}
-            />
-            {mode === 'units' && (
-              <div style={{ margin: '20px 0' }}>
-                <label className="check">
-                  <input
-                    type="checkbox"
-                    checked={publicUnit}
-                    disabled={model?.status !== 'published' && !publicUnit}
-                    onChange={(event) => {
-                      setPublicUnit(event.target.checked)
-                      setUnitReviewed(false)
-                    }}
-                  />
-                  Mostrar ficha y recursos en la web pública del gimnasio
-                </label>
-                {model?.status !== 'published' && (
-                  <p className="small muted">
-                    Publicá el modelo antes de habilitar una ficha pública. Podés guardar las
-                    unidades para uso interno.
-                  </p>
-                )}
-                {publicUnit && (
-                  <label className="check" style={{ marginTop: 12 }}>
-                    <input
-                      type="checkbox"
-                      checked={unitReviewed}
-                      onChange={(event) => setUnitReviewed(event.target.checked)}
-                    />
-                    Revisé el nombre, la ubicación, los ajustes y los recursos de estas unidades.
-                  </label>
-                )}
-                {publicUnit && !websitePublished && (
-                  <p className="small muted">
-                    Las fichas se habilitarán cuando publiques el website.
-                  </p>
-                )}
-              </div>
-            )}
-            <button
-              className="button primary"
-              style={{ marginTop: 20 }}
-              disabled={mode === 'units' && publicUnit && !unitReviewed}
-            >
-              {action.busy
-                ? 'Guardando…'
-                : mode === 'models'
-                  ? 'Guardar modelo'
-                  : editingUnit
-                    ? 'Guardar equipo'
-                    : quantity > 1
-                      ? `Registrar ${quantity} equipos`
-                      : 'Registrar equipo'}
-            </button>
-          </fieldset>
-        </form>
+              : {
+                  ...editor,
+                  unit: editor.unit ? latestEditorEntity(editor.unit, units) : undefined,
+                }
+          }
+          machines={machines}
+          active={canEdit}
+          websitePublished={websitePublished}
+          batchBusy={action.busy}
+          pendingBatch={Boolean(pendingBatch)}
+          onCreateUnits={sendBatch}
+          onSaved={(resource, message) => {
+            closeEditor()
+            if (message)
+              void action.run(async () => {
+                reload(resource)
+              }, message)
+            else reload(resource)
+          }}
+        />
       )}
       {pendingBatch && (
         <section className="card review-panel">
@@ -605,7 +323,11 @@ export function Equipment({
             type="button"
             className="button primary"
             disabled={action.busy || !canEdit}
-            onClick={() => void sendBatch(pendingBatch)}
+            onClick={() =>
+              void sendBatch(pendingBatch).then((saved) => {
+                if (saved) closeEditor()
+              })
+            }
           >
             Confirmar alta pendiente
           </button>
@@ -765,11 +487,8 @@ export function Equipment({
           <div className="grid two">
             {units.map((unit) => {
               const machine = machines.find((machine) => machine.id === unit.machineId),
-                publicReady =
-                  websitePublished &&
-                  machine?.status === 'published' &&
-                  unit.public &&
-                  !unit.archived
+                blockers = unitPublicationBlockers(unit, machine, websitePublished),
+                publicReady = blockers.length === 0
               return (
                 <article className="card" key={unit.id}>
                   <span className={`pill ${!publicReady ? 'warning' : ''}`}>
@@ -795,7 +514,7 @@ export function Equipment({
                   {publicReady && <UnitQr unit={unit} />}
                   {unit.public && !publicReady && !unit.archived && (
                     <p className="small muted">
-                      Para habilitar el QR necesitás el modelo y el website publicados.
+                      {blockers.map((blocker) => blocker.reason).join(' ')}
                     </p>
                   )}
                   {admin && (

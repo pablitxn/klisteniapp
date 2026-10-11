@@ -1,11 +1,13 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Exercise, MuscleId } from '@klisteniapp/scene-schema'
+import type { Exercise, MuscleId, YogaAsanaId } from '@klisteniapp/scene-schema'
 import { getExercise, muscles } from '../data/exercises'
 import { bodyRegions, bodySources, muscleLessons, type BodyRegion } from '../data/body-guide'
 import { posteriorMuscles } from '../lib/body-preview-config'
 import { selectAnatomicalModel, useAppStore } from '../lib/store'
 import Icon from './Icon'
+import ContextualMobility from './ContextualMobility'
+import { searchLearningAsanas, searchMuscles } from '../lib/learning-library'
 import Modal from './Modal'
 import './body-guide.css'
 
@@ -14,6 +16,7 @@ const AnatomyViewer = lazy(() => import('./AnatomyViewer'))
 interface BodyGuideProps {
   routine: Exercise[]
   onOpenExercise: (id: string) => void
+  onOpenAsana: (id: YogaAsanaId) => void
 }
 
 function MuscleThumbnail({ id }: { id: MuscleId }) {
@@ -27,10 +30,17 @@ function MuscleThumbnail({ id }: { id: MuscleId }) {
   </span>
 }
 
-export default function BodyGuide({ routine, onOpenExercise }: BodyGuideProps) {
+export default function BodyGuide({ routine, onOpenExercise, onOpenAsana }: BodyGuideProps) {
   const { t } = useTranslation('body')
   const { t: core } = useTranslation('core')
+  const [query, setQuery] = useState('')
+  const matchingMuscles = searchMuscles(query, text => core(t(text)))
+  const matchingAsanas = query.trim() ? searchLearningAsanas(query) : []
   const [region, setRegion] = useState<BodyRegion | 'all'>('all')
+  const visibleRegions = bodyRegions
+    .filter(item => region === 'all' || region === item.id)
+    .map(item => ({ ...item, muscles: item.muscles.filter(id => matchingMuscles.includes(id)) }))
+    .filter(item => item.muscles.length > 0)
   const [explorer, setExplorer] = useState<MuscleId | null>(null)
   const [modelSelection, setModelSelection] = useState<MuscleId | null>(null)
   const uniqueRoutine = routine.filter((exercise, index) => routine.findIndex(item => item.id === exercise.id) === index)
@@ -91,6 +101,7 @@ export default function BodyGuide({ routine, onOpenExercise }: BodyGuideProps) {
             <button className="text-button" type="button" onClick={() => openMovement(example.id)}>{t('Ver el movimiento')}<Icon name="arrow" size={16} /></button>
           </div>
         </div>
+        <ContextualMobility collapsible={false} muscleIds={[id]} onOpenAsana={onOpenAsana} />
         <div className="body-fiche-sources">
           <h4>{t('Fuentes de esta ficha')}</h4>
           {bodySources.filter(source => lesson.sourceIds.includes(source.id)).map(source => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{t(source.label)}<Icon name="arrow" size={13} /></a>)}
@@ -105,10 +116,24 @@ export default function BodyGuide({ routine, onOpenExercise }: BodyGuideProps) {
         <button type="button" aria-pressed={region === 'all'} onClick={() => setRegion('all')}>{t('Todo el cuerpo')}</button>
         {bodyRegions.map(item => <button key={item.id} type="button" aria-pressed={region === item.id} onClick={() => setRegion(item.id)}>{t(item.title)}</button>)}
       </div>
-      {bodyRegions.filter(item => region === 'all' || region === item.id).map(item => <div className="body-region" key={item.id}>
+      <div className="body-learning-search">
+        <label htmlFor="body-learning-query">{t('Buscar anatomía o yoga')}</label>
+        <div><input id="body-learning-query" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t('Músculo, articulación o asana…')} />
+          {query && <button className="text-button" type="button" onClick={() => setQuery('')}>{t('Limpiar búsqueda')}</button>}
+        </div>
+      </div>
+      {query.trim() && <p className="body-search-results" role="status">{t('{{muscles}} regiones musculares · {{asanas}} fichas de yoga', { muscles: visibleRegions.reduce((sum, item) => sum + item.muscles.length, 0), asanas: matchingAsanas.length })}</p>}
+      {visibleRegions.map(item => <div className="body-region" key={item.id}>
         <div className="body-region-heading"><h3>{t(item.title)}</h3><p>{t(item.description)}</p></div>
         <div className="body-muscle-list">{item.muscles.map(renderMuscle)}</div>
       </div>)}
+      {matchingAsanas.length > 0 && <section className="body-learning-yoga" aria-label={t('Yoga en la enciclopedia')}>
+        <h3>{t('Yoga en la enciclopedia')}</h3>
+        <div className="contextual-mobility-links">{matchingAsanas.map(asana => <button type="button" key={asana.id} onClick={() => onOpenAsana(asana.id)}>
+          <strong>{asana.name}</strong><span>{asana.sanskritName} · {asana.englishName}</span><span>{asana.description}</span><small>{t('Explorar ficha de yoga')} <Icon name="arrow" size={14} /></small>
+        </button>)}</div>
+      </section>}
+      {visibleRegions.length === 0 && matchingAsanas.length === 0 && <p className="body-search-results">{t('No encontramos fichas. Probá otro término o cambiá la región.')}</p>}
     </section>
 
     <aside className="body-sources" aria-label={t('Fuentes para seguir aprendiendo')}>

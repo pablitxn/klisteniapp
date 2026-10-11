@@ -17,6 +17,8 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
+    "check:release": "node scripts/check-release.mjs",
+    "equipment:check": "node scripts/validate-equipment.mjs",
     "previews:generate": "node scripts/generate-exercise-previews.mjs",
     "previews:check": "node scripts/generate-exercise-previews.mjs --check && pnpm body-previews:check && pnpm yoga-previews:check",
     "yoga-previews:generate": "node scripts/generate-yoga-previews.mjs",

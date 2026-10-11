@@ -2,9 +2,11 @@
 /* global window */
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { previewBrowserOptions } from './preview-browser.mjs'
+import { publishCapture, reusableCapture } from './preview-capture-state.mjs'
 import { loadRetainedCaptures } from './preview-provenance.mjs'
 import { execFileSync } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,6 +27,7 @@ const { values } = parseArgs({ options: {
   size: { type: 'string', default: '512' },
   fps: { type: 'string', default: '20' },
   check: { type: 'boolean', default: false },
+  'only-stale': { type: 'boolean', default: false },
   'contact-sheets': { type: 'string' },
   help: { type: 'boolean', default: false },
 } })
@@ -38,7 +41,8 @@ Both models and both anatomical sides of unilateral asanas are rendered separate
 Requires Playwright Chromium, cwebp and img2webp; WEBP_CWEBP_BIN / WEBP_IMG2WEBP_BIN override paths.
 Uses an isolated Vite server; never touches existing app servers.
 --check verifies every source/output hash, pose/model/side identity, size and provenance.
---contact-sheets exports paginated labelled PNGs for visual review.`)
+--contact-sheets exports paginated labelled PNGs for visual review.
+--only-stale preserves verified current captures; with contact sheets it renders only their three review phases.`)
   process.exit(0)
 }
 const size = Number(values.size)
@@ -59,6 +63,8 @@ const variants = (selectedModels, selectedIds) => selectedModels.flatMap(model =
   .flatMap(asana => (asana.bilateral ? ['both'] : ['right', 'left']).map(side => ({ asana, model, side, file: yogaPreviewFile(asana.id, model, side) }))))
 const allVariants = variants(allModels, asanas.map(asana => asana.id))
 const sourcePaths = [
+  'scripts/preview-browser.mjs',
+  'scripts/preview-capture-state.mjs',
   'scripts/preview-provenance.mjs',
   'packages/anatomy-viewer/package.json',
   'packages/model-assets/package.json',
@@ -189,13 +195,13 @@ try {
   server = await createServer({ root: webRoot, server: { host: '127.0.0.1', port: 0, strictPort: true }, logLevel: 'error' })
   await server.listen()
   const port = server.httpServer.address().port
-  browser = await chromium.launch({ args: process.platform === 'darwin' ? ['--enable-gpu', '--use-angle=metal'] : [] })
+  browser = await chromium.launch(previewBrowserOptions())
   const page = await browser.newPage({ viewport: { width: size, height }, deviceScaleFactor: 1 })
   page.setDefaultTimeout(90_000)
   const errors = []
   const motionReview = new Map()
   page.on('pageerror', error => errors.push(error.message))
-  const renderer = { browser: await browser.version(), platform: process.platform, cwebp: encoderVersion, img2webp: animationEncoderVersion }
+  const renderer = { browser: await browser.version(), platform: process.platform, launchArgs: previewBrowserOptions().args, cwebp: encoderVersion, img2webp: animationEncoderVersion }
   async function captureFrame(label, phase = YOGA_HOLD_PHASE) {
     let timeout
     try {
@@ -206,6 +212,28 @@ try {
     } finally { clearTimeout(timeout) }
   }
   for (const { asana, model, side, file } of variants(models, ids)) {
+    const animatedFile = yogaPreviewAnimationFile(asana.id, model, side)
+    const current = values['only-stale'] && await reusableCapture({
+      entry: manifest.poses[file], output, files: { image: file, animation: animatedFile },
+      expected: {
+        sourceHash, asanaId: asana.id, modelVariant: model, side, size, renderer, provenance,
+        image: { width: size, height },
+        animation: { width: motionWidth, height: motionHeight, durationSeconds: YOGA_MOTION_DURATION_SECONDS, fps, frameCount },
+      },
+    })
+    if (current) {
+      console.log(`Verified current ${file}; preserving capture timestamp.`)
+      if (values['contact-sheets']) {
+        await page.goto(`http://127.0.0.1:${port}/yoga-preview-capture.html?asana=${asana.id}&model=${model}&side=${side}`)
+        await page.waitForFunction(() => Boolean(window.__yogaCapture))
+        await captureFrame(file)
+        const review = []
+        for (const phase of [0, 0.25, 0.5]) review.push((await captureFrame(file, phase)).png)
+        if (errors.length) throw new Error(errors.join('\n'))
+        motionReview.set(file, review)
+      }
+      continue
+    }
     console.log(`Capturing ${file}…`)
     await page.goto(`http://127.0.0.1:${port}/yoga-preview-capture.html?asana=${asana.id}&model=${model}&side=${side}`)
     await page.waitForFunction(() => Boolean(window.__yogaCapture))
@@ -218,6 +246,7 @@ try {
     await writeFile(png, Buffer.from(capture.png.split(',')[1], 'base64'))
     encode(['-quiet', '-q', '90', '-m', '6', png, '-o', webp])
     const bytes = await readFile(webp)
+    await rm(png)
     assert.deepEqual(webpDimensions(bytes), { width: size, height })
     const frames = [], frameHashes = new Set(), reviewFrames = []
     for (let frame = 0; frame < frameCount; frame++) {
@@ -233,10 +262,10 @@ try {
       const frameWebp = join(temporary, `frame-${String(frame).padStart(3, '0')}.webp`)
       await writeFile(framePng, frameBytes)
       encode(['-quiet', '-q', '82', '-m', '4', '-resize', String(motionWidth), String(motionHeight), framePng, '-o', frameWebp])
+      await rm(framePng)
       frames.push(frameWebp)
     }
     assert.ok(frameHashes.size > 1, `No body movement: ${file}`)
-    const animatedFile = yogaPreviewAnimationFile(asana.id, model, side)
     const animatedPath = join(temporary, 'motion.webp')
     animate(['-loop', '0', '-lossy', '-q', '82', '-m', '4', '-d', String(frameDuration), ...frames, '-o', animatedPath])
     const motionBytes = await readFile(animatedPath)
@@ -249,8 +278,6 @@ try {
       assert.equal(hash(await readFile(join(root, path))), expected, `Source changed during capture: ${path}; rerun after it stabilises`)
     }
     await mkdir(dirname(join(output, file)), { recursive: true })
-    await rename(webp, join(output, file))
-    await rename(animatedPath, join(output, animatedFile))
     motionReview.set(file, reviewFrames)
     manifest.poses[file] = {
       asanaId: asana.id, modelVariant: model, side, size, sourceHash, generatedAt: new Date().toISOString(),
@@ -260,9 +287,10 @@ try {
         durationSeconds: YOGA_MOTION_DURATION_SECONDS, fps, frameCount, uniqueFrames: frameHashes.size },
     }
     manifest.version = 2; manifest.sources = sources; manifest.generatedAt = new Date().toISOString()
-    const next = join(temporary, 'manifest.json')
-    await writeFile(next, `${JSON.stringify(manifest, null, 2)}\n`)
-    await rename(next, manifestPath)
+    await publishCapture({ manifest, manifestPath, stagedManifestPath: join(temporary, 'manifest.json'),
+      assets: [{ staged: webp, published: join(output, file) }, { staged: animatedPath, published: join(output, animatedFile) }],
+    })
+    await Promise.all(frames.map(frame => rm(frame)))
     console.log(`  ${(bytes.length / 1024).toFixed(1)} KiB poster + ${(motionBytes.length / 1024).toFixed(1)} KiB motion · ${frameHashes.size} distinct frames · ${YOGA_MOTION_DURATION_SECONDS}s`)
   }
   if (values['contact-sheets']) {

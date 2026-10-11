@@ -335,3 +335,5 @@ replace the anatomy license.
 [README media attribution](docs/media/NOTICE.md)
 
 For the separate gym product, member application, backoffice and local deployment, see [B2B architecture and operation](docs/b2b.md). The existing web/API remain the personal B2C product.
+
+The [roadmap delivery and release checks](docs/b2b-release.md) cover timed prescriptions, optional voice guidance, gym floor plans, media review and cross-browser acceptance. Use `pnpm check:release` with independent disposable B2C/B2B database URLs for the complete release gate, and `pnpm equipment:check` to validate a static Blender export before upload.

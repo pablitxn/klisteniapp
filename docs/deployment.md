@@ -83,4 +83,6 @@ Release sequence:
 5. Promote the API, verify `/api/healthz` and `/api/readyz`, then promote the matching web.
 6. Check anonymous local use, account isolation, session recovery, invite/trial/lifetime behavior, expired-account export, and actual runtime readiness. Record observed results, not only CI success.
 
+Always finish migrations before starting API processes. If an API started against an empty or incomplete schema, restart it after migration: Better Auth caches a schema mismatch for that process. `/api/healthz` may remain 200 while `/api/readyz` returns 503 even after the tables exist. Readiness includes authentication availability, so a successfully migrated and restarted API must return 200 before receiving traffic. The PostgreSQL regression in `apps/api/tests/readiness.test.ts` covers this startup order.
+
 A web rollback can use a compatible previous artifact while preserving the origin for browser-local data. An API downgrade does not undo a database migration and must preserve current JSON fields, including health data. For incompatible failures, stop instance writes and prefer a forward fix or restore into a separate database before changing the runtime connection. Do not restore over an existing database as a test or change unrelated services. See [recovery details](accounts.md#recovery).

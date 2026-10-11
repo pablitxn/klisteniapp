@@ -54,6 +54,21 @@ export function ProgramStepEditor({
         </div>
       </div>
       <div className="form-grid">
+        <Field label={`Tipo de objetivo · movimiento ${index + 1}`}>
+          <select
+            value={step.reps === null ? 'duration' : 'reps'}
+            onChange={(event) =>
+              onChange(
+                event.target.value === 'duration'
+                  ? { reps: null, durationSeconds: 30 }
+                  : { reps: 10, durationSeconds: null },
+              )
+            }
+          >
+            <option value="reps">Repeticiones</option>
+            <option value="duration">Tiempo</option>
+          </select>
+        </Field>
         <Field label={`Series · movimiento ${index + 1}`}>
           <input
             type="number"
@@ -64,16 +79,32 @@ export function ProgramStepEditor({
             onChange={(event) => onChange({ sets: Number(event.target.value) })}
           />
         </Field>
-        <Field label={`Repeticiones · movimiento ${index + 1}`}>
-          <input
-            type="number"
-            min={1}
-            max={1000}
-            required
-            value={step.reps}
-            onChange={(event) => onChange({ reps: Number(event.target.value) })}
-          />
-        </Field>
+        {step.reps === null ? (
+          <Field
+            label={`Duración segundos · movimiento ${index + 1}`}
+            hint="Duración de cada serie; el descanso se indica por separado."
+          >
+            <input
+              type="number"
+              min={1}
+              max={86400}
+              required
+              value={step.durationSeconds ?? ''}
+              onChange={(event) => onChange({ durationSeconds: Number(event.target.value) })}
+            />
+          </Field>
+        ) : (
+          <Field label={`Repeticiones · movimiento ${index + 1}`}>
+            <input
+              type="number"
+              min={1}
+              max={1000}
+              required
+              value={step.reps}
+              onChange={(event) => onChange({ reps: Number(event.target.value) })}
+            />
+          </Field>
+        )}
         <Field
           label={`Carga kg · movimiento ${index + 1}`}
           hint="Vacío para carga libre o peso corporal."
@@ -82,7 +113,8 @@ export function ProgramStepEditor({
             type="number"
             min={0}
             max={1000}
-            step="0.5"
+            step="any"
+            inputMode="decimal"
             value={step.loadKg ?? ''}
             onChange={(event) =>
               onChange({ loadKg: event.target.value === '' ? null : Number(event.target.value) })
@@ -97,6 +129,22 @@ export function ProgramStepEditor({
             required
             value={step.restSeconds}
             onChange={(event) => onChange({ restSeconds: Number(event.target.value) })}
+          />
+        </Field>
+        <Field
+          label={`Esfuerzo objetivo RPE · movimiento ${index + 1}`}
+          hint="Opcional: percepción de esfuerzo de 1 a 10, donde 10 es el máximo."
+        >
+          <input
+            type="number"
+            min={1}
+            max={10}
+            step="any"
+            inputMode="decimal"
+            value={step.targetRpe ?? ''}
+            onChange={(event) =>
+              onChange({ targetRpe: event.target.value === '' ? null : Number(event.target.value) })
+            }
           />
         </Field>
       </div>

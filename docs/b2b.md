@@ -60,10 +60,10 @@ Las referencias anatómicas conservan su procedencia y avisos originales. La atr
 ## Recorrido de la primera entrega
 
 1. El administrador configura la marca e invita profesores y socios; asigna socios a un profesor.
-2. El profesor crea y publica un ejercicio propio si lo necesita; combina ejercicios base y locales en una rutina con series, repeticiones, carga, descanso, notas y alternativas explícitas.
+2. El profesor crea y publica un ejercicio propio si lo necesita; combina ejercicios base y locales en una rutina con series, repeticiones o duración, carga, RPE objetivo opcional, descanso, notas y alternativas explícitas.
 3. Publicar crea una versión inmutable. Asignar guarda esa versión, sus ejercicios y modelos; futuras ediciones no cambian lo prescrito.
 4. El socio abre su rutina o llega desde el QR de una unidad. El QR público sólo contiene la dirección de la ficha, nunca credenciales ni actividad privada.
-5. El socio registra las series realizadas y el motivo de cada sustitución permitida. Guarda una sesión parcial o terminada mediante acción explícita. El borrador sobrevive a una recarga y un envío pendiente conserva su ID para reintentar sin duplicados.
+5. El socio registra las series realizadas en la unidad prescrita, su carga, RPE opcional y el motivo de cada sustitución permitida. Guarda una sesión parcial o terminada mediante acción explícita; ambas quedan inmutables al confirmarse. El borrador sobrevive a una recarga y un envío pendiente conserva su ID para reintentar sin duplicados.
 6. El profesor compara la prescripción con la ejecución de sus socios asignados.
 
 La sesión B2B identifica una cuenta y la membresía determina su rol dentro de cada organización. El servidor verifica organización, rol, asignación del profesor y estado del servicio; no confía en la navegación o en un ID enviado por el cliente. Las mutaciones requieren origen exacto y guardia de cuenta para rechazar pestañas de una sesión anterior. El último administrador activo no puede deshabilitarse por accidente. B2C no se vuelve visible por tener una membresía B2B.
@@ -75,7 +75,7 @@ La preparación reúne identidad, inventario, contenido, actividades, horarios, 
 1. Completar nombre, presentación, color, logo, dirección y contacto desde la identidad del gimnasio.
 2. Elegir modelos de la biblioteca y registrar sus unidades físicas, individualmente o en un lote de hasta 20. Cada unidad conserva nombre, ubicación, ajustes, recursos y visibilidad propios. Reutilizar un modelo no crea una copia de su ficha genérica; crear una adaptación sí genera una entidad local con su procedencia.
 3. Adaptar los ejercicios de referencia y agregar instrucciones y recursos del gimnasio. El flujo local es **borrador → revisado → publicado**. Editar reinicia la revisión; las rutinas ya asignadas conservan sus snapshots. Administradores y profesores pueden revisar y publicar ejercicios; los modelos y el inventario los administra el administrador.
-4. Completar actividades, horarios y galería en el borrador del website. Guardar no sustituye la versión pública: publicar aplica la revisión guardada. Retirar la publicación oculta el sitio y sus fichas QR.
+4. Completar actividades, horarios y galería en el borrador del website; opcionalmente agregar un plano vinculado a unidades o una vista estática del espacio. Guardar no sustituye la versión pública: publicar aplica la revisión guardada. Retirar la publicación oculta el sitio y sus fichas QR, conservando los cambios locales aún sin guardar.
 5. Seleccionar las unidades públicas disponibles desde QRs y preparar las etiquetas. Incluyen gimnasio, nombre de unidad, ubicación y enlace absoluto; el navegador permite imprimir o guardar la hoja como PDF. Las fichas internas, retiradas o cuyo modelo no está publicado no se ofrecen para imprimir.
 
 Antes de pegar las etiquetas, probarlas desde el teléfono con la dirección accesible de la instalación. Los QR generados en la demo loopback apuntan a `127.0.0.1` y sólo funcionan en el host local; para una prueba física se necesita el origen HTTPS de una instancia accesible desde el teléfono.
@@ -139,7 +139,24 @@ docker compose --env-file .env.b2b-instance -f deploy/compose.b2b.instance.yaml 
 
 El rol `postgres` sólo se usa al crear/migrar y operar backups. La API usa `klisteni_b2b`, sin superusuario, creación de bases, roles o DDL. No recibe la contraseña de migración. `B2B_NODE_ENV=production` exige HTTPS y activa cookies seguras. Para una validación local del contenedor puede usarse temporalmente `development` con un origen loopback; no es la configuración pública.
 
-Las migraciones versionadas se ejecutan antes de iniciar la API; readiness falla si falta una. Al actualizar, respaldar primero, construir las nuevas imágenes y ejecutar el servicio `migrate` de nuevo antes de recrear `b2b-api`. Para rollback de código conservar las imágenes anteriores; no revertir una migración aplicada a ciegas. Los cambios futuros deben ser compatibles hacia atrás o tener un procedimiento de restauración probado.
+Las migraciones versionadas se ejecutan antes de iniciar la API; readiness falla si falta una. Al actualizar, respaldar primero, construir las nuevas imágenes y ejecutar el servicio `migrate` de nuevo antes de recrear `b2b-api`. Conservar las imágenes anteriores y un respaldo consistente de base y medios, pero comprobar la compatibilidad de los datos antes de cualquier rollback: volver a una imagen anterior no revierte los documentos JSON ni una migración SQL.
+
+Si la API llegó a iniciarse contra un esquema vacío o incompleto, reiniciarla después de migrar: Better Auth conserva ese error en memoria. En ese estado `/api/b2b/healthz` puede responder 200 mientras `/api/b2b/readyz` continúa en 503, aunque las tablas ya existan. Readiness verifica también la autenticación; el reinicio posterior a una migración correcta debe restablecer 200. El [smoke de runtime](b2b-runtime-validation.md) reproduce este caso, además de verificar HTTPS de producción, persistencia y restauración en recursos aislados.
+
+### Compatibilidad y despliegue de esta actualización
+
+La lectura de datos históricos es compatible en el código nuevo: los campos ausentes de duración, RPE, plano y modelo espacial se completan con `null`, sin reescribir snapshots publicados. Esto no garantiza compatibilidad entre versiones del protocolo. Los parsers anteriores de programas, ejecuciones y sitio web usan Zod `.strict()` y rechazan campos desconocidos incluso cuando valen `null`; además, las prescripciones por tiempo usan `reps: null`, que antes no era válido. La API nueva agrega esos campos al leer filas antiguas, por lo que un frontend anterior puede mostrar `INVALID_RESPONSE` inmediatamente, aunque nadie haya usado todavía las funciones nuevas. A la inversa, el frontend nuevo envía estos campos y la API anterior puede rechazar sus escrituras.
+
+Actualizar `b2b-api` y la imagen `web` que contiene **ambos frontend**, miembro y backoffice, como una misma entrega:
+
+1. Preparar las imágenes de una misma revisión y registrar sus IDs. Coordinar una ventana de actualización y detener escrituras antes de tomar el respaldo consistente de PostgreSQL y medios; probar su restauración en recursos separados.
+2. Con el acceso público temporalmente en mantenimiento, ejecutar las migraciones con la imagen nueva y después iniciar o recrear `b2b-api`. Verificar liveness y readiness sin exponer una combinación de API nueva y frontend anterior.
+3. Reemplazar `web` con los dos frontend correspondientes. Recargar las pestañas que quedaron abiertas con la versión anterior; actualizar el servidor no reemplaza el JavaScript ya cargado. Conservar los borradores locales pendientes y completar su recuperación con la versión nueva.
+4. Comprobar sitio público, acceso de administrador y miembro, programas, asignaciones e historial desde las páginas recargadas. Reabrir el acceso cuando la combinación completa esté verificada. Esta entrega no implementa negociación de versiones ni garantiza una actualización gradual entre contratos diferentes.
+
+Guardar o publicar con esta versión puede persistir los campos nuevos en borradores, programas, snapshots y ejecuciones, incluso si sólo contienen `null`. Por eso la ausencia de una migración SQL nueva no hace seguro volver a las imágenes anteriores. Preferir una corrección con el código actual. Si es necesario retroceder, detener escrituras y validar el par de imágenes anterior contra una copia de los datos actuales; si resulta incompatible, restaurar el respaldo previo de base y medios en recursos separados y verificarlo antes de cambiar las conexiones. Esa restauración omite cambios posteriores al respaldo: conservar también el estado más reciente y definir cómo recuperar esos cambios. No eliminar campos ni convertir tiempos en repeticiones para forzar un downgrade de snapshots históricos.
+
+### Operación de la instancia
 
 Operaciones CLI: `apps/b2b-api/src/operator.ts` permite `bootstrap` (primer administrador y gimnasio), `create-organization` (siguiente gimnasio), `service-access`, `seed-demo` y `reset-demo`. Las tres primeras funcionan con el rol runtime y no ejecutan DDL. El operador controla acceso al servicio por gimnasio; no se implementa cobro automático B2B. Las invitaciones se copian desde el backoffice para entregar al destinatario; esta versión no configura un proveedor de correo.
 
@@ -197,7 +214,7 @@ Restaurar primero en una base vacía separada con `pg_restore --no-owner --no-ac
 
 Para las pruebas de integración, exportar `TEST_DATABASE_URL` para B2C y `B2B_TEST_DATABASE_URL` para B2B, apuntando a bases de prueba desechables. El usuario de prueba debe poder crear schemas. El navegador B2B exige que el nombre de la base incluya `b2b` y `test` (por ejemplo, `klisteni_b2b_test`) y que la URL no incluya el parámetro `options`: el runner administra su propio schema. Estos permisos de prueba son distintos de los del rol runtime de una instancia.
 
-Instalar Chromium una vez con `pnpm --filter @klisteniapp/web exec playwright install chromium`. Ejecutar las suites de navegador en serie para evitar competir por los builds y recursos gráficos.
+Instalar Chromium y WebKit con `pnpm --filter @klisteniapp/web exec playwright install --with-deps chromium webkit`. Ejecutar las suites de navegador en serie para evitar competir por los builds y recursos gráficos. La [matriz](b2b-browser-validation.md) cubre escritorio, táctil y comparaciones visuales; `pnpm check:release` exige ambas bases y reúne las comprobaciones completas.
 
 ```sh
 pnpm check
@@ -210,4 +227,6 @@ pnpm test:b2b:e2e
 
 Las suites B2B crean y eliminan su propio schema de prueba. Los checks sin PostgreSQL no acreditan la integración. CI conserva la política de ejecución explícita de suites pesadas: `RUN_B2B_INTEGRATION_TESTS=true` desde una pipeline manual ejecuta API y navegador sobre PostgreSQL desechable.
 
-Para continuar, mantener cambios revisables por responsabilidad: catálogo/visor con regresión B2C; migraciones y contratos B2B; nuevas capacidades de socio/backoffice; despliegue. No añadir condicionales de gimnasio al store B2C ni dependencias entre sus bases. Voz, recorrido virtual, automatización comercial, transcodificación de medios y más animaciones de máquinas son ampliaciones posteriores.
+La [entrega del roadmap](b2b-release.md) agrega prescripciones por segundos y RPE opcional, voz y descanso, recuperación de equipamiento/website, plano 2D, vista estática opcional del espacio y comparación de clips. La vista 3D acepta modelos estáticos; no importa clips animados de Blender. Los campos nuevos se decodifican con defaults compatibles en snapshots históricos sin reescribirlos; su persistencia usa los JSONB existentes, sin migraciones B2C ni tablas compartidas.
+
+Para continuar, mantener cambios revisables por responsabilidad: catálogo/visor con regresión B2C; migraciones y contratos B2B; nuevas capacidades de socio/backoffice; despliegue. No añadir condicionales de gimnasio al store B2C ni dependencias entre sus bases. La autoría/revisión de máquinas y movimientos, el recorrido 3D con navegación, automatización comercial y transcodificación de medios requieren sus entregas propias.

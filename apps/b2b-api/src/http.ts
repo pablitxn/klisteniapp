@@ -101,6 +101,9 @@ export function createApiServer({
               .rowCount
           )
             throw new Error('Missing migration');
+          // Auth retains schema mismatches from startup until this process is
+          // restarted. Existing tables alone must not advertise usable sessions.
+          await (await auth.$context).checkSchema?.();
           return json(response, 200, { status: 'ready' });
         } catch {
           return json(response, 503, { status: 'unavailable' });

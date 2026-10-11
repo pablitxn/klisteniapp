@@ -7,7 +7,7 @@ export type DraftStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>
 export function editorDraftKey(
   accountId: string,
   orgId: string,
-  kind: 'exercise' | 'program',
+  kind: 'exercise' | 'program' | 'machine' | 'unit' | 'website',
   entityId: string,
 ) {
   return `klisteni.b2b.editor-copy.v1.${encodeURIComponent(JSON.stringify([accountId, orgId, kind, entityId]))}`

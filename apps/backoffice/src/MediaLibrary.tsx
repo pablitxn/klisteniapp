@@ -3,6 +3,7 @@ import type { Asset, Media } from '@klisteniapp/b2b-contracts'
 import { Empty, Field, Notice } from '@klisteniapp/b2b-ui'
 import { errorMessage } from '@klisteniapp/b2b-client'
 import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
+import { ClipComparison } from './features/media/ClipComparison'
 
 export function mediaAsset(media: Media): Asset {
   return {
@@ -183,6 +184,9 @@ export function MediaLibrary({
           onChoose?.(mediaAsset(media))
         }}
       />
+      {!onChoose && !imagesOnly && data && (
+        <ClipComparison orgId={orgId} library={data.media} disabled={disabled} />
+      )}
       <Field label="Buscar en la biblioteca de archivos">
         <input
           type="search"

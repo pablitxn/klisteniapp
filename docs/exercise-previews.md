@@ -29,20 +29,36 @@ brew install ffmpeg
 
 El script busca los codificadores en `PATH`. Para instalaciones en otras rutas, admite `WEBP_CWEBP_BIN`, `WEBP_IMG2WEBP_BIN` y `FFMPEG_BIN`, cada una con la ruta de su ejecutable. No hace falta Blender para capturar el modelo ya preparado.
 
+En un servidor sin GPU, `PREVIEW_SOFTWARE_WEBGL=1` activa explícitamente SwiftShader para los tres generadores. Los argumentos de Chromium quedan registrados en el manifiesto. Por ejemplo: `PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate --gif`. Los frames temporales se eliminan después de publicar cada captura, manteniendo el uso de disco acotado durante una regeneración completa.
+
+Los tres generadores aceptan `--only-stale` para retomar una ejecución interrumpida. Antes de omitir una captura comparan las fuentes actuales, las dimensiones/fps solicitadas, las versiones del navegador y codificadores, los argumentos del renderer y el hash y tamaño real de cada archivo. Exigen una fecha ISO UTC válida, con hasta cinco minutos de diferencia futura para tolerar relojes de distintos hosts. No cambian la fecha ni el manifiesto de las capturas verificadas. Para conservar también todos los GIF existentes, usar `PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate --gif --only-stale`. En yoga, combinarlo con `--contact-sheets` vuelve a renderizar sólo las tres fases de revisión de los ítems ya verificados; los archivos publicados conservan su procedencia original.
+
+Una regeneración completa y reanudable en Linux puede ejecutarse en serie así, conservando el log de cada familia y las planchas de revisión:
+
+```sh
+mkdir -p .cache/preview-review
+PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate --gif --only-stale > .cache/preview-review/exercise.log 2>&1
+PREVIEW_SOFTWARE_WEBGL=1 pnpm body-previews:generate --only-stale --contact-sheet .cache/preview-review/body.png > .cache/preview-review/body.log 2>&1
+PREVIEW_SOFTWARE_WEBGL=1 pnpm yoga-previews:generate --only-stale --contact-sheets .cache/preview-review/yoga > .cache/preview-review/yoga.log 2>&1
+pnpm previews:check
+```
+
+Mantener las fuentes quietas durante la captura; el generador rechaza publicarlas si cambiaron entre frames. Si una ejecución se interrumpe, corregir la causa y repetir el mismo comando con sus mismos parámetros. El registro por ítem distingue `Capturing` de `Verified current`. Una captura incompleta o un archivo ausente/corrupto se vuelve a generar, sin inventar comprobantes para los archivos previos. La comprobación final no necesita acceso a Git ni al recibo histórico cuando todas las capturas corresponden a las fuentes actuales.
+
 ## Generar y comprobar
 
 ```sh
-# Regenerar todo el catálogo en ambos modelos
-pnpm previews:generate
+# Regenerar todo el catálogo en ambos modelos conservando los GIF
+pnpm previews:generate --gif
 
 # Iterar un ejercicio
-pnpm previews:generate --exercise squat
+pnpm previews:generate --exercise squat --gif
 
 # Iterar solo la representación femenina de un ejercicio
-pnpm previews:generate --exercise squat --model female
+pnpm previews:generate --exercise squat --model female --gif
 
 # Regenerar varios ejercicios concretos
-pnpm previews:generate --exercise pushup --exercise dead-bug
+pnpm previews:generate --exercise pushup --exercise dead-bug --gif
 
 # Añadir un GIF junto a los dos WebP de un modelo
 pnpm previews:generate --exercise squat --model female --gif
@@ -111,8 +127,9 @@ La extracción a paquetes conserva las capturas originales de ejercicios y yoga,
 El hash de fuentes es global: modificar, por ejemplo, una cámara o una pose marca como antiguas las otras entradas también. Regenerar una sola es útil mientras iterás; antes de dar por terminada la actualización, ejecutá:
 
 ```sh
-pnpm previews:generate
+pnpm previews:generate --gif
 pnpm body-previews:generate
+pnpm yoga-previews:generate
 pnpm previews:check
 pnpm check
 pnpm test:e2e
@@ -148,7 +165,9 @@ El segundo comando genera las dos variantes y dos hojas para revisión visual: `
 
 Después de modificar una pose, el rig, el modelo o una cámara, comprobá el poster y el bucle a tamaño real de tarjeta, tanto en móvil como en escritorio. Revisá extremos, mitad de recorrido, manos, pies y apoyo en suelo, y comparalos con el visor. Probá también hover, foco con teclado y movimiento reducido. Un archivo que carga correctamente puede seguir teniendo un encuadre o una deformación que necesite corregirse.
 
-El generador captura y codifica en `.cache/exercise-previews-*`. Solo publica los archivos de un ejercicio después de completar su captura y las codificaciones solicitadas. Si falla a mitad del catálogo, los ejercicios ya terminados quedan guardados; el resto puede seguir pendiente. El bloque de limpieza cierra procesos y retira temporales cuando el script sale normalmente o maneja un error. Después de un fallo o una interrupción, ejecutá `pnpm previews:check` y regenerá lo que indique; no asumas que todo el catálogo quedó actualizado.
+El generador captura y codifica en `.cache/exercise-previews-*`. Los tres generadores escriben el manifiesto completo en un archivo temporal antes de reemplazar cualquier imagen: si esa escritura falla por falta de espacio, se conservan los archivos publicados y su manifiesto anterior. Después reemplazan los recursos solicitados y, al final, renombran el manifiesto. El conjunto de varias URLs no forma una sola transacción del sistema de archivos: una interrupción entre esos renombrados puede dejar imágenes nuevas con el manifiesto anterior; los hashes detectan esa situación y `--only-stale` vuelve a capturar el ítem. No se actualizan hashes para aceptar archivos incompletos.
+
+Si falla a mitad del catálogo, los ejercicios ya terminados quedan guardados; el resto puede seguir pendiente. El bloque de limpieza cierra procesos y retira temporales cuando el script sale normalmente o maneja un error. Después de un fallo o una interrupción, ejecutá `pnpm previews:check` y regenerá lo que indique; no asumas que todo el catálogo quedó actualizado.
 
 Si falta un codificador, el error identifica su ejecutable. Si Chromium no está instalado, ejecutá su comando de instalación de arriba. La preparación tiene un límite de 90 segundos y cada frame de 30 segundos: si el render no responde, el comando falla y limpia sus recursos. Si WebGL o la escena fallan, resolvé ese problema antes de aceptar imágenes nuevas; no reemplaces una captura fallida por una miniatura de otro ejercicio.
 

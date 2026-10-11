@@ -18,10 +18,19 @@ export type SessionDraft = {
 export type SessionStorage = Pick<Storage, 'getItem' | 'setItem'>
 type ExecutionStatus = ExecutionInput['status']
 type PreparedExecution = { ok: true; payload: ExecutionInput } | { ok: false; error: string }
-const DraftSetReferenceSchema = ExecutionSetSchema.omit({ reps: true, loadKg: true })
+const DraftSetReferenceSchema = ExecutionSetSchema.omit({
+  reps: true,
+  loadKg: true,
+  durationSeconds: true,
+  rpe: true,
+})
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isNullableNumber(value: unknown): value is number | null {
+  return value === null || (typeof value === 'number' && Number.isFinite(value))
 }
 
 export function sessionDraftKey(orgId: string, userId: string, assignmentId: string): string {
@@ -39,6 +48,8 @@ export function createSessionDraft(assignment: Assignment, id: string): SessionD
         set: index + 1,
         exerciseId: step.exerciseId,
         reps: step.reps,
+        durationSeconds: step.durationSeconds ?? null,
+        rpe: null,
         loadKg: step.loadKg,
         reason: '',
         done: false,
@@ -50,11 +61,13 @@ export function createSessionDraft(assignment: Assignment, id: string): SessionD
 function recordedSets(draft: SessionDraft): ExecutionInput['sets'] {
   return draft.sets
     .filter((set) => set.done)
-    .map(({ stepId, set, exerciseId, reps, loadKg, reason }) => ({
+    .map(({ stepId, set, exerciseId, reps, durationSeconds, rpe, loadKg, reason }) => ({
       stepId,
       set,
       exerciseId,
       reps,
+      durationSeconds: durationSeconds ?? null,
+      rpe: rpe ?? null,
       loadKg,
       reason,
     }))
@@ -80,18 +93,19 @@ export function parseSessionDraft(value: unknown, assignment: Assignment): Sessi
   const seen = new Set<string>()
   for (const item of value.sets) {
     if (!isRecord(item) || typeof item.done !== 'boolean') return null
-    const { done, reps, loadKg, ...input } = item
+    const { done, reps, loadKg, durationSeconds = null, rpe = null, ...input } = item
     // Drafts retain unfinished numeric edits. Only performed sets in the outgoing
     // payload must satisfy execution bounds; invalid unused rows must not lose retries.
     if (
-      typeof reps !== 'number' ||
-      !Number.isFinite(reps) ||
-      !(loadKg === null || (typeof loadKg === 'number' && Number.isFinite(loadKg)))
+      !isNullableNumber(reps) ||
+      !isNullableNumber(loadKg) ||
+      !isNullableNumber(durationSeconds) ||
+      !isNullableNumber(rpe)
     )
       return null
     const parsed = DraftSetReferenceSchema.safeParse(input)
     if (!parsed.success) return null
-    const set = { ...parsed.data, reps, loadKg, done }
+    const set = { ...parsed.data, reps, loadKg, durationSeconds, rpe, done }
     if (!isAuthorizedSet(assignment.program, set)) return null
     const key = `${parsed.data.stepId}:${parsed.data.set}`
     if (seen.has(key)) return null
@@ -113,12 +127,21 @@ export function parseSessionDraft(value: unknown, assignment: Assignment): Sessi
       pending.data.assignmentId !== assignment.id ||
       pending.data.notes !== draft.notes ||
       !checkExecution(assignment.program, pending.data).ok ||
-      JSON.stringify(pending.data.sets) !== JSON.stringify(recordedSets(draft))
+      !sameSets(pending.data.sets, recordedSets(draft))
     )
       return null
     draft.pending = pending.data
   }
   return draft
+}
+
+function sameSets(first: ExecutionInput['sets'], second: ExecutionInput['sets']): boolean {
+  return (
+    first.length === second.length &&
+    first.every((set, index) =>
+      Object.entries(set).every(([key, value]) => value === second[index][key as keyof typeof set]),
+    )
+  )
 }
 
 export function recoverSessionDraft(
@@ -161,7 +184,7 @@ export function changeDraftSet(
 }
 
 export function substituteExercise(exerciseId: string): Partial<DraftSet> {
-  return { exerciseId, loadKg: null, done: false, reason: '' }
+  return { exerciseId, loadKg: null, rpe: null, done: false, reason: '' }
 }
 
 export function exerciseAvailability(assignment: Assignment, stepId: string, exerciseId: string) {
@@ -172,10 +195,11 @@ export function exerciseAvailability(assignment: Assignment, stepId: string, exe
 
 const executionMessages: Record<ExecutionIssue, string> = {
   INVALID_SET: 'Una de las series no pertenece a la rutina asignada. Volvé a cargar la rutina.',
+  INVALID_MEASUREMENT: 'Registrá repeticiones o duración según lo indicado para cada movimiento.',
   INVALID_SUBSTITUTION:
     'Elegí una alternativa autorizada y contanos el motivo de cada sustitución antes de guardar.',
   INCOMPLETE_EXECUTION:
-    'Para completar la sesión, marcá todas las series con repeticiones o guardá una sesión parcial.',
+    'Para completar la sesión, marcá todas las series con repeticiones o duración realizada, o guardá una sesión parcial.',
 }
 
 /** Pending payloads are immutable: a lost response must retry the same id, timestamp and data. */
@@ -212,7 +236,8 @@ export function prepareExecution(
   if (!parsed.success) {
     return {
       ok: false,
-      error: 'Revisá las repeticiones, las cargas y las notas de la sesión antes de guardar.',
+      error:
+        'Revisá las repeticiones, la duración, las cargas, el esfuerzo RPE y las notas antes de guardar.',
     }
   }
   const result = checkExecution(assignment.program, parsed.data)

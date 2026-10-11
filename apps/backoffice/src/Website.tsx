@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   WebsiteInputSchema,
   type Organization,
@@ -7,57 +7,124 @@ import {
 } from '@klisteniapp/b2b-contracts'
 import { ApiError } from '@klisteniapp/b2b-client'
 import { dateLabel, Field, Notice } from '@klisteniapp/b2b-ui'
-import { useAccountClient } from '@klisteniapp/b2b-react'
+import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
 import { AssetEditor, Heading, useAction } from './shared'
+import { SpaceEditor } from './FloorPlanEditor'
+import { ContentMedia, FloorPlan } from '@klisteniapp/b2b-ui/content'
+import { editorDraftKey, writeEditorDraft, type EditorDraft } from './editorDraftStorage'
+import { discardSavedWebsiteCopy, readWebsiteCopy } from './websiteDraft'
 
-function readLocalCopy(key: string): WebsiteInput | null {
-  try {
-    const stored = sessionStorage.getItem(key)
-    if (!stored) return null
-    const candidate = JSON.parse(stored) as WebsiteInput
-    const unfinished = (value: string) =>
-      typeof value === 'string' && !value.trim() ? 'Pendiente' : value
-    // A recoverable editing draft may contain an activity or opening-hours row still being filled in.
-    const validation = {
-      ...candidate,
-      activities: candidate.activities.map((item) => ({ ...item, name: unfinished(item.name) })),
-      openingHours: candidate.openingHours.map((item) => ({
-        ...item,
-        days: unfinished(item.days),
-        hours: unfinished(item.hours),
-      })),
-    }
-    return WebsiteInputSchema.safeParse(validation).success ? candidate : null
-  } catch {
-    return null
-  }
-}
-
-export function WebsiteEditor({
-  userId,
-  organization,
-  website,
-  active,
-  reload,
-}: {
+type WebsiteEditorProps = {
   userId: string
   organization: Organization
   website: Website
   active: boolean
   reload: () => void
-}) {
+}
+
+function CurrentWebsite({ content, orgId }: { content: WebsiteInput; orgId: string }) {
+  const client = useAccountClient()
+  const units = useLoad((signal) => client.withSignal(signal).equipment.listUnits(orgId), orgId)
+  return (
+    <div className="subtle" style={{ padding: 18, borderRadius: 12, marginBottom: 16 }}>
+      <p className="eyebrow">VERSIÓN ACTUAL DEL SERVIDOR</p>
+      <h3>{content.headline || 'Sin título'}</h3>
+      <p>{content.introduction || 'Sin presentación.'}</p>
+      <h4>Actividades</h4>
+      {content.activities.length ? (
+        <ul>
+          {content.activities.map((activity) => (
+            <li key={activity.id}>
+              <strong>{activity.name}</strong> · {activity.schedule}
+              <p>{activity.description}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Sin actividades.</p>
+      )}
+      <h4>Horarios</h4>
+      {content.openingHours.length ? (
+        <ul>
+          {content.openingHours.map((hours) => (
+            <li key={hours.id}>
+              {hours.days}: {hours.hours}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Sin horarios.</p>
+      )}
+      <h4>Recursos del borrador actual</h4>
+      <ContentMedia assets={content.gallery} />
+      {!content.gallery.length && <p>Sin galería.</p>}
+      {content.floorPlan ? (
+        <>
+          <Notice error>{units.error}</Notice>
+          <FloorPlan plan={content.floorPlan} units={units.data?.units ?? []} />
+        </>
+      ) : (
+        <p>Sin plano.</p>
+      )}
+      {content.spatialModel ? (
+        <ContentMedia assets={[content.spatialModel]} />
+      ) : (
+        <p>Sin vista 3D del espacio.</p>
+      )}
+    </div>
+  )
+}
+
+export function WebsiteEditor(props: WebsiteEditorProps) {
+  return <WebsiteEditorContent key={`${props.userId}/${props.organization.id}`} {...props} />
+}
+
+function WebsiteEditorContent({
+  userId,
+  organization,
+  website,
+  active,
+  reload,
+}: WebsiteEditorProps) {
   const client = useAccountClient(),
     action = useAction()
-  const backupKey = `klisteni.b2b.website-copy.v1.${organization.id}.${userId}`
+  const backupKey = editorDraftKey(userId, organization.id, 'website', 'website')
+  const legacyKey = `klisteni.b2b.website-copy.v1.${organization.id}.${userId}`
   const [saved, setSaved] = useState(website),
     [draft, setDraft] = useState<WebsiteInput>(website.draft)
   const [reviewing, setReviewing] = useState(false),
     [confirmed, setConfirmed] = useState(false)
   const [newer, setNewer] = useState<Website | null>(null)
-  const [localCopy, setLocalCopy] = useState<WebsiteInput | null>(() => readLocalCopy(backupKey))
+  const [localCopy, setLocalCopy] = useState<EditorDraft<WebsiteInput> | null>(() => {
+    try {
+      return readWebsiteCopy(sessionStorage, backupKey, legacyKey)
+    } catch {
+      return null
+    }
+  })
+  const [draftRevision, setDraftRevision] = useState<number | null>(website.revision)
+  const [copyReviewed, setCopyReviewed] = useState(false)
+  const [storageError, setStorageError] = useState('')
+  const mounted = useRef(true)
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+    }
+  }, [])
   const dirty = JSON.stringify(draft) !== JSON.stringify(saved.draft)
   const stale = Boolean(newer && newer.revision > saved.revision)
+  const copyConflict = draftRevision !== saved.revision
   const publicUrl = new URL(`/g/${organization.slug}`, location.origin).href
+  useEffect(() => {
+    if (!dirty) return
+    const warn = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [dirty])
   useEffect(() => {
     if (website.revision > saved.revision) {
       setNewer(website)
@@ -66,26 +133,39 @@ export function WebsiteEditor({
     }
   }, [website.revision, saved.revision])
   function change(patch: Partial<WebsiteInput>) {
-    setDraft((current) => ({ ...current, ...patch }))
+    const next = { ...draft, ...patch }
+    try {
+      writeEditorDraft(sessionStorage, backupKey, next, draftRevision)
+      setStorageError('')
+    } catch {
+      setStorageError(
+        'No pudimos conservar una copia en esta pestaña. Guardá el borrador antes de salir.',
+      )
+    }
+    setDraft(next)
     setConfirmed(false)
     setReviewing(false)
+    setCopyReviewed(false)
   }
   async function loadCurrent() {
     await action.run(
       async () => {
         if (dirty) {
           try {
-            sessionStorage.setItem(backupKey, JSON.stringify(draft))
+            writeEditorDraft(sessionStorage, backupKey, draft, draftRevision)
           } catch {
             throw new Error(
               'No pudimos conservar una copia local. El borrador sigue en pantalla; no lo reemplazamos.',
             )
           }
-          setLocalCopy(draft)
+          setLocalCopy({ version: 1, value: draft, revision: draftRevision })
         }
         const result = await client.website.get(organization.id)
+        if (!mounted.current) return
         setSaved(result.website)
         setDraft(result.website.draft)
+        setDraftRevision(result.website.revision)
+        setCopyReviewed(false)
         setNewer(null)
         setReviewing(false)
         setConfirmed(false)
@@ -98,8 +178,9 @@ export function WebsiteEditor({
   }
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (stale) return
+    if (stale || copyConflict) return
     await action.run(async () => {
+      const sent: EditorDraft<WebsiteInput> = { version: 1, revision: draftRevision, value: draft }
       const body = WebsiteInputSchema.parse(draft)
       let result: { website: Website }
       try {
@@ -108,18 +189,29 @@ export function WebsiteEditor({
           expectedRevision: saved.revision,
         })
       } catch (error) {
-        if (error instanceof ApiError && error.status === 409) reload()
+        if (mounted.current && error instanceof ApiError && error.status === 409) reload()
         throw error
       }
+      if (!mounted.current) return
       setSaved(result.website)
       setDraft(result.website.draft)
+      setDraftRevision(result.website.revision)
+      try {
+        discardSavedWebsiteCopy(sessionStorage, backupKey, sent)
+        sessionStorage.removeItem(legacyKey)
+      } catch {
+        /* The saved server copy is canonical. */
+      }
+      setLocalCopy(null)
+      setStorageError('')
       setReviewing(false)
       setConfirmed(false)
       reload()
     }, 'Borrador del website guardado. Revisalo antes de publicar.')
   }
   async function publication(publish: boolean) {
-    if (stale || (publish && (!confirmed || dirty))) return
+    if (stale || copyConflict || (publish && (!confirmed || dirty))) return
+    const preserveDraft = !publish && dirty
     await action.run(
       async () => {
         let result: { website: Website }
@@ -128,17 +220,40 @@ export function WebsiteEditor({
             expectedRevision: saved.revision,
           })
         } catch (error) {
-          if (error instanceof ApiError && error.status === 409) reload()
+          if (mounted.current && error instanceof ApiError && error.status === 409) reload()
           throw error
         }
+        if (!mounted.current) return
         setSaved(result.website)
+        if (preserveDraft) {
+          // With the expected revision accepted, unpublishing changes visibility
+          // only. Keep local edits based on the unchanged server draft, updating
+          // their revision so a reload can recover them without a false conflict.
+          const copy: EditorDraft<WebsiteInput> = {
+            version: 1,
+            revision: result.website.revision,
+            value: draft,
+          }
+          setLocalCopy(copy)
+          try {
+            writeEditorDraft(sessionStorage, backupKey, copy.value, copy.revision)
+            setStorageError('')
+          } catch {
+            setStorageError(
+              'No pudimos conservar una copia en esta pestaña. Tus cambios siguen en pantalla; guardá el borrador antes de salir.',
+            )
+          }
+        } else setDraft(result.website.draft)
+        setDraftRevision(result.website.revision)
         setReviewing(false)
         setConfirmed(false)
         reload()
       },
       publish
         ? 'Website publicado. La web y los QR habilitados ya se pueden visitar.'
-        : 'Website despublicado. Conservamos el borrador para volver a publicarlo.',
+        : preserveDraft
+          ? 'Website despublicado. Tus cambios sin guardar siguen en el formulario.'
+          : 'Website despublicado. Conservamos el borrador para volver a publicarlo.',
     )
   }
   return (
@@ -165,6 +280,7 @@ export function WebsiteEditor({
         )}
       </div>
       {action.notices}
+      <Notice error>{storageError}</Notice>
       {stale && (
         <section className="card review-panel">
           <Notice>
@@ -190,7 +306,9 @@ export function WebsiteEditor({
             className="text-button"
             disabled={stale || action.busy}
             onClick={() => {
-              setDraft(localCopy)
+              setDraft(localCopy.value)
+              setDraftRevision(localCopy.revision)
+              setCopyReviewed(false)
               setReviewing(false)
               setConfirmed(false)
             }}
@@ -199,6 +317,45 @@ export function WebsiteEditor({
           </button>{' '}
           Al guardarla, reemplazará el borrador actual; revisá las diferencias antes.
         </Notice>
+      )}
+      {copyConflict && (
+        <section className="card review-panel" aria-label="Comparar copia local del website">
+          <Notice>
+            Tu copia parte de{' '}
+            {draftRevision === null ? 'una revisión desconocida' : `la revisión ${draftRevision}`};
+            el servidor está en la revisión {saved.revision}. Compará la versión actual con tu
+            formulario antes de continuar.
+          </Notice>
+          <CurrentWebsite content={saved.draft} orgId={organization.id} />
+          <label className="check" style={{ minHeight: 44 }}>
+            <input
+              type="checkbox"
+              checked={copyReviewed}
+              onChange={(event) => setCopyReviewed(event.target.checked)}
+            />
+            Comparé la versión actual con mi copia local y quiero conservar mis cambios.
+          </label>
+          <button
+            type="button"
+            className="button"
+            disabled={!copyReviewed || stale || action.busy || !active}
+            onClick={() => {
+              try {
+                writeEditorDraft(sessionStorage, backupKey, draft, saved.revision)
+                setStorageError('')
+              } catch {
+                setStorageError(
+                  'No pudimos conservar la copia en esta pestaña. Guardá el borrador antes de salir.',
+                )
+              }
+              setDraftRevision(saved.revision)
+              setLocalCopy({ version: 1, revision: saved.revision, value: draft })
+              setCopyReviewed(false)
+            }}
+          >
+            Continuar con mi copia revisada
+          </button>
+        </section>
       )}
       <form className="card form-stack" onSubmit={save}>
         <fieldset disabled={!active || action.busy} style={{ border: 0, padding: 0, minWidth: 0 }}>
@@ -370,14 +527,15 @@ export function WebsiteEditor({
             onChange={(gallery) => change({ gallery })}
             imagesOnly
           />
+          <SpaceEditor orgId={organization.id} value={draft} onChange={change} />
           <div className="row" style={{ marginTop: 24 }}>
-            <button className="button primary" disabled={stale}>
+            <button className="button primary" disabled={stale || copyConflict}>
               {action.busy ? 'Guardando…' : 'Guardar borrador del website'}
             </button>
             <button
               type="button"
               className="button"
-              disabled={dirty || stale}
+              disabled={dirty || stale || copyConflict}
               onClick={() => {
                 setReviewing(true)
                 setConfirmed(false)
@@ -431,6 +589,18 @@ export function WebsiteEditor({
           <p className="small muted" style={{ marginTop: 20 }}>
             {publicUrl}
           </p>
+          {saved.draft.floorPlan && (
+            <section>
+              <h3>{saved.draft.floorPlan.title}</h3>
+              <p>{saved.draft.floorPlan.description}</p>
+              <ContentMedia assets={[saved.draft.floorPlan.image]} />
+              <p>
+                {saved.draft.floorPlan.points.length} puntos vinculados a unidades. Revisá sus
+                posiciones antes de publicar.
+              </p>
+            </section>
+          )}
+          {saved.draft.spatialModel && <ContentMedia assets={[saved.draft.spatialModel]} />}
           <label className="check">
             <input
               type="checkbox"
@@ -442,7 +612,7 @@ export function WebsiteEditor({
           <button
             className="button primary"
             style={{ marginTop: 18 }}
-            disabled={!active || action.busy || !confirmed || dirty || stale}
+            disabled={!active || action.busy || !confirmed || dirty || stale || copyConflict}
             onClick={() => void publication(true)}
           >
             Publicar website
@@ -458,7 +628,7 @@ export function WebsiteEditor({
           </Notice>
           <button
             className="button"
-            disabled={!active || action.busy || stale}
+            disabled={!active || action.busy || stale || copyConflict}
             onClick={() => void publication(false)}
           >
             Confirmar despublicación

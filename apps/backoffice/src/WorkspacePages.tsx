@@ -9,6 +9,7 @@ import { People, Reports } from './People'
 import { Preparation, type PreparationPage } from './Preparation'
 import { WebsiteEditor } from './Website'
 import { QRCodes } from './QRCodes'
+import { unitPublicationBlockers } from './equipmentReadiness'
 
 type Context = { membership: Membership; dataRefresh: number }
 type Resource = { data: unknown; error: string; loading: boolean; reload: () => void }
@@ -167,11 +168,11 @@ function useInventory(
   const qrUnits = published
     ? (units.data?.units.filter(
         (unit) =>
-          unit.public &&
-          !unit.archived &&
-          machines.data?.machines.some(
-            (machine) => machine.id === unit.machineId && machine.status === 'published',
-          ),
+          unitPublicationBlockers(
+            unit,
+            machines.data?.machines.find((machine) => machine.id === unit.machineId),
+            published,
+          ).length === 0,
       ) ?? [])
     : []
   return { machines, units, setup, qrUnits }
@@ -193,7 +194,13 @@ export function InventoryPage(
         <Preparation progress={setup.data} readyQrCount={qrUnits.length} onGo={props.onGo} />
       )}
       {setup.data && machines.data && units.data && props.page === 'qr' && (
-        <QRCodes units={qrUnits} gymName={org.brand.name} />
+        <QRCodes
+          units={units.data.units}
+          machines={machines.data.machines}
+          websitePublished={setup.data.websitePublished}
+          gymName={org.brand.name}
+          onGo={props.onGo}
+        />
       )}
       {machines.data && units.data && props.page === 'equipment' && (
         <Equipment

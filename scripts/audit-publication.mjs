@@ -80,6 +80,18 @@ const approvedFixtures = new Map([
     ]
   ],
   [
+    "apps/web/e2e/b2b-accessibility.spec.ts:credential-assignment",
+    ["cb8bbe91f5af670dc3e33afbc1cccc74bad5c94fc687583f83cc750bebed9585"]
+  ],
+  [
+    "apps/api/tests/readiness.test.ts:credential-assignment",
+    ["4f15a88c33f3cb829eb53bee70e8bd8ddecf7a4ea96ac0546eacd6a5c532bc4a"]
+  ],
+  [
+    "apps/b2b-api/tests/readiness.test.ts:credential-assignment",
+    ["4f15a88c33f3cb829eb53bee70e8bd8ddecf7a4ea96ac0546eacd6a5c532bc4a"]
+  ],
+  [
     "deploy/compose.b2b.instance.yaml:credential-url",
     [
       "129dfd312a04b04183226414c8f05e315c0c7366c3a64f2bcc60fab15e7811f7",
@@ -426,6 +438,14 @@ function selfTest() {
   tests.push(['b2b-example-exact-fixture', findingsIn(b2bFixture, b2bFixturePath, 'text').length === 0])
   tests.push(['b2b-example-other-path-rejected', findingsIn(b2bFixture, 'sample.txt', 'text').some(x => x.category === 'credential-url')])
   tests.push(['b2b-example-changed-password-rejected', findingsIn(b2bFixture.replace('replace-me', 'other-synthetic-password'), b2bFixturePath, 'text').some(x => x.category === 'credential-url')])
+  for (const fixturePath of ['apps/api/tests/readiness.test.ts', 'apps/b2b-api/tests/readiness.test.ts', 'apps/web/e2e/b2b-accessibility.spec.ts']) {
+    const source = readFileSync(new URL(`../${fixturePath}`, import.meta.url), 'utf8')
+    const credential = source.match(rules.find(rule => rule.category === 'credential-assignment').regex)?.[0]
+    tests.push([`${fixturePath}:exact-fixture`, !!credential && findingsIn(credential, fixturePath, 'text').length === 0])
+    tests.push([`${fixturePath}:other-path-rejected`, !!credential && findingsIn(credential, 'sample.ts', 'text').some(x => x.category === 'credential-assignment')])
+    const changed = credential ? credential.slice(0, -1) + '-changed' + credential.at(-1) : ''
+    tests.push([`${fixturePath}:changed-value-rejected`, !!credential && findingsIn(changed, fixturePath, 'text').some(x => x.category === 'credential-assignment')])
+  }
   // All regression identifiers are invented. Never embed operator policy here.
   const fakePolicy = [{ category: 'private-token', regex: /sample-operator\.invalid/g }]
   const residualBlend = Buffer.from('BLENDER-v500\0//\0sample-operator.invalid\0')

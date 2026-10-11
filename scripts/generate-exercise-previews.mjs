@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /* global window */
 import { createHash } from 'node:crypto'
+import { previewBrowserOptions } from './preview-browser.mjs'
+import { publishCapture, reusableCapture } from './preview-capture-state.mjs'
 import { loadRetainedCaptures } from './preview-provenance.mjs'
-import { mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -26,6 +28,7 @@ const { values } = parseArgs({ options: {
   fps: { type: 'string', default: '12' },
   gif: { type: 'boolean', default: false },
   check: { type: 'boolean', default: false },
+  'only-stale': { type: 'boolean', default: false },
   help: { type: 'boolean', default: false },
 } })
 if (values.help) {
@@ -38,6 +41,7 @@ The script starts and closes its own local Vite server on an available port.
 Outputs: packages/model-assets/public/previews/{id}.webp and {id}-poster.webp (male), female/{id}... (female).
 Both anatomical models are captured by default. --model selects one while iterating.
 Repeat --exercise to regenerate a subset. --check validates source/output hashes for ALL exercises and models.
+--only-stale resumes matching captures only after verifying settings, renderer and every saved file hash.
 WEBP_CWEBP_BIN, WEBP_IMG2WEBP_BIN and FFMPEG_BIN can override executable paths.`)
   process.exit(0)
 }
@@ -51,6 +55,8 @@ if (values.model !== 'all' && !allModels.includes(values.model)) throw new Error
 const models = values.model === 'all' ? allModels : [values.model]
 
 const sourcePaths = [
+  'scripts/preview-browser.mjs',
+  'scripts/preview-capture-state.mjs',
   'scripts/preview-provenance.mjs',
   'packages/anatomy-viewer/package.json',
   'packages/model-assets/package.json',
@@ -157,16 +163,33 @@ try {
   server = await createServer({ root: webRoot, server: { host: '127.0.0.1', port: 0, strictPort: true }, logLevel: 'error' })
   await server.listen()
   const port = server.httpServer.address().port
-  browser = await chromium.launch({ args: process.platform === 'darwin' ? ['--enable-gpu', '--use-angle=metal'] : [] })
+  browser = await chromium.launch(previewBrowserOptions())
   const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 })
   page.setDefaultTimeout(90_000)
   const errors = []
   page.on('pageerror', (error) => errors.push(error.message))
-  const renderer = { browser: await browser.version(), platform: process.platform,
-    cwebp: run(cwebp, ['-version']).toString().trim(), img2webp: run(img2webp, ['-version']).toString().trim() }
-  const assetRecord = async (file) => ({ file, bytes: (await stat(join(output, file))).size, sha256: hash(await readFile(join(output, file))) })
+  const renderer = { browser: await browser.version(), platform: process.platform, launchArgs: previewBrowserOptions().args,
+    cwebp: run(cwebp, ['-version']).toString().trim(), img2webp: run(img2webp, ['-version']).toString().trim(),
+    ...(values.gif ? { ffmpeg: run(ffmpeg, ['-version']).toString().split('\n')[0] } : {}) }
+  const assetRecord = async (file, staged) => {
+    const bytes = await readFile(staged)
+    return { file, bytes: bytes.length, sha256: hash(bytes) }
+  }
   const captures = models.flatMap((modelVariant) => [...new Set(ids)].map((id) => ({ id, modelVariant })))
   for (const { id, modelVariant } of captures) {
+    const files = exercisePreviewFiles(id, modelVariant)
+    const duration = exerciseCycleSeconds(id)
+    const frameCount = Math.round(duration * fps)
+    const formats = ['poster', 'animation', ...(values.gif ? ['gif'] : [])]
+    const existing = manifest.variants[modelVariant].exercises[id]
+    if (values['only-stale'] && await reusableCapture({
+      entry: existing, output,
+      expected: { sourceHash, modelVariant, size, fps, duration, frameCount, renderer, camera: previewCameras[id], layer: 'muscles' },
+      files: Object.fromEntries([...new Set([...formats, ...(existing?.gif ? ['gif'] : [])])].map(format => [format, files[format]])),
+    })) {
+      console.log(`Verified current ${modelVariant}/${id}; preserving capture timestamp.`)
+      continue
+    }
     console.log(`Capturing ${modelVariant}/${id}…`)
     const framesDir = join(temporary, modelVariant, id)
     await mkdir(framesDir, { recursive: true })
@@ -189,8 +212,6 @@ try {
     // Warm the local environment map and compiled materials before the saved frame.
     await capture(0, join(framesDir, 'warmup.png'))
     await capture(previewCameras[id].posterPhase, join(framesDir, 'poster.png'))
-    const duration = exerciseCycleSeconds(id)
-    const frameCount = Math.round(duration * fps)
     const frameArgs = []
     for (let frame = 0; frame < frameCount; frame++) {
       const path = join(framesDir, `${String(frame).padStart(4, '0')}.png`)
@@ -200,7 +221,6 @@ try {
       frameArgs.push('-d', String(milliseconds), path)
     }
     if (errors.length) throw new Error(errors.join('\n'))
-    const files = exercisePreviewFiles(id, modelVariant)
     const encoded = { poster: join(framesDir, 'poster.webp'), animation: join(framesDir, 'animation.webp'), gif: join(framesDir, 'animation.gif') }
     run(cwebp, ['-quiet', '-q', '86', '-m', '6', join(framesDir, 'poster.png'), '-o', encoded.poster])
     run(img2webp, ['-loop', '0', '-lossy', '-q', '78', '-m', '6', ...frameArgs, '-o', encoded.animation])
@@ -214,19 +234,20 @@ try {
     }
     // Publish only after every frame and requested encoding for this exercise succeeded.
     await mkdir(dirname(join(output, files.poster)), { recursive: true })
-    for (const format of ['poster', 'animation', ...(values.gif ? ['gif'] : [])]) await rename(encoded[format], join(output, files[format]))
-    if (!values.gif) await rm(join(output, files.gif), { force: true })
     const entry = { modelVariant, sourceHash, generatedAt: new Date().toISOString(), size, fps, duration, frameCount, renderer,
       camera: previewCameras[id], layer: 'muscles',
-      poster: await assetRecord(files.poster), animation: await assetRecord(files.animation),
-      ...(values.gif ? { gif: await assetRecord(files.gif) } : {}),
+      poster: await assetRecord(files.poster, encoded.poster), animation: await assetRecord(files.animation, encoded.animation),
+      ...(values.gif ? { gif: await assetRecord(files.gif, encoded.gif) } : {}),
     }
     manifest.variants[modelVariant].exercises[id] = entry
     manifest.sources = sources
     manifest.generatedAt = new Date().toISOString()
-    const nextManifest = join(temporary, 'manifest.json')
-    await writeFile(nextManifest, JSON.stringify(manifest, null, 2) + '\n')
-    await rename(nextManifest, manifestPath)
+    await publishCapture({ manifest, manifestPath, stagedManifestPath: join(temporary, 'manifest.json'),
+      assets: formats.map(format => ({ staged: encoded[format], published: join(output, files[format]) })),
+      removedFiles: values.gif ? [] : [join(output, files.gif)],
+    })
+    // Keep disk use bounded to one capture even for a full catalog regeneration.
+    await rm(framesDir, { recursive: true })
     console.log(`  ${frameCount} frames · ${duration}s · ${(entry.animation.bytes / 1024).toFixed(0)} KiB WebP`)
   }
 } finally {

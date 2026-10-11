@@ -7,13 +7,19 @@ export const ProgramStepSchema = z
     id: IdSchema,
     exerciseId: IdSchema,
     sets: z.number().int().min(1).max(30),
-    reps: z.number().int().min(1).max(1000),
+    reps: z.number().int().min(1).max(1000).nullable(),
+    durationSeconds: z.number().int().min(1).max(86400).nullable().default(null),
+    targetRpe: z.number().min(1).max(10).nullable().default(null),
     loadKg: z.number().min(0).max(1000).nullable().default(null),
     restSeconds: z.number().int().min(0).max(3600).default(60),
     alternatives: z.array(IdSchema).max(10).default([]),
     notes: z.string().max(1000).default(''),
   })
   .strict()
+  .refine(
+    (step) => (step.reps !== null) !== (step.durationSeconds !== null),
+    'Prescribe repetitions or duration, never both',
+  )
 
 export type ProgramStep = z.infer<typeof ProgramStepSchema>
 
@@ -37,7 +43,7 @@ export const ProgramUpdateSchema = z
     'Step IDs must be unique',
   )
 
-const ResponseProgramStepSchema = ProgramStepSchema.extend({
+const ResponseProgramStepSchema = ProgramStepSchema.safeExtend({
   loadKg: ProgramStepSchema.shape.loadKg.removeDefault(),
   restSeconds: ProgramStepSchema.shape.restSeconds.removeDefault(),
   alternatives: ProgramStepSchema.shape.alternatives.removeDefault(),
@@ -117,7 +123,9 @@ export const ExecutionSetSchema = z
     stepId: IdSchema,
     set: z.number().int().min(1).max(30),
     exerciseId: IdSchema,
-    reps: z.number().int().min(0).max(1000),
+    reps: z.number().int().min(0).max(1000).nullable(),
+    durationSeconds: z.number().int().min(0).max(86400).nullable().default(null),
+    rpe: z.number().min(1).max(10).nullable().default(null),
     loadKg: z.number().min(0).max(1000).nullable().default(null),
     reason: z.string().max(1000).default(''),
   })
@@ -136,6 +144,10 @@ export const ExecutionInputSchema = z
   .refine(
     (v) => new Set(v.sets.map((s) => `${s.stepId}:${s.set}`)).size === v.sets.length,
     'Duplicate sets',
+  )
+  .refine(
+    (v) => v.sets.every((set) => (set.reps !== null) !== (set.durationSeconds !== null)),
+    'Record repetitions or duration, never both',
   )
 
 export type ExecutionInput = z.infer<typeof ExecutionInputSchema>

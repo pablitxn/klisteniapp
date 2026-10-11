@@ -4,7 +4,11 @@ type ProgramSteps = Pick<ProgramVersion, 'steps'>
 type ExecutionSet = ExecutionInput['sets'][number]
 type SetReference = Pick<ExecutionSet, 'stepId' | 'set' | 'exerciseId'>
 export type RuleResult<Code extends string> = { ok: true } | { ok: false; code: Code }
-export type ExecutionIssue = 'INVALID_SET' | 'INVALID_SUBSTITUTION' | 'INCOMPLETE_EXECUTION'
+export type ExecutionIssue =
+  | 'INVALID_SET'
+  | 'INVALID_MEASUREMENT'
+  | 'INVALID_SUBSTITUTION'
+  | 'INCOMPLETE_EXECUTION'
 
 export function programExerciseIds(program: ProgramSteps): string[] {
   return [...new Set(program.steps.flatMap((step) => [step.exerciseId, ...step.alternatives]))]
@@ -48,11 +52,18 @@ export function checkExecution(
     if (!step || !Number.isInteger(set.set) || set.set < 1 || set.set > step.sets) {
       return { ok: false, code: 'INVALID_SET' }
     }
+    const timed = step.reps === null
+    if (
+      timed !== (set.reps === null) ||
+      (timed ? set.durationSeconds == null : set.durationSeconds != null)
+    ) {
+      return { ok: false, code: 'INVALID_MEASUREMENT' }
+    }
     const substituted = set.exerciseId !== step.exerciseId
     if (substituted && (!step.alternatives.includes(set.exerciseId) || !set.reason.trim())) {
       return { ok: false, code: 'INVALID_SUBSTITUTION' }
     }
-    if (set.reps > 0) {
+    if ((timed ? (set.durationSeconds ?? 0) : (set.reps ?? 0)) > 0) {
       const numbers = completedSets.get(step.id) ?? new Set<number>()
       numbers.add(set.set)
       completedSets.set(step.id, numbers)

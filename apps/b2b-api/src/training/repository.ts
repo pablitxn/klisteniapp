@@ -5,6 +5,7 @@ import type {
   ProgramVersion,
 } from '@klisteniapp/b2b-contracts';
 import type { Context } from '../organization-context.ts';
+import { ExecutionSchema, ProgramSchema, ProgramVersionSchema } from '@klisteniapp/b2b-contracts';
 import type { ProgramInput } from './rules.ts';
 
 type ProgramRow = {
@@ -31,12 +32,13 @@ type ExecutionRow = {
   snapshot: ProgramVersion;
 };
 
-const programDTO = (row: ProgramRow): Program => ({
-  ...row.data,
-  id: row.id,
-  publishedVersion: row.published_version,
-  revision: row.revision,
-});
+const programDTO = (row: ProgramRow): Program =>
+  ProgramSchema.parse({
+    ...row.data,
+    id: row.id,
+    publishedVersion: row.published_version,
+    revision: row.revision,
+  });
 
 /** All queries reuse the authorized organization's existing transaction. This
  * repository neither acquires connections nor chooses its tenant from input. */
@@ -105,7 +107,7 @@ export class TrainingRepository {
       'SELECT snapshot FROM b2b_program_version WHERE organization_id=$1 AND program_id=$2 AND version=$3',
       [org.id, id, version],
     );
-    return found.rows[0]?.snapshot;
+    return found.rows[0] ? ProgramVersionSchema.parse(found.rows[0].snapshot) : undefined;
   }
 
   async assignments(memberId?: string): Promise<AssignmentRow[]> {
@@ -124,7 +126,10 @@ export class TrainingRepository {
        ORDER BY a.created_at DESC,a.id`,
       [org.id, actorId, role, memberId ?? null],
     );
-    return found.rows;
+    return found.rows.map((row) => ({
+      ...row,
+      snapshot: ProgramVersionSchema.parse(row.snapshot),
+    }));
   }
 
   async assignProgram(
@@ -155,13 +160,15 @@ export class TrainingRepository {
        ORDER BY e.created_at DESC,e.id`,
       [org.id, actorId, role, memberId ?? null],
     );
-    return found.rows.map((row) => ({
-      ...row.data,
-      memberId: row.member_id,
-      memberName: row.name,
-      createdAt: row.created_at.toISOString(),
-      program: row.snapshot,
-    }));
+    return found.rows.map((row) =>
+      ExecutionSchema.parse({
+        ...row.data,
+        memberId: row.member_id,
+        memberName: row.name,
+        createdAt: row.created_at.toISOString(),
+        program: row.snapshot,
+      }),
+    );
   }
 
   async priorExecution(

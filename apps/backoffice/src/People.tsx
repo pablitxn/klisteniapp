@@ -1,7 +1,14 @@
 import { useState, type FormEvent } from 'react'
 import { RoleSchema, type Member, type Organization, type Report } from '@klisteniapp/b2b-contracts'
 import { useAccountClient } from '@klisteniapp/b2b-react'
-import { dateLabel, Empty, Field, Notice } from '@klisteniapp/b2b-ui'
+import {
+  dateLabel,
+  Empty,
+  Field,
+  Notice,
+  prescriptionDoseLabel,
+  executionDoseLabel,
+} from '@klisteniapp/b2b-ui'
 import { Heading, useAction } from './shared'
 import { MediaLibrary } from './MediaLibrary'
 
@@ -467,12 +474,10 @@ export function Reports({ report }: { report: Report }) {
                           <tr key={`${step.id}-${index}`}>
                             <td>{planned?.name ?? step.exerciseId}</td>
                             <td>{index + 1}</td>
-                            <td>
-                              {step.reps} reps{step.loadKg !== null ? ` · ${step.loadKg} kg` : ''}
-                            </td>
+                            <td>{prescriptionDoseLabel(step)}</td>
                             <td>
                               {set ? (
-                                `${set.reps} reps${set.loadKg !== null ? ` · ${set.loadKg} kg` : ''}`
+                                executionDoseLabel(set)
                               ) : (
                                 <span className="muted">Sin registrar</span>
                               )}

@@ -118,6 +118,9 @@ export function createApiServer({ auth, pool, config, repository = new StateRepo
           await pool.query('SELECT id FROM account_share_invitation LIMIT 0');
           await pool.query('SELECT id, provider_id FROM billing_subscription LIMIT 0');
           await pool.query('SELECT provider_id, paid_through FROM billing_payment LIMIT 0');
+          // A schema mismatch cached before an external migration also blocks
+          // authentication; table availability alone is insufficient readiness.
+          await (await auth.$context).checkSchema?.();
           return json(response, 200, { status: 'ready' });
         }
         catch { return json(response, 503, { status: 'unavailable' }); }

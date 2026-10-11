@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import type { Exercise, Program, ProgramStep } from '@klisteniapp/b2b-contracts'
 import { ApiError } from '@klisteniapp/b2b-client'
 import { useAccountClient } from '@klisteniapp/b2b-react'
-import { Field } from '@klisteniapp/b2b-ui'
+import { Field, prescriptionStepLabel } from '@klisteniapp/b2b-ui'
 import { Heading, useAction } from '../../shared'
 import { DraftConflict, DraftRecovery, useEditorDraft } from '../../useEditorDraft'
 import { ProgramExercisePicker } from './ProgramExercisePicker'
@@ -137,11 +137,7 @@ export function ProgramEditor({
             {latest.steps.map((step) => (
               <li key={step.id}>
                 <strong>{exerciseName(step.exerciseId)}</strong>
-                <p>
-                  {step.sets} × {step.reps}
-                  {step.loadKg === null ? ' · Carga libre' : ` · ${step.loadKg} kg`} ·{' '}
-                  {step.restSeconds} s descanso
-                </p>
+                <p>{prescriptionStepLabel(step)}</p>
                 {step.notes && <p>{step.notes}</p>}
                 {step.alternatives.length > 0 && (
                   <p>Alternativas: {step.alternatives.map(exerciseName).join(', ')}</p>

@@ -3,14 +3,18 @@ import { AccountProvider, useB2BSession } from '@klisteniapp/b2b-react'
 import { Empty, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
 import { Invitation } from './features/invitations/Invitation'
 import { PublicGym } from './features/public/PublicGym'
+import { GymEntry } from './features/public/GymEntry'
 import { MemberSpace } from './features/workspace/MemberSpace'
 
 export default function App() {
   const publicRoute = /^\/g\/([^/]+)(?:\/units\/([^/]+))?\/?$/.exec(location.pathname)
   const isInvitation = location.pathname === '/app/invite'
+  const isEntry = location.pathname === '/' || location.pathname === '/gimnasios'
   const { me, loading, error, orgId, setOrgId, dataRefresh, refresh, signOut } = useB2BSession({
-    enabled: !publicRoute && !isInvitation,
+    enabled: !publicRoute && !isInvitation && !isEntry,
   })
+
+  if (isEntry) return <GymEntry />
 
   if (publicRoute) {
     return (

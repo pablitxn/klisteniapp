@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Me, Membership } from '@klisteniapp/b2b-contracts'
 import { Notice, Shell } from '@klisteniapp/b2b-ui'
 import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
@@ -6,6 +6,7 @@ import { Session } from '../training/Session'
 import { AssignedRoutines } from './AssignedRoutines'
 import { ExecutionHistory } from './ExecutionHistory'
 import { MovementCatalog } from './MovementCatalog'
+import '../../member.css'
 
 const PAGES = {
   routine: {
@@ -51,6 +52,7 @@ export function MemberSpace({
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [message, setMessage] = useState('')
   const [query, setQuery] = useState('')
+  const pageHeading = useRef<HTMLHeadingElement>(null)
   const { data, error, loading, reload } = useLoad(
     async (signal) => {
       const api = client.withSignal(signal)
@@ -69,6 +71,10 @@ export function MemberSpace({
   const ownExecutions = data?.executions.filter((item) => item.memberId === me.user.id) ?? []
   const currentSession = ownAssignments.find((assignment) => assignment.id === sessionId)
   const machineContext = new URLSearchParams(location.search).get('machine')
+
+  useEffect(() => {
+    if (!sessionId) pageHeading.current?.focus()
+  }, [page, sessionId])
 
   function navigate(next: Page) {
     setPage(next)
@@ -160,7 +166,9 @@ export function MemberSpace({
                   ? `HOLA, ${me.user.name.split(' ')[0].toUpperCase()}`
                   : 'A TU RITMO'}
               </p>
-              <h1>{PAGES[page].title}</h1>
+              <h1 ref={pageHeading} tabIndex={-1} className="member-page-heading">
+                {PAGES[page].title}
+              </h1>
               <p className="muted">{PAGES[page].description}</p>
             </div>
           </div>

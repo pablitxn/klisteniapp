@@ -141,6 +141,6 @@ b2b-integration-tests:
     - pnpm test:b2b:api
     - pnpm test:b2b:e2e
   artifacts:
-    when: on_failure
-    paths: [apps/web/b2b-test-results/]
+    when: always
+    paths: [apps/web/b2b-test-results/, apps/web/b2b-report/]
     expire_in: 7 days

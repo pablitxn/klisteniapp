@@ -2,7 +2,7 @@ import type { PublicSite, PublicUnit } from '@klisteniapp/b2b-contracts'
 import { b2bClient } from '@klisteniapp/b2b-client'
 import { Notice, Shell } from '@klisteniapp/b2b-ui'
 import { useLoad } from '@klisteniapp/b2b-react'
-import { ContentMedia } from '@klisteniapp/b2b-ui/content'
+import { ContentMedia, FloorPlan } from '@klisteniapp/b2b-ui/content'
 import { PublicUnitDetails, PublicUnits } from './PublicEquipment'
 
 function GymWebsite({ site }: { site: PublicSite }) {
@@ -34,6 +34,17 @@ function GymWebsite({ site }: { site: PublicSite }) {
           <div className="website-gallery">
             <ContentMedia assets={website.gallery} />
           </div>
+        </section>
+      )}
+      {website.floorPlan && <FloorPlan plan={website.floorPlan} units={site.units} />}
+      {website.spatialModel && (
+        <section className="website-content">
+          <h2>Conocé el espacio en 3D</h2>
+          <p>
+            Explorá una vista orientativa del gimnasio. También podés consultar las fotos y las
+            ubicaciones de cada equipo.
+          </p>
+          <ContentMedia assets={[website.spatialModel]} />
         </section>
       )}
       <section style={{ marginTop: 30 }}>

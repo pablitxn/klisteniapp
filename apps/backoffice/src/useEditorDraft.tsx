@@ -18,7 +18,7 @@ type DraftState<T> = {
 
 export function useEditorDraft<T>(
   orgId: string,
-  kind: 'exercise' | 'program',
+  kind: 'exercise' | 'program' | 'machine' | 'unit' | 'website',
   entityId: string,
   initial: T,
   initialRevision: number | null,

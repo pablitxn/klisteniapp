@@ -1,4 +1,5 @@
 import type { Exercise, Program } from '@klisteniapp/b2b-contracts'
+import { prescriptionStepLabel } from '@klisteniapp/b2b-ui'
 
 type ProgramCardProps = {
   program: Program
@@ -40,10 +41,7 @@ export function ProgramCard({
                 {exercises.find((exercise) => exercise.id === step.exerciseId)?.name ??
                   step.exerciseId}
               </strong>
-              <p>
-                {step.sets} × {step.reps}
-                {step.loadKg !== null ? ` · ${step.loadKg} kg` : ''} · {step.restSeconds} s descanso
-              </p>
+              <p>{prescriptionStepLabel(step)}</p>
             </div>
           </div>
         ))}
@@ -52,14 +50,18 @@ export function ProgramCard({
         <p className="small muted">+ {program.steps.length - 4} movimientos</p>
       )}
       <div className="row" style={{ marginTop: 22 }}>
-        <button className="button small" disabled={!active} onClick={() => onEdit()}>
+        <button className="button small" disabled={!active || busy} onClick={() => onEdit()}>
           Editar borrador
         </button>
         <button className="button small" disabled={!active || busy} onClick={() => onPublish()}>
           Publicar versión
         </button>
         {program.publishedVersion && (
-          <button className="button primary small" disabled={!active} onClick={() => onAssign()}>
+          <button
+            className="button primary small"
+            disabled={!active || busy}
+            onClick={() => onAssign()}
+          >
             Asignar a socio
           </button>
         )}

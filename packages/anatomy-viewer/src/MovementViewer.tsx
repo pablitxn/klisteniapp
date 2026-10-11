@@ -28,11 +28,6 @@ class ViewerBoundary extends Component<{ children: ReactNode; fallback: ReactNod
   render() { return this.state.failed ? this.props.fallback : this.props.children }
 }
 
-function UnavailableMovement({ children, onReady }: { children: ReactNode; onReady: () => void }) {
-  useEffect(onReady, [onReady])
-  return <>{children}</>
-}
-
 function MovementScene({ definition, playing, modelVariant, assetResolver, layer, highlight, onReady }: {
   definition: NonNullable<ReturnType<typeof getMovementDefinition>>
   playing: boolean
@@ -76,7 +71,8 @@ function AvailableMovement({ definition, modelVariant = 'male', assetResolver = 
   return <figure className={className} style={{ margin: 0 }} data-movement={definition.exercise.id} data-model-variant={modelVariant}>
     <ViewerBoundary fallback={alternative}>
       <div style={{ height, width: '100%', position: 'relative' }}>
-        <Canvas orthographic camera={{ position: definition.camera.position, zoom: height / definition.camera.height, near: 0.01, far: 80 }} dpr={[1, 1.5]} shadows={anatomyShadows} gl={anatomyRendererOptions} fallback={<UnavailableMovement onReady={onReady}>{alternative}</UnavailableMovement>}>
+        {/* Native canvas fallback children mount even while the GLB is loading. */}
+        <Canvas orthographic camera={{ position: definition.camera.position, zoom: height / definition.camera.height, near: 0.01, far: 80 }} dpr={[1, 1.5]} shadows={anatomyShadows} gl={anatomyRendererOptions} fallback={alternative}>
           <Suspense fallback={null}><MovementScene definition={definition} playing={playing && !paused && !reducedMotion && !systemReduced} modelVariant={modelVariant} assetResolver={assetResolver} layer={layer} highlight={highlight} onReady={onReady} /></Suspense>
         </Canvas>
         {!ready && <span role="status" style={{ position: 'absolute', top: 8, left: 8 }}>Cargando vista 3D…</span>}

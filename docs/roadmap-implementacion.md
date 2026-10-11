@@ -2,6 +2,10 @@
 
 Actualizado: **11 de octubre de 2026**. Base de código revisada: `3fbfe10`.
 
+**Implementación posterior:** la entrega de código sobre `d70b2cb` agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
+
+**Prioridad actual del usuario:** terminar el código y su preparación operativa. La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
+
 Este documento ordena el trabajo desde la implementación actual. Separa tres líneas: **producto y código**, **producción de contenido 3D** e **iteración de UI probándola**. Define entregas y dependencias; no compromete fechas. La referencia técnica de lo que ya funciona es [Producto B2B](b2b.md).
 
 ## 1. Punto de partida y decisiones que conservamos
@@ -13,7 +17,7 @@ Este documento ordena el trabajo desde la implementación actual. Separa tres l�
 - La prescripción publicada y la ejecución real son registros distintos. Las sustituciones tienen permisos y motivo. Abrir un QR o ver una animación no registra entrenamiento.
 - La demo usa el producto real con datos ficticios reiniciables. Los avances de UI se pueden probar con fotos, texto y recursos existentes mientras se producen nuevos modelos.
 
-### Estado real
+### Estado de la base revisada, anterior a esta entrega
 
 **Implementado** significa presente en el código; no acredita validación con usuarios, teléfonos reales ni un despliegue público.
 
@@ -116,8 +120,10 @@ Revisar frente, lateral y tres cuartos en varias fases, las variantes corporales
 
 Generar poster y preview desde el mismo renderer que usa la app cuando el movimiento ya esté integrado. Revisar visualmente los resultados y después verificar procedencia/hashes. Una iteración puede generar sólo el ejercicio trabajado; antes de cerrar, regenerar todos los derivados afectados por cambios compartidos.
 
+Esta fase queda diferida por decisión del usuario mientras los modelos 3D y su integración sigan cambiando. Retomarla sobre los recursos definitivos; no completar ahora un lote de miniaturas que habrá que volver a producir. El cierre del código se documenta por separado y no certifica la procedencia ni la revisión completa del lote actual.
+
 ```sh
-pnpm previews:generate --exercise squat --model male
+pnpm previews:generate --exercise squat --model male --gif
 pnpm previews:check
 pnpm --filter @klisteniapp/geometry test
 pnpm --filter @klisteniapp/anatomy-viewer test
@@ -154,7 +160,7 @@ La UI puede iterar con un GLB de prueba o con fotos. El recurso 3D definitivo se
 | Cambio de acceso | Cambiar cuenta/gimnasio, revocar membresía o suspender servicio | Sin datos residuales ni respuestas tardías de otra sesión |
 | Dispositivo limitado | Móvil, teclado, movimiento reducido, WebGL fallido | Acciones accesibles; lectura y registro funcionan con el contenido de respaldo |
 
-La configuración [Playwright B2B](../apps/web/playwright.b2b.config.ts) actual utiliza Chromium de escritorio. Algunos casos cambian el viewport, pero faltan proyectos táctiles/WebKit y comparación visual automatizada. Incorporarlos gradualmente, empezando por publicación/QR y registro de sesión. Un viewport de 390 px no demuestra funcionamiento en Safari ni escaneo con cámara.
+La configuración [Playwright B2B](../apps/web/playwright.b2b.config.ts) ejecuta proyectos de Chromium escritorio, Chromium táctil y WebKit táctil, cada uno con schema de PostgreSQL, API y origen independientes. La matriz recorre publicación/QR, registro, recuperación, permisos y fallos, y compara unas pocas pantallas estables. La emulación de WebKit no demuestra funcionamiento en Safari de un teléfono real ni escaneo con cámara; esos pasos de E4 siguen siendo físicos.
 
 ### C3. Entorno de trabajo y QR físico
 
@@ -168,19 +174,18 @@ El entorno, dependencias y preparación de DB están en [Demo local B2B](b2b.md#
 
 Para probar un QR impreso desde un teléfono, preparar una instancia B2B de prueba con origen HTTPS accesible desde ese teléfono según [Instancia independiente](b2b.md#instancia-independiente). Los QR de `127.0.0.1` apuntan al propio teléfono. Verificar el origen antes de imprimir; esta prueba no requiere cambiar ni desplegar B2C.
 
-## 6. Próximos cambios concretos
+## 6. Estado de los cambios concretos
 
-Este es el orden recomendado para retomar el código. Cada fila es una entrega pequeña revisable; producción de assets puede avanzar en paralelo.
+La entrega de código implementa los tres primeros pasos y deja preparada la integración de recursos estáticos. La [guía de release](b2b-release.md) reúne alcance, comandos y evidencia; el contenido producido en Blender conserva su aceptación propia.
 
-| Orden | Cambio propuesto | Archivos o áreas | Evidencia de cierre |
+| Orden | Estado del código | Archivos o áreas | Aceptación que permanece separada |
 | --- | --- | --- | --- |
-| **1** | Completar E1 y corregir la primera fricción del administrador al preparar/publicar contenido | `apps/backoffice/src`, controles de `b2b-ui`, `apps/web/e2e/b2b*.spec.ts` | Caso reproducible resuelto; publicación y QR siguen coherentes |
-| **2** | Iterar el recorrido móvil del socio: rutina → unidad → series → guardado/reintento | `apps/member-web/src/features`, `b2b-ui`, E2E B2B | Prueba táctil y de teclado; borrador y reintento conservados |
-| **3** | Ampliar la matriz Playwright con dispositivo táctil y WebKit; proteger unas pocas pantallas estables | `apps/web/playwright.b2b.config.ts`, E2E y capturas seleccionadas | Recorridos elegidos pasan en los motores configurados; revisión de diferencias visuales |
-| **En paralelo** | Producir y publicar una máquina estática con sus instrucciones, procedencia e imagen | Fuente Blender propuesta, biblioteca B2B o `model-assets` según distribución | E3 y pruebas de B2; contenido utilizable sin 3D |
-| **Después** | Integrar un movimiento con esa máquina; extraer abstracciones sólo al validar el segundo caso | `geometry`, `anatomy-viewer`, `catalog-base`, `model-assets` | E5, previews revisados y regresión B2C |
-
-Los primeros ajustes visuales se eligen al recorrer la interfaz; esta tabla no afirma que exista un defecto específico todavía no reproducido.
+| **1** | Escenario Atlas/Sur ampliado; recuperación y conflictos de editores, publicación explícita y diagnóstico por unidad antes de imprimir QR | `apps/backoffice/src`, `b2b-ui`, E2E B2B | Preparación y publicación por una persona del gimnasio piloto |
+| **2** | Registro móvil, etiquetas de series, recuperación, parcial definitivo, reintento exacto, duración y RPE; historial contra snapshot asignado | `apps/member-web/src/features`, contratos/dominio/API y E2E B2B | Completar el circuito con un socio en su teléfono |
+| **3** | Matriz Chromium escritorio/táctil y WebKit táctil, aislamiento por proyecto y seis capturas estables revisadas | `apps/web/playwright.b2b.config.ts`, E2E y snapshots | Safari/iOS físico y escaneo de una etiqueta impresa sobre HTTPS accesible |
+| **Blender local** | Visor estático y carga protegida comprobados con GLB técnico; error recuperable, carga voluntaria y alternativa sin WebGL; CLI `equipment:check` | `anatomy-viewer`, `b2b-ui`, biblioteca B2B y `scripts/validate-equipment.mjs` | Producir y revisar máquina, poster, instrucciones y procedencia de E3 |
+| **Con el recurso revisado** | Se conserva el registro explícito de movimientos soportados y la generación de derivados; no se inventa un movimiento de máquina ni un importador de clips Blender | `geometry`, `anatomy-viewer`, `catalog-base`, `model-assets` | Autoría, integración y revisión del movimiento E5 y segundo caso visual E6 |
+| **Previews diferidos** | Generadores y recursos existentes conservados; el lote completo no se declara regenerado ni validado | Derivados de ejercicios, anatomía y yoga en `model-assets` | Retomar generación, revisión y procedencia después de terminar los modelos y cambios relacionados, por decisión del usuario |
 
 ## 7. Validación para cerrar cada entrega
 
@@ -200,18 +205,22 @@ pnpm test:b2b:e2e
 
 Si cambian paquetes usados por B2C, agregar su build y recorridos afectados; para catálogo, geometría o visores, revisar también previews y regresión visual B2C. `pnpm check` reúne lint, tipos, tests, procedencia de previews y builds; `pnpm test:e2e` ejecuta los recorridos B2C. Si sólo cambia documentación, comprobar enlaces, referencias y `git diff --check`.
 
+Para el cierre actual, la excepción solicitada por el usuario difiere sólo la generación y validación de previews. Las comprobaciones de código, integración, builds, publicación y runtime se ejecutan y registran por separado. No se afirma que `pnpm check` o `pnpm check:release` completos hayan aprobado mientras su fase de previews siga pendiente.
+
 Cada entrega registra qué cambió, qué se probó, con qué roles/dispositivos y qué quedó pendiente. Para E4, incluir escaneo físico y tareas completas en móvil. Para E3/E5, incluir vistas del recurso y revisión del contenido, además de los checks de código.
 
-## 8. Después del recorrido principal
+## 8. Capacidades adicionales de esta entrega
 
-| Línea | Próximo alcance posible | Condición antes de implementarlo |
+El pedido de implementar el roadmap incorpora también estas extensiones de código. Su disponibilidad no sustituye la revisión de contenido ni la evaluación del piloto.
+
+| Línea | Implementación | Condición para su aceptación en uso |
 | --- | --- | --- |
-| Gimnasios | Ampliar catálogo y tipos de prescripción según ejercicios reales | Hoy se modelan series/repeticiones/carga/descanso/notas; definir contrato y registro antes de añadir duración, intensidad u objetivos estructurados |
-| Entradas públicas | Diferenciar presentación B2B, B2C y website del gimnasio | Mantener rutas y experiencias independientes; el website básico ya existe |
-| B2C | Elongación contextual y enciclopedia sobre anatomía/yoga existentes | Caso de uso definido y revisión del contenido; preservar entrenamiento autogestionado |
-| Voz guiada | TTS con pausa, reanudación, cambio de lado y tiempos reales | Después del piloto; controles y alternativa sin audio definidos |
-| Espacio del gimnasio | Galería → plano 2D vinculado a unidades → un sector 3D | Probar primero si mejora orientación/presentación; medir costo y rendimiento antes de ampliar |
-| Clips audiovisuales | Comparar un clip autorizado y uno generado para un ejercicio | Permisos de uso y evaluación de fidelidad; no asumir que un video produce un rig o movimiento editable |
+| Gimnasios | Prescripción por repeticiones o duración, RPE objetivo y declarado; snapshots históricos y registro real separados | Validar dosis y contenido con el profesor; no se infieren objetivos ni esfuerzo del usuario |
+| Entradas públicas | Entrada B2B en `/` y `/gimnasios`, website en `/g/:slug`, acceso de socio y equipo; B2C conserva su aplicación independiente | Configurar los orígenes y el acceso del piloto |
+| B2C | Búsqueda de anatomía/yoga y enlaces de elongación/movilidad por región a contenido existente | Revisar pertinencia editorial; la consulta no registra práctica ni cambia la rutina |
+| Voz guiada | Lectura voluntaria, pausa/reanudación/detención, indicación de lado si existe en el texto y temporizador de descanso | Probar voces y audio del dispositivo; instrucciones y controles escritos siguen disponibles |
+| Espacio del gimnasio | Galería, plano con puntos y enlaces de unidades, lista accesible y GLB estático opcional de un sector | Producir plano/modelo y comprobar que ayuda a orientarse; medir el recurso en el teléfono |
+| Clips audiovisuales | Comparación de dos videos autorizados, procedencia, evaluación humana y exportación con IDs/hashes; copia por cuenta/gimnasio | Aportar clip de referencia y generado, permisos y revisor; la herramienta no genera un rig ni publica la evaluación |
 
 El plano/recorrido virtual, los clips generados y la personalización de avatares no bloquean E4. Las fotos y un croquis permiten una representación aproximada del espacio, sin prometer reconstrucción exacta. Reservas, control de acceso, ERP, facturación automática y app nativa quedan fuera de este recorrido.
 

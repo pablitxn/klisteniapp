@@ -63,6 +63,8 @@ export {
 } from './catalog.ts'
 export {
   WebsiteInputSchema,
+  FloorPlanSchema,
+  type FloorPlan,
   type WebsiteInput,
   WebsiteUpdateSchema,
   WebsiteSchema,

@@ -158,3 +158,22 @@ test('an older list response cannot replace a just-saved editor revision', () =>
   const remote = { ...saved, revision: 5, name: 'Concurrent change' }
   assert.deepEqual(latestEditorEntity(saved, [remote]), remote)
 })
+
+test('timed prescriptions and target effort survive drafts while historical copies remain readable', () => {
+  const step = { ...newProgramStep('plank'), reps: null, durationSeconds: 45, targetRpe: 7.5 }
+  const draft = { name: 'Fuerza y control', description: '', steps: [step] }
+  assert.equal(isProgramDraft(draft), true)
+  assert.deepEqual(programInput(draft).steps[0], step)
+  assert.throws(() => programInput({ ...draft, steps: [{ ...step, reps: 12 }] }))
+  assert.throws(() => programInput({ ...draft, steps: [{ ...step, targetRpe: 11 }] }))
+  const legacy = Object.fromEntries(
+    Object.entries(newProgramStep('squat')).filter(
+      ([key]) => key !== 'durationSeconds' && key !== 'targetRpe',
+    ),
+  )
+  assert.equal(isProgramDraft({ ...draft, steps: [legacy] }), true)
+  assert.equal(
+    programInput({ ...draft, steps: [legacy] } as unknown as typeof draft).steps[0].durationSeconds,
+    null,
+  )
+})

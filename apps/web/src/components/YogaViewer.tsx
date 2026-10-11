@@ -10,6 +10,7 @@ import { yogaPreviewSide } from '../lib/yoga-preview-assets'
 import { anatomyRendererOptions, anatomyShadows } from '../lib/anatomy-render-settings'
 import type { YogaLayer, YogaView } from '../lib/yoga-rendering'
 import { YOGA_HOLD_PHASE, YOGA_MOTION_DURATION_SECONDS, yogaMotionPhaseLabel } from '../lib/yoga-motion'
+import { createMovementClock } from '../lib/movement-clock'
 import YogaStage, { YogaCamera } from './YogaStage'
 import YogaAsanaArt from './YogaAsanaArt'
 import Icon from './Icon'
@@ -34,7 +35,8 @@ function ContextGuard({ onError }: { onError: () => void }) {
 }
 
 /** This clock only demonstrates movement; it never writes practice time. */
-function MovementClock({ phaseRef, playing, speed, phase, onPhase }: {
+function MovementClock({ clock, phaseRef, playing, speed, phase, onPhase }: {
+  clock: ReturnType<typeof createMovementClock>
   phaseRef: { current: number }
   playing: boolean
   speed: number
@@ -42,15 +44,16 @@ function MovementClock({ phaseRef, playing, speed, phase, onPhase }: {
   onPhase: (phase: number) => void
 }) {
   const { invalidate } = useThree()
-  const sincePublish = useRef(0)
+  const publishedAt = useRef(0)
+  useEffect(() => { clock.configure(performance.now(), playing, speed) }, [clock, playing, speed])
   useEffect(() => { invalidate() }, [phase, playing, speed, invalidate])
   // Advance before YogaStage (-1), keeping capture and live poses identical.
-  useFrame((_, delta) => {
-    if (!playing || document.hidden) return
-    phaseRef.current = (phaseRef.current + Math.min(delta, 0.1) * speed / YOGA_MOTION_DURATION_SECONDS) % 1
-    sincePublish.current += delta
-    if (sincePublish.current >= 0.08) {
-      sincePublish.current = 0
+  useFrame(() => {
+    const now = performance.now()
+    if (!playing || document.hidden) { clock.reset(now); return }
+    phaseRef.current = clock.advance(phaseRef.current, now)
+    if (now - publishedAt.current >= 100) {
+      publishedAt.current = now
       onPhase(phaseRef.current)
     }
   }, -2)
@@ -83,6 +86,7 @@ export default function YogaViewer({ asanaId, side = 'both', modelVariant, sideS
   const [view, setView] = useState<YogaView>('perspective')
   const [layer, setLayer] = useState<YogaLayer>('muscles')
   const [reset, setReset] = useState(0)
+  const [clock] = useState(() => createMovementClock(YOGA_MOTION_DURATION_SECONDS))
   const phaseRef = useRef(YOGA_HOLD_PHASE)
   const [phase, setPhase] = useState(YOGA_HOLD_PHASE)
   const [playing, setPlaying] = useState(false)
@@ -125,8 +129,9 @@ export default function YogaViewer({ asanaId, side = 'both', modelVariant, sideS
   useEffect(() => {
     // Changing the demonstrated posture keeps the selected side explicit.
     phaseRef.current = reducedMotion || systemReducedMotion ? YOGA_HOLD_PHASE : 0
+    clock.reset(performance.now())
     setPhase(phaseRef.current)
-  }, [asanaId, shownSide, reducedMotion, systemReducedMotion])
+  }, [asanaId, shownSide, reducedMotion, systemReducedMotion, clock])
 
   function activate() {
     // Failed loader promises are cached; a retry must be able to fetch again.
@@ -135,17 +140,20 @@ export default function YogaViewer({ asanaId, side = 'both', modelVariant, sideS
       useLoader.clear(FileLoader, '/models/rig-landmarks.json')
     }
     phaseRef.current = reducedMotion || systemReducedMotion ? YOGA_HOLD_PHASE : 0
+    clock.reset(performance.now())
     setPhase(phaseRef.current)
     setPlaying(!reducedMotion && !systemReducedMotion && !suspended && !document.hidden)
     setFailedKey(null); setReadyKey(null); setActivated(true)
   }
   function seek(nextPhase: number) {
     phaseRef.current = nextPhase
+    clock.reset(performance.now())
     setPhase(nextPhase)
     setPlaying(false)
   }
   function restart() {
     phaseRef.current = 0
+    clock.reset(performance.now())
     setPhase(0)
   }
   return <section ref={root} className={`yoga-anatomy-viewer${compact ? ' yoga-viewer-compact' : ''}`} data-asana={asanaId} data-model={model} data-side={shownSide} data-playback={motionPlaying ? 'playing' : 'paused'} data-phase={phase.toFixed(3)} aria-label={t('Vista anatómica 3D de {{name}}', { name: asana.name })}>
@@ -155,7 +163,7 @@ export default function YogaViewer({ asanaId, side = 'both', modelVariant, sideS
       <YogaAsanaArt asanaId={asanaId} side={shownSide} modelVariant={model} eager animated={false} />
       {activated && !failed && <SceneBoundary onError={onError}><div className="yoga-viewer-canvas"><Canvas orthographic frameloop={suspended ? 'never' : motionPlaying ? 'always' : 'demand'} dpr={[1, 1.5]} camera={{ position: [3, 2, 4], near: 0.01, far: 80 }} shadows={anatomyShadows} gl={{ ...anatomyRendererOptions, powerPreference: 'high-performance' }} role="img" aria-label={t('Modelo 3D de {{name}}. Girá la cámara o elegí una vista con los controles.', { name: asana.name })}>
         <ContextGuard onError={onError} />
-        <MovementClock phaseRef={phaseRef} playing={motionPlaying} speed={speed} phase={phase} onPhase={onPhase} />
+        <MovementClock clock={clock} phaseRef={phaseRef} playing={motionPlaying} speed={speed} phase={phase} onPhase={onPhase} />
         <Suspense fallback={null}><YogaStage asanaId={asanaId} side={shownSide} modelVariant={model} layer={layer} phaseRef={phaseRef} onReady={onReady} /><YogaCamera bounds={bounds} asanaId={asanaId} side={shownSide} view={view} reset={reset} /></Suspense>
       </Canvas></div></SceneBoundary>}
       {!activated && <button className="yoga-viewer-activate" onClick={activate}><Icon name="body" size={17} />{t('Explorar en 3D')}</button>}

@@ -1,7 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import type { Exercise, Me, Program } from '../../../packages/b2b-contracts/src/index.ts'
 
-const origin = 'http://127.0.0.1:4202'
 async function login(page: Page, role: 'admin' | 'coach') {
   await page.goto('/backoffice/')
   await page.getByLabel('Email', { exact: true }).fill(`${role}@atlas.example.test`)
@@ -11,7 +10,7 @@ async function login(page: Page, role: 'admin' | 'coach') {
 }
 async function orgRequest(page: Page, path: string, data?: unknown) {
   const me = await page.request.get('/api/b2b/me'), identity = await me.json() as Me
-  const response = await page.request.fetch(`/api/b2b/orgs/atlas-demo${path}`, { method: data ? 'PUT' : 'GET', headers: { Origin: origin, 'X-Klisteni-B2B-Account': identity.user.id }, ...(data ? { data } : {}) })
+  const response = await page.request.fetch(`/api/b2b/orgs/atlas-demo${path}`, { method: data ? 'PUT' : 'GET', headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': identity.user.id }, ...(data ? { data } : {}) })
   expect(response.ok()).toBeTruthy()
   return response
 }

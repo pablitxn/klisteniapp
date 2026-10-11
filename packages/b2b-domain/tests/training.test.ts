@@ -98,3 +98,34 @@ test('valid execution checks preserve both the historical snapshot and the recor
   assert.deepEqual(checkExecution(program, execution), { ok: true })
   assert.deepEqual({ program, execution }, original)
 })
+
+test('timed completion uses actual positive seconds and cannot change the prescribed unit', () => {
+  const timed = ProgramInputSchema.parse({
+    name: 'Hold',
+    steps: [{ id: 's', exerciseId: 'plank', sets: 1, reps: null, durationSeconds: 30 }],
+  })
+  const input = ExecutionInputSchema.parse({
+    ...execution,
+    sets: [{ stepId: 's', exerciseId: 'plank', set: 1, reps: null, durationSeconds: 20, rpe: 8 }],
+  })
+  assert.deepEqual(checkExecution(timed, input), { ok: true })
+  assert.deepEqual(
+    checkExecution(timed, { ...input, sets: [{ ...input.sets[0], durationSeconds: 0 }] }),
+    { ok: false, code: 'INCOMPLETE_EXECUTION' },
+  )
+  assert.deepEqual(
+    checkExecution(timed, {
+      ...input,
+      status: 'partial',
+      sets: [{ ...input.sets[0], durationSeconds: 0 }],
+    }),
+    { ok: true },
+  )
+  assert.deepEqual(
+    checkExecution(timed, {
+      ...input,
+      sets: [{ ...input.sets[0], reps: 20, durationSeconds: null }],
+    }),
+    { ok: false, code: 'INVALID_MEASUREMENT' },
+  )
+})

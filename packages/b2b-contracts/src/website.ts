@@ -2,6 +2,35 @@ import { z } from 'zod'
 import { IdSchema, RevisionSchema, TimestampSchema } from './common.ts'
 import { AssetSchema, ResponseAssetSchema } from './media.ts'
 
+const ImageAssetSchema = AssetSchema.extend({ kind: z.literal('image') })
+const SpatialModelSchema = AssetSchema.extend({ kind: z.literal('model3d') })
+
+/** Coordinates are percentages of the image, independent of screen size. */
+export const FloorPlanSchema = z
+  .object({
+    title: z.string().trim().min(1).max(150),
+    description: z.string().max(2000).default(''),
+    image: ImageAssetSchema,
+    points: z
+      .array(
+        z
+          .object({
+            unitId: IdSchema,
+            x: z.number().min(0).max(100),
+            y: z.number().min(0).max(100),
+          })
+          .strict(),
+      )
+      .max(200)
+      .refine(
+        (points) => new Set(points.map((point) => point.unitId)).size === points.length,
+        'Each equipment unit can appear only once on the plan',
+      ),
+  })
+  .strict()
+
+export type FloorPlan = z.infer<typeof FloorPlanSchema>
+
 export const WebsiteInputSchema = z
   .object({
     headline: z.string().trim().max(200).default(''),
@@ -32,6 +61,8 @@ export const WebsiteInputSchema = z
       .max(21)
       .default([]),
     gallery: z.array(AssetSchema).max(20).default([]),
+    floorPlan: FloorPlanSchema.nullable().default(null),
+    spatialModel: SpatialModelSchema.nullable().default(null),
   })
   .strict()
 

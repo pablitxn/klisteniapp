@@ -33,6 +33,8 @@ docker compose --env-file deploy/.env -f deploy/compose.local.yaml --profile ins
 
 PostgreSQL has no published port. The API is bound to `127.0.0.1:3001`. The database initialization SQL runs only when the dedicated volume is empty; changing `.env` does not rotate an existing role password. Keep the file while retaining that volume. API startup does not migrate it automatically.
 
+Run migration before starting the API. If the API was already running against an empty or incomplete schema, restart it after migration. Authentication retains that schema error in memory; `/api/readyz` correctly stays 503 until the process restarts, even when `/api/healthz` is 200 and the tables are present.
+
 Start the frontend separately with a public profile based on the example:
 
 ```sh
@@ -77,7 +79,7 @@ At minimum set `DATABASE_URL`, `BETTER_AUTH_SECRET` (random, at least 32 charact
 
 Provision an application database and role with no superuser, role creation, database creation, replication or row-security bypass rights. Keep database ports private. The migration process needs DDL rights only in this instance's database; application operators must not grant access to unrelated databases. Use a secret manager for database/auth credentials; never put them in `VITE_*`, the public profile, images or tracked environment files.
 
-`GET /api/healthz` checks process liveness; `GET /api/readyz` checks database connectivity and prepared schema. Deploy `/api` under the same public origin, preserve its prefix, disable all API caching and never return SPA HTML for an API failure. Configure network policies according to your environment, including both API egress and database ingress. The generic [Kubernetes blueprint](../deploy/accounts.example.yaml) does not provision network/TLS/database resources.
+`GET /api/healthz` checks process liveness; `GET /api/readyz` checks database connectivity, prepared schema and authentication availability. Deploy `/api` under the same public origin, preserve its prefix, disable all API caching and never return SPA HTML for an API failure. Configure network policies according to your environment, including both API egress and database ingress. The generic [Kubernetes blueprint](../deploy/accounts.example.yaml) does not provision network/TLS/database resources.
 
 The API ignores forwarded client-IP headers by default. Only configure `TRUSTED_CLIENT_IP_HEADER` after proving that the trusted proxy overwrites it and the API port cannot be reached around that proxy. Otherwise a client could supply a forged header. Keeping the default may group clients behind the same proxy for rate limiting.
 

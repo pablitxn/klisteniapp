@@ -69,7 +69,7 @@ type WebsiteRow = {
   published_at: Date | null;
 };
 const websiteDTO = (r: WebsiteRow): Website => ({
-  draft: r.draft,
+  draft: WebsiteInputSchema.parse(r.draft),
   revision: r.revision,
   publishedRevision: r.published_revision,
   publishedAt: r.published_at?.toISOString() ?? null,
@@ -605,7 +605,7 @@ export class B2BService {
   }
   async updateWebsite(c: Context, input: WebsiteInput, revision: number): Promise<Website> {
     this.admin(c);
-    await this.validateAssets(c, input.gallery);
+    await this.validateWebsite(c, input);
     if (
       new Set(input.activities.map((v) => v.id)).size !== input.activities.length ||
       new Set(input.openingHours.map((v) => v.id)).size !== input.openingHours.length
@@ -639,19 +639,42 @@ export class B2BService {
         'WEBSITE_INCOMPLETE',
         'Completá el título del sitio antes de publicarlo.',
       );
-    await this.validateAssets(c, row.draft.gallery);
-    await this.validateLogo(c, c.org.brand.logoUrl);
+    const content = WebsiteInputSchema.parse(row.draft);
+    if (!unpublish) {
+      await this.validateWebsite(c, content);
+      await this.validateLogo(c, c.org.brand.logoUrl);
+    }
     const found = await c.db.query<WebsiteRow>(
       'UPDATE b2b_website SET published=$2,published_revision=$3,published_at=$4,revision=revision+1 WHERE organization_id=$1 RETURNING *',
       [
         c.org.id,
-        unpublish ? null : { content: row.draft, brand: c.org.brand },
+        unpublish ? null : { content, brand: c.org.brand },
         unpublish ? null : row.revision + 1,
         unpublish ? null : new Date(),
       ],
     );
     await this.audit(c, unpublish ? 'website.unpublish' : 'website.publish', c.org.id);
     return websiteDTO(found.rows[0]);
+  }
+  private async validateWebsite(c: Context, input: WebsiteInput) {
+    await this.validateAssets(c, [
+      ...input.gallery,
+      ...(input.floorPlan ? [input.floorPlan.image] : []),
+      ...(input.spatialModel ? [input.spatialModel] : []),
+    ]);
+    const ids = input.floorPlan?.points.map((point) => point.unitId) ?? [];
+    if (ids.length) {
+      const units = await c.db.query<{ id: string }>(
+        'SELECT id FROM b2b_unit WHERE organization_id=$1 AND id=ANY($2::text[]) AND NOT archived',
+        [c.org.id, ids],
+      );
+      if (units.rows.length !== ids.length)
+        throw new HttpError(
+          400,
+          'INVALID_FLOOR_PLAN',
+          'El plano contiene equipos retirados o ajenos al gimnasio. Actualizá los puntos antes de publicar.',
+        );
+    }
   }
   async setupProgress(c: Context): Promise<SetupProgress> {
     this.staff(c);
@@ -753,8 +776,17 @@ export class B2BService {
         org,
         new Set(machines.map((machine) => machine.id)),
       );
-      if (!unitId)
-        return { organization, website: site.published.content, units, machines, exercises };
+      if (!unitId) {
+        const website = WebsiteInputSchema.parse(site.published.content);
+        // Revoking a unit's publication removes its marker immediately, including its ID.
+        if (website.floorPlan) {
+          const publicIds = new Set(units.map((unit) => unit.id));
+          website.floorPlan.points = website.floorPlan.points.filter((point) =>
+            publicIds.has(point.unitId),
+          );
+        }
+        return { organization, website, units, machines, exercises };
+      }
       const unit = units.find((u) => u.id === unitId);
       if (!unit) throw missing();
       const machine = machines.find((m) => m.id === unit.machineId);

@@ -34,6 +34,8 @@ const assignment: Assignment = {
         exerciseId: 'squat',
         sets: 2,
         reps: 12,
+        durationSeconds: null,
+        targetRpe: null,
         loadKg: 20,
         restSeconds: 60,
         alternatives: ['air-squat'],
@@ -44,6 +46,8 @@ const assignment: Assignment = {
         exerciseId: 'plank',
         sets: 1,
         reps: 8,
+        durationSeconds: null,
+        targetRpe: null,
         loadKg: null,
         restSeconds: 60,
         alternatives: [],
@@ -161,6 +165,7 @@ test('substitution clears load, completion and the previous reason without chang
   const original = changeDraftSet(createSessionDraft(assignment, 'execution-a'), 0, {
     done: true,
     reason: 'Earlier reason',
+    rpe: 8,
   })
   const changed = changeDraftSet(original, 0, substituteExercise('air-squat'))
   assert.deepEqual(changed.sets[0], {
@@ -168,6 +173,8 @@ test('substitution clears load, completion and the previous reason without chang
     set: 1,
     exerciseId: 'air-squat',
     reps: 12,
+    durationSeconds: null,
+    rpe: null,
     loadKg: null,
     done: false,
     reason: '',
@@ -364,4 +371,75 @@ test('confirmed requests clear their own draft without removing a replacement se
   device.setItem('draft', '{unreadable-but-preserved')
   discardConfirmedSession(device, 'draft', 'new-execution')
   assert.equal(device.getItem('draft'), '{unreadable-but-preserved')
+})
+
+test('timed sessions keep performed duration and effort distinct from prescription and retry exactly', () => {
+  const timed = structuredClone(assignment)
+  timed.program.steps = [
+    { ...timed.program.steps[0], sets: 1, reps: null, durationSeconds: 45, targetRpe: 7 },
+  ]
+  let draft = createSessionDraft(timed, 'timed-execution')
+  assert.equal(draft.sets[0].durationSeconds, 45)
+  assert.equal(draft.sets[0].reps, null)
+  assert.equal(draft.sets[0].rpe, null)
+  draft = changeDraftSet(draft, 0, { durationSeconds: 38, rpe: 7.5, done: true })
+  const prepared = prepareExecution(draft, timed, 'completed', timestamp)
+  if (!prepared.ok) assert.fail(prepared.error)
+  assert.equal(prepared.payload.sets[0].durationSeconds, 38)
+  assert.equal(prepared.payload.sets[0].rpe, 7.5)
+  assert.equal(timed.program.steps[0].durationSeconds, 45)
+  const pending = { ...draft, pending: prepared.payload }
+  const recovered = parseSessionDraft(JSON.parse(JSON.stringify(pending)), timed)
+  assert.deepEqual(recovered, pending)
+  const retry = prepareExecution(recovered!, timed, 'partial', '2026-10-11T00:00:00Z')
+  assert.deepEqual(retry, prepared)
+  assert.equal(
+    prepareExecution(
+      changeDraftSet(draft, 0, { durationSeconds: 0 }),
+      timed,
+      'completed',
+      timestamp,
+    ).ok,
+    false,
+  )
+  assert.equal(
+    prepareExecution(changeDraftSet(draft, 0, { rpe: 11 }), timed, 'completed', timestamp).ok,
+    false,
+  )
+})
+
+test('fractional RPE survives device recovery without rounding or losing the pending execution', () => {
+  for (const rpe of [7.5, 7.25]) {
+    const draft = changeDraftSet(completedDraft(), 0, { rpe })
+    const prepared = prepareExecution(draft, assignment, 'completed', timestamp)
+    if (!prepared.ok) assert.fail(prepared.error)
+    const device = storage()
+    const pending = { ...draft, pending: prepared.payload }
+    device.setItem('draft', JSON.stringify(pending))
+    const recovered = recoverSessionDraft(device, 'draft', assignment, () => {
+      assert.fail('A fractional RPE must not replace the existing session')
+    })
+    assert.equal(recovered.recovered, true)
+    assert.deepEqual(recovered.draft, pending)
+    assert.equal(recovered.draft.sets[0].rpe, rpe)
+    assert.deepEqual(
+      prepareExecution(recovered.draft, assignment, 'partial', '2026-10-11T00:00:00Z'),
+      prepared,
+    )
+  }
+})
+
+test('old local drafts and pending retries decode without added duration or RPE fields', () => {
+  const draft = completedDraft()
+  const prepared = prepareExecution(draft, assignment, 'completed', timestamp)
+  if (!prepared.ok) assert.fail(prepared.error)
+  const old = JSON.parse(JSON.stringify({ ...draft, pending: prepared.payload }))
+  for (const set of [...old.sets, ...old.pending.sets]) {
+    delete set.durationSeconds
+    delete set.rpe
+  }
+  const recovered = parseSessionDraft(old, assignment)
+  assert.deepEqual(recovered, { ...draft, pending: prepared.payload })
+  assert.equal(recovered?.id, draft.id)
+  assert.equal(recovered?.pending?.completedAt, timestamp)
 })

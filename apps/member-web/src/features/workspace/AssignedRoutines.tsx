@@ -1,6 +1,6 @@
 import type { Assignment, Execution } from '@klisteniapp/b2b-contracts'
 import { supportsMachine } from '@klisteniapp/b2b-domain/catalog'
-import { Empty } from '@klisteniapp/b2b-ui'
+import { Empty, prescriptionStepLabel } from '@klisteniapp/b2b-ui'
 
 function usesMachine(assignment: Assignment, machineId: string): boolean {
   return assignment.program.steps.some((step) => {
@@ -60,10 +60,7 @@ export function AssignedRoutines({
                         {assignment.program.exercises.find((item) => item.id === step.exerciseId)
                           ?.name ?? step.exerciseId}
                       </strong>
-                      <p>
-                        {step.sets} × {step.reps} repeticiones
-                        {step.loadKg !== null ? ` · ${step.loadKg} kg` : ''}
-                      </p>
+                      <p>{prescriptionStepLabel(step)}</p>
                     </div>
                   </div>
                 ))}

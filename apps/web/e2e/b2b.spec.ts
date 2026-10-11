@@ -95,7 +95,7 @@ test('coach publishes a custom machine exercise and routine; member records real
     // Editing the draft cannot retroactively rewrite the assigned or completed plan.
     const { programs } = await orgGet<{ programs: Program[] }>(page, '/programs')
     const program = programs.find(program => program.name === programName)!
-    const updated = await page.request.put(`/api/b2b/orgs/atlas-demo/programs/${program.id}`, { headers: { Origin: 'http://127.0.0.1:4202', 'X-Klisteni-B2B-Account': identity.user.id }, data: { name: 'Borrador futuro', description: program.description, steps: program.steps, expectedRevision: program.revision } })
+    const updated = await page.request.put(`/api/b2b/orgs/atlas-demo/programs/${program.id}`, { headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': identity.user.id }, data: { name: 'Borrador futuro', description: program.description, steps: program.steps, expectedRevision: program.revision } })
     expect(updated.ok()).toBeTruthy()
     await page.reload()
     await expect(page.locator('article').filter({ has: page.getByRole('heading', { name: programName, exact: true }) })).toContainText('12 reps · 17.5 kg')
@@ -103,16 +103,19 @@ test('coach publishes a custom machine exercise and routine; member records real
 })
 
 test('local draft survives reload and a lost successful response retries exactly once without duplicating history', async ({ page, browser }) => {
-  const administrator = await browser.newContext({ baseURL: 'http://127.0.0.1:4202' })
+  const administrator = await browser.newContext()
   const adminPage = await administrator.newPage()
   await login(adminPage, 'admin')
   const admin = await me(adminPage)
   async function archive(archived: boolean) {
     const { units } = await orgGet<{ units: Unit[] }>(adminPage, '/units')
-    const { id, revision, machineId, label, location, assets, adjustments, public: isPublic } = units.find(unit => unit.id === 'atlas-demo-cable-01')!
-    const input = { machineId, label, location, assets, adjustments, public: isPublic }
-    const response = await adminPage.request.put(`/api/b2b/orgs/atlas-demo/units/${id}`, { headers: { Origin: 'http://127.0.0.1:4202', 'X-Klisteni-B2B-Account': admin.user.id }, data: { ...input, archived, expectedRevision: revision } })
-    expect(response.ok()).toBeTruthy()
+    // Availability belongs to a model: retire both physical copies to reproduce
+    // the loss of every compatible unit after the server confirmed the execution.
+    for (const { id, revision, machineId, label, location, assets, adjustments, public: isPublic } of units.filter(unit => unit.machineId === 'base-cable-station-v1')) {
+      const input = { machineId, label, location, assets, adjustments, public: isPublic }
+      const response = await adminPage.request.put(`/api/b2b/orgs/atlas-demo/units/${id}`, { headers: { Origin: new URL(adminPage.url()).origin, 'X-Klisteni-B2B-Account': admin.user.id }, data: { ...input, archived, expectedRevision: revision } })
+      expect(response.ok()).toBeTruthy()
+    }
   }
   try {
   await login(page, 'member')
@@ -123,7 +126,7 @@ test('local draft survives reload and a lost successful response retries exactly
   await page.getByRole('checkbox', { name: 'Hecha', exact: true }).nth(2).check()
   await page.reload(); await start()
   await expect(page.getByLabel('Repeticiones · 2/1', { exact: true })).toHaveValue('13')
-  await expect(page.getByRole('status')).toContainText('Recuperamos el borrador')
+  await expect(page.getByRole('status').filter({ hasText: 'Recuperamos el borrador' })).toBeVisible()
   let attempts = 0
   await page.route('**/api/b2b/orgs/atlas-demo/executions', async route => {
     if (route.request().method() !== 'POST') { await route.continue(); return }
@@ -166,7 +169,7 @@ test('public QR remains public, login keeps equipment context, and another tenan
   expect((await page.request.get('/api/b2b/orgs/sur-demo/assignments', { headers: { 'X-Klisteni-B2B-Account': identity.user.id } })).status()).toBe(403)
   expect((await page.request.get('/api/b2b/public/sur-demo/units/atlas-demo-cable-01')).status()).toBe(404)
   expect((await page.request.get('/api/b2b/orgs/atlas-demo/reports', { headers: { 'X-Klisteni-B2B-Account': identity.user.id } })).status()).toBe(403)
-  expect((await page.request.post('/api/b2b/orgs/atlas-demo/executions', { headers: { Origin: 'http://127.0.0.1:4202', 'X-Klisteni-B2B-Account': 'another-account' }, data: {} })).status()).toBe(401)
+  expect((await page.request.post('/api/b2b/orgs/atlas-demo/executions', { headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': 'another-account' }, data: {} })).status()).toBe(401)
   expect((await page.request.get('/api/me/state')).status()).toBe(404)
   await page.goto('/backoffice/')
   await expect(page.getByRole('heading', { name: 'Este espacio es para el equipo del gimnasio', exact: true })).toBeVisible()
@@ -216,7 +219,41 @@ test('admin creates a reusable machine variant and unit, edits its public detail
 })
 
 
-test('the member catalog reuses local exercise previews and preserves instructions when WebGL is unavailable', async ({ page }, testInfo) => {
+test('the member catalog reuses local exercise previews and preserves instructions when WebGL is unavailable', async ({ page, browserName }, testInfo) => {
+  await login(page, 'member')
+  const card = page.locator('article').filter({ has: page.getByRole('heading', { name: 'Sentadilla', exact: true }) })
+  const preview = card.getByRole('img', { name: 'Sentadilla', exact: true })
+  async function findMovement() {
+    await page.getByRole('button', { name: 'Movimientos', exact: true }).click()
+    await page.getByLabel('Buscar movimiento', { exact: true }).fill('Sentadilla')
+  }
+  if (browserName === 'chromium') {
+    let modelRequested = false
+    let releaseModel = () => {}
+    const heldModel = new Promise<void>(resolve => { releaseModel = resolve })
+    await page.route('**/models/anatomy.glb', async route => {
+      modelRequested = true
+      await heldModel
+      await route.abort('failed')
+    })
+    try {
+      await findMovement()
+      await card.getByText('Cómo hacer Sentadilla', { exact: true }).click()
+      await card.getByRole('button', { name: 'Ver movimiento animado', exact: true }).click()
+      await expect.poll(() => modelRequested).toBe(true)
+      // Let mounted canvas fallbacks/effects settle while the actual model is still pending.
+      await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
+      await expect(card.getByText('Cargando vista 3D…', { exact: true })).toBeVisible()
+      await expect(card.locator('ol li').first()).toBeVisible()
+      releaseModel()
+      await expect(card.getByText('Consultá las instrucciones para este movimiento.', { exact: true })).toBeVisible()
+      await expect(card.getByText('Cargando vista 3D…', { exact: true })).toHaveCount(0)
+      await expect(card.locator('ol li').first()).toBeVisible()
+    } finally {
+      releaseModel()
+      await page.unroute('**/models/anatomy.glb')
+    }
+  }
   await page.addInitScript(() => {
     const getContext = HTMLCanvasElement.prototype.getContext
     HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...args: unknown[]) {
@@ -224,14 +261,12 @@ test('the member catalog reuses local exercise previews and preserves instructio
       return Reflect.apply(getContext, this, [type, ...args])
     } as typeof getContext
   })
-  await login(page, 'member')
-  await page.getByRole('button', { name: 'Movimientos', exact: true }).click()
-  await page.getByLabel('Buscar movimiento', { exact: true }).fill('Sentadilla')
-  const card = page.locator('article').filter({ has: page.getByRole('heading', { name: 'Sentadilla', exact: true }) })
-  const preview = card.getByRole('img', { name: 'Sentadilla', exact: true })
+  await page.reload()
+  await findMovement()
   await expect(preview).toBeVisible()
   await expect.poll(() => preview.evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
   await card.getByText('Cómo hacer Sentadilla', { exact: true }).click()
+  await card.getByRole('button', { name: 'Ver movimiento animado', exact: true }).click()
   await expect(card.getByText('Consultá las instrucciones para este movimiento.', { exact: true })).toBeVisible()
   await expect(card.locator('ol li').first()).toBeVisible()
   async function checkPreviewLayout() {
@@ -247,8 +282,11 @@ test('the member catalog reuses local exercise previews and preserves instructio
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
 })
 
-test('admin prepares a gym with reused models and uploaded content, publishes its website and prints unit QR labels', async ({ page, browser }, testInfo) => {
-  const visitor = await browser.newContext({ baseURL: 'http://127.0.0.1:4202' })
+test('admin prepares a gym with reused models and uploaded content, publishes its website and prints unit QR labels', async ({ page, browser, browserName }, testInfo) => {
+  // This complete gym setup includes uploads, a lost response, conflicts and
+  // print layout. Touch WebKit needs the whole flow's budget on modest CI CPUs.
+  test.setTimeout(180_000)
+  const visitor = await browser.newContext()
   const publicPage = await visitor.newPage()
   const gym = 'sur-demo', photoLabel = 'Sala Sur · foto de prueba', exerciseName = 'Prensa adaptada Sur'
   const article = (name: string) => page.locator('article').filter({ has: page.getByRole('heading', { name, exact: true }) })
@@ -380,7 +418,7 @@ test('admin prepares a gym with reused models and uploaded content, publishes it
     await page.getByLabel('Título del website', { exact: true }).fill('Próxima versión sin publicar')
     const current = (await orgGet<{ website: Website }>(page, '/website', gym)).website
     const identity = await me(page)
-    const concurrent = await page.request.put(`/api/b2b/orgs/${gym}/website`, { headers: { Origin: 'http://127.0.0.1:4202', 'X-Klisteni-B2B-Account': identity.user.id }, data: { ...current.draft, headline: 'Cambio desde otra pestaña', expectedRevision: current.revision } })
+    const concurrent = await page.request.put(`/api/b2b/orgs/${gym}/website`, { headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': identity.user.id }, data: { ...current.draft, headline: 'Cambio desde otra pestaña', expectedRevision: current.revision } })
     expect(concurrent.ok()).toBeTruthy()
     await page.evaluate(() => window.dispatchEvent(new Event('focus')))
     await expect(page.getByRole('button', { name: 'Guardar borrador del website', exact: true })).toBeDisabled()
@@ -388,6 +426,9 @@ test('admin prepares a gym with reused models and uploaded content, publishes it
     await expect(page.getByLabel('Título del website', { exact: true })).toHaveValue('Cambio desde otra pestaña')
     await nav('Recuperar mi copia local')
     await expect(page.getByLabel('Título del website', { exact: true })).toHaveValue('Próxima versión sin publicar')
+    await expect(page.getByRole('button', { name: 'Guardar borrador del website', exact: true })).toBeDisabled()
+    await page.getByRole('checkbox', { name: 'Comparé la versión actual con mi copia local y quiero conservar mis cambios.', exact: true }).check()
+    await nav('Continuar con mi copia revisada')
     await nav('Guardar borrador del website')
     await expect(page.getByRole('status').filter({ hasText: 'Borrador del website guardado' })).toBeVisible()
     expect(((await (await visitor.request.get(`/api/b2b/public/${gym}`)).json()) as PublicSite).website.headline).toBe('Entrená en Sur')
@@ -408,17 +449,20 @@ test('admin prepares a gym with reused models and uploaded content, publishes it
     await expect(page.getByRole('button', { name: 'Imprimir 2 etiquetas', exact: true })).toBeEnabled()
     await expect(page.locator('.qr-label')).toHaveCount(2)
     for (const unit of units) {
-      const url = new URL(unit.publicPath, 'http://127.0.0.1:4202').href
+      const url = new URL(unit.publicPath, page.url()).href
       await expect(page.locator('.qr-label').filter({ hasText: unit.label }).locator('.qr-absolute-url')).toHaveAttribute('href', url)
       await publicPage.goto(url)
       await expect(publicPage.getByRole('heading', { name: unit.label, exact: true })).toBeVisible()
       await expect(publicPage.getByRole('heading', { name: exerciseName, exact: true })).toBeVisible()
     }
+    await page.bringToFront()
     await page.emulateMedia({ media: 'print' })
     await expect(page.locator('.no-print').first()).toBeHidden()
     await page.screenshot({ path: testInfo.outputPath('gym-qr-print.png'), fullPage: true })
-    await page.pdf({ path: testInfo.outputPath('gym-qr-labels.pdf'), format: 'A4', printBackground: true })
+    // PDF export is Chromium-only; print CSS and per-unit destinations are checked in every engine.
+    if (browserName === 'chromium') await page.pdf({ path: testInfo.outputPath('gym-qr-labels.pdf'), format: 'A4', printBackground: true })
     await page.emulateMedia({ media: 'screen' })
+    await expect(page.locator('.no-print').first()).toBeVisible()
     await nav('Website')
     await page.getByText('Despublicar website', { exact: true }).click(); await nav('Confirmar despublicación')
     await expect(page.getByRole('status').filter({ hasText: 'Website despublicado' })).toBeVisible()
