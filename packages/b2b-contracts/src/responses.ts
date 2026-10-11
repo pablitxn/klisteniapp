@@ -12,10 +12,33 @@ import {
 } from './training.ts'
 import { SetupProgressSchema, WebsiteSchema } from './website.ts'
 import { PublicSiteSchema, PublicUnitSchema } from './public.ts'
+import {
+  BranchSchema,
+  BranchCatalogSchema,
+  BranchGrantSchema,
+  BrandContextSchema,
+  ThemeSchema,
+  ThemeVersionSchema,
+  EffectiveModulesSchema,
+  ModuleConfigurationSchema,
+} from './white-label.ts'
 
 /** Wire schemas require server-promised fields, including defaults from request parsing.
  * Decode responses before they reach a view; missing fields are protocol errors. */
 export const B2BResponseSchemas = {
+  availability: z.object({ availability: z.array(BranchCatalogSchema) }).strict(),
+  context: BrandContextSchema,
+  branches: z.object({ branches: z.array(BranchSchema) }).strict(),
+  branch: z.object({ branch: BranchSchema }).strict(),
+  branchGrants: z.object({ grants: z.array(BranchGrantSchema) }).strict(),
+  theme: z.object({ theme: ThemeSchema }).strict(),
+  themeVersions: z.object({ versions: z.array(ThemeVersionSchema) }).strict(),
+  modules: z
+    .object({
+      modules: EffectiveModulesSchema,
+      configuration: z.array(ModuleConfigurationSchema),
+    })
+    .strict(),
   me: MeSchema,
   publicSite: PublicSiteSchema,
   publicUnit: PublicUnitSchema,

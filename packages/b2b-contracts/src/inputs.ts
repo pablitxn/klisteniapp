@@ -23,9 +23,14 @@ import type {
   ProgramUpdateInput,
 } from './training.ts'
 import type { WebsiteUpdateInput } from './website.ts'
+import type { BranchInput, BranchUpdateInput, BranchGrantInput, ThemeInput } from './white-label.ts'
 
 /** Payload types before parsing: defaults are optional at the API boundary. */
 export type B2BInputs = {
+  branch: BranchInput
+  branchUpdate: BranchUpdateInput
+  branchGrant: BranchGrantInput
+  theme: ThemeInput & { expectedRevision: number }
   signIn: { email: string; password: string }
   invitation: InvitationInput
   acceptInvitation: AcceptInvitationInput

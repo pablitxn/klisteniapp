@@ -78,9 +78,10 @@ Base recibida: `af87f603876cb99b2e6673f290fa8ec03721454b`, árbol limpio, rama d
 
 | Etapa | Estado | Evidencia / siguiente paso |
 | --- | --- | --- |
-| WL-0 | Implementado (inventario y decisiones) | [Mapa de archivos, matriz de permisos y políticas](b2b-white-label-decisions.md). Verificados checkout, runtime, puertos y DB de pruebas; no se cambiaron versiones |
-| WL-1 | En implementación | Schema aditivo, backfill a Principal, DTO y constraints; falta cerrar pruebas de migración |
-| WL-2–WL-8 | En implementación, sin aceptación declarada | Se integran por dependencias después de WL-1; D01–D19 aún no acreditados |
+| WL-0 | Checkpoint `a451d9c` | [Mapa de archivos, matriz de permisos y políticas](b2b-white-label-decisions.md). Verificados checkout, runtime, puertos y DB de pruebas; no se cambiaron versiones |
+| WL-1 | Implementado y comprobado | Migración `004-white-label`, DTO, fixture `seedWhiteLabelDemo`: Atlas/Sur, Centro y Norte/Oeste. Pruebas `white-label-migration.test.ts` 4/4, contratos y typecheck aprobados; preservación de JSON/IDs, invitaciones y rechazo de FKs cruzadas |
+| WL-2/WL-3 | Backend integrado; cerrando checkpoint | HTTP nuevo 6/6 grupos: dominios, sesión de marca, permisos, invitaciones, medios y cuatro sedes; falta completar navegador y revocaciones en cola |
+| WL-4–WL-8 | En implementación, sin aceptación completa declarada | UI, HTTPS con Chromium/WebKit y evidencia de recuperación en preparación; D01–D19 aún no acreditados por completo |
 
 Las previews existentes se conservan. `check`, `check:all`, `check:release` y sus gates siguen pendientes según la decisión de diferir previews; no se modifican hashes, snapshots ni CI para simular validación.
 

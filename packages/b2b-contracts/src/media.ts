@@ -32,6 +32,7 @@ export const MediaUploadSchema = z
   .strict()
 
 export const MediaSchema = ResponseAssetSchema.extend({
+  branchId: IdSchema.nullable().optional(),
   mime: z.string().min(1),
   bytes: z.number().int().nonnegative(),
   sha256: z.string().regex(/^[a-f0-9]{64}$/),

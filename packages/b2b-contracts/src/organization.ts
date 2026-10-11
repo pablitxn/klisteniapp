@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { IdSchema, RoleSchema, TimestampSchema } from './common.ts'
 import { AssetSchema } from './media.ts'
+import { WhiteLabelMeSchema } from './white-label.ts'
 
 export const BrandInputSchema = z
   .object({
@@ -44,10 +45,18 @@ export const MembershipSchema = z
 
 export type Membership = z.infer<typeof MembershipSchema>
 
-export const UserSchema = z.object({ id: IdSchema, name: z.string(), email: z.email() })
+export const UserSchema = z.object({
+  id: IdSchema,
+  name: z.string(),
+  email: z.email(),
+})
 
 export const MeSchema = z
-  .object({ user: UserSchema, memberships: z.array(MembershipSchema) })
+  .object({
+    user: UserSchema,
+    memberships: z.array(MembershipSchema),
+    whiteLabel: z.lazy(() => WhiteLabelMeSchema).optional(),
+  })
   .strict()
 
 export type Me = z.infer<typeof MeSchema>

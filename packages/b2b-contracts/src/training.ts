@@ -57,6 +57,7 @@ const ResponseProgramContentSchema = ProgramInputSchema.safeExtend({
 
 export const ProgramSchema = ResponseProgramContentSchema.safeExtend({
   id: IdSchema,
+  branchId: IdSchema.optional(),
   publishedVersion: VersionSchema.nullable(),
   revision: RevisionSchema,
 })
@@ -75,6 +76,7 @@ const HistoricalMachineSchema = MachineSchema.extend({
 
 export const ProgramVersionSchema = ResponseProgramContentSchema.safeExtend({
   programId: IdSchema,
+  branchId: IdSchema.optional(),
   version: VersionSchema,
   exercises: z.array(ExerciseSchema),
   machines: z.array(HistoricalMachineSchema),
@@ -107,6 +109,8 @@ export type StepAvailability = z.infer<typeof StepAvailabilitySchema>
 export const AssignmentSchema = z
   .object({
     id: IdSchema,
+    branchId: IdSchema.optional(),
+    active: z.boolean().optional(),
     memberId: IdSchema,
     memberName: z.string(),
     assignedBy: IdSchema,
@@ -153,6 +157,7 @@ export const ExecutionInputSchema = z
 export type ExecutionInput = z.infer<typeof ExecutionInputSchema>
 
 export const ExecutionSchema = ExecutionInputSchema.safeExtend({
+  branchId: IdSchema.optional(),
   notes: ExecutionInputSchema.shape.notes.removeDefault(),
   sets: z
     .array(

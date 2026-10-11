@@ -297,7 +297,7 @@ export async function resetDemo(pool: Pool, config: Config, confirmed: boolean) 
       throw new Error('Database has no synthetic demo marker');
     // Explicit owned tables; never discover/truncate unrelated schemas or B2C tables.
     await db.query(
-      `TRUNCATE b2b_media,b2b_unit_batch,b2b_website,b2b_audit,b2b_execution,b2b_program_assignment,b2b_program_version,b2b_program,b2b_exercise,b2b_unit,b2b_machine,b2b_invitation,b2b_coach_assignment,b2b_membership,b2b_organization,b2b_platform_admin,b2b_auth_account,b2b_auth_session,b2b_auth_verification,b2b_auth_rate_limit,b2b_auth_user,b2b_public_rate_limit`,
+      `TRUNCATE b2b_branch_catalog,b2b_branch_module,b2b_module_configuration,b2b_theme_version,b2b_theme,b2b_session_context,b2b_domain,b2b_branch_grant,b2b_branch,b2b_media,b2b_unit_batch,b2b_website,b2b_audit,b2b_execution,b2b_program_assignment,b2b_program_version,b2b_program,b2b_exercise,b2b_unit,b2b_machine,b2b_invitation,b2b_coach_assignment,b2b_membership,b2b_organization,b2b_platform_admin,b2b_auth_account,b2b_auth_session,b2b_auth_verification,b2b_auth_rate_limit,b2b_auth_user,b2b_public_rate_limit`,
     );
     await db.query('COMMIT');
     return { ok: true };

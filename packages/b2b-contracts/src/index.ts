@@ -105,3 +105,4 @@ export {
 export { PublicSiteSchema, type PublicSite, PublicUnitSchema, type PublicUnit } from './public.ts'
 export { B2BResponseSchemas } from './responses.ts'
 export type { B2BInputs } from './inputs.ts'
+export * from './white-label.ts'

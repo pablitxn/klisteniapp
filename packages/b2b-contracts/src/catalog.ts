@@ -4,6 +4,7 @@ import { AssetSchema, ResponseAssetSchema } from './media.ts'
 
 const ContentFields = {
   id: IdSchema,
+  branchId: IdSchema.nullable().optional(),
   scope: z.enum(['base', 'organization']),
   status: ContentStatusSchema,
   version: RevisionSchema,
@@ -61,6 +62,7 @@ export const UnitBatchSchema = z
 
 export const UnitSchema = UnitInputSchema.extend({
   id: IdSchema,
+  branchId: IdSchema.optional(),
   publicPath: z.string().regex(/^\/g\/[a-z0-9-]+\/units\/[a-zA-Z0-9_-]+$/),
   revision: RevisionSchema,
   location: UnitInputSchema.shape.location.removeDefault(),
