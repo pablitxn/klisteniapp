@@ -75,9 +75,9 @@ try {
     console.info('Test login is stored privately in .cache/ui-instance/login.private.json.');
     console.info('Ctrl-C stops web/API and keeps local records. Database remains available.');
     await Promise.all([
-      run(process.execPath, [`--env-file=${apiEnv}`, '--watch', 'apps/api/src/server.ts']),
-      run('pnpm', ['--filter', '@klisteniapp/web', 'dev', '--host', '127.0.0.1', '--port', '4192', '--strictPort'], {
-        env: { ...localEnv, VITE_APP_MODE: 'instance', KLISTENI_PUBLIC_PROFILE_FILE: resolve(root, 'apps/web/instance-profile.example.json'), KLISTENI_API_URL: 'http://127.0.0.1:3001' },
+      run(process.execPath, [`--env-file=${apiEnv}`, '--watch', 'apps/b2c-api/src/server.ts']),
+      run('pnpm', ['--filter', '@klisteniapp/b2c-web', 'dev', '--host', '127.0.0.1', '--port', '4192', '--strictPort'], {
+        env: { ...localEnv, VITE_APP_MODE: 'instance', KLISTENI_PUBLIC_PROFILE_FILE: resolve(root, 'apps/b2c-web/instance-profile.example.json'), KLISTENI_API_URL: 'http://127.0.0.1:3001' },
       }),
     ]);
   }

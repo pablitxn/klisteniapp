@@ -1,6 +1,12 @@
 # Desarrollo local: todas las apps
 
 Desde el root del repositorio, con Node 24+, pnpm 12.7.0 y Docker iniciado.
+
+La configuración de formato compartida vive en `.prettierrc.json`, reconocida
+automáticamente por Prettier y sus integraciones de editor. `pnpm format:b2b` y
+`pnpm format:b2b:check` conservan el alcance B2B actual; adoptar el formateador
+para el resto del código es una tarea separada. El override de la API B2B conserva
+sus puntos y coma.
 En un checkout nuevo, preparar una sola vez:
 
 ```sh
@@ -16,7 +22,7 @@ docker compose up
 ```
 
 ```sh
-# Terminal 2: las cinco apps y el gateway B2B
+# Terminal 2: las cuatro apps y el gateway B2B
 pnpm exec turbo run dev
 # También: turbo run dev si Turbo está disponible en PATH, o pnpm dev.
 ```
@@ -31,12 +37,12 @@ Compose termina de levantar las bases.
 | --- | --- |
 | B2C con cuentas y administrador local | http://127.0.0.1:5173/ |
 | Entrada B2B | http://127.0.0.1:4200/ |
-| Backoffice B2B | http://127.0.0.1:4200/backoffice/ |
+| Gestión del gimnasio B2B | http://127.0.0.1:4200/manage |
 | Socio B2B | http://127.0.0.1:4200/app |
 | Website Atlas / Sur | http://127.0.0.1:4200/g/atlas-demo · http://127.0.0.1:4200/g/sur-demo |
 | API B2C / readiness | http://127.0.0.1:3001/api/readyz |
 | API B2B / readiness | http://127.0.0.1:4201/api/b2b/readyz |
-| Vite socio / backoffice | `4210` / `4211` (usar el gateway para navegar y login) |
+| Vite B2B (socio y gestión del gimnasio) | `4210` (usar el gateway para navegar y login) |
 | PostgreSQL B2C / B2B | `127.0.0.1:54331` / `127.0.0.1:54332` |
 
 Usar los orígenes `127.0.0.1` indicados para mantener consistencia de sesiones y
@@ -49,7 +55,7 @@ los archivos existentes. Turbo también ejecuta este paso automáticamente.
 Los archivos generados están ignorados por Git:
 
 - `.env`: credenciales del Compose raíz; mantenerlo junto a sus volúmenes.
-- `apps/{api,b2b-api,web}/.env.development.local`: configuración del entorno local.
+- `apps/{b2c-api,b2b-api,b2c-web}/.env.development.local`: configuración del entorno local.
 - `.cache/dev/b2c-login.private.json`: email y contraseña del administrador B2C,
   con acceso cloud local vitalicio.
 - `.cache/dev/b2b-demo.private.json`: cuentas de Atlas y Sur, generado después de

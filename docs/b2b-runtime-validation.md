@@ -15,7 +15,7 @@ Los frontend se construyen antes del smoke: el script toma sus `dist` actuales y
 
 | Área                 | Evidencia automatizada                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Imágenes             | Construcción de `Dockerfile.b2b-api` y `Dockerfile.b2b-web`; IDs inmutables de ambas imágenes registrados en el resultado                                                             |
+| Imágenes             | Construcción de `docker/b2b-api/Dockerfile` y `docker/b2b-web/Dockerfile`; IDs inmutables de ambas imágenes registrados en el resultado                                                             |
 | Migraciones          | Liveness disponible y readiness 503 antes de migrar; migraciones repetibles; un fallo de esquema de autenticación mantiene readiness 503 hasta reiniciar la API                       |
 | Contenedores         | API y Nginx con UID distinto de cero, raíz de archivos de sólo lectura, capacidades eliminadas y `no-new-privileges`                                                                  |
 | Base de datos        | Rol de la API sin superusuario, creación de bases/roles ni DDL; el contenedor no recibe la contraseña de migración                                                                    |
@@ -32,7 +32,7 @@ El Compose de producción inicia la API después de que el servicio de migració
 
 Better Auth conserva en memoria un resultado de esquema incompatible. Si se inició una API contra una base vacía, migrar desde otro proceso no corrige esa instancia de autenticación. Hay que reiniciar la API después de migrar. El smoke reproduce deliberadamente esa situación: `/healthz` continúa en 200, `/readyz` devuelve 503 incluso después de crear las tablas y sólo pasa a 200 tras el reinicio. Las API B2B y B2C verifican también la disponibilidad de autenticación antes de declararse listas.
 
-Las regresiones `apps/b2b-api/tests/readiness.test.ts` y `apps/api/tests/readiness.test.ts` reproducen este caso con PostgreSQL y dos conexiones independientes. Así se evita que un proxy derive tráfico a un proceso que tiene tablas disponibles pero no puede autenticar sesiones.
+Las regresiones `apps/b2b-api/tests/readiness.test.ts` y `apps/b2c-api/tests/readiness.test.ts` reproducen este caso con PostgreSQL y dos conexiones independientes. Así se evita que un proxy derive tráfico a un proceso que tiene tablas disponibles pero no puede autenticar sesiones.
 
 ## Aislamiento, limpieza y resultado
 

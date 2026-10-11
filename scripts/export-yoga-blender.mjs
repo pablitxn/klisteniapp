@@ -6,13 +6,13 @@ import { createHash } from 'node:crypto'
 import assert from 'node:assert/strict'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { asanas } from '../apps/web/src/data/yoga.ts'
-import { prepareYogaAnatomy } from '../apps/web/src/lib/yoga-anatomy.ts'
-import { parseAnatomyLandmarks } from '../apps/web/src/lib/anatomy-rig.ts'
-import { applyYogaMotion, createYogaMotion, YOGA_MOTION_DURATION_SECONDS } from '../apps/web/src/lib/yoga-motion.ts'
+import { asanas } from '../apps/b2c-web/src/data/yoga.ts'
+import { prepareYogaAnatomy } from '../apps/b2c-web/src/lib/yoga-anatomy.ts'
+import { parseAnatomyLandmarks } from '../apps/b2c-web/src/lib/anatomy-rig.ts'
+import { applyYogaMotion, createYogaMotion, YOGA_MOTION_DURATION_SECONDS } from '../apps/b2c-web/src/lib/yoga-motion.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const requireWeb = createRequire(join(root, 'apps/web/package.json'))
+const requireWeb = createRequire(join(root, 'apps/b2c-web/package.json'))
 const { AnimationClip, AnimationMixer, Group, Quaternion, QuaternionKeyframeTrack, Vector3, VectorKeyframeTrack } =
   await import(pathToFileURL(join(dirname(requireWeb.resolve('three')), 'three.module.js')))
 const { GLTFLoader } = await import(requireWeb.resolve('three/addons/loaders/GLTFLoader.js'))
@@ -45,10 +45,10 @@ const sourcePaths = [
   'packages/anatomy-viewer/src/anatomy-variant-surface.ts',
   'packages/model-assets/src/index.ts',
   'packages/model-assets/src/vite.ts',
-  'apps/web/src/lib/yoga-anatomy.ts', 'apps/web/src/lib/yoga-rig.ts', 'apps/web/src/lib/yoga-motion.ts',
-  'apps/web/src/lib/anatomy-model.ts', 'apps/web/src/lib/anatomy-rig.ts', 'apps/web/src/lib/anatomy-variants.ts',
-  'apps/web/src/lib/anatomy-variant-surface.ts', 'packages/model-assets/public/models/anatomy.glb', 'packages/model-assets/public/models/rig-landmarks.json',
-  'apps/web/src/data/yoga.ts', 'packages/model-assets/public/models/anatomy-manifest.json', 'packages/model-assets/public/models/LICENSE-anatomy.txt',
+  'apps/b2c-web/src/lib/yoga-anatomy.ts', 'apps/b2c-web/src/lib/yoga-rig.ts', 'apps/b2c-web/src/lib/yoga-motion.ts',
+  'apps/b2c-web/src/lib/anatomy-model.ts', 'apps/b2c-web/src/lib/anatomy-rig.ts', 'apps/b2c-web/src/lib/anatomy-variants.ts',
+  'apps/b2c-web/src/lib/anatomy-variant-surface.ts', 'packages/model-assets/public/models/anatomy.glb', 'packages/model-assets/public/models/rig-landmarks.json',
+  'apps/b2c-web/src/data/yoga.ts', 'packages/model-assets/public/models/anatomy-manifest.json', 'packages/model-assets/public/models/LICENSE-anatomy.txt',
   'packages/geometry/src/index.ts', 'packages/scene-schema/src/index.ts',
   'packages/scene-schema/src/yoga.ts', 'pnpm-lock.yaml', 'scripts/export-yoga-blender.mjs']
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')

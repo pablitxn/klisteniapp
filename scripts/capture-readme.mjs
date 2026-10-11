@@ -46,7 +46,7 @@ const repository = {
   workingTreeDirty: Boolean(run('git', ['-C', root, 'status', '--porcelain']).toString().trim()),
   note: 'Captured the working tree, including uncommitted sources. HEAD alone does not identify the captured application; use the source hashes below. This is not evidence of deployment.',
 }
-const requireWeb = createRequire(join(root, 'apps/web/package.json'))
+const requireWeb = createRequire(join(root, 'apps/b2c-web/package.json'))
 const { createServer } = await import(requireWeb.resolve('vite'))
 const { chromium } = requireWeb('@playwright/test')
 const temporary = await mkdtemp(join(tmpdir(), 'klisteni-readme-'))
@@ -56,7 +56,7 @@ const unexpectedApiRequests = []
 let browser, server
 const fps = 8
 try {
-  server = await createServer({ root: join(root, 'apps/web'), server: { host: '127.0.0.1', port, strictPort: true }, logLevel: 'error' })
+  server = await createServer({ root: join(root, 'apps/b2c-web'), server: { host: '127.0.0.1', port, strictPort: true }, logLevel: 'error' })
   await server.listen()
   browser = await chromium.launch({ args: process.platform === 'darwin' ? ['--enable-gpu', '--use-angle=metal'] : [] })
   await mkdir(output, { recursive: true })

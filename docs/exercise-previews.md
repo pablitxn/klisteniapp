@@ -1,5 +1,13 @@
 # Miniaturas del movimiento
 
+El renombre de `apps/web` a `apps/b2c-web` conserva la evidencia de las capturas
+existentes mediante `packages/model-assets/provenance/workspace-relocation-2026-10-11.json`.
+El checkpoint verifica los hashes actuales de cada entrada tras comprobar la
+igualdad de fuentes, los cambios mecánicos de los scripts y las dependencias del
+renderer. Sólo `--check` puede conservar la identidad anterior cuando coincide
+todo el inventario; las capturas nuevas registran rutas y hashes actuales.
+No se modifican timestamps, manifiestos ni hashes de los medios ya capturados.
+
 **Estado del 11 de octubre de 2026:** la generación y validación completa de previews están diferidas por decisión del usuario hasta terminar los modelos 3D y sus cambios relacionados. Conservar los archivos existentes. Esta guía describe cómo retomarlas después; no es una tarea de arranque en la Mac. El [roadmap](roadmap-implementacion.md) y la [entrega](b2b-release.md) registran qué quedó pendiente y por qué no se declara el gate completo de previews aprobado.
 
 Las tarjetas de **Mi rutina** y **Ejercicios** usan imágenes del mismo atlas anatómico y del mismo movimiento que el visor 3D. Las miniaturas se generan localmente con Chromium, desde una entrada de captura de Vite. La interfaz sirve los archivos resultantes como imágenes: cada tarjeta no crea otro canvas ni carga otra instancia del modelo. **Mi cuerpo** muestra miniaturas estáticas de las regiones anatómicas aisladas, descritas al final de esta guía.
@@ -20,7 +28,7 @@ Desde la raíz del repositorio:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @klisteniapp/web exec playwright install chromium
+pnpm --filter @klisteniapp/b2c-web exec playwright install chromium
 
 # macOS con Homebrew: codificadores WebP
 brew install webp
@@ -86,7 +94,7 @@ Los resultados quedan en `packages/model-assets/public/previews`:
 | `manifest.json` | Parámetros, versiones del renderizador y hashes de procedencia y resultados |
 | `NOTICE.md` | Créditos y licencia de las imágenes anatómicas |
 
-Los archivos sin prefijo conservan los enlaces existentes de la representación masculina. [`exercise-preview-assets.ts`](../apps/web/src/lib/exercise-preview-assets.ts) resuelve las rutas de poster, animación y GIF para ambos modelos. `--model male`, `--model female` o `--model all` selecciona la captura; el valor predeterminado es `all`. Una generación sin `--gif` elimina el GIF previo del ejercicio y modelo regenerados. La aplicación sigue usando WebP en ambos casos.
+Los archivos sin prefijo conservan los enlaces existentes de la representación masculina. [`exercise-preview-assets.ts`](../apps/b2c-web/src/lib/exercise-preview-assets.ts) resuelve las rutas de poster, animación y GIF para ambos modelos. `--model male`, `--model female` o `--model all` selecciona la captura; el valor predeterminado es `all`. Una generación sin `--gif` elimina el GIF previo del ejercicio y modelo regenerados. La aplicación sigue usando WebP en ambos casos.
 
 El manifiesto de versión 2 guarda cada catálogo en `variants.male.exercises` y `variants.female.exercises`; cada entrada registra `modelVariant`, sus fuentes y sus archivos. Al regenerar desde un manifiesto antiguo se conserva el historial masculino hasta reemplazar cada entrada por una captura nueva.
 
@@ -112,9 +120,9 @@ Las cámaras están en [`exercise-preview-config.ts`](../packages/anatomy-viewer
 
 [`ExerciseStage.tsx`](../packages/anatomy-viewer/src/ExerciseStage.tsx) es la escena compartida entre `AnatomyViewer` y la captura. Reúne `AnatomicalModel`, `AnatomyStudio` y la barra de los dos remos, con piernas extendidas o rodillas flexionadas. La captura usa el GLB, las referencias articulares y el rig de la aplicación, con la capa muscular y sin resaltado de grupos. No mantiene una segunda animación dibujada a mano.
 
-[`preview-capture.tsx`](../apps/web/src/preview-capture.tsx) espera que el modelo esté preparado y expone `window.__exerciseCapture.frame(phase)`. El generador solicita fases exactas `frame / frameCount`: actualiza la pose, renderiza y obtiene el PNG de ese mismo frame. No depende de esperar una cantidad de milisegundos ni de grabar la pantalla a velocidad real. Se excluye el extremo duplicado de fase 1 para evitar una pausa al cerrar el bucle. Antes de guardar el poster se renderiza una fase de calentamiento del estudio y sus materiales.
+[`preview-capture.tsx`](../apps/b2c-web/src/preview-capture.tsx) espera que el modelo esté preparado y expone `window.__exerciseCapture.frame(phase)`. El generador solicita fases exactas `frame / frameCount`: actualiza la pose, renderiza y obtiene el PNG de ese mismo frame. No depende de esperar una cantidad de milisegundos ni de grabar la pantalla a velocidad real. Se excluye el extremo duplicado de fase 1 para evitar una pausa al cerrar el bucle. Antes de guardar el poster se renderiza una fase de calentamiento del estudio y sus materiales.
 
-La entrada [`preview-capture.html`](../apps/web/preview-capture.html) es una página separada para desarrollo, accesible en el servidor Vite con `?exercise=squat&model=female` (sin `model`, usa `male`). No está importada por la aplicación ni configurada como entrada del build de producción. La web de producción consume los archivos de `public/previews`; no incluye la página ni el controlador `__exerciseCapture`.
+La entrada [`preview-capture.html`](../apps/b2c-web/preview-capture.html) es una página separada para desarrollo, accesible en el servidor Vite con `?exercise=squat&model=female` (sin `model`, usa `male`). No está importada por la aplicación ni configurada como entrada del build de producción. La web de producción consume los archivos de `public/previews`; no incluye la página ni el controlador `__exerciseCapture`.
 
 La secuencia de fases y la cámara son deterministas. **No se promete igualdad de píxeles entre distintas GPU, sistemas operativos o versiones de Chromium y los codificadores.** El manifiesto guarda fecha, versiones de Chromium, `cwebp`, `img2webp` y plataforma por ejercicio para conservar la procedencia al regenerar solo una parte. El visor y la captura comparten exposición, tone mapping y tipo de sombras en `anatomy-render-settings.ts`.
 

@@ -2,6 +2,7 @@
 /* global window */
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { readPreviewSources } from './preview-workspace-relocation.mjs'
 import { previewBrowserOptions } from './preview-browser.mjs'
 import { publishCapture, reusableCapture } from './preview-capture-state.mjs'
 import { execFileSync } from 'node:child_process'
@@ -10,11 +11,11 @@ import { createRequire } from 'node:module'
 import { dirname, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
-import { bodyRegions } from '../apps/web/src/data/body-guide.ts'
-import { bodyPreviewCameras, bodyPreviewPadding } from '../apps/web/src/lib/body-preview-config.ts'
+import { bodyRegions } from '../apps/b2c-web/src/data/body-guide.ts'
+import { bodyPreviewCameras, bodyPreviewPadding } from '../apps/b2c-web/src/lib/body-preview-config.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const webRoot = join(root, 'apps/web')
+const webRoot = join(root, 'apps/b2c-web')
 const assetRoot = join(root, 'packages/model-assets')
 const outputFor = model => join(assetRoot, 'public/previews', model === 'female' ? 'female/body' : 'body')
 const { values } = parseArgs({ options: {
@@ -52,6 +53,7 @@ const ids = [...new Set(values.region ?? allIds)]
 for (const id of ids) if (!allIds.includes(id)) throw new Error(`Unknown region: ${id}`)
 
 const sourcePaths = [
+  'scripts/preview-workspace-relocation.mjs',
   'scripts/preview-browser.mjs',
   'scripts/preview-capture-state.mjs',
   'packages/anatomy-viewer/package.json',
@@ -66,15 +68,15 @@ const sourcePaths = [
   'packages/model-assets/src/vite.ts',
 
   'scripts/generate-body-previews.mjs',
-  'apps/web/body-preview-capture.html',
-  'apps/web/src/body-preview-capture.ts',
-  'apps/web/src/lib/body-preview-config.ts',
-  'apps/web/src/lib/anatomy-model.ts',
-  'apps/web/src/lib/anatomy-rig.ts',
-  'apps/web/src/lib/anatomy-variants.ts',
-  'apps/web/src/lib/anatomy-variant-surface.ts',
-  'apps/web/src/lib/anatomy-render-settings.ts',
-  'apps/web/src/data/body-guide.ts',
+  'apps/b2c-web/body-preview-capture.html',
+  'apps/b2c-web/src/body-preview-capture.ts',
+  'apps/b2c-web/src/lib/body-preview-config.ts',
+  'apps/b2c-web/src/lib/anatomy-model.ts',
+  'apps/b2c-web/src/lib/anatomy-rig.ts',
+  'apps/b2c-web/src/lib/anatomy-variants.ts',
+  'apps/b2c-web/src/lib/anatomy-variant-surface.ts',
+  'apps/b2c-web/src/lib/anatomy-render-settings.ts',
+  'apps/b2c-web/src/data/body-guide.ts',
   'packages/model-assets/public/models/anatomy.glb',
   'packages/model-assets/public/models/rig-landmarks.json',
   'packages/model-assets/public/models/anatomy-manifest.json',
@@ -85,7 +87,7 @@ const sourcePaths = [
   'pnpm-lock.yaml',
 ]
 const hash = bytes => createHash('sha256').update(bytes).digest('hex')
-const sources = Object.fromEntries(await Promise.all(sourcePaths.map(async path => [path, hash(await readFile(join(root, path)))])))
+const sources = await readPreviewSources(root, sourcePaths, 'body', values.check)
 const sourceHash = hash(JSON.stringify(sources))
 const modelManifest = JSON.parse(await readFile(join(assetRoot, 'public/models/anatomy-manifest.json'), 'utf8'))
 const provenanceFor = model => ({

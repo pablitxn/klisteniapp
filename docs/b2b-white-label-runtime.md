@@ -75,7 +75,7 @@ Para WebKit, agregar únicamente la CA pública al almacén de la máquina de pr
 ```sh
 sudo install -m 0644 .cache/wl/tls/ca.crt /usr/local/share/ca-certificates/klisteni-wl-test.crt
 sudo update-ca-certificates
-node --env-file=.cache/wl/test.env apps/web/node_modules/@playwright/test/cli.js test --config apps/web/playwright.white-label.config.ts
+node --env-file=.cache/wl/test.env apps/b2c-web/node_modules/@playwright/test/cli.js test --config apps/b2c-web/playwright.white-label.config.ts
 sudo rm /usr/local/share/ca-certificates/klisteni-wl-test.crt
 sudo update-ca-certificates
 ```
@@ -109,8 +109,8 @@ Para una recuperación real, primero detener escrituras y preservar DB/medios/co
 Con los bundles de `member-web` y `backoffice` compilados, construir tags exclusivos de prueba y verificar el SHA esperado. La revisión siguiente corresponde a la ejecución registrada; para otra revisión, usar el mismo SHA en ambas imágenes y en el smoke:
 
 ```sh
-docker build -f Dockerfile.b2b-api --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-api:wl-test .
-docker build -f Dockerfile.b2b-web --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-web:wl-test .
+docker build --platform linux/amd64 -f docker/b2b-api/Dockerfile --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-api:wl-test .
+docker build --platform linux/amd64 -f docker/b2b-web/Dockerfile --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-web:wl-test .
 B2B_WL_EXPECTED_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 \
   node --env-file=.cache/wl/test.env scripts/b2b-wl-runtime-smoke.mjs
 ```

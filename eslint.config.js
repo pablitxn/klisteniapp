@@ -11,7 +11,7 @@ export default defineConfig([
     extends: [js.configs.recommended, tseslint.configs.recommended],
   },
   {
-    files: ['apps/web/src/**/*.{ts,tsx}'],
+    files: ['apps/b2c-web/src/**/*.{ts,tsx}'],
     extends: [reactRefresh.configs.vite],
     languageOptions: {
       globals: globals.browser,

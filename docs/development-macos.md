@@ -59,7 +59,7 @@ Corepack habilitados). Conservar el lockfile al instalar en una máquina nueva.
 | Pantalla | Dirección local |
 | --- | --- |
 | Entrada B2B | `http://127.0.0.1:4200/` |
-| Equipo del gimnasio | `http://127.0.0.1:4200/backoffice/` |
+| Equipo del gimnasio | `http://127.0.0.1:4200/manage` |
 | Socio | `http://127.0.0.1:4200/app` |
 | Website Atlas | `http://127.0.0.1:4200/g/atlas-demo` |
 | Website Sur | `http://127.0.0.1:4200/g/sur-demo` |
@@ -69,8 +69,7 @@ en `.cache/b2b/demo.private.json`; la contraseña generada es `B2B_DEMO_PASSWORD
 dentro de `.cache/b2b/local.env`. Consultarlas localmente y mantener esos archivos
 fuera de commits y capturas. Repetir el arranque conserva la demo existente.
 
-Puertos reservados: entrada `4200`, API `4201`, Vite socio `4210`, Vite backoffice
-`4211` y PostgreSQL `54330`. Ctrl-C detiene las aplicaciones y conserva la base.
+Puertos reservados: entrada `4200`, API `4201`, Vite B2B `4210` y PostgreSQL `54330`. Ctrl-C detiene las aplicaciones y conserva la base.
 Para detener también esa base sin borrar sus datos:
 
 ```sh
@@ -125,8 +124,8 @@ plataforma sin revisar las imágenes.
 
 | Cambio | Entrada |
 | --- | --- |
-| Preparación, inventario, publicación y QR | [Backoffice](../apps/backoffice/src) |
-| Rutina, borradores, registro, historial y website | [Features del socio](../apps/member-web/src/features) |
+| Preparación, inventario, publicación y QR | [Features B2B](../apps/b2b-web/src/features) |
+| Rutina, borradores, registro, historial y website | [Features del socio](../apps/b2b-web/src/features) |
 | Permisos, persistencia, migraciones y medios | [API B2B](../apps/b2b-api/README.md) |
 | Contratos, reglas y límites de paquetes | [Arquitectura](architecture.md) y [B2B](b2b.md#componentes-y-límites) |
 | Modelos y procedencia | [Assets compartidos](../packages/model-assets/README.md) |
@@ -148,7 +147,7 @@ Las pruebas con PostgreSQL requieren bases **desechables** independientes:
 los casos de integración omitidos no cuentan como cobertura. Para navegador:
 
 ```sh
-pnpm --filter @klisteniapp/web exec playwright install chromium webkit
+pnpm --filter @klisteniapp/b2c-web exec playwright install chromium webkit
 # Con B2B_TEST_DATABASE_URL configurada en un entorno privado:
 pnpm test:b2b:api
 pnpm test:b2b:e2e

@@ -22,7 +22,7 @@ services:
     image: klisteni-b2b-api:local
     build:
       context: ..
-      dockerfile: Dockerfile.b2b-api
+      dockerfile: docker/b2b-api/Dockerfile
     command: [node, apps/b2b-api/src/migrate.ts]
     environment:
       B2B_DATABASE_URL: postgres://postgres:${B2B_POSTGRES_PASSWORD}@db:5432/klisteni_b2b_instance
@@ -61,7 +61,7 @@ services:
     image: klisteni-b2b-web:local
     build:
       context: ..
-      dockerfile: Dockerfile.b2b-web
+      dockerfile: docker/b2b-web/Dockerfile
     ports: ["127.0.0.1:${B2B_HTTP_PORT:-4204}:8080"]
     depends_on:
       b2b-api: { condition: service_healthy }

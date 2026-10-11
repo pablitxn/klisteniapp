@@ -1,0 +1,525 @@
+import { expect, test, type Page } from '@playwright/test'
+import type { Exercise, Machine, Me, Media, Program, PublicSite, Unit, Website } from '../../../packages/b2b-contracts/src/index.ts'
+
+const password = 'browser-tests-only-password-2026'
+async function login(page: Page, role: 'admin' | 'coach' | 'member', gym = 'atlas', path = role === 'member' ? '/app' : '/backoffice/') {
+  await page.goto(path)
+  await page.getByLabel('Email', { exact: true }).fill(`${role}@${gym}.example.test`)
+  await page.getByLabel('Contraseña', { exact: true }).fill(password)
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Salir', exact: true })).toBeVisible()
+}
+async function me(page: Page) { const response = await page.request.get('/api/b2b/me'); expect(response.ok()).toBeTruthy(); return await response.json() as Me }
+async function orgGet<T>(page: Page, path: string, organization = 'atlas-demo') { const identity = await me(page); const response = await page.request.get(`/api/b2b/orgs/${organization}${path}`, { headers: { 'X-Klisteni-B2B-Account': identity.user.id } }); expect(response.ok()).toBeTruthy(); return await response.json() as T }
+
+// Every browser request targets the disposable PostgreSQL-backed server started by this config.
+test('coach publishes a custom machine exercise and routine; member records real sets and authorized substitutions; report retains the plan', async ({ browser }, testInfo) => {
+  const coach = await browser.newContext(), member = await browser.newContext()
+  const page = await coach.newPage(), memberPage = await member.newPage()
+  const exerciseName = 'Jalón de prueba del gimnasio', programName = 'Plan guiado · prueba completa'
+  try {
+    await login(page, 'coach')
+    await page.getByRole('button', { name: 'Ejercicios', exact: true }).click()
+    await page.getByRole('button', { name: '+ Crear ejercicio', exact: true }).click()
+    await page.getByLabel('Nombre del ejercicio', { exact: true }).fill(exerciseName)
+    await page.getByLabel('Equipamiento', { exact: true }).fill('polea')
+    await page.getByLabel('Patrón de movimiento', { exact: true }).fill('Tracción')
+    await page.getByLabel('Modelo de máquina principal', { exact: true }).selectOption('base-cable-station-v1')
+    await page.getByLabel('Instrucciones paso a paso', { exact: true }).fill('Ajustá el asiento con el entrenador.\nElegí una carga controlable.\nVolvé lentamente a la posición inicial.')
+    await page.getByRole('button', { name: 'Guardar borrador', exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('Borrador guardado')
+    await page.getByRole('button', { name: 'Volver al catálogo' }).click()
+    const exerciseCard = page.locator('article').filter({ has: page.getByRole('heading', { name: exerciseName, exact: true }) })
+    await exerciseCard.getByRole('button', { name: 'Revisar contenido', exact: true }).click()
+    await page.getByRole('checkbox', { name: 'Revisé las instrucciones, el equipo compatible y los recursos de este ejercicio.', exact: true }).check()
+    await page.getByRole('button', { name: 'Confirmar revisión del ejercicio', exact: true }).click()
+    await expect(exerciseCard).toContainText('REVISADO')
+    await exerciseCard.getByRole('button', { name: 'Publicar', exact: true }).click()
+    await expect(exerciseCard).toContainText('PUBLICADO')
+    const { exercises } = await orgGet<{ exercises: Exercise[] }>(page, '/exercises')
+    const custom = exercises.find(exercise => exercise.name === exerciseName)!
+    const alternative = exercises.find(exercise => exercise.id === 'row')!
+    expect(custom.animationId).toBeNull()
+    await page.getByRole('button', { name: 'Rutinas', exact: true }).click()
+    await page.getByRole('button', { name: '+ Crear rutina', exact: true }).click()
+    await page.getByLabel('Nombre de la rutina', { exact: true }).fill(programName)
+    await page.getByLabel('Objetivo o descripción', { exact: true }).fill('Dosis guiada con una alternativa autorizada.')
+    await page.getByLabel('Ejercicio para agregar', { exact: true }).selectOption(custom.id)
+    await page.getByRole('button', { name: '+ Agregar movimiento', exact: true }).click()
+    await page.getByLabel('Series · movimiento 1', { exact: true }).fill('2')
+    await page.getByLabel('Repeticiones · movimiento 1', { exact: true }).fill('10')
+    await page.getByLabel('Carga kg · movimiento 1', { exact: true }).fill('15')
+    await page.getByText('Alternativas autorizadas (0)', { exact: true }).click()
+    await page.getByLabel(alternative.name, { exact: true }).check()
+    await page.getByRole('button', { name: 'Guardar borrador de rutina', exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('Borrador guardado')
+    await page.getByRole('button', { name: 'Volver a rutinas' }).click()
+    const programCard = page.locator('article').filter({ has: page.getByRole('heading', { name: programName, exact: true }) })
+    await programCard.getByRole('button', { name: 'Publicar versión', exact: true }).click()
+    await expect(programCard).toContainText('ÚLTIMA PUBLICACIÓN · V1')
+    await programCard.getByRole('button', { name: 'Asignar a socio', exact: true }).click()
+    const identity = await me(page)
+    const membersResponse = await page.request.get('/api/b2b/orgs/atlas-demo/members', { headers: { 'X-Klisteni-B2B-Account': identity.user.id } })
+    const members = (await membersResponse.json()).members as Array<{ userId: string; email: string }>
+    await page.getByLabel('Socio destinatario', { exact: true }).selectOption(members.find(person => person.email === 'member@atlas.example.test')!.userId)
+    await page.getByRole('button', { name: 'Confirmar asignación', exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('Rutina asignada')
+
+    await login(memberPage, 'member')
+    const assigned = memberPage.locator('article').filter({ has: memberPage.getByRole('heading', { name: programName, exact: true }) })
+    await assigned.getByRole('button', { name: 'Empezar sesión', exact: true }).click()
+    await memberPage.getByLabel('Repeticiones · 1/1', { exact: true }).fill('12')
+    await memberPage.getByLabel('Carga kg · 1/1', { exact: true }).fill('17.5')
+    await memberPage.getByLabel('Carga kg · 1/2', { exact: true }).fill('22')
+    await memberPage.getByRole('checkbox', { name: 'Hecha', exact: true }).nth(1).check()
+    await memberPage.getByLabel('Ejercicio realizado · 1/2', { exact: true }).selectOption(alternative.id)
+    await expect(memberPage.getByLabel('Carga kg · 1/2', { exact: true })).toHaveValue('')
+    await expect(memberPage.getByRole('checkbox', { name: 'Hecha', exact: true }).nth(1)).not.toBeChecked()
+    await memberPage.getByLabel('Repeticiones · 1/2', { exact: true }).fill('8')
+    await memberPage.getByLabel('Motivo de sustitución · 1/2', { exact: true }).fill('Equipo ocupado; alternativa indicada por mi entrenador.')
+    for (const checkbox of await memberPage.getByRole('checkbox', { name: 'Hecha', exact: true }).all()) await checkbox.check()
+    await memberPage.getByRole('button', { name: 'Completar sesión', exact: true }).click()
+    await expect(memberPage.getByText('Tu sesión quedó guardada.', { exact: true })).toBeVisible()
+    await memberPage.screenshot({ path: testInfo.outputPath('member-history-desktop.png'), fullPage: true })
+    await memberPage.setViewportSize({ width: 390, height: 844 })
+    await memberPage.screenshot({ path: testInfo.outputPath('member-history-mobile.png'), fullPage: true })
+    expect(await memberPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
+
+    await page.getByRole('button', { name: 'Seguimiento', exact: true }).click()
+    await expect(page).toHaveURL(/\/manage\/reports$/)
+    await page.reload()
+    await expect(page.getByRole('heading', { name: 'Acompañar también es observar.', exact: true })).toBeVisible()
+    const reportCard = page.locator('article').filter({ has: page.getByRole('heading', { name: programName, exact: true }) })
+    await expect(reportCard).toContainText('10 reps · 15 kg')
+    await expect(reportCard).toContainText('12 reps · 17.5 kg')
+    await expect(reportCard).toContainText('Equipo ocupado; alternativa indicada por mi entrenador.')
+    await page.screenshot({ path: testInfo.outputPath('coach-report-desktop.png'), fullPage: true })
+    // Editing the draft cannot retroactively rewrite the assigned or completed plan.
+    const { programs } = await orgGet<{ programs: Program[] }>(page, '/programs')
+    const program = programs.find(program => program.name === programName)!
+    const updated = await page.request.put(`/api/b2b/orgs/atlas-demo/programs/${program.id}`, { headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': identity.user.id }, data: { name: 'Borrador futuro', description: program.description, steps: program.steps, expectedRevision: program.revision } })
+    expect(updated.ok()).toBeTruthy()
+    await page.reload()
+    await expect(page.locator('article').filter({ has: page.getByRole('heading', { name: programName, exact: true }) })).toContainText('12 reps · 17.5 kg')
+  } finally { await coach.close().catch(() => undefined); await member.close().catch(() => undefined) }
+})
+
+test('local draft survives reload and a lost successful response retries exactly once without duplicating history', async ({ page, browser }) => {
+  const administrator = await browser.newContext()
+  const adminPage = await administrator.newPage()
+  await login(adminPage, 'admin')
+  const admin = await me(adminPage)
+  async function archive(archived: boolean) {
+    const { units } = await orgGet<{ units: Unit[] }>(adminPage, '/units')
+    // Availability belongs to a model: retire both physical copies to reproduce
+    // the loss of every compatible unit after the server confirmed the execution.
+    for (const { id, revision, machineId, label, location, assets, adjustments, public: isPublic } of units.filter(unit => unit.machineId === 'base-cable-station-v1')) {
+      const input = { machineId, label, location, assets, adjustments, public: isPublic }
+      const response = await adminPage.request.put(`/api/b2b/orgs/atlas-demo/units/${id}`, { headers: { Origin: new URL(adminPage.url()).origin, 'X-Klisteni-B2B-Account': admin.user.id }, data: { ...input, archived, expectedRevision: revision } })
+      expect(response.ok()).toBeTruthy()
+    }
+  }
+  try {
+  await login(page, 'member')
+  const before = await orgGet<{ executions: Array<{ id: string }> }>(page, '/executions')
+  async function start() { await page.locator('article').filter({ has: page.getByRole('heading', { name: 'Inicio · fuerza y técnica', exact: true }) }).getByRole('button', { name: 'Empezar sesión', exact: true }).click() }
+  await start()
+  await page.getByLabel('Repeticiones · 2/1', { exact: true }).fill('13')
+  await page.getByRole('checkbox', { name: 'Hecha', exact: true }).nth(2).check()
+  await page.reload(); await start()
+  await expect(page.getByLabel('Repeticiones · 2/1', { exact: true })).toHaveValue('13')
+  await expect(page.getByRole('status').filter({ hasText: 'Recuperamos el borrador' })).toBeVisible()
+  let attempts = 0
+  await page.route('**/api/b2b/orgs/atlas-demo/executions', async route => {
+    if (route.request().method() !== 'POST') { await route.continue(); return }
+    attempts++
+    const result = await route.fetch()
+    expect(result.ok()).toBeTruthy()
+    await route.abort('failed') // Server commits; browser loses the response.
+  })
+  await page.getByRole('button', { name: 'Guardar parcial', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Confirmar envío pendiente', exact: true })).toBeVisible()
+  await expect(page.getByRole('alert')).toContainText('No pudimos conectar')
+  expect(attempts).toBe(1)
+  await page.unroute('**/api/b2b/orgs/atlas-demo/executions')
+  await archive(true) // A saved execution must remain retryable after its equipment is retired.
+  await page.reload(); await start()
+  await expect(page.getByText('El equipo planificado no está disponible actualmente.', { exact: false })).toBeVisible()
+  await expect(page.getByLabel('Repeticiones · 2/1', { exact: true })).toBeDisabled()
+  await page.getByRole('button', { name: 'Confirmar envío pendiente', exact: true }).click()
+  await expect(page.getByText('Tu sesión quedó guardada.', { exact: true })).toBeVisible()
+  const after = await orgGet<{ executions: Array<{ id: string }> }>(page, '/executions')
+  expect(after.executions.length).toBe(before.executions.length + 1)
+  expect(new Set(after.executions.map(execution => execution.id)).size).toBe(after.executions.length)
+  } finally { await archive(false); await administrator.close().catch(() => undefined) }
+})
+
+test('public QR remains public, login keeps equipment context, and another tenant or stale account cannot grant access', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/g/atlas-demo/units/atlas-demo-cable-01')
+  await expect(page.getByRole('heading', { name: 'Polea 01', exact: true })).toBeVisible()
+  await expect(page.getByText('Comprobá el pasador y ajustá el asiento antes de empezar.', { exact: true })).toBeVisible()
+  await expect(page.locator('body')).not.toContainText('member@atlas.example.test')
+  await page.screenshot({ path: testInfo.outputPath('public-equipment-mobile.png'), fullPage: true })
+  await page.getByRole('link', { name: 'Ver este equipo en mi rutina →', exact: true }).click()
+  await page.getByLabel('Email', { exact: true }).fill('member@atlas.example.test')
+  await page.getByLabel('Contraseña', { exact: true }).fill(password)
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
+  await expect(page.getByText(/Estás consultando el equipo que abriste desde su ficha/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Inicio · fuerza y técnica', exact: true })).toBeVisible()
+  const identity = await me(page)
+  expect((await page.request.get('/api/b2b/orgs/sur-demo/assignments', { headers: { 'X-Klisteni-B2B-Account': identity.user.id } })).status()).toBe(403)
+  expect((await page.request.get('/api/b2b/public/sur-demo/units/atlas-demo-cable-01')).status()).toBe(404)
+  expect((await page.request.get('/api/b2b/orgs/atlas-demo/reports', { headers: { 'X-Klisteni-B2B-Account': identity.user.id } })).status()).toBe(403)
+  expect((await page.request.post('/api/b2b/orgs/atlas-demo/executions', { headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': 'another-account' }, data: {} })).status()).toBe(401)
+  expect((await page.request.get('/api/me/state')).status()).toBe(404)
+  await page.goto('/backoffice/')
+  await expect(page.getByRole('heading', { name: 'Este espacio es para el equipo del gimnasio', exact: true })).toBeVisible()
+  const otherTab = await page.context().newPage()
+  await otherTab.goto('/app')
+  await expect(otherTab.getByRole('button', { name: 'Salir', exact: true })).toBeVisible()
+  await otherTab.getByRole('button', { name: 'Salir', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Iniciar sesión', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Este espacio es para el equipo del gimnasio', exact: true })).not.toBeVisible()
+  await otherTab.close()
+
+})
+
+test('admin creates a reusable machine variant and unit, edits its public details and retires/restores its QR', async ({ page }) => {
+  await login(page, 'admin')
+  await page.getByRole('button', { name: 'Equipamiento', exact: true }).click()
+  await page.getByRole('button', { name: 'Biblioteca de modelos', exact: true }).click()
+  const baseCard = page.locator('article').filter({ hasText: 'MODELO BASE' }).first()
+  await baseCard.getByRole('button', { name: 'Crear modelo propio', exact: true }).click()
+  await page.getByLabel('Nombre del modelo', { exact: true }).fill('Modelo propio E2E')
+  await page.getByRole('button', { name: 'Guardar modelo', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Modelo guardado')
+  const ownCard = page.locator('article').filter({ has: page.getByRole('heading', { name: 'Modelo propio E2E', exact: true }) })
+  await ownCard.getByRole('button', { name: 'Revisar modelo', exact: true }).click()
+  await page.getByRole('checkbox', { name: 'Revisé las instrucciones y los recursos de este modelo.', exact: true }).check()
+  await page.getByRole('button', { name: 'Confirmar revisión del modelo', exact: true }).click()
+  await page.getByRole('button', { name: 'Publicar modelo revisado', exact: true }).click()
+  await expect(ownCard).toContainText('MODELO PUBLICADO')
+  await ownCard.getByRole('button', { name: 'Registrar una unidad →', exact: true }).click()
+  await page.getByLabel('Nombre de esta unidad', { exact: true }).fill('Equipo E2E 02')
+  await page.getByLabel('Ubicación', { exact: true }).fill('Sector pruebas')
+  await page.getByLabel('Ajustes y particularidades de esta unidad', { exact: true }).fill('Ajuste inicial en posición 3.')
+  await page.getByRole('checkbox', { name: 'Mostrar ficha y recursos en la web pública del gimnasio', exact: true }).check()
+  await page.getByRole('checkbox', { name: 'Revisé el nombre, la ubicación, los ajustes y los recursos de estas unidades.', exact: true }).check()
+  await page.getByRole('button', { name: 'Registrar equipo', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Equipo guardado')
+  const unitCard = page.locator('article').filter({ has: page.getByRole('heading', { name: 'Equipo E2E 02', exact: true }) })
+  await expect(unitCard.getByRole('img', { name: 'QR de Equipo E2E 02', exact: true })).toBeVisible()
+  const publicPath = await unitCard.getByRole('link', { name: 'Abrir ficha pública ↗', exact: true }).getAttribute('href')
+  expect((await page.request.get(`/api/b2b/public/atlas-demo/units/${publicPath!.split('/').at(-1)}`)).status()).toBe(200)
+  await unitCard.getByRole('button', { name: 'Retirar equipo', exact: true }).click()
+  await expect(unitCard).toContainText('RETIRADO')
+  expect((await page.request.get(`/api/b2b/public/atlas-demo/units/${publicPath!.split('/').at(-1)}`)).status()).toBe(404)
+  await unitCard.getByRole('button', { name: 'Restaurar equipo', exact: true }).click()
+  await expect(unitCard).toContainText('FICHA PÚBLICA')
+  expect((await page.request.get(`/api/b2b/public/atlas-demo/units/${publicPath!.split('/').at(-1)}`)).status()).toBe(200)
+})
+
+
+test('the member catalog reuses local exercise previews and preserves instructions when WebGL is unavailable', async ({ page, browserName }, testInfo) => {
+  await login(page, 'member')
+  const card = page.locator('article').filter({ has: page.getByRole('heading', { name: 'Sentadilla', exact: true }) })
+  const preview = card.getByRole('img', { name: 'Sentadilla', exact: true })
+  async function findMovement() {
+    await page.getByRole('button', { name: 'Movimientos', exact: true }).click()
+    await page.getByLabel('Buscar movimiento', { exact: true }).fill('Sentadilla')
+  }
+  if (browserName === 'chromium') {
+    let modelRequested = false
+    let releaseModel = () => {}
+    const heldModel = new Promise<void>(resolve => { releaseModel = resolve })
+    await page.route('**/models/anatomy.glb', async route => {
+      modelRequested = true
+      await heldModel
+      await route.abort('failed')
+    })
+    try {
+      await findMovement()
+      await card.getByText('Cómo hacer Sentadilla', { exact: true }).click()
+      await card.getByRole('button', { name: 'Ver movimiento animado', exact: true }).click()
+      await expect.poll(() => modelRequested).toBe(true)
+      // Let mounted canvas fallbacks/effects settle while the actual model is still pending.
+      await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
+      await expect(card.getByText('Cargando vista 3D…', { exact: true })).toBeVisible()
+      await expect(card.locator('ol li').first()).toBeVisible()
+      releaseModel()
+      await expect(card.getByText('Consultá las instrucciones para este movimiento.', { exact: true })).toBeVisible()
+      await expect(card.getByText('Cargando vista 3D…', { exact: true })).toHaveCount(0)
+      await expect(card.locator('ol li').first()).toBeVisible()
+    } finally {
+      releaseModel()
+      await page.unroute('**/models/anatomy.glb')
+    }
+  }
+  await page.addInitScript(() => {
+    const getContext = HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...args: unknown[]) {
+      if (type === 'webgl' || type === 'webgl2' || type === 'experimental-webgl') return null
+      return Reflect.apply(getContext, this, [type, ...args])
+    } as typeof getContext
+  })
+  await page.reload()
+  await findMovement()
+  await expect(preview).toBeVisible()
+  await expect.poll(() => preview.evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
+  await card.getByText('Cómo hacer Sentadilla', { exact: true }).click()
+  await card.getByRole('button', { name: 'Ver movimiento animado', exact: true }).click()
+  await expect(card.getByText('Consultá las instrucciones para este movimiento.', { exact: true })).toBeVisible()
+  await expect(card.locator('ol li').first()).toBeVisible()
+  async function checkPreviewLayout() {
+    const imageBounds = await preview.boundingBox(), titleBounds = await card.getByRole('heading', { name: 'Sentadilla', exact: true }).boundingBox()
+    expect(imageBounds).not.toBeNull(); expect(titleBounds).not.toBeNull()
+    expect(titleBounds!.y).toBeGreaterThanOrEqual(imageBounds!.y + imageBounds!.height)
+  }
+  await checkPreviewLayout()
+  await page.screenshot({ path: testInfo.outputPath('base-movement-desktop.png'), fullPage: true })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await checkPreviewLayout()
+  await page.screenshot({ path: testInfo.outputPath('base-movement-mobile.png'), fullPage: true })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
+})
+
+test('admin prepares a gym with reused models and uploaded content, publishes its website and prints unit QR labels', async ({ page, browser, browserName }, testInfo) => {
+  // This complete gym setup includes uploads, a lost response, conflicts and
+  // print layout. Touch WebKit needs the whole flow's budget on modest CI CPUs.
+  test.setTimeout(180_000)
+  const visitor = await browser.newContext()
+  const publicPage = await visitor.newPage()
+  const gym = 'sur-demo', photoLabel = 'Sala Sur · foto de prueba', exerciseName = 'Prensa adaptada Sur'
+  const article = (name: string) => page.locator('article').filter({ has: page.getByRole('heading', { name, exact: true }) })
+  const nav = (name: string) => page.getByRole('button', { name, exact: true }).click()
+  async function choosePhoto() {
+    await page.getByRole('button', { name: 'Elegir de mi biblioteca', exact: true }).click()
+    await page.locator('.media-library-item').filter({ hasText: photoLabel }).getByRole('button', { name: 'Usar archivo', exact: true }).click()
+  }
+  async function publishWebsite() {
+    await nav('Revisar website')
+    await page.getByRole('checkbox', { name: 'Revisé los textos, horarios y fotos de esta versión.', exact: true }).check()
+    await nav('Publicar website')
+    await expect(page.getByRole('status').filter({ hasText: 'Website publicado' })).toBeVisible()
+  }
+  try {
+    await login(page, 'admin', 'sur')
+    await expect(page.getByRole('heading', { name: 'Preparemos tu gimnasio.', exact: true })).toBeVisible()
+    await nav('Identidad')
+    await page.getByLabel('Nombre del gimnasio', { exact: true }).fill('Sur · gimnasio de prueba')
+    await page.getByLabel('Contacto público', { exact: true }).fill('hola@sur.example.test')
+    await page.getByLabel('Dirección', { exact: true }).fill('Sala Sur · sector de entrenamiento')
+    await nav('Guardar identidad')
+    await expect(page.getByRole('status')).toContainText('Identidad guardada')
+    expect(((await (await visitor.request.get(`/api/b2b/public/${gym}`)).json()) as PublicSite).organization.brand.name).toBe('Sur Demo')
+    await nav('Website')
+    await page.getByText('Despublicar website', { exact: true }).click()
+    await nav('Confirmar despublicación')
+    await expect(page.getByRole('status')).toContainText('Website despublicado')
+
+    // A real browser-generated PNG exercises upload, persistence, authorization and reuse.
+    await nav('Archivos')
+    const png = await page.evaluate(() => {
+      const canvas = document.createElement('canvas'); canvas.width = 640; canvas.height = 360
+      const drawing = canvas.getContext('2d')!; drawing.fillStyle = '#246b63'; drawing.fillRect(0, 0, 640, 360)
+      drawing.fillStyle = '#ffffff'; drawing.font = '30px sans-serif'; drawing.fillText('SUR · SALA DE PRUEBA', 75, 180)
+      return canvas.toDataURL('image/png').split(',')[1]
+    })
+    await page.getByLabel('Archivo del gimnasio', { exact: true }).setInputFiles({ name: 'sala-sur.png', mimeType: 'image/png', buffer: Buffer.from(png, 'base64') })
+    await page.getByLabel('Nombre del archivo', { exact: true }).fill(photoLabel)
+    await nav('Subir a la biblioteca')
+    await expect(page.getByText('Archivo guardado en la biblioteca del gimnasio.', { exact: true })).toBeVisible()
+    const library = await orgGet<{ media: Media[] }>(page, '/media', gym), photo = library.media.find(item => item.label === photoLabel)!
+    expect(photo.bytes).toBe(Buffer.from(png, 'base64').length)
+    expect((await visitor.request.get(photo.url)).status()).toBe(404)
+    expect((await page.request.get(photo.url)).status()).toBe(200)
+    await page.reload()
+    await nav('Archivos')
+    await expect(page.locator('.media-library-item').filter({ hasText: photoLabel })).toBeVisible()
+
+    await nav('Equipamiento'); await nav('Biblioteca de modelos')
+    await article('Prensa de piernas').getByRole('button', { name: 'Registrar una unidad →', exact: true }).click()
+    await page.getByLabel('Nombre de esta unidad', { exact: true }).fill('Prensa Sur')
+    await page.getByLabel('Cantidad de unidades', { exact: true }).fill('2')
+    await page.getByLabel('Ubicación', { exact: true }).fill('Sector piernas')
+    await page.getByLabel('Ajustes y particularidades de esta unidad', { exact: true }).fill('Consultar el ajuste inicial con el instructor de sala.')
+    await choosePhoto()
+    await page.getByRole('checkbox', { name: 'Mostrar ficha y recursos en la web pública del gimnasio', exact: true }).check()
+    await page.getByRole('checkbox', { name: 'Revisé el nombre, la ubicación, los ajustes y los recursos de estas unidades.', exact: true }).check()
+    let batchAttempts = 0
+    await page.route(`**/api/b2b/orgs/${gym}/units/batch`, async route => {
+      batchAttempts++; const response = await route.fetch(); expect(response.ok()).toBeTruthy(); await route.abort('failed')
+    })
+    await nav('Registrar 2 equipos')
+    await expect(page.getByRole('button', { name: 'Confirmar alta pendiente', exact: true })).toBeVisible()
+    // The pending batch is persisted before fetch finishes. Wait for the lost
+    // response, otherwise reload/unroute can race the still-running handler.
+    await expect(page.getByRole('alert')).toContainText('No pudimos conectar')
+    await expect(page.getByRole('button', { name: 'Confirmar alta pendiente', exact: true })).toBeEnabled()
+    await page.unroute(`**/api/b2b/orgs/${gym}/units/batch`)
+    await page.reload(); await nav('Equipamiento')
+    await expect(page.getByRole('button', { name: 'Confirmar alta pendiente', exact: true })).toBeVisible()
+    await expect(article('Prensa Sur 01').getByRole('button', { name: 'Editar equipo', exact: true })).toBeDisabled()
+    await nav('Confirmar alta pendiente')
+    await expect(page.getByRole('status')).toContainText('2 equipos guardados')
+    expect(batchAttempts).toBe(1)
+    const units = (await orgGet<{ units: Unit[] }>(page, '/units', gym)).units.filter(unit => unit.label.startsWith('Prensa Sur'))
+    expect(units).toHaveLength(2); expect(units.map(unit => unit.label).sort()).toEqual(['Prensa Sur 01', 'Prensa Sur 02'])
+    expect(units.every(unit => unit.machineId === 'base-leg-press-v1' && unit.assets[0]?.id === photo.id)).toBeTruthy()
+    expect((await orgGet<{ machines: Machine[] }>(page, '/machines', gym)).machines).toHaveLength(3)
+    await expect(article('Prensa Sur 01')).toContainText('PUBLICACIÓN PENDIENTE')
+    expect((await visitor.request.get(photo.url)).status()).toBe(404)
+
+    await nav('Ejercicios')
+    await page.getByLabel('Buscar ejercicio', { exact: true }).fill('Prensa de piernas')
+    await article('Prensa de piernas').getByRole('button', { name: 'Adaptar plantilla', exact: true }).click()
+    await page.getByLabel('Nombre del ejercicio', { exact: true }).fill(exerciseName)
+    await page.getByLabel('Instrucciones paso a paso', { exact: true }).fill('Revisá el ajuste con el instructor.\nUsá el recorrido indicado para tu rutina.')
+    await choosePhoto()
+    await nav('Guardar borrador')
+    await expect(page.getByRole('status')).toContainText('Borrador guardado')
+    await nav('Volver al catálogo')
+    await page.getByLabel('Buscar ejercicio', { exact: true }).fill(exerciseName)
+    await article(exerciseName).getByRole('button', { name: 'Revisar contenido', exact: true }).click()
+    await page.getByRole('checkbox', { name: 'Revisé las instrucciones, el equipo compatible y los recursos de este ejercicio.', exact: true }).check()
+    await nav('Confirmar revisión del ejercicio'); await nav('Publicar ejercicio revisado')
+    await expect(article(exerciseName)).toContainText('PUBLICADO')
+    const adapted = (await orgGet<{ exercises: Exercise[] }>(page, '/exercises', gym)).exercises.find(item => item.name === exerciseName)!
+    expect(adapted.baseExerciseId).toBe('template-leg-press-v1'); expect(adapted.animationId).toBeNull()
+    expect(adapted.assets[0]?.id).toBe(photo.id)
+
+    await nav('Website')
+    await page.getByLabel('Título del website', { exact: true }).fill('Entrená en Sur')
+    await page.getByLabel('Presentación del espacio', { exact: true }).fill('Un espacio para entrenar con acompañamiento.')
+    await page.getByLabel('Nombre de actividad 1', { exact: true }).fill('Fuerza guiada')
+    await page.getByLabel('Horario de actividad 1', { exact: true }).fill('Martes y jueves · 18:00')
+    await page.getByLabel('Días del horario 1', { exact: true }).fill('Lunes a sábado')
+    await page.getByLabel('Horas del horario 1', { exact: true }).fill('07:00 a 22:00')
+    await choosePhoto(); await nav('Guardar borrador del website')
+    await expect(page.getByRole('status')).toContainText('Borrador del website guardado')
+    expect((await visitor.request.get(`/api/b2b/public/${gym}`)).status()).toBe(404)
+    await publishWebsite()
+    const published = await (await visitor.request.get(`/api/b2b/public/${gym}`)).json() as PublicSite
+    expect(published.organization.brand.name).toBe('Sur · gimnasio de prueba')
+    expect(published.website.gallery[0]?.id).toBe(photo.id)
+    expect((await visitor.request.get(photo.url)).status()).toBe(200)
+    const partial = await visitor.request.get(photo.url, { headers: { Range: 'bytes=0-7' } })
+    expect(partial.status()).toBe(206); expect(await partial.body()).toEqual(Buffer.from(png, 'base64').subarray(0, 8))
+    await publicPage.goto(`/g/${gym}`)
+    await expect(publicPage.getByRole('heading', { name: 'Entrená en Sur', exact: true })).toBeVisible()
+    await expect(publicPage.getByText('Fuerza guiada', { exact: true })).toBeVisible()
+    const galleryPhoto = publicPage.getByRole('figure', { name: photoLabel, exact: true }).getByRole('img')
+    await expect(galleryPhoto).toBeVisible()
+    await expect.poll(() => galleryPhoto.evaluate(image => (image as HTMLImageElement).naturalWidth)).toBe(640)
+    await publicPage.setViewportSize({ width: 390, height: 844 })
+    expect(await publicPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
+    await publicPage.screenshot({ path: testInfo.outputPath('gym-website-mobile.png'), fullPage: true })
+
+    // A later draft stays private until the explicit publication step.
+    await page.getByLabel('Título del website', { exact: true }).fill('Próxima versión sin publicar')
+    const current = (await orgGet<{ website: Website }>(page, '/website', gym)).website
+    const identity = await me(page)
+    const concurrent = await page.request.put(`/api/b2b/orgs/${gym}/website`, { headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Account': identity.user.id }, data: { ...current.draft, headline: 'Cambio desde otra pestaña', expectedRevision: current.revision } })
+    expect(concurrent.ok()).toBeTruthy()
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')))
+    await expect(page.getByRole('button', { name: 'Guardar borrador del website', exact: true })).toBeDisabled()
+    await nav('Conservar copia y cargar versión actual')
+    await expect(page.getByLabel('Título del website', { exact: true })).toHaveValue('Cambio desde otra pestaña')
+    await nav('Recuperar mi copia local')
+    await expect(page.getByLabel('Título del website', { exact: true })).toHaveValue('Próxima versión sin publicar')
+    await expect(page.getByRole('button', { name: 'Guardar borrador del website', exact: true })).toBeDisabled()
+    await page.getByRole('checkbox', { name: 'Comparé la versión actual con mi copia local y quiero conservar mis cambios.', exact: true }).check()
+    await nav('Continuar con mi copia revisada')
+    await nav('Guardar borrador del website')
+    await expect(page.getByRole('status').filter({ hasText: 'Borrador del website guardado' })).toBeVisible()
+    expect(((await (await visitor.request.get(`/api/b2b/public/${gym}`)).json()) as PublicSite).website.headline).toBe('Entrená en Sur')
+    await page.getByLabel('Título del website', { exact: true }).fill('Entrená en Sur')
+    await nav('Guardar borrador del website')
+    await expect(page.getByRole('status').filter({ hasText: 'Borrador del website guardado' })).toBeVisible()
+    await publishWebsite()
+
+    await page.getByRole('button', { name: 'Preparación', exact: true }).click()
+    await expect(page).toHaveURL(/\/manage\/preparation$/)
+    await page.reload()
+    await expect(page.getByRole('progressbar', { name: 'Preparación del gimnasio', exact: true })).toHaveAttribute('aria-valuenow', '7')
+    await page.screenshot({ path: testInfo.outputPath('gym-preparation-desktop.png'), fullPage: true })
+    await page.setViewportSize({ width: 390, height: 844 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
+    await page.screenshot({ path: testInfo.outputPath('gym-preparation-mobile.png'), fullPage: true })
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await nav('Etiquetas QR')
+    for (const unit of units) await page.getByRole('checkbox', { name: `${unit.label} Sector piernas`, exact: true }).check()
+    await expect(page.getByRole('button', { name: 'Imprimir 2 etiquetas', exact: true })).toBeEnabled()
+    await expect(page.locator('.qr-label')).toHaveCount(2)
+    for (const unit of units) {
+      const url = new URL(unit.publicPath, page.url()).href
+      await expect(page.locator('.qr-label').filter({ hasText: unit.label }).locator('.qr-absolute-url')).toHaveAttribute('href', url)
+      await publicPage.goto(url)
+      await expect(publicPage.getByRole('heading', { name: unit.label, exact: true })).toBeVisible()
+      await expect(publicPage.getByRole('heading', { name: exerciseName, exact: true })).toBeVisible()
+    }
+    await page.bringToFront()
+    await page.emulateMedia({ media: 'print' })
+    await expect(page.locator('.no-print').first()).toBeHidden()
+    await page.screenshot({ path: testInfo.outputPath('gym-qr-print.png'), fullPage: true })
+    // PDF export is Chromium-only; print CSS and per-unit destinations are checked in every engine.
+    if (browserName === 'chromium') await page.pdf({ path: testInfo.outputPath('gym-qr-labels.pdf'), format: 'A4', printBackground: true })
+    await page.emulateMedia({ media: 'screen' })
+    await expect(page.locator('.no-print').first()).toBeVisible()
+    await nav('Website')
+    await page.getByText('Despublicar website', { exact: true }).click(); await nav('Confirmar despublicación')
+    await expect(page.getByRole('status').filter({ hasText: 'Website despublicado' })).toBeVisible()
+    expect((await visitor.request.get(photo.url)).status()).toBe(404)
+    expect((await visitor.request.get(`/api/b2b/public/${gym}/units/${units[0].id}`)).status()).toBe(404)
+    expect((await page.request.get(photo.url)).status()).toBe(200)
+    await publishWebsite()
+    expect((await orgGet<{ media: Media[] }>(page, '/media', gym)).media).toHaveLength(1)
+  } finally { await visitor.close().catch(() => undefined) }
+})
+
+test('backoffice loads sections independently, refreshes only changed resources and clears revoked data', async ({ page }) => {
+  const requests: string[] = []
+  page.on('request', request => {
+    const path = new URL(request.url()).pathname
+    if (request.method() === 'GET' && path.startsWith('/api/b2b/orgs/')) requests.push(path.split('/').at(-1)!)
+  })
+  await login(page, 'admin')
+  await expect(page.getByRole('heading', { name: 'Preparemos tu gimnasio.', exact: true })).toBeVisible()
+  expect(new Set(requests)).toEqual(new Set(['machines', 'units', 'setup-progress']))
+
+  await page.route('**/api/b2b/orgs/atlas-demo/reports', route => route.fulfill({ status: 503, json: { error: 'Informes temporalmente no disponibles.', code: 'UNAVAILABLE' } }))
+  await page.getByRole('button', { name: 'Seguimiento', exact: true }).click()
+  await expect(page.getByRole('alert')).toHaveText('Informes temporalmente no disponibles.')
+  requests.length = 0
+  await page.getByRole('button', { name: 'Identidad', exact: true }).click()
+  await expect(page.getByLabel('Nombre del gimnasio', { exact: true })).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  expect(requests).toEqual([])
+
+  await page.getByRole('button', { name: 'Ejercicios', exact: true }).click()
+  await page.getByRole('button', { name: '+ Crear ejercicio', exact: true }).click()
+  expect(new Set(requests)).toEqual(new Set(['exercises', 'machines']))
+  await page.getByLabel('Nombre del ejercicio', { exact: true }).fill('Ejercicio con actualización aislada')
+  await page.getByLabel('Instrucciones paso a paso', { exact: true }).fill('Realizá el movimiento de forma controlada.')
+  requests.length = 0
+  const refreshed = page.waitForResponse(response => response.url().endsWith('/orgs/atlas-demo/exercises') && response.request().method() === 'GET')
+  await page.getByRole('button', { name: 'Guardar borrador', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Borrador guardado')
+  await refreshed
+  expect(requests).toEqual(['exercises'])
+  await page.getByRole('button', { name: 'Volver al catálogo', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Ejercicio con actualización aislada', exact: true })).toBeVisible()
+
+  await page.route('**/api/b2b/orgs/atlas-demo/exercises', route => route.fulfill({ status: 403, json: { error: 'El acceso al catálogo fue revocado.', code: 'FORBIDDEN' } }))
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')))
+  await expect(page.getByRole('alert')).toHaveText('El acceso al catálogo fue revocado.')
+  await expect(page.getByRole('heading', { name: 'Ejercicio con actualización aislada', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '+ Crear ejercicio', exact: true })).toHaveCount(0)
+
+  await page.route('**/api/b2b/orgs/atlas-demo/setup-progress', route => route.fulfill({ status: 503, json: { error: 'No pudimos consultar la publicación.', code: 'UNAVAILABLE' } }))
+  await page.getByRole('button', { name: 'Equipamiento', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Conocé cada equipo.', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: '+ Registrar equipo', exact: true })).toBeEnabled()
+  await expect(page.getByRole('alert')).toHaveText('No pudimos consultar la publicación.')
+})

@@ -360,7 +360,7 @@ try {
     }
   }, 500)
   diskMonitor.unref()
-  for (const app of ['member-web', 'backoffice'])
+  for (const app of ['b2b-web'])
     assert.ok(existsSync(resolve(root, `apps/${app}/dist/index.html`)), 'Run pnpm build:b2b first')
   await run('docker', ['compose', 'version'])
   report.sourceRevision = (await run('git', ['rev-parse', 'HEAD'])).output.toString().trim()
@@ -370,7 +370,7 @@ try {
   await run('docker', [
     'build',
     '-f',
-    'Dockerfile.b2b-api',
+    'docker/b2b-api/Dockerfile',
     '--build-arg',
     `OCI_REVISION=${report.sourceRevision}`,
     '-t',
@@ -380,7 +380,7 @@ try {
   await run('docker', [
     'build',
     '-f',
-    'Dockerfile.b2b-web',
+    'docker/b2b-web/Dockerfile',
     '--build-arg',
     `OCI_REVISION=${report.sourceRevision}`,
     '-t',
@@ -543,7 +543,7 @@ try {
     ).status,
     403,
   )
-  for (const path of ['/', '/app', '/g/runtime-atlas', '/backoffice/']) {
+  for (const path of ['/', '/app', '/app/catalog', '/manage', '/manage/people', '/g/runtime-atlas', '/backoffice/']) {
     const page = await request(origin, path)
     assert.equal(page.status, 200)
     assert.match(page.headers['content-type'], /text\/html/)
@@ -562,7 +562,7 @@ try {
   ])
     assert.equal((await request(origin, path)).status, 404)
   passed(
-    'production HTTPS cookies, real bootstrap, same-identity gyms, foreign-origin guard and independent SPA routing',
+    'production HTTPS cookies, real bootstrap, same-identity gyms, foreign-origin guard and unified B2B SPA routing and legacy entry compatibility',
   )
 
   step('exercise uploads, explicit publication, range reads and two QR units')

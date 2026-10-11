@@ -144,7 +144,7 @@ Usar Atlas y Sur para probar aislamiento, con administrador, profesor y socio. P
 4. Comparar prescripción y ejecución desde el profesor asignado. Verificar que otro gimnasio y un profesor sin asignación no acceden.
 5. Convertir cada bloqueo observado en un cambio pequeño con un caso de reproducción y un criterio de aceptación.
 
-Los lugares de trabajo son [backoffice](../apps/backoffice/src), [features del socio](../apps/member-web/src/features) y [API B2B](../apps/b2b-api/src). El ciclo de prueba visual se detalla en la línea C.
+Los lugares de trabajo son [backoffice](../apps/b2b-web/src/features), [features del socio](../apps/b2b-web/src/features) y [API B2B](../apps/b2b-api/src). El ciclo de prueba visual se detalla en la línea C.
 
 ### A2. Extender sin duplicar reglas ni acoplar productos
 
@@ -246,7 +246,7 @@ La UI puede iterar con un GLB de prueba o con fotos. El recurso 3D definitivo se
 | Cambio de acceso | Cambiar cuenta/gimnasio, revocar membresía o suspender servicio | Sin datos residuales ni respuestas tardías de otra sesión |
 | Dispositivo limitado | Móvil, teclado, movimiento reducido, WebGL fallido | Acciones accesibles; lectura y registro funcionan con el contenido de respaldo |
 
-La configuración [Playwright B2B](../apps/web/playwright.b2b.config.ts) ejecuta proyectos de Chromium escritorio, Chromium táctil y WebKit táctil, cada uno con schema de PostgreSQL, API y origen independientes. La matriz recorre publicación/QR, registro, recuperación, permisos y fallos, y compara unas pocas pantallas estables. La emulación de WebKit no demuestra funcionamiento en Safari de un teléfono real ni escaneo con cámara; esos pasos de E4 siguen siendo físicos.
+La configuración [Playwright B2B](../apps/b2c-web/playwright.b2b.config.ts) ejecuta proyectos de Chromium escritorio, Chromium táctil y WebKit táctil, cada uno con schema de PostgreSQL, API y origen independientes. La matriz recorre publicación/QR, registro, recuperación, permisos y fallos, y compara unas pocas pantallas estables. La emulación de WebKit no demuestra funcionamiento en Safari de un teléfono real ni escaneo con cámara; esos pasos de E4 siguen siendo físicos.
 
 ### C3. Entorno de trabajo y QR físico
 
@@ -258,7 +258,7 @@ El helper dedicado anterior sigue disponible para trabajar sólo B2B; no ejecuta
 pnpm dev:b2b
 ```
 
-Abrir `http://127.0.0.1:4200/backoffice/`, `http://127.0.0.1:4200/app` y `http://127.0.0.1:4200/g/atlas-demo`. Usar las cuentas ficticias de `.cache/b2b/demo.private.json` y la contraseña del env privado generado; no incorporarlas a capturas ni commits.
+Abrir `http://127.0.0.1:4200/manage`, `http://127.0.0.1:4200/app` y `http://127.0.0.1:4200/g/atlas-demo`. Usar las cuentas ficticias de `.cache/b2b/demo.private.json` y la contraseña del env privado generado; no incorporarlas a capturas ni commits.
 
 El entorno, dependencias y preparación de DB están en [Demo local B2B](b2b.md#demo-local). La guía [UI iteration](ui-iteration.md) corresponde a B2C y tiene otro lanzador.
 
@@ -270,9 +270,9 @@ La entrega `508e9e1` implementa los tres primeros pasos de esta tabla y deja pre
 
 | Orden | Estado del código | Archivos o áreas | Aceptación que permanece separada |
 | --- | --- | --- | --- |
-| **1** | Escenario Atlas/Sur ampliado; recuperación y conflictos de editores, publicación explícita y diagnóstico por unidad antes de imprimir QR | `apps/backoffice/src`, `b2b-ui`, E2E B2B | Preparación y publicación por una persona del gimnasio piloto |
-| **2** | Registro móvil, etiquetas de series, recuperación, parcial definitivo, reintento exacto, duración y RPE; historial contra snapshot asignado | `apps/member-web/src/features`, contratos/dominio/API y E2E B2B | Completar el circuito con un socio en su teléfono |
-| **3** | Matriz Chromium escritorio/táctil y WebKit táctil, aislamiento por proyecto y seis capturas estables revisadas | `apps/web/playwright.b2b.config.ts`, E2E y snapshots | Safari/iOS físico y escaneo de una etiqueta impresa sobre HTTPS accesible |
+| **1** | Escenario Atlas/Sur ampliado; recuperación y conflictos de editores, publicación explícita y diagnóstico por unidad antes de imprimir QR | `apps/b2b-web/src/features`, `b2b-ui`, E2E B2B | Preparación y publicación por una persona del gimnasio piloto |
+| **2** | Registro móvil, etiquetas de series, recuperación, parcial definitivo, reintento exacto, duración y RPE; historial contra snapshot asignado | `apps/b2b-web/src/features`, contratos/dominio/API y E2E B2B | Completar el circuito con un socio en su teléfono |
+| **3** | Matriz Chromium escritorio/táctil y WebKit táctil, aislamiento por proyecto y seis capturas estables revisadas | `apps/b2c-web/playwright.b2b.config.ts`, E2E y snapshots | Safari/iOS físico y escaneo de una etiqueta impresa sobre HTTPS accesible |
 | **Blender local** | Visor estático y carga protegida comprobados con GLB técnico; error recuperable, carga voluntaria y alternativa sin WebGL; CLI `equipment:check` | `anatomy-viewer`, `b2b-ui`, biblioteca B2B y `scripts/validate-equipment.mjs` | Producir y revisar máquina, poster, instrucciones y procedencia de E3 |
 | **Con el recurso revisado** | Se conserva el registro explícito de movimientos soportados y la generación de derivados; no se inventa un movimiento de máquina ni un importador de clips Blender | `geometry`, `anatomy-viewer`, `catalog-base`, `model-assets` | Autoría, integración y revisión del movimiento E5 y segundo caso visual E6 |
 | **Previews diferidos** | Generadores y recursos existentes conservados; el lote completo no se declara regenerado ni validado | Derivados de ejercicios, anatomía y yoga en `model-assets` | Retomar generación, revisión y procedencia después de terminar los modelos y cambios relacionados, por decisión del usuario |

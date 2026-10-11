@@ -7,7 +7,7 @@ export const hash = bytes => createHash('sha256').update(bytes).digest('hex')
 export function prepareCapture(root, mode = 'demo') {
   if (!['demo', 'instance'].includes(mode)) throw new Error('--mode must be demo or instance')
   process.env.VITE_APP_MODE = mode
-  const profile = mode === 'instance' ? 'apps/web/instance-profile.example.json' : null
+  const profile = mode === 'instance' ? 'apps/b2c-web/instance-profile.example.json' : null
   process.env.KLISTENI_PUBLIC_PROFILE_FILE = profile ? join(root, profile) : ''
   for (const key of ['VITE_UMAMI_SCRIPT_URL', 'VITE_UMAMI_HOST_URL', 'VITE_UMAMI_WEBSITE_ID', 'VITE_UMAMI_ALLOWED_HOSTNAME']) process.env[key] = ''
   return { mode, publicProfile: profile, analytics: 'disabled', session: 'anonymous', backend: 'blocked' }
@@ -20,10 +20,10 @@ export async function captureSources(root, script) {
       ? filesBelow(`${directory}/${entry.name}`) : [`${directory}/${entry.name}`]))).flat()
   }
   const files = [script, 'scripts/capture-readme-context.mjs', 'pnpm-lock.yaml',
-    'apps/web/index.html', 'apps/web/vite.config.ts', 'apps/web/config/deployment.ts',
-    'apps/web/instance-profile.example.json', 'packages/model-assets/public/models/anatomy.glb',
+    'apps/b2c-web/index.html', 'apps/b2c-web/vite.config.ts', 'apps/b2c-web/config/deployment.ts',
+    'apps/b2c-web/instance-profile.example.json', 'packages/model-assets/public/models/anatomy.glb',
     'packages/model-assets/public/models/rig-landmarks.json', 'packages/model-assets/public/previews/manifest.json',
-    ...await filesBelow('apps/web/src'), ...await filesBelow('packages/geometry/src'),
+    ...await filesBelow('apps/b2c-web/src'), ...await filesBelow('packages/geometry/src'),
     ...await filesBelow('packages/scene-schema/src'), ...await filesBelow('packages/catalog-base/src'),
     ...await filesBelow('packages/anatomy-viewer/src'), ...await filesBelow('packages/model-assets/src')].sort()
   return Object.fromEntries(await Promise.all(files.map(async file => [file, hash(await readFile(join(root, file)))])))

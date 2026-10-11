@@ -1,13 +1,13 @@
 /** Real API fixture for browser acceptance. Never point TEST_DATABASE_URL at production. */
 import { randomUUID } from 'node:crypto';
-import { createAuth } from '../apps/api/src/auth.ts';
-import { readConfig } from '../apps/api/src/config.ts';
-import { createPool } from '../apps/api/src/database.ts';
-import { createApiServer } from '../apps/api/src/http.ts';
-import { migrate } from '../apps/api/src/migrate.ts';
-import { createProvisionedUser } from '../apps/api/src/operator-service.ts';
-import { AccountAdministration } from '../apps/api/src/accounts.ts';
-import { StateRepository } from '../apps/api/src/state.ts';
+import { createAuth } from '../apps/b2c-api/src/auth.ts';
+import { readConfig } from '../apps/b2c-api/src/config.ts';
+import { createPool } from '../apps/b2c-api/src/database.ts';
+import { createApiServer } from '../apps/b2c-api/src/http.ts';
+import { migrate } from '../apps/b2c-api/src/migrate.ts';
+import { createProvisionedUser } from '../apps/b2c-api/src/operator-service.ts';
+import { AccountAdministration } from '../apps/b2c-api/src/accounts.ts';
+import { StateRepository } from '../apps/b2c-api/src/state.ts';
 
 const databaseUrl = process.env.TEST_DATABASE_URL;
 if (!databaseUrl) throw new Error('Accounts browser tests require TEST_DATABASE_URL for a disposable PostgreSQL database.');

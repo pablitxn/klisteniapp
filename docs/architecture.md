@@ -1,11 +1,29 @@
 # Arquitectura de Klisteni
 
-Klisteni separa datos comprobables, cálculo geométrico y presentación. B2C distribuye catálogo y visor como web estática; su API incorpora cuentas administradas y persistencia personal en PostgreSQL. B2B tiene website, app del socio, backoffice, API, PostgreSQL y medios independientes. Ambos productos comparten paquetes de catálogo, geometría y visualización, sin compartir identidades ni datos. La demostración personal sigue disponible sin iniciar sesión. El código por sí solo no acredita un despliegue.
+Klisteni separa datos comprobables, cálculo geométrico y presentación. B2C distribuye catálogo y visor como web estática; su API incorpora cuentas administradas y persistencia personal en PostgreSQL. B2B reúne website, entrenamiento y gestión del gimnasio en una web, con API, PostgreSQL y medios independientes. Ambos productos comparten paquetes de catálogo, geometría y visualización, sin compartir identidades ni datos. La demostración personal sigue disponible sin iniciar sesión. El código por sí solo no acredita un despliegue.
 
 ## Mapa del repositorio
 
+Las cuatro aplicaciones son `b2c-web`, `b2c-api`, `b2b-web` y `b2b-api`.
+La web B2B tiene una única entrada, servidor Vite y build. `ApplicationProvider`
+mantiene una sola sesión, marca y selección explícita de sede/función; las rutas
+componen las vistas desde `features/` por dominio. `/app/routines`, `/app/catalog`
+y `/app/history` son las vistas del socio; `/manage/people`, `/manage/programs`,
+`/manage/catalog`, `/manage/equipment` y las demás secciones son vistas profesionales.
+La navegación interna conserva el contexto y admite Atrás/Adelante y recarga.
+`/backoffice` y sus subrutas sólo son aliases de compatibilidad hacia `/manage`.
+La entrada pública no solicita datos de cuenta. Cambiar cuenta, sede o función
+cambia el ámbito del cliente, cancela solicitudes obsoletas y aísla borradores.
+Las sesiones y la autorización efectiva siguen a cargo de la API B2B.
+
+Una futura aplicación `backoffice` estará orientada al owner de Klisteni:
+insights y administración general de ambos productos. Es distinta de la gestión
+que usa el personal de cada gimnasio. Esa consola y su integración con herramientas
+como Odoo están pendientes; habrá que definir qué sistema administra cada dato
+comercial y cómo se sincroniza, sin duplicar sus responsabilidades.
+
 ```text
-apps/web/
+apps/b2c-web/
   src/
     App.tsx                     Navegación, selección y composición de pantallas
     components/
@@ -22,12 +40,14 @@ apps/web/
       progress.ts               Fechas, validación y métricas puras
   test/                         Pruebas del dominio de la aplicación
   e2e/                          Flujos de navegador con Playwright
-apps/api/                       Better Auth, sesiones, operaciones PostgreSQL y CLI
+apps/b2c-api/                    Better Auth, sesiones, operaciones PostgreSQL y CLI
   src/                          Servidor, repositorio de datos, migraciones y operador
   tests/                        Contratos y aceptación con PostgreSQL de prueba
-apps/member-web/src/            Website público, QR y entrenamiento del socio B2B
-apps/backoffice/src/            Preparación, biblioteca, prescripción y publicación
-apps/b2b-api/                   API, identidades, PostgreSQL y medios propios B2B
+apps/b2b-web/src/                Website público, QR y entrenamiento del socio B2B
+  app/                          Contexto común, navegación y acceso a vistas por permisos
+  features/                     Catálogo, personas, rutinas, equipo, medios, website y organización
+  shared/                       UI auxiliar y recuperación de editores
+apps/b2b-api/                    API, identidades, PostgreSQL y medios propios B2B
 assets/blender/                 Escena anatómica editable e informe de optimización
 scripts/blender/                Importación, inspección y conversión de los FBX
 packages/
@@ -46,9 +66,9 @@ docs/
   anatomy-model-sources.md      Procedencia, licencias y límites de las mallas
 ```
 
-El paquete `scene-schema` conserva el nombre de la arquitectura de referencia para sus contratos compartidos. No contiene geometría ni acceso al almacenamiento. `geometry` calcula coordenadas; `anatomy-viewer` prepara y representa los modelos; cada aplicación decide navegación, preferencias y permisos. Ningún paquete compartido debe importar componentes de `apps/web`.
+El paquete `scene-schema` conserva el nombre de la arquitectura de referencia para sus contratos compartidos. No contiene geometría ni acceso al almacenamiento. `geometry` calcula coordenadas; `anatomy-viewer` prepara y representa los modelos; cada aplicación decide navegación, preferencias y permisos. Ningún paquete compartido debe importar componentes de `apps/b2c-web`.
 
-La separación B2B y sus despliegues independientes están documentados en [Marca blanca y backoffice](b2b.md). `catalog-base` conserva los IDs originales. `anatomy-viewer` recibe preferencias y resolución de assets por props; los adaptadores B2C mantienen store e i18n dentro de `apps/web`. `model-assets` sirve y copia los recursos a cada build con su plugin Vite, sin depender del origen HTTP de otra app.
+La separación B2B y sus despliegues independientes están documentados en [Marca blanca y gestión del gimnasio](b2b.md). `catalog-base` conserva los IDs originales. `anatomy-viewer` recibe preferencias y resolución de assets por props; los adaptadores B2C mantienen store e i18n dentro de `apps/b2c-web`. `model-assets` sirve y copia los recursos a cada build con su plugin Vite, sin depender del origen HTTP de otra app.
 
 ## Prescripción, ejecución y medios B2B
 
@@ -70,7 +90,7 @@ El [plan de marca blanca](b2b-white-label.md) define la próxima arquitectura, t
 flowchart LR
   Atlas["Dominio Atlas"] --> Proxy["Proxy y registro de dominios verificados"]
   Sur["Dominio Sur"] --> Proxy
-  Proxy --> App["Website, login, socio y backoffice compartidos"]
+  Proxy --> App["Website, login, entrenamiento y gestión del gimnasio"]
   App --> API["API B2B: marca, sesión, sede y permisos"]
   API --> DB[("PostgreSQL B2B: organización y sede")]
   API --> Media["Medios con acceso autorizado"]

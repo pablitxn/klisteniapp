@@ -5,11 +5,11 @@ import type { BrandContext } from '@klisteniapp/b2b-contracts'
 export type LoginProps = {
   onSignIn: (credentials: { email: string; password: string }) => Promise<unknown>
   onDone: () => void
-  backoffice?: boolean
+  professional?: boolean
   context?: BrandContext | null
 }
 
-export function Login({ onSignIn, onDone, backoffice = false, context }: LoginProps) {
+export function Login({ onSignIn, onDone, professional = false, context }: LoginProps) {
   const [error, setError] = useState(''),
     [busy, setBusy] = useState(false)
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -32,10 +32,10 @@ export function Login({ onSignIn, onDone, backoffice = false, context }: LoginPr
   return (
     <div className="access-layout">
       <section className="access-intro">
-        <span className="pill">{backoffice ? 'ESPACIO PROFESIONAL' : 'TU PRÁCTICA, CERCA'}</span>
+        <span className="pill">{professional ? 'ESPACIO PROFESIONAL' : 'TU PRÁCTICA, CERCA'}</span>
         <h1>
           {context?.theme.loginTitle ||
-            (backoffice ? (
+            (professional ? (
               <>
                 Acompañá cada
                 <br />
@@ -51,7 +51,7 @@ export function Login({ onSignIn, onDone, backoffice = false, context }: LoginPr
         </h1>
         <p>
           {context?.theme.loginDescription ||
-            (backoffice
+            (professional
               ? 'Personas, rutinas y equipamiento. Todo lo que necesitás para acompañar a tu comunidad.'
               : 'Encontrá la rutina que prepararon para vos y llevá un registro de tu propio progreso.')}
         </p>

@@ -25,7 +25,7 @@ Los siguientes dominios son **fixtures HTTPS locales** de la suite automatizada,
 | `/sedes/centro` en Atlas | Horarios, actividades, contacto y equipo público de Atlas Centro |
 | `/login` en Atlas | Identidad publicada de Atlas, antes de conocer a la persona |
 | `/app` en Atlas | Entrenamiento del socio en una sede a la que tiene acceso |
-| `/backoffice/` en Atlas | Trabajo del entrenador o administración según permisos y sede |
+| `/manage` en Atlas | Trabajo del entrenador o administración según permisos y sede |
 | `https://sur.b2b.test/` | La misma aplicación presenta Sur y sus sedes |
 
 Historia de aceptación: un administrador de Atlas configura Centro y Norte, asigna entrenadores y socios, prepara máquinas, publica marca/website/contenido y genera QRs. Un entrenador de Centro prescribe una rutina con equipo de Centro. El socio entra desde el dominio/QR de Atlas, registra su ejecución en Centro y el entrenador autorizado la consulta. Repetir en Norte y en dos sedes de Sur comprueba que los contextos no se mezclan.
@@ -39,13 +39,13 @@ La web publicada es visitable sin pertenecer al gimnasio. El login de una person
 | Organizaciones | Membresías y un rol por organización; validación en API | Mantener la organización como marca y agregar sedes y permisos con alcance explícito |
 | Orígenes | `B2B_APP_ORIGIN` único; auth y mutaciones comparan ese origen | Registro de dominios y contexto de marca por petición |
 | Login y sesión | Login B2B general; `/me` devuelve membresías de varias organizaciones | Sesión ligada a marca, respuesta acotada al dominio y selección de sede autorizada |
-| Navegación | `/g/:slug`, `/app`, `/backoffice/`; selector de organización | Entrada por dominio, sedes, login común y destinos según contexto/rol |
+| Navegación | `/g/:slug`, `/app`, `/manage`; selector de organización | Entrada por dominio, sedes, login común y destinos según contexto/rol |
 | Identidad | Nombre, descripción, color, logo, contacto y dirección | Identidad publicada previa al login y temas/plantillas versionados |
 | Website | Borrador y publicación de contenido y marca por organización | Presentación de marca y contenido público de cada sede; publicación independiente del acceso |
 | Equipamiento y entrenamiento | Entidades de organización, unidades con ubicación textual | Propiedad de sede, asignaciones contextualizadas y snapshots que conservan sede histórica |
 | Funcionalidades | Roles y estado de servicio | Módulos autorizados por marca y opciones de sede, aplicados en UI y API |
 
-Puntos de entrada reales: [configuración](../apps/b2b-api/src/config.ts), [autenticación](../apps/b2b-api/src/auth.ts), [HTTP](../apps/b2b-api/src/http.ts), [servicio](../apps/b2b-api/src/service.ts), [contexto de organización](../apps/b2b-api/src/organization-context.ts), [datos](../apps/b2b-api/src/database.ts), [migraciones](../apps/b2b-api/src/migrate.ts), [operador](../apps/b2b-api/src/operator.ts), [contratos](../packages/b2b-contracts/src/organization.ts), [sesión React](../packages/b2b-react/src/use-session.ts), [app socio](../apps/member-web/src/App.tsx), [backoffice](../apps/backoffice/src/App.tsx), [UI compartida](../packages/b2b-ui/src/components.tsx), [proxy local](../scripts/b2b-gateway.mjs) y [Nginx](../docker/nginx.b2b.conf).
+Puntos de entrada reales: [configuración](../apps/b2b-api/src/config.ts), [autenticación](../apps/b2b-api/src/auth.ts), [HTTP](../apps/b2b-api/src/http.ts), [servicio](../apps/b2b-api/src/service.ts), [contexto de organización](../apps/b2b-api/src/organization-context.ts), [datos](../apps/b2b-api/src/database.ts), [migraciones](../apps/b2b-api/src/migrate.ts), [operador](../apps/b2b-api/src/operator.ts), [contratos](../packages/b2b-contracts/src/organization.ts), [sesión React](../packages/b2b-react/src/use-session.ts), [app socio](../apps/b2b-web/src/App.tsx), [gestión del gimnasio](../apps/b2b-web/src/app/Workspace.tsx), [UI compartida](../packages/b2b-ui/src/components.tsx), [proxy local](../scripts/b2b-gateway.mjs) y [Nginx](../docker/nginx.b2b.conf).
 
 La frontera implementada usa identidad de proxy con secreto independiente e IP exacta, registro activo consultado por petición y validación de origen exacto; ver [operación de dominios](b2b-white-label-runtime.md). La API no confía en un `Host` o `Forwarded` aportado por el cliente para elegir marca.
 
@@ -103,7 +103,7 @@ Todas las rutas aplican el contexto: auth, `/me`, recursos por organización/sed
 
 Reutilizar Better Auth y su verificación de credenciales. La sesión autorizada incluye una asociación verificable con la marca; el chequeo de membresía ocurre antes de devolver una sesión utilizable en ese dominio. Los errores no revelan a qué otras marcas pertenece el email. Cookies limitadas al host, HTTPS y controles de origen se acompañan de validación de marca en servidor: copiar una cookie o token entre dominios tampoco concede acceso.
 
-`/me` devuelve sólo el contexto de esa marca y sus sedes autorizadas. Una sede indicada por QR/invitación prevalece únicamente si sigue autorizada; después se puede usar la última selección válida. Si hay una sola opción, abrirla; si hay varias, mostrar selector. Socio → `/app`; entrenador → `/backoffice/` con seguimiento; administrador → `/backoffice/` con administración/preparación de marca y sede. Los deep links sólo continúan hacia rutas internas autorizadas.
+`/me` devuelve sólo el contexto de esa marca y sus sedes autorizadas. Una sede indicada por QR/invitación prevalece únicamente si sigue autorizada; después se puede usar la última selección válida. Si hay una sola opción, abrirla; si hay varias, mostrar selector. Socio → `/app`; entrenador → `/manage` con seguimiento; administrador → `/manage` con administración/preparación de marca y sede. Los deep links sólo continúan hacia rutas internas autorizadas.
 
 La baja de una sede o permiso invalida selecciones persistidas. Cerrar sesión elimina el estado sensible de ese dominio; cualquier política de revocación global al cambiar credenciales se declara explícitamente. No introducir SSO ni compartir cookies de forma amplia entre dominios.
 
@@ -172,10 +172,10 @@ Camino de producto: **WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5/WL-6 →
 | `b2b-react` | Sesión ligada a marca; carga por sede; cancelación, limpieza y claves de caché/borrador al cambiar contexto |
 | `b2b-ui` | Login común, selector de sede/contexto, tema validado y variantes de componentes |
 | `member-web` | Website de marca/sedes, login, selector y entrenamiento con ubicación e inventario correctos |
-| `backoffice` | Administración de sedes/personas/concesiones, contenido disponible por sede, identidad/publicación y vistas operativas con alcance visible |
+| `b2b-web` (gestión) | Administración de sedes/personas/concesiones, contenido disponible por sede, identidad/publicación y vistas operativas con alcance visible |
 | Proxy y scripts | Resolver hosts de fixtures, HTTPS, readiness, demo, migración, smoke y diagnóstico de dominios |
 
-No trasladar reglas de autorización al frontend ni introducir importaciones de `apps/web` en B2B. Los cambios de contratos estrictos, backend y frontend se liberan coordinadamente.
+No trasladar reglas de autorización al frontend ni introducir importaciones de `apps/b2c-web` en B2B. Los cambios de contratos estrictos, backend y frontend se liberan coordinadamente.
 
 ## 8. Matriz de aceptación de punta a punta
 

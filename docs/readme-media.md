@@ -25,7 +25,7 @@ Use the repository's Node/pnpm versions. Install workspace dependencies and Play
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @klisteniapp/web exec playwright install chromium
+pnpm --filter @klisteniapp/b2c-web exec playwright install chromium
 ```
 
 Install **FFmpeg** and the **WebP tools** (`cwebp`) using your system package manager. On macOS, `brew install ffmpeg webp` supplies both. The existing exercise-preview workflow also uses these encoders. `FFMPEG_BIN` and `WEBP_CWEBP_BIN` can override executable locations.
@@ -41,7 +41,7 @@ The script starts its own Vite server on `127.0.0.1:4197`, launches an isolated 
 
 Both scripts explicitly set `VITE_APP_MODE=demo` by default, so local environment files cannot silently turn the tour into an operator's instance. All API and non-local HTTP requests are blocked and fail the capture; analytics configuration is empty. The app runs without an account, login, server database, payment flow or production mutation.
 
-For a separate, clearly labelled anonymous instance preview, pass `--mode instance`. This sets `VITE_APP_MODE=instance` and `KLISTENI_PUBLIC_PROFILE_FILE` to the checked-in `apps/web/instance-profile.example.json`; it never uses an operator's private profile. Only the session read is answered with `null`; every other API request remains blocked. The manifest records `deployment.mode` and the example profile's source hash. Do not describe an instance preview as the default public demo. These commands overwrite the same media filenames, so regenerate both sets in demo mode before publishing this README.
+For a separate, clearly labelled anonymous instance preview, pass `--mode instance`. This sets `VITE_APP_MODE=instance` and `KLISTENI_PUBLIC_PROFILE_FILE` to the checked-in `apps/b2c-web/instance-profile.example.json`; it never uses an operator's private profile. Only the session read is answered with `null`; every other API request remains blocked. The manifest records `deployment.mode` and the example profile's source hash. Do not describe an instance preview as the default public demo. These commands overwrite the same media filenames, so regenerate both sets in demo mode before publishing this README.
 
 The hero, mobile, anatomy, and catalogue assets are captured first with **no personal data or training history**; the starter routine and empty progress are the app defaults. The final routine clip uses the real customization and session controls to create **one fictional local workout: one squat set with 8 repetitions**. The script verifies that exact saved record. This minimal routine keeps the walkthrough short; it is not a proposed complete training program or evidence that someone performed the exercise. The browser is discarded afterward.
 

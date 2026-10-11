@@ -39,14 +39,14 @@ impreso no se sustituye por el navegador headless del VPS.
 | Website | `b2b_website` es singleton por organización; publicación incluye brand y content | `service.ts`, `Website.tsx`, `websiteDraft.ts`, `PublicGym.tsx`: identidad pública independiente y publicación propia de sede |
 | Medios | Propietario organización; staff puede acceder a todo su inventario; socio por referencia autorizada | `service.ts:mediaAccess`, `media.ts`, `MediaLibrary.tsx`, `ContentMedia.tsx`: ámbito explícito y comprobación del host/sede para GET, HEAD y Range |
 | Invitaciones | Token hasheado, expiración y uso único; no guarda sede | `service.ts`, contratos de organización, `Invitation.tsx`: backfill de Principal y consumo dentro de la marca correcta |
-| Cliente y sesión | `/me` expone todas las membresías; las aplicaciones eligen rol/marca de listas; controlador cancela respuestas obsoletas | `b2b-client/src`, `b2b-react/src`, ambas `App.tsx`: respuesta acotada a host, contexto operativo validado y limpieza al cambiarlo |
+| Cliente y sesión | `/me` expone todas las membresías; las aplicaciones eligen rol/marca de listas; controlador cancela respuestas obsoletas | `b2b-client/src`, `b2b-react/src`, `app/ApplicationProvider.tsx` y `app/Workspace.tsx`: respuesta acotada a host, contexto operativo validado y limpieza al cambiarlo |
 | Borradores | Entrenamiento usa organización/cuenta/asignación; editores organización/cuenta/tipo/entidad | `sessionDraft.ts`, `editorDraftStorage.ts`, `useEditorDraft.tsx`: versionar claves e incluir sede/función cuando es operativa |
 | Proxy | Gateway local reemplaza Host por loopback; Nginx pasa `$host`, elimina forwarded | `scripts/b2b-gateway.mjs`, `docker/nginx.b2b.conf`: preservar host normalizado mediante frontera de confianza explícita |
 | Fixtures/operador | Demo Atlas/Sur y herramientas de organización sin sedes | `demo.ts`, `operator.ts`, scripts setup/runtime/E2E: dos sedes por marca, dominios y escenarios negativos |
-| Tests | Suites API con schemas desechables; Playwright en un origen y tres proyectos | `apps/b2b-api/tests`, `apps/web/playwright.b2b.config.ts`, suites B2B: añadir dos hosts, migración previa y matriz D01–D19 |
+| Tests | Suites API con schemas desechables; Playwright en un origen y tres proyectos | `apps/b2b-api/tests`, `apps/b2c-web/playwright.b2b.config.ts`, suites B2B: añadir dos hosts, migración previa y matriz D01–D19 |
 
-Archivos de frontend abreviados en la tabla se ubican en `apps/backoffice/src`,
-`apps/member-web/src` o `packages/b2b-ui/src` según la aplicación indicada.
+Archivos de frontend abreviados en la tabla se ubican en `apps/b2b-web/src/features`,
+`apps/b2b-web/src` o `packages/b2b-ui/src` según el dominio indicado.
 
 ## 3. Entidades y compatibilidad
 

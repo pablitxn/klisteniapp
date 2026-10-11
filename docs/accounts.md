@@ -39,8 +39,8 @@ Start the frontend separately with a public profile based on the example:
 
 ```sh
 VITE_APP_MODE=instance \
-KLISTENI_PUBLIC_PROFILE_FILE="$PWD/apps/web/instance-profile.example.json" \
-pnpm --filter @klisteniapp/web dev --host localhost
+KLISTENI_PUBLIC_PROFILE_FILE="$PWD/apps/b2c-web/instance-profile.example.json" \
+pnpm --filter @klisteniapp/b2c-web dev --host localhost
 ```
 
 Open exactly `http://localhost:5173`, matching the Compose `APP_ORIGIN`. Vite's instance proxy connects to the local API. `localhost` and `127.0.0.1` are different browser origins. For a different origin or API port, change the operator configuration and frontend proxy together.
@@ -49,7 +49,7 @@ Create the first administrator using an explicit temporary invitation:
 
 ```sh
 docker compose --env-file deploy/.env -f deploy/compose.local.yaml --profile instance exec api \
-  node apps/api/src/operator.ts bootstrap --email admin@example.test --name Administrator --show-link
+  node apps/b2c-api/src/operator.ts bootstrap --email admin@example.test --name Administrator --show-link
 ```
 
 The displayed link is a credential: open it in your local browser, choose a password, and keep it out of logs, issues and screenshots. No email is sent. A real installation uses the administrator's own address and optionally `--send-email` after SMTP is configured. Bootstrap refuses to create another administrator when one already exists; `--reissue` explicitly replaces a still-pending bootstrap invitation.
@@ -63,7 +63,7 @@ curl --fail http://127.0.0.1:3001/api/readyz
 
 Stop only these containers with `docker compose --env-file deploy/.env -f deploy/compose.local.yaml --profile instance down`. This preserves the named volume. Adding `--volumes` deletes this local database permanently; use it only when intentionally discarding the local instance.
 
-Alternatively, provide your own local PostgreSQL database/role, copy `apps/api/.env.example` to `apps/api/.env`, set real local values, then run `pnpm --filter @klisteniapp/api migrate` and `pnpm --filter @klisteniapp/api dev:configured`. For the unified development environment with automatic migrations and fictional accounts, use [the root Compose + Turbo setup](development.md). `pnpm dev` now runs all apps; `pnpm dev:demo` serves only the browser demo.
+Alternatively, provide your own local PostgreSQL database/role, copy `apps/b2c-api/.env.example` to `apps/b2c-api/.env`, set real local values, then run `pnpm --filter @klisteniapp/b2c-api migrate` and `pnpm --filter @klisteniapp/b2c-api dev:configured`. For the unified development environment with automatic migrations and fictional accounts, use [the root Compose + Turbo setup](development.md). `pnpm dev` now runs all apps; `pnpm dev:demo` serves only the browser demo.
 
 ## Invitations and access
 
@@ -96,9 +96,9 @@ If a release fails, stop instance writes and retain sanitized evidence. A previo
 ## Verification
 
 ```sh
-pnpm --filter @klisteniapp/api lint
-pnpm --filter @klisteniapp/api typecheck
-pnpm --filter @klisteniapp/api test
+pnpm --filter @klisteniapp/b2c-api lint
+pnpm --filter @klisteniapp/b2c-api typecheck
+pnpm --filter @klisteniapp/b2c-api test
 ```
 
 Without `TEST_DATABASE_URL`, PostgreSQL integration cases are skipped; passing unit tests does not prove database behavior. To validate them, point that variable at an explicitly disposable test database and run `pnpm test:api` and `pnpm test:accounts`. Never use an instance database for these commands. Tests create and remove isolated schemas. Account browser tests use local ports 4181/4182 and must not run concurrently with another suite writing the same frontend build directory.

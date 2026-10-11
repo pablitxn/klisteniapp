@@ -2,6 +2,7 @@
 /* global window */
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { readPreviewSources } from './preview-workspace-relocation.mjs'
 import { previewBrowserOptions } from './preview-browser.mjs'
 import { publishCapture, reusableCapture } from './preview-capture-state.mjs'
 import { loadRetainedCaptures } from './preview-provenance.mjs'
@@ -12,12 +13,12 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { AnatomicalModelVariantSchema } from '@klisteniapp/scene-schema'
-import { asanas } from '../apps/web/src/data/yoga.ts'
-import { yogaPreviewAnimationFile, yogaPreviewFile } from '../apps/web/src/lib/yoga-preview-assets.ts'
-import { YOGA_HOLD_PHASE, YOGA_MOTION_DURATION_SECONDS } from '../apps/web/src/lib/yoga-motion.ts'
+import { asanas } from '../apps/b2c-web/src/data/yoga.ts'
+import { yogaPreviewAnimationFile, yogaPreviewFile } from '../apps/b2c-web/src/lib/yoga-preview-assets.ts'
+import { YOGA_HOLD_PHASE, YOGA_MOTION_DURATION_SECONDS } from '../apps/b2c-web/src/lib/yoga-motion.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const webRoot = join(root, 'apps/web')
+const webRoot = join(root, 'apps/b2c-web')
 const assetRoot = join(root, 'packages/model-assets')
 const output = join(assetRoot, 'public/previews/yoga')
 const manifestPath = join(output, 'manifest.json')
@@ -63,6 +64,7 @@ const variants = (selectedModels, selectedIds) => selectedModels.flatMap(model =
   .flatMap(asana => (asana.bilateral ? ['both'] : ['right', 'left']).map(side => ({ asana, model, side, file: yogaPreviewFile(asana.id, model, side) }))))
 const allVariants = variants(allModels, asanas.map(asana => asana.id))
 const sourcePaths = [
+  'scripts/preview-workspace-relocation.mjs',
   'scripts/preview-browser.mjs',
   'scripts/preview-capture-state.mjs',
   'scripts/preview-provenance.mjs',
@@ -79,21 +81,21 @@ const sourcePaths = [
   'packages/model-assets/src/vite.ts',
 
   'scripts/generate-yoga-previews.mjs',
-  'apps/web/yoga-preview-capture.html',
-  'apps/web/src/yoga-preview-capture.tsx',
-  'apps/web/src/components/YogaStage.tsx',
-  'apps/web/src/lib/yoga-rig.ts',
-  'apps/web/src/lib/yoga-anatomy.ts',
-  'apps/web/src/lib/yoga-motion.ts',
-  'apps/web/src/lib/yoga-rendering.ts',
-  'apps/web/src/lib/yoga-preview-assets.ts',
-  'apps/web/src/data/yoga.ts',
-  'apps/web/src/components/AnatomyStudio.tsx',
-  'apps/web/src/lib/anatomy-model.ts',
-  'apps/web/src/lib/anatomy-rig.ts',
-  'apps/web/src/lib/anatomy-variants.ts',
-  'apps/web/src/lib/anatomy-variant-surface.ts',
-  'apps/web/src/lib/anatomy-render-settings.ts',
+  'apps/b2c-web/yoga-preview-capture.html',
+  'apps/b2c-web/src/yoga-preview-capture.tsx',
+  'apps/b2c-web/src/components/YogaStage.tsx',
+  'apps/b2c-web/src/lib/yoga-rig.ts',
+  'apps/b2c-web/src/lib/yoga-anatomy.ts',
+  'apps/b2c-web/src/lib/yoga-motion.ts',
+  'apps/b2c-web/src/lib/yoga-rendering.ts',
+  'apps/b2c-web/src/lib/yoga-preview-assets.ts',
+  'apps/b2c-web/src/data/yoga.ts',
+  'apps/b2c-web/src/components/AnatomyStudio.tsx',
+  'apps/b2c-web/src/lib/anatomy-model.ts',
+  'apps/b2c-web/src/lib/anatomy-rig.ts',
+  'apps/b2c-web/src/lib/anatomy-variants.ts',
+  'apps/b2c-web/src/lib/anatomy-variant-surface.ts',
+  'apps/b2c-web/src/lib/anatomy-render-settings.ts',
   'packages/model-assets/public/models/anatomy.glb',
   'packages/model-assets/public/models/rig-landmarks.json',
   'packages/model-assets/public/models/anatomy-manifest.json',
@@ -104,7 +106,7 @@ const sourcePaths = [
   'pnpm-lock.yaml',
 ]
 const hash = bytes => createHash('sha256').update(bytes).digest('hex')
-const sources = Object.fromEntries(await Promise.all(sourcePaths.map(async path => [path, hash(await readFile(join(root, path)))])))
+const sources = await readPreviewSources(root, sourcePaths, 'yoga', values.check)
 const sourceHash = hash(JSON.stringify(sources))
 const anatomy = JSON.parse(await readFile(join(assetRoot, 'public/models/anatomy-manifest.json'), 'utf8'))
 const provenance = {

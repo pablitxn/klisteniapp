@@ -103,7 +103,7 @@ ssh -N -o ExitOnForwardFailure=yes \
 ```
 
 En Termius, configurar esos dos reenvíos locales equivalentes. Abrir en el
-dispositivo cliente `http://127.0.0.1:4200/backoffice/`,
+dispositivo cliente `http://127.0.0.1:4200/manage`,
 `http://127.0.0.1:4200/app` y `http://127.0.0.1:5173/`. No hace falta exponer
 PostgreSQL o las APIs públicamente. Resolver puertos ocupados o configurar orígenes
 compatibles; cambiar sólo el puerto del túnel puede romper autenticación.

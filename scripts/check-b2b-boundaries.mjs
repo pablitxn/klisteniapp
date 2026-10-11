@@ -13,16 +13,7 @@ const layers = {
   'b2b-react': ['b2b-contracts', 'b2b-client'],
   'b2b-ui': ['b2b-contracts', 'anatomy-viewer', 'model-assets'],
   'b2b-api': ['b2b-contracts', 'b2b-domain', 'catalog-base'],
-  backoffice: [
-    'b2b-contracts',
-    'b2b-domain',
-    'b2b-client',
-    'b2b-react',
-    'b2b-ui',
-    'anatomy-viewer',
-    'model-assets',
-  ],
-  'member-web': [
+  'b2b-web': [
     'b2b-contracts',
     'b2b-domain',
     'b2b-client',

@@ -12,7 +12,7 @@ weight, a browser and a little curiosity.
 [Take a tour](#take-a-tour) · [Run locally](#run-locally) · [Public demo and instance modes](docs/public-demo.md) · [Documentation](docs/README.md)
 
 This repository also contains an **independent gym platform**: a public gym
-website, staff backoffice and member app, with its own API, database and media.
+one web app for public websites, staff management and member training, with its own API, database and media.
 It supports reviewed equipment catalogues, per-unit QR codes, versioned programmes,
 timed or repetition-based prescriptions, optional RPE, recoverable training drafts,
 floor plans and optional voice guidance. [Gym product and setup →](docs/b2b.md)
@@ -239,7 +239,7 @@ Open the URL printed by Vite, normally [localhost:5173](http://localhost:5173).
 The default `VITE_APP_MODE=demo` needs **no API key, database, operator profile
 or Blender installation**. Models and previews are ready to use.
 
-To run **all five apps**, both APIs with local accounts, and the B2B gateway,
+To run **all four apps**, both APIs with local accounts, and the B2B gateway,
 prepare once and use two terminals from the repository root:
 
 ```sh
@@ -248,7 +248,7 @@ docker compose up             # Terminal 1: both PostgreSQL databases
 pnpm exec turbo run dev        # Terminal 2: all apps (also: pnpm dev)
 ```
 
-Open [B2C](http://127.0.0.1:5173/), [B2B backoffice](http://127.0.0.1:4200/backoffice/)
+Open [B2C](http://127.0.0.1:5173/), [B2B gym management](http://127.0.0.1:4200/manage)
 or [B2B member app](http://127.0.0.1:4200/app). Turbo waits for the databases,
 migrates and seeds fictional accounts. Generated settings and passwords stay
 private and survive restarts. [All-app setup, credentials and ports →](docs/development.md)
@@ -268,7 +268,7 @@ For the independent gym product, start Docker with Compose available and run:
 pnpm dev:b2b
 ```
 
-Open `http://127.0.0.1:4200/backoffice/` or `http://127.0.0.1:4200/app`.
+Open `http://127.0.0.1:4200/manage` or `http://127.0.0.1:4200/app`.
 The helper creates private local credentials, migrates its own PostgreSQL and
 seeds Atlas/Sur. [Demo accounts and ports →](docs/b2b.md#demo-local) ·
 [Continue on a Mac →](docs/development-macos.md)
@@ -276,10 +276,10 @@ seeds Atlas/Sur. [Demo accounts and ports →](docs/b2b.md#demo-local) ·
 ```sh
 # Build all packages, then serve the web bundle locally
 pnpm build
-pnpm --filter @klisteniapp/web preview --host 127.0.0.1
+pnpm --filter @klisteniapp/b2c-web preview --host 127.0.0.1
 ```
 
-The web output is `apps/web/dist`. Serve the demo with any static host that
+The web output is `apps/b2c-web/dist`. Serve the demo with any static host that
 supports SPA fallback to `index.html`, including `/privacy`. The optional server
 instance has separate web/API images and generic deployment examples.
 [Deployment and rollback →](docs/deployment.md)
@@ -292,10 +292,9 @@ Zustand and Zod**. The API uses **Better Auth and PostgreSQL**.
 
 | Location | Responsibility |
 | --- | --- |
-| [`apps/web`](apps/web) | Responsive UI, 3D viewer, forms, health dashboard and browser state |
-| [`apps/api`](apps/api) | Accounts, invitations, access rules, personal data and development billing |
-| [`apps/member-web`](apps/member-web) | B2B public websites, QR destinations and member training |
-| [`apps/backoffice`](apps/backoffice) | Gym preparation, publication, programmes and staff workflows |
+| [`apps/b2c-web`](apps/b2c-web) | Responsive UI, 3D viewer, forms, health dashboard and browser state |
+| [`apps/b2c-api`](apps/b2c-api) | Accounts, invitations, access rules, personal data and development billing |
+| [`apps/b2b-web`](apps/b2b-web) | B2B public websites, QR destinations, member training and gym staff management |
 | [`apps/b2b-api`](apps/b2b-api) | Independent B2B identities, tenancy, PostgreSQL and protected media |
 | [`packages/b2b-contracts`](packages/b2b-contracts), [`b2b-domain`](packages/b2b-domain), [`b2b-client`](packages/b2b-client), [`b2b-react`](packages/b2b-react), [`b2b-ui`](packages/b2b-ui) | B2B contracts, pure rules, HTTP, session hooks and shared presentation |
 | [`packages/scene-schema`](packages/scene-schema) | Shared validated contracts for exercises, records and plans |
@@ -372,7 +371,7 @@ pnpm test:accounts
 ```
 
 Install Chromium and WebKit for the B2B matrix with
-`pnpm --filter @klisteniapp/web exec playwright install chromium webkit`.
+`pnpm --filter @klisteniapp/b2c-web exec playwright install chromium webkit`.
 The public browser suite uses `127.0.0.1:4174`; run build-owning browser suites
 sequentially. Database tests skipped without `TEST_DATABASE_URL` do not validate
 PostgreSQL behavior. [Account test setup →](docs/accounts.md#verification)

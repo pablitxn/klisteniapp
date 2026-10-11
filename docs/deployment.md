@@ -16,12 +16,16 @@ corepack enable
 corepack prepare pnpm@12.7.0 --activate
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm build:demo
-pnpm --filter @klisteniapp/web preview --host 127.0.0.1
+pnpm --filter @klisteniapp/b2c-web preview --host 127.0.0.1
 ```
 
 `pnpm dev:demo` starts the demo without a backend. Unit checks do not require a database; integration cases which require `TEST_DATABASE_URL` are skipped when it is absent. Browser checks require the matching Playwright browser installation. See the root README for asset acquisition and licensing requirements before rebuilding anatomical assets; validation does not grant additional redistribution rights.
 
-The public `.gitlab-ci.yml` runs `quality` by default: lint, type checks, unit tests without a database, preview/source integrity checks, anatomical asset validation, the demo build, and publication/privacy audits. It retains the reviewed demo artifact for seven days. This path launches no Chromium, PostgreSQL service or preview renderer. The configuration has no project-path restriction, required runner tags, private endpoints, registry authentication, image publishing or deployment job; operator publication and runtime smoke checks remain in the operator's private pipeline. The retained pinned images target Linux amd64; forks need a container-capable runner for that platform (or compatible emulation).
+The public `.gitlab-ci.yml` is the conventional entry point and includes
+`.gitlab/pipeline.yml`, which defines the validation jobs. The pipeline conditionally
+includes `.gitlab/runner.yml` for the optional runner tag.
+
+It runs `quality` by default: lint, type checks, unit tests without a database, preview/source integrity checks, anatomical asset validation, the demo build, and publication/privacy audits. It retains the reviewed demo artifact for seven days. This path launches no Chromium, PostgreSQL service or preview renderer. The configuration has no project-path restriction, required runner tags, private endpoints, registry authentication, image publishing or deployment job; operator publication and runtime smoke checks remain in the operator's private pipeline. The retained pinned images target Linux amd64; forks need a container-capable runner for that platform (or compatible emulation).
 
 **October 11 handoff:** full preview regeneration and validation are deferred by
 the project owner until the Blender assets are ready. `pnpm check`, `check:all`,
@@ -46,12 +50,16 @@ The API integration job starts its own disposable PostgreSQL service before runn
 
 ## Static container
 
-`Dockerfile` packages an already built `apps/web/dist`. It does not build source, inject runtime credentials or select an instance automatically. This makes the reviewed build artifact the container's input:
+Container definitions are grouped under [`docker/`](../docker/README.md).
+Run builds from the repository root with the explicit `-f` path; the build context
+remains `.`.
+
+`docker/b2c-web/Dockerfile` packages an already built `apps/b2c-web/dist`. It does not build source, inject runtime credentials or select an instance automatically. This makes the reviewed build artifact the container's input:
 
 ```sh
 pnpm build
 # Optional: supply --build-arg OCI_REVISION=<reviewed-commit> for traceability.
-docker build --platform linux/amd64 -t klisteni-web:local .
+docker build --platform linux/amd64 -f docker/b2c-web/Dockerfile -t klisteni-web:local .
 docker run --platform linux/amd64 --rm --read-only --tmpfs /tmp:rw,noexec,nosuid,size=32m \
   --cap-drop ALL --security-opt no-new-privileges \
   -p 127.0.0.1:8080:8080 klisteni-web:local
@@ -72,7 +80,7 @@ The smoke covers non-root startup, health, SPA fallback, asset headers, unavaila
 
 ## Build an instance explicitly
 
-Prepare your own public profile from `apps/web/instance-profile.example.json`. Everything in this JSON is public and will be embedded in the bundle; it must not contain database URLs, API tokens, passwords, private user lists or internal addresses. Keep the real file in your private operator workspace.
+Prepare your own public profile from `apps/b2c-web/instance-profile.example.json`. Everything in this JSON is public and will be embedded in the bundle; it must not contain database URLs, API tokens, passwords, private user lists or internal addresses. Keep the real file in your private operator workspace.
 
 ```sh
 VITE_APP_MODE=instance \
@@ -97,10 +105,10 @@ Release sequence:
 1. Validate the exact source/profile and build web/API artifacts; retain immutable image digests in your private release record.
 2. Verify your database, secret injection, ingress, network policy and capacity.
 3. If data already exists, make a protected recovery copy of this instance's database and prove restoration into a separate database.
-4. Execute `node apps/api/src/migrate.ts` with the intended API image and configuration. Migrations are explicit; API startup does not run them.
+4. Execute `node apps/b2c-api/src/migrate.ts` with the intended API image and configuration. Migrations are explicit; API startup does not run them.
 5. Promote the API, verify `/api/healthz` and `/api/readyz`, then promote the matching web.
 6. Check anonymous local use, account isolation, session recovery, invite/trial/lifetime behavior, expired-account export, and actual runtime readiness. Record observed results, not only CI success.
 
-Always finish migrations before starting API processes. If an API started against an empty or incomplete schema, restart it after migration: Better Auth caches a schema mismatch for that process. `/api/healthz` may remain 200 while `/api/readyz` returns 503 even after the tables exist. Readiness includes authentication availability, so a successfully migrated and restarted API must return 200 before receiving traffic. The PostgreSQL regression in `apps/api/tests/readiness.test.ts` covers this startup order.
+Always finish migrations before starting API processes. If an API started against an empty or incomplete schema, restart it after migration: Better Auth caches a schema mismatch for that process. `/api/healthz` may remain 200 while `/api/readyz` returns 503 even after the tables exist. Readiness includes authentication availability, so a successfully migrated and restarted API must return 200 before receiving traffic. The PostgreSQL regression in `apps/b2c-api/tests/readiness.test.ts` covers this startup order.
 
 A web rollback can use a compatible previous artifact while preserving the origin for browser-local data. An API downgrade does not undo a database migration and must preserve current JSON fields, including health data. For incompatible failures, stop instance writes and prefer a forward fix or restore into a separate database before changing the runtime connection. Do not restore over an existing database as a test or change unrelated services. See [recovery details](accounts.md#recovery).

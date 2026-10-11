@@ -18,7 +18,7 @@ import { createDefaultPersonalData, PersonalDataSchema } from '../packages/scene
 import { prepareCapture, captureSources, checkMedia, isolateCapture } from './capture-readme-context.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const webRoot = join(root, 'apps/web')
+const webRoot = join(root, 'apps/b2c-web')
 const output = join(root, 'docs/media')
 const { values } = parseArgs({ options: { port: { type: 'string', default: '4198' }, mode: { type: 'string', default: 'demo' }, check: { type: 'boolean', default: false }, 'no-gif': { type: 'boolean', default: false } } })
 const deployment = prepareCapture(root, values.mode)

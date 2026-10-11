@@ -28,7 +28,7 @@ No se certifica técnica, biomecánica, voz del sistema operativo ni rendimiento
 ## Capacidades adicionales
 
 - **Prescripción por tiempo y esfuerzo:** cada movimiento elige repeticiones o segundos. El RPE objetivo es opcional (1–10). La ejecución conserva sus segundos/repeticiones y RPE declarado por separado. Un registro completo exige todas las series con una cantidad positiva, no alcanzar exactamente la dosis prescrita. Las series deben conservar la unidad de la versión asignada. Los snapshots anteriores se decodifican con observaciones nuevas en `null`, sin reescribirlos; los reintentos anteriores se normalizan antes de compararlos.
-- **Entrada pública:** `/` y `/gimnasios` presentan B2B y permiten abrir el código del gimnasio; `/g/:slug` sigue siendo su website, `/app` el espacio del socio y `/backoffice/` el equipo. No se consulta la sesión desde la entrada pública ni se expone un directorio de organizaciones. B2C sigue siendo su propio build/origen.
+- **Entrada pública:** `/` y `/gimnasios` presentan B2B y permiten abrir el código del gimnasio; `/g/:slug` sigue siendo su website, `/app` el espacio del socio y `/manage` el equipo. No se consulta la sesión desde la entrada pública ni se expone un directorio de organizaciones. B2C sigue siendo su propio build/origen.
 - **Orientación:** galería, plano con coordenadas porcentuales y enlaces a unidades. Los puntos privados o retirados no aparecen en el plano público, aunque estuvieran en una publicación anterior. La lista textual funciona con teclado y si falla la imagen. Se puede asociar un GLB estático opcional de un sector; su autoría queda fuera del código.
 - **Voz y descanso:** lectura voluntaria de las instrucciones existentes, pausa, reanudación y detención. El cambio de lado sólo aparece cuando el contenido lo indica. Los descansos usan tiempo transcurrido, toleran pestañas en segundo plano y nunca marcan series. Las voces dependen del navegador/dispositivo; siempre quedan las instrucciones escritas. [Interfaz SpeechSynthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis).
 - **B2C educativo:** búsqueda conjunta de anatomía y yoga y enlaces contextuales de movilidad a fichas existentes. Conserva fuentes e instrucciones; consultar una ficha no guarda práctica ni cambia rutinas. El reloj visual de yoga conserva la velocidad elegida con frames lentos, excluye las pausas y vuelve a contar desde el reinicio o cambio de postura; sigue separado del tiempo de práctica registrado.
@@ -42,7 +42,7 @@ Instalar dependencias con el lockfile, Chromium y WebKit, y las dependencias de 
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @klisteniapp/web exec playwright install --with-deps chromium webkit
+pnpm --filter @klisteniapp/b2c-web exec playwright install --with-deps chromium webkit
 
 # URLs distintas de PostgreSQL desechable en un env privado:
 # TEST_DATABASE_URL y B2B_TEST_DATABASE_URL
@@ -53,7 +53,7 @@ node --env-file=/ruta/privada/verification.env --run check:release
 
 Ese comando conserva el control completo de previews para cuando se retome el contenido. En el cierre actual se ejecutan por separado las comprobaciones de código y runtime, omitiendo únicamente la regeneración y validación diferidas de previews. Sus resultados no se presentan como una ejecución completa de `pnpm check` o `pnpm check:release`.
 
-Para trabajar sólo B2B: `pnpm build:b2b`, `pnpm test:b2b:api` y `pnpm test:b2b:e2e` con la variable de test preparada. Los resultados y trazas locales quedan en `.cache/b2b/`; las seis imágenes estables de comparación se versionan bajo `apps/web/e2e/snapshots/b2b/`. Regenerar baselines sólo después de revisar visualmente los cambios. La CI mantiene su ejecución pesada optativa y publica el reporte cuando se ejecuta la matriz.
+Para trabajar sólo B2B: `pnpm build:b2b`, `pnpm test:b2b:api` y `pnpm test:b2b:e2e` con la variable de test preparada. Los resultados y trazas locales quedan en `.cache/b2b/`; las seis imágenes estables de comparación se versionan bajo `apps/b2c-web/e2e/snapshots/b2b/`. Regenerar baselines sólo después de revisar visualmente los cambios. La CI mantiene su ejecución pesada optativa y publica el reporte cuando se ejecuta la matriz.
 
 El [smoke de producción](b2b-runtime-validation.md) construye las imágenes reales y comprueba sesiones HTTPS, procesos sin root, base con permisos limitados, publicación, reinicio y restauración en una instancia desechable independiente. Su [evidencia del 11 de octubre](validation/b2b-runtime-2026-10-11.json) registra imágenes, resultados y limpieza. `/readyz` verifica también el estado de autenticación: si la API arrancó antes de migrar, conserva el estado no disponible hasta reiniciarla. El orden operativo es migrar y después arrancar/recrear la API.
 

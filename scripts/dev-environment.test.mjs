@@ -8,15 +8,15 @@ import { setupDev } from './dev-environment.mjs';
 function fixture(t) {
   const directory = mkdtempSync(join(tmpdir(), 'klisteni-dev-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
-  for (const app of ['api', 'b2b-api', 'web']) mkdirSync(join(directory, 'apps', app), { recursive: true });
+  for (const app of ['b2c-api', 'b2b-api', 'b2c-web']) mkdirSync(join(directory, 'apps', app), { recursive: true });
   return directory;
 }
 
 test('repeated setup preserves credentials and uses independent private local databases', t => {
   const directory = fixture(t);
   const first = setupDev(directory);
-  const files = ['.env', 'apps/api/.env.development.local', 'apps/b2b-api/.env.development.local',
-    'apps/web/.env.development.local', '.cache/dev/b2c-login.private.json', '.cache/dev/b2b-password.env'];
+  const files = ['.env', 'apps/b2c-api/.env.development.local', 'apps/b2b-api/.env.development.local',
+    'apps/b2c-web/.env.development.local', '.cache/dev/b2c-login.private.json', '.cache/dev/b2b-password.env'];
   const before = files.map(file => readFileSync(join(directory, file), 'utf8'));
   assert.deepEqual(setupDev(directory), first);
   assert.deepEqual(files.map(file => readFileSync(join(directory, file), 'utf8')), before);
@@ -29,7 +29,7 @@ test('repeated setup preserves credentials and uses independent private local da
 test('setup refuses conflicting API configuration without overwriting or exposing it', t => {
   const directory = fixture(t);
   setupDev(directory);
-  const path = join(directory, 'apps/api/.env.development.local');
+  const path = join(directory, 'apps/b2c-api/.env.development.local');
   const value = 'DATABASE_URL=postgresql://private-user:private-password@remote.example/live\n';
   writeFileSync(path, value);
   assert.throws(() => setupDev(directory), error => {
@@ -47,7 +47,7 @@ test('setup preserves an unrelated root .env and existing API .env', t => {
   assert.throws(() => setupDev(directory), /existing settings were preserved/);
   assert.equal(readFileSync(path, 'utf8'), 'UNRELATED_SETTING=preserve-me\n');
   rmSync(path);
-  const apiPath = join(directory, 'apps/api/.env');
+  const apiPath = join(directory, 'apps/b2c-api/.env');
   writeFileSync(apiPath, 'DATABASE_URL=postgresql://remote.example/live\n');
   setupDev(directory);
   assert.equal(readFileSync(apiPath, 'utf8'), 'DATABASE_URL=postgresql://remote.example/live\n');

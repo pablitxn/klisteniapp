@@ -1,0 +1,29 @@
+# Docker uses this file instead of .dockerignore for -f docker/b2c-api/Dockerfile.
+# Kaniko integrations must also allow these paths in the root .dockerignore.
+**
+!docker/
+!docker/b2c-api/
+!docker/b2c-api/Dockerfile
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!apps/
+!apps/b2c-api/
+!apps/b2c-api/package.json
+!apps/b2c-api/src/
+!apps/b2c-api/src/**
+!apps/b2c-web/
+!apps/b2c-web/package.json
+!packages/
+!packages/scene-schema/
+!packages/scene-schema/package.json
+!packages/scene-schema/src/
+!packages/scene-schema/src/**
+!packages/geometry/
+!packages/geometry/package.json
+!packages/catalog-base/
+!packages/catalog-base/package.json
+!packages/anatomy-viewer/
+!packages/anatomy-viewer/package.json
+!packages/model-assets/
+!packages/model-assets/package.json

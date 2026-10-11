@@ -36,7 +36,7 @@ Para un futuro adaptador de Samsung se necesita una muestra reducida y anonimiza
 
 ## Formato normalizado soportado
 
-La implementación es [health-import.ts](../apps/web/src/lib/health-import.ts); los rangos y tipos compartidos están en [health.ts](../packages/scene-schema/src/health.ts). El formato requiere todos estos campos:
+La implementación es [health-import.ts](../apps/b2c-web/src/lib/health-import.ts); los rangos y tipos compartidos están en [health.ts](../packages/scene-schema/src/health.ts). El formato requiere todos estos campos:
 
 ```json
 {
@@ -135,7 +135,7 @@ El puente debe conservar IDs y origen de aplicación, paginar lecturas, converti
 Para validar un adaptador hace falta probarlo con un teléfono y datos autorizados reales. Los tests actuales prueban el contrato normalizado, sus límites, el rechazo atómico y la deduplicación; no acreditan conexión a un reloj, exactitud de sus sensores ni fidelidad de un formato de Samsung aún no inspeccionado.
 
 ```sh
-node --test apps/web/test/health-import.test.ts
+node --test apps/b2c-web/test/health-import.test.ts
 ```
 
 ## Verificación reproducible
@@ -143,14 +143,14 @@ node --test apps/web/test/health-import.test.ts
 ```sh
 # Validación del dominio y el contrato de intercambio
 pnpm --filter @klisteniapp/scene-schema test
-pnpm --filter @klisteniapp/web exec node --test test/health-store.test.ts test/health-import.test.ts test/account-api.test.ts
+pnpm --filter @klisteniapp/b2c-web exec node --test test/health-store.test.ts test/health-import.test.ts test/account-api.test.ts
 
 # Formularios, objetivos, importación, conflictos y vista móvil en puerto 43174
-pnpm --filter @klisteniapp/web exec playwright test --config playwright.health.config.ts
+pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.health.config.ts
 
 # Aislamiento de cuentas y persistencia real; requiere PostgreSQL descartable
 # TEST_DATABASE_URL debe estar configurado en el entorno, nunca apuntar a producción.
-pnpm --filter @klisteniapp/api exec node --test --test-concurrency=1 tests/*.test.ts
+pnpm --filter @klisteniapp/b2c-api exec node --test --test-concurrency=1 tests/*.test.ts
 pnpm test:accounts
 
 # Comprueba además que los datos de salud no llegan a la visita de analytics

@@ -58,7 +58,7 @@ try {
   if (reset) await run(process.execPath, ['apps/b2b-api/src/operator.ts', 'reset-demo', '--confirm-demo-reset'], { env, capture: true });
   const seed = await run(process.execPath, ['apps/b2b-api/src/operator.ts', 'seed-demo'], { env, capture: true });
   writeFileSync(resolve(root, '.cache/b2b/demo.private.json'), seed, { mode: 0o600 });
-  console.info('B2B: http://127.0.0.1:4200/g/atlas-demo · Backoffice: http://127.0.0.1:4200/backoffice/');
+  console.info('B2B: http://127.0.0.1:4200/g/atlas-demo · Gestión: http://127.0.0.1:4200/manage');
   console.info('Demo accounts are in .cache/b2b/demo.private.json; password is B2B_DEMO_PASSWORD in .cache/b2b/local.env.');
   if (!process.argv.includes('--prepare')) {
     const built = process.argv.includes('--built');
@@ -69,8 +69,7 @@ try {
     await new Promise((accept, reject) => { gateway.once('error', reject); gateway.listen(4200, '127.0.0.1', accept); });
     const servers = [run(process.execPath, ['apps/b2b-api/src/server.ts'], { env: runtime })];
     if (!built) {
-      servers.push(run('pnpm', ['--filter', '@klisteniapp/member-web', 'dev'], { env: runtime }));
-      servers.push(run('pnpm', ['--filter', '@klisteniapp/backoffice', 'dev'], { env: runtime }));
+      servers.push(run('pnpm', ['--filter', '@klisteniapp/b2b-web', 'dev'], { env: runtime }));
     }
     console.info('Ctrl-C stops B2B applications. Its local database and demo records remain available.');
     await Promise.race(servers);

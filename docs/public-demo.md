@@ -13,10 +13,10 @@ El modo predeterminado es `demo`. Para producir y servir una distribución está
 
 ```sh
 pnpm build:demo
-pnpm --filter @klisteniapp/web preview --host 127.0.0.1
+pnpm --filter @klisteniapp/b2c-web preview --host 127.0.0.1
 ```
 
-El resultado está en `apps/web/dist`. Publicá **esa carpeta**, con fallback SPA a `index.html`, incluidos sus modelos, previews y avisos de licencia. No publiques todo el checkout ni los archivos `.env`, directorios de pruebas o evidencias operativas. Para desplegar bajo un subdirectorio hay que configurar también el enrutamiento; el ejemplo está preparado para la raíz del sitio.
+El resultado está en `apps/b2c-web/dist`. Publicá **esa carpeta**, con fallback SPA a `index.html`, incluidos sus modelos, previews y avisos de licencia. No publiques todo el checkout ni los archivos `.env`, directorios de pruebas o evidencias operativas. Para desplegar bajo un subdirectorio hay que configurar también el enrutamiento; el ejemplo está preparado para la raíz del sitio.
 
 `/privacy` funciona directamente como ruta estática sin backend. No existe service worker: poder usar los datos localmente no implica que la web pueda arrancar sin conexión antes de descargar sus archivos.
 
@@ -47,9 +47,9 @@ El modo se decide **durante la compilación**. No se activa una cuenta por encon
 
 ## Configurar una instancia
 
-El servidor genérico continúa en `apps/api`; cada operador instala su base, genera secretos, crea sus usuarios y decide sus políticas. Seguí [cuentas](accounts.md) y [despliegue](deployment.md). No hay dependencias de una instalación particular.
+El servidor genérico continúa en `apps/b2c-api`; cada operador instala su base, genera secretos, crea sus usuarios y decide sus políticas. Seguí [cuentas](accounts.md) y [despliegue](deployment.md). No hay dependencias de una instalación particular.
 
-Creá un archivo fuera del repositorio a partir de `apps/web/instance-profile.example.json`, y reemplazá **todos** los campos de ejemplo. Contiene información pública, no credenciales: identidad y contacto del operador, hosting, procesamiento de correo, conservación de cuenta, backups, logs y analytics, y fecha de actualización. Se valida al construir y se muestra como texto en Privacidad sin consultar la API.
+Creá un archivo fuera del repositorio a partir de `apps/b2c-web/instance-profile.example.json`, y reemplazá **todos** los campos de ejemplo. Contiene información pública, no credenciales: identidad y contacto del operador, hosting, procesamiento de correo, conservación de cuenta, backups, logs y analytics, y fecha de actualización. Se valida al construir y se muestra como texto en Privacidad sin consultar la API.
 
 ```sh
 export KLISTENI_PUBLIC_PROFILE_FILE=/absolute/path/to/public-profile.json
@@ -69,7 +69,7 @@ La compilación no habilita Mercado Pago, correo, OAuth ni integraciones por sí
 pnpm check
 node scripts/audit-publication.mjs --self-test
 pnpm audit:publication
-pnpm --filter @klisteniapp/web exec playwright install chromium
+pnpm --filter @klisteniapp/b2c-web exec playwright install chromium
 pnpm test:e2e
 ```
 

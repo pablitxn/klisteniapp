@@ -52,7 +52,7 @@ export function setupDev(directory = root) {
     VITE_APP_MODE: 'instance', KLISTENI_PUBLIC_PROFILE_FILE: './instance-profile.example.json',
     KLISTENI_API_URL: 'http://127.0.0.1:3001',
   };
-  for (const [app, expected] of [['api', b2c], ['b2b-api', b2b], ['web', web]]) {
+  for (const [app, expected] of [['b2c-api', b2c], ['b2b-api', b2b], ['b2c-web', web]]) {
     const path = resolve(directory, `apps/${app}/.env.development.local`);
     createPrivate(path, envText(expected));
     const actual = parseEnv(readFileSync(path, 'utf8'));

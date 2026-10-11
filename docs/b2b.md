@@ -1,6 +1,6 @@
 # Producto B2B: catálogo y preparación del gimnasio
 
-El producto de gimnasios usa API, PostgreSQL, credenciales y sesiones propios. El producto individual conserva `apps/web`, `apps/api`, sus identificadores, suscripciones y almacenamiento. La reutilización ocurre mediante paquetes de código y recursos estáticos; B2B no lee la base B2C ni necesita llamar a su API o servir archivos desde su dominio.
+El producto de gimnasios usa API, PostgreSQL, credenciales y sesiones propios. El producto individual conserva `apps/b2c-web`, `apps/b2c-api`, sus identificadores, suscripciones y almacenamiento. La reutilización ocurre mediante paquetes de código y recursos estáticos; B2B no lee la base B2C ni necesita llamar a su API o servir archivos desde su dominio.
 
 Para el orden de próximas entregas, la producción 3D y el ciclo de diseño y prueba de UI, consultar el [roadmap de implementación](roadmap-implementacion.md). Esta guía describe el comportamiento y la operación actuales.
 
@@ -16,11 +16,11 @@ La entrega implementada está definida en [Marca blanca B2B](b2b-white-label.md)
 
 ```mermaid
 flowchart TB
-  Catalog["catalog-base · ejercicios y planificación"] --> B2C["apps/web · B2C"]
+  Catalog["catalog-base · ejercicios y planificación"] --> B2C["apps/b2c-web · B2C"]
   Viewer["anatomy-viewer + model-assets"] --> B2C
   Catalog --> Business["apps/b2b-api"]
-  Viewer --> Member["apps/member-web · socio y website"]
-  Viewer --> Office["apps/backoffice"]
+  Viewer --> Member["apps/b2b-web · socio y website"]
+  Viewer --> Office["apps/b2b-web · gestión del gimnasio"]
   Contracts["b2b-contracts · contratos por dominio"] --> Domain["b2b-domain · reglas puras"]
   Contracts --> Client["b2b-client · HTTP"]
   Client --> React["b2b-react · sesión y cargas"]
@@ -33,7 +33,7 @@ flowchart TB
   Member --> Business
   Office --> Business
   Business --> BDB[(PostgreSQL B2B)]
-  B2C --> API["apps/api · B2C"]
+  B2C --> API["apps/b2c-api · B2C"]
   API --> CDB[(PostgreSQL B2C)]
 ```
 
@@ -48,10 +48,10 @@ flowchart TB
 | `packages/b2b-react` | Contexto de cuenta, sesión y cargas cancelables. Depende del cliente y contratos; no contiene componentes visuales. |
 | `packages/b2b-ui` | Marca, controles, login con acción inyectada y estilos. El subpath `/content` comparte medios y visores opcionales sin cargarlos desde el entrypoint principal. |
 | `apps/b2b-api` | Organización, membresías, permisos, catálogo local, asignaciones y registros. |
-| `apps/member-web` | Website y QR públicos; entrenamiento e historial del socio autenticado. |
-| `apps/backoffice` | Personas, catálogo, equipo físico, prescripción, seguimiento e identidad. |
+| `apps/b2b-web` | Website y QR públicos; entrenamiento e historial del socio; gestión del gimnasio en `/manage`. |
+| `apps/b2b-web/src/features/*` | Personas, catálogo, equipo físico, prescripción, seguimiento e identidad. |
 
-Los archivos anteriores de catálogo y visor en `apps/web/src` quedan como adaptadores de compatibilidad. No se extraen el store personal, billing, onboarding ni sincronización B2C: sus comportamientos son distintos del entrenamiento prescrito. Cada cambio compartido debe pasar los checks B2C; una migración B2B sólo se ejecuta sobre su base.
+Los archivos anteriores de catálogo y visor en `apps/b2c-web/src` quedan como adaptadores de compatibilidad. No se extraen el store personal, billing, onboarding ni sincronización B2C: sus comportamientos son distintos del entrenamiento prescrito. Cada cambio compartido debe pasar los checks B2C; una migración B2B sólo se ejecuta sobre su base.
 
 `pnpm check:b2b:boundaries`, incluido en `pnpm lint`, comprueba las capas B2B, sus exports, dependencias declaradas y ciclos. Los consumidores importan entrypoints públicos; los imports relativos se mantienen dentro del mismo workspace. Las reglas de dominio no acceden al navegador ni a Node, y la UI no importa el cliente o los hooks de sesión.
 
@@ -76,7 +76,7 @@ Las referencias anatómicas conservan su procedencia y avisos originales. La atr
 
 La sesión B2B identifica una cuenta y la membresía determina su rol dentro de cada organización. El servidor verifica organización, rol, asignación del profesor y estado del servicio; no confía en la navegación o en un ID enviado por el cliente. Las mutaciones requieren origen exacto y guardia de cuenta para rechazar pestañas de una sesión anterior. El último administrador activo no puede deshabilitarse por accidente. B2C no se vuelve visible por tener una membresía B2B.
 
-## Preparar un gimnasio desde el backoffice
+## Preparar un gimnasio desde la gestión del gimnasio
 
 La preparación reúne identidad, inventario, contenido, actividades, horarios, galería y publicación del website. El progreso se calcula desde los datos guardados, por lo que se conserva al recargar y al cambiar de dispositivo.
 
@@ -90,7 +90,7 @@ Antes de pegar las etiquetas, probarlas desde el teléfono con la dirección acc
 
 ## Biblioteca de archivos
 
-El backoffice permite subir un archivo una vez y seleccionarlo después desde la biblioteca del gimnasio para ejercicios, modelos, unidades o galería. También conserva la opción de referencias externas por URL.
+La gestión del gimnasio permite subir un archivo una vez y seleccionarlo después desde la biblioteca del gimnasio para ejercicios, modelos, unidades o galería. También conserva la opción de referencias externas por URL.
 
 | Tipo | Formatos | Máximo por archivo |
 | --- | --- | --- |
@@ -120,9 +120,9 @@ El comando genera `.cache/b2b/local.env` privado, levanta sólo el PostgreSQL B2
 | Website Atlas | `http://127.0.0.1:4200/g/atlas-demo` |
 | Website Sur | `http://127.0.0.1:4200/g/sur-demo` |
 | Socio | `http://127.0.0.1:4200/app` |
-| Backoffice | `http://127.0.0.1:4200/backoffice/` |
+| Gestión del gimnasio | `http://127.0.0.1:4200/manage` |
 
-API interna: puerto 4201; Vite socio: 4210; Vite backoffice: 4211. El navegador usa siempre el origen 4200. Las cuentas ficticias se listan en `.cache/b2b/demo.private.json`; la contraseña generada está en `B2B_DEMO_PASSWORD` dentro del env privado. Hay admin, coach y member por gimnasio (`admin@atlas.example.test`, `coach@atlas.example.test`, `member@atlas.example.test` y equivalentes `sur`). No se publican secretos en el repositorio.
+API interna: puerto 4201; Vite B2B: 4210 para socios y gestión del gimnasio. El navegador usa siempre el origen 4200. Las cuentas ficticias se listan en `.cache/b2b/demo.private.json`; la contraseña generada está en `B2B_DEMO_PASSWORD` dentro del env privado. Hay admin, coach y member por gimnasio (`admin@atlas.example.test`, `coach@atlas.example.test`, `member@atlas.example.test` y equivalentes `sur`). No se publican secretos en el repositorio.
 
 ```sh
 pnpm prepare:b2b                          # preparar DB sin iniciar aplicaciones
@@ -155,7 +155,7 @@ Si la API llegó a iniciarse contra un esquema vacío o incompleto, reiniciarla 
 
 La lectura de datos históricos es compatible en el código nuevo: los campos ausentes de duración, RPE, plano y modelo espacial se completan con `null`, sin reescribir snapshots publicados. Esto no garantiza compatibilidad entre versiones del protocolo. Los parsers anteriores de programas, ejecuciones y sitio web usan Zod `.strict()` y rechazan campos desconocidos incluso cuando valen `null`; además, las prescripciones por tiempo usan `reps: null`, que antes no era válido. La API nueva agrega esos campos al leer filas antiguas, por lo que un frontend anterior puede mostrar `INVALID_RESPONSE` inmediatamente, aunque nadie haya usado todavía las funciones nuevas. A la inversa, el frontend nuevo envía estos campos y la API anterior puede rechazar sus escrituras.
 
-Actualizar `b2b-api` y la imagen `web` que contiene **ambos frontend**, miembro y backoffice, como una misma entrega:
+Actualizar `b2b-api` y la imagen `web` que contiene **un frontend B2B**, con las secciones de socio y gestión del gimnasio, como una misma entrega:
 
 1. Preparar las imágenes de una misma revisión y registrar sus IDs. Coordinar una ventana de actualización y detener escrituras antes de tomar el respaldo consistente de PostgreSQL y medios; probar su restauración en recursos separados.
 2. Con el acceso público temporalmente en mantenimiento, ejecutar las migraciones con la imagen nueva y después iniciar o recrear `b2b-api`. Verificar liveness y readiness sin exponer una combinación de API nueva y frontend anterior.
@@ -166,7 +166,7 @@ Guardar o publicar con esta versión puede persistir los campos nuevos en borrad
 
 ### Operación de la instancia
 
-Operaciones CLI: `apps/b2b-api/src/operator.ts` permite `bootstrap` (primer administrador y gimnasio), `create-organization` (siguiente gimnasio), `service-access`, `seed-demo` y `reset-demo`. Las tres primeras funcionan con el rol runtime y no ejecutan DDL. El operador controla acceso al servicio por gimnasio; no se implementa cobro automático B2B. Las invitaciones se copian desde el backoffice para entregar al destinatario; esta versión no configura un proveedor de correo.
+Operaciones CLI: `apps/b2b-api/src/operator.ts` permite `bootstrap` (primer administrador y gimnasio), `create-organization` (siguiente gimnasio), `service-access`, `seed-demo` y `reset-demo`. Las tres primeras funcionan con el rol runtime y no ejecutan DDL. El operador controla acceso al servicio por gimnasio; no se implementa cobro automático B2B. Las invitaciones se copian desde la gestión del gimnasio para entregar al destinatario; esta versión no configura un proveedor de correo.
 
 Preparar `.env.b2b-operator` como archivo privado, con permisos `0600` y legible por el usuario del contenedor (UID 1000 en esta imagen). No incluirlo en Git. El contenedor ya recibe base, secreto de sesión y origen del Compose; este archivo aporta sólo los parámetros de la operación:
 
@@ -222,7 +222,7 @@ Restaurar primero en una base vacía separada con `pg_restore --no-owner --no-ac
 
 Para las pruebas de integración, exportar `TEST_DATABASE_URL` para B2C y `B2B_TEST_DATABASE_URL` para B2B, apuntando a bases de prueba desechables. El usuario de prueba debe poder crear schemas. El navegador B2B exige que el nombre de la base incluya `b2b` y `test` (por ejemplo, `klisteni_b2b_test`) y que la URL no incluya el parámetro `options`: el runner administra su propio schema. Estos permisos de prueba son distintos de los del rol runtime de una instancia.
 
-Instalar Chromium y WebKit con `pnpm --filter @klisteniapp/web exec playwright install --with-deps chromium webkit`. Ejecutar las suites de navegador en serie para evitar competir por los builds y recursos gráficos. La [matriz](b2b-browser-validation.md) cubre escritorio, táctil y comparaciones visuales; `pnpm check:release` exige ambas bases y reúne las comprobaciones completas.
+Instalar Chromium y WebKit con `pnpm --filter @klisteniapp/b2c-web exec playwright install --with-deps chromium webkit`. Ejecutar las suites de navegador en serie para evitar competir por los builds y recursos gráficos. La [matriz](b2b-browser-validation.md) cubre escritorio, táctil y comparaciones visuales; `pnpm check:release` exige ambas bases y reúne las comprobaciones completas.
 
 ```sh
 pnpm check

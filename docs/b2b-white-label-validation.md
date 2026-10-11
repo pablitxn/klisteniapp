@@ -52,7 +52,7 @@ La aceptación combina recorridos UI en los tres motores, peticiones HTTP reales
 
 Capturas revisadas de Chromium táctil: [Atlas](validation/b2b-white-label-atlas-touch.png) y [Sur](validation/b2b-white-label-sur-touch.png), misma superficie y datos sintéticos, con tipografía, geometría y paleta distintas. Las tablas anchas conservan desplazamiento horizontal.
 
-Fuentes: [API](../apps/b2b-api/tests/), [E2E de dominios](../apps/web/e2e/white-label.spec.ts), [E2E de flujo](../apps/web/e2e/white-label-workflow.spec.ts), [gateway](../scripts/b2b-gateway.test.mjs), [sesión](../packages/b2b-react/tests/session-controller.test.ts).
+Fuentes: [API](../apps/b2b-api/tests/), [E2E de dominios](../apps/b2c-web/e2e/white-label.spec.ts), [E2E de flujo](../apps/b2c-web/e2e/white-label-workflow.spec.ts), [gateway](../scripts/b2b-gateway.test.mjs), [sesión](../packages/b2b-react/tests/session-controller.test.ts).
 
 ## Ejecuciones y comandos
 
@@ -75,8 +75,8 @@ Los comandos de navegador usan `B2B_TEST_DATABASE_URL` exclusivamente de pruebas
 
 ```sh
 node scripts/b2b-wl-tls.mjs
-node --env-file=.cache/wl/test.env apps/web/node_modules/@playwright/test/cli.js test \
-  --config apps/web/playwright.white-label.config.ts
+node --env-file=.cache/wl/test.env apps/b2c-web/node_modules/@playwright/test/cli.js test \
+  --config apps/b2c-web/playwright.white-label.config.ts
 # En hosts limitados, agregar --project=wl-chromium-desktop,
 # --project=wl-chromium-touch o --project=wl-webkit-touch y ejecutar en serie.
 # Preparar/retirar antes/después la CA de WebKit según la guía de operación.

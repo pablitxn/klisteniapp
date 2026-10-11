@@ -1,0 +1,153 @@
+# Fork-friendly validation only. No registry credentials, publishing or deploys.
+# Untagged runners by default; a project variable can opt into one runner tag.
+include:
+  - local: .gitlab/runner.yml
+    rules:
+      - if: '$KLISTENI_CI_RUNNER_TAG'
+
+stages: [quality, browser, integration]
+
+default:
+  interruptible: true
+  retry:
+    max: 1
+    when: runner_system_failure
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+variables:
+  PNPM_STORE_DIR: .pnpm-store
+  VITE_APP_MODE: demo
+  KLISTENI_PUBLIC_PROFILE_FILE: ""
+  VITE_UMAMI_SCRIPT_URL: ""
+  VITE_UMAMI_HOST_URL: ""
+  VITE_UMAMI_WEBSITE_ID: ""
+  VITE_UMAMI_ALLOWED_HOSTNAME: ""
+  RUN_BROWSER_TESTS:
+    value: "false"
+    options: ["false", "true"]
+    description: "Opt in to Playwright/WebGL and analytics tests from New pipeline. Requires runner capacity."
+  RUN_API_INTEGRATION_TESTS:
+    value: "false"
+    options: ["false", "true"]
+    description: "Opt in to disposable PostgreSQL and account browser tests from New pipeline."
+  RUN_B2B_INTEGRATION_TESTS:
+    value: "false"
+    options: ["false", "true"]
+    description: "Opt in to isolated B2B PostgreSQL, tenancy and member/backoffice browser tests."
+
+.install:
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@12.7.0 --activate
+    - pnpm config set store-dir "$CI_PROJECT_DIR/$PNPM_STORE_DIR"
+    - pnpm install --frozen-lockfile --ignore-scripts
+  cache:
+    key:
+      files: [pnpm-lock.yaml]
+    paths: [.pnpm-store]
+
+quality:
+  extends: .install
+  stage: quality
+  image: node:24-bookworm@sha256:5a750d3be5e5c80275f8c9a5367c3aed99c2875656590c8d0701c7ee687f5f0a
+  variables:
+    # Type-aware lint across ten packages exhausted the shared runner's memory.
+    # Serialize workspace tasks while preserving every validation gate.
+    TURBO_CONCURRENCY: "1"
+    # The web typecheck also needs more heap than Node gets under a 1 GiB limit.
+    # This job override stays within the runner's existing 2 GiB allowance.
+    KUBERNETES_MEMORY_LIMIT: "2Gi"
+  script:
+    - unset TEST_DATABASE_URL DATABASE_URL BETTER_AUTH_SECRET B2B_TEST_DATABASE_URL B2B_DATABASE_URL B2B_AUTH_SECRET
+    - pnpm lint
+    - pnpm typecheck
+    - pnpm test
+    - pnpm previews:check
+    - node scripts/validate-anatomy.mjs
+    - pnpm build
+    - node scripts/audit-publication.mjs --self-test
+    - node scripts/audit-publication.mjs --dist apps/b2c-web/dist
+    - test -s apps/b2c-web/dist/index.html
+  artifacts:
+    name: "demo-${CI_COMMIT_SHA}"
+    paths: [apps/b2c-web/dist/]
+    expire_in: 7 days
+
+# Heavy suites only run after an explicit opt-in in a manually created pipeline.
+# A project/group variable must not enable them on every push or scheduled run.
+# Share one resource group so concurrent manual pipelines cannot overlap them.
+browser-tests:
+  extends: .install
+  stage: browser
+  resource_group: klisteni-heavy-validation
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $RUN_BROWSER_TESTS == "true"'
+  image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
+  needs:
+    - job: quality
+      artifacts: false
+  script:
+    - unset TEST_DATABASE_URL DATABASE_URL BETTER_AUTH_SECRET
+    - pnpm --filter @klisteniapp/b2c-web exec playwright test --workers=1
+    - pnpm test:analytics
+  artifacts:
+    when: on_failure
+    paths: [apps/b2c-web/test-results/, apps/b2c-web/analytics-test-results/]
+    expire_in: 7 days
+
+# Opt in from New pipeline -> Variables: RUN_API_INTEGRATION_TESTS=true.
+# This service is disposable and isolated to the job. Never override its URL
+# with a deployed database or add operator secrets to the public project.
+api-integration-tests:
+  extends: .install
+  stage: integration
+  resource_group: klisteni-heavy-validation
+  image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $RUN_API_INTEGRATION_TESTS == "true"'
+  services:
+    - name: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+      alias: postgres
+  variables:
+    POSTGRES_USER: klisteni_test
+    POSTGRES_PASSWORD: disposable_ci_only
+    POSTGRES_DB: klisteni_test
+    TEST_DATABASE_URL: postgres://klisteni_test:disposable_ci_only@postgres:5432/klisteni_test
+  script:
+    - pnpm test:api
+    - pnpm test:accounts
+  artifacts:
+    when: on_failure
+    paths: [apps/b2c-web/accounts-test-results/]
+    expire_in: 7 days
+
+b2b-integration-tests:
+  extends: .install
+  stage: integration
+  resource_group: klisteni-heavy-validation
+  image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:bc6ab0d6d44ff4826e4cb8c1e6d801e185bfc42bb0753f8e2a30efc70db054c7
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $RUN_B2B_INTEGRATION_TESTS == "true"'
+  services:
+    - name: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+      alias: postgres
+  variables:
+    POSTGRES_USER: klisteni_b2b_test
+    POSTGRES_PASSWORD: disposable_b2b_ci_only
+    POSTGRES_DB: klisteni_b2b_test
+    B2B_TEST_DATABASE_URL: postgres://klisteni_b2b_test:disposable_b2b_ci_only@postgres:5432/klisteni_b2b_test
+  script:
+    - unset DATABASE_URL TEST_DATABASE_URL BETTER_AUTH_SECRET B2B_DATABASE_URL B2B_AUTH_SECRET
+    - pnpm test:b2b:api
+    - pnpm test:b2b:e2e
+  artifacts:
+    when: always
+    paths: [apps/b2c-web/b2b-test-results/, apps/b2c-web/b2b-report/]
+    expire_in: 7 days

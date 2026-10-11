@@ -10,7 +10,7 @@ import { normalizeDomainHost } from '../apps/b2b-api/src/domain-context.ts';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.glb': 'model/gltf-binary', '.gltf': 'model/gltf+json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webm': 'video/webm', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.mp4': 'video/mp4', '.woff2': 'font/woff2' };
 
-export function createGateway({ apiPort = 4201, memberPort = 4210, backofficePort = 4211, built = false,
+export function createGateway({ apiPort = 4201, webPort = 4210, built = false,
   whiteLabel = process.env.B2B_WHITE_LABEL === 'true', proxySecret = process.env.B2B_PROXY_SECRET,
   domainProtocol = process.env.B2B_DOMAIN_PROTOCOL ?? 'https', tls } = {}) {
   if (whiteLabel && (!proxySecret || !/^[a-zA-Z0-9_-]{32,256}$/.test(proxySecret))) throw new Error('White-label gateway requires B2B_PROXY_SECRET');
@@ -77,13 +77,12 @@ export function createGateway({ apiPort = 4201, memberPort = 4210, backofficePor
     // Authorize document entry before serving any brand SPA. Queries/fragments
     // are handled by the canonical redirect policy in the API.
     if (whiteLabel && ['GET', 'HEAD'].includes(request.method ?? '') && !extname(pathname) &&
-      !pathname.includes('__backoffice_hmr') && !await domainEntry(request, response)) return;
-    const backoffice = pathname === '/backoffice' || pathname.startsWith('/backoffice/') || pathname.includes('__backoffice_hmr');
-    if (!built) { proxy(request, response, backoffice ? backofficePort : memberPort); return; }
+      !pathname.includes('__b2b_hmr') && !await domainEntry(request, response)) return;
+    if (!built) { proxy(request, response, webPort); return; }
     if (!['GET', 'HEAD'].includes(request.method ?? '')) { response.writeHead(405); response.end(); return; }
-    const directory = resolve(root, backoffice ? 'apps/backoffice/dist' : 'apps/member-web/dist');
+    const directory = resolve(root, 'apps/b2b-web/dist');
     let relative;
-    try { relative = decodeURIComponent(backoffice ? pathname.replace(/^\/backoffice\/?/, '') : pathname.slice(1)); }
+    try { relative = decodeURIComponent(pathname.slice(1)); }
     catch { response.writeHead(400); response.end(); return; }
     if (relative.includes('\0') || relative.split('/').some(part => part.startsWith('.'))) { response.writeHead(404); response.end(); return; }
     let filename = resolve(directory, relative || 'index.html');
@@ -101,7 +100,7 @@ export function createGateway({ apiPort = 4201, memberPort = 4210, backofficePor
   const server = tls ? https.createServer(tls, handler) : http.createServer(handler);
   server.on('upgrade', (request, socket, head) => {
     if (built) { socket.destroy(); return; }
-    const port = request.url?.includes('__backoffice_hmr') || request.url?.startsWith('/backoffice/') ? backofficePort : memberPort;
+    const port = webPort;
     const upstream = http.request({ hostname: '127.0.0.1', port, path: request.url, headers: forwardedHeaders(request, port) });
     upstream.on('upgrade', (response, connection, upstreamHead) => {
       socket.write(`HTTP/1.1 ${response.statusCode} ${response.statusMessage}\r\n${Object.entries(response.headers).map(([key, value]) => `${key}: ${value}`).join('\r\n')}\r\n\r\n`);

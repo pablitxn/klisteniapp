@@ -1,9 +1,10 @@
 # Static runtime context: no source env files, operator files or credentials.
 **
-!Dockerfile
 !docker/
+!docker/b2c-web/
+!docker/b2c-web/Dockerfile
 !docker/nginx.conf
 !apps/
-!apps/web/
-!apps/web/dist/
-!apps/web/dist/**
+!apps/b2c-web/
+!apps/b2c-web/dist/
+!apps/b2c-web/dist/**

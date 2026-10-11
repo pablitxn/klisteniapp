@@ -13,7 +13,7 @@ const fixtureLock = `lockfileVersion: '9.0'
 
 importers:
 
-  apps/web:
+  apps/b2c-web:
     dependencies:
       renderer:
         specifier: 1.0.0

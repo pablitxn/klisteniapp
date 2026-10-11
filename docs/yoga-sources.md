@@ -1,6 +1,6 @@
 # Biblioteca de yoga: criterio editorial y fuentes
 
-Revisión: 7 de octubre de 2026. El catálogo está en `apps/web/src/data/yoga.ts`: 24 asanas y tres propuestas de práctica editables, con nombres buscables en español, sánscrito transliterado e inglés.
+Revisión: 7 de octubre de 2026. El catálogo está en `apps/b2c-web/src/data/yoga.ts`: 24 asanas y tres propuestas de práctica editables, con nombres buscables en español, sánscrito transliterado e inglés.
 
 ## Alcance y criterio
 
@@ -59,7 +59,7 @@ Las páginas de Yoga Journal incluyen enseñanza de docentes, variaciones y, en 
 
 ## Verificación del catálogo
 
-`apps/web/test/yoga-catalog.test.ts` comprueba correspondencia con los IDs persistidos, unicidad, contenido imprescindible, resolución de fuentes, semántica de lateralidad, validación de las tres plantillas, equilibrio de lados, descanso final y coincidencia entre duración anunciada y segundos programados. No reemplaza una revisión por un docente de yoga ni una validación clínica.
+`apps/b2c-web/test/yoga-catalog.test.ts` comprueba correspondencia con los IDs persistidos, unicidad, contenido imprescindible, resolución de fuentes, semántica de lateralidad, validación de las tres plantillas, equilibrio de lados, descanso final y coincidencia entre duración anunciada y segundos programados. No reemplaza una revisión por un docente de yoga ni una validación clínica.
 
 ## Revisión visual del 8 de octubre de 2026
 

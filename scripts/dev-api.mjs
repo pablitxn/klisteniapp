@@ -11,4 +11,4 @@ for (const key of Object.keys(process.env)) {
 const env = { ...(product === 'b2c' ? local.b2c : local.b2b) };
 for (const key of ['B2B_MIGRATION_DATABASE_URL', 'B2B_DEMO_PASSWORD']) delete env[key];
 Object.assign(process.env, env);
-await import(product === 'b2c' ? '../apps/api/src/server.ts' : '../apps/b2b-api/src/server.ts');
+await import(product === 'b2c' ? '../apps/b2c-api/src/server.ts' : '../apps/b2b-api/src/server.ts');

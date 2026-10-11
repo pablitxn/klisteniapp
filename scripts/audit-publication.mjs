@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /** Read-only publication audit. Findings contain locations/categories, never values.
- * node scripts/audit-publication.mjs [--root .] [--dist apps/web/dist]
+ * node scripts/audit-publication.mjs [--root .] [--dist apps/b2c-web/dist]
  *   [--private-patterns /path/outside/repository/patterns.json] [--self-test]
  * Private pattern format: {tokens:[{category:"personal-name",value:"..."}],
  * patterns:[{category:"private-location",pattern:"...",flags:"i"}]}.
@@ -41,15 +41,30 @@ const sha256 = value => createHash('sha256').update(value).digest('hex')
 // Exact public fixtures/templates/copyright only. Hashes keep the detector's own source
 // free of credential-shaped values and operator-specific personal information.
 const approvedFixtures = new Map([
+  // Reviewed existing white-label fixtures, local URL interpolation templates,
+  // and the public Git SSH URI. Exact path/value hashes; no runtime credentials.
+  ["apps/b2b-api/tests/domain-context.test.ts:credential-assignment", ["b91f812a921115f4bfcfbeb5f819ed0cee2278cc2e253562b2261dafa6bc498a"]],
+  ["apps/b2b-api/tests/domain-lifecycle.test.ts:credential-assignment", ["977da9e3b79505abd81d87ebf2110feea22224a8e4e0d7ffe9ead5e86fbc62b2"]],
+  ["apps/b2b-api/tests/white-label-authorization.test.ts:credential-assignment", ["2f01e5826cf0894462132db738bb8ba1f431fd7c2152d28ccb076b29f1ec709e","4d44db012cef1bf94458ff7107a9165403edac77666c8a888bf360ffae29ef2b"]],
+  ["apps/b2b-api/tests/white-label-http.test.ts:credential-assignment", ["8fd93681239f52d4283b6f7602df4a7e9865b8d631de8593c9f379019f8c62e8","417ddc4439a45a18f500272618485d20a318b0508d415dcbf3780c6dafe51c79"]],
+  ["apps/b2c-web/e2e/white-label-workflow.spec.ts:credential-assignment", ["34548b044097f402bdf062ed7d2ce6491d76b462e868d562bad93803f1944610"]],
+  ["apps/b2c-web/e2e/white-label.spec.ts:credential-assignment", ["cb8bbe91f5af670dc3e33afbc1cccc74bad5c94fc687583f83cc750bebed9585"]],
+  ["docs/development-macos.md:personal-email", ["e19ba53c8b85018e931e590f528dc8f669dde64d95cdde83f11356f90875bbad"]],
+  ["scripts/b2b-gateway.test.mjs:credential-assignment", ["ef606c3af14e478e120777ee5c903890d2a87180878ce6f102bf1600bbbc182f"]],
+  ["scripts/b2b-wl-restore.mjs:credential-assignment", ["35e77ca7dbc4ace48806e0785ed3b0a8f7c98ab51077becb47f20779be101067"]],
+  ["scripts/b2b-wl-runtime-smoke.mjs:credential-assignment", ["fe3030147a374c427a46572e8e20ca3696821eedbfd4259f32825912dc1e4c54"]],
+  ["scripts/dev-environment.mjs:credential-url", ["434a26e1bf5d273bdb730cc36bfecc5ba54e65dd26d867e6cbbed6cad304de97","2c76b563d63b3a9aca11f257d2bb1255affc72164c69e459f0b561da162c4cc9","f1b3870f75e143f413a3d7ffc27fe78ff29302fdaf0702b12ad9aaa16382e264"]],
+  ["scripts/dev-environment.test.mjs:personal-email", ["841e3a35e72ec051a649c1e8216f7ee70f0300bc64fd8ce85dc7a7618c9528c9"]],
+  ["scripts/dev-environment.test.mjs:credential-url", ["ba208421c5ea5c28605cd222d12402e93eec9005994058a5fc167d35afbb31d2"]],
   [
-    ".gitlab-ci.yml:credential-url",
+    ".gitlab/pipeline.yml:credential-url",
     [
       "48ccffacf6fea106c8c6377968afa94fdff216da5505c7fc5ac44e2d0728225d",
       "3187c1f7c1548972d3be39c2c2256678f6272e63d663019711d195315f25e619"
     ]
   ],
   [
-    "apps/api/.env.example:credential-url",
+    "apps/b2c-api/.env.example:credential-url",
     [
       "478537ba773bf14447b01ebc4f10ff7962471d93ee02685decd0ed07112d7226"
     ]
@@ -74,17 +89,17 @@ const approvedFixtures = new Map([
     ]
   ],
   [
-    "apps/web/e2e/b2b.spec.ts:credential-assignment",
+    "apps/b2c-web/e2e/b2b.spec.ts:credential-assignment",
     [
       "cb8bbe91f5af670dc3e33afbc1cccc74bad5c94fc687583f83cc750bebed9585"
     ]
   ],
   [
-    "apps/web/e2e/b2b-accessibility.spec.ts:credential-assignment",
+    "apps/b2c-web/e2e/b2b-accessibility.spec.ts:credential-assignment",
     ["cb8bbe91f5af670dc3e33afbc1cccc74bad5c94fc687583f83cc750bebed9585"]
   ],
   [
-    "apps/api/tests/readiness.test.ts:credential-assignment",
+    "apps/b2c-api/tests/readiness.test.ts:credential-assignment",
     ["4f15a88c33f3cb829eb53bee70e8bd8ddecf7a4ea96ac0546eacd6a5c532bc4a"]
   ],
   [
@@ -106,58 +121,58 @@ const approvedFixtures = new Map([
     ]
   ],
   [
-    "apps/api/tests/config.test.ts:credential-url",
+    "apps/b2c-api/tests/config.test.ts:credential-url",
     [
       "b5f0a9c039ee1ba43c1138622af522115bbbe7b27bb436be4d2dcf539b5c5e24"
     ]
   ],
   [
-    "apps/api/tests/billing.test.ts:personal-email",
+    "apps/b2c-api/tests/billing.test.ts:personal-email",
     [
       "3b0dd28b4721f1dc5b68a54f6869b67ad7e3132b2cfd06e2d064d8da59075e8d"
     ]
   ],
   [
-    "apps/api/tests/access.test.ts:credential-assignment",
+    "apps/b2c-api/tests/access.test.ts:credential-assignment",
     [
       "75cb221139b4c884b1f6caaa9539d869f703188f998d65d1d5a2ff8f53abe99f",
       "afd9f3145334bd96cd225310b6ccde7950686638c0b8cd74e4f1fc61e5627242"
     ]
   ],
   [
-    "apps/api/tests/administration.test.ts:credential-assignment",
+    "apps/b2c-api/tests/administration.test.ts:credential-assignment",
     [
       "227978979841b3c3594bf535f356dbd294a4675bedd94419ce7e25e18a204fc5",
       "bf2ab383069a15768a65a56d90c1230c5eadcfd1ed7c82e2ad3c570475e8bd1c"
     ]
   ],
   [
-    "apps/api/tests/billing.test.ts:credential-assignment",
+    "apps/b2c-api/tests/billing.test.ts:credential-assignment",
     [
       "7d49da17708b4a0b5de5c82eb3082630e18a82f5bb9bf1bddc1b4816ed95adb2"
     ]
   ],
   [
-    "apps/api/tests/integration.test.ts:credential-assignment",
+    "apps/b2c-api/tests/integration.test.ts:credential-assignment",
     [
       "de268e90e0ea117afba3fca092db560d71ac5819f2cec7f7ab11c2f52e078230"
     ]
   ],
   [
-    "apps/api/tests/public-recovery.test.ts:credential-assignment",
+    "apps/b2c-api/tests/public-recovery.test.ts:credential-assignment",
     [
       "50d26a54ecb52ed9566f883381bfe7fd33cc73a941b351699e631f00a5fb3244",
       "a3a67862c969c5f7119a7dc41b3203d10d2a5a17ebe39fca172a9c39b2f5f97f"
     ]
   ],
   [
-    "apps/web/e2e/account-access.spec.ts:credential-assignment",
+    "apps/b2c-web/e2e/account-access.spec.ts:credential-assignment",
     [
       "a1556618166b07250fe5511bdbaf86b6ede5fc1d0f55f0649cfea82f2593c152"
     ]
   ],
   [
-    "apps/web/test/deployment.test.ts:credential-assignment",
+    "apps/b2c-web/test/deployment.test.ts:credential-assignment",
     [
       "ed09ce2a32698821980c800f64d26a8071d43ed0f1101b2c4f4934aeb691b6c9"
     ]
@@ -174,7 +189,7 @@ function allowed(category, match, line, path) {
     if (/^(?:example\.(?:com|net|org)|(?:[a-z0-9-]+\.)*(?:test|invalid|localhost))$/.test(domain)) return true
     // Exact upstream attribution; no global exemption for copyright/URLs.
     const upstream = ['hello', 'umami.is'].join('@')
-    if (path === 'apps/web/e2e/fixtures/umami-LICENSE.txt' &&
+    if (path === 'apps/b2c-web/e2e/fixtures/umami-LICENSE.txt' &&
         line === `Copyright (c) 2022 Umami Software, Inc. <${upstream}>`) return true
   }
   if (['personal-name', 'private-token'].includes(category) && path === 'LICENSE' && sha256(line) === approvedCopyrightHash) return true
@@ -438,7 +453,7 @@ function selfTest() {
   tests.push(['b2b-example-exact-fixture', findingsIn(b2bFixture, b2bFixturePath, 'text').length === 0])
   tests.push(['b2b-example-other-path-rejected', findingsIn(b2bFixture, 'sample.txt', 'text').some(x => x.category === 'credential-url')])
   tests.push(['b2b-example-changed-password-rejected', findingsIn(b2bFixture.replace('replace-me', 'other-synthetic-password'), b2bFixturePath, 'text').some(x => x.category === 'credential-url')])
-  for (const fixturePath of ['apps/api/tests/readiness.test.ts', 'apps/b2b-api/tests/readiness.test.ts', 'apps/web/e2e/b2b-accessibility.spec.ts']) {
+  for (const fixturePath of ["apps/b2c-api/tests/readiness.test.ts","apps/b2b-api/tests/readiness.test.ts","apps/b2c-web/e2e/b2b-accessibility.spec.ts","apps/b2b-api/tests/domain-context.test.ts","apps/b2b-api/tests/domain-lifecycle.test.ts","apps/b2b-api/tests/white-label-authorization.test.ts","apps/b2b-api/tests/white-label-http.test.ts","apps/b2c-web/e2e/white-label-workflow.spec.ts","apps/b2c-web/e2e/white-label.spec.ts","scripts/b2b-gateway.test.mjs","scripts/b2b-wl-restore.mjs","scripts/b2b-wl-runtime-smoke.mjs"]) {
     const source = readFileSync(new URL(`../${fixturePath}`, import.meta.url), 'utf8')
     const credential = source.match(rules.find(rule => rule.category === 'credential-assignment').regex)?.[0]
     tests.push([`${fixturePath}:exact-fixture`, !!credential && findingsIn(credential, fixturePath, 'text').length === 0])

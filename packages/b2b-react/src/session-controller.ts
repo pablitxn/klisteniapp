@@ -26,7 +26,7 @@ type SessionClient = {
   ) => void
 }
 
-/** Session lifecycle is shared by both apps and testable without rendering React. */
+/** Session lifecycle is shared by all B2B views and testable without rendering React. */
 export function createSessionController(client: SessionClient) {
   let state: SessionState = {
     me: null,

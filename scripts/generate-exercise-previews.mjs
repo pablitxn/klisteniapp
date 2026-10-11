@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* global window */
 import { createHash } from 'node:crypto'
+import { readPreviewSources } from './preview-workspace-relocation.mjs'
 import { previewBrowserOptions } from './preview-browser.mjs'
 import { publishCapture, reusableCapture } from './preview-capture-state.mjs'
 import { loadRetainedCaptures } from './preview-provenance.mjs'
@@ -11,13 +12,13 @@ import { fileURLToPath } from 'node:url'
 import { execFileSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
 import { AnatomicalModelVariantSchema } from '@klisteniapp/scene-schema'
-import { exercises } from '../apps/web/src/data/exercises.ts'
-import { previewCameras } from '../apps/web/src/lib/exercise-preview-config.ts'
-import { exercisePreviewFiles } from '../apps/web/src/lib/exercise-preview-assets.ts'
-import { exerciseCycleSeconds } from '../apps/web/src/lib/exercise-animation.ts'
+import { exercises } from '../apps/b2c-web/src/data/exercises.ts'
+import { previewCameras } from '../apps/b2c-web/src/lib/exercise-preview-config.ts'
+import { exercisePreviewFiles } from '../apps/b2c-web/src/lib/exercise-preview-assets.ts'
+import { exerciseCycleSeconds } from '../apps/b2c-web/src/lib/exercise-animation.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const webRoot = join(root, 'apps/web')
+const webRoot = join(root, 'apps/b2c-web')
 const assetRoot = join(root, 'packages/model-assets')
 const output = join(assetRoot, 'public/previews')
 const manifestPath = join(output, 'manifest.json')
@@ -55,6 +56,7 @@ if (values.model !== 'all' && !allModels.includes(values.model)) throw new Error
 const models = values.model === 'all' ? allModels : [values.model]
 
 const sourcePaths = [
+  'scripts/preview-workspace-relocation.mjs',
   'scripts/preview-browser.mjs',
   'scripts/preview-capture-state.mjs',
   'scripts/preview-provenance.mjs',
@@ -80,21 +82,21 @@ const sourcePaths = [
   'packages/catalog-base/src/index.ts',
 
   'scripts/generate-exercise-previews.mjs',
-  'apps/web/preview-capture.html',
-  'apps/web/src/preview-capture.tsx',
-  'apps/web/src/lib/exercise-preview-config.ts',
-  'apps/web/src/lib/exercise-preview-assets.ts',
-  'apps/web/src/lib/exercise-animation.ts',
-  'apps/web/src/lib/anatomy-render-settings.ts',
-  'apps/web/src/components/ExerciseStage.tsx',
-  'apps/web/src/components/AnatomicalModel.tsx',
-  'apps/web/src/components/AnatomyStudio.tsx',
-  'apps/web/src/lib/anatomy-model.ts',
-  'apps/web/src/lib/anatomy-variants.ts',
-  'apps/web/src/lib/anatomy-variant-surface.ts',
-  'apps/web/src/lib/anatomy-rig.ts',
-  'apps/web/src/data/exercises.ts',
-  'apps/web/src/data/exercise-planning.ts',
+  'apps/b2c-web/preview-capture.html',
+  'apps/b2c-web/src/preview-capture.tsx',
+  'apps/b2c-web/src/lib/exercise-preview-config.ts',
+  'apps/b2c-web/src/lib/exercise-preview-assets.ts',
+  'apps/b2c-web/src/lib/exercise-animation.ts',
+  'apps/b2c-web/src/lib/anatomy-render-settings.ts',
+  'apps/b2c-web/src/components/ExerciseStage.tsx',
+  'apps/b2c-web/src/components/AnatomicalModel.tsx',
+  'apps/b2c-web/src/components/AnatomyStudio.tsx',
+  'apps/b2c-web/src/lib/anatomy-model.ts',
+  'apps/b2c-web/src/lib/anatomy-variants.ts',
+  'apps/b2c-web/src/lib/anatomy-variant-surface.ts',
+  'apps/b2c-web/src/lib/anatomy-rig.ts',
+  'apps/b2c-web/src/data/exercises.ts',
+  'apps/b2c-web/src/data/exercise-planning.ts',
   'packages/geometry/src/index.ts',
   'packages/scene-schema/src/index.ts',
   'packages/scene-schema/src/exercise-planning.ts',
@@ -103,7 +105,7 @@ const sourcePaths = [
   'pnpm-lock.yaml',
 ]
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-const sources = Object.fromEntries(await Promise.all(sourcePaths.map(async (path) => [path, hash(await readFile(join(root, path)))])))
+const sources = await readPreviewSources(root, sourcePaths, 'exercise', values.check)
 const sourceHash = hash(JSON.stringify(sources))
 let manifest = { version: 2, sources: {}, variants: {} }
 try { manifest = JSON.parse(await readFile(manifestPath, 'utf8')) } catch (error) {

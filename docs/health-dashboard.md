@@ -19,9 +19,9 @@ Las fuentes son las declaradas en cada registro. Los filtros por fuente corporal
 React mantiene controles y selección efímera; el helper puro transforma datos y los dos gráficos SVG dibujan puntos/barras. No se guardan selecciones sensibles en URL ni en localStorage. Las tablas desplegables permiten leer fechas y valores sin depender de hover, color o precisión táctil. El diseño pasa a una columna en pantallas estrechas; no requiere animación ni una librería de gráficos adicional.
 
 ```sh
-pnpm --filter @klisteniapp/web exec node --test test/health-dashboard.test.ts
-pnpm --filter @klisteniapp/web typecheck
-pnpm --filter @klisteniapp/web exec playwright test --config playwright.health.config.ts
+pnpm --filter @klisteniapp/b2c-web exec node --test test/health-dashboard.test.ts
+pnpm --filter @klisteniapp/b2c-web typecheck
+pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.health.config.ts
 ```
 
 Las pruebas de dominio cubren límites de calendario y horario de verano, doble entrenamiento diario, sueño ambiguo cruzando el rango, nutrientes ausentes/cero, fuentes separadas y orden de timestamps con offsets. El recorrido de navegador comprueba filtros de período/fuente/medida, tablas y layout móvil con una cuenta simulada: esos valores son fixtures de prueba, no datos del usuario. Los filtros son de solo lectura.

@@ -101,26 +101,26 @@ contenido se rechazan.
 
 ## Archivos principales
 
-- `apps/web/src/data/yoga.ts`: contenido y secuencias iniciales.
-- `apps/web/src/components/YogaPage.tsx`: biblioteca y prácticas.
-- `apps/web/src/components/YogaPracticeEditor.tsx`: editor de secuencias.
-- `apps/web/src/components/YogaSession.tsx`: guía, tiempos y revisión.
-- `apps/web/src/components/YogaAsanaArt.tsx`: posters del atlas para cada modelo y lado.
-- `apps/web/src/components/YogaViewer.tsx`: visor interactivo y alternativa estática.
-- `apps/web/src/components/YogaStage.tsx`: atlas, pose y cámara compartidos con la captura.
-- `apps/web/src/lib/yoga-rig.ts`: poses de las 24 asanas sobre el rig anatómico.
-- `apps/web/src/lib/yoga-anatomy.ts`: preparación del atlas y controles axiales exclusivos de Yoga.
-- `apps/web/src/lib/yoga-motion.ts`: ciclo, fases e interpolación del movimiento.
-- `apps/web/src/lib/yoga-rendering.ts`: encuadre de la pose y vistas del modelo.
-- `apps/web/src/lib/yoga-preview-assets.ts`: rutas de las imágenes por asana, modelo y lado.
-- `apps/web/src/lib/store.yoga.ts`: operaciones compartidas de persistencia.
-- `apps/web/src/lib/yoga-practice.ts`: búsqueda, lados y tiempos.
+- `apps/b2c-web/src/data/yoga.ts`: contenido y secuencias iniciales.
+- `apps/b2c-web/src/components/YogaPage.tsx`: biblioteca y prácticas.
+- `apps/b2c-web/src/components/YogaPracticeEditor.tsx`: editor de secuencias.
+- `apps/b2c-web/src/components/YogaSession.tsx`: guía, tiempos y revisión.
+- `apps/b2c-web/src/components/YogaAsanaArt.tsx`: posters del atlas para cada modelo y lado.
+- `apps/b2c-web/src/components/YogaViewer.tsx`: visor interactivo y alternativa estática.
+- `apps/b2c-web/src/components/YogaStage.tsx`: atlas, pose y cámara compartidos con la captura.
+- `apps/b2c-web/src/lib/yoga-rig.ts`: poses de las 24 asanas sobre el rig anatómico.
+- `apps/b2c-web/src/lib/yoga-anatomy.ts`: preparación del atlas y controles axiales exclusivos de Yoga.
+- `apps/b2c-web/src/lib/yoga-motion.ts`: ciclo, fases e interpolación del movimiento.
+- `apps/b2c-web/src/lib/yoga-rendering.ts`: encuadre de la pose y vistas del modelo.
+- `apps/b2c-web/src/lib/yoga-preview-assets.ts`: rutas de las imágenes por asana, modelo y lado.
+- `apps/b2c-web/src/lib/store.yoga.ts`: operaciones compartidas de persistencia.
+- `apps/b2c-web/src/lib/yoga-practice.ts`: búsqueda, lados y tiempos.
 - `scripts/export-yoga-blender.mjs`: exportación del rig y sus ciclos a GLB con animaciones.
 - `scripts/blender/build_yoga.py`: preparación de la escena editable de Blender.
 
 Las validaciones de yoga se ejecutan con las pruebas de schema, web y API.
-La aceptación del flujo de usuario está en `apps/web/e2e/yoga.spec.ts`.
-`apps/web/e2e/yoga-3d.spec.ts` cubre los posters realmente cargados, la preferencia
+La aceptación del flujo de usuario está en `apps/b2c-web/e2e/yoga.spec.ts`.
+`apps/b2c-web/e2e/yoga-3d.spec.ts` cubre los posters realmente cargados, la preferencia
 global, los lados de la práctica, la alternativa sin WebGL y el visor interactivo.
 Los casos estáticos simulan la falta de un contexto WebGL en una página aislada.
 La comprobación interactiva exige que llegue el GLB real, que el atlas esté listo
@@ -133,19 +133,19 @@ velocidad, movimiento reducido, ocultación y suspensión, y comprueban que mira
 la demostración no inicia el temporizador ni añade tiempo al historial.
 
 ```sh
-pnpm --filter @klisteniapp/web exec playwright test e2e/yoga-3d.spec.ts e2e/yoga.spec.ts e2e/model-variant.spec.ts
+pnpm --filter @klisteniapp/b2c-web exec playwright test e2e/yoga-3d.spec.ts e2e/yoga.spec.ts e2e/model-variant.spec.ts
 ```
 
-El flujo de instancia se comprueba con `apps/web/e2e/yoga-account.spec.ts`:
+El flujo de instancia se comprueba con `apps/b2c-web/e2e/yoga-account.spec.ts`:
 conflictos de revisión, recuperación como copia, borrado con acceso vencido y
 reintento de un fallo de red. Su configuración autónoma usa un bundle de
 instancia y una API simulada:
 
 ```sh
-pnpm --filter @klisteniapp/web exec playwright test --config playwright.yoga-account.config.ts
+pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.yoga-account.config.ts
 ```
 
-Estas pruebas no sustituyen la integración PostgreSQL de `apps/api/tests`:
+Estas pruebas no sustituyen la integración PostgreSQL de `apps/b2c-api/tests`:
 esa integración requiere una base desechable y no debe usar cuentas reales.
 
 ## Generar posters y animaciones
@@ -183,7 +183,7 @@ encuadre o las fuentes del atlas, regenerá las imágenes y revisá visualmente 
 representaciones y los dos lados. Los hashes prueban la procedencia de los
 archivos; no sustituyen esa revisión visual.
 
-La entrada de captura es `apps/web/yoga-preview-capture.html`, servida por un Vite
+La entrada de captura es `apps/b2c-web/yoga-preview-capture.html`, servida por un Vite
 aislado durante la generación. Usa `YogaStage` con la capa muscular y una cámara
 ortográfica que encuadra el ciclo completo una sola vez, incluida la morfología
 elegida. Los posters predeterminados miden **512 × 384 píxeles** y las animaciones

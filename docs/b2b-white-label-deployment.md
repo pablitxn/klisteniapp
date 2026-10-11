@@ -13,7 +13,7 @@ de yoga. No se atribuyen nuevas pruebas físicas a esta aceptación.
 | Atlas Demo | https://atlas-klisteni.orchid-labs.xyz | Centro, Norte |
 | Sur Demo | https://sur-klisteni.orchid-labs.xyz | Centro, Oeste |
 
-En cada dominio, `/app` abre el espacio del socio y `/backoffice/` el de
+En cada dominio, `/app` abre el espacio del socio y `/manage` el de
 administradores y profesores. Hay diez cuentas sintéticas con contraseñas
 aleatorias distintas: un administrador y un profesor/socio por sede en cada
 marca. El administrador selecciona sede y función; profesores y socios acceden

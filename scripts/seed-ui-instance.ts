@@ -1,11 +1,11 @@
 // Disposable local fixture using the same authentication/state code as accounts.
 import { readFileSync } from 'node:fs';
-import { readConfig } from '../apps/api/src/config.ts';
-import { createPool } from '../apps/api/src/database.ts';
-import { createAuth } from '../apps/api/src/auth.ts';
-import { migrate } from '../apps/api/src/migrate.ts';
-import { createProvisionedUser } from '../apps/api/src/operator-service.ts';
-import { StateRepository } from '../apps/api/src/state.ts';
+import { readConfig } from '../apps/b2c-api/src/config.ts';
+import { createPool } from '../apps/b2c-api/src/database.ts';
+import { createAuth } from '../apps/b2c-api/src/auth.ts';
+import { migrate } from '../apps/b2c-api/src/migrate.ts';
+import { createProvisionedUser } from '../apps/b2c-api/src/operator-service.ts';
+import { StateRepository } from '../apps/b2c-api/src/state.ts';
 
 const config = readConfig();
 const database = new URL(config.databaseUrl);

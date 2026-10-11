@@ -379,7 +379,7 @@ to the source atlas. Preserve the attribution and share-alike terms when sharing
 These are artist-authored educational approximations, not a medical atlas
 of motion or a vertebral biomechanics simulation.
 
-Canonical authoring logic: apps/web/src/lib/yoga-rig.ts, yoga-motion.ts,
+Canonical authoring logic: apps/b2c-web/src/lib/yoga-rig.ts, yoga-motion.ts,
 yoga-anatomy.ts. Rebuild this editable snapshot with:
 node scripts/export-yoga-blender.mjs
 blender --background --factory-startup --python scripts/blender/build_yoga.py

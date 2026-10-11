@@ -76,13 +76,13 @@ device. Anonymous choices stay in browser storage and portable personal exports.
 Older exports and clients remain compatible; omitted appearance fields preserve
 the account's existing choices and health records.
 
-Palette tokens live in `apps/web/src/themes.css`; picker names, descriptions and
-preview swatches live in `apps/web/src/lib/color-themes.ts`. The optional
+Palette tokens live in `apps/b2c-web/src/themes.css`; picker names, descriptions and
+preview swatches live in `apps/b2c-web/src/lib/color-themes.ts`. The optional
 `profile.colorTheme` field travels through the same revision-checked settings
 flow as language and mode. Accounts and older backups without a palette keep the
 browser choice, or default to Sage on a fresh device.
 
-Translation catalogs live in `apps/web/src/i18n/locales/{en,fr}`. Spanish source
+Translation catalogs live in `apps/b2c-web/src/i18n/locales/{en,fr}`. Spanish source
 strings serve as readable fallback keys; use the component's namespace and
 interpolation variables for dynamic text. User-authored values and operator
 disclosures are preserved. The extensive educational exercise explanations and

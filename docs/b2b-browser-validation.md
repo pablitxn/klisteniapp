@@ -26,7 +26,7 @@ El seed es idempotente y conserva las identidades existentes. Para obtener nueva
 Requisitos: Node 24 o posterior, dependencias instaladas con el lockfile y PostgreSQL en una base desechable cuyo nombre contenga `b2b` y `test`. El usuario de la conexión debe poder crear y eliminar schemas. Se requiere espacio para los builds, motores y trazas.
 
 ```sh
-pnpm --filter @klisteniapp/web exec playwright install --with-deps chromium webkit
+pnpm --filter @klisteniapp/b2c-web exec playwright install --with-deps chromium webkit
 # Configurar B2B_TEST_DATABASE_URL con una base de pruebas desechable.
 pnpm test:b2b:e2e
 ```
@@ -40,7 +40,7 @@ pnpm test:b2b:e2e --project=webkit-touch
 pnpm test:b2b:e2e b2b-accessibility.spec.ts
 ```
 
-La comparación visual se limita a dos superficies estables por proyecto: entrada del socio vacía y encabezado público de una unidad con nombre largo. Las referencias están en `apps/web/e2e/snapshots/b2b/`. No contienen fechas, registros ni credenciales. El renderer se estabiliza con locale `es-AR`, UTC, tema claro y movimiento reducido. Las diferencias pequeñas de antialiasing tienen una tolerancia de 0,2 % de píxeles; el contenido y el tamaño se siguen comparando.
+La comparación visual se limita a dos superficies estables por proyecto: entrada del socio vacía y encabezado público de una unidad con nombre largo. Las referencias están en `apps/b2c-web/e2e/snapshots/b2b/`. No contienen fechas, registros ni credenciales. El renderer se estabiliza con locale `es-AR`, UTC, tema claro y movimiento reducido. Las diferencias pequeñas de antialiasing tienen una tolerancia de 0,2 % de píxeles; el contenido y el tamaño se siguen comparando.
 
 ```sh
 # Sólo después de revisar un cambio visual intencional:

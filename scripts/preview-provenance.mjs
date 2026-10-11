@@ -52,7 +52,7 @@ export function lockBlocks(source, section, indent = 2) {
 }
 
 export function dependencyProof(lock) {
-  const importerSection = lock.match(/\n {2}apps\/web:\n([\s\S]*?)(?=\n {2}\S|\n\S)/)?.[1]
+  const importerSection = lock.match(/\n {2}apps\/(?:b2c-)?web:\n([\s\S]*?)(?=\n {2}\S|\n\S)/)?.[1]
   assert.ok(importerSection, 'B2C renderer importer is required')
   const dependencies = importerSection.match(/ {4}dependencies:\n([\s\S]*?)(?=\n {4}devDependencies:|$)/)?.[1]
   assert.ok(dependencies)
@@ -88,7 +88,7 @@ export async function loadRetainedCaptures({ root, family, manifest, sources, so
     assert.equal(digest(JSON.stringify(manifest)), proof.originalManifestHash, 'Retained capture manifest metadata changed')
   }
   for (const input of proof.sourceProofs) {
-    const content = await readFile(join(root, input.currentPath))
+    const content = await readFile(join(root, input.currentPath.replace(/^apps\/web\//, 'apps/b2c-web/')))
     const normalized = input.normalization === 'identity' ? content : normalizeExtractedSource(content.toString(), input.normalization, Object.keys(proof.originalSources))
     assert.equal(digest(normalized), proof.originalSources[input.originalPath], `Extraction differs from original renderer: ${input.originalPath}`)
   }

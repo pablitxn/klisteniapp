@@ -3,6 +3,19 @@ import http from 'node:http';
 import { test } from 'node:test';
 import { createGateway } from './b2b-gateway.mjs';
 
+test('member, gym staff and Vite resources use one B2B development server', async t => {
+  const upstream = http.createServer((request, response) => response.end(request.url));
+  await new Promise(resolve => upstream.listen(0, '127.0.0.1', resolve));
+  const gateway = createGateway({ webPort: upstream.address().port });
+  await new Promise(resolve => gateway.listen(0, '127.0.0.1', resolve));
+  t.after(() => Promise.all([gateway, upstream].map(server => new Promise(resolve => server.close(resolve)))));
+  for (const path of ['/app', '/backoffice/', '/backoffice/people', '/src/main.tsx', '/__b2b_hmr']) {
+    const response = await fetch(`http://127.0.0.1:${gateway.address().port}${path}`);
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), path);
+  }
+});
+
 test('gateway strips spoofed forwarding identity and authenticates the actual host', async () => {
   const upstream = http.createServer((request, response) => {
     response.setHeader('content-type', 'application/json');
