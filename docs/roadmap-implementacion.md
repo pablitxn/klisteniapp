@@ -4,7 +4,7 @@ Actualizado: **11 de octubre de 2026**. Entrega de código: `508e9e1`; evidencia
 
 **Entrega implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
-**Próxima prioridad acordada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. Esta definición es documental: esas capacidades todavía no están implementadas.
+**Próxima prioridad acordada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 está inventariado; los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
 
 La implementación puede continuar desde otra instancia de Codex en un VPS con la Mac apagada siguiendo el [relevo remoto](development-vps.md). La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
 
@@ -16,7 +16,7 @@ Este documento ordena el trabajo desde la implementación actual. Separa tres l�
 | --- | --- | --- |
 | Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
 | Runtime local de producción comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
-| Plan nuevo; implementación pendiente | WL-0 a WL-8: dominios, marca, sedes, permisos, temas y módulos | [Especificación y matriz D01–D19](b2b-white-label.md); comenzar por WL-0 y WL-1 |
+| En implementación por etapas | WL-0 inventariado; WL-1 a WL-8 en curso | [Decisiones y mapa de cambios WL-0](b2b-white-label-decisions.md); [especificación D01–D19](b2b-white-label.md) |
 | Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
 | Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
 | Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
@@ -54,7 +54,7 @@ El código puede continuar en [macOS](development-macos.md) o en el [VPS mediant
 
 ### 2.1. Próxima entrega: marca blanca y varias sedes
 
-Todas estas etapas están **pendientes de implementación**. El [plan detallado](b2b-white-label.md) es la referencia para contratos, permisos, publicación, migraciones, pruebas y rollback; esta tabla fija el orden de trabajo.
+La implementación comenzó el **11/10/2026**; el registro de checkpoints indica el avance real por etapa. El [plan detallado](b2b-white-label.md) es la referencia para contratos, permisos, publicación, migraciones, pruebas y rollback; esta tabla fija el orden de trabajo.
 
 | Etapa | Resultado | Dependencia |
 | --- | --- | --- |
@@ -71,6 +71,18 @@ Todas estas etapas están **pendientes de implementación**. El [plan detallado]
 El primer recorrido vertical de WL-4 ya incluye varias sedes. El cierre completo exige dos marcas con diseños distintos y al menos dos sedes cada una, servidas por el mismo despliegue, con el circuito administrador → entrenador → socio → seguimiento y rechazos de acceso cruzado. Cambiar nombres o colores por URL no cumple esta aceptación.
 
 La siguiente sesión empieza por WL-0 y WL-1 desde el [relevo al VPS](development-vps.md), sin depender de nuevos modelos Blender. Probar cada fase antes de avanzar; los informes de `508e9e1` siguen siendo evidencia de la base anterior, no de estos cambios futuros.
+
+### Checkpoints de marca blanca (nueva evidencia)
+
+Base recibida: `af87f603876cb99b2e6673f290fa8ec03721454b`, árbol limpio, rama de trabajo `codex/b2b-white-label`. Node `24.21.0`, pnpm `12.7.0`; PostgreSQL local existente en loopback y base desechable `klisteni_b2b_test`. No se opera producción ni DNS público. Los cambios de cada etapa se verifican antes de cerrar su checkpoint.
+
+| Etapa | Estado | Evidencia / siguiente paso |
+| --- | --- | --- |
+| WL-0 | Implementado (inventario y decisiones) | [Mapa de archivos, matriz de permisos y políticas](b2b-white-label-decisions.md). Verificados checkout, runtime, puertos y DB de pruebas; no se cambiaron versiones |
+| WL-1 | En implementación | Schema aditivo, backfill a Principal, DTO y constraints; falta cerrar pruebas de migración |
+| WL-2–WL-8 | En implementación, sin aceptación declarada | Se integran por dependencias después de WL-1; D01–D19 aún no acreditados |
+
+Las previews existentes se conservan. `check`, `check:all`, `check:release` y sus gates siguen pendientes según la decisión de diferir previews; no se modifican hashes, snapshots ni CI para simular validación.
 
 ### 2.2. Entregas E1–E6 y aceptación que conservamos
 
