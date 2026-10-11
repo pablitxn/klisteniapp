@@ -1,13 +1,9 @@
-import { lazy, Suspense } from 'react'
-import type { Asset } from '@klisteniapp/b2b-contracts'
+import { Suspense } from 'react'
+import type { Asset } from '@klisteniapp/b2b-contracts/media'
 
-const EquipmentModelViewer = lazy(() =>
-  import('@klisteniapp/anatomy-viewer/equipment').then((module) => ({
-    default: module.EquipmentModelViewer,
-  })),
-)
+import { EquipmentModelViewer } from './viewers.ts'
 
-export function ContentMedia({ assets }: { assets: Asset[] }) {
+export function ContentMedia({ assets }: { assets: readonly Asset[] }) {
   return assets.map((asset) => (
     <figure key={asset.id}>
       {asset.kind === 'model3d' ? (

@@ -1,14 +1,13 @@
-import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { UnitBatchSchema, type Asset, type Machine, type Unit } from '@klisteniapp/b2b-contracts'
-import { ApiError, Empty, Field, Notice, useAccountClient } from '@klisteniapp/b2b-ui'
+import { ApiError } from '@klisteniapp/b2b-client'
+import { Empty, Field, Notice } from '@klisteniapp/b2b-ui'
+import { useAccountClient } from '@klisteniapp/b2b-react'
 import QRCode from 'qrcode'
 import { AssetEditor, Heading, useAction } from './shared'
 
-const EquipmentModelViewer = lazy(() =>
-  import('@klisteniapp/anatomy-viewer/equipment').then((module) => ({
-    default: module.EquipmentModelViewer,
-  })),
-)
+import { ContentMedia } from '@klisteniapp/b2b-ui/content'
+
 type UnitInput = Pick<
   Unit,
   'machineId' | 'label' | 'location' | 'assets' | 'adjustments' | 'public' | 'archived'
@@ -18,33 +17,7 @@ type Batch = { id: string; units: UnitInput[] }
 function Resources({ assets }: { assets: Asset[] }) {
   return (
     <div className="review-media">
-      {assets.map((asset) => (
-        <figure key={asset.id}>
-          {asset.kind === 'model3d' ? (
-            <Suspense fallback={<p role="status">Preparando visor…</p>}>
-              <EquipmentModelViewer
-                url={asset.url}
-                label={asset.label}
-                attribution={asset.attribution}
-              />
-            </Suspense>
-          ) : asset.kind === 'image' ? (
-            <img className="media" src={asset.url} alt={asset.label} loading="lazy" />
-          ) : (
-            <video
-              className="media"
-              controls
-              preload="none"
-              src={asset.url}
-              aria-label={asset.label}
-            />
-          )}
-          <figcaption className="small muted">
-            {asset.label}
-            {asset.attribution && ` · ${asset.attribution}`}
-          </figcaption>
-        </figure>
-      ))}
+      <ContentMedia assets={assets} />
     </div>
   )
 }

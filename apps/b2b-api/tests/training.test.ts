@@ -1,3 +1,4 @@
+import { programExerciseIds } from '@klisteniapp/b2b-domain/training';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import type { PoolClient } from 'pg';
@@ -14,12 +15,11 @@ import {
   type ProgramVersion,
   type Role,
 } from '@klisteniapp/b2b-contracts';
-import { programAvailability } from '../src/catalog/compatibility.ts';
+import { programAvailability } from '@klisteniapp/b2b-domain/catalog';
 import { HttpError } from '../src/errors.ts';
 import type { Context } from '../src/organization-context.ts';
 import { TrainingModule } from '../src/training/index.ts';
 import {
-  programExerciseIds,
   requireAssignableEquipment,
   requireExecutionEquipment,
   trainingReport,

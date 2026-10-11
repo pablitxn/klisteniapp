@@ -1,5 +1,11 @@
-import { ExecutionInputSchema, ExecutionSetSchema, IdSchema } from '@klisteniapp/b2b-contracts'
-import type { Assignment, ExecutionInput } from '@klisteniapp/b2b-contracts'
+import { IdSchema } from '@klisteniapp/b2b-contracts/common'
+import { ExecutionInputSchema, ExecutionSetSchema } from '@klisteniapp/b2b-contracts/training'
+import type { Assignment, ExecutionInput } from '@klisteniapp/b2b-contracts/training'
+import {
+  checkExecution,
+  isAuthorizedSet,
+  type ExecutionIssue,
+} from '@klisteniapp/b2b-domain/training'
 
 export type DraftSet = ExecutionInput['sets'][number] & { done: boolean }
 export type SessionDraft = {
@@ -39,15 +45,6 @@ export function createSessionDraft(assignment: Assignment, id: string): SessionD
       })),
     ),
   }
-}
-
-function belongsToAssignment(set: ExecutionInput['sets'][number], assignment: Assignment): boolean {
-  return assignment.program.steps.some(
-    (step) =>
-      step.id === set.stepId &&
-      set.set <= step.sets &&
-      (step.exerciseId === set.exerciseId || step.alternatives.includes(set.exerciseId)),
-  )
 }
 
 function recordedSets(draft: SessionDraft): ExecutionInput['sets'] {
@@ -95,7 +92,7 @@ export function parseSessionDraft(value: unknown, assignment: Assignment): Sessi
     const parsed = DraftSetReferenceSchema.safeParse(input)
     if (!parsed.success) return null
     const set = { ...parsed.data, reps, loadKg, done }
-    if (!belongsToAssignment(set, assignment)) return null
+    if (!isAuthorizedSet(assignment.program, set)) return null
     const key = `${parsed.data.stepId}:${parsed.data.set}`
     if (seen.has(key)) return null
     seen.add(key)
@@ -115,8 +112,7 @@ export function parseSessionDraft(value: unknown, assignment: Assignment): Sessi
       pending.data.id !== draft.id ||
       pending.data.assignmentId !== assignment.id ||
       pending.data.notes !== draft.notes ||
-      pending.data.sets.some((set) => !belongsToAssignment(set, assignment)) ||
-      (pending.data.status === 'completed' && pending.data.sets.length !== expectedSets) ||
+      !checkExecution(assignment.program, pending.data).ok ||
       JSON.stringify(pending.data.sets) !== JSON.stringify(recordedSets(draft))
     )
       return null
@@ -174,6 +170,14 @@ export function exerciseAvailability(assignment: Assignment, stepId: string, exe
     ?.exercises.find((exercise) => exercise.exerciseId === exerciseId)
 }
 
+const executionMessages: Record<ExecutionIssue, string> = {
+  INVALID_SET: 'Una de las series no pertenece a la rutina asignada. Volvé a cargar la rutina.',
+  INVALID_SUBSTITUTION:
+    'Elegí una alternativa autorizada y contanos el motivo de cada sustitución antes de guardar.',
+  INCOMPLETE_EXECUTION:
+    'Para completar la sesión, marcá todas las series con repeticiones o guardá una sesión parcial.',
+}
+
 /** Pending payloads are immutable: a lost response must retry the same id, timestamp and data. */
 export function prepareExecution(
   draft: SessionDraft,
@@ -197,22 +201,6 @@ export function prepareExecution(
   }
   if (!sets.length)
     return { ok: false, error: 'Marcá al menos una serie realizada antes de guardar.' }
-  if (status === 'completed' && sets.length !== draft.sets.length) {
-    return {
-      ok: false,
-      error: 'Para completar la sesión, marcá todas las series o guardá una sesión parcial.',
-    }
-  }
-  if (
-    sets.some(
-      (set) =>
-        set.exerciseId !==
-          assignment.program.steps.find((step) => step.id === set.stepId)?.exerciseId &&
-        !set.reason.trim(),
-    )
-  ) {
-    return { ok: false, error: 'Contanos el motivo de cada sustitución antes de guardar.' }
-  }
   const parsed = ExecutionInputSchema.safeParse({
     id: draft.id,
     assignmentId: assignment.id,
@@ -221,12 +209,16 @@ export function prepareExecution(
     notes: draft.notes,
     completedAt,
   })
-  return parsed.success
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: 'Revisá las repeticiones, las cargas y las notas de la sesión antes de guardar.',
+    }
+  }
+  const result = checkExecution(assignment.program, parsed.data)
+  return result.ok
     ? { ok: true, payload: parsed.data }
-    : {
-        ok: false,
-        error: 'Revisá las repeticiones, las cargas y las notas de la sesión antes de guardar.',
-      }
+    : { ok: false, error: executionMessages[result.code] }
 }
 
 /** Timeouts, rate limits and server/network failures leave delivery uncertain. */

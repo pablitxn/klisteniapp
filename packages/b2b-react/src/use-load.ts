@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
-import { ApiError } from './transport.ts'
-import { errorMessage } from './messages.ts'
+import { ApiError, errorMessage } from '@klisteniapp/b2b-client'
 import { initialResourceState, resourceReducer } from './resource-state.ts'
 
-type LoadOptions = { refreshKey?: string | number }
+export type LoadOptions = { refreshKey?: string | number }
 
 /** key identifies the data owner; refreshKey revalidates without resetting editors. */
 export function useLoad<T>(

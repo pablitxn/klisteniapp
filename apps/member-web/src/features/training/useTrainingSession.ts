@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Assignment, ExecutionInput } from '@klisteniapp/b2b-contracts'
-import { ApiError, errorMessage, useAccountClient } from '@klisteniapp/b2b-ui'
+import { ApiError, errorMessage } from '@klisteniapp/b2b-client'
+import { useAccountClient } from '@klisteniapp/b2b-react'
 import {
   changeDraftSet,
   createSessionDraft,

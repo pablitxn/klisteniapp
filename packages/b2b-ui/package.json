@@ -6,16 +6,16 @@
   "exports": {
     ".": "./src/index.tsx",
     "./styles.css": "./src/styles.css",
-    "./client": "./src/client.ts"
+    "./content": "./src/content.tsx"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
-    "test": "node --test tests/*.test.ts"
+    "lint": "eslint ."
   },
   "dependencies": {
-    "react": "~19.3.0",
-    "@klisteniapp/b2b-contracts": "workspace:*"
+    "@klisteniapp/anatomy-viewer": "workspace:*",
+    "@klisteniapp/b2b-contracts": "workspace:*",
+    "react": "~19.3.0"
   },
   "devDependencies": {
     "@types/react": "^19.3.0"

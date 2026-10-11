@@ -1,16 +1,10 @@
+import { API_PREFIX } from '@klisteniapp/b2b-contracts/common'
+import { ApiError } from './errors.ts'
+import { broadcastSessionChange } from './session-events.ts'
+
 /** Parsers, rather than caller-selected response types, define the HTTP boundary. */
 export type Parser<T> = {
   safeParse(value: unknown): { success: true; data: T } | { success: false; error: unknown }
-}
-export class ApiError extends Error {
-  readonly status: number
-  readonly code: string
-  constructor(message: string, status: number, code = 'REQUEST_FAILED') {
-    super(message)
-    this.name = 'ApiError'
-    this.status = status
-    this.code = code
-  }
 }
 export type ClientOptions = {
   signal?: AbortSignal
@@ -18,18 +12,6 @@ export type ClientOptions = {
   timeoutMs?: number
   uploadTimeoutMs?: number
   onAuthChange?: () => void
-}
-function broadcastAuthChange() {
-  try {
-    localStorage.setItem('klisteni.b2b.auth-change', crypto.randomUUID())
-  } catch {
-    /* Channel remains independent of storage availability. */
-  }
-  if (typeof BroadcastChannel !== 'undefined') {
-    const channel = new BroadcastChannel('klisteni.b2b.auth')
-    channel.postMessage('changed')
-    channel.close()
-  }
 }
 function errorDetails(value: unknown): { message?: string; code?: string } {
   if (!value || typeof value !== 'object') return {}
@@ -60,7 +42,7 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
       binary ? (options.uploadTimeoutMs ?? 120_000) : (options.timeoutMs ?? 20_000),
     )
     try {
-      const response = await (options.fetch ?? fetch)(`/api/b2b${path}`, {
+      const response = await (options.fetch ?? fetch)(`${API_PREFIX}${path}`, {
         method,
         credentials: 'same-origin',
         cache: 'no-store',
@@ -103,7 +85,7 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
       }
       // A successful auth operation has changed cookies even if its payload is malformed.
       if (path === '/auth/sign-in/email' || path === '/auth/sign-out')
-        (options.onAuthChange ?? broadcastAuthChange)()
+        (options.onAuthChange ?? broadcastSessionChange)()
       const parsed = schema.safeParse(result)
       if (!parsed.success)
         throw new ApiError(

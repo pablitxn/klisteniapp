@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import type { Assignment } from '@klisteniapp/b2b-contracts'
+import type { Assignment } from '@klisteniapp/b2b-contracts/training'
 import {
   changeDraftSet,
   createSessionDraft,
@@ -214,6 +214,49 @@ test('substitutions require a reason and invalid numeric input is rejected befor
     ).ok,
     false,
   )
+})
+
+test('submission applies the same prescribed set and repetition rules as the API', () => {
+  for (const patch of [
+    { exerciseId: 'unauthorized', reason: 'Tengo un motivo' },
+    { stepId: 'another-step' },
+    { set: 3 },
+  ]) {
+    assert.equal(
+      prepareExecution(
+        changeDraftSet(completedDraft(), 0, patch),
+        assignment,
+        'completed',
+        timestamp,
+      ).ok,
+      false,
+    )
+  }
+  const zeroReps = changeDraftSet(completedDraft(), 0, { reps: 0 })
+  assert.equal(prepareExecution(zeroReps, assignment, 'completed', timestamp).ok, false)
+  assert.equal(prepareExecution(zeroReps, assignment, 'partial', timestamp).ok, true)
+})
+
+test('recovery rejects pending executions that cannot satisfy the assigned snapshot rules', () => {
+  for (const patch of [{ reps: 0 }, { exerciseId: 'air-squat', reason: '  ' }]) {
+    const draft = changeDraftSet(completedDraft(), 0, patch)
+    const pending = {
+      id: draft.id,
+      assignmentId: assignment.id,
+      completedAt: timestamp,
+      status: 'completed',
+      notes: draft.notes,
+      sets: draft.sets.map(({ stepId, set, exerciseId, reps, loadKg, reason }) => ({
+        stepId,
+        set,
+        exerciseId,
+        reps,
+        loadKg,
+        reason,
+      })),
+    }
+    assert.equal(parseSessionDraft({ ...draft, pending }, assignment), null)
+  }
 })
 
 test('availability blocks performed unavailable exercises while allowing a partial session using available ones', () => {

@@ -22,8 +22,8 @@ import {
   type B2BInputs,
 } from '@klisteniapp/b2b-contracts'
 
-import { ApiError, createTransport, type ClientOptions, type Parser } from './transport.ts'
-export { ApiError, type ClientOptions } from './transport.ts'
+import { ApiError } from './errors.ts'
+import { createTransport, type ClientOptions, type Parser } from './transport.ts'
 
 function input<T>(schema: Parser<T>, value: unknown): T {
   const parsed = schema.safeParse(value)

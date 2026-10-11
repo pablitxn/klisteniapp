@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import type { Exercise } from '@klisteniapp/b2b-contracts'
 import { Notice } from '@klisteniapp/b2b-ui'
-import { EquipmentModelViewer, MovementViewer } from './viewers'
+import { ContentMedia, MovementViewer } from '@klisteniapp/b2b-ui/content'
 
 type ExerciseReviewProps = {
   exercise: Exercise
@@ -68,33 +68,7 @@ export function ExerciseReview({
         ))}
       </ol>
       <div className="review-media">
-        {exercise.assets.map((asset) => (
-          <figure key={asset.id}>
-            {asset.kind === 'video' ? (
-              <video
-                className="media"
-                controls
-                preload="none"
-                src={asset.url}
-                aria-label={asset.label}
-              />
-            ) : asset.kind === 'image' ? (
-              <img className="media" src={asset.url} alt={asset.label} loading="lazy" />
-            ) : (
-              <Suspense fallback={<p role="status">Preparando visor…</p>}>
-                <EquipmentModelViewer
-                  url={asset.url}
-                  label={asset.label}
-                  attribution={asset.attribution}
-                />
-              </Suspense>
-            )}
-            <figcaption className="small muted">
-              {asset.label}
-              {asset.attribution && ` · ${asset.attribution}`}
-            </figcaption>
-          </figure>
-        ))}
+        <ContentMedia assets={exercise.assets} />
       </div>
       {exercise.scope === 'organization' && exercise.status === 'draft' && (
         <>

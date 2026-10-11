@@ -6,7 +6,8 @@ import type {
   Program,
   ProgramVersion,
 } from '@klisteniapp/b2b-contracts'
-import { useAccountClient, Empty } from '@klisteniapp/b2b-ui'
+import { useAccountClient } from '@klisteniapp/b2b-react'
+import { Empty } from '@klisteniapp/b2b-ui'
 import { Heading, useAction } from './shared'
 import { latestEditorEntity } from './editorEntity'
 import { RecentAssignments } from './features/programs/RecentAssignments'

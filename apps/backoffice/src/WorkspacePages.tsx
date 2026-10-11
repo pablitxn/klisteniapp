@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import type { Membership } from '@klisteniapp/b2b-contracts'
-import { Notice, useAccountClient, useLoad } from '@klisteniapp/b2b-ui'
+import { Notice } from '@klisteniapp/b2b-ui'
+import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
 import { Catalog } from './Catalog'
 import { Equipment } from './Equipment'
 import { Programs } from './Programs'

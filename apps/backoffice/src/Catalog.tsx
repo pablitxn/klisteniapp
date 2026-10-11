@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Exercise, Machine } from '@klisteniapp/b2b-contracts'
-import { useAccountClient, Field } from '@klisteniapp/b2b-ui'
+import { useAccountClient } from '@klisteniapp/b2b-react'
+import { Field } from '@klisteniapp/b2b-ui'
 import { Heading, useAction } from './shared'
 import { latestEditorEntity } from './editorEntity'
 import { ExerciseEditor } from './features/catalog/ExerciseEditor'

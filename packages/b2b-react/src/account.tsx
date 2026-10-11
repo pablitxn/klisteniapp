@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react'
-import { createB2BClient } from './client.ts'
+import { createB2BClient } from '@klisteniapp/b2b-client'
 
 const AccountContext = createContext<string | null>(null)
 export function AccountProvider({ userId, children }: { userId: string; children: ReactNode }) {

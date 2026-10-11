@@ -1,0 +1,22 @@
+{
+  "name": "@klisteniapp/b2b-domain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./catalog": "./src/catalog.ts",
+    "./training": "./src/training.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "@klisteniapp/b2b-contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6"
+  }
+}

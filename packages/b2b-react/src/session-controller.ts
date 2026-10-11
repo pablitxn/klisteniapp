@@ -1,6 +1,5 @@
 import type { Me, Organization } from '@klisteniapp/b2b-contracts'
-import { ApiError } from './transport.ts'
-import { errorMessage } from './messages.ts'
+import { ApiError, errorMessage } from '@klisteniapp/b2b-client'
 
 export type SessionState = {
   me: Me | null

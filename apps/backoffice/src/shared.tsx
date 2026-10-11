@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { AssetSchema, type Asset } from '@klisteniapp/b2b-contracts'
-import { errorMessage, Field, Notice } from '@klisteniapp/b2b-ui'
+import { errorMessage } from '@klisteniapp/b2b-client'
+import { Field, Notice } from '@klisteniapp/b2b-ui'
 import { MediaLibrary } from './MediaLibrary'
 
 export function useAction() {

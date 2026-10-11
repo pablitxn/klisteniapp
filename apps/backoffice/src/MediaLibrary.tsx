@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import type { Asset, Media } from '@klisteniapp/b2b-contracts'
-import { Empty, errorMessage, Field, Notice, useAccountClient, useLoad } from '@klisteniapp/b2b-ui'
+import { Empty, Field, Notice } from '@klisteniapp/b2b-ui'
+import { errorMessage } from '@klisteniapp/b2b-client'
+import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
 
 export function mediaAsset(media: Media): Asset {
   return {

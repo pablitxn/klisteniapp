@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import type { Me } from '@klisteniapp/b2b-contracts'
 import { createSessionController } from '../src/session-controller.ts'
-import { ApiError } from '../src/transport.ts'
+import { ApiError } from '@klisteniapp/b2b-client'
 
 function deferred<T>() {
   let resolve!: (value: T) => void

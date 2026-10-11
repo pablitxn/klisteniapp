@@ -1,13 +1,6 @@
 import { useState, type FormEvent } from 'react'
-import {
-  b2bClient,
-  createB2BClient,
-  errorMessage,
-  Field,
-  Login,
-  Notice,
-  Shell,
-} from '@klisteniapp/b2b-ui'
+import { b2bClient, createB2BClient, errorMessage } from '@klisteniapp/b2b-client'
+import { Field, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
 
 export function Invitation() {
   const token =
@@ -71,7 +64,7 @@ export function Invitation() {
         <button className="text-button" onClick={() => setExisting(false)}>
           Volver a la invitación
         </button>
-        <Login onDone={() => void signedInSuccessfully()} />
+        <Login onSignIn={b2bClient.auth.signIn} onDone={() => void signedInSuccessfully()} />
       </Shell>
     )
   }

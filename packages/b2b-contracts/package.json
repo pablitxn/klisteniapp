@@ -3,8 +3,27 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
-  "scripts": { "lint": "eslint .", "typecheck": "tsc --noEmit", "test": "node --test tests/*.test.ts" },
-  "dependencies": { "zod": "^4.6.5" },
-  "devDependencies": { "@types/node": "^24.13.6" }
+  "exports": {
+    ".": "./src/index.ts",
+    "./common": "./src/common.ts",
+    "./media": "./src/media.ts",
+    "./organization": "./src/organization.ts",
+    "./catalog": "./src/catalog.ts",
+    "./website": "./src/website.ts",
+    "./training": "./src/training.ts",
+    "./public": "./src/public.ts",
+    "./responses": "./src/responses.ts",
+    "./inputs": "./src/inputs.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6"
+  }
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Me, Membership } from '@klisteniapp/b2b-contracts'
-import { Notice, Shell, useAccountClient, useLoad } from '@klisteniapp/b2b-ui'
+import { Notice, Shell } from '@klisteniapp/b2b-ui'
+import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
 import { Session } from '../training/Session'
 import { AssignedRoutines } from './AssignedRoutines'
 import { ExecutionHistory } from './ExecutionHistory'

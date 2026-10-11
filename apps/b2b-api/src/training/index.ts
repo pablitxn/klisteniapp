@@ -1,3 +1,4 @@
+import { programExerciseIds } from '@klisteniapp/b2b-domain/training';
 import { randomUUID } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 import type {
@@ -12,13 +13,12 @@ import type {
   StepAvailability,
 } from '@klisteniapp/b2b-contracts';
 import type { CatalogModule } from '../catalog/index.ts';
-import { exerciseMachineIds, programAvailability } from '../catalog/compatibility.ts';
+import { exerciseMachineIds, programAvailability } from '@klisteniapp/b2b-domain/catalog';
 import type { EquipmentModule } from '../equipment/index.ts';
 import { conflict, denied, HttpError, missing } from '../errors.ts';
 import { audit, staff, type Context } from '../organization-context.ts';
 import { TrainingRepository } from './repository.ts';
 import {
-  programExerciseIds,
   requireAssignableEquipment,
   requireExecutionEquipment,
   trainingReport,

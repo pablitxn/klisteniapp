@@ -11,7 +11,7 @@ import {
 } from '@klisteniapp/b2b-contracts';
 import { conflict, HttpError, missing } from '../errors.ts';
 import { admin, audit, staff, type Context, type ValidateAssets } from '../organization-context.ts';
-import { exerciseMachineIds } from './compatibility.ts';
+import { exerciseMachineIds } from '@klisteniapp/b2b-domain/catalog';
 
 type ExerciseInput = z.infer<typeof ExerciseInputSchema>;
 type MachineInput = z.infer<typeof MachineInputSchema>;

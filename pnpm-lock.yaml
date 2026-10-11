@@ -233,6 +233,9 @@ importers:
       '@klisteniapp/b2b-contracts':
         specifier: workspace:*
         version: link:../../packages/b2b-contracts
+      '@klisteniapp/b2b-domain':
+        specifier: workspace:*
+        version: link:../../packages/b2b-domain
       '@klisteniapp/catalog-base':
         specifier: workspace:*
         version: link:../../packages/catalog-base
@@ -258,12 +261,21 @@ importers:
       '@klisteniapp/anatomy-viewer':
         specifier: workspace:*
         version: link:../../packages/anatomy-viewer
+      '@klisteniapp/b2b-client':
+        specifier: workspace:*
+        version: link:../../packages/b2b-client
       '@klisteniapp/b2b-contracts':
         specifier: workspace:*
         version: link:../../packages/b2b-contracts
+      '@klisteniapp/b2b-react':
+        specifier: workspace:*
+        version: link:../../packages/b2b-react
       '@klisteniapp/b2b-ui':
         specifier: workspace:*
         version: link:../../packages/b2b-ui
+      '@klisteniapp/model-assets':
+        specifier: workspace:*
+        version: link:../../packages/model-assets
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
@@ -274,9 +286,6 @@ importers:
         specifier: ~19.3.0
         version: 19.3.0(react@19.3.0)
     devDependencies:
-      '@klisteniapp/model-assets':
-        specifier: workspace:*
-        version: link:../../packages/model-assets
       '@types/node':
         specifier: ^24.13.6
         version: 24.13.6
@@ -301,12 +310,24 @@ importers:
       '@klisteniapp/anatomy-viewer':
         specifier: workspace:*
         version: link:../../packages/anatomy-viewer
+      '@klisteniapp/b2b-client':
+        specifier: workspace:*
+        version: link:../../packages/b2b-client
       '@klisteniapp/b2b-contracts':
         specifier: workspace:*
         version: link:../../packages/b2b-contracts
+      '@klisteniapp/b2b-domain':
+        specifier: workspace:*
+        version: link:../../packages/b2b-domain
+      '@klisteniapp/b2b-react':
+        specifier: workspace:*
+        version: link:../../packages/b2b-react
       '@klisteniapp/b2b-ui':
         specifier: workspace:*
         version: link:../../packages/b2b-ui
+      '@klisteniapp/model-assets':
+        specifier: workspace:*
+        version: link:../../packages/model-assets
       react:
         specifier: ~19.3.0
         version: 19.3.0
@@ -314,9 +335,6 @@ importers:
         specifier: ~19.3.0
         version: 19.3.0(react@19.3.0)
     devDependencies:
-      '@klisteniapp/model-assets':
-        specifier: workspace:*
-        version: link:../../packages/model-assets
       '@types/node':
         specifier: ^24.13.6
         version: 24.13.6
@@ -443,6 +461,16 @@ importers:
         specifier: ^0.186.0
         version: 0.186.0
 
+  packages/b2b-client:
+    dependencies:
+      '@klisteniapp/b2b-contracts':
+        specifier: workspace:*
+        version: link:../b2b-contracts
+    devDependencies:
+      '@types/node':
+        specifier: ^24.13.6
+        version: 24.13.6
+
   packages/b2b-contracts:
     dependencies:
       zod:
@@ -453,8 +481,40 @@ importers:
         specifier: ^24.13.6
         version: 24.13.6
 
+  packages/b2b-domain:
+    dependencies:
+      '@klisteniapp/b2b-contracts':
+        specifier: workspace:*
+        version: link:../b2b-contracts
+    devDependencies:
+      '@types/node':
+        specifier: ^24.13.6
+        version: 24.13.6
+
+  packages/b2b-react:
+    dependencies:
+      '@klisteniapp/b2b-client':
+        specifier: workspace:*
+        version: link:../b2b-client
+      '@klisteniapp/b2b-contracts':
+        specifier: workspace:*
+        version: link:../b2b-contracts
+      react:
+        specifier: ~19.3.0
+        version: 19.3.0
+    devDependencies:
+      '@types/node':
+        specifier: ^24.13.6
+        version: 24.13.6
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+
   packages/b2b-ui:
     dependencies:
+      '@klisteniapp/anatomy-viewer':
+        specifier: workspace:*
+        version: link:../anatomy-viewer
       '@klisteniapp/b2b-contracts':
         specifier: workspace:*
         version: link:../b2b-contracts

@@ -11,8 +11,15 @@ flowchart TB
   Catalog --> Business["apps/b2b-api"]
   Viewer --> Member["apps/member-web · socio y website"]
   Viewer --> Office["apps/backoffice"]
-  Contracts["b2b-contracts + b2b-ui"] --> Member
-  Contracts --> Office
+  Contracts["b2b-contracts · contratos por dominio"] --> Domain["b2b-domain · reglas puras"]
+  Contracts --> Client["b2b-client · HTTP"]
+  Client --> React["b2b-react · sesión y cargas"]
+  React --> Member
+  React --> Office
+  Domain --> Business
+  Domain --> Member
+  UI["b2b-ui · presentación y contenido"] --> Member
+  UI --> Office
   Member --> Business
   Office --> Business
   Business --> BDB[(PostgreSQL B2B)]
@@ -25,13 +32,18 @@ flowchart TB
 | `packages/catalog-base` | Catálogo educativo y relaciones existentes. Mantener IDs y semántica; no importa React, auth o PostgreSQL. |
 | `packages/anatomy-viewer` | Anatomía, rig, movimiento y presentación 3D. Recursos explícitos y fallback. No conoce gimnasios, cuentas ni suscripciones. |
 | `packages/model-assets` | Único origen de GLB, referencias y previews con procedencia. El plugin copia archivos en cada build y conserva `/models` y `/previews`. |
-| `packages/b2b-contracts` | Validación y contratos exclusivos de B2B. No sustituye los formatos personales B2C. |
-| `packages/b2b-ui` | Cliente HTTP, sesión, marca y controles compartidos entre las dos interfaces B2B. |
+| `packages/b2b-contracts` | Schemas y tipos de entrada/respuesta por dominio, con exports explícitos. No sustituye los formatos personales B2C. |
+| `packages/b2b-domain` | Compatibilidad de máquinas y reglas de prescripción/ejecución compartidas. Sin React, HTTP, DB ni almacenamiento; devuelve resultados que cada aplicación adapta. |
+| `packages/b2b-client` | Cliente HTTP tipado, validación de respuestas, cancelación, errores y eventos de sesión. Independiente de React. |
+| `packages/b2b-react` | Contexto de cuenta, sesión y cargas cancelables. Depende del cliente y contratos; no contiene componentes visuales. |
+| `packages/b2b-ui` | Marca, controles, login con acción inyectada y estilos. El subpath `/content` comparte medios y visores opcionales sin cargarlos desde el entrypoint principal. |
 | `apps/b2b-api` | Organización, membresías, permisos, catálogo local, asignaciones y registros. |
 | `apps/member-web` | Website y QR públicos; entrenamiento e historial del socio autenticado. |
 | `apps/backoffice` | Personas, catálogo, equipo físico, prescripción, seguimiento e identidad. |
 
 Los archivos anteriores de catálogo y visor en `apps/web/src` quedan como adaptadores de compatibilidad. No se extraen el store personal, billing, onboarding ni sincronización B2C: sus comportamientos son distintos del entrenamiento prescrito. Cada cambio compartido debe pasar los checks B2C; una migración B2B sólo se ejecuta sobre su base.
+
+`pnpm check:b2b:boundaries`, incluido en `pnpm lint`, comprueba las capas B2B, sus exports, dependencias declaradas y ciclos. Los consumidores importan entrypoints públicos; los imports relativos se mantienen dentro del mismo workspace. Las reglas de dominio no acceden al navegador ni a Node, y la UI no importa el cliente o los hooks de sesión.
 
 ## Qué se reutiliza
 

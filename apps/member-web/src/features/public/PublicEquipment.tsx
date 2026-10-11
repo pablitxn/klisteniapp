@@ -1,6 +1,6 @@
 import type { PublicSite, PublicUnit } from '@klisteniapp/b2b-contracts'
 import { Empty } from '@klisteniapp/b2b-ui'
-import { ContentMedia } from '../../components/ContentMedia'
+import { ContentMedia } from '@klisteniapp/b2b-ui/content'
 import { ExerciseDetails } from '../../components/ExerciseDetails'
 
 export function PublicUnitDetails({ data, slug }: { data: PublicUnit; slug: string }) {

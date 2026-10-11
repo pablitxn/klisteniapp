@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { ApiError, createB2BClient } from '../src/client.ts'
+import { ApiError, createB2BClient, watchSessionChange } from '@klisteniapp/b2b-client'
 import { ExerciseInputSchema } from '@klisteniapp/b2b-contracts'
 
 const json = (value: unknown, status = 200) =>
@@ -15,6 +15,28 @@ const exercise = {
 }
 const apiError = (status: number, code: string) => (error: unknown) =>
   error instanceof ApiError && error.status === status && error.code === code
+
+test('the public client API works without a browser or cross-tab notification support', async () => {
+  assert.equal(typeof window, 'undefined')
+  const stop = watchSessionChange(() => assert.fail('No browser session events are registered'))
+  stop()
+  const originalChannel = Object.getOwnPropertyDescriptor(globalThis, 'BroadcastChannel')
+  Object.defineProperty(globalThis, 'BroadcastChannel', {
+    configurable: true,
+    value: class {
+      constructor() {
+        throw new DOMException('Access denied', 'SecurityError')
+      }
+    },
+  })
+  try {
+    const client = createB2BClient(undefined, { fetch: async () => json({ success: true }) })
+    assert.deepEqual(await client.auth.signOut(), { success: true })
+  } finally {
+    if (originalChannel) Object.defineProperty(globalThis, 'BroadcastChannel', originalChannel)
+    else Reflect.deleteProperty(globalThis, 'BroadcastChannel')
+  }
+})
 
 test('named reads validate responses and keep each originating account bound to the request', async () => {
   const requests: { path: string; init?: RequestInit }[] = []

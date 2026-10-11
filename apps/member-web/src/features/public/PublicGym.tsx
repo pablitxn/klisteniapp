@@ -1,6 +1,8 @@
 import type { PublicSite, PublicUnit } from '@klisteniapp/b2b-contracts'
-import { b2bClient, Notice, Shell, useLoad } from '@klisteniapp/b2b-ui'
-import { ContentMedia } from '../../components/ContentMedia'
+import { b2bClient } from '@klisteniapp/b2b-client'
+import { Notice, Shell } from '@klisteniapp/b2b-ui'
+import { useLoad } from '@klisteniapp/b2b-react'
+import { ContentMedia } from '@klisteniapp/b2b-ui/content'
 import { PublicUnitDetails, PublicUnits } from './PublicEquipment'
 
 function GymWebsite({ site }: { site: PublicSite }) {

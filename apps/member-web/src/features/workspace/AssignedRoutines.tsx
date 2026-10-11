@@ -1,13 +1,11 @@
 import type { Assignment, Execution } from '@klisteniapp/b2b-contracts'
+import { supportsMachine } from '@klisteniapp/b2b-domain/catalog'
 import { Empty } from '@klisteniapp/b2b-ui'
 
 function usesMachine(assignment: Assignment, machineId: string): boolean {
   return assignment.program.steps.some((step) => {
     const exercise = assignment.program.exercises.find((item) => item.id === step.exerciseId)
-    return (
-      exercise?.machineId === machineId ||
-      Boolean(exercise?.compatibleMachineIds.includes(machineId))
-    )
+    return Boolean(exercise && supportsMachine(exercise, machineId))
   })
 }
 

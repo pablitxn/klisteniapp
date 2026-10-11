@@ -5,6 +5,7 @@ RUN corepack enable && corepack prepare pnpm@12.7.0 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/b2b-api/package.json apps/b2b-api/package.json
 COPY packages/b2b-contracts/package.json packages/b2b-contracts/package.json
+COPY packages/b2b-domain/package.json packages/b2b-domain/package.json
 COPY packages/catalog-base/package.json packages/catalog-base/package.json
 COPY packages/scene-schema/package.json packages/scene-schema/package.json
 COPY packages/geometry/package.json packages/geometry/package.json
@@ -19,6 +20,7 @@ RUN mkdir -p /var/lib/klisteni-b2b/media && chown node:node /var/lib/klisteni-b2
 COPY --from=dependencies --chown=node:node /app/ /app/
 COPY --chown=node:node apps/b2b-api/src/ apps/b2b-api/src/
 COPY --chown=node:node packages/b2b-contracts/src/ packages/b2b-contracts/src/
+COPY --chown=node:node packages/b2b-domain/src/ packages/b2b-domain/src/
 COPY --chown=node:node packages/catalog-base/src/ packages/catalog-base/src/
 COPY --chown=node:node packages/scene-schema/src/ packages/scene-schema/src/
 USER node:node

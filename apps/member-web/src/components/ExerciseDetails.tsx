@@ -1,13 +1,7 @@
-import { lazy, Suspense, useState } from 'react'
+import { Suspense, useState } from 'react'
 import type { Exercise } from '@klisteniapp/b2b-contracts'
 import { exercisePreviewUrls } from '@klisteniapp/model-assets'
-import { ContentMedia } from './ContentMedia'
-
-const MovementViewer = lazy(() =>
-  import('@klisteniapp/anatomy-viewer/movement').then((module) => ({
-    default: module.MovementViewer,
-  })),
-)
+import { ContentMedia, MovementViewer } from '@klisteniapp/b2b-ui/content'
 
 export function ExerciseDetails({
   exercise,

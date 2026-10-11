@@ -1,6 +1,7 @@
-import type { Exercise, ProgramVersion, StepAvailability } from '@klisteniapp/b2b-contracts';
+import type { Exercise } from '@klisteniapp/b2b-contracts/catalog'
+import type { ProgramVersion, StepAvailability } from '@klisteniapp/b2b-contracts/training'
 
-type MachineReferences = Pick<Exercise, 'machineId' | 'compatibleMachineIds'>;
+type MachineReferences = Pick<Exercise, 'machineId' | 'compatibleMachineIds'>
 
 /** A model describes compatibility; inventory and publication are separate rules. */
 export function exerciseMachineIds(exercise: MachineReferences): string[] {
@@ -9,20 +10,20 @@ export function exerciseMachineIds(exercise: MachineReferences): string[] {
       ...(exercise.machineId ? [exercise.machineId] : []),
       ...exercise.compatibleMachineIds,
     ]),
-  ];
+  ]
 }
 
 export function supportsMachine(exercise: MachineReferences, machineId: string): boolean {
-  return exerciseMachineIds(exercise).includes(machineId);
+  return exerciseMachineIds(exercise).includes(machineId)
 }
 
 export function exerciseAvailability(
   exercise: Pick<Exercise, 'machineId' | 'compatibleMachineIds' | 'equipment'>,
   activeModels: ReadonlySet<string>,
 ): StepAvailability['exercises'][number]['status'] {
-  const models = exerciseMachineIds(exercise);
-  if (models.length) return models.some((id) => activeModels.has(id)) ? 'available' : 'unavailable';
-  return exercise.equipment && exercise.equipment !== 'none' ? 'equipment-required' : 'available';
+  const models = exerciseMachineIds(exercise)
+  if (models.length) return models.some((id) => activeModels.has(id)) ? 'available' : 'unavailable'
+  return exercise.equipment && exercise.equipment !== 'none' ? 'equipment-required' : 'available'
 }
 
 /** Use the assigned snapshot, even when the live catalogue changes. Active
@@ -31,16 +32,16 @@ export function programAvailability(
   snapshot: Pick<ProgramVersion, 'steps' | 'exercises'>,
   activeModels: ReadonlySet<string>,
 ): StepAvailability[] {
-  const exercises = new Map(snapshot.exercises.map((exercise) => [exercise.id, exercise]));
+  const exercises = new Map(snapshot.exercises.map((exercise) => [exercise.id, exercise]))
   return snapshot.steps.map((step) => ({
     stepId: step.id,
     exercises: [step.exerciseId, ...step.alternatives].map((exerciseId) => {
-      const exercise = exercises.get(exerciseId);
+      const exercise = exercises.get(exerciseId)
       return {
         exerciseId,
         status: exercise ? exerciseAvailability(exercise, activeModels) : 'unavailable',
         equipment: exercise?.equipment ?? '',
-      };
+      }
     }),
-  }));
+  }))
 }

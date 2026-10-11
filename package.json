@@ -11,9 +11,9 @@
     "dev": "pnpm --filter @klisteniapp/web dev",
     "dev:accounts": "VITE_APP_MODE=instance turbo run dev --filter=@klisteniapp/web --filter=@klisteniapp/api",
     "build": "turbo run build",
-    "lint": "turbo run lint && pnpm format:b2b:check",
+    "lint": "pnpm check:b2b:boundaries && turbo run lint && pnpm format:b2b:check",
     "typecheck": "turbo run typecheck",
-    "test": "node --test scripts/preview-provenance.test.mjs && turbo run test",
+    "test": "node --test scripts/preview-provenance.test.mjs scripts/b2b-boundaries.test.mjs && turbo run test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
@@ -35,8 +35,9 @@
     "build:b2b": "pnpm --filter @klisteniapp/member-web build && pnpm --filter @klisteniapp/backoffice build",
     "test:b2b:api": "pnpm --filter @klisteniapp/b2b-api test",
     "test:b2b:e2e": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.b2b.config.ts",
-    "format:b2b": "prettier --config .prettierrc.b2b.json --write \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/{b2b-ui,b2b-contracts}/{src,tests}/**/*.{ts,tsx}\"",
-    "format:b2b:check": "prettier --config .prettierrc.b2b.json --check \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/{b2b-ui,b2b-contracts}/{src,tests}/**/*.{ts,tsx}\""
+    "format:b2b": "prettier --config .prettierrc.b2b.json --write \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/b2b-*/{src,tests}/**/*.{ts,tsx}\" \"scripts/{check-b2b-boundaries,b2b-boundaries.test}.mjs\"",
+    "format:b2b:check": "prettier --config .prettierrc.b2b.json --check \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/b2b-*/{src,tests}/**/*.{ts,tsx}\" \"scripts/{check-b2b-boundaries,b2b-boundaries.test}.mjs\"",
+    "check:b2b:boundaries": "node scripts/check-b2b-boundaries.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

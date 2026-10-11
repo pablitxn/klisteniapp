@@ -1,15 +1,18 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import { AssetSchema } from '@klisteniapp/b2b-contracts/media'
 import {
-  AssetSchema,
-  ExecutionInputSchema,
   ExerciseInputSchema,
   MachineInputSchema,
   MachineSchema,
+} from '@klisteniapp/b2b-contracts/catalog'
+import {
+  ExecutionInputSchema,
   ProgramInputSchema,
+  ProgramSchema,
   ProgramVersionSchema,
-  B2BResponseSchemas,
-} from '../src/index.ts'
+} from '@klisteniapp/b2b-contracts/training'
+import { B2BResponseSchemas } from '@klisteniapp/b2b-contracts/responses'
 test('untrusted catalog media cannot supply script or protocol-relative URLs', () => {
   for (const url of [
     'javascript:alert(1)',
@@ -39,6 +42,28 @@ test('program steps and executed sets cannot duplicate their identifiers', () =>
       sets: [set, set],
     }).success,
     false,
+  )
+})
+
+test('request defaults stay optional while current responses require complete nested content', () => {
+  const input = {
+    name: 'Rutina',
+    steps: [{ id: 'step', exerciseId: 'exercise', sets: 2, reps: 10 }],
+  }
+  const parsed = ProgramInputSchema.parse(input)
+  const metadata = { id: 'program', publishedVersion: null, revision: 0 }
+  assert.equal(ProgramSchema.safeParse({ ...input, ...metadata }).success, false)
+  assert.equal(ProgramSchema.safeParse({ ...parsed, ...metadata }).success, true)
+
+  const incompleteStep = Object.fromEntries(
+    Object.entries(parsed.steps[0]).filter(([key]) => key !== 'restSeconds'),
+  )
+  assert.equal(
+    B2BResponseSchemas.program.safeParse({
+      program: { ...parsed, ...metadata, steps: [incompleteStep] },
+    }).success,
+    false,
+    'nested defaults cannot hide an incomplete successful response',
   )
 })
 

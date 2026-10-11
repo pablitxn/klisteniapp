@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { RoleSchema, type Member, type Organization, type Report } from '@klisteniapp/b2b-contracts'
-import { useAccountClient, dateLabel, Empty, Field, Notice } from '@klisteniapp/b2b-ui'
+import { useAccountClient } from '@klisteniapp/b2b-react'
+import { dateLabel, Empty, Field, Notice } from '@klisteniapp/b2b-ui'
 import { Heading, useAction } from './shared'
 import { MediaLibrary } from './MediaLibrary'
 

@@ -1,6 +1,8 @@
+import { b2bClient } from '@klisteniapp/b2b-client'
 import { useState } from 'react'
 import type { Me, Membership, Organization } from '@klisteniapp/b2b-contracts'
-import { AccountProvider, useB2BSession, Empty, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
+import { AccountProvider, useB2BSession } from '@klisteniapp/b2b-react'
+import { Empty, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
 import { BrandSettings } from './People'
 import {
   CatalogPage,
@@ -172,7 +174,7 @@ export default function App() {
         }
       >
         <Notice error>{error}</Notice>
-        <Login backoffice onDone={() => void refresh()} />
+        <Login backoffice onSignIn={b2bClient.auth.signIn} onDone={() => void refresh()} />
       </Shell>
     )
   const membership =

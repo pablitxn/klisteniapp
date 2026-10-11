@@ -3,7 +3,7 @@ import type { Exercise, Machine } from '@klisteniapp/b2b-contracts'
 import { Field } from '@klisteniapp/b2b-ui'
 import { AssetEditor } from '../../shared'
 import type { ExerciseDraft } from './exerciseDraft'
-import { MovementViewer } from './viewers'
+import { MovementViewer } from '@klisteniapp/b2b-ui/content'
 
 type ExerciseFieldsProps = {
   orgId: string

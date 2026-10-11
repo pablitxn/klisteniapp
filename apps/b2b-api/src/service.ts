@@ -24,7 +24,7 @@ import { conflict, denied, HttpError, missing } from './errors.ts';
 import { admin, audit, staff, type Context, type OrgRow } from './organization-context.ts';
 import { CatalogModule } from './catalog/index.ts';
 import { EquipmentModule } from './equipment/index.ts';
-import { supportsMachine } from './catalog/compatibility.ts';
+import { supportsMachine } from '@klisteniapp/b2b-domain/catalog';
 import { TrainingModule } from './training/index.ts';
 import type { StoredMedia } from './media.ts';
 

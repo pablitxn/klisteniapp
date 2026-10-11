@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
-import { Notice, useAccountId } from '@klisteniapp/b2b-ui'
+import { Notice } from '@klisteniapp/b2b-ui'
+import { useAccountId } from '@klisteniapp/b2b-react'
 import {
   editorDraftKey,
   readEditorDraft,

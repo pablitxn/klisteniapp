@@ -1,15 +1,13 @@
 import { useState, type FormEvent } from 'react'
-import { b2bClient } from './client.ts'
-import { errorMessage } from './messages.ts'
 import { Field, Notice } from './components.tsx'
 
-export function Login({
-  onDone,
-  backoffice = false,
-}: {
+export type LoginProps = {
+  onSignIn: (credentials: { email: string; password: string }) => Promise<unknown>
   onDone: () => void
   backoffice?: boolean
-}) {
+}
+
+export function Login({ onSignIn, onDone, backoffice = false }: LoginProps) {
   const [error, setError] = useState(''),
     [busy, setBusy] = useState(false)
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -18,13 +16,13 @@ export function Login({
     setBusy(true)
     const values = new FormData(event.currentTarget)
     try {
-      await b2bClient.auth.signIn({
+      await onSignIn({
         email: String(values.get('email') ?? ''),
         password: String(values.get('password') ?? ''),
       })
       onDone()
     } catch (error) {
-      setError(errorMessage(error))
+      setError(error instanceof Error ? error.message : 'Ocurrió un problema. Volvé a intentar.')
     } finally {
       setBusy(false)
     }

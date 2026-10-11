@@ -8,24 +8,23 @@ import type {
   Report,
   StepAvailability,
 } from '@klisteniapp/b2b-contracts';
+import {
+  checkExecution,
+  checkProgramAlternatives,
+  type ExecutionIssue,
+} from '@klisteniapp/b2b-domain/training';
 import { HttpError } from '../errors.ts';
 
 export type ProgramInput = Omit<Program, 'id' | 'publishedVersion' | 'revision'>;
 
-export function programExerciseIds(program: ProgramInput): string[] {
-  return [...new Set(program.steps.flatMap((step) => [step.exerciseId, ...step.alternatives]))];
-}
-
 export function validateAlternatives(program: ProgramInput): void {
-  for (const step of program.steps) {
-    const duplicates = new Set(step.alternatives).size !== step.alternatives.length;
-    if (duplicates || step.alternatives.includes(step.exerciseId)) {
-      throw new HttpError(
-        400,
-        'INVALID_ALTERNATIVE',
-        'Las alternativas deben ser distintas del ejercicio principal y entre sí.',
-      );
-    }
+  const result = checkProgramAlternatives(program);
+  if (!result.ok) {
+    throw new HttpError(
+      400,
+      result.code,
+      'Las alternativas deben ser distintas del ejercicio principal y entre sí.',
+    );
   }
 }
 
@@ -49,6 +48,12 @@ export function requireAssignableEquipment(
   );
 }
 
+const executionMessages: Record<ExecutionIssue, string> = {
+  INVALID_SET: 'La serie no pertenece a la rutina asignada.',
+  INVALID_SUBSTITUTION: 'La sustitución debe estar permitida y explicar el motivo.',
+  INCOMPLETE_EXECUTION: 'Completá todas las series o guardá la sesión como parcial.',
+};
+
 /** Validate against the assigned version, never the current editable catalogue.
  * Shape validation (positive set numbers, unique sets, dates) belongs to the
  * input schema; these rules cover the relationship to that immutable version. */
@@ -61,41 +66,8 @@ export function validateExecution(
     throw new HttpError(400, 'FUTURE_EXECUTION', 'La actividad no puede estar en el futuro.');
   }
 
-  const steps = new Map(program.steps.map((step) => [step.id, step]));
-  const completedSets = new Map<string, Set<number>>();
-  for (const set of input.sets) {
-    const step = steps.get(set.stepId);
-    if (!step || set.set > step.sets) {
-      throw new HttpError(400, 'INVALID_SET', 'La serie no pertenece a la rutina asignada.');
-    }
-    const substituted = set.exerciseId !== step.exerciseId;
-    if (substituted && (!step.alternatives.includes(set.exerciseId) || !set.reason.trim())) {
-      throw new HttpError(
-        400,
-        'INVALID_SUBSTITUTION',
-        'La sustitución debe estar permitida y explicar el motivo.',
-      );
-    }
-    if (set.reps > 0) {
-      const numbers = completedSets.get(step.id) ?? new Set<number>();
-      numbers.add(set.set);
-      completedSets.set(step.id, numbers);
-    }
-  }
-
-  if (input.status !== 'completed') return;
-  for (const step of program.steps) {
-    const numbers = completedSets.get(step.id);
-    for (let number = 1; number <= step.sets; number += 1) {
-      if (!numbers?.has(number)) {
-        throw new HttpError(
-          400,
-          'INCOMPLETE_EXECUTION',
-          'Completá todas las series o guardá la sesión como parcial.',
-        );
-      }
-    }
-  }
+  const result = checkExecution(program, input);
+  if (!result.ok) throw new HttpError(400, result.code, executionMessages[result.code]);
 }
 
 /** Only new records require current inventory. Exact retries must remain valid

@@ -1,4 +1,6 @@
-import { AccountProvider, Empty, Login, Notice, Shell, useB2BSession } from '@klisteniapp/b2b-ui'
+import { b2bClient } from '@klisteniapp/b2b-client'
+import { AccountProvider, useB2BSession } from '@klisteniapp/b2b-react'
+import { Empty, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
 import { Invitation } from './features/invitations/Invitation'
 import { PublicGym } from './features/public/PublicGym'
 import { MemberSpace } from './features/workspace/MemberSpace'
@@ -47,7 +49,7 @@ export default function App() {
         }
       >
         <Notice error>{error}</Notice>
-        <Login onDone={() => void refresh()} />
+        <Login onSignIn={b2bClient.auth.signIn} onDone={() => void refresh()} />
       </Shell>
     )
   }

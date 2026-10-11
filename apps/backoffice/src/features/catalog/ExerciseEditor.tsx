@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import type { Exercise, Machine } from '@klisteniapp/b2b-contracts'
-import { ApiError, useAccountClient } from '@klisteniapp/b2b-ui'
+import { ApiError } from '@klisteniapp/b2b-client'
+import { useAccountClient } from '@klisteniapp/b2b-react'
 import { Heading, useAction } from '../../shared'
 import { DraftConflict, DraftRecovery, useEditorDraft } from '../../useEditorDraft'
 import { exerciseDraft, isExerciseDraft, exerciseInput, type ExerciseDraft } from './exerciseDraft'
