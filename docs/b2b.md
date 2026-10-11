@@ -4,13 +4,13 @@ El producto de gimnasios usa API, PostgreSQL, credenciales y sesiones propios. E
 
 Para el orden de próximas entregas, la producción 3D y el ciclo de diseño y prueba de UI, consultar el [roadmap de implementación](roadmap-implementacion.md). Esta guía describe el comportamiento y la operación actuales.
 
-La entrega del 11 de octubre incorpora recuperación/concurrencia de editores, prescripción por duración/RPE, registro móvil, voz opcional, plano y comparación audiovisual. Los [resultados de código y runtime](b2b-release.md) conservan su revisión de origen. Para continuar, seguir la guía de [macOS](development-macos.md) o el [relevo al VPS](development-vps.md). La nueva autoría Blender, la aceptación física y la regeneración de previews siguen pendientes; no hay un despliegue público acreditado.
+La entrega del 11 de octubre incorpora recuperación/concurrencia de editores, prescripción por duración/RPE, registro móvil, voz opcional, plano y comparación audiovisual. Los [resultados de código y runtime](b2b-release.md) conservan su revisión de origen. Para continuar, seguir la guía de [macOS](development-macos.md) o el [relevo al VPS](development-vps.md). La nueva autoría Blender, la aceptación física y la regeneración de previews siguen pendientes. El estado del piloto público se registra por separado en el [roadmap](roadmap-implementacion.md).
 
-## Evolución planificada: dominios y varias sedes
+## Marca blanca: dominios y varias sedes
 
-La siguiente entrega está definida en [Marca blanca B2B](b2b-white-label.md): una organización representa una empresa/marca y tiene varias sedes desde el inicio; su dominio determina la marca antes del login. Una misma aplicación sirve todos los dominios, con sesiones de marca, permisos por sede y destinos para socio, entrenador y administrador. Temas, plantillas, módulos y contenido se configuran sin crear una aplicación por cliente.
+La entrega implementada está definida en [Marca blanca B2B](b2b-white-label.md): una organización representa una empresa/marca y tiene varias sedes desde el inicio; su dominio determina la marca antes del login. Una misma aplicación sirve todos los dominios, con sesiones de marca, permisos por sede y destinos para socio, entrenador y administrador. Temas, plantillas, módulos y contenido se configuran sin crear una aplicación por cliente.
 
-**Todavía no está implementado:** hoy se configura un único `B2B_APP_ORIGIN`, las membresías tienen rol por organización y la ubicación de una unidad es texto, no una sede. Las rutas `/g/atlas-demo` y `/g/sur-demo` demuestran organizaciones distintas dentro de ese origen; no prueban aislamiento por dominios ni permisos multisedes. WL-0 a WL-8 agrega los contratos, migración, operación y pruebas necesarios. El resto de esta guía documenta la base actual.
+**WL-0 a WL-8 implementados:** con `B2B_WHITE_LABEL=true`, cada dominio debe verificarse y activarse mediante el operador; sesiones y permisos quedan ligados a marca y sede. Consultar la [operación WL](b2b-white-label-runtime.md) y su [matriz de validación](b2b-white-label-validation.md). El modo de un origen y las rutas `/g/:slug` que se describen más abajo conservan su alcance legado; no sustituyen la configuración de dominios y sedes.
 
 ## Componentes y límites
 

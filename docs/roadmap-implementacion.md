@@ -10,6 +10,17 @@ La implementación puede continuar desde otra instancia de Codex en un VPS con l
 
 Este documento ordena el trabajo desde la implementación actual. Separa tres líneas: **producto y código**, **producción de contenido 3D** e **iteración de UI probándola**. Define entregas y dependencias; no compromete fechas. La referencia técnica de lo que ya funciona es [Producto B2B](b2b.md).
 
+**Checkpoint público posterior, 11/10/2026:** por nueva autorización se desplegó
+la revisión `45483e2` en `klisteni-b2b-prod`, mediante Mycelium PR42 (`80ff2f5`).
+[Atlas](https://atlas-klisteni.orchid-labs.xyz) y
+[Sur](https://sur-klisteni.orchid-labs.xyz) están activos con dos sedes cada uno.
+Pruebas sobre HTTPS público: Chromium **28/28**, WebKit tras reinicio **22/22**,
+frontera del proxy **4/4**, restauración **5/5 grupos** y API restaurada **10/10**.
+Las 33 aplicaciones ArgoCD quedaron Synced/Healthy; B2C conservó imágenes y datos.
+Consultar [accesos, evidencia y límites](b2b-white-label-deployment.md) y
+[reporte sanitizado](validation/b2b-white-label-deployed-2026-10-11.json).
+Las referencias a «cierre local» más abajo conservan el alcance histórico original.
+
 ## Estado de entrega y continuación entre Mac y VPS
 
 | Estado | Alcance | Evidencia o siguiente acción |
@@ -17,6 +28,7 @@ Este documento ordena el trabajo desde la implementación actual. Separa tres l�
 | Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
 | Runtime de la entrega anterior comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
 | Marca blanca completada y verificada localmente | WL-0 a WL-8: dominios, cuatro sedes, permisos, branding, módulos y recuperación | API 76/76; E2E HTTPS 30/30; B2C 3/3; imágenes 6/6 y restauración 6/6. [Checkpoints y matriz D01–D19](b2b-white-label-validation.md) |
+| Piloto público desplegado y verificado | Atlas y Sur, cuatro sedes, cuentas para pruebas manuales, volúmenes y DB dedicados | 50 grupos de navegador público; reinicio y restauración probados. [Checkpoint de despliegue](b2b-white-label-deployment.md) |
 | Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
 | Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
 | Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
