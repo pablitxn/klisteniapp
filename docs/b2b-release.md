@@ -1,6 +1,6 @@
 # Entrega del roadmap y validación de release
 
-Implementación del 11 de octubre de 2026, sobre `d70b2cb`. El modelado y la autoría de recursos 3D quedan a cargo del usuario en Blender. Esta entrega distingue código comprobado, contenido por producir y aceptación en dispositivos reales.
+Implementación del 11 de octubre de 2026, commit `508e9e1`, sobre `d70b2cb`. El modelado y la autoría de recursos 3D quedan a cargo del usuario en Blender. Esta entrega distingue código comprobado, contenido por producir y aceptación en dispositivos reales.
 
 **Alcance actualizado por decisión del usuario:** se difieren la regeneración de miniaturas/previews y su validación completa hasta terminar los modelos 3D y los cambios relacionados. Se conservan los derivados existentes. Este trabajo de contenido no bloquea el cierre de código, builds, auditoría de publicación y runtime; tampoco se afirma que el catálogo completo de previews esté regenerado o validado.
 
@@ -53,7 +53,7 @@ El [smoke de producción](b2b-runtime-validation.md) construye las imágenes rea
 
 ## Estado de verificación al 11 de octubre de 2026
 
-Resultados contrastados con los cierres de los logs locales y el índice `.cache/roadmap-verification-progress.json`. Las comprobaciones finales de código, builds y publicación aprobaron; las ejecuciones de API y navegador indicadas conservan su evidencia independiente. Falta registrar la revisión limpia y comprobar sus imágenes mediante el smoke de producción final. Los logs permanecen locales bajo `.cache/`.
+Resultados contrastados con los cierres de los logs locales y el índice `.cache/roadmap-verification-progress.json`. Las comprobaciones finales de código, builds y publicación aprobaron; las ejecuciones de API y navegador indicadas conservan su evidencia independiente. El smoke final aprobó los ocho grupos sobre el commit `508e9e1`, con el árbol de trabajo limpio. Los logs permanecen locales bajo `.cache/`.
 
 | Comprobación | Resultado confirmado | Log local |
 | --- | --- | --- |
@@ -72,6 +72,7 @@ Resultados contrastados con los cierres de los logs locales y el índice `.cache
 | Retest de yoga después de las correcciones | 11/11 aprobados | `roadmap-yoga-browser-final.log` |
 | Retest del atlas móvil: los 37 ejercicios en un recorrido | 1/1 aprobado | `roadmap-anatomy-catalog-final.log` |
 | Tests de scripts de raíz | 17/17 aprobados; ninguno omitido | `roadmap-final-scripts.log` |
+| Runtime de producción sobre `508e9e1` | 8/8 grupos aprobados; reinicio, restauración independiente y limpieza completos | [Reporte sanitizado](validation/b2b-runtime-2026-10-11.json) |
 
 La fase unitaria se ejecutó sin `TEST_DATABASE_URL` ni `B2B_TEST_DATABASE_URL`; las suites de integración omitidas en esa fase no cuentan como cobertura API. La evidencia de integración es la ejecución independiente con PostgreSQL de 97 casos B2C y 41 B2B indicada en la tabla. El build B2C usó `VITE_APP_MODE=demo`.
 
@@ -79,13 +80,13 @@ La auditoría final inspeccionó 570 archivos de texto, 2 `.blend`, 2 `.glb`, 9 
 
 Los cuatro fallos de la corrida B2C inicial corresponden al recorrido móvil del atlas y a tres casos de yoga: reproducción/pausa/seek, velocidad y suspensión, y movimiento reducido sin alterar el registro de práctica. Tras corregir el reloj visual y ajustar la sincronización y los límites de espera de las pruebas con render lento, esos casos quedaron cubiertos por los retestes de yoga y atlas indicados. **No hubo una nueva corrida monolítica de 83 casos aprobados**, ni deben sumarse los retestes como si fueran casos independientes.
 
-Queda pendiente registrar una revisión limpia del código y los recursos conservados y ejecutar un nuevo smoke de producción sobre sus artefactos. Sustituir la evidencia de runtime anterior sólo después de comprobar resultados y limpieza. Las comprobaciones de código y publicación de la tabla ya finalizaron; no se ejecutaron `pnpm check` ni `pnpm check:release` completos porque incluyen la validación de previews diferida.
+Las comprobaciones de código, publicación y runtime de la tabla finalizaron. El smoke ejecutó los artefactos de `508e9e1` entre las **10:45:59 y 10:47:39 UTC**, con `workingTreeChanges: false`, restauración independiente y `cleanupComplete: true`; no se ejecutaron `pnpm check` ni `pnpm check:release` completos porque incluyen la validación de previews diferida.
 
 La generación completa, revisión visual, procedencia y regresiones específicas de las **162 variantes de previews** (74 de ejercicios, 24 de anatomía y 64 de yoga) quedan diferidas por decisión del usuario. Al retomar, generar los derivados afectados desde los modelos y renderer definitivos, conservar GIF y parámetros canónicos y ejecutar `pnpm previews:check`. El lote parcial existente no acredita las 162 variantes ni bloquea las comprobaciones de código actuales.
 
 La generación se detuvo a las **10:36 UTC**: se conservan 74 variantes nuevas de ejercicios, 24 de anatomía y 17 de yoga, **115 en total**. Las otras 47 de yoga mantienen sus recursos anteriores; la revisión visual nueva de yoga llegó a 16 variantes. Los checks de ejercicios y anatomía habían aprobado sus 74 y 24 variantes, respectivamente. El ítem interrumpido conservó sus archivos y entrada anteriores, sin publicación parcial. El estado local de la detención está en `.cache/preview-review/stopped-state.json`; no equivale a un `pnpm previews:check` global aprobado.
 
-La evidencia de runtime enlazada arriba corresponde a una ejecución anterior sobre `d70b2cb` con cambios locales; no prueba todavía las imágenes que incluyan los últimos ajustes. El modelado Blender, la revisión humana del contenido y clips, el teléfono/QR físico y el despliegue público conservan la aceptación externa descrita en esta guía.
+La evidencia de runtime enlazada arriba corresponde a las imágenes construidas desde la revisión limpia `508e9e1`, con los últimos cambios de código y los recursos conservados. El modelado Blender, la revisión humana del contenido y clips, el teléfono/QR físico y el despliegue público conservan la aceptación externa descrita en esta guía.
 
 ## Entrega desde Blender
 

@@ -55,7 +55,7 @@ Localmente, el informe HTML y los resultados quedan en `.cache/b2b/browser-repor
 
 La matriz completa terminó con **84/84 casos aprobados** en Chromium escritorio, Chromium táctil y WebKit táctil, según `.cache/roadmap-b2b-matrix-verified.log`. Después de corregir el estado de carga de los visores, los dos recorridos afectados se repitieron en los tres proyectos: **6/6 aprobados**, según `.cache/roadmap-b2b-viewer-final.log`. Esa segunda ejecución es una regresión focalizada; no se suma como seis casos distintos de la matriz.
 
-El [estado de verificación de la entrega](b2b-release.md#estado-de-verificación-al-11-de-octubre-de-2026) distingue también la corrida B2C inicial de sus retestes, registra las comprobaciones finales aprobadas de código, builds y publicación, y conserva como pendiente el smoke de producción sobre la revisión limpia. La generación y validación completa de previews queda diferida por decisión del usuario hasta terminar los modelos 3D; no condiciona ese cierre de código. Los logs mencionados son evidencia local de trabajo; no se publican credenciales ni trazas privadas junto a este resumen.
+El [estado de verificación de la entrega](b2b-release.md#estado-de-verificación-al-11-de-octubre-de-2026) distingue también la corrida B2C inicial de sus retestes, registra las comprobaciones finales aprobadas de código, builds y publicación, y registra los ocho grupos aprobados del smoke de producción sobre la revisión limpia `508e9e1`. La generación y validación completa de previews queda diferida por decisión del usuario hasta terminar los modelos 3D; no condiciona ese cierre de código. Los logs mencionados son evidencia local de trabajo; no se publican credenciales ni trazas privadas junto a este resumen.
 
 ## Alcance de la evidencia
 

@@ -2,7 +2,7 @@
 
 Actualizado: **11 de octubre de 2026**. Base de código revisada: `3fbfe10`.
 
-**Implementación posterior:** la entrega de código sobre `d70b2cb` agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
+**Implementación posterior:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
 **Prioridad actual del usuario:** terminar el código y su preparación operativa. La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
 
