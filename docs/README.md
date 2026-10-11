@@ -6,6 +6,8 @@ guides are written in Spanish, matching the application.
 
 | I want to… | Read |
 | --- | --- |
+| Follow the B2B implementation roadmap, 3D production and UI testing iterations | [Implementation roadmap](roadmap-implementacion.md) |
+| Run the independent gym platform, member app and backoffice | [B2B product](b2b.md) |
 | Run the complete local demo or configure a separate instance | [Demo and instance modes](public-demo.md) |
 | Understand the educational approach and exercise sources | [Exercise criteria and references](exercise-sources.md) |
 | Explore yoga asanas, cultural context and source criteria | [Yoga library and references](yoga-sources.md) |

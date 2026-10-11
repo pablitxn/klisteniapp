@@ -2,6 +2,8 @@
 
 El producto de gimnasios usa API, PostgreSQL, credenciales y sesiones propios. El producto individual conserva `apps/web`, `apps/api`, sus identificadores, suscripciones y almacenamiento. La reutilización ocurre mediante paquetes de código y recursos estáticos; B2B no lee la base B2C ni necesita llamar a su API o servir archivos desde su dominio.
 
+Para el orden de próximas entregas, la producción 3D y el ciclo de diseño y prueba de UI, consultar el [roadmap de implementación](roadmap-implementacion.md). Esta guía describe el comportamiento y la operación actuales.
+
 ## Componentes y límites
 
 ```mermaid
