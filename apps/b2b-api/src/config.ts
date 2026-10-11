@@ -14,7 +14,10 @@ const Environment = z.object({
   B2B_MEDIA_QUOTA_MB: z.coerce.number().int().min(32).max(10240).default(256),
   B2B_DEMO_MODE: z.enum(['true', 'false']).default('false'),
   B2B_WHITE_LABEL: z.enum(['true', 'false']).default('false'),
-  B2B_PROXY_SECRET: z.string().regex(/^[a-zA-Z0-9_-]{32,256}$/).optional(),
+  B2B_PROXY_SECRET: z
+    .string()
+    .regex(/^[a-zA-Z0-9_-]{32,256}$/)
+    .optional(),
   B2B_TRUSTED_PROXY_ADDRESSES: z.string().default('127.0.0.1,::1'),
   B2B_DOMAIN_PROTOCOL: z.enum(['http', 'https']).default('https'),
   NODE_ENV: z.enum(['production', 'development', 'test']).default('development'),
