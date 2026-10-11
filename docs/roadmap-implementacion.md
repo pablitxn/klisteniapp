@@ -84,6 +84,8 @@ Base recibida: `af87f603876cb99b2e6673f290fa8ec03721454b`, árbol limpio, rama d
 | WL-4–WL-6 | Checkpoint `15660fd` | Tipos globales 15/15, lint 15/15 y tests de frontend aprobados. Escritorio 3/3 recorridos UI: administrador gestiona sedes/permisos/tema/módulos, borradores aislados, entrenador prescribe y socio registra en cuatro sedes. Claves específicas de website, lotes y clips incluyen sede y rol |
 | WL-8 | Completado localmente; harness `c451df2`, imágenes `04d7836` | API 76/76 sin omitidas; E2E 30/30 en tres motores; B2C demo 3/3; lint/tipos 30/30 tareas; tests de 15 paquetes aprobados. Imágenes reales 6/6 y restauración DB/medios/configuración 6/6; [evidencia D01–D19](b2b-white-label-validation.md) |
 
+Cierre de aceptación y evidencia: `5b27687`. La restauración final se repitió desde ese checkout limpio y pasó 6/6 controles.
+
 La CA de pruebas se retiró; los contenedores y schemas temporales se eliminaron. La aceptación física y los dominios públicos quedan fuera de este cierre local.
 
 Las previews existentes se conservan. `check`, `check:all`, `check:release` y sus gates siguen pendientes según la decisión de diferir previews; no se modifican hashes, snapshots ni CI para simular validación.

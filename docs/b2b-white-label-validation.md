@@ -67,7 +67,7 @@ Fuentes: [API](../apps/b2b-api/tests/), [E2E de dominios](../apps/web/e2e/white-
 | Suite HTTPS por proyecto con DB y CA de fixture | **30/30**, 10 por motor, sin retries/flakes/omitidas; [informe por caso y motor](validation/b2b-white-label-browsers-2026-10-11.json) |
 | E2E B2C `demo.spec.ts` con build independiente | **3/3**, artefacto sin transports de cuentas/pagos/analytics, sin requests privados y exportación/restauración local |
 | Imágenes API/web y Nginx local | **6/6**, revisión OCI `04d7836`, Node 24.21.0 y Nginx 1.30.5; [IDs SHA256 y controles](validation/b2b-white-label-images-2026-10-11.json) |
-| Restauración DB/medios/configuración | 6/6; [informe sanitizado](validation/b2b-white-label-restore-2026-10-11.json) |
+| Restauración DB/medios/configuración | 6/6 desde `5b27687` con árbol limpio; [informe sanitizado](validation/b2b-white-label-restore-2026-10-11.json) |
 
 El [informe de calidad](validation/b2b-white-label-quality-2026-10-11.json) conserva resultados y hashes de logs. El contador global informa 11 tests omitidos y además 8 suites no ejecutadas por falta de variables de DB: la integración B2B se acredita con la ejecución dedicada 76/76, no con esos skips. No se ejecuta integración cloud/pagos/correo de B2C como parte de este cambio B2B.
 
