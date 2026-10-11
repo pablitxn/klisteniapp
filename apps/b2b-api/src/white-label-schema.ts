@@ -211,3 +211,11 @@ BEGIN
 END $$;
 CREATE TRIGGER b2b_execution_scope BEFORE INSERT ON b2b_execution FOR EACH ROW EXECUTE FUNCTION b2b_default_execution_scope();
 `;
+
+/** Publishing branch content also freezes the profile exposed before login. */
+export const WHITE_LABEL_PROFILE_SCHEMA = `
+ALTER TABLE b2b_branch ADD COLUMN published_profile jsonb;
+UPDATE b2b_branch SET published_profile=jsonb_build_object(
+ 'id',id,'slug',slug,'name',name,'address',address,'contact',contact,'timezone',timezone
+) WHERE published IS NOT NULL;
+`;

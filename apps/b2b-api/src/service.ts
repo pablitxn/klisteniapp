@@ -17,6 +17,7 @@ import {
   type Website,
   type WebsiteInput,
   type SetupProgress,
+  type Theme,
 } from '@klisteniapp/b2b-contracts';
 import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
@@ -27,10 +28,19 @@ import { EquipmentModule } from './equipment/index.ts';
 import { supportsMachine } from '@klisteniapp/b2b-domain/catalog';
 import { TrainingModule } from './training/index.ts';
 import type { StoredMedia } from './media.ts';
+import {
+  authorizeWorkContext,
+  requireActiveDomain,
+  requireBrandSession,
+  type WorkContext,
+} from './white-label-access.ts';
+import type { DomainContext } from './domain-context.ts';
+import { WhiteLabelService, readModules } from './white-label-service.ts';
 
 export type MediaRow = {
   id: string;
   organization_id: string;
+  branch_id: string | null;
   kind: Asset['kind'];
   label: string;
   attribution: string;
@@ -108,10 +118,12 @@ export class B2BService {
   readonly catalog: CatalogModule;
   readonly equipment: EquipmentModule;
   readonly training: TrainingModule;
+  readonly whiteLabel: WhiteLabelService;
   constructor(pool: Pool, auth: Auth, config: Config) {
     this.pool = pool;
     this.auth = auth;
     this.config = config;
+    this.whiteLabel = new WhiteLabelService(pool);
     const validateAssets = (context: Context, assets: Asset[]) =>
       this.validateAssets(context, assets);
     this.catalog = new CatalogModule(validateAssets);
@@ -139,7 +151,7 @@ export class B2BService {
   }
   async requireSession(db: PoolClient, actorId: string, sessionId: string) {
     const current = await db.query(
-      'SELECT id FROM b2b_auth_session WHERE id=$1 AND "userId"=$2 AND "expiresAt">now() FOR SHARE',
+      'SELECT id FROM b2b_auth_session WHERE id=$1 AND "userId"=$2 AND "expiresAt">clock_timestamp() FOR SHARE',
       [sessionId, actorId],
     );
     if (!current.rowCount)
@@ -155,8 +167,12 @@ export class B2BService {
     sessionId: string,
     write: boolean,
     operation: (context: Context) => Promise<T>,
+    work: WorkContext = {},
   ): Promise<T> {
+    if (this.config.whiteLabel && !work.domain)
+      throw new HttpError(403, 'BRAND_CONTEXT_REQUIRED', 'El dominio de la marca es obligatorio.');
     return this.transaction(async (db) => {
+      if (work.domain && work.domain.organizationId !== orgId) throw missing();
       // Every B2B mutation takes this lock before checking membership/contract.
       // Revocation and writes cannot race past one another across API instances.
       const found = await db.query<OrgRow>(
@@ -168,18 +184,31 @@ export class B2BService {
       // Session deletion (logout/reset) and protected transactions are ordered:
       // a queued request cannot outlive a session revoked while it waited.
       await this.requireSession(db, actorId, sessionId);
+      if (work.domain) await requireBrandSession(db, actorId, sessionId, work.domain);
       const membership = await db.query<{ role: Role }>(
         'SELECT role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active',
         [orgId, actorId],
       );
-      if (!membership.rows[0]) throw denied();
+      if (!membership.rows[0]) {
+        if (work.domain)
+          throw new HttpError(403, 'MEMBERSHIP_REQUIRED', 'Tu acceso a esta marca cambió.');
+        throw denied();
+      }
       if (write && !organizationDTO(org).serviceActive)
         throw new HttpError(
           402,
           'GYM_SERVICE_INACTIVE',
           'El servicio del gimnasio está suspendido. Tus datos guardados siguen disponibles.',
         );
-      return operation({ db, actorId, org, role: membership.rows[0].role });
+      const scope = await authorizeWorkContext(
+        db,
+        actorId,
+        orgId,
+        membership.rows[0].role,
+        write,
+        work,
+      );
+      return operation({ db, actorId, org, ...scope });
     });
   }
   staff(c: Context) {
@@ -193,36 +222,72 @@ export class B2BService {
   }
   async memberAccess(c: Context, memberId: string): Promise<void> {
     const member = await c.db.query(
-      'SELECT role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active',
-      [c.org.id, memberId],
+      `SELECT m.role FROM b2b_membership m WHERE organization_id=$1 AND user_id=$2 AND active
+       AND ($3::text IS NULL OR EXISTS(SELECT 1 FROM b2b_branch_grant g WHERE g.organization_id=m.organization_id AND g.user_id=m.user_id AND g.branch_id=$3 AND g.role='member' AND g.active))`,
+      [c.org.id, memberId, c.branchId ?? null],
     );
-    if (member.rows[0]?.role !== 'member') throw missing();
+    if (!member.rows[0] || (!c.branchId && member.rows[0].role !== 'member')) throw missing();
     if (c.role === 'admin' || (c.role === 'member' && c.actorId === memberId)) return;
     if (
       c.role === 'coach' &&
       (
         await c.db.query(
-          'SELECT 1 FROM b2b_coach_assignment WHERE organization_id=$1 AND coach_id=$2 AND member_id=$3',
-          [c.org.id, c.actorId, memberId],
+          'SELECT 1 FROM b2b_coach_assignment WHERE organization_id=$1 AND coach_id=$2 AND member_id=$3 AND ($4::text IS NULL OR branch_id=$4)',
+          [c.org.id, c.actorId, memberId, c.branchId ?? null],
         )
       ).rowCount
     )
       return;
     throw denied();
   }
-  async me(user: Me['user']): Promise<Me> {
+  async me(user: Me['user'], domain?: DomainContext | null): Promise<Me> {
     const found = await this.pool.query<OrgRow & { role: Role }>(
-      'SELECT o.*,m.role FROM b2b_membership m JOIN b2b_organization o ON o.id=m.organization_id WHERE m.user_id=$1 AND m.active ORDER BY o.slug',
-      [user.id],
+      'SELECT o.*,m.role FROM b2b_membership m JOIN b2b_organization o ON o.id=m.organization_id WHERE m.user_id=$1 AND m.active AND ($2::text IS NULL OR o.id=$2) ORDER BY o.slug',
+      [user.id, domain?.organizationId ?? null],
     );
     return {
       user,
+      ...(domain
+        ? {
+            whiteLabel: await this.whiteLabel.access(
+              domain.organizationId,
+              user.id,
+              found.rows[0]?.role === 'admin',
+            ),
+          }
+        : {}),
       memberships: found.rows.map(
         (r): Membership => ({ organization: organizationDTO(r), role: r.role }),
       ),
     };
   }
   async members(c: Context): Promise<Member[]> {
+    if (c.branchId) {
+      const found = await c.db.query<{
+        user_id: string;
+        name: string;
+        email: string;
+        role: Role;
+        active: boolean;
+        coach_ids: string[];
+      }>(
+        `SELECT g.user_id,u.name,u.email,g.role,(g.active AND m.active) active,
+         ARRAY(SELECT ca.coach_id FROM b2b_coach_assignment ca WHERE ca.organization_id=g.organization_id AND ca.branch_id=g.branch_id AND ca.member_id=g.user_id) coach_ids
+         FROM b2b_branch_grant g JOIN b2b_membership m ON m.organization_id=g.organization_id AND m.user_id=g.user_id
+         JOIN b2b_auth_user u ON u.id=g.user_id WHERE g.organization_id=$1 AND g.branch_id=$4
+         AND ($3='admin' OR g.user_id=$2 OR ($3='coach' AND g.role='member' AND g.active AND m.active AND EXISTS(
+           SELECT 1 FROM b2b_coach_assignment ca WHERE ca.organization_id=g.organization_id AND ca.branch_id=g.branch_id AND ca.member_id=g.user_id AND ca.coach_id=$2))) ORDER BY u.name,g.role`,
+        [c.org.id, c.actorId, c.role, c.branchId],
+      );
+      return found.rows.map((r) => ({
+        userId: r.user_id,
+        name: r.name,
+        email: r.email,
+        role: r.role,
+        active: r.active,
+        coachIds: r.coach_ids,
+      }));
+    }
     const found = await c.db.query<{
       user_id: string;
       name: string;
@@ -282,6 +347,24 @@ export class B2BService {
   }
   async assignCoach(c: Context, input: { coachId: string; memberId: string }) {
     this.admin(c);
+    if (c.branchId) {
+      const rows = await c.db.query<{ user_id: string; role: Role }>(
+        `SELECT g.user_id,g.role FROM b2b_branch_grant g JOIN b2b_membership m ON m.organization_id=g.organization_id AND m.user_id=g.user_id AND m.active
+        WHERE g.organization_id=$1 AND g.branch_id=$2 AND g.active AND g.user_id=ANY($3::text[])`,
+        [c.org.id, c.branchId, [input.coachId, input.memberId]],
+      );
+      if (
+        !rows.rows.some((r) => r.user_id === input.coachId && r.role === 'coach') ||
+        !rows.rows.some((r) => r.user_id === input.memberId && r.role === 'member')
+      )
+        throw missing();
+      await c.db.query(
+        'INSERT INTO b2b_coach_assignment(organization_id,branch_id,coach_id,member_id) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',
+        [c.org.id, c.branchId, input.coachId, input.memberId],
+      );
+      await this.audit(c, 'coach.assign', input.memberId);
+      return { ok: true };
+    }
     const rows = await c.db.query<{ user_id: string; role: Role }>(
       'SELECT user_id,role FROM b2b_membership WHERE organization_id=$1 AND active AND user_id=ANY($2::text[])',
       [c.org.id, [input.coachId, input.memberId]],
@@ -314,12 +397,24 @@ export class B2BService {
     const expiresAt = new Date(Date.now() + 7 * 86400000);
     const id = randomUUID();
     await c.db.query(
-      'INSERT INTO b2b_invitation(id,organization_id,email,name,role,token_hash,expires_at,created_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8)',
-      [id, c.org.id, input.email, input.name, input.role, hashToken(token), expiresAt, c.actorId],
+      'INSERT INTO b2b_invitation(id,organization_id,email,name,role,token_hash,expires_at,created_by,branch_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+      [
+        id,
+        c.org.id,
+        input.email,
+        input.name,
+        input.role,
+        hashToken(token),
+        expiresAt,
+        c.actorId,
+        input.role === 'admin' ? null : (c.branchId ?? null),
+      ],
     );
     await this.audit(c, 'invitation.create', id);
     return {
-      url: `${this.config.origin}/app/invite?token=${encodeURIComponent(token)}`,
+      url: c.domain
+        ? `${c.domain.canonicalOrigin}/app/invite#token=${encodeURIComponent(token)}`
+        : `${this.config.origin}/app/invite?token=${encodeURIComponent(token)}`,
       expiresAt: expiresAt.toISOString(),
     };
   }
@@ -327,19 +422,21 @@ export class B2BService {
     token: string,
     input?: { name: string; password: string },
     existingSession?: { userId: string; sessionId: string },
+    domain?: DomainContext | null,
   ) {
     return this.transaction(async (db) => {
       const first = await db.query<{ organization_id: string }>(
         'SELECT organization_id FROM b2b_invitation WHERE token_hash=$1',
         [hashToken(token)],
       );
-      if (!first.rows[0])
+      if (!first.rows[0] || (domain && first.rows[0].organization_id !== domain.organizationId))
         throw new HttpError(400, 'INVALID_INVITATION', 'Invitación inválida o vencida.');
       const org = (
         await db.query<OrgRow>('SELECT * FROM b2b_organization WHERE id=$1 FOR UPDATE', [
           first.rows[0].organization_id,
         ])
       ).rows[0];
+      if (domain) await requireActiveDomain(db, domain);
       if (existingSession)
         await this.requireSession(db, existingSession.userId, existingSession.sessionId);
       if (!organizationDTO(org).serviceActive)
@@ -348,8 +445,13 @@ export class B2BService {
           'GYM_SERVICE_INACTIVE',
           'El servicio del gimnasio está suspendido.',
         );
-      const found = await db.query<{ id: string; email: string; role: Role }>(
-        'SELECT id,email,role FROM b2b_invitation WHERE token_hash=$1 AND used_at IS NULL AND expires_at>now() FOR UPDATE',
+      const found = await db.query<{
+        id: string;
+        email: string;
+        role: Role;
+        branch_id: string | null;
+      }>(
+        'SELECT id,email,role,branch_id FROM b2b_invitation WHERE token_hash=$1 AND used_at IS NULL AND expires_at>clock_timestamp() FOR UPDATE',
         [hashToken(token)],
       );
       const invitation = found.rows[0];
@@ -395,11 +497,27 @@ export class B2BService {
           'MEMBERSHIP_EXISTS',
           'Ya pertenecés a este gimnasio. Un administrador puede gestionar tu acceso.',
         );
+      if (domain) await db.query("SELECT set_config('b2b.explicit_branch_scope','on',true)");
+      if (
+        invitation.branch_id &&
+        !(
+          await db.query(
+            "SELECT 1 FROM b2b_branch WHERE organization_id=$1 AND id=$2 AND status='active'",
+            [org.id, invitation.branch_id],
+          )
+        ).rowCount
+      )
+        throw missing();
       await db.query('INSERT INTO b2b_membership(organization_id,user_id,role) VALUES($1,$2,$3)', [
         org.id,
         userId,
         invitation.role,
       ]);
+      if (domain && invitation.branch_id && invitation.role !== 'admin')
+        await db.query(
+          'INSERT INTO b2b_branch_grant(organization_id,branch_id,user_id,role,active) VALUES($1,$2,$3,$4,true) ON CONFLICT DO NOTHING',
+          [org.id, invitation.branch_id, userId, invitation.role],
+        );
       await db.query('UPDATE b2b_invitation SET used_at=now() WHERE id=$1', [invitation.id]);
       return { ok: true };
     });
@@ -411,8 +529,19 @@ export class B2BService {
     if (url) await this.validateMediaUrl(c, url, 'image');
   }
   async validateMediaUrl(c: Context, url: string, kind: Asset['kind'], assetId?: string) {
-    const parsed = new URL(url, this.config.origin);
-    if (parsed.origin !== this.config.origin) return;
+    const origin = c.domain?.origin ?? this.config.origin;
+    const parsed = new URL(url, origin);
+    let normalizedPath: string;
+    try {
+      normalizedPath = new URL(decodeURIComponent(parsed.pathname), origin).pathname;
+    } catch {
+      throw new HttpError(400, 'INVALID_MEDIA_REFERENCE', 'La ruta del medio no es válida.');
+    }
+    if (parsed.origin !== origin) {
+      if (/^\/api\/b2b\/media(?:\/|$)/.test(normalizedPath))
+        throw new HttpError(400, 'INVALID_MEDIA_REFERENCE', 'Usá la URL local original del medio.');
+      return;
+    }
     let path: string;
     try {
       path = new URL(decodeURIComponent(parsed.pathname), this.config.origin).pathname;
@@ -438,11 +567,10 @@ export class B2BService {
       );
     if (
       !(
-        await c.db.query('SELECT 1 FROM b2b_media WHERE id=$1 AND organization_id=$2 AND kind=$3', [
-          media[1],
-          c.org.id,
-          kind,
-        ])
+        await c.db.query(
+          'SELECT 1 FROM b2b_media WHERE id=$1 AND organization_id=$2 AND kind=$3 AND ($4::text IS NULL OR branch_id IS NULL OR branch_id=$4)',
+          [media[1], c.org.id, kind, c.branchId ?? null],
+        )
       ).rowCount
     )
       throw new HttpError(
@@ -451,12 +579,12 @@ export class B2BService {
         'El medio no pertenece a este gimnasio o su tipo no coincide.',
       );
   }
-  async media(c: Context) {
+  async media(c: Context, brandOnly = false) {
     this.staff(c);
     const rows = (
       await c.db.query<MediaRow>(
-        'SELECT * FROM b2b_media WHERE organization_id=$1 ORDER BY created_at DESC,id',
-        [c.org.id],
+        'SELECT * FROM b2b_media WHERE organization_id=$1 AND ($2::text IS NULL OR branch_id IS NULL OR branch_id=$2) AND (NOT $3::boolean OR branch_id IS NULL) ORDER BY created_at DESC,id',
+        [c.org.id, c.branchId ?? null, brandOnly],
       )
     ).rows;
     return {
@@ -469,8 +597,11 @@ export class B2BService {
   }
   async uploadAllowance(c: Context, bytes: number) {
     this.staff(c);
-    const usage = await this.media(c);
-    if (usage.usage.bytes + bytes > usage.usage.quotaBytes)
+    const usage = await c.db.query<{ bytes: string }>(
+      'SELECT coalesce(sum(bytes),0) bytes FROM b2b_media WHERE organization_id=$1',
+      [c.org.id],
+    );
+    if (Number(usage.rows[0].bytes) + bytes > (this.config.mediaQuotaMb ?? 256) * 1024 ** 2)
       throw new HttpError(
         413,
         'MEDIA_QUOTA',
@@ -485,7 +616,7 @@ export class B2BService {
     await this.uploadAllowance(c, stored.bytes);
     const row = (
       await c.db.query<MediaRow>(
-        'INSERT INTO b2b_media(id,organization_id,created_by,kind,label,attribution,relative_path,mime,bytes,sha256) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *',
+        'INSERT INTO b2b_media(id,organization_id,created_by,kind,label,attribution,relative_path,mime,bytes,sha256,branch_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *',
         [
           stored.id,
           c.org.id,
@@ -497,6 +628,7 @@ export class B2BService {
           stored.mime,
           stored.bytes,
           stored.sha256,
+          c.branchId ?? null,
         ],
       )
     ).rows[0];
@@ -506,10 +638,94 @@ export class B2BService {
   async mediaAccess(
     id: string,
     identity?: { userId: string; sessionId: string },
+    work: WorkContext = {},
   ): Promise<MediaRow> {
     const row = (await this.pool.query<MediaRow>('SELECT * FROM b2b_media WHERE id=$1', [id]))
       .rows[0];
     if (!row) throw missing();
+    if (work.domain) {
+      const domain = work.domain;
+      if (row.organization_id !== domain.organizationId) throw missing();
+      const url = `/api/b2b/media/${id}`;
+      const publicContext = await this.whiteLabel.context(domain);
+      if (referencesMedia(publicContext.theme, url)) return row;
+      for (const branch of publicContext.branches) {
+        try {
+          if (
+            referencesMedia(
+              await this.publicSite(
+                publicContext.organization.slug,
+                undefined,
+                domain,
+                branch.slug,
+              ),
+              url,
+            )
+          )
+            return row;
+        } catch (error) {
+          if (!(error instanceof HttpError) || error.status !== 404) throw error;
+        }
+      }
+      if (!identity) throw missing();
+      return this.transaction(async (db) => {
+        const org = (
+          await db.query<OrgRow>('SELECT * FROM b2b_organization WHERE id=$1 FOR SHARE', [
+            domain.organizationId,
+          ])
+        ).rows[0];
+        await this.requireSession(db, identity.userId, identity.sessionId);
+        await requireBrandSession(db, identity.userId, identity.sessionId, domain);
+        const membership = (
+          await db.query<{ role: Role }>(
+            'SELECT role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active',
+            [domain.organizationId, identity.userId],
+          )
+        ).rows[0];
+        if (membership?.role === 'admin') return row;
+        const staff = (
+          await db.query(
+            `SELECT 1 FROM b2b_branch_grant g JOIN b2b_branch b ON b.organization_id=g.organization_id AND b.id=g.branch_id
+          WHERE g.organization_id=$1 AND g.user_id=$2 AND g.role='coach' AND g.active AND b.status='active' AND ($3::text IS NULL OR g.branch_id=$3) LIMIT 1`,
+            [domain.organizationId, identity.userId, row.branch_id],
+          )
+        ).rowCount;
+        if (staff) return row;
+        // Images fetched by the browser do not carry a selected branch header.
+        // Derive all currently authorized branches in the server, then require
+        // an actual visible reference rather than treating a shared ID as access.
+        const grants = await db.query<{ branch_id: string }>(
+          `SELECT DISTINCT g.branch_id FROM b2b_branch_grant g
+           JOIN b2b_branch b ON b.organization_id=g.organization_id AND b.id=g.branch_id
+           WHERE g.organization_id=$1 AND g.user_id=$2 AND g.active AND b.status='active'`,
+          [domain.organizationId, identity.userId],
+        );
+        for (const { branch_id: branchId } of grants.rows) {
+          const context: Context = {
+            db,
+            actorId: identity.userId,
+            org,
+            role: 'member',
+            branchId,
+            domain,
+          };
+          if (
+            referencesMedia(await this.exercises(context), url) ||
+            referencesMedia(await this.machines(context), url) ||
+            referencesMedia(await this.units(context), url)
+          )
+            return row;
+        }
+        const snapshots = await db.query<{ snapshot: unknown }>(
+          `SELECT v.snapshot FROM b2b_program_assignment a JOIN b2b_program_version v ON v.organization_id=a.organization_id AND v.program_id=a.program_id AND v.version=a.version
+          WHERE a.organization_id=$1 AND a.member_id=$2 AND (EXISTS(SELECT 1 FROM b2b_execution e WHERE e.organization_id=a.organization_id AND e.assignment_id=a.id AND e.member_id=$2)
+          OR (a.active AND EXISTS(SELECT 1 FROM b2b_branch_grant g JOIN b2b_branch b ON b.id=g.branch_id AND b.organization_id=g.organization_id WHERE g.organization_id=a.organization_id AND g.branch_id=a.branch_id AND g.user_id=$2 AND g.role='member' AND g.active AND b.status='active')))`,
+          [domain.organizationId, identity.userId],
+        );
+        if (snapshots.rows.some((r) => referencesMedia(r.snapshot, url))) return row;
+        throw missing();
+      });
+    }
     const org = (
       await this.pool.query<{ slug: string }>('SELECT slug FROM b2b_organization WHERE id=$1', [
         row.organization_id,
@@ -591,6 +807,16 @@ export class B2BService {
   }
   async website(c: Context): Promise<Website> {
     this.admin(c);
+    if (c.branchId) {
+      const r = (
+        await c.db.query<WebsiteRow>(
+          'SELECT draft,revision,published,published_revision,published_at FROM b2b_branch WHERE organization_id=$1 AND id=$2',
+          [c.org.id, c.branchId],
+        )
+      ).rows[0];
+      if (!r) throw missing();
+      return websiteDTO(r);
+    }
     const row = (
       await c.db.query<WebsiteRow>('SELECT * FROM b2b_website WHERE organization_id=$1', [c.org.id])
     ).rows[0];
@@ -615,6 +841,17 @@ export class B2BService {
         'DUPLICATE_WEBSITE_ITEM',
         'Los identificadores de actividades y horarios deben ser distintos.',
       );
+    if (c.branchId) {
+      const r = (
+        await c.db.query<WebsiteRow>(
+          'UPDATE b2b_branch SET draft=$3,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$4 RETURNING *',
+          [c.org.id, c.branchId, input, revision],
+        )
+      ).rows[0];
+      if (!r) throw conflict();
+      await this.audit(c, 'branch.website.update', c.branchId);
+      return websiteDTO(r);
+    }
     await c.db.query(
       'INSERT INTO b2b_website(organization_id,draft) VALUES($1,$2) ON CONFLICT DO NOTHING',
       [c.org.id, WebsiteInputSchema.parse({})],
@@ -629,6 +866,36 @@ export class B2BService {
   }
   async publishWebsite(c: Context, revision: number, unpublish = false): Promise<Website> {
     this.admin(c);
+    if (c.branchId) {
+      const current = await this.website(c);
+      if (current.revision !== revision) throw conflict();
+      if (!unpublish && !current.draft.headline.trim())
+        throw new HttpError(
+          400,
+          'WEBSITE_INCOMPLETE',
+          'Completá el título del sitio antes de publicarlo.',
+        );
+      if (!unpublish) await this.validateWebsite(c, current.draft);
+      const r = (
+        await c.db.query<WebsiteRow>(
+          `UPDATE b2b_branch SET published=$3,published_revision=$4,published_at=$5,public=$6,published_profile=CASE WHEN $6 THEN jsonb_build_object('id',id,'slug',slug,'name',name,'address',address,'contact',contact,'timezone',timezone) ELSE NULL END,revision=revision+1 WHERE organization_id=$1 AND id=$2 RETURNING *`,
+          [
+            c.org.id,
+            c.branchId,
+            unpublish ? null : current.draft,
+            unpublish ? null : revision + 1,
+            unpublish ? null : new Date(),
+            !unpublish,
+          ],
+        )
+      ).rows[0];
+      await this.audit(
+        c,
+        unpublish ? 'branch.website.unpublish' : 'branch.website.publish',
+        c.branchId,
+      );
+      return websiteDTO(r);
+    }
     const row = (
       await c.db.query<WebsiteRow>('SELECT * FROM b2b_website WHERE organization_id=$1', [c.org.id])
     ).rows[0];
@@ -656,7 +923,29 @@ export class B2BService {
     await this.audit(c, unpublish ? 'website.unpublish' : 'website.publish', c.org.id);
     return websiteDTO(found.rows[0]);
   }
+  async validateThemeMedia(c: Context, theme: Theme) {
+    // Brand identity is public independently of a branch; require brand-owned media.
+    for (const url of [theme.brand.logoUrl, theme.heroImageUrl].filter(Boolean)) {
+      await this.validateLogo({ ...c, branchId: undefined }, url);
+      const match = /^\/api\/b2b\/media\/([a-zA-Z0-9_-]+)$/.exec(url);
+      if (
+        match &&
+        (
+          await c.db.query(
+            'SELECT 1 FROM b2b_media WHERE id=$1 AND organization_id=$2 AND branch_id IS NOT NULL',
+            [match[1], c.org.id],
+          )
+        ).rowCount
+      )
+        throw new HttpError(
+          400,
+          'BRAND_MEDIA_REQUIRED',
+          'La identidad de marca requiere un medio compartido de marca.',
+        );
+    }
+  }
   private async validateWebsite(c: Context, input: WebsiteInput) {
+    if (input.floorPlan || input.spatialModel) await this.whiteLabel.requireModule(c, 'floorPlan');
     await this.validateAssets(c, [
       ...input.gallery,
       ...(input.floorPlan ? [input.floorPlan.image] : []),
@@ -665,8 +954,8 @@ export class B2BService {
     const ids = input.floorPlan?.points.map((point) => point.unitId) ?? [];
     if (ids.length) {
       const units = await c.db.query<{ id: string }>(
-        'SELECT id FROM b2b_unit WHERE organization_id=$1 AND id=ANY($2::text[]) AND NOT archived',
-        [c.org.id, ids],
+        'SELECT id FROM b2b_unit WHERE organization_id=$1 AND id=ANY($2::text[]) AND NOT archived AND ($3::text IS NULL OR branch_id=$3)',
+        [c.org.id, ids, c.branchId ?? null],
       );
       if (units.rows.length !== ids.length)
         throw new HttpError(
@@ -759,11 +1048,93 @@ export class B2BService {
   report(...args: Parameters<TrainingModule['report']>) {
     return this.training.report(...args);
   }
-  async publicSite(slug: string, unitId?: string): Promise<PublicSite | PublicUnit> {
+  async publicSite(
+    slug: string,
+    unitId?: string,
+    domain?: DomainContext | null,
+    branchSlug?: string,
+  ): Promise<PublicSite | PublicUnit> {
     return this.transaction(async (db) => {
       const org = (await db.query<OrgRow>('SELECT * FROM b2b_organization WHERE slug=$1', [slug]))
         .rows[0];
-      if (!org) throw missing();
+      if (!org || (domain && org.id !== domain.organizationId)) throw missing();
+      if (domain) {
+        if (!unitId && !branchSlug) {
+          const modules = await readModules(db, org.id);
+          const rootSite = (
+            await db.query<WebsiteRow>('SELECT * FROM b2b_website WHERE organization_id=$1', [
+              org.id,
+            ])
+          ).rows[0];
+          if (!modules.website || !rootSite?.published) throw missing();
+          const theme = (
+            await db.query<{ published: Theme }>(
+              'SELECT published FROM b2b_theme WHERE organization_id=$1',
+              [org.id],
+            )
+          ).rows[0];
+          const website = WebsiteInputSchema.parse(rootSite.published.content);
+          // Legacy floor plans belong to Principal, not the brand landing page.
+          website.floorPlan = null;
+          website.spatialModel = null;
+          return {
+            organization: { id: org.id, slug: org.slug, brand: theme.published.brand },
+            website,
+            units: [],
+            machines: [],
+            exercises: [],
+          };
+        }
+        let branchId: string | undefined;
+        if (unitId)
+          branchId = (
+            await db.query<{ branch_id: string }>(
+              'SELECT branch_id FROM b2b_unit WHERE organization_id=$1 AND id=$2',
+              [org.id, unitId],
+            )
+          ).rows[0]?.branch_id;
+        const branch = (
+          await db.query<{ id: string; published: WebsiteInput }>(
+            `SELECT id,published FROM b2b_branch WHERE organization_id=$1 AND status='active' AND public AND published IS NOT NULL
+          AND (($2::text IS NOT NULL AND id=$2) OR ($2::text IS NULL AND published_profile->>'slug'=$3))`,
+            [org.id, branchId ?? null, branchSlug ?? 'principal'],
+          )
+        ).rows[0];
+        if (!branch) throw missing();
+        const modules = await readModules(db, org.id, branch.id);
+        if (!modules.website || (unitId && !modules.equipment)) throw missing();
+        const theme = (
+          await db.query<{ published: Theme }>(
+            'SELECT published FROM b2b_theme WHERE organization_id=$1',
+            [org.id],
+          )
+        ).rows[0];
+        const organization = { id: org.id, slug: org.slug, brand: theme.published.brand };
+        const { machines, exercises } = await this.catalog.publishedCatalog(db, org.id, branch.id);
+        const units = modules.equipment
+          ? await this.equipment.publicUnits(db, org, new Set(machines.map((m) => m.id)), branch.id)
+          : [];
+        if (unitId) {
+          const unit = units.find((u) => u.id === unitId),
+            machine = machines.find((m) => m.id === unit?.machineId);
+          if (!unit || !machine) throw missing();
+          return {
+            organization,
+            unit,
+            machine,
+            exercises: exercises.filter((e) => supportsMachine(e, machine.id)),
+          };
+        }
+        const website = WebsiteInputSchema.parse(branch.published);
+        if (!modules.floorPlan) {
+          website.floorPlan = null;
+          website.spatialModel = null;
+        } else if (website.floorPlan)
+          website.floorPlan.points = website.floorPlan.points.filter((p) =>
+            units.some((u) => u.id === p.unitId),
+          );
+        return { organization, website, units, machines, exercises };
+      }
       const site = (
         await db.query<WebsiteRow>('SELECT * FROM b2b_website WHERE organization_id=$1', [org.id])
       ).rows[0];

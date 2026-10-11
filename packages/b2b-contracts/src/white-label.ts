@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { IdSchema, RevisionSchema, RoleSchema, TimestampSchema, VersionSchema } from './common.ts'
 import { AssetSchema } from './media.ts'
-import { BrandInputSchema } from './organization.ts'
+import { BrandInputSchema } from './brand.ts'
 import { WebsiteInputSchema } from './website.ts'
 
 export const BranchRoleSchema = z.enum(['coach', 'member'])
@@ -78,7 +78,7 @@ export const WhiteLabelMeSchema = z
 const ColorSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/)
 export const ThemeInputSchema = z
   .object({
-    brand: z.lazy(() => BrandInputSchema),
+    brand: BrandInputSchema,
     palette: z
       .object({
         primary: ColorSchema.default('#235c4b'),
@@ -168,7 +168,7 @@ export const BrandContextSchema = z
       .object({
         id: IdSchema,
         slug: z.string().min(1),
-        brand: z.lazy(() => BrandInputSchema),
+        brand: BrandInputSchema,
       })
       .strict(),
     theme: ThemeInputSchema,

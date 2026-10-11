@@ -6,10 +6,11 @@ import { conflict, HttpError } from '../errors.ts';
 import { admin, audit, type Context, type ValidateAssets } from '../organization-context.ts';
 import type { CatalogModule } from '../catalog/index.ts';
 
-type UnitInput = Omit<Unit, 'id' | 'publicPath' | 'revision'>;
+type UnitInput = Omit<Unit, 'id' | 'publicPath' | 'revision' | 'branchId'>;
 type UnitRow = {
   id: string;
   machine_id: string;
+  branch_id: string;
   label: string;
   location: string;
   assets: Unit['assets'];
@@ -20,6 +21,7 @@ type UnitRow = {
 };
 const unitDTO = (row: UnitRow, slug: string): Unit => ({
   id: row.id,
+  branchId: row.branch_id,
   machineId: row.machine_id,
   label: row.label,
   location: row.location,
@@ -44,8 +46,8 @@ export class EquipmentModule {
 
   async units(context: Context): Promise<Unit[]> {
     const found = await context.db.query<UnitRow>(
-      "SELECT * FROM b2b_unit WHERE organization_id=$1 AND ($2 <> 'member' OR (NOT archived AND EXISTS(SELECT 1 FROM b2b_machine m WHERE m.id=machine_id AND m.status='published'))) ORDER BY label",
-      [context.org.id, context.role],
+      "SELECT * FROM b2b_unit WHERE organization_id=$1 AND ($3::text IS NULL OR branch_id=$3) AND ($2 <> 'member' OR (NOT archived AND EXISTS(SELECT 1 FROM b2b_machine m WHERE m.id=machine_id AND m.status='published'))) ORDER BY label",
+      [context.org.id, context.role, context.branchId ?? null],
     );
     return found.rows.map((row) => unitDTO(row, context.org.slug));
   }
@@ -56,7 +58,7 @@ export class EquipmentModule {
     await this.catalog.validateMachine(context, input.machineId);
     const id = randomUUID();
     const found = await context.db.query<UnitRow>(
-      'INSERT INTO b2b_unit(id,organization_id,machine_id,label,location,assets,adjustments,archived,public) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *',
+      'INSERT INTO b2b_unit(id,organization_id,machine_id,label,location,assets,adjustments,archived,public,branch_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *',
       [
         id,
         context.org.id,
@@ -67,6 +69,7 @@ export class EquipmentModule {
         input.adjustments,
         input.archived,
         input.public,
+        context.branchId ?? null,
       ],
     );
     await audit(context, 'unit.create', id);
@@ -83,7 +86,7 @@ export class EquipmentModule {
     await this.validateAssets(context, input.assets);
     await this.catalog.validateMachine(context, input.machineId);
     const found = await context.db.query<UnitRow>(
-      'UPDATE b2b_unit SET machine_id=$3,label=$4,location=$5,assets=$6,adjustments=$7,archived=$8,public=$9,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$10 RETURNING *',
+      'UPDATE b2b_unit SET machine_id=$3,label=$4,location=$5,assets=$6,adjustments=$7,archived=$8,public=$9,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$10 AND ($11::text IS NULL OR branch_id=$11) RETURNING *',
       [
         context.org.id,
         id,
@@ -95,6 +98,7 @@ export class EquipmentModule {
         input.archived,
         input.public,
         revision,
+        context.branchId ?? null,
       ],
     );
     if (!found.rows[0]) throw conflict();
@@ -106,8 +110,8 @@ export class EquipmentModule {
     admin(context);
     const previous = (
       await context.db.query<{ input: unknown; result: Unit[] }>(
-        'SELECT input,result FROM b2b_unit_batch WHERE organization_id=$1 AND id=$2',
-        [context.org.id, input.id],
+        'SELECT input,result FROM b2b_unit_batch WHERE organization_id=$1 AND id=$2 AND branch_id=COALESCE($3,b2b_principal_branch_id($1))',
+        [context.org.id, input.id, context.branchId ?? null],
       )
     ).rows[0];
     if (previous) {
@@ -119,16 +123,16 @@ export class EquipmentModule {
     const units: Unit[] = [];
     for (const item of input.units) units.push(await this.createUnit(context, item));
     await context.db.query(
-      'INSERT INTO b2b_unit_batch(organization_id,id,input,result) VALUES($1,$2,$3,$4)',
-      [context.org.id, input.id, input, JSON.stringify(units)],
+      'INSERT INTO b2b_unit_batch(organization_id,id,input,result,branch_id) VALUES($1,$2,$3,$4,$5)',
+      [context.org.id, input.id, input, JSON.stringify(units), context.branchId ?? null],
     );
     return units;
   }
 
   async activeModels(context: Context): Promise<Set<string>> {
     const found = await context.db.query<{ machine_id: string }>(
-      'SELECT DISTINCT machine_id FROM b2b_unit WHERE organization_id=$1 AND NOT archived',
-      [context.org.id],
+      'SELECT DISTINCT machine_id FROM b2b_unit WHERE organization_id=$1 AND NOT archived AND ($2::text IS NULL OR branch_id=$2)',
+      [context.org.id, context.branchId ?? null],
     );
     return new Set(found.rows.map((row) => row.machine_id));
   }
@@ -137,10 +141,11 @@ export class EquipmentModule {
     db: PoolClient,
     organization: { id: string; slug: string },
     publishedModels: ReadonlySet<string>,
+    branchId?: string,
   ): Promise<Unit[]> {
     const found = await db.query<UnitRow>(
-      'SELECT * FROM b2b_unit WHERE organization_id=$1 AND public AND NOT archived',
-      [organization.id],
+      'SELECT * FROM b2b_unit WHERE organization_id=$1 AND public AND NOT archived AND ($2::text IS NULL OR branch_id=$2)',
+      [organization.id, branchId ?? null],
     );
     return found.rows
       .filter((row) => publishedModels.has(row.machine_id))

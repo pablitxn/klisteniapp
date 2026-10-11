@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isIP } from 'node:net';
 
 const Environment = z.object({
   B2B_DATABASE_URL: z.url().refine((v) => /^postgres(ql)?:/.test(v)),
@@ -12,6 +13,10 @@ const Environment = z.object({
   B2B_MEDIA_ROOT: z.string().startsWith('/').optional(),
   B2B_MEDIA_QUOTA_MB: z.coerce.number().int().min(32).max(10240).default(256),
   B2B_DEMO_MODE: z.enum(['true', 'false']).default('false'),
+  B2B_WHITE_LABEL: z.enum(['true', 'false']).default('false'),
+  B2B_PROXY_SECRET: z.string().regex(/^[a-zA-Z0-9_-]{32,256}$/).optional(),
+  B2B_TRUSTED_PROXY_ADDRESSES: z.string().default('127.0.0.1,::1'),
+  B2B_DOMAIN_PROTOCOL: z.enum(['http', 'https']).default('https'),
   NODE_ENV: z.enum(['production', 'development', 'test']).default('development'),
 });
 export type Config = {
@@ -24,6 +29,11 @@ export type Config = {
   demoMode: boolean;
   mediaRoot?: string;
   mediaQuotaMb?: number;
+  /** Omitted/false preserves the explicit single-origin legacy deployment. */
+  whiteLabel?: boolean;
+  proxySecret?: string;
+  trustedProxyAddresses?: string[];
+  domainProtocol?: 'http' | 'https';
 };
 export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const result = Environment.safeParse(env);
@@ -42,6 +52,17 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     throw new Error('B2B_APP_ORIGIN must be an exact HTTP(S) origin');
   if (input.NODE_ENV === 'production' && origin.protocol !== 'https:')
     throw new Error('Production B2B origin requires HTTPS');
+  const trustedProxyAddresses = input.B2B_TRUSTED_PROXY_ADDRESSES.split(',').map((v) => v.trim());
+  if (!trustedProxyAddresses.length || trustedProxyAddresses.some((v) => !isIP(v)))
+    throw new Error('B2B_TRUSTED_PROXY_ADDRESSES requires exact IP addresses');
+  if (input.B2B_WHITE_LABEL === 'true') {
+    if (!input.B2B_PROXY_SECRET || input.B2B_PROXY_SECRET.startsWith('replace-'))
+      throw new Error('White-label B2B requires an independent B2B_PROXY_SECRET');
+    if (input.B2B_PROXY_SECRET === input.B2B_AUTH_SECRET)
+      throw new Error('B2B proxy and auth secrets must be independent');
+    if (input.NODE_ENV === 'production' && input.B2B_DOMAIN_PROTOCOL !== 'https')
+      throw new Error('Production white-label domains require HTTPS');
+  }
   if (env.BETTER_AUTH_SECRET && env.BETTER_AUTH_SECRET === input.B2B_AUTH_SECRET)
     throw new Error('B2B must use an independent auth secret');
   if (env.DATABASE_URL) {
@@ -64,5 +85,9 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     demoMode: input.B2B_DEMO_MODE === 'true',
     ...(input.B2B_MEDIA_ROOT ? { mediaRoot: input.B2B_MEDIA_ROOT } : {}),
     mediaQuotaMb: input.B2B_MEDIA_QUOTA_MB,
+    whiteLabel: input.B2B_WHITE_LABEL === 'true',
+    proxySecret: input.B2B_PROXY_SECRET,
+    trustedProxyAddresses,
+    domainProtocol: input.B2B_DOMAIN_PROTOCOL,
   };
 }

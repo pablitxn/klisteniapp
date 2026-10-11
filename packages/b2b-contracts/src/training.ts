@@ -77,6 +77,7 @@ const HistoricalMachineSchema = MachineSchema.extend({
 export const ProgramVersionSchema = ResponseProgramContentSchema.safeExtend({
   programId: IdSchema,
   branchId: IdSchema.optional(),
+  branchName: z.string().max(100).optional(),
   version: VersionSchema,
   exercises: z.array(ExerciseSchema),
   machines: z.array(HistoricalMachineSchema),
@@ -110,6 +111,7 @@ export const AssignmentSchema = z
   .object({
     id: IdSchema,
     branchId: IdSchema.optional(),
+    branchName: z.string().max(100).optional(),
     active: z.boolean().optional(),
     memberId: IdSchema,
     memberName: z.string(),
@@ -158,6 +160,7 @@ export type ExecutionInput = z.infer<typeof ExecutionInputSchema>
 
 export const ExecutionSchema = ExecutionInputSchema.safeExtend({
   branchId: IdSchema.optional(),
+  branchName: z.string().max(100).optional(),
   notes: ExecutionInputSchema.shape.notes.removeDefault(),
   sets: z
     .array(

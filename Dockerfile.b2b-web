@@ -3,6 +3,7 @@ FROM ${NGINX_IMAGE}
 ARG OCI_REVISION=dev
 LABEL org.opencontainers.image.title="Klisteni B2B web" org.opencontainers.image.revision="${OCI_REVISION}"
 COPY --chmod=644 docker/nginx.b2b.conf /etc/nginx/nginx.conf
+COPY --chmod=644 docker/nginx.b2b-proxy-identity.conf /etc/nginx/b2b-proxy-identity.conf
 COPY --chown=1000:1000 apps/member-web/dist/ /usr/share/nginx/html/
 COPY --chown=1000:1000 apps/backoffice/dist/ /usr/share/nginx/html/backoffice/
 USER 1000:1000

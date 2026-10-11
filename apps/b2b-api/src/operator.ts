@@ -1,7 +1,7 @@
 import { pathToFileURL } from 'node:url';
 import { z } from 'zod';
 import type { Pool } from 'pg';
-import { BrandInputSchema } from '@klisteniapp/b2b-contracts';
+import { BrandInputSchema, ModuleIdSchema } from '@klisteniapp/b2b-contracts';
 import { createAuth } from './auth.ts';
 import type { Auth } from './auth.ts';
 import { readConfig } from './config.ts';
@@ -62,6 +62,42 @@ export async function setServiceAccess(
   );
   if (!result.rowCount) throw new Error('Unknown B2B organization');
   return { organizationId: result.rows[0].id, enabled, endsAt };
+}
+// Operator-only capability ceiling; brand administrators may only lower it.
+export async function setPlatformModule(
+  pool: Pool,
+  slug: string,
+  rawModule: string,
+  enabled: boolean,
+) {
+  const module = ModuleIdSchema.parse(rawModule);
+  z.boolean().parse(enabled);
+  const db = await pool.connect();
+  try {
+    await db.query('BEGIN');
+    const organization = (
+      await db.query<{ id: string }>('SELECT id FROM b2b_organization WHERE slug=$1 FOR UPDATE', [
+        slug,
+      ])
+    ).rows[0];
+    if (!organization) throw new Error('Unknown B2B organization');
+    const result = await db.query(
+      'UPDATE b2b_module_configuration SET platform_enabled=$3 WHERE organization_id=$1 AND module=$2 RETURNING module',
+      [organization.id, module, enabled],
+    );
+    if (!result.rowCount) throw new Error('Migrate white-label configuration first');
+    await db.query(
+      "INSERT INTO b2b_audit(organization_id,action,resource_id) VALUES($1,'operator.module.update',$2)",
+      [organization.id, `${module}:${enabled}`],
+    );
+    await db.query('COMMIT');
+    return { organizationId: organization.id, module, platformEnabled: enabled };
+  } catch (error) {
+    await db.query('ROLLBACK');
+    throw error;
+  } finally {
+    db.release();
+  }
 }
 export async function createOrganization(
   pool: Pool,
@@ -186,6 +222,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
         slug: process.env.B2B_ORG_SLUG ?? '',
         organizationName: process.env.B2B_ORG_NAME ?? '',
       });
+    else if (operation === 'module-access')
+      output = await setPlatformModule(
+        pool,
+        process.env.B2B_ORG_SLUG ?? '',
+        process.env.B2B_MODULE ?? '',
+        z.enum(['true', 'false']).parse(process.env.B2B_MODULE_ENABLED) === 'true',
+      );
     else if (operation === 'service-access')
       output = await setServiceAccess(
         pool,

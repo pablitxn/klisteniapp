@@ -101,6 +101,7 @@ export class TrainingModule {
       description: program.description,
       steps: program.steps,
       programId: id,
+      ...(program.branchId ? { branchId: program.branchId } : {}),
       version: (program.publishedVersion ?? 0) + 1,
       exercises,
       machines,
@@ -128,6 +129,8 @@ export class TrainingModule {
     const models = await this.dependencies.equipment.activeModels(context);
     return rows.map((row) => ({
       id: row.id,
+      branchId: row.branch_id,
+      active: row.active,
       memberId: row.member_id,
       memberName: row.name,
       assignedBy: row.assigned_by,
@@ -146,6 +149,8 @@ export class TrainingModule {
     const repository = new TrainingRepository(context);
     const snapshot = await repository.programVersion(input.programId, input.version);
     if (!snapshot) throw missing();
+    // Availability changes affect new prescriptions, never the immutable version.
+    await this.dependencies.catalog.resolveExercises(context, programExerciseIds(snapshot), true);
     const models = await this.dependencies.equipment.activeModels(context);
     requireAssignableEquipment(snapshot, this.availability(snapshot, models));
 
@@ -161,12 +166,13 @@ export class TrainingModule {
   }
 
   async executions(context: Context, memberId?: string): Promise<Execution[]> {
-    if (memberId) await this.dependencies.memberAccess(context, memberId);
+    if (context.history && memberId && memberId !== context.actorId) throw denied();
+    if (memberId && !context.history) await this.dependencies.memberAccess(context, memberId);
     return new TrainingRepository(context).executions(memberId);
   }
 
   async recordExecution(context: Context, input: ExecutionInput): Promise<Execution> {
-    if (context.role !== 'member') throw denied();
+    if (context.role !== 'member' || context.history) throw denied();
     const assignment = (await this.assignments(context)).find(
       (item) => item.id === input.assignmentId,
     );
@@ -187,6 +193,12 @@ export class TrainingModule {
         );
       }
     } else {
+      if (assignment.active === false)
+        throw new HttpError(
+          409,
+          'ASSIGNMENT_INACTIVE',
+          'Esta asignación finalizó. Consultá a tu instructor.',
+        );
       // Check live inventory only after replay detection, so retries of an
       // accepted record survive later inventory changes.
       requireExecutionEquipment(assignment, input);
