@@ -13,7 +13,7 @@
     "build": "turbo run build",
     "lint": "pnpm check:b2b:boundaries && turbo run lint && pnpm format:b2b:check",
     "typecheck": "turbo run typecheck",
-    "test": "node --test scripts/preview-provenance.test.mjs scripts/b2b-boundaries.test.mjs scripts/dev-environment.test.mjs && turbo run test",
+    "test": "node --test scripts/preview-provenance.test.mjs scripts/b2b-boundaries.test.mjs scripts/dev-environment.test.mjs scripts/b2b-gateway.test.mjs && turbo run test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
@@ -42,7 +42,9 @@
     "check:b2b:boundaries": "node scripts/check-b2b-boundaries.mjs",
     "dev:demo": "VITE_APP_MODE=demo pnpm --filter @klisteniapp/web dev",
     "setup:dev": "node scripts/dev-environment.mjs",
-    "dev:gateway": "node scripts/b2b-gateway.mjs"
+    "dev:gateway": "node scripts/b2b-gateway.mjs",
+    "test:b2b:wl:e2e": "node scripts/b2b-wl-tls.mjs && pnpm --filter @klisteniapp/web exec playwright test --config playwright.white-label.config.ts",
+    "test:b2b:wl:restore": "node scripts/b2b-wl-restore.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
