@@ -61,6 +61,9 @@ quality:
     # Type-aware lint across ten packages exhausted the shared runner's memory.
     # Serialize workspace tasks while preserving every validation gate.
     TURBO_CONCURRENCY: "1"
+    # The web typecheck also needs more heap than Node gets under a 1 GiB limit.
+    # This job override stays within the runner's existing 2 GiB allowance.
+    KUBERNETES_MEMORY_LIMIT: "2Gi"
   script:
     - unset TEST_DATABASE_URL DATABASE_URL BETTER_AUTH_SECRET B2B_TEST_DATABASE_URL B2B_DATABASE_URL B2B_AUTH_SECRET
     - pnpm lint
