@@ -109,16 +109,21 @@ PostgreSQL o las APIs públicamente. Resolver puertos ocupados o configurar orí
 compatibles; cambiar sólo el puerto del túnel puede romper autenticación.
 El QR con loopback requiere un túnel propio en el dispositivo que lo abre.
 
-La prueba futura usa `atlas.b2b.test` y `sur.b2b.test`, **dos orígenes del navegador
+La suite `pnpm test:b2b:wl:e2e` usa `atlas.b2b.test` y `sur.b2b.test`, **dos orígenes del navegador
 servidos por el mismo proxy y aplicación**, con resolución local y TLS confiable.
-Configurar resolución también dentro de Docker y del navegador sin interfaz;
-documentar la confianza del certificado y preservar host/origen por el túnel.
+Usa proxies CONNECT restringidos que resuelven los hosts en cada navegador.
+La [guía WL](b2b-white-label-runtime.md#dos-dominios-https-en-navegadores-reales)
+documenta la CA local, su retiro y la frontera de confianza del proxy. Un acceso
+desde otro dispositivo requiere preservar host/origen y confiar explícitamente en
+la CA de pruebas; el túnel HTTP anterior sigue siendo sólo para el modo de una sede.
 Dos rutas en `127.0.0.1:4200`, o cambiar únicamente una cabecera con
 `curl`, no acreditan aislamiento de cookies, login y marca entre dominios.
 
 ## 5. Implementar y validar por entregas
 
-Empezar por **WL-0** y continuar con **WL-1**, siguiendo dependencias y criterios
+Consultar primero los checkpoints WL del [roadmap](roadmap-implementacion.md)
+y la [evidencia nueva](b2b-white-label-validation.md); WL-0 a WL-8 están
+implementados y verificados en el alcance local autorizado. Seguir los criterios
 del [plan detallado](b2b-white-label.md). Registrar por entrega SHA, comandos,
 resultados, omisiones y pendientes. Para cambios de código, existen `pnpm lint`,
 `pnpm typecheck`, `pnpm test`, `pnpm build:b2b`, `pnpm test:b2b:api` y
@@ -131,8 +136,12 @@ sin `options`, y permisos de crear/eliminar schemas. No reutilizar las URLs del
 setup dev. Antes del navegador, comprobar motores y librerías Linux; instalar
 sólo lo necesario siguiendo la [matriz B2B](b2b-browser-validation.md).
 
-Los comandos actuales no certifican el futuro aislamiento por dominio. La suite de dos
-dominios se debe implementar y documentar en WL; su comando aún no existe.
+La suite HTTPS de dos marcas y cuatro sedes se ejecuta con `pnpm test:b2b:wl:e2e`
+tras preparar PostgreSQL de pruebas y la CA controlada para WebKit. El ensayo de
+restauración usa `pnpm test:b2b:wl:restore` y el contenedor PostgreSQL explícito
+`B2B_WL_TEST_POSTGRES_CONTAINER`. Ver prerequisitos, limpieza y comandos exactos
+en [operación WL](b2b-white-label-runtime.md). Las suites B2B anteriores
+conservan su alcance de regresión del modo de una sede.
 La regeneración/revisión completa de previews sigue diferida: conservar derivados,
 registrar la omisión y no falsificar hashes ni declarar `pnpm check` completo verde.
 Linux sin interfaz gráfica no sustituye la aceptación física o visual.
@@ -143,8 +152,8 @@ Linux sin interfaz gráfica no sustituye la aceptación física o visual.
 > `docs/roadmap-implementacion.md`, `docs/b2b-white-label.md`, `docs/b2b.md`,
 > `docs/development.md` y `docs/development-vps.md`. Inspeccioná rama, SHA,
 > cambios locales, instrucciones y recursos del VPS antes de modificar nada.
-> Confirmá que llegaron el plan y el setup unificado. Empezá por WL-0 y luego
-> WL-1; respetá sus dependencias y las decisiones pendientes, con incrementos
+> Confirmá los checkpoints y la evidencia WL-0 a WL-8 recibidos; no reinicies
+> el trabajo ya implementado. Continuá desde los pendientes reales, con incrementos
 > revisables y pruebas de aislamiento. Varias sedes forman parte de la primera
 > entrega: dominio → marca/organización → sede. Prepará Atlas y Sur con al menos
 > dos sedes cada una y permisos de profesores/socios limitados a las sedes

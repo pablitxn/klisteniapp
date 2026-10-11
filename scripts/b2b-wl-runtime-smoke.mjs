@@ -67,6 +67,14 @@ try {
     id: docker(['image', 'inspect', '--format', '{{.Id}}', image]),
     revision: docker(['image', 'inspect', '--format', '{{ index .Config.Labels "org.opencontainers.image.revision" }}', image]),
   };
+  evidence.sourceRevision = evidence.images[apiImage].revision;
+  assert.match(evidence.sourceRevision, /^[a-f0-9]{40}$/);
+  assert.equal(evidence.images[webImage].revision, evidence.sourceRevision);
+  if (process.env.B2B_WL_EXPECTED_REVISION) assert.equal(evidence.sourceRevision, process.env.B2B_WL_EXPECTED_REVISION);
+  evidence.runtimeVersions = {
+    node: docker(['run', '--rm', '--network', 'none', '--entrypoint', 'node', apiImage, '--version']),
+    nginx: docker(['run', '--rm', '--network', 'none', '--entrypoint', 'sh', webImage, '-c', 'nginx -v 2>&1']),
+  };
   await owner.query(`CREATE SCHEMA ${schema}`); schemaCreated = true;
   docker(['run', '--rm', '--network', 'host', '--env-file', envFile, apiImage, 'node', 'apps/b2b-api/src/migrate.ts']);
   evidence.checks.push('image-migration');

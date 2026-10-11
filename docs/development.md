@@ -98,5 +98,7 @@ siguen disponibles para sus entornos aislados.
 Para ejecutar este entorno desde otro dispositivo con la Mac apagada, seguir
 [el relevo al VPS y los túneles privados](development-vps.md). Las URLs de esta guía
 describen el setup actual de un origen. Los dominios por marca, temas y varias
-sedes desde la primera entrega están definidos en [el próximo refactor B2B](b2b-white-label.md)
-y requieren implementar y validar sus etapas antes de usarlos.
+sedes desde la primera entrega están implementados en [marca blanca B2B](b2b-white-label.md).
+Su suite HTTPS usa entornos desechables propios; consultar [preparación y confianza
+TLS](b2b-white-label-runtime.md) antes de ejecutarla. No activar el modo anterior
+contra una base que ya tenga dominios o múltiples sedes.

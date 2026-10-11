@@ -103,3 +103,20 @@ B2B_WL_TEST_POSTGRES_CONTAINER=klisteni-b2b-db-1 \
 Requiere PostgreSQL de pruebas en loopback y permiso para crear dos bases temporales. Detiene las escrituras del origen sintético, crea un `pg_dump` completo, copia medios/configuración a recursos separados y restaura con `pg_restore --exit-on-error`. Comprueba IDs, concesiones, invitaciones pendientes, snapshots, temas, dominios, bytes de medios, login e historial propio. Elimina solamente sus bases y archivos temporales; el informe sanitizado queda en `.cache/wl/restore-report.json`. La configuración privada y el dump nunca se agregan a Git.
 
 Para una recuperación real, primero detener escrituras y preservar DB/medios/configuración actuales; restaurar en recursos separados, verificar esta matriz y decidir cómo reconciliar escrituras posteriores al respaldo antes de cambiar el servicio. El ensayo sintético no contiene escrituras posteriores pendientes. Una reversión de tema sólo cambia identidad; no revierte migraciones ni permisos. API y frontend deben actualizarse juntos con migraciones 004/005, y las sesiones anteriores al modo por dominio requieren nuevo login.
+
+## Imágenes compartidas: smoke local
+
+Con los bundles de `member-web` y `backoffice` compilados, construir tags exclusivos de prueba y verificar el SHA esperado. La revisión siguiente corresponde a la ejecución registrada; para otra revisión, usar el mismo SHA en ambas imágenes y en el smoke:
+
+```sh
+docker build -f Dockerfile.b2b-api --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-api:wl-test .
+docker build -f Dockerfile.b2b-web --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-web:wl-test .
+B2B_WL_EXPECTED_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 \
+  node --env-file=.cache/wl/test.env scripts/b2b-wl-runtime-smoke.mjs
+```
+
+El harness usa un schema sintético propio, migraciones ejecutadas desde la imagen API, contenedores de sólo lectura sin capacidades y puertos efímeros vinculados exclusivamente a loopback. Un terminador TLS local conserva el host hacia el Nginx real de la imagen; éste reemplaza las cabeceras de confianza. Las solicitudes validan certificado/CA/SNI explícitamente, sin modificar el almacén de confianza del sistema.
+
+La ejecución del 11/10/2026 pasó sus seis grupos de comprobaciones: migración, readiness, HTML/contexto/login/sesión con dos sedes por marca para Atlas y Sur, rechazo de cookies copiadas, y política de hosts desconocidos/alias/queries secretas en Nginx. Ambas marcas compartieron las mismas imágenes y procesos. Se eliminaron los contenedores, schema y archivos privados temporales; no se desplegó producción. Los tags locales quedan disponibles para inspección.
+
+[Evidencia de imágenes](validation/b2b-white-label-images-2026-10-11.json) incluye IDs, revisión OCI comprobada, Node y Nginx. [Evidencia de navegadores](validation/b2b-white-label-browsers-2026-10-11.json) registra los 30 casos finales aprobados en Chromium escritorio/táctil y WebKit táctil, las revisiones por proyecto y la retirada de la CA temporal. Son navegadores con emulación táctil, no dispositivos físicos.

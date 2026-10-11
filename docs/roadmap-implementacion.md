@@ -1,10 +1,10 @@
 # Roadmap de implementación: marca blanca B2B, sedes, contenido 3D y UI
 
-Actualizado: **11 de octubre de 2026**. Entrega de código: `508e9e1`; evidencia de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
+Actualizado: **11 de octubre de 2026**. Marca blanca en `codex/b2b-white-label`, checkpoints debajo. Entrega anterior: `508e9e1`; evidencia anterior de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
 
-**Entrega implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
+**Entrega anterior implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
-**Próxima prioridad acordada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 está inventariado; los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
+**Marca blanca implementada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 a WL-8 están implementados y verificados en el alcance local autorizado. Los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
 
 La implementación puede continuar desde otra instancia de Codex en un VPS con la Mac apagada siguiendo el [relevo remoto](development-vps.md). La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
 
@@ -15,8 +15,8 @@ Este documento ordena el trabajo desde la implementación actual. Separa tres l�
 | Estado | Alcance | Evidencia o siguiente acción |
 | --- | --- | --- |
 | Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
-| Runtime local de producción comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
-| En implementación por etapas | WL-0 inventariado; WL-1 a WL-8 en curso | [Decisiones y mapa de cambios WL-0](b2b-white-label-decisions.md); [especificación D01–D19](b2b-white-label.md) |
+| Runtime de la entrega anterior comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
+| Marca blanca completada y verificada localmente | WL-0 a WL-8: dominios, cuatro sedes, permisos, branding, módulos y recuperación | API 76/76; E2E HTTPS 30/30; B2C 3/3; imágenes 6/6 y restauración 6/6. [Checkpoints y matriz D01–D19](b2b-white-label-validation.md) |
 | Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
 | Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
 | Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
@@ -34,7 +34,7 @@ El código puede continuar en [macOS](development-macos.md) o en el [VPS mediant
 - El website básico del gimnasio forma parte de la entrega B2B: presentación, actividades, horarios, catálogo público y entrada de socios.
 - La prescripción publicada y la ejecución real son registros distintos. Las sustituciones tienen permisos y motivo. Abrir un QR o ver una animación no registra entrenamiento.
 - La demo usa el producto real con datos ficticios reiniciables. Los avances de UI se pueden probar con fotos, texto y recursos existentes mientras se producen nuevos modelos.
-- La evolución acordada mantiene **organización = empresa/marca**, incorpora **sede = establecimiento** y resuelve la marca desde un dominio verificado antes del login. La ubicación textual de una unidad no representa una sede. Los permisos nuevos se aplican en servidor a marca, sede, rol y recurso; ver el [modelo propuesto](b2b-white-label.md#4-modelo-de-marca-sede-y-permisos).
+- La evolución acordada mantiene **organización = empresa/marca**, incorpora **sede = establecimiento** y resuelve la marca desde un dominio verificado antes del login. La ubicación textual de una unidad no representa una sede. Los permisos nuevos se aplican en servidor a marca, sede, rol y recurso; ver el [modelo de permisos](b2b-white-label.md#4-modelo-de-marca-sede-y-permisos).
 
 ### Estado de la base revisada, anterior a esta entrega
 
@@ -52,7 +52,7 @@ El código puede continuar en [macOS](development-macos.md) o en el [VPS mediant
 
 ## 2. Orden de entregas
 
-### 2.1. Próxima entrega: marca blanca y varias sedes
+### 2.1. Entrega de marca blanca y varias sedes
 
 La implementación comenzó el **11/10/2026**; el registro de checkpoints indica el avance real por etapa. El [plan detallado](b2b-white-label.md) es la referencia para contratos, permisos, publicación, migraciones, pruebas y rollback; esta tabla fija el orden de trabajo.
 
@@ -70,7 +70,7 @@ La implementación comenzó el **11/10/2026**; el registro de checkpoints indica
 
 El primer recorrido vertical de WL-4 ya incluye varias sedes. El cierre completo exige dos marcas con diseños distintos y al menos dos sedes cada una, servidas por el mismo despliegue, con el circuito administrador → entrenador → socio → seguimiento y rechazos de acceso cruzado. Cambiar nombres o colores por URL no cumple esta aceptación.
 
-La siguiente sesión empieza por WL-0 y WL-1 desde el [relevo al VPS](development-vps.md), sin depender de nuevos modelos Blender. Probar cada fase antes de avanzar; los informes de `508e9e1` siguen siendo evidencia de la base anterior, no de estos cambios futuros.
+La continuación parte de los checkpoints siguientes y del [relevo al VPS](development-vps.md), sin depender de nuevos modelos Blender. Los informes de `508e9e1` conservan su alcance histórico; la validación WL tiene evidencia propia.
 
 ### Checkpoints de marca blanca (nueva evidencia)
 
@@ -81,8 +81,10 @@ Base recibida: `af87f603876cb99b2e6673f290fa8ec03721454b`, árbol limpio, rama d
 | WL-0 | Checkpoint `a451d9c` | [Mapa de archivos, matriz de permisos y políticas](b2b-white-label-decisions.md). Verificados checkout, runtime, puertos y DB de pruebas; no se cambiaron versiones |
 | WL-1 | Checkpoint `5fdf22d`; complemento 005 integrado | Migraciones `004-white-label` y `005-branch-publication-profile`, DTO y fixture Atlas/Sur con Centro y Norte/Oeste. Migración 5/5: JSON/IDs e invitaciones preservados, FKs cruzadas rechazadas y perfil público congelado hasta publicación |
 | WL-2/WL-3/WL-7 | Checkpoint `d0a9011` | Suite API 76/76; HTTP 7/7 y autorización 12/12: sesión de marca, permisos por sede/rol, invitaciones, medios privados/compartidos, revocaciones en cola, orígenes y dominios principal/alias. Operador DNS/TLS y Nginx/gateway; ninguna operación sobre dominios públicos |
-| WL-4–WL-6 | Checkpoint de frontend; navegador final en curso | Tipos globales 15/15, lint 15/15 y tests de frontend aprobados. Escritorio 3/3 recorridos UI: administrador gestiona sedes/permisos/tema/módulos, borradores aislados, entrenador prescribe y socio registra en cuatro sedes. Matriz táctil en curso |
-| WL-8 | Validación final en curso | Restauración sintética 6/6; suite global API/tipos y matriz de tres navegadores en ejecución. Imágenes locales pendientes; todavía no se declara aceptación completa |
+| WL-4–WL-6 | Checkpoint `15660fd` | Tipos globales 15/15, lint 15/15 y tests de frontend aprobados. Escritorio 3/3 recorridos UI: administrador gestiona sedes/permisos/tema/módulos, borradores aislados, entrenador prescribe y socio registra en cuatro sedes. Claves específicas de website, lotes y clips incluyen sede y rol |
+| WL-8 | Completado localmente; harness `c451df2`, imágenes `04d7836` | API 76/76 sin omitidas; E2E 30/30 en tres motores; B2C demo 3/3; lint/tipos 30/30 tareas; tests de 15 paquetes aprobados. Imágenes reales 6/6 y restauración DB/medios/configuración 6/6; [evidencia D01–D19](b2b-white-label-validation.md) |
+
+La CA de pruebas se retiró; los contenedores y schemas temporales se eliminaron. La aceptación física y los dominios públicos quedan fuera de este cierre local.
 
 Las previews existentes se conservan. `check`, `check:all`, `check:release` y sus gates siguen pendientes según la decisión de diferir previews; no se modifican hashes, snapshots ni CI para simular validación.
 
@@ -235,7 +237,7 @@ Para probar un QR impreso desde un teléfono, preparar una instancia B2B de prue
 
 ## 6. Estado de los cambios concretos
 
-La entrega `508e9e1` implementa los tres primeros pasos de esta tabla y deja preparada la integración de recursos estáticos. La [guía de release](b2b-release.md) reúne alcance, comandos y evidencia; el contenido producido en Blender conserva su aceptación propia. Los nuevos cambios de marca blanca y sedes se siguen por WL-0 a WL-8 y permanecen pendientes.
+La entrega `508e9e1` implementa los tres primeros pasos de esta tabla y deja preparada la integración de recursos estáticos. La [guía de release](b2b-release.md) reúne alcance, comandos y evidencia; el contenido producido en Blender conserva su aceptación propia. Los cambios de marca blanca y sedes tienen implementación y checkpoints WL-0 a WL-8 arriba; conservan aceptación física y publicación propias.
 
 | Orden | Estado del código | Archivos o áreas | Aceptación que permanece separada |
 | --- | --- | --- | --- |
@@ -268,7 +270,7 @@ Para el cierre actual, la excepción solicitada por el usuario difiere sólo la 
 
 Cada entrega registra qué cambió, qué se probó, con qué roles/dispositivos y qué quedó pendiente. Para E4, incluir escaneo físico y tareas completas en móvil. Para E3/E5, incluir vistas del recurso y revisión del contenido, además de los checks de código.
 
-Para WL, agregar los casos aplicables de la [matriz D01–D19](b2b-white-label.md#8-matriz-de-aceptación-de-punta-a-punta): dos dominios reales de prueba contra el mismo despliegue, dos sedes por marca, aislamiento de sesión/API/medios, publicación, módulos, migración y restauración. Las suites actuales de un origen no certifican ese comportamiento. Registrar el nuevo comando cuando exista; no dar por implementada la suite al escribir el plan.
+La [matriz WL D01–D19](b2b-white-label-validation.md) agrega dos dominios HTTPS de prueba contra el mismo despliegue, dos sedes por marca, aislamiento de sesión/API/medios, publicación, módulos, migración y restauración. Ejecutar `pnpm test:b2b:wl:e2e` con la DB desechable y la CA controlada descritas en [operación WL](b2b-white-label-runtime.md); en hosts limitados, usar `--project` para correr los tres motores en procesos separados. La suite anterior de un origen conserva sólo su alcance de regresión legacy.
 
 ## 8. Capacidades adicionales de esta entrega
 

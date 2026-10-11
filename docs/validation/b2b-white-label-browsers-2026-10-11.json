@@ -1,0 +1,513 @@
+{
+  "checkedAt": "2026-10-11T13:26:19.103407+00:00",
+  "sourceRevisions": [
+    "04d78368b6e0b6ac1ca74288dc9235145e563799",
+    "c451df24fef991146abde8d8d3f6206bd679a922"
+  ],
+  "execution": "Three sequential project runs, each with a fresh production build and isolated synthetic PostgreSQL schema/API/HTTPS gateway. Runtime behavior is unchanged between source checkpoints: 815142d only formats the unchanged proxy-secret regex; 04d7836 adds the default proxy identity map to the web Docker build allowlist.",
+  "initialRun": {
+    "capturedAt": "2026-10-11T13:11:01.639105+00:00",
+    "description": "Initial browser run build fingerprint; worktree source had uncommitted changes at start. Not attributed to a clean commit.",
+    "builds": {
+      "member-web": {
+        "files": 393,
+        "sha256Manifest": "009ecbdd58435ff5036287b3e46d9b7dc71665f18d2b3d6cb712785a52d223ca"
+      },
+      "backoffice": {
+        "files": 393,
+        "sha256Manifest": "04d6d77a41f93ee06a32ae5b5ad38b5bdcae15b2adee7b6f2393072336933a92"
+      }
+    },
+    "exitCode": 143,
+    "completion": "interrupted externally before a final Playwright report; no aggregate pass claim",
+    "observed": {
+      "wl-chromium-desktop": {
+        "passed": 9,
+        "failed": 1,
+        "failure": "admin cleanup missing account header, corrected in c451df2"
+      },
+      "wl-chromium-touch": {
+        "passed": 9,
+        "failed": 1,
+        "failure": "admin cleanup missing account header, corrected in c451df2"
+      },
+      "wl-webkit-touch": {
+        "passed": 1,
+        "failed": 1,
+        "remaining": 8,
+        "failure": "admin cleanup missing account header, corrected in c451df2"
+      }
+    }
+  },
+  "origins": ["https://atlas.b2b.test", "https://sur.b2b.test"],
+  "topology": {
+    "sharedApiAndFrontendPerProject": true,
+    "branchesPerBrand": 2,
+    "realTls": true,
+    "ignoreHTTPSErrors": false,
+    "chromiumTrust": "single certificate SPKI pin",
+    "webkitTrust": "temporary local test CA installed in Linux trust store",
+    "physicalDevices": false
+  },
+  "projects": [
+    {
+      "project": "wl-chromium-desktop",
+      "sourceRevision": "c451df24fef991146abde8d8d3f6206bd679a922",
+      "startedAt": "2026-10-11T13:12:50.177000+00:00",
+      "durationMs": 232530,
+      "stats": {
+        "total": 10,
+        "expected": 10,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      },
+      "cases": [
+        {
+          "title": "administrator creates a branch, grants scoped access, previews/publishes/restores identity and changes branch modules through the UI",
+          "file": "white-label-workflow.spec.ts",
+          "line": 50,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 10745,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "switching branches never imports an unsaved routine draft into the other branch and restores it only on return",
+          "file": "white-label-workflow.spec.ts",
+          "line": 201,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 4385,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "coach authors, publishes and prescribes through the UI; members complete it and coaches follow up in all four branches",
+          "file": "white-label-workflow.spec.ts",
+          "line": 234,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 93053,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "two actual HTTPS origins show distinct published brands and two branches before login; unknown hosts fail closed",
+          "file": "white-label.spec.ts",
+          "line": 40,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 4071,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "a valid account in another brand cannot log in here; Secure host cookies and session binding isolate both domains",
+          "file": "white-label.spec.ts",
+          "line": 63,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 7008,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "coach branch grants reject foreign branch IDs, other brand URLs and invalid work roles",
+          "file": "white-label.spec.ts",
+          "line": 92,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 2151,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "multiple branch roles require an explicit choice and navigate to the selected workspace",
+          "file": "white-label.spec.ts",
+          "line": 106,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 3632,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "published identity is separate from theme drafts, website publication and immediate module permissions",
+          "file": "white-label.spec.ts",
+          "line": 119,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 2401,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "members complete a real routine in all four branches without mixing the training history",
+          "file": "white-label.spec.ts",
+          "line": 141,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 79973,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "logout clears the authorized state in other tabs of the same brand",
+          "file": "white-label.spec.ts",
+          "line": 165,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 4782,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "wl-chromium-touch",
+      "sourceRevision": "04d78368b6e0b6ac1ca74288dc9235145e563799",
+      "startedAt": "2026-10-11T13:17:00.367000+00:00",
+      "durationMs": 233630,
+      "stats": {
+        "total": 10,
+        "expected": 10,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      },
+      "cases": [
+        {
+          "title": "administrator creates a branch, grants scoped access, previews/publishes/restores identity and changes branch modules through the UI",
+          "file": "white-label-workflow.spec.ts",
+          "line": 50,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 9126,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "switching branches never imports an unsaved routine draft into the other branch and restores it only on return",
+          "file": "white-label-workflow.spec.ts",
+          "line": 201,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 3610,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "coach authors, publishes and prescribes through the UI; members complete it and coaches follow up in all four branches",
+          "file": "white-label-workflow.spec.ts",
+          "line": 234,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 97101,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "two actual HTTPS origins show distinct published brands and two branches before login; unknown hosts fail closed",
+          "file": "white-label.spec.ts",
+          "line": 40,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 3965,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "a valid account in another brand cannot log in here; Secure host cookies and session binding isolate both domains",
+          "file": "white-label.spec.ts",
+          "line": 63,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 7065,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "coach branch grants reject foreign branch IDs, other brand URLs and invalid work roles",
+          "file": "white-label.spec.ts",
+          "line": 92,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 3363,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "multiple branch roles require an explicit choice and navigate to the selected workspace",
+          "file": "white-label.spec.ts",
+          "line": 106,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 5740,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "published identity is separate from theme drafts, website publication and immediate module permissions",
+          "file": "white-label.spec.ts",
+          "line": 119,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 4137,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "members complete a real routine in all four branches without mixing the training history",
+          "file": "white-label.spec.ts",
+          "line": 141,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 76557,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "logout clears the authorized state in other tabs of the same brand",
+          "file": "white-label.spec.ts",
+          "line": 165,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 3879,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "wl-webkit-touch",
+      "sourceRevision": "04d78368b6e0b6ac1ca74288dc9235145e563799",
+      "startedAt": "2026-10-11T13:21:38.054000+00:00",
+      "durationMs": 260427,
+      "stats": {
+        "total": 10,
+        "expected": 10,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      },
+      "cases": [
+        {
+          "title": "administrator creates a branch, grants scoped access, previews/publishes/restores identity and changes branch modules through the UI",
+          "file": "white-label-workflow.spec.ts",
+          "line": 50,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 16480,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "switching branches never imports an unsaved routine draft into the other branch and restores it only on return",
+          "file": "white-label-workflow.spec.ts",
+          "line": 201,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 8236,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "coach authors, publishes and prescribes through the UI; members complete it and coaches follow up in all four branches",
+          "file": "white-label-workflow.spec.ts",
+          "line": 234,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 109526,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "two actual HTTPS origins show distinct published brands and two branches before login; unknown hosts fail closed",
+          "file": "white-label.spec.ts",
+          "line": 40,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 2943,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "a valid account in another brand cannot log in here; Secure host cookies and session binding isolate both domains",
+          "file": "white-label.spec.ts",
+          "line": 63,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 5027,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "coach branch grants reject foreign branch IDs, other brand URLs and invalid work roles",
+          "file": "white-label.spec.ts",
+          "line": 92,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 2586,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "multiple branch roles require an explicit choice and navigate to the selected workspace",
+          "file": "white-label.spec.ts",
+          "line": 106,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 3293,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "published identity is separate from theme drafts, website publication and immediate module permissions",
+          "file": "white-label.spec.ts",
+          "line": 119,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 2817,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "members complete a real routine in all four branches without mixing the training history",
+          "file": "white-label.spec.ts",
+          "line": 141,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 77792,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        },
+        {
+          "title": "logout clears the authorized state in other tabs of the same brand",
+          "file": "white-label.spec.ts",
+          "line": 165,
+          "outcome": "expected",
+          "ok": true,
+          "durationMs": 5486,
+          "results": [
+            {
+              "retry": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "builds": {
+    "member-web": {
+      "files": 393,
+      "sha256Manifest": "3b8bd7b8c2b60b05ff6dfba3352c06b7e84cc6b55123dbcb8c70a7c31080d1e4"
+    },
+    "backoffice": {
+      "files": 393,
+      "sha256Manifest": "30a5bb6204076f4771b3dbb60579e4da864f09495caa9774f391c3f39bfc0612"
+    }
+  },
+  "productionDeployed": false,
+  "totalCases": 30,
+  "passedCases": 30,
+  "result": "passed",
+  "testCaRemovedAt": "2026-10-11T13:26:50.711151+00:00",
+  "temporaryTrustRemoved": true,
+  "cleanupVerified": {
+    "browserProcesses": 0,
+    "browserSchemas": 0,
+    "temporaryTrustRemoved": true
+  }
+}

@@ -1,6 +1,6 @@
 # Marca blanca B2B: dominios, marcas y múltiples sedes
 
-Fecha de definición: **11 de octubre de 2026**. Estado: **dirección acordada y plan de implementación; funcionalidades pendientes**. Este documento detalla la próxima línea del [roadmap](roadmap-implementacion.md). No acredita cambios de aplicación, DNS, certificados, despliegue ni resultados de pruebas de esta nueva arquitectura.
+Fecha de definición e implementación: **11 de octubre de 2026**. Estado: **WL-0 a WL-8 implementados y verificados localmente** en `codex/b2b-white-label`. El [roadmap](roadmap-implementacion.md#checkpoints-de-marca-blanca-nueva-evidencia) registra checkpoints y la [validación nueva](b2b-white-label-validation.md) distingue pruebas automatizadas, runtime local y aceptación física. No se publicaron dominios de clientes ni se desplegó producción.
 
 ## 1. Objetivo y decisiones de producto
 
@@ -17,7 +17,7 @@ Se mantiene fuera de esta entrega: SSO entre dominios, identidades B2C compartid
 
 ## 2. Recorrido esperado
 
-Los siguientes dominios son **fixtures propuestos**, no destinos ya configurados:
+Los siguientes dominios son **fixtures HTTPS locales** de la suite automatizada, no destinos públicos:
 
 | Entrada | Experiencia esperada |
 | --- | --- |
@@ -32,9 +32,9 @@ Historia de aceptación: un administrador de Atlas configura Centro y Norte, asi
 
 La web publicada es visitable sin pertenecer al gimnasio. El login de una persona que sólo pertenece a Sur no crea una sesión autorizada en Atlas. Una persona con membresías en ambas marcas puede entrar en ambos dominios con sesiones independientes. Dentro de una marca, sólo se ofrecen las sedes a las que tiene acceso.
 
-## 3. Base actual y cambios necesarios
+## 3. Base previa y cambios implementados
 
-| Área | Implementación actual | Trabajo de esta línea |
+| Área | Base anterior a WL | Cambio de esta línea |
 | --- | --- | --- |
 | Organizaciones | Membresías y un rol por organización; validación en API | Mantener la organización como marca y agregar sedes y permisos con alcance explícito |
 | Orígenes | `B2B_APP_ORIGIN` único; auth y mutaciones comparan ese origen | Registro de dominios y contexto de marca por petición |
@@ -47,11 +47,11 @@ La web publicada es visitable sin pertenecer al gimnasio. El login de una person
 
 Puntos de entrada reales: [configuración](../apps/b2b-api/src/config.ts), [autenticación](../apps/b2b-api/src/auth.ts), [HTTP](../apps/b2b-api/src/http.ts), [servicio](../apps/b2b-api/src/service.ts), [contexto de organización](../apps/b2b-api/src/organization-context.ts), [datos](../apps/b2b-api/src/database.ts), [migraciones](../apps/b2b-api/src/migrate.ts), [operador](../apps/b2b-api/src/operator.ts), [contratos](../packages/b2b-contracts/src/organization.ts), [sesión React](../packages/b2b-react/src/use-session.ts), [app socio](../apps/member-web/src/App.tsx), [backoffice](../apps/backoffice/src/App.tsx), [UI compartida](../packages/b2b-ui/src/components.tsx), [proxy local](../scripts/b2b-gateway.mjs) y [Nginx](../docker/nginx.b2b.conf).
 
-Actualmente el gateway local reescribe `Host` y la API descarta cabeceras de proxy antes de autenticar. Habilitar dominios implica diseñar esa frontera de confianza; no basta con agregar dominios a `trustedOrigins` ni con cambiar DNS.
+La frontera implementada usa identidad de proxy con secreto independiente e IP exacta, registro activo consultado por petición y validación de origen exacto; ver [operación de dominios](b2b-white-label-runtime.md). La API no confía en un `Host` o `Forwarded` aportado por el cliente para elegir marca.
 
 ## 4. Modelo de marca, sede y permisos
 
-Los nombres siguientes expresan responsabilidades; WL-0/WL-1 fijan los schemas y nombres finales antes de migrar datos.
+Los nombres siguientes expresan responsabilidades; [WL-0](b2b-white-label-decisions.md) fija políticas y WL-1 las implementa en contratos y migraciones aditivas 004/005.
 
 | Entidad | Propiedad y regla |
 | --- | --- |
@@ -74,7 +74,7 @@ Los nombres siguientes expresan responsabilidades; WL-0/WL-1 fijan los schemas y
 - Dominio → marca → membresía activa → alcance de sede → permiso/acción → recurso es la cadena de comprobación en backend. El cliente puede pedir una sede, pero no otorgarse acceso a ella. El alcance operativo y el derecho de lectura del historial propio se validan por separado.
 - Revalidar sesiones y permisos antes de ejecutar operaciones nuevas o encoladas. Al invalidar o cambiar un contexto, el cliente limpia sus datos sensibles, notifica a las otras pestañas y descarta respuestas tardías de ese contexto. Revocar acceso no recupera bytes ya entregados al navegador. Cachés y borradores se identifican por marca, sede, cuenta y contexto de trabajo.
 - Archivar una sede impide nuevas asignaciones y actividad allí, conserva el historial y lo mantiene accesible a su propietario y administradores autorizados. El acceso del entrenador sigue requiriendo permisos vigentes; archivar no amplía acceso.
-- Mientras conserve membresía activa de marca, el socio mantiene lectura de sus propias ejecuciones históricas y los snapshots/medios asociados autorizados aunque pierda el acceso operativo a su sede anterior. Esta lectura no habilita nuevas sesiones, inventario actual ni datos de otras personas. El backend usa una autorización específica de historial; no vuelve a conceder permisos de sede para mostrarlo. La salida completa de la marca mantiene su decisión de retención/exportación pendiente en WL-0.
+- Mientras conserve membresía activa de marca, el socio mantiene lectura de sus propias ejecuciones históricas y los snapshots/medios asociados autorizados aunque pierda el acceso operativo a su sede anterior. Esta lectura no habilita nuevas sesiones, inventario actual ni datos de otras personas. El backend usa una autorización específica de historial; no vuelve a conceder permisos de sede para mostrarlo. La salida completa de la marca conserva los registros sin acceso autónomo; WL-0 exige exportación antes de la baja o entrega posterior por operador autorizado, sin borrado automático.
 
 El traslado de una persona modifica sus accesos y asignaciones futuras; no reescribe la sede de sesiones anteriores. El traslado de una máquina conserva el historial y exige resolver asignaciones activas antes de moverla: bloquear mientras existan referencias incompatibles o crear/reasignar una nueva versión mediante una acción explícita. En WL-0 se concreta ese flujo; no inferir que una unidad de Norte sustituye automáticamente a una de Centro.
 
@@ -94,7 +94,7 @@ Las migraciones son aditivas y ordenadas: columnas/entidades → backfill determ
 
 1. El proxy recibe HTTPS para un dominio registrado. Sólo el proxy configurado aporta el host normalizado que usa la aplicación; ninguna cabecera enviada libremente por el cliente elige marca.
 2. La API resuelve ese host contra el registro de dominios activos. Hosts desconocidos, mal formados, no verificados o desactivados no muestran contenido de ningún cliente. No hay organización por defecto en modo marca blanca.
-3. Un contrato público de contexto —por ejemplo `GET /api/b2b/context`, **propuesto**— entrega sólo identidad publicada, sedes públicamente visibles, tema y navegación pública permitida. No expone personas, membresías, permisos privados ni borradores.
+3. Un contrato público de contexto —`GET /api/b2b/context`, implementado— entrega sólo identidad publicada, sedes públicamente visibles, tema y navegación pública permitida. No expone personas, membresías, permisos privados ni borradores.
 4. La API valida el origen exacto del dominio actual en mutaciones y autenticación. Que Atlas y Sur estén registrados no autoriza un POST originado en Atlas contra Sur. Health/readiness internos tienen rutas y exposición operativa definidas.
 
 Todas las rutas aplican el contexto: auth, `/me`, recursos por organización/sede, website, QRs, medios, invitaciones y exportaciones. `atlas.b2b.test/g/sur-demo` y un ID de Norte solicitado por un entrenador autorizado sólo en Centro no ofrecen un cambio de contexto implícito.
@@ -227,15 +227,15 @@ Se conserva la decisión vigente de diferir previews hasta terminar los modelos.
 
 Seguir [Desarrollo desde el VPS](development-vps.md). La documentación y el setup raíz se trasladan mediante el checkpoint de Git: traer `main` del remoto `gitlab` y verificar el SHA antes de continuar en el VPS. Comprobar que no queden cambios locales previstos sin publicar antes de apagar la Mac. No copiar `.env`, `.cache`, sesiones, DB ni medios privados como parte del código.
 
-La siguiente sesión empieza por **WL-0**, contrasta este plan con el checkout recibido y registra decisiones pendientes acotadas: módulos iniciales, variantes de diseño, permisos que requieren vista agregada, política exacta de traslado y retención/exportación al dejar una marca. **La existencia de múltiples sedes desde la primera entrega ya está acordada.** Después implementa WL-1 y el primer recorrido vertical por etapas; no se da por autorizado operar dominios o desplegar producción por leer este documento.
-
-Estado inicial para el siguiente agente:
+La continuación parte de los checkpoints actuales y de la evidencia WL-8. Las decisiones de módulos iniciales, variantes, traslados e historial están en [WL-0](b2b-white-label-decisions.md). **La existencia de múltiples sedes desde la primera entrega está implementada.** Leer esta documentación no autoriza operar dominios públicos o desplegar producción.
 
 | Etapa | Estado | Commit/evidencia |
 | --- | --- | --- |
-| Definición documental | Redactada el 11/10/2026 | Comprobar el commit que transporte estos documentos |
-| WL-0 a WL-8 | Pendientes | Sin implementación ni resultados nuevos |
-| Entorno VPS | A verificar en ese host | Esta edición no inicia una sesión remota |
-| Publicación de dominios reales | Pendiente | Sin dominios ni certificados de clientes configurados por este plan |
+| WL-0 | Completado | `a451d9c`, inventario, permisos y decisiones |
+| WL-1 | Completado | `5fdf22d`, migración 004; 005 y perfil público en `d0a9011`; migración 5/5 |
+| WL-2/WL-3/WL-7 | Implementado y probado | `d0a9011`, dominios, sesión y autorización; suite API 76/76 |
+| WL-4/WL-5/WL-6 | Completado | `15660fd`: login, sedes, temas, módulos y recorridos UI; E2E 30/30 |
+| WL-8 | Completado en el alcance local autorizado | API 76/76, E2E 30/30, B2C 3/3, imágenes 6/6 y restauración 6/6; [evidencia nueva](b2b-white-label-validation.md) |
+| Publicación de dominios reales | Fuera de esta ejecución | Sin DNS/certificados de clientes ni despliegue de producción |
 
-Al cerrar cada etapa, actualizar esta tabla y el roadmap con el estado real, verificación y próximo paso. No modificar retrospectivamente los informes históricos de release.
+Al cerrar cada etapa, actualizar esta tabla y el roadmap con estado real y evidencia. Los informes históricos de release conservan su contenido y alcance.

@@ -1,0 +1,178 @@
+{
+  "checkedAt": "2026-10-11T13:21:24.722049+00:00",
+  "sourceRevision": "04d78368b6e0b6ac1ca74288dc9235145e563799",
+  "apiRevision": "815142d9ed3bac71a7eb24067e79f2d7d2542b99",
+  "notes": [
+    "API ran after final functional changes; 04d7836 subsequently only added the proxy identity map to Docker context.",
+    "Global workspace tests omit PostgreSQL suites without database environment; B2B integration is separately verified against disposable PostgreSQL.",
+    "Deferred previews were not regenerated. Provenance unit tests do not certify current derived previews.",
+    "No production deployment; no B2C application/backend source changed."
+  ],
+  "checks": {
+    "quality": {
+      "logSha256": "4bd7cc676413071b46c9a63f9526f7625577b4ecf614cd2a7be0de87bc9f1127",
+      "tasksPassed": 30,
+      "packageCount": 15,
+      "boundaries": "passed",
+      "format": "passed",
+      "status": "passed"
+    },
+    "workspaceTests": {
+      "logSha256": "25e3dcec352f1e9c6e87408315db8b9b8516e4fe28935fecbda1bf462769b925",
+      "packages": {
+        "@klisteniapp/scene-schema": {
+          "tests": 46,
+          "pass": 46,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/model-assets": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/b2b-contracts": {
+          "tests": 10,
+          "pass": 10,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/api": {
+          "tests": 18,
+          "pass": 17,
+          "fail": 0,
+          "skipped": 1
+        },
+        "@klisteniapp/b2b-api": {
+          "tests": 34,
+          "pass": 24,
+          "fail": 0,
+          "skipped": 10
+        },
+        "@klisteniapp/catalog-base": {
+          "tests": 2,
+          "pass": 2,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/geometry": {
+          "tests": 33,
+          "pass": 33,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/b2b-domain": {
+          "tests": 9,
+          "pass": 9,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/b2b-client": {
+          "tests": 16,
+          "pass": 16,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/anatomy-viewer": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/b2b-react": {
+          "tests": 12,
+          "pass": 12,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/web": {
+          "tests": 196,
+          "pass": 196,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/b2b-ui": {
+          "tests": 2,
+          "pass": 2,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/backoffice": {
+          "tests": 25,
+          "pass": 25,
+          "fail": 0,
+          "skipped": 0
+        },
+        "@klisteniapp/member-web": {
+          "tests": 25,
+          "pass": 25,
+          "fail": 0,
+          "skipped": 0
+        }
+      },
+      "skippedEntries": [
+        "\ufe63 cloud entitlements and campaign invitations with PostgreSQL (0.28522ms) # SKIP",
+        "\ufe63 account invitations, administration and recovery with PostgreSQL (1.177727ms) # SKIP",
+        "\ufe63 PostgreSQL subscription billing (0.417621ms) # SKIP",
+        "\ufe63 PostgreSQL account API (18.784815ms) # SKIP",
+        "\ufe63 public password recovery with PostgreSQL and an injected mail transport (0.950358ms) # SKIP",
+        "\ufe63 readiness includes cached auth schema failures after an external migration (9.135667ms) # SKIP",
+        "\ufe63 domain lifecycle verifies every stage, revokes immediately and prevents automatic reassignment (3.273432ms) # SKIP",
+        "\ufe63 B2B independent PostgreSQL API (9.426579ms) # SKIP",
+        "\ufe63 readiness includes cached auth schema failures after an external migration (7.535207ms) # SKIP",
+        "\ufe63 WL revocation, branch publication and capabilities (0.997508ms) # SKIP",
+        "\ufe63 WL domain and branch HTTP authorization (8.572848ms) # SKIP",
+        "\ufe63 WL-1 profile migration freezes existing public metadata without changing historical JSON (1.246008ms) # SKIP",
+        "\ufe63 WL-1 migration preserves legacy IDs, immutable JSON, invitation expiry and Principal-only grants (0.269822ms) # SKIP",
+        "\ufe63 WL-1 composite constraints reject cross-brand branches and cross-branch prescriptions and executions (0.196641ms) # SKIP",
+        "\ufe63 WL-1 empty migration supports legacy writes and explicit scoped membership without privilege expansion (0.187447ms) # SKIP",
+        "\ufe63 WL-1 anomalous execution ownership aborts atomically instead of relabeling history (2.080454ms) # SKIP",
+        "\ufe63 WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits (5.876132ms) # SKIP",
+        "\ufe63 WL physical inventory and idempotent batches remain scoped even with identical labels and batch IDs (1.492936ms) # SKIP",
+        "\ufe63 WL prescriptions, coach relations, execution retries and own history preserve branch isolation (0.277319ms) # SKIP"
+      ],
+      "tasksPassed": 15,
+      "status": "passed"
+    },
+    "rootTests": {
+      "logSha256": "5b2862b14a6a3ec5ae91a66f8a41d7816dec0cc40c3510821289775e9b68b288",
+      "counts": {
+        "tests": 23,
+        "pass": 23,
+        "fail": 0,
+        "skipped": 0
+      },
+      "status": "passed"
+    },
+    "api": {
+      "logSha256": "0eea8dafe43343a314d963cfe1e3cc34471c691c8a2efd6d0d2894afa8b47c03",
+      "counts": {
+        "tests": 76,
+        "pass": 76,
+        "fail": 0,
+        "skipped": 0
+      },
+      "status": "passed"
+    },
+    "domain": {
+      "logSha256": "4ac141a53769670920ad6d69be0398d53f9b19af1a2e842f0835b142e53122c8",
+      "counts": {
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "skipped": 0
+      },
+      "status": "passed"
+    },
+    "b2cDemo": {
+      "status": "passed",
+      "tests": 3,
+      "skipped": 0,
+      "command": "pnpm --filter @klisteniapp/web exec playwright test e2e/demo.spec.ts",
+      "build": "Real Vite demo build in temporary output, served on loopback",
+      "logSha256": "f0d638f715d9185bd55e31d8fbeb7a8fee77add645641fa6214e6687efef50b5"
+    }
+  },
+  "completedAt": "2026-10-11T13:30:48.728889+00:00"
+}

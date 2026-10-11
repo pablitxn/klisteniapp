@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-11T13:29:09.021Z",
+  "images": {
+    "klisteni-b2b-api:wl-test": {
+      "id": "sha256:d28e8b6062de0a3746ae886d99cf2db37be62f6c75eef074b60dafc63f1f9a75",
+      "revision": "04d78368b6e0b6ac1ca74288dc9235145e563799"
+    },
+    "klisteni-b2b-web:wl-test": {
+      "id": "sha256:5cfef8a376212a9409a5a678c9d1356bc0020eb2dc4e53de6d99fb95f1895476",
+      "revision": "04d78368b6e0b6ac1ca74288dc9235145e563799"
+    }
+  },
+  "checks": [
+    "image-migration",
+    "image-readiness",
+    "atlas-html-context-login-me-two-branches",
+    "sur-html-context-login-me-two-branches",
+    "copied-cookie-rejected",
+    "nginx-unknown-alias-and-secret-redirect-policy"
+  ],
+  "productionDeployed": false,
+  "sourceRevision": "04d78368b6e0b6ac1ca74288dc9235145e563799",
+  "runtimeVersions": {
+    "node": "v24.21.0",
+    "nginx": "nginx version: nginx/1.30.5"
+  },
+  "result": "passed",
+  "cleanupVerified": {
+    "testContainers": 0,
+    "testSchemas": 0,
+    "temporaryFilesRemoved": true
+  }
+}
