@@ -6,8 +6,11 @@ guides are written in Spanish, matching the application.
 
 | I want to… | Read |
 | --- | --- |
+| Start all applications and databases from the repository root | [Unified local development](development.md) |
 | Continue the VPS delivery on a Mac, including local Blender work | [Mac workspace and handoff](development-macos.md) |
-| Follow the B2B implementation roadmap, 3D production and UI testing iterations | [Implementation roadmap](roadmap-implementacion.md) |
+| Continue from another Codex instance on a VPS with the Mac off | [VPS development and handoff prompt](development-vps.md) |
+| Follow the B2B roadmap, white-label refactor, 3D production and UI testing | [Implementation roadmap](roadmap-implementacion.md) |
+| Implement company domains, contextual login, multiple branches, themes and modules | [White-label B2B plan and E2E acceptance](b2b-white-label.md) |
 | See delivered features, verified results and outstanding acceptance | [Release evidence](b2b-release.md) |
 | Reproduce the B2B browser matrix | [Browser validation](b2b-browser-validation.md) |
 | Check production-mode containers, migrations and backup restoration | [Runtime validation](b2b-runtime-validation.md) |
@@ -40,3 +43,8 @@ production-mode runtime. New Blender content, physical-phone acceptance and publ
 deployment remain separate work. Preview generation and complete preview validation
 are deferred by the project owner; existing media remain in Git. The release guide
 records this limitation, including its effect on the full checks and default CI.
+
+The next agreed direction is one shared B2B deployment with company domains and
+multiple branches from the first delivery. Domain-bound sessions, branch permissions,
+themes and modules are planned in WL-0–WL-8; the existing release evidence does not
+validate them. Transfer a published Git checkpoint before continuing on the VPS.

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch --env-file-if-exists=.env src/server.ts",
+    "dev": "node --watch ../../scripts/dev-api.mjs b2b",
     "start": "node --env-file-if-exists=.env src/server.ts",
     "migrate": "node --env-file-if-exists=.env src/migrate.ts",
     "bootstrap": "node --env-file-if-exists=.env src/operator.ts bootstrap",
@@ -12,7 +12,9 @@
     "reset-demo": "node --env-file-if-exists=.env src/operator.ts reset-demo",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-concurrency=1 tests/*.test.ts"
+    "test": "node --test --test-concurrency=1 tests/*.test.ts",
+    "dev:prepare": "node ../../scripts/prepare-dev.ts b2b",
+    "dev:configured": "node --watch --env-file-if-exists=.env src/server.ts"
   },
   "dependencies": {
     "@klisteniapp/b2b-contracts": "workspace:*",

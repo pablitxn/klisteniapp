@@ -2,7 +2,9 @@
 
 Implementación del 11 de octubre de 2026, commit `508e9e1`, sobre `d70b2cb`. El modelado y la autoría de recursos 3D quedan a cargo del usuario en Blender. Esta entrega distingue código comprobado, contenido por producir y aceptación en dispositivos reales.
 
-La continuación desde `main` está descrita en [el relevo a macOS](development-macos.md); el [roadmap](roadmap-implementacion.md) separa trabajo terminado y aceptación pendiente. El informe de runtime se incorporó en `5187b27` y mantiene `508e9e1` como revisión del código realmente ejecutado.
+La continuación está descrita en el relevo a [macOS](development-macos.md) o al [VPS](development-vps.md); el [roadmap](roadmap-implementacion.md) separa trabajo terminado y aceptación pendiente. El informe de runtime se incorporó en `5187b27` y mantiene `508e9e1` como revisión del código realmente ejecutado.
+
+La nueva línea [WL-0 a WL-8](b2b-white-label.md), acordada después de esta entrega, agrega dominios de marca, varias sedes desde el inicio, permisos contextuales, temas y módulos. Está pendiente de implementación. Los resultados que siguen conservan su alcance histórico y no acreditan esa arquitectura futura.
 
 **Alcance actualizado por decisión del usuario:** se difieren la regeneración de miniaturas/previews y su validación completa hasta terminar los modelos 3D y los cambios relacionados. Se conservan los derivados existentes. Este trabajo de contenido no bloquea el cierre de código, builds, auditoría de publicación y runtime; tampoco se afirma que el catálogo completo de previews esté regenerado o validado.
 

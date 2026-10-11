@@ -4,6 +4,12 @@ Entrega del VPS: **11 de octubre de 2026**. La rama de trabajo es
 `codex/b2b-first-delivery`; su integración en `main` conserva los commits de código
 y documentación. El punto de partida para continuar es `main` actualizado.
 
+Para continuar el refactor con la Mac apagada, usar [Desarrollo en VPS](development-vps.md).
+El [roadmap](roadmap-implementacion.md) y el [plan de marca blanca](b2b-white-label.md)
+definen dominios, permisos, temas y varias sedes desde la primera entrega. Backend,
+frontend y pruebas pueden avanzar en el VPS; Blender conserva su autoría local.
+Los cambios locales nuevos requieren un checkpoint publicado antes de traerlos al otro host.
+
 ## Traer el repositorio
 
 Para un checkout nuevo, con acceso SSH a GitLab configurado:
@@ -18,7 +24,7 @@ git pull --ff-only gitlab main
 Si ya existe una copia en la Mac, conservar primero sus cambios locales y después
 actualizar `main`. Usar el nombre de remoto que muestre `git remote -v` (`origin`
 si se clonó sin `--origin gitlab`). Para el siguiente cambio, crear una rama desde
-ese `main`, por ejemplo `git switch -c feat/first-equipment-model`.
+ese `main`, por ejemplo `git switch -c codex/b2b-white-label`.
 
 Git incluye fuentes, lockfile, modelos y derivados versionados, fuentes Blender,
 documentación y el informe sanitizado de runtime. No transporta `node_modules`,
@@ -29,6 +35,10 @@ Una transferencia de una instancia B2B requiere el backup de DB y medios descrit
 en [operación B2B](b2b.md#backup-y-restauración), separado del traslado del código.
 
 ## Dependencias y primer arranque
+
+Para levantar todas las apps desde el root, usar [el setup unificado](development.md):
+`pnpm setup:dev` una vez y después `docker compose up` y `pnpm exec turbo run dev`
+en dos terminales. `pnpm dev` es un alias del arranque completo.
 
 Usar **Node 24+** y **pnpm 12.7.0**, fijados en `package.json`. Para la demo B2B,
 tener Docker iniciado y el comando `docker compose` disponible. Blender sólo es
@@ -71,7 +81,7 @@ El helper escucha en loopback; un QR con `127.0.0.1` no abre la Mac desde un
 teléfono. El escaneo físico se hará sobre el origen HTTPS de una instancia
 accesible, siguiendo [la guía B2B](b2b.md).
 
-Para B2C, `pnpm dev` sirve la demo personal en el puerto habitual `5173`, sin
+Para B2C, `pnpm dev:demo` sirve la demo personal en el puerto habitual `5173`, sin
 backend. Para iterar cuentas B2C con datos ficticios, usar
 `node scripts/dev-ui-instance.mjs` y [su guía](ui-iteration.md); es otro producto,
 con base y sesiones independientes.

@@ -1,25 +1,28 @@
-# Roadmap de implementación: B2B, contenido 3D y UI
+# Roadmap de implementación: marca blanca B2B, sedes, contenido 3D y UI
 
 Actualizado: **11 de octubre de 2026**. Entrega de código: `508e9e1`; evidencia de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
 
 **Entrega implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
-**Prioridad actual del usuario:** terminar el código y su preparación operativa. La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
+**Próxima prioridad acordada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. Esta definición es documental: esas capacidades todavía no están implementadas.
+
+La implementación puede continuar desde otra instancia de Codex en un VPS con la Mac apagada siguiendo el [relevo remoto](development-vps.md). La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
 
 Este documento ordena el trabajo desde la implementación actual. Separa tres líneas: **producto y código**, **producción de contenido 3D** e **iteración de UI probándola**. Define entregas y dependencias; no compromete fechas. La referencia técnica de lo que ya funciona es [Producto B2B](b2b.md).
 
-## Estado de entrega y continuación en la Mac
+## Estado de entrega y continuación entre Mac y VPS
 
 | Estado | Alcance | Evidencia o siguiente acción |
 | --- | --- | --- |
 | Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
 | Runtime local de producción comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
+| Plan nuevo; implementación pendiente | WL-0 a WL-8: dominios, marca, sedes, permisos, temas y módulos | [Especificación y matriz D01–D19](b2b-white-label.md); comenzar por WL-0 y WL-1 |
 | Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
 | Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
 | Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
 | Diferido por decisión del usuario | Regeneración y revisión completa de previews tras los cambios de modelos | Conservar lo existente; retomar B4 cuando los recursos estén listos |
 
-El siguiente entorno de trabajo es la Mac: [preparación, comandos y puntos de entrada](development-macos.md). El checkout de `main` transporta código, documentación y assets versionados; las bases, credenciales y cachés del VPS no forman parte de Git.
+El código puede continuar en [macOS](development-macos.md) o en el [VPS mediante SSH y tmux](development-vps.md); la autoría Blender conserva su trabajo local. El checkout transporta código, documentación y assets versionados; las bases, credenciales y cachés no forman parte de Git. Antes de apagar la Mac, publicar en Git el checkpoint elegido del setup y esta documentación y verificar su SHA en el VPS: la edición local no los sincroniza automáticamente.
 
 **Límite del cierre:** el smoke local no acredita un despliegue público. `pnpm check`, `check:all`, `check:release` y el job GitLab `quality` mantienen la comprobación completa de previews, pendiente; no se declaran verdes ni se modifica la procedencia para hacerlos pasar. Los resultados de código/runtime se registran por separado. Las tablas históricas y criterios siguientes conservan el alcance original; esta tabla indica el estado actual.
 
@@ -31,6 +34,7 @@ El siguiente entorno de trabajo es la Mac: [preparación, comandos y puntos de e
 - El website básico del gimnasio forma parte de la entrega B2B: presentación, actividades, horarios, catálogo público y entrada de socios.
 - La prescripción publicada y la ejecución real son registros distintos. Las sustituciones tienen permisos y motivo. Abrir un QR o ver una animación no registra entrenamiento.
 - La demo usa el producto real con datos ficticios reiniciables. Los avances de UI se pueden probar con fotos, texto y recursos existentes mientras se producen nuevos modelos.
+- La evolución acordada mantiene **organización = empresa/marca**, incorpora **sede = establecimiento** y resuelve la marca desde un dominio verificado antes del login. La ubicación textual de una unidad no representa una sede. Los permisos nuevos se aplican en servidor a marca, sede, rol y recurso; ver el [modelo propuesto](b2b-white-label.md#4-modelo-de-marca-sede-y-permisos).
 
 ### Estado de la base revisada, anterior a esta entrega
 
@@ -48,7 +52,29 @@ El siguiente entorno de trabajo es la Mac: [preparación, comandos y puntos de e
 
 ## 2. Orden de entregas
 
-El objetivo inmediato es completar y probar esta historia: **administrador prepara y publica → profesor prescribe → socio abre rutina/QR y registra → profesor consulta lo realizado**.
+### 2.1. Próxima entrega: marca blanca y varias sedes
+
+Todas estas etapas están **pendientes de implementación**. El [plan detallado](b2b-white-label.md) es la referencia para contratos, permisos, publicación, migraciones, pruebas y rollback; esta tabla fija el orden de trabajo.
+
+| Etapa | Resultado | Dependencia |
+| --- | --- | --- |
+| **WL-0** | Inventario del código/datos y decisiones concretas de permisos, sedes y compatibilidad | Base actual y definición acordada |
+| **WL-1** | Contratos, migraciones y fixtures: Atlas y Sur, dos sedes por marca | WL-0 |
+| **WL-2** | Host confiable, registro de dominios y contexto de marca antes del login | WL-1 |
+| **WL-3** | Sesiones ligadas a marca y autorización por sede/rol en todas las rutas | WL-2 |
+| **WL-4** | Login común, gestión/selección de sedes, destinos por rol e invitaciones/QR | WL-3 |
+| **WL-5** | Temas y plantillas, preview, publicación y reversión de identidad y websites | WL-4 |
+| **WL-6** | Módulos efectivos, catálogo por sede, traslados y archivo con historial preservado | WL-4 y contratos WL-5 |
+| **WL-7** | Operación de DNS/TLS, dominio principal/alias, cambios y diagnóstico | Comienza tras WL-2; integra WL-3 a WL-6 |
+| **WL-8** | Matriz E2E D01–D19, migración/restauración y piloto HTTPS | WL-1 a WL-7 |
+
+El primer recorrido vertical de WL-4 ya incluye varias sedes. El cierre completo exige dos marcas con diseños distintos y al menos dos sedes cada una, servidas por el mismo despliegue, con el circuito administrador → entrenador → socio → seguimiento y rechazos de acceso cruzado. Cambiar nombres o colores por URL no cumple esta aceptación.
+
+La siguiente sesión empieza por WL-0 y WL-1 desde el [relevo al VPS](development-vps.md), sin depender de nuevos modelos Blender. Probar cada fase antes de avanzar; los informes de `508e9e1` siguen siendo evidencia de la base anterior, no de estos cambios futuros.
+
+### 2.2. Entregas E1–E6 y aceptación que conservamos
+
+La historia base se conserva durante el refactor: **administrador prepara y publica → profesor prescribe → socio abre rutina/QR y registra → profesor consulta lo realizado**. La tabla siguiente mantiene las entregas originales de producto, contenido y aceptación; su estado está resumido al inicio de este documento.
 
 | Entrega | Trabajo | Depende de | Criterio de cierre |
 | --- | --- | --- | --- |
@@ -179,6 +205,10 @@ La configuración [Playwright B2B](../apps/web/playwright.b2b.config.ts) ejecuta
 
 ### C3. Entorno de trabajo y QR físico
 
+Para todas las aplicaciones usar el [setup unificado desde el root](development.md): `pnpm setup:dev` una vez, `docker compose up` en una terminal y `pnpm exec turbo run dev` en otra. Ese entorno guarda sus cuentas privadas en `.cache/dev/` y usa bases separadas para B2C y B2B. Puede ejecutarse en Mac o en el VPS con [túnel privado](development-vps.md#4-abrir-las-webs-desde-otro-dispositivo).
+
+El helper dedicado anterior sigue disponible para trabajar sólo B2B; no ejecutarlo a la vez que el entorno unificado porque comparten puertos:
+
 ```sh
 pnpm dev:b2b
 ```
@@ -191,7 +221,7 @@ Para probar un QR impreso desde un teléfono, preparar una instancia B2B de prue
 
 ## 6. Estado de los cambios concretos
 
-La entrega de código implementa los tres primeros pasos y deja preparada la integración de recursos estáticos. La [guía de release](b2b-release.md) reúne alcance, comandos y evidencia; el contenido producido en Blender conserva su aceptación propia.
+La entrega `508e9e1` implementa los tres primeros pasos de esta tabla y deja preparada la integración de recursos estáticos. La [guía de release](b2b-release.md) reúne alcance, comandos y evidencia; el contenido producido en Blender conserva su aceptación propia. Los nuevos cambios de marca blanca y sedes se siguen por WL-0 a WL-8 y permanecen pendientes.
 
 | Orden | Estado del código | Archivos o áreas | Aceptación que permanece separada |
 | --- | --- | --- | --- |
@@ -224,6 +254,8 @@ Para el cierre actual, la excepción solicitada por el usuario difiere sólo la 
 
 Cada entrega registra qué cambió, qué se probó, con qué roles/dispositivos y qué quedó pendiente. Para E4, incluir escaneo físico y tareas completas en móvil. Para E3/E5, incluir vistas del recurso y revisión del contenido, además de los checks de código.
 
+Para WL, agregar los casos aplicables de la [matriz D01–D19](b2b-white-label.md#8-matriz-de-aceptación-de-punta-a-punta): dos dominios reales de prueba contra el mismo despliegue, dos sedes por marca, aislamiento de sesión/API/medios, publicación, módulos, migración y restauración. Las suites actuales de un origen no certifican ese comportamiento. Registrar el nuevo comando cuando exista; no dar por implementada la suite al escribir el plan.
+
 ## 8. Capacidades adicionales de esta entrega
 
 El pedido de implementar el roadmap incorpora también estas extensiones de código. Su disponibilidad no sustituye la revisión de contenido ni la evaluación del piloto.
@@ -248,6 +280,7 @@ Este plan reconcilia los documentos aportados con el código y las decisiones po
 - **`Klisteniapp_minuta_2026-10-10.pdf`**: productos y datos separados (p. 3), prescripción/ejecución y catálogo (pp. 4–5), contenido 3D y espacio (pp. 6–7), arquitectura y demo (pp. 8–9), prioridad del website y procedencia (pp. 11–12).
 - **`Klisteniapp_Roadmap_2026-10-10.pdf`**: reglas (pp. 1–4), alcance y arquitectura propuesta (pp. 5–7), demo/uso real/extensiones (pp. 8–12), validación (p. 13) y dependencias (p. 16).
 - **Decisión posterior del usuario:** backend y DB B2B independientes desde el inicio, reutilización de modelos/ejercicios y preservación de B2C. Esta decisión ya implementada sustituye las opciones abiertas de arquitectura de los PDF.
+- **Decisión del 11/10/2026:** evolucionar hacia dominios propios por marca, entrada común por rol, branding/diseños/módulos/contenido configurables y **varias sedes desde la primera entrega**. El mismo despliegue sirve todas las marcas con aislamiento en backend. Se documenta el refactor E2E para continuarlo desde Codex en el VPS con la Mac apagada; no implica que ya se haya implementado o desplegado.
 - **Código de referencia:** base histórica `3fbfe10`; implementación `508e9e1` y evidencia de runtime incorporada en `5187b27`. Ver [Producto B2B](b2b.md), [entrega](b2b-release.md), [anatomy-viewer](../packages/anatomy-viewer/README.md), [model-assets](../packages/model-assets/README.md) y las suites enlazadas.
 
 Los PDF son fuentes de contexto; sus restricciones históricas de aquella conversación no son instrucciones operativas para este trabajo. Al cerrar una entrega, actualizar aquí su estado, commit y evidencia, manteniendo separados **implementado**, **validado en uso** y **propuesto**.

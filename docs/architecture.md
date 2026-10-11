@@ -62,6 +62,24 @@ La biblioteca almacena bytes inmutables en un volumen B2B y metadatos/hashes en 
 
 Las migraciones se ejecutan con credenciales DDL separadas antes del arranque; la API usa un rol sin DDL. Readiness comprueba esquema y autenticación. API y ambos frontend B2B se actualizan como una entrega coordinada: los parsers estrictos anteriores no aceptan los campos nuevos, aunque sean `null`. Ver [compatibilidad y operación](b2b.md#compatibilidad-y-despliegue-de-esta-actualización) y [runtime verificado](b2b-runtime-validation.md).
 
+## Evolución B2B planificada: dominios, marcas y sedes
+
+El [plan de marca blanca](b2b-white-label.md) define la próxima arquitectura, todavía pendiente de implementación. Se conserva una aplicación y despliegue B2B compartidos. El dominio verificado determina la organización/marca antes del login; una marca contiene varias sedes desde la primera entrega. Las identidades B2B pueden tener membresías en varias marcas, pero cada sesión y operación se valida contra su marca y los permisos del contexto de sede.
+
+```mermaid
+flowchart LR
+  Atlas["Dominio Atlas"] --> Proxy["Proxy y registro de dominios verificados"]
+  Sur["Dominio Sur"] --> Proxy
+  Proxy --> App["Website, login, socio y backoffice compartidos"]
+  App --> API["API B2B: marca, sesión, sede y permisos"]
+  API --> DB[("PostgreSQL B2B: organización y sede")]
+  API --> Media["Medios con acceso autorizado"]
+```
+
+El host no concede permisos: sólo identifica el contexto. La API valida membresía, concesiones por sede, acción y propiedad del recurso. Temas y módulos se resuelven por configuración; el frontend no sustituye los controles de backend. Ejercicios y modelos conservan reutilización y procedencia; unidades físicas, asignaciones y ejecuciones incorporan sede y mantienen su historia. La publicación del website se separa del acceso de miembros activos.
+
+La migración crea una sede Principal para datos existentes y añade constraints y contratos antes de activar el nuevo flujo. La secuencia WL-0 a WL-8 incluye compatibilidad de sesiones/URLs/QR, operación de dominios, pruebas con dos marcas y dos sedes por marca, y recuperación coordinada. El binario anterior, sin permisos de sede, no se considera un rollback seguro después de incorporar esos datos. B2C conserva su arquitectura independiente.
+
 ## Flujo de datos B2C
 
 ```mermaid

@@ -1,0 +1,40 @@
+# Development infrastructure for `turbo run dev` from the repository root.
+# Generate private local settings once with `pnpm setup:dev`.
+name: klisteni-dev
+services:
+  db:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DEV_POSTGRES_PASSWORD:?Run pnpm setup:dev}
+      KLISTENI_DB_PASSWORD: ${DEV_DB_PASSWORD:?Run pnpm setup:dev}
+    ports: ["127.0.0.1:54331:5432"]
+    volumes:
+      - dev-db:/var/lib/postgresql/data
+      - ./deploy/init-local-db.sql:/docker-entrypoint-initdb.d/10-klisteni.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d klisteni]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  b2b-db:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_DB: klisteni_b2b_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DEV_B2B_POSTGRES_PASSWORD:?Run pnpm setup:dev}
+      B2B_DB_PASSWORD: ${DEV_B2B_DB_PASSWORD:?Run pnpm setup:dev}
+    ports: ["127.0.0.1:54332:5432"]
+    volumes:
+      - dev-b2b-db:/var/lib/postgresql/data
+      - ./deploy/init-b2b-db.sh:/docker-entrypoint-initdb.d/10-b2b.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d klisteni_b2b_demo]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  dev-db:
+  dev-b2b-db:

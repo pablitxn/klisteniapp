@@ -18,9 +18,13 @@ timed or repetition-based prescriptions, optional RPE, recoverable training draf
 floor plans and optional voice guidance. [Gym product and setup →](docs/b2b.md)
 
 **October 11 handoff:** the VPS code delivery and local production-runtime checks
-are recorded in the [release evidence](docs/b2b-release.md). Continue from `main`
-using the [Mac workspace guide](docs/development-macos.md) and
-[current roadmap](docs/roadmap-implementacion.md). New Blender models and movement
+are recorded in the [release evidence](docs/b2b-release.md). The
+[current roadmap](docs/roadmap-implementacion.md) now plans company domains,
+contextual login, multiple branches from the first delivery, themes and modules
+in one shared B2B deployment. These are [planned changes](docs/b2b-white-label.md).
+Continue using the [Mac workspace guide](docs/development-macos.md) or the
+[VPS handoff guide](docs/development-vps.md), after publishing the intended Git
+checkpoint. New Blender models and movement
 authoring remain local work; preview regeneration is deferred until those assets
 are ready. Physical-phone acceptance and a public deployment remain pending.
 
@@ -228,12 +232,26 @@ You need **Node.js 24+**, **pnpm 12.7.0** and a modern browser. The 3D viewer us
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm dev
+pnpm dev:demo
 ```
 
 Open the URL printed by Vite, normally [localhost:5173](http://localhost:5173).
 The default `VITE_APP_MODE=demo` needs **no API key, database, operator profile
 or Blender installation**. Models and previews are ready to use.
+
+To run **all five apps**, both APIs with local accounts, and the B2B gateway,
+prepare once and use two terminals from the repository root:
+
+```sh
+pnpm setup:dev
+docker compose up             # Terminal 1: both PostgreSQL databases
+pnpm exec turbo run dev        # Terminal 2: all apps (also: pnpm dev)
+```
+
+Open [B2C](http://127.0.0.1:5173/), [B2B backoffice](http://127.0.0.1:4200/backoffice/)
+or [B2B member app](http://127.0.0.1:4200/app). Turbo waits for the databases,
+migrates and seeds fictional accounts. Generated settings and passwords stay
+private and survive restarts. [All-app setup, credentials and ports →](docs/development.md)
 
 For accounts, set `VITE_APP_MODE=instance`, provide
 `KLISTENI_PUBLIC_PROFILE_FILE` with your operator's public disclosures, and follow

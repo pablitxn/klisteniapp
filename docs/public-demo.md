@@ -6,7 +6,7 @@ Requisitos: Node.js 24 o posterior y pnpm 12.7.0. Las dependencias se descargan 
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
-pnpm dev
+pnpm dev:demo
 ```
 
 El modo predeterminado es `demo`. Para producir y servir una distribución estática:

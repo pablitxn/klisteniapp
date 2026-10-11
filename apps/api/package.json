@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch --env-file-if-exists=.env src/server.ts",
+    "dev": "node --watch ../../scripts/dev-api.mjs b2c",
     "start": "node --env-file-if-exists=.env src/server.ts",
     "migrate": "node --env-file-if-exists=.env src/migrate.ts",
     "users": "node --env-file-if-exists=.env src/operator.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-concurrency=1 tests/*.test.ts"
+    "test": "node --test --test-concurrency=1 tests/*.test.ts",
+    "dev:prepare": "node ../../scripts/prepare-dev.ts b2c",
+    "dev:configured": "node --watch --env-file-if-exists=.env src/server.ts"
   },
   "dependencies": {
     "@klisteniapp/scene-schema": "workspace:*",

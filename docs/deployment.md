@@ -19,7 +19,7 @@ pnpm build:demo
 pnpm --filter @klisteniapp/web preview --host 127.0.0.1
 ```
 
-`pnpm dev` also starts the demo without a backend. Unit checks do not require a database; integration cases which require `TEST_DATABASE_URL` are skipped when it is absent. Browser checks require the matching Playwright browser installation. See the root README for asset acquisition and licensing requirements before rebuilding anatomical assets; validation does not grant additional redistribution rights.
+`pnpm dev:demo` starts the demo without a backend. Unit checks do not require a database; integration cases which require `TEST_DATABASE_URL` are skipped when it is absent. Browser checks require the matching Playwright browser installation. See the root README for asset acquisition and licensing requirements before rebuilding anatomical assets; validation does not grant additional redistribution rights.
 
 The public `.gitlab-ci.yml` runs `quality` by default: lint, type checks, unit tests without a database, preview/source integrity checks, anatomical asset validation, the demo build, and publication/privacy audits. It retains the reviewed demo artifact for seven days. This path launches no Chromium, PostgreSQL service or preview renderer. The configuration has no project-path restriction, required runner tags, private endpoints, registry authentication, image publishing or deployment job; operator publication and runtime smoke checks remain in the operator's private pipeline. The retained pinned images target Linux amd64; forks need a container-capable runner for that platform (or compatible emulation).
 

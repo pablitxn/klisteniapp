@@ -8,12 +8,12 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "pnpm --filter @klisteniapp/web dev",
+    "dev": "turbo run dev",
     "dev:accounts": "VITE_APP_MODE=instance turbo run dev --filter=@klisteniapp/web --filter=@klisteniapp/api",
     "build": "turbo run build",
     "lint": "pnpm check:b2b:boundaries && turbo run lint && pnpm format:b2b:check",
     "typecheck": "turbo run typecheck",
-    "test": "node --test scripts/preview-provenance.test.mjs scripts/b2b-boundaries.test.mjs && turbo run test",
+    "test": "node --test scripts/preview-provenance.test.mjs scripts/b2b-boundaries.test.mjs scripts/dev-environment.test.mjs && turbo run test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/web test:e2e",
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
@@ -39,7 +39,10 @@
     "test:b2b:e2e": "pnpm --filter @klisteniapp/web exec playwright test --config playwright.b2b.config.ts",
     "format:b2b": "prettier --config .prettierrc.b2b.json --write \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/b2b-*/{src,tests}/**/*.{ts,tsx}\" \"scripts/{check-b2b-boundaries,b2b-boundaries.test}.mjs\"",
     "format:b2b:check": "prettier --config .prettierrc.b2b.json --check \"apps/b2b-api/{src,tests}/**/*.ts\" \"apps/{backoffice,member-web}/{src,tests}/**/*.{ts,tsx}\" \"packages/b2b-*/{src,tests}/**/*.{ts,tsx}\" \"scripts/{check-b2b-boundaries,b2b-boundaries.test}.mjs\"",
-    "check:b2b:boundaries": "node scripts/check-b2b-boundaries.mjs"
+    "check:b2b:boundaries": "node scripts/check-b2b-boundaries.mjs",
+    "dev:demo": "VITE_APP_MODE=demo pnpm --filter @klisteniapp/web dev",
+    "setup:dev": "node scripts/dev-environment.mjs",
+    "dev:gateway": "node scripts/b2b-gateway.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
