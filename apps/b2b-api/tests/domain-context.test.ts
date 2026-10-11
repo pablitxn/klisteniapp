@@ -56,7 +56,9 @@ const context: DomainContext = {
 };
 
 test('strict host normalization rejects ambiguous authority syntax', () => {
-  assert.equal(normalizeDomainHost('Atlas.B2B.test.:0443'), 'atlas.b2b.test:443');
+  assert.equal(normalizeDomainHost('Atlas.B2B.test.:0443'), 'atlas.b2b.test');
+  assert.equal(normalizeDomainHost('Atlas.B2B.test:80', 'http'), 'atlas.b2b.test');
+  assert.equal(normalizeDomainHost('Atlas.B2B.test:4443'), 'atlas.b2b.test:4443');
   for (const host of [
     'https://atlas.test',
     'atlas.test/a',

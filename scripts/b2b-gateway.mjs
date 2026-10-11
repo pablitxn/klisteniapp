@@ -23,7 +23,7 @@ export function createGateway({ apiPort = 4201, memberPort = 4210, backofficePor
       !['forwarded', 'x-klisteni-b2b-host', 'x-klisteni-b2b-proto', 'cf-connecting-ip'].includes(key)));
     headers.host = `127.0.0.1:${port}`;
     if (whiteLabel && port === apiPort) {
-      headers['x-klisteni-b2b-host'] = normalizeDomainHost(request.headers.host ?? '');
+      headers['x-klisteni-b2b-host'] = normalizeDomainHost(request.headers.host ?? '', domainProtocol);
       headers['x-klisteni-b2b-proto'] = tls ? 'https' : 'http';
       headers['x-klisteni-b2b-proxy-secret'] = proxySecret;
     }
@@ -62,7 +62,7 @@ export function createGateway({ apiPort = 4201, memberPort = 4210, backofficePor
       try {
         const hosts = request.rawHeaders.filter((value, index) => index % 2 === 0 && value.toLowerCase() === 'host');
         if (hosts.length !== 1) throw new Error('Invalid host');
-        normalizeDomainHost(request.headers.host ?? '');
+        normalizeDomainHost(request.headers.host ?? '', domainProtocol);
       } catch {
         response.writeHead(421, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
         response.end(JSON.stringify({ error: 'Dominio no disponible.', code: 'INVALID_DOMAIN' })); return;

@@ -6,6 +6,7 @@ import {
   BranchInputSchema,
   ThemeInputSchema,
   ExerciseInputSchema,
+  WebsiteInputSchema,
   type Role,
 } from '@klisteniapp/b2b-contracts';
 import { createAuth } from '../src/auth.ts';
@@ -391,6 +392,42 @@ describe('WL revocation, branch publication and capabilities', { skip: !database
       ).rows[0].count,
       2,
     );
+    const originalWebsite = await admin((c) => service.website(c));
+    const withPlan = WebsiteInputSchema.parse({
+      ...originalWebsite.draft,
+      floorPlan: {
+        title: 'Retained plan',
+        image: { id: 'plan-fixture', kind: 'image', url: '/models/plan.png', label: 'Plan' },
+        points: [],
+      },
+    });
+    const saved = await admin((c) => service.updateWebsite(c, withPlan, originalWebsite.revision));
+    await admin((c) => service.whiteLabel.setModule(c, 'floorPlan', false));
+    const edited = await admin((c) =>
+      service.updateWebsite(c, { ...withPlan, headline: 'Text still editable' }, saved.revision),
+    );
+    const published = await admin((c) => service.publishWebsite(c, edited.revision));
+    assert.deepEqual(published.draft.floorPlan, withPlan.floorPlan);
+    const publicWebsite = await service.publicSite(
+      'atlas-demo',
+      undefined,
+      await domain(),
+      'centro',
+    );
+    assert.ok('website' in publicWebsite);
+    assert.equal(publicWebsite.website.floorPlan, null);
+    await assert.rejects(
+      admin((c) =>
+        service.updateWebsite(
+          c,
+          { ...edited.draft, floorPlan: { ...withPlan.floorPlan!, title: 'Forbidden edit' } },
+          published.revision,
+        ),
+      ),
+      code('MODULE_DISABLED'),
+    );
+    await admin((c) => service.whiteLabel.setModule(c, 'floorPlan', true));
+    await admin((c) => service.updateWebsite(c, originalWebsite.draft, published.revision));
   });
   test('D14 theme contrast, revision checks and explicit publish/restore preserve drafts and version history', async () => {
     const state = await admin((c) => service.whiteLabel.theme(c), principal, false);

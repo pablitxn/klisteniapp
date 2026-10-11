@@ -16,7 +16,7 @@ export type DomainContext = {
 };
 
 /** Registry keys are ASCII hostnames with an optional explicit nonzero port. */
-export function normalizeDomainHost(input: string): string {
+export function normalizeDomainHost(input: string, protocol: 'http' | 'https' = 'https'): string {
   if (input !== input.trim() || !input || input.length > 260 || /[^\x21-\x7e]/.test(input))
     throw new HttpError(421, 'INVALID_DOMAIN', 'Dominio no disponible.');
   const match = /^([a-zA-Z0-9.-]+)(?::([0-9]{1,5}))?$/.exec(input);
@@ -28,7 +28,8 @@ export function normalizeDomainHost(input: string): string {
     (match[2] && (Number(match[2]) < 1 || Number(match[2]) > 65535))
   )
     throw new HttpError(421, 'INVALID_DOMAIN', 'Dominio no disponible.');
-  return `${hostname}${match[2] ? `:${Number(match[2])}` : ''}`;
+  const port = match[2] ? Number(match[2]) : undefined;
+  return `${hostname}${port && port !== (protocol === 'https' ? 443 : 80) ? `:${port}` : ''}`;
 }
 
 function singleHeader(request: IncomingMessage, key: string): string | undefined {
@@ -61,7 +62,10 @@ export function trustedDomainHost(request: IncomingMessage, config: Config): str
   const protocol = singleHeader(request, 'x-klisteni-b2b-proto');
   if (protocol !== (config.domainProtocol ?? 'https'))
     throw new HttpError(421, 'INVALID_DOMAIN_PROTOCOL', 'Dominio no disponible.');
-  return normalizeDomainHost(singleHeader(request, 'x-klisteni-b2b-host') ?? '');
+  return normalizeDomainHost(
+    singleHeader(request, 'x-klisteni-b2b-host') ?? '',
+    config.domainProtocol ?? 'https',
+  );
 }
 
 export async function resolveDomainContext(

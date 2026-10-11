@@ -945,7 +945,17 @@ export class B2BService {
     }
   }
   private async validateWebsite(c: Context, input: WebsiteInput) {
-    if (input.floorPlan || input.spatialModel) await this.whiteLabel.requireModule(c, 'floorPlan');
+    if (c.domain && !(await readModules(c.db, c.org.id, c.branchId)).floorPlan) {
+      const previous = (await this.website(c)).draft;
+      if (
+        !isDeepStrictEqual(input.floorPlan, previous.floorPlan) ||
+        !isDeepStrictEqual(input.spatialModel, previous.spatialModel)
+      )
+        await this.whiteLabel.requireModule(c, 'floorPlan');
+      // Retain the hidden snapshot while permitting unrelated website edits.
+      await this.validateAssets(c, input.gallery);
+      return;
+    }
     await this.validateAssets(c, [
       ...input.gallery,
       ...(input.floorPlan ? [input.floorPlan.image] : []),
