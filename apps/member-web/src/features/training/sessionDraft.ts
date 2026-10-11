@@ -33,7 +33,14 @@ function isNullableNumber(value: unknown): value is number | null {
   return value === null || (typeof value === 'number' && Number.isFinite(value))
 }
 
-export function sessionDraftKey(orgId: string, userId: string, assignmentId: string): string {
+export function sessionDraftKey(
+  orgId: string,
+  userId: string,
+  assignmentId: string,
+  branchId?: string,
+): string {
+  if (branchId)
+    return `klisteni.b2b.session.v2.${encodeURIComponent(JSON.stringify([orgId, branchId, userId, 'member', assignmentId]))}`
   return `klisteni.b2b.session.v1.${orgId}.${userId}.${assignmentId}`
 }
 

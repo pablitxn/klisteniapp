@@ -1,8 +1,15 @@
+import type { BrandContext } from '@klisteniapp/b2b-contracts'
 import { useState, type FormEvent } from 'react'
 import { b2bClient, createB2BClient, errorMessage } from '@klisteniapp/b2b-client'
 import { Field, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
 
-export function Invitation() {
+export function Invitation({
+  whiteLabel = false,
+  context,
+}: {
+  whiteLabel?: boolean
+  context?: BrandContext
+}) {
   const token =
     new URLSearchParams(location.search).get('token') ??
     new URLSearchParams(location.hash.slice(1)).get('token') ??
@@ -58,19 +65,86 @@ export function Invitation() {
     }
   }
 
+  if (existing && whiteLabel && !done) {
+    return (
+      <Shell
+        name={context?.theme.brand.name}
+        logoUrl={context?.theme.brand.logoUrl}
+        eyebrow="INVITACIÓN"
+      >
+        <section className="card" style={{ maxWidth: 500, margin: '40px auto' }}>
+          <h1>Sumate con tu cuenta</h1>
+          <p>
+            Esta invitación concede únicamente el acceso indicado por la marca. Tus otras marcas
+            conservan sus sesiones y permisos.
+          </p>
+          <form
+            className="form-stack"
+            onSubmit={(event) => {
+              event.preventDefault()
+              const values = new FormData(event.currentTarget)
+              setBusy(true)
+              setError('')
+              void b2bClient.invitations
+                .signIn({
+                  email: String(values.get('email') ?? ''),
+                  password: String(values.get('password') ?? ''),
+                  token,
+                  consent: true,
+                })
+                .then(accepted)
+                .catch((error) => setError(errorMessage(error)))
+                .finally(() => setBusy(false))
+            }}
+          >
+            <Field label="Email">
+              <input name="email" type="email" autoComplete="username" required />
+            </Field>
+            <Field label="Contraseña">
+              <input name="password" type="password" autoComplete="current-password" required />
+            </Field>
+            <label>
+              <input type="checkbox" required /> Acepto incorporarme a esta marca con el acceso de
+              esta invitación.
+            </label>
+            <Notice error>{error}</Notice>
+            <button className="button primary" disabled={busy || !token}>
+              {busy ? 'Aceptando…' : 'Aceptar invitación con mi cuenta'}
+            </button>
+            <button type="button" className="text-button" onClick={() => setExisting(false)}>
+              Volver
+            </button>
+          </form>
+        </section>
+      </Shell>
+    )
+  }
+
   if (existing && !signedIn) {
     return (
-      <Shell eyebrow="BIENVENIDO">
+      <Shell
+        name={context?.theme.brand.name}
+        logoUrl={context?.theme.brand.logoUrl}
+        eyebrow="BIENVENIDO"
+      >
         <button className="text-button" onClick={() => setExisting(false)}>
           Volver a la invitación
         </button>
-        <Login onSignIn={b2bClient.auth.signIn} onDone={() => void signedInSuccessfully()} />
+        <Login
+          context={context}
+          onSignIn={b2bClient.auth.signIn}
+          onDone={() => void signedInSuccessfully()}
+        />
       </Shell>
     )
   }
 
   return (
-    <Shell eyebrow="BIENVENIDO">
+    <Shell
+      name={context?.theme.brand.name}
+      logoUrl={context?.theme.brand.logoUrl}
+      eyebrow="BIENVENIDO"
+    >
       <section className="card" style={{ maxWidth: 500, margin: '40px auto' }}>
         <p className="eyebrow">TU PRÓXIMO PASO</p>
         <h1>Hagamos espacio.</h1>

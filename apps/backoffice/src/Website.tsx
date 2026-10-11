@@ -7,7 +7,7 @@ import {
 } from '@klisteniapp/b2b-contracts'
 import { ApiError } from '@klisteniapp/b2b-client'
 import { dateLabel, Field, Notice } from '@klisteniapp/b2b-ui'
-import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
+import { useAccountClient, useAccountScope, useLoad } from '@klisteniapp/b2b-react'
 import { AssetEditor, Heading, useAction } from './shared'
 import { SpaceEditor } from './FloorPlanEditor'
 import { ContentMedia, FloorPlan } from '@klisteniapp/b2b-ui/content'
@@ -20,6 +20,8 @@ type WebsiteEditorProps = {
   website: Website
   active: boolean
   reload: () => void
+  floorPlanEnabled?: boolean
+  publicPath?: string
 }
 
 function CurrentWebsite({ content, orgId }: { content: WebsiteInput; orgId: string }) {
@@ -85,11 +87,14 @@ function WebsiteEditorContent({
   website,
   active,
   reload,
+  floorPlanEnabled = true,
+  publicPath,
 }: WebsiteEditorProps) {
   const client = useAccountClient(),
     action = useAction()
-  const backupKey = editorDraftKey(userId, organization.id, 'website', 'website')
-  const legacyKey = `klisteni.b2b.website-copy.v1.${organization.id}.${userId}`
+  const { branchId, role } = useAccountScope()
+  const backupKey = editorDraftKey(userId, organization.id, 'website', 'website', branchId, role)
+  const legacyKey = branchId ? null : `klisteni.b2b.website-copy.v1.${organization.id}.${userId}`
   const [saved, setSaved] = useState(website),
     [draft, setDraft] = useState<WebsiteInput>(website.draft)
   const [reviewing, setReviewing] = useState(false),
@@ -115,7 +120,7 @@ function WebsiteEditorContent({
   const dirty = JSON.stringify(draft) !== JSON.stringify(saved.draft)
   const stale = Boolean(newer && newer.revision > saved.revision)
   const copyConflict = draftRevision !== saved.revision
-  const publicUrl = new URL(`/g/${organization.slug}`, location.origin).href
+  const publicUrl = new URL(publicPath ?? `/g/${organization.slug}`, location.origin).href
   useEffect(() => {
     if (!dirty) return
     const warn = (event: BeforeUnloadEvent) => {
@@ -198,7 +203,7 @@ function WebsiteEditorContent({
       setDraftRevision(result.website.revision)
       try {
         discardSavedWebsiteCopy(sessionStorage, backupKey, sent)
-        sessionStorage.removeItem(legacyKey)
+        if (legacyKey) sessionStorage.removeItem(legacyKey)
       } catch {
         /* The saved server copy is canonical. */
       }
@@ -527,7 +532,14 @@ function WebsiteEditorContent({
             onChange={(gallery) => change({ gallery })}
             imagesOnly
           />
-          <SpaceEditor orgId={organization.id} value={draft} onChange={change} />
+          {floorPlanEnabled ? (
+            <SpaceEditor orgId={organization.id} value={draft} onChange={change} />
+          ) : (
+            <Notice>
+              El plano y la vista del espacio están deshabilitados en esta sede. Su contenido se
+              conserva.
+            </Notice>
+          )}
           <div className="row" style={{ marginTop: 24 }}>
             <button className="button primary" disabled={stale || copyConflict}>
               {action.busy ? 'Guardando…' : 'Guardar borrador del website'}

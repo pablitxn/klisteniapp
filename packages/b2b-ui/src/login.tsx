@@ -1,13 +1,15 @@
 import { useState, type FormEvent } from 'react'
 import { Field, Notice } from './components.tsx'
+import type { BrandContext } from '@klisteniapp/b2b-contracts'
 
 export type LoginProps = {
   onSignIn: (credentials: { email: string; password: string }) => Promise<unknown>
   onDone: () => void
   backoffice?: boolean
+  context?: BrandContext | null
 }
 
-export function Login({ onSignIn, onDone, backoffice = false }: LoginProps) {
+export function Login({ onSignIn, onDone, backoffice = false, context }: LoginProps) {
   const [error, setError] = useState(''),
     [busy, setBusy] = useState(false)
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -32,32 +34,37 @@ export function Login({ onSignIn, onDone, backoffice = false }: LoginProps) {
       <section className="access-intro">
         <span className="pill">{backoffice ? 'ESPACIO PROFESIONAL' : 'TU PRÁCTICA, CERCA'}</span>
         <h1>
-          {backoffice ? (
-            <>
-              Acompañá cada
-              <br />
-              nuevo logro.
-            </>
-          ) : (
-            <>
-              Hacé lugar
-              <br />
-              al movimiento.
-            </>
-          )}
+          {context?.theme.loginTitle ||
+            (backoffice ? (
+              <>
+                Acompañá cada
+                <br />
+                nuevo logro.
+              </>
+            ) : (
+              <>
+                Hacé lugar
+                <br />
+                al movimiento.
+              </>
+            ))}
         </h1>
         <p>
-          {backoffice
-            ? 'Personas, rutinas y equipamiento. Todo lo que necesitás para acompañar a tu comunidad.'
-            : 'Encontrá la rutina que prepararon para vos y llevá un registro de tu propio progreso.'}
+          {context?.theme.loginDescription ||
+            (backoffice
+              ? 'Personas, rutinas y equipamiento. Todo lo que necesitás para acompañar a tu comunidad.'
+              : 'Encontrá la rutina que prepararon para vos y llevá un registro de tu propio progreso.')}
         </p>
+        {context?.theme.heroImageUrl && (
+          <img className="brand-login-image" src={context.theme.heroImageUrl} alt="" />
+        )}
         <div className="hero-orbit" aria-hidden="true">
           ↗
         </div>
       </section>
       <section className="card access-card">
         <p className="eyebrow">BIENVENIDO DE NUEVO</p>
-        <h2>Ingresá a tu espacio</h2>
+        <h2>{context ? `Ingresá a ${context.organization.brand.name}` : 'Ingresá a tu espacio'}</h2>
         <p className="muted">Usá la cuenta que te invitó tu gimnasio.</p>
         <form className="form-stack" onSubmit={submit}>
           <Field label="Email">

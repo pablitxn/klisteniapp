@@ -80,7 +80,14 @@ export function emptyClipReview(): ClipReviewDraft {
   }
 }
 
-export function clipReviewKey(accountId: string, orgId: string): string {
+export function clipReviewKey(
+  accountId: string,
+  orgId: string,
+  branchId?: string,
+  role?: string,
+): string {
+  if (branchId)
+    return `klisteni.b2b.clip-review.v2.${encodeURIComponent(JSON.stringify([accountId, orgId, branchId, role]))}`
   return `klisteni.b2b.clip-review.v1.${encodeURIComponent(JSON.stringify([accountId, orgId]))}`
 }
 

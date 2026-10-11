@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { Notice } from '@klisteniapp/b2b-ui'
-import { useAccountId } from '@klisteniapp/b2b-react'
+import { useAccountScope } from '@klisteniapp/b2b-react'
 import {
   editorDraftKey,
   readEditorDraft,
@@ -24,8 +24,8 @@ export function useEditorDraft<T>(
   initialRevision: number | null,
   validate: (value: unknown) => value is T,
 ) {
-  const accountId = useAccountId()
-  const key = editorDraftKey(accountId, orgId, kind, entityId)
+  const { userId: accountId, branchId, role } = useAccountScope()
+  const key = editorDraftKey(accountId, orgId, kind, entityId, branchId, role)
 
   function initialState(): DraftState<T> {
     let pending: EditorDraft<T> | null = null

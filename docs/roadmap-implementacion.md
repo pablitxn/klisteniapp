@@ -79,9 +79,9 @@ Base recibida: `af87f603876cb99b2e6673f290fa8ec03721454b`, árbol limpio, rama d
 | Etapa | Estado | Evidencia / siguiente paso |
 | --- | --- | --- |
 | WL-0 | Checkpoint `a451d9c` | [Mapa de archivos, matriz de permisos y políticas](b2b-white-label-decisions.md). Verificados checkout, runtime, puertos y DB de pruebas; no se cambiaron versiones |
-| WL-1 | Checkpoint `5fdf22d`; complemento 005 integrado | Migraciones `004-white-label` y `005-white-label-public-profile`, DTO y fixture Atlas/Sur con Centro y Norte/Oeste. Migración 5/5: JSON/IDs e invitaciones preservados, FKs cruzadas rechazadas y perfil público congelado hasta publicación |
-| WL-2/WL-3/WL-7 | Backend implementado y comprobado | HTTP 7/7 y autorización 12/12: sesión de marca, permisos por sede/rol, invitaciones, medios privados/compartidos, revocaciones en cola, orígenes y dominios principal/alias. Operador DNS/TLS y Nginx/gateway; ninguna operación sobre dominios públicos |
-| WL-4–WL-6 | Implementado; cerrando matriz de navegador | Escritorio 3/3 recorridos UI: administrador gestiona sedes/permisos/tema/módulos, borradores aislados, entrenador prescribe y socio registra en cuatro sedes. Matriz táctil en curso |
+| WL-1 | Checkpoint `5fdf22d`; complemento 005 integrado | Migraciones `004-white-label` y `005-branch-publication-profile`, DTO y fixture Atlas/Sur con Centro y Norte/Oeste. Migración 5/5: JSON/IDs e invitaciones preservados, FKs cruzadas rechazadas y perfil público congelado hasta publicación |
+| WL-2/WL-3/WL-7 | Checkpoint `d0a9011` | Suite API 76/76; HTTP 7/7 y autorización 12/12: sesión de marca, permisos por sede/rol, invitaciones, medios privados/compartidos, revocaciones en cola, orígenes y dominios principal/alias. Operador DNS/TLS y Nginx/gateway; ninguna operación sobre dominios públicos |
+| WL-4–WL-6 | Checkpoint de frontend; navegador final en curso | Tipos globales 15/15, lint 15/15 y tests de frontend aprobados. Escritorio 3/3 recorridos UI: administrador gestiona sedes/permisos/tema/módulos, borradores aislados, entrenador prescribe y socio registra en cuatro sedes. Matriz táctil en curso |
 | WL-8 | Validación final en curso | Restauración sintética 6/6; suite global API/tipos y matriz de tres navegadores en ejecución. Imágenes locales pendientes; todavía no se declara aceptación completa |
 
 Las previews existentes se conservan. `check`, `check:all`, `check:release` y sus gates siguen pendientes según la decisión de diferir previews; no se modifican hashes, snapshots ni CI para simular validación.

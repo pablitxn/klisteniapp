@@ -1,0 +1,15 @@
+.brand-theme{min-height:100vh;background:var(--background);color:var(--ink)}
+.brand-theme .site-header,.brand-theme .site-footer{background:var(--background)}
+.brand-theme .card,.brand-theme .button,.brand-theme input,.brand-theme select,.brand-theme textarea{border-radius:var(--radius);background:var(--surface);color:var(--surface-ink)}
+.brand-theme .card .muted{color:var(--surface-ink)}
+.brand-theme a{color:var(--link)}
+.brand-theme .button.primary,.brand-theme .hero,.brand-theme .side-nav [aria-current=page],.brand-theme .tabs button[aria-pressed=true]{background:var(--brand);color:var(--on-brand)}
+.brand-theme .hero p,.brand-theme .hero .eyebrow{color:var(--on-brand)}
+.brand-theme .button.soft,.brand-theme .pill,.brand-theme .hero .button{background:var(--accent);color:var(--on-accent)}
+.brand-theme .brand-symbol{color:var(--on-brand);border-radius:var(--radius)}
+.brand-theme [data-theme-layout=energetic] h1,.brand-theme[data-theme-layout=energetic] h1{font-weight:850;letter-spacing:-.045em;text-transform:uppercase}
+.brand-theme[data-theme-layout=energetic] .hero{border-radius:var(--radius);border-left:8px solid var(--accent)}
+.brand-theme[data-theme-layout=energetic] .access-layout{grid-template-columns:1fr 1.1fr;gap:5%}
+.brand-theme .brand-login-image{width:100%;max-height:270px;object-fit:cover;border-radius:var(--radius)}
+.brand-theme .header-actions .field{max-width:300px}
+@media(max-width:720px){.brand-theme .header-actions{flex-wrap:wrap;justify-content:flex-end}.brand-theme .header-actions .field{max-width:210px}.brand-theme .site-header{align-items:flex-start}}

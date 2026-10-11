@@ -5,7 +5,7 @@ import { ExerciseDetails } from '../../components/ExerciseDetails'
 
 export function PublicUnitDetails({ data, slug }: { data: PublicUnit; slug: string }) {
   const { machine, unit, exercises } = data
-  const routineUrl = `/app?gym=${encodeURIComponent(slug)}&unit=${encodeURIComponent(unit.id)}&machine=${encodeURIComponent(machine.id)}`
+  const routineUrl = `/app?${unit.branchId ? `branch=${encodeURIComponent(unit.branchId)}&` : ''}gym=${encodeURIComponent(slug)}&unit=${encodeURIComponent(unit.id)}&machine=${encodeURIComponent(machine.id)}`
   return (
     <section style={{ marginTop: 30 }}>
       <div className="page-heading">

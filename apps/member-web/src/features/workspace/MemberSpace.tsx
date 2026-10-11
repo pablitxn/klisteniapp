@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Me, Membership } from '@klisteniapp/b2b-contracts'
 import { Notice, Shell } from '@klisteniapp/b2b-ui'
 import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
+import { VoiceCapability } from '../../components/voiceCapability'
 import { Session } from '../training/Session'
 import { AssignedRoutines } from './AssignedRoutines'
 import { ExecutionHistory } from './ExecutionHistory'
@@ -37,6 +38,9 @@ type MemberSpaceProps = {
   dataRefresh: number
   onSignOut: () => void
   onOrganization: (id: string) => void
+  contextUI?: ReactNode
+  branchName?: string
+  whiteLabel?: boolean
 }
 
 export function MemberSpace({
@@ -45,9 +49,18 @@ export function MemberSpace({
   dataRefresh,
   onSignOut,
   onOrganization,
+  contextUI,
+  branchName,
+  whiteLabel,
 }: MemberSpaceProps) {
   const client = useAccountClient()
   const org = membership.organization
+  const capabilities = useLoad(
+    (signal) =>
+      whiteLabel ? client.withSignal(signal).modules.get(org.id) : Promise.resolve(null),
+    org.id,
+    { refreshKey: dataRefresh },
+  )
   const [page, setPage] = useState<Page>('routine')
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [message, setMessage] = useState('')
@@ -58,7 +71,7 @@ export function MemberSpace({
       const api = client.withSignal(signal)
       const [assignments, executions, exercises] = await Promise.all([
         api.assignments.list(org.id),
-        api.executions.list(org.id),
+        whiteLabel ? api.executions.history() : api.executions.list(org.id),
         api.catalog.listExercises(org.id),
       ])
       return { ...assignments, ...executions, ...exercises }
@@ -67,7 +80,8 @@ export function MemberSpace({
     { refreshKey: dataRefresh },
   )
 
-  const ownAssignments = data?.assignments.filter((item) => item.memberId === me.user.id) ?? []
+  const ownAssignments =
+    data?.assignments.filter((item) => item.memberId === me.user.id && item.active !== false) ?? []
   const ownExecutions = data?.executions.filter((item) => item.memberId === me.user.id) ?? []
   const currentSession = ownAssignments.find((assignment) => assignment.id === sessionId)
   const machineContext = new URLSearchParams(location.search).get('machine')
@@ -106,7 +120,11 @@ export function MemberSpace({
   )
   const actions = (
     <>
-      <span className="muted small">{me.user.name}</span>
+      <span className="muted small">
+        {me.user.name}
+        {branchName ? ` · ${branchName}` : ''}
+      </span>
+      {contextUI}
       {me.memberships.length > 1 && (
         <select
           aria-label="Gimnasio"
@@ -127,82 +145,98 @@ export function MemberSpace({
   )
 
   return (
-    <Shell
-      name={org.brand.name}
-      logoUrl={org.brand.logoUrl}
-      color={org.brand.color}
-      eyebrow="TU ESPACIO"
-      navigation={navigation}
-      actions={actions}
-    >
-      {machineContext && (
-        <Notice>
-          Estás consultando el equipo que abriste desde su ficha. Mostramos las rutinas asignadas
-          que lo usan; ninguna serie se registra automáticamente.{' '}
-          <a href="/app">Ver todas mis rutinas</a>
-        </Notice>
-      )}
-      {!org.serviceActive && (
-        <Notice>
-          El gimnasio tiene pausado el registro de nuevos cambios. Tu historial sigue disponible.
-        </Notice>
-      )}
-      {currentSession ? (
-        <Session
-          key={currentSession.id}
-          assignment={currentSession}
-          orgId={org.id}
-          userId={me.user.id}
-          active={org.serviceActive}
-          onClose={() => setSessionId(null)}
-          onSaved={savedSession}
-        />
-      ) : (
-        <>
-          <div className="page-heading">
-            <div>
-              <p className="eyebrow">
-                {page === 'routine'
-                  ? `HOLA, ${me.user.name.split(' ')[0].toUpperCase()}`
-                  : 'A TU RITMO'}
-              </p>
-              <h1 ref={pageHeading} tabIndex={-1} className="member-page-heading">
-                {PAGES[page].title}
-              </h1>
-              <p className="muted">{PAGES[page].description}</p>
+    <VoiceCapability.Provider value={capabilities.data?.modules.voice ?? !whiteLabel}>
+      <Shell
+        name={org.brand.name}
+        logoUrl={org.brand.logoUrl}
+        color={org.brand.color}
+        eyebrow="TU ESPACIO"
+        navigation={navigation}
+        actions={actions}
+      >
+        {whiteLabel && (
+          <p className="small muted">
+            Tus borradores se conservan por sede. Al cambiar de sede podés retomarlos cuando
+            vuelvas.
+          </p>
+        )}
+        {machineContext && (
+          <Notice>
+            Estás consultando el equipo que abriste desde su ficha. Mostramos las rutinas asignadas
+            que lo usan; ninguna serie se registra automáticamente.{' '}
+            <a href="/app">Ver todas mis rutinas</a>
+          </Notice>
+        )}
+        {!org.serviceActive && (
+          <Notice>
+            El gimnasio tiene pausado el registro de nuevos cambios. Tu historial sigue disponible.
+          </Notice>
+        )}
+        {currentSession ? (
+          <Session
+            key={currentSession.id}
+            assignment={currentSession}
+            orgId={org.id}
+            userId={me.user.id}
+            active={org.serviceActive}
+            onClose={() => setSessionId(null)}
+            onSaved={savedSession}
+          />
+        ) : (
+          <>
+            <div className="page-heading">
+              <div>
+                <p className="eyebrow">
+                  {page === 'routine'
+                    ? `HOLA, ${me.user.name.split(' ')[0].toUpperCase()}`
+                    : 'A TU RITMO'}
+                </p>
+                <h1 ref={pageHeading} tabIndex={-1} className="member-page-heading">
+                  {PAGES[page].title}
+                </h1>
+                <p className="muted">{PAGES[page].description}</p>
+              </div>
             </div>
-          </div>
-          <Notice>{message}</Notice>
-          <Notice error>{error}</Notice>
-          {error && (
-            <button className="button" onClick={reload}>
-              Reintentar
-            </button>
-          )}
-          {loading && (
-            <p className="loading" role="status">
-              Cargando tu espacio…
-            </p>
-          )}
-          {data && (
-            <>
-              {page === 'routine' && (
-                <AssignedRoutines
-                  assignments={ownAssignments}
-                  executions={ownExecutions}
-                  machineId={machineContext}
-                  canStart={org.serviceActive && membership.role === 'member'}
-                  onStart={setSessionId}
-                />
-              )}
-              {page === 'catalog' && (
-                <MovementCatalog exercises={data.exercises} query={query} onQuery={setQuery} />
-              )}
-              {page === 'history' && <ExecutionHistory executions={ownExecutions} />}
-            </>
-          )}
-        </>
-      )}
-    </Shell>
+            <Notice>{message}</Notice>
+            <Notice error>{error}</Notice>
+            {error && (
+              <button className="button" onClick={reload}>
+                Reintentar
+              </button>
+            )}
+            {loading && (
+              <p className="loading" role="status">
+                Cargando tu espacio…
+              </p>
+            )}
+            {data && (
+              <>
+                {page === 'routine' && (
+                  <AssignedRoutines
+                    assignments={ownAssignments}
+                    executions={ownExecutions}
+                    machineId={machineContext}
+                    canStart={org.serviceActive && membership.role === 'member'}
+                    onStart={setSessionId}
+                  />
+                )}
+                {page === 'catalog' && (
+                  <MovementCatalog exercises={data.exercises} query={query} onQuery={setQuery} />
+                )}
+                {page === 'history' && (
+                  <ExecutionHistory
+                    executions={ownExecutions}
+                    branchNames={Object.fromEntries(
+                      me.whiteLabel?.branches.map((item) => [item.branch.id, item.branch.name]) ??
+                        [],
+                    )}
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
+      </Shell>
+    </VoiceCapability.Provider>
   )
 }

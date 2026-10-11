@@ -1,4 +1,5 @@
 import { API_PREFIX } from '@klisteniapp/b2b-contracts/common'
+import type { Role } from '@klisteniapp/b2b-contracts/common'
 import { ApiError } from './errors.ts'
 import { broadcastSessionChange } from './session-events.ts'
 
@@ -8,6 +9,9 @@ export type Parser<T> = {
 }
 export type ClientOptions = {
   signal?: AbortSignal
+  contextSignal?: AbortSignal
+  branchId?: string
+  role?: Role
   fetch?: typeof fetch
   timeoutMs?: number
   uploadTimeoutMs?: number
@@ -32,10 +36,12 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
     method = 'GET',
     body?: unknown,
   ): Promise<T> {
-    if (options.signal?.aborted) throw new ApiError('Solicitud cancelada.', 0, 'ABORTED')
+    if (options.signal?.aborted || options.contextSignal?.aborted)
+      throw new ApiError('Solicitud cancelada.', 0, 'ABORTED')
     const controller = new AbortController()
     const cancel = () => controller.abort(options.signal?.reason)
     options.signal?.addEventListener('abort', cancel, { once: true })
+    options.contextSignal?.addEventListener('abort', cancel, { once: true })
     const binary = body instanceof Blob
     const timeout = setTimeout(
       () => controller.abort(),
@@ -50,6 +56,8 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
         headers: {
           Accept: 'application/json',
           ...(accountId ? { 'X-Klisteni-B2B-Account': accountId } : {}),
+          ...(options.branchId ? { 'X-Klisteni-B2B-Branch': options.branchId } : {}),
+          ...(options.role ? { 'X-Klisteni-B2B-Role': options.role } : {}),
           ...(body === undefined
             ? {}
             : {
@@ -74,6 +82,18 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
       }
       if (!response.ok) {
         const error = errorDetails(result)
+        if (
+          accountId &&
+          (response.status === 401 ||
+            (response.status === 403 &&
+              [
+                'BRANCH_FORBIDDEN',
+                'BRANCH_ARCHIVED',
+                'CONTEXT_REVOKED',
+                'MEMBERSHIP_REQUIRED',
+              ].includes(error.code ?? '')))
+        )
+          (options.onAuthChange ?? broadcastSessionChange)()
         throw new ApiError(
           error.message ??
             (response.status === 401
@@ -83,8 +103,14 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
           error.code,
         )
       }
+      if (options.signal?.aborted || options.contextSignal?.aborted)
+        throw new ApiError('Solicitud cancelada.', 0, 'ABORTED')
       // A successful auth operation has changed cookies even if its payload is malformed.
-      if (path === '/auth/sign-in/email' || path === '/auth/sign-out')
+      if (
+        path === '/auth/sign-in/email' ||
+        path === '/auth/sign-out' ||
+        path === '/invitations/sign-in'
+      )
         (options.onAuthChange ?? broadcastSessionChange)()
       const parsed = schema.safeParse(result)
       if (!parsed.success)
@@ -96,7 +122,8 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
       return parsed.data
     } catch (error) {
       if (error instanceof ApiError) throw error
-      if (options.signal?.aborted) throw new ApiError('Solicitud cancelada.', 0, 'ABORTED')
+      if (options.signal?.aborted || options.contextSignal?.aborted)
+        throw new ApiError('Solicitud cancelada.', 0, 'ABORTED')
       throw new ApiError(
         controller.signal.aborted
           ? 'La solicitud tardó demasiado. Tus cambios sin enviar se conservan en pantalla.'
@@ -107,6 +134,7 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
     } finally {
       clearTimeout(timeout)
       options.signal?.removeEventListener('abort', cancel)
+      options.contextSignal?.removeEventListener('abort', cancel)
     }
   }
   return request

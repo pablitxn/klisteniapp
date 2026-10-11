@@ -23,7 +23,7 @@ export function useTrainingSession(
   onSaved: () => void,
 ) {
   const client = useAccountClient()
-  const key = sessionDraftKey(orgId, userId, assignment.id)
+  const key = sessionDraftKey(orgId, userId, assignment.id, assignment.branchId)
   const [initial] = useState(() => {
     try {
       return recoverSessionDraft(localStorage, key, assignment, () => crypto.randomUUID())

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { UnitBatchSchema, type Asset, type Machine, type Unit } from '@klisteniapp/b2b-contracts'
 import { ApiError } from '@klisteniapp/b2b-client'
 import { Empty, Field, Notice } from '@klisteniapp/b2b-ui'
-import { useAccountClient } from '@klisteniapp/b2b-react'
+import { useAccountClient, useAccountScope } from '@klisteniapp/b2b-react'
 import QRCode from 'qrcode'
 import { Heading, useAction } from './shared'
 import { EquipmentEditor, type EquipmentBatch } from './features/equipment/EquipmentEditor'
@@ -96,7 +96,10 @@ export function Equipment({
 }) {
   const client = useAccountClient(),
     action = useAction()
-  const batchStorageKey = `klisteni.b2b.unit-batch.v1.${orgId}.${userId}`
+  const { branchId, role } = useAccountScope()
+  const batchStorageKey = branchId
+    ? editorDraftKey(userId, orgId, 'unit', 'pending-batch', branchId, role)
+    : `klisteni.b2b.unit-batch.v1.${orgId}.${userId}`
   const [mode, setMode] = useState<'units' | 'models'>('units')
   const [editor, setEditor] = useState<EquipmentEditorSource | null>(null)
   const creating = Boolean(editor)
@@ -172,7 +175,7 @@ export function Equipment({
         try {
           await client.equipment.createUnitsBatch(orgId, batch)
           sessionStorage.removeItem(batchStorageKey)
-          sessionStorage.removeItem(editorDraftKey(userId, orgId, 'unit', 'new'))
+          sessionStorage.removeItem(editorDraftKey(userId, orgId, 'unit', 'new', branchId, role))
           setPendingBatch(null)
           reload('units')
         } catch (error) {

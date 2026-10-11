@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import type { Media } from '@klisteniapp/b2b-contracts'
 import { Field, Notice } from '@klisteniapp/b2b-ui'
-import { useAccountId } from '@klisteniapp/b2b-react'
+import { useAccountId, useAccountScope } from '@klisteniapp/b2b-react'
 import {
   CLIP_CRITERIA,
   CLIP_OUTCOMES,
@@ -56,7 +56,8 @@ export function ClipComparison({
   disabled: boolean
 }) {
   const accountId = useAccountId()
-  const key = clipReviewKey(accountId, orgId)
+  const { branchId, role } = useAccountScope()
+  const key = clipReviewKey(accountId, orgId, branchId, role)
   return (
     <ClipComparisonEditor
       key={key}

@@ -5,7 +5,7 @@ import { useLoad } from '@klisteniapp/b2b-react'
 import { ContentMedia, FloorPlan } from '@klisteniapp/b2b-ui/content'
 import { PublicUnitDetails, PublicUnits } from './PublicEquipment'
 
-function GymWebsite({ site }: { site: PublicSite }) {
+export function GymWebsite({ site }: { site: PublicSite }) {
   const {
     website,
     organization: { brand },
@@ -80,21 +80,33 @@ function GymWebsite({ site }: { site: PublicSite }) {
   )
 }
 
-export function PublicGym({ slug, unitId }: { slug: string; unitId?: string }) {
+export function PublicGym({
+  slug,
+  unitId,
+  branchSlug,
+  branchId,
+  themeColor,
+}: {
+  slug: string
+  unitId?: string
+  branchSlug?: string
+  branchId?: string
+  themeColor?: string
+}) {
   const { data, error, loading, reload } = useLoad<PublicSite | PublicUnit>((signal) => {
     const client = b2bClient.withSignal(signal)
-    return unitId ? client.public.unit(slug, unitId) : client.public.site(slug)
-  }, `${slug}/${unitId}`)
+    return unitId ? client.public.unit(slug, unitId) : client.public.site(slug, branchSlug)
+  }, `${slug}/${unitId}/${branchSlug}`)
   const brand = data?.organization.brand
   const unit = data && 'unit' in data ? data : null
   const site = data && 'website' in data ? data : null
-  const memberUrl = `/app?gym=${encodeURIComponent(slug)}`
+  const memberUrl = `/login?gym=${encodeURIComponent(slug)}${branchId ? `&branch=${encodeURIComponent(branchId)}` : ''}`
 
   return (
     <Shell
       name={brand?.name}
       logoUrl={brand?.logoUrl}
-      color={brand?.color}
+      color={themeColor ?? brand?.color}
       eyebrow="TU GIMNASIO"
       actions={
         <a className="button small" href={memberUrl}>

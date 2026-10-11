@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import type { Me } from '@klisteniapp/b2b-contracts'
+import { BranchInputSchema } from '@klisteniapp/b2b-contracts'
 import { createSessionController } from '../src/session-controller.ts'
 import { ApiError } from '@klisteniapp/b2b-client'
 
@@ -127,4 +128,133 @@ test('failed signout preserves identity and a restart is independent of the old 
   await oldLogout
   assert.equal(session.getSnapshot().me?.user.id, 'account')
   session.stop()
+})
+
+const wlIdentity = (): Me => ({
+  ...identity('account'),
+  whiteLabel: {
+    organizationId: 'atlas',
+    brandAdmin: false,
+    branches: [
+      {
+        branch: {
+          ...BranchInputSchema.parse({ slug: 'central', name: 'Central' }),
+          id: 'central',
+          organizationId: 'atlas',
+          revision: 0,
+        },
+        roles: ['coach'],
+      },
+      {
+        branch: {
+          ...BranchInputSchema.parse({ slug: 'north', name: 'North' }),
+          id: 'north',
+          organizationId: 'atlas',
+          revision: 0,
+        },
+        roles: ['member'],
+      },
+    ],
+  },
+})
+
+test('WL multiple branch-role contexts require explicit choice and never inherit another role', async () => {
+  const session = createSessionController({ me: async () => wlIdentity(), signOut: async () => {} })
+  await session.start()
+  assert.equal(session.getSnapshot().orgId, 'atlas')
+  assert.equal(session.getSnapshot().branchId, '')
+  assert.equal(session.getSnapshot().workRole, '')
+  assert.equal(session.setWorkContext('north', 'coach'), false)
+  assert.equal(session.setWorkContext('sur-central', 'member'), false)
+  assert.equal(session.setWorkContext('central', 'coach'), true)
+  const centralKey = session.getSnapshot().workContextKey
+  await session.refresh(false)
+  assert.equal(session.getSnapshot().workContextKey, centralKey)
+  assert.equal(session.setWorkContext('north', 'member'), true)
+  assert.notEqual(session.getSnapshot().workContextKey, centralKey)
+  assert.equal(session.getSnapshot().workRole, 'member')
+  session.stop()
+})
+
+test('WL revoked and archived branches invalidate selection while a single valid pair opens automatically', async () => {
+  let me = wlIdentity()
+  const session = createSessionController({ me: async () => me, signOut: async () => {} })
+  await session.start()
+  session.setWorkContext('central', 'coach')
+  me = wlIdentity()
+  me.whiteLabel!.branches = [me.whiteLabel!.branches[1]]
+  await session.refresh(false)
+  assert.equal(session.getSnapshot().branchId, 'north')
+  assert.equal(session.getSnapshot().workRole, 'member')
+  me = wlIdentity()
+  me.whiteLabel!.branches.forEach(({ branch }) => {
+    branch.status = 'archived'
+  })
+  await session.refresh(false)
+  assert.equal(session.getSnapshot().branchId, '')
+  assert.equal(session.getSnapshot().workRole, '')
+  session.stop()
+})
+
+test('WL a late session probe cannot undo an explicit context switch', async () => {
+  const delayed = deferred<Me>()
+  let calls = 0
+  const session = createSessionController({
+    me: async () => (++calls === 1 ? wlIdentity() : delayed.promise),
+    signOut: async () => {},
+  })
+  await session.start()
+  session.setWorkContext('central', 'coach')
+  const probe = session.refresh(false)
+  session.setWorkContext('north', 'member')
+  delayed.resolve(wlIdentity())
+  await probe
+  assert.equal(session.getSnapshot().branchId, 'north')
+  assert.equal(session.getSnapshot().workRole, 'member')
+  session.stop()
+})
+
+test('WL explicit selection survives navigation only while the new session still authorizes the exact pair', async () => {
+  let saved: { branchId: string; role: 'admin' | 'coach' | 'member' } | null = null
+  const storage = {
+    readWorkContext: (organizationId: string, userId: string) => {
+      assert.equal(organizationId, 'atlas')
+      assert.equal(userId, 'account')
+      return saved
+    },
+    writeWorkContext: (_organizationId: string, _userId: string, value: typeof saved) => {
+      saved = value
+    },
+  }
+  const first = createSessionController({
+    me: async () => wlIdentity(),
+    signOut: async () => {},
+    ...storage,
+  })
+  await first.start()
+  first.setWorkContext('central', 'coach')
+  first.stop()
+  assert.deepEqual(saved, { branchId: 'central', role: 'coach' })
+  const second = createSessionController({
+    me: async () => wlIdentity(),
+    signOut: async () => {},
+    ...storage,
+  })
+  await second.start()
+  assert.equal(second.getSnapshot().branchId, 'central')
+  assert.equal(second.getSnapshot().workRole, 'coach')
+  await second.signOut()
+  assert.equal(saved, null)
+  second.stop()
+  saved = { branchId: 'central', role: 'admin' }
+  const tampered = createSessionController({
+    me: async () => wlIdentity(),
+    signOut: async () => {},
+    ...storage,
+  })
+  await tampered.start()
+  assert.equal(tampered.getSnapshot().branchId, '')
+  assert.equal(tampered.getSnapshot().workRole, '')
+  assert.equal(saved, null)
+  tampered.stop()
 })

@@ -11,6 +11,16 @@ import {
   selectReviewClip,
 } from '../src/features/media/clipReview.ts'
 
+test('a branch clip comparison is never recovered in another branch or working role', () => {
+  const key = clipReviewKey('person', 'brand', 'center', 'coach')
+  const saved = new Map([[key, JSON.stringify(emptyClipReview())]])
+  const storage = { getItem: (entry: string) => saved.get(entry) ?? null }
+  assert.ok(readClipReview(storage, key))
+  assert.equal(readClipReview(storage, clipReviewKey('person', 'brand', 'north', 'coach')), null)
+  assert.equal(readClipReview(storage, clipReviewKey('person', 'brand', 'center', 'admin')), null)
+  assert.equal(readClipReview(storage, clipReviewKey('person', 'brand')), null)
+})
+
 const reference: Media = {
   id: 'reference',
   kind: 'video',

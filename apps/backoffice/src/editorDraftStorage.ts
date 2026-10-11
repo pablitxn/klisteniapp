@@ -9,7 +9,11 @@ export function editorDraftKey(
   orgId: string,
   kind: 'exercise' | 'program' | 'machine' | 'unit' | 'website',
   entityId: string,
+  branchId?: string,
+  role?: string,
 ) {
+  if (branchId)
+    return `klisteni.b2b.editor-copy.v2.${encodeURIComponent(JSON.stringify([accountId, orgId, branchId, role, kind, entityId]))}`
   return `klisteni.b2b.editor-copy.v1.${encodeURIComponent(JSON.stringify([accountId, orgId, kind, entityId]))}`
 }
 export function readEditorDraft<T>(

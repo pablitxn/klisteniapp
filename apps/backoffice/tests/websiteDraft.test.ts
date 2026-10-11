@@ -88,3 +88,13 @@ test('a saved website removes only its exact copy, never newer local edits or a 
   discardSavedWebsiteCopy(device, key, sent)
   assert.equal(device.getItem(key), null)
 })
+
+test('branch website recovery cannot import a legacy unscoped copy or another branch draft', () => {
+  const device = storage()
+  const center = editorDraftKey('person', 'brand', 'website', 'website', 'center', 'admin')
+  const north = editorDraftKey('person', 'brand', 'website', 'website', 'north', 'admin')
+  device.setItem('legacy', JSON.stringify({ ...website, headline: 'Unscoped private copy' }))
+  writeEditorDraft(device, center, { ...website, headline: 'Centro' }, 3)
+  assert.equal(readWebsiteCopy(device, north, null), null)
+  assert.equal(readWebsiteCopy(device, center, null)?.value.headline, 'Centro')
+})

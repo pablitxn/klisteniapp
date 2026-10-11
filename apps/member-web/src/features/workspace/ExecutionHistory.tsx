@@ -1,7 +1,13 @@
 import type { Execution } from '@klisteniapp/b2b-contracts'
 import { dateLabel, Empty, executionDoseLabel, prescriptionDoseLabel } from '@klisteniapp/b2b-ui'
 
-export function ExecutionHistory({ executions }: { executions: Execution[] }) {
+export function ExecutionHistory({
+  executions,
+  branchNames = {},
+}: {
+  executions: Execution[]
+  branchNames?: Record<string, string>
+}) {
   return executions.length ? (
     <div className="list">
       {executions.map((execution) => (
@@ -9,6 +15,11 @@ export function ExecutionHistory({ executions }: { executions: Execution[] }) {
           <div className="card-head">
             <div>
               <p className="eyebrow">{dateLabel(execution.completedAt)}</p>
+              {execution.branchId && (
+                <p className="small muted">
+                  Sede del registro: {branchNames[execution.branchId] ?? 'Sede anterior'}
+                </p>
+              )}
               <h2>{execution.program.name}</h2>
             </div>
             <span className={`pill ${execution.status === 'completed' ? 'done' : 'warning'}`}>

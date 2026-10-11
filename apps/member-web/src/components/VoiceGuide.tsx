@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import { VoiceCapability } from './voiceCapability'
 import { GuidedSpeech, sideInstruction } from './guidedSpeech'
 import type { VoiceState } from './guidedSpeech'
 
 export function VoiceGuide({ name, instructions }: { name: string; instructions: string[] }) {
+  const enabled = useContext(VoiceCapability)
   const [state, setState] = useState<VoiceState>('idle')
   const controller = useRef<GuidedSpeech | null>(null)
   const supported =
@@ -12,7 +14,7 @@ export function VoiceGuide({ name, instructions }: { name: string; instructions:
   const sideCue = sideInstruction(instructions)
 
   useEffect(() => {
-    if (!supported) return
+    if (!supported || !enabled) return
     const guide = new GuidedSpeech(
       window.speechSynthesis,
       (text) => new SpeechSynthesisUtterance(text),
@@ -23,7 +25,9 @@ export function VoiceGuide({ name, instructions }: { name: string; instructions:
       guide.stop()
       controller.current = null
     }
-  }, [supported])
+  }, [supported, enabled])
+
+  if (!enabled) return null
 
   if (!supported) {
     return (

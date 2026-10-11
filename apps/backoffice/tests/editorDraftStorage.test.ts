@@ -73,3 +73,16 @@ test('storage read failures are recoverable while failed writes are surfaced to 
     /Quota/,
   )
 })
+
+test('white-label drafts preserve recovery separately for each branch and working role', () => {
+  const session = storage()
+  const center = editorDraftKey('person', 'atlas', 'exercise', 'new', 'center', 'coach')
+  writeEditorDraft(session, center, { name: 'Centro sin publicar' }, 3)
+  for (const key of [
+    editorDraftKey('person', 'atlas', 'exercise', 'new', 'north', 'coach'),
+    editorDraftKey('person', 'atlas', 'exercise', 'new', 'center', 'admin'),
+    editorDraftKey('person', 'sur', 'exercise', 'new', 'center', 'coach'),
+  ])
+    assert.equal(readEditorDraft(session, key, validate), null)
+  assert.equal(readEditorDraft(session, center, validate)?.value.name, 'Centro sin publicar')
+})

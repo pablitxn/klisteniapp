@@ -48,7 +48,7 @@ export function normalizeWebsiteDraft(value: unknown): WebsiteInput | null {
 export function readWebsiteCopy(
   storage: DraftStorage,
   key: string,
-  legacyKey: string,
+  legacyKey: string | null,
 ): EditorDraft<WebsiteInput> | null {
   try {
     const stored = storage.getItem(key)
@@ -61,7 +61,7 @@ export function readWebsiteCopy(
       const normalized = copy && normalizeWebsiteDraft(copy.value)
       return copy && normalized ? { ...copy, value: normalized } : null
     }
-    const legacy = storage.getItem(legacyKey)
+    const legacy = legacyKey ? storage.getItem(legacyKey) : null
     if (!legacy || legacy.length > 2_000_000) return null
     const value = normalizeWebsiteDraft(JSON.parse(legacy))
     // Older copies did not retain their source revision. They always require comparison.

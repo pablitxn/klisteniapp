@@ -443,3 +443,18 @@ test('old local drafts and pending retries decode without added duration or RPE 
   assert.equal(recovered?.id, draft.id)
   assert.equal(recovered?.pending?.completedAt, timestamp)
 })
+
+test('white-label training draft keys isolate branch context while retaining the legacy key adapter', () => {
+  assert.notEqual(
+    sessionDraftKey('atlas', 'member', 'assignment', 'center'),
+    sessionDraftKey('atlas', 'member', 'assignment', 'north'),
+  )
+  assert.notEqual(
+    sessionDraftKey('atlas', 'member', 'assignment', 'center'),
+    sessionDraftKey('sur', 'member', 'assignment', 'center'),
+  )
+  assert.equal(
+    sessionDraftKey('atlas', 'member', 'assignment'),
+    'klisteni.b2b.session.v1.atlas.member.assignment',
+  )
+})

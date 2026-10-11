@@ -19,6 +19,16 @@ import {
   UnitUpdateSchema,
   UnitBatchSchema,
   WebsiteUpdateSchema,
+  BranchInputSchema,
+  BranchUpdateSchema,
+  BranchGrantInputSchema,
+  ThemeUpdateSchema,
+  ThemeRestoreSchema,
+  ModuleUpdateSchema,
+  BranchCatalogSchema,
+  UnitTransferSchema,
+  type ModuleId,
+  type Role,
   type B2BInputs,
 } from '@klisteniapp/b2b-contracts'
 
@@ -38,6 +48,7 @@ const memberQuery = (memberId?: string) => (memberId ? `?memberId=${segment(memb
 function createEndpoints(accountId?: string, options: ClientOptions = {}) {
   const request = createTransport(accountId, options)
   return {
+    context: () => request('/context', responses.context),
     me: () => request('/me', responses.me),
     auth: {
       signIn: (body: B2BInputs['signIn']) =>
@@ -45,11 +56,17 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
       signOut: () => request('/auth/sign-out', responses.signOut, 'POST', {}),
     },
     public: {
-      site: (slug: string) => request(`/public/${segment(slug)}`, responses.publicSite),
+      site: (slug: string, branchSlug?: string) =>
+        request(
+          `/public/${segment(slug)}${branchSlug ? `?branch=${segment(branchSlug)}` : ''}`,
+          responses.publicSite,
+        ),
       unit: (slug: string, unitId: string) =>
         request(`/public/${segment(slug)}/units/${segment(unitId)}`, responses.publicUnit),
     },
     invitations: {
+      signIn: (body: { email: string; password: string; token: string; consent: true }) =>
+        request('/invitations/sign-in', responses.signIn, 'POST', body),
       accept: (body: B2BInputs['acceptInvitation']) =>
         request('/invitations/accept', responses.ok, 'POST', input(AcceptInvitationSchema, body)),
       join: (body: { token: string }) => request('/invitations/join', responses.ok, 'POST', body),
@@ -87,6 +104,84 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
           input(BrandInputSchema, body),
         ),
     },
+    branches: {
+      list: (orgId: string) => request(orgPath(orgId, '/branches'), responses.branches),
+      create: (orgId: string, body: B2BInputs['branch']) =>
+        request(
+          orgPath(orgId, '/branches'),
+          responses.branch,
+          'POST',
+          input(BranchInputSchema, body),
+        ),
+      update: (orgId: string, id: string, body: B2BInputs['branchUpdate']) =>
+        request(
+          orgPath(orgId, `/branches/${segment(id)}`),
+          responses.branch,
+          'PUT',
+          input(BranchUpdateSchema, body),
+        ),
+    },
+    grants: {
+      list: (orgId: string) => request(orgPath(orgId, '/grants'), responses.branchGrants),
+      update: (orgId: string, body: B2BInputs['branchGrant']) =>
+        request(
+          orgPath(orgId, '/grants'),
+          responses.ok,
+          'PUT',
+          input(BranchGrantInputSchema, body),
+        ),
+    },
+    theme: {
+      get: (orgId: string) => request(orgPath(orgId, '/theme'), responses.theme),
+      update: (orgId: string, body: B2BInputs['theme']) =>
+        request(orgPath(orgId, '/theme'), responses.theme, 'PUT', input(ThemeUpdateSchema, body)),
+      publish: (orgId: string, body: B2BInputs['revision']) =>
+        request(
+          orgPath(orgId, '/theme/publish'),
+          responses.theme,
+          'POST',
+          input(PublishSchema, body),
+        ),
+      restore: (orgId: string, body: { version: number; expectedRevision: number }) =>
+        request(
+          orgPath(orgId, '/theme/restore'),
+          responses.theme,
+          'POST',
+          input(ThemeRestoreSchema, body),
+        ),
+      versions: (orgId: string) =>
+        request(orgPath(orgId, '/theme/versions'), responses.themeVersions),
+    },
+    modules: {
+      get: (orgId: string) => request(orgPath(orgId, '/modules'), responses.modules),
+      update: (orgId: string, body: { module: ModuleId; enabled: boolean }) =>
+        request(
+          orgPath(orgId, '/modules'),
+          responses.modules,
+          'PUT',
+          input(ModuleUpdateSchema, body),
+        ),
+      updateBrand: (orgId: string, body: { module: ModuleId; enabled: boolean }) =>
+        request(
+          orgPath(orgId, '/modules/brand'),
+          responses.modules,
+          'PUT',
+          input(ModuleUpdateSchema, body),
+        ),
+    },
+    availability: {
+      get: (orgId: string) => request(orgPath(orgId, '/availability'), responses.availability),
+      update: (
+        orgId: string,
+        body: { kind: 'machine' | 'exercise'; resourceId: string; enabled: boolean },
+      ) =>
+        request(
+          orgPath(orgId, '/availability'),
+          responses.ok,
+          'PUT',
+          input(BranchCatalogSchema, body),
+        ),
+    },
     catalog: {
       listExercises: (orgId: string) => request(orgPath(orgId, '/exercises'), responses.exercises),
       createExercise: (orgId: string, body: B2BInputs['exercise']) =>
@@ -119,6 +214,13 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
         ),
     },
     equipment: {
+      transfer: (orgId: string, id: string, body: { branchId: string; expectedRevision: number }) =>
+        request(
+          orgPath(orgId, `/units/${segment(id)}/transfer`),
+          responses.unit,
+          'POST',
+          input(UnitTransferSchema, body),
+        ),
       listMachines: (orgId: string) => request(orgPath(orgId, '/machines'), responses.machines),
       createMachine: (orgId: string, body: B2BInputs['machine']) =>
         request(
@@ -196,6 +298,8 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
         ),
     },
     assignments: {
+      retire: (orgId: string, id: string) =>
+        request(orgPath(orgId, `/assignments/${segment(id)}/retire`), responses.ok, 'POST', {}),
       list: (orgId: string, memberId?: string) =>
         request(orgPath(orgId, `/assignments${memberQuery(memberId)}`), responses.assignments),
       create: (orgId: string, body: B2BInputs['assignment']) =>
@@ -207,6 +311,9 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
         ),
     },
     executions: {
+      history: () => request('/history/executions', responses.executions),
+      brandHistory: (orgId: string) =>
+        request(orgPath(orgId, '/history/executions'), responses.executions),
       list: (orgId: string, memberId?: string) =>
         request(orgPath(orgId, `/executions${memberQuery(memberId)}`), responses.executions),
       create: (orgId: string, body: B2BInputs['execution']) =>
@@ -247,6 +354,11 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
         request(orgPath(orgId, '/setup-progress'), responses.setupProgress),
     },
     media: {
+      listBrand: (orgId: string) => request(orgPath(orgId, '/brand-media'), responses.mediaList),
+      uploadBrand: (orgId: string, metadata: B2BInputs['media'], file: Blob) => {
+        const query = new URLSearchParams(input(MediaUploadSchema, metadata))
+        return request(orgPath(orgId, `/brand-media?${query}`), responses.media, 'POST', file)
+      },
       list: (orgId: string) => request(orgPath(orgId, '/media'), responses.mediaList),
       upload: (orgId: string, metadata: B2BInputs['media'], file: Blob) => {
         const query = new URLSearchParams(input(MediaUploadSchema, metadata))
@@ -256,11 +368,18 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
   }
 }
 /** Bind account identity once; scoped reads can be cancelled without affecting writes. */
-export function createB2BClient(accountId?: string, options: ClientOptions = {}) {
+export function createB2BClient(accountId?: string, options: ClientOptions = {}): B2BClient {
   return {
     ...createEndpoints(accountId, options),
-    withSignal: (signal: AbortSignal) => createEndpoints(accountId, { ...options, signal }),
+    withSignal: (signal: AbortSignal) => createB2BClient(accountId, { ...options, signal }),
+    withContext: (branchId: string, role: Role) =>
+      createB2BClient(accountId, { ...options, branchId, role }),
+    forAccount: (userId: string) => createB2BClient(userId, options),
   }
 }
-export type B2BClient = ReturnType<typeof createB2BClient>
+export type B2BClient = ReturnType<typeof createEndpoints> & {
+  withSignal: (signal: AbortSignal) => B2BClient
+  withContext: (branchId: string, role: Role) => B2BClient
+  forAccount: (userId: string) => B2BClient
+}
 export const b2bClient = createB2BClient()

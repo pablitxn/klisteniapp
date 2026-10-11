@@ -223,7 +223,14 @@ export function WebsitePage({
   dataRefresh,
   userId,
   onPublication,
-}: Context & { userId: string; onPublication: (published: boolean) => void }) {
+  floorPlanEnabled,
+  publicPath,
+}: Context & {
+  userId: string
+  onPublication: (published: boolean) => void
+  floorPlanEnabled?: boolean
+  publicPath?: string
+}) {
   const client = useAccountClient(),
     org = membership.organization
   const website = useLoad((signal) => client.withSignal(signal).website.get(org.id), org.id, {
@@ -237,6 +244,8 @@ export function WebsitePage({
     <SectionResources resources={[website]}>
       {website.data && (
         <WebsiteEditor
+          floorPlanEnabled={floorPlanEnabled}
+          publicPath={publicPath}
           userId={userId}
           organization={org}
           website={website.data.website}

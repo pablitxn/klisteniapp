@@ -344,3 +344,77 @@ test('an already cancelled scope never sends a request', async () => {
   )
   assert.equal(calls, 0)
 })
+
+test('WL client scopes branch and role immutably through account and abort binding', async () => {
+  const calls: Array<{ branch: string | null; role: string | null; account: string | null }> = []
+  const client = createB2BClient('first', {
+    fetch: async (_path, init) => {
+      const headers = new Headers(init?.headers)
+      calls.push({
+        branch: headers.get('X-Klisteni-B2B-Branch'),
+        role: headers.get('X-Klisteni-B2B-Role'),
+        account: headers.get('X-Klisteni-B2B-Account'),
+      })
+      return json({ assignments: [] })
+    },
+  })
+  const central = client.withContext('central', 'coach')
+  const north = central.withContext('north', 'member').forAccount('second')
+  await central.withSignal(new AbortController().signal).assignments.list('atlas')
+  await north.assignments.list('atlas')
+  await client.assignments.list('atlas')
+  assert.deepEqual(calls, [
+    { branch: 'central', role: 'coach', account: 'first' },
+    { branch: 'north', role: 'member', account: 'second' },
+    { branch: null, role: null, account: 'first' },
+  ])
+})
+
+test('WL departed context drops even a successful late response and refuses queued writes', async () => {
+  const scope = new AbortController()
+  let accept!: (response: Response) => void
+  let calls = 0
+  const client = createB2BClient('account', {
+    branchId: 'central',
+    role: 'coach',
+    contextSignal: scope.signal,
+    fetch: async () => {
+      calls++
+      return new Promise((resolve) => {
+        accept = resolve
+      })
+    },
+  })
+  const pending = client.assignments.list('atlas')
+  const rejected = assert.rejects(pending, apiError(0, 'ABORTED'))
+  scope.abort()
+  accept(json({ assignments: [] }))
+  await rejected
+  await assert.rejects(client.assignments.retire('atlas', 'assignment'), apiError(0, 'ABORTED'))
+  assert.equal(calls, 1)
+})
+
+test('WL accepting an invitation through credentials announces the changed session', async () => {
+  let changes = 0
+  const client = createB2BClient(undefined, {
+    fetch: async (path, init) => {
+      assert.equal(path, '/api/b2b/invitations/sign-in')
+      assert.equal(JSON.parse(String(init?.body)).consent, true)
+      return json({
+        redirect: false,
+        token: 'session-token',
+        user: { id: 'account', name: 'Person', email: 'person@example.test' },
+      })
+    },
+    onAuthChange: () => {
+      changes++
+    },
+  })
+  await client.invitations.signIn({
+    email: 'person@example.test',
+    password: 'password',
+    token: 'invitation-token',
+    consent: true,
+  })
+  assert.equal(changes, 1)
+})
