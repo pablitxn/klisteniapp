@@ -3,6 +3,11 @@
 Desplegado y verificado en `production-k3s`, aplicación ArgoCD y namespace
 `klisteni-b2b-prod`, por autorización posterior al cierre local WL-0 a WL-8.
 
+**Aceptado y cerrado por el usuario el 11/10/2026** mediante «acepto todo,
+termina». La aceptación incluye los límites documentados: previews, backups
+periódicos y retención diferidos, y pipeline completo pendiente por las previews
+de yoga. No se atribuyen nuevas pruebas físicas a esta aceptación.
+
 | Marca | Web pública | Sedes |
 | --- | --- | --- |
 | Atlas Demo | https://atlas-klisteni.orchid-labs.xyz | Centro, Norte |

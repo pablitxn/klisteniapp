@@ -2,6 +2,12 @@
 
 Actualizado: **11 de octubre de 2026**. Marca blanca integrada a `main` en `07209a4`, checkpoints debajo. Entrega anterior: `508e9e1`; evidencia anterior de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
 
+**Entrega WL-0 a WL-8 aceptada y cerrada por el usuario el 11/10/2026**, mediante
+«acepto todo, termina», sobre la implementación, integración y piloto desplegado
+descritos abajo. Las previews, los backups periódicos y la retención conservan
+su estado diferido. Esta aceptación no agrega resultados de pruebas físicas ni
+declara aprobado el pipeline completo; sus límites y evidencia siguen registrados.
+
 **Entrega anterior implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
 **Marca blanca implementada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 a WL-8 están implementados y verificados, con checkpoint local y un piloto público autorizado posteriormente. Los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
@@ -36,10 +42,10 @@ los pasos posteriores no se ejecutaron. [Evidencia del cierre](validation/b2b-wh
 | Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
 | Runtime de la entrega anterior comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
 | Marca blanca completada y verificada localmente | WL-0 a WL-8: dominios, cuatro sedes, permisos, branding, módulos y recuperación | API 76/76; E2E HTTPS 30/30; B2C 3/3; imágenes 6/6 y restauración 6/6. [Checkpoints y matriz D01–D19](b2b-white-label-validation.md) |
-| Piloto público desplegado y verificado | Atlas y Sur, cuatro sedes, cuentas para pruebas manuales, volúmenes y DB dedicados | 50 grupos de navegador público; reinicio y restauración probados. [Checkpoint de despliegue](b2b-white-label-deployment.md) |
+| Piloto público aceptado y entrega cerrada | Atlas y Sur, cuatro sedes, cuentas para pruebas manuales, volúmenes y DB dedicados | Aceptación explícita del usuario el 11/10/2026; 50 grupos de navegador público, reinicio y restauración probados. [Checkpoint de despliegue](b2b-white-label-deployment.md) |
 | Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
 | Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
-| Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
+| Verificación física sin nueva evidencia registrada; entrega aceptada | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Pruebas manuales a cargo del usuario; no bloquean el cierre que aceptó |
 | Diferido por decisión del usuario | Regeneración y revisión completa de previews tras los cambios de modelos | Conservar lo existente; retomar B4 cuando los recursos estén listos |
 | Diferido por decisión del usuario | Backups periódicos y política de retención para producción | El ensayo de restauración del piloto aprobó; automatización pendiente para una etapa posterior |
 
