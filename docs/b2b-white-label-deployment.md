@@ -22,9 +22,12 @@ marca. El administrador selecciona sede y función; profesores y socios acceden
   `80ff2f5dade3bec9258118f31315be00d0b3d0d5`.
 - [Operación y recuperación PR43](https://github.com/pablitxn/mycelium/pull/43).
 - [MR de fuente](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/merge_requests/1):
-  rama publicada; su integración a `main` requiere Maintainer. La credencial
-  de este VPS tiene rol Developer. El despliegue usa los digests de la revisión
-  publicada, independientemente de ese merge.
+  **integrada a `main` en `07209a4`**, incluyendo el ajuste de concurrencia CI;
+  GitLab confirmó la MR como `merged`. Atlas quedó integrado en `1d2c439`.
+  El token de API del VPS tiene rol Developer, pero la clave SSH existente
+  permitió ambas integraciones respetando las protecciones, sin ampliar permisos
+  ni copiar credenciales desde la Mac. El despliegue conserva los digests de
+  `45483e2`; los commits posteriores sólo cambian evidencia y configuración CI.
 
 Mycelium conserva los manifests y los scripts operativos en
 `applications/klisteni-b2b/`. Nginx y API comparten pod; la API escucha solamente
@@ -69,14 +72,36 @@ API sólo en loopback y eliminó sus temporales. La API pública siguió disponi
 se verificó ausencia de cambios con hashes antes y después de la captura, durante
 el intervalo controlado previo a entregar los accesos. No se afirma un bloqueo
 de escrituras ni una política de backup periódico o recuperación de todo el host.
+El usuario difirió explícitamente los backups periódicos y la política de
+retención hasta una etapa posterior de operación en producción; no bloquean
+las pruebas manuales del piloto.
 
 ## Límites y próxima operación
 
-La CI GitOps aprobó. El pipeline de fuente **1244**, job **5356**, falló con
-`runner_system_failure`; no acredita el gate completo de fuente. La generación y
-revisión de previews siguen diferidas, sin regeneraciones ni cambios de hashes
-para omitirlas. Teléfono y QR físicos, Blender y revisión humana del contenido
-conservan su aceptación propia.
+La CI GitOps aprobó. La traza del pipeline de fuente **1244**, job **5356**,
+precisa la causa de `runner_system_failure`: Kubernetes terminó el contenedor
+con `OOMKilled`/137 durante lint, al ejecutar diez tareas dentro de un límite de
+1 GiB. `07209a4` serializa Turbo: el pipeline **1247** aprobó lint 15/15 y formato,
+pero TypeScript agotó el heap de Node durante `web:typecheck` (134). `11434d9`
+eleva sólo el límite de `quality` a **2 GiB**, dentro del override permitido por
+el runner, conservando el request de 256 MiB y la concurrencia de una tarea.
+No se modificaron los límites globales del clúster ni se usó la Mac.
+
+La verificación sobre `main`, [pipeline **1249**, job **5363**](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/jobs/5363),
+aprobó **lint 15/15**, **tipos 15/15** y **tests 15/15 paquetes**, además de los
+23 tests raíz: **447 aprobados, 11 omitidos y cero fallos** en total. Las integraciones
+con DB se omiten en este job sin URL; su evidencia local y desplegada se conserva
+por separado. La comprobación de previews aprobó 74 de ejercicios y 24 musculares,
+pero yoga se detuvo con `Extraction receipt is stale`:
+los cambios de fuentes requieren nuevas capturas. No hubo otro fallo de memoria.
+El pipeline completo sigue **fallido por las previews diferidas**; los pasos de
+anatomía, build y auditoría posteriores no se ejecutaron en este pipeline.
+Consultar la [evidencia del cierre de integración y CI](validation/b2b-white-label-closeout-2026-10-11.json).
+
+La generación y revisión de previews siguen diferidas, sin regeneraciones ni
+cambios de hashes para omitirlas; el gate completo conserva esa comprobación.
+Teléfono y QR físicos, Blender y revisión humana del contenido conservan su
+aceptación propia.
 
 La evidencia TLS almacenada vence el **22/11/2026 23:56:33 UTC**. Revalidar los
 dos dominios con el operador **antes del 08/11/2026**, comprobando su DNS y

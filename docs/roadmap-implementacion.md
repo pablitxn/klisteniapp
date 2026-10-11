@@ -1,10 +1,10 @@
 # Roadmap de implementación: marca blanca B2B, sedes, contenido 3D y UI
 
-Actualizado: **11 de octubre de 2026**. Marca blanca en `codex/b2b-white-label`, checkpoints debajo. Entrega anterior: `508e9e1`; evidencia anterior de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
+Actualizado: **11 de octubre de 2026**. Marca blanca integrada a `main` en `07209a4`, checkpoints debajo. Entrega anterior: `508e9e1`; evidencia anterior de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
 
 **Entrega anterior implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
 
-**Marca blanca implementada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 a WL-8 están implementados y verificados en el alcance local autorizado. Los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
+**Marca blanca implementada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 a WL-8 están implementados y verificados, con checkpoint local y un piloto público autorizado posteriormente. Los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
 
 La implementación puede continuar desde otra instancia de Codex en un VPS con la Mac apagada siguiendo el [relevo remoto](development-vps.md). La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
 
@@ -20,6 +20,14 @@ Las 33 aplicaciones ArgoCD quedaron Synced/Healthy; B2C conservó imágenes y da
 Consultar [accesos, evidencia y límites](b2b-white-label-deployment.md) y
 [reporte sanitizado](validation/b2b-white-label-deployed-2026-10-11.json).
 Las referencias a «cierre local» más abajo conservan el alcance histórico original.
+Klisteni MR1 y la documentación de Atlas ya están integrados a sus ramas `main`.
+La clave SSH existente del VPS permitió el cierre; no fue necesario ampliar
+los permisos del token API ni usar la Mac.
+El pipeline **1249** sobre `main` verificó el ajuste CI (`11434d9`): concurrencia
+de una tarea y límite de 2 GiB para `quality`. Lint, tipos y tests aprobaron
+15/15 paquetes, más 23 tests raíz. El pipeline completo permanece fallido sólo
+en la comprobación de previews de yoga diferidas (`Extraction receipt is stale`);
+los pasos posteriores no se ejecutaron. [Evidencia del cierre](validation/b2b-white-label-closeout-2026-10-11.json).
 
 ## Estado de entrega y continuación entre Mac y VPS
 
@@ -33,10 +41,11 @@ Las referencias a «cierre local» más abajo conservan el alcance histórico or
 | Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
 | Pendiente de aceptación física | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Instancia HTTPS accesible y personas que completen el recorrido |
 | Diferido por decisión del usuario | Regeneración y revisión completa de previews tras los cambios de modelos | Conservar lo existente; retomar B4 cuando los recursos estén listos |
+| Diferido por decisión del usuario | Backups periódicos y política de retención para producción | El ensayo de restauración del piloto aprobó; automatización pendiente para una etapa posterior |
 
 El código puede continuar en [macOS](development-macos.md) o en el [VPS mediante SSH y tmux](development-vps.md); la autoría Blender conserva su trabajo local. El checkout transporta código, documentación y assets versionados; las bases, credenciales y cachés no forman parte de Git. Antes de apagar la Mac, publicar en Git el checkpoint elegido del setup y esta documentación y verificar su SHA en el VPS: la edición local no los sincroniza automáticamente.
 
-**Límite del cierre:** el smoke local no acredita un despliegue público. `pnpm check`, `check:all`, `check:release` y el job GitLab `quality` mantienen la comprobación completa de previews, pendiente; no se declaran verdes ni se modifica la procedencia para hacerlos pasar. Los resultados de código/runtime se registran por separado. Las tablas históricas y criterios siguientes conservan el alcance original; esta tabla indica el estado actual.
+**Límite del cierre:** la evidencia pública corresponde al piloto Atlas/Sur descrito arriba; las pruebas locales tienen su informe propio. `pnpm check`, `check:all`, `check:release` y el job GitLab `quality` mantienen la comprobación completa de previews, pendiente; no se declaran verdes ni se modifica la procedencia para hacerlos pasar. Los resultados de código/runtime se registran por separado. Las tablas históricas y criterios siguientes conservan el alcance original; esta tabla indica el estado actual.
 
 ## 1. Punto de partida y decisiones que conservamos
 

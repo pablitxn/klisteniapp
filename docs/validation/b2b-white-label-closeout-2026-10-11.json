@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T14:57:54.295340+00:00",
+  "integration": {
+    "klisteni": {
+      "mainIntegrationCommit": "07209a4090b4e8ac935895e51667c8d8e0aab1c1",
+      "mergeRequest": 1,
+      "state": "merged",
+      "mergedAt": "2026-10-11T14:40:01.251Z",
+      "ciMemoryCommit": "11434d985a46996b4d12decd910156f3a6a31058"
+    },
+    "atlas": {
+      "mainCommit": "1d2c4399a2c9a5e440a382ac230b46a4aaf10a50"
+    },
+    "mycelium": {
+      "mainCommit": "90dfa45f7c40f54d188c1a3c8e1335ddb671c965"
+    },
+    "method": "Existing Code Bunker SSH key; fast-forward pushes accepted by protected main branches. No permission or branch protection changes.",
+    "apiTokenRole": "Developer; distinct from effective SSH push permissions",
+    "macRequired": false,
+    "deployedApplicationSource": "45483e2dc15a8e3cd9df4b9aaa32893652434d28",
+    "changesSinceDeployedSource": [
+      ".gitlab-ci.yml",
+      "docs/b2b-white-label-deployment.md",
+      "docs/b2b.md",
+      "docs/roadmap-implementacion.md",
+      "docs/validation/b2b-white-label-deployed-2026-10-11.json",
+      "docs/validation/b2b-white-label-deployed-atlas-2026-10-11.png",
+      "docs/validation/b2b-white-label-deployed-sur-2026-10-11.png"
+    ],
+    "applicationCodeChangedSinceDeployment": false
+  },
+  "ciOriginalFailure": {
+    "pipeline": 1244,
+    "job": 5356,
+    "reason": "runner_system_failure: OOMKilled/137 during parallel lint",
+    "buildMemoryLimitBytes": 1073741824
+  },
+  "ciIntermediateVerification": {
+    "pipeline": 1247,
+    "job": 5361,
+    "commit": "07209a4090b4e8ac935895e51667c8d8e0aab1c1",
+    "lintTasksPassed": 15,
+    "failure": "web:typecheck V8 heap exhaustion near 512 MiB, exit 134"
+  },
+  "ciVerification": {
+    "pipeline": {
+      "id": 1249,
+      "status": "failed",
+      "ref": "main",
+      "sha": "11434d985a46996b4d12decd910156f3a6a31058",
+      "source": "push",
+      "created_at": "2026-10-11T14:45:26.102Z",
+      "started_at": "2026-10-11T14:45:42.280Z",
+      "finished_at": "2026-10-11T14:55:28.292Z",
+      "duration": 584,
+      "web_url": "https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/pipelines/1249"
+    },
+    "job": {
+      "id": 5363,
+      "status": "failed",
+      "name": "quality",
+      "failure_reason": "script_failure",
+      "started_at": "2026-10-11T14:45:42.175Z",
+      "finished_at": "2026-10-11T14:55:26.842Z",
+      "duration": 584.667428,
+      "web_url": "https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/jobs/5363"
+    },
+    "environment": {
+      "executor": "kubernetes",
+      "image": "node:24-bookworm@sha256:5a750d3be5e5c80275f8c9a5367c3aed99c2875656590c8d0701c7ee687f5f0a",
+      "node_version": "v24.21.0",
+      "architecture": "linux/amd64",
+      "build_memory_limit_bytes": 2147483648,
+      "build_memory_request_bytes": 268435456,
+      "build_cpu_request": "100m",
+      "build_cpu_limit": "1",
+      "turbo_concurrency": 1,
+      "v8_heap_limit_bytes": 1174405120,
+      "node_constrained_memory_bytes": 2147483648,
+      "mac_required": false
+    },
+    "gates": [
+      {
+        "name": "pnpm install --frozen-lockfile --ignore-scripts",
+        "status": "passed",
+        "finished_at": "2026-10-11T14:48:06.814303Z"
+      },
+      {
+        "name": "pnpm lint",
+        "status": "passed",
+        "finished_at": "2026-10-11T14:49:14.915126Z",
+        "details": {
+          "b2b_boundaries": "passed",
+          "turbo_tasks_successful": 15,
+          "turbo_tasks_total": 15,
+          "prettier": "passed"
+        }
+      },
+      {
+        "name": "pnpm typecheck",
+        "status": "passed",
+        "finished_at": "2026-10-11T14:51:31.115923Z",
+        "details": {
+          "turbo_tasks_successful": 15,
+          "turbo_tasks_total": 15
+        }
+      },
+      {
+        "name": "pnpm test",
+        "status": "passed",
+        "finished_at": "2026-10-11T14:55:22.984865Z",
+        "details": {
+          "turbo_tasks_successful": 15,
+          "turbo_tasks_total": 15,
+          "totals": {
+            "tests": 458,
+            "pass": 447,
+            "fail": 0,
+            "skipped": 11
+          },
+          "skip_note": "Quality unsets database URLs. The API suite skips one database test and the B2B API suite skips ten database tests; separate integration jobs were not opted in.",
+          "root_tests": 23
+        }
+      },
+      {
+        "name": "pnpm previews:check",
+        "status": "failed",
+        "started_at": "2026-10-11T14:55:22.984889Z",
+        "finished_at": "2026-10-11T14:55:25.490346Z",
+        "details": {
+          "exercise_previews": {
+            "status": "passed",
+            "count": 74,
+            "exercises": 37,
+            "models": 2
+          },
+          "body_previews": {
+            "status": "passed",
+            "count": 24
+          },
+          "yoga_previews": {
+            "status": "failed",
+            "reason": "Extraction receipt source hashes do not match current capture sources."
+          },
+          "exit_code": 1
+        }
+      },
+      {
+        "name": "node scripts/validate-anatomy.mjs",
+        "status": "not_run",
+        "reason": "Prior yoga preview provenance check exited 1; job stopped."
+      },
+      {
+        "name": "pnpm build",
+        "status": "not_run",
+        "reason": "Prior yoga preview provenance check exited 1; job stopped."
+      },
+      {
+        "name": "node scripts/audit-publication.mjs --self-test",
+        "status": "not_run",
+        "reason": "Prior yoga preview provenance check exited 1; job stopped."
+      },
+      {
+        "name": "node scripts/audit-publication.mjs --dist apps/web/dist",
+        "status": "not_run",
+        "reason": "Prior yoga preview provenance check exited 1; job stopped."
+      },
+      {
+        "name": "test -s apps/web/dist/index.html",
+        "status": "not_run",
+        "reason": "Prior yoga preview provenance check exited 1; job stopped."
+      }
+    ],
+    "failure": {
+      "classification": "script_failure",
+      "exit_code": 1,
+      "command": "node scripts/generate-yoga-previews.mjs --check",
+      "code": "ERR_ASSERTION",
+      "exact_message": "Extraction receipt is stale. Source changes require new captures; do not update recorded capture hashes.",
+      "observed_failure_at": "2026-10-11T14:55:25.488960Z",
+      "stack": [
+        "scripts/preview-provenance.mjs:85:10 loadRetainedCaptures",
+        "scripts/generate-yoga-previews.mjs:145:20"
+      ],
+      "source_differences": [
+        {
+          "file": "pnpm-lock.yaml",
+          "current": "caf39635007fd2c811e47f92c9cd7bc1fddda9b76a4b8c9c5be7c6d5ef2b9ba8",
+          "recorded": "e5ca0a48172a1df35d73fcf0ce850ee774aa8931517851a60b86a7080b4236eb"
+        },
+        {
+          "file": "scripts/generate-yoga-previews.mjs",
+          "current": "10cefcbb02c045f1ae59c1663655728763e3fd12daabeb1d79bb8ea4751214f8",
+          "recorded": "91048bc18549545d0436f9e4203aa2fd7941cb5af425a6ecfce6dc53b29a43f8"
+        },
+        {
+          "file": "scripts/preview-browser.mjs",
+          "current": "3d54351c1fb068ec4b3780c403278d4a80af7b10c9aa31be71032088049ec8ac",
+          "recorded": null
+        },
+        {
+          "file": "scripts/preview-capture-state.mjs",
+          "current": "b26f2ad47df272d8cad2e9d4bd2caa4f0b4bb855ad326371276bfae0e5feedec",
+          "recorded": null
+        }
+      ],
+      "interpretation": "The serial 2 GiB quality job completed lint, typecheck and tests. This run ended on the retained yoga capture provenance check, not an out-of-memory condition. Preview regeneration remains explicitly deferred.",
+      "source_trace_url": "https://gitlab.orchid-labs.xyz/api/v4/projects/35/jobs/5363/trace"
+    }
+  },
+  "publicReadOnlyVerification": {
+    "checkedAt": "2026-10-11T14:39:10.148383+00:00",
+    "checks": [
+      {
+        "url": "https://atlas-klisteni.orchid-labs.xyz/",
+        "status": 200,
+        "bytes": 401
+      },
+      {
+        "url": "https://atlas-klisteni.orchid-labs.xyz/api/b2b/readyz",
+        "status": 200,
+        "bytes": 18
+      },
+      {
+        "url": "https://atlas-klisteni.orchid-labs.xyz/api/b2b/context",
+        "status": 200,
+        "bytes": 1259,
+        "organizationId": "atlas-demo",
+        "branches": [
+          "centro",
+          "norte"
+        ],
+        "themeVersion": 14
+      },
+      {
+        "url": "https://sur-klisteni.orchid-labs.xyz/",
+        "status": 200,
+        "bytes": 401
+      },
+      {
+        "url": "https://sur-klisteni.orchid-labs.xyz/api/b2b/readyz",
+        "status": 200,
+        "bytes": 18
+      },
+      {
+        "url": "https://sur-klisteni.orchid-labs.xyz/api/b2b/context",
+        "status": 200,
+        "bytes": 1242,
+        "organizationId": "sur-demo",
+        "branches": [
+          "centro",
+          "oeste"
+        ],
+        "themeVersion": 6
+      },
+      {
+        "url": "https://klisteniapp.orchid-labs.xyz/",
+        "status": 200,
+        "bytes": 1019
+      }
+    ],
+    "readOnly": true,
+    "tlsValidation": true
+  },
+  "clusterReadOnlyVerification": {
+    "checkedAt": "2026-10-11T14:38:55.312794+00:00",
+    "readOnly": true,
+    "application": {
+      "name": "klisteni-b2b-prod",
+      "sync": "Synced",
+      "health": "Healthy",
+      "revision": "90dfa45f7c40f54d188c1a3c8e1335ddb671c965"
+    },
+    "pods": [
+      {
+        "name": "b2b-postgresql-9b79b9cb-grhl7",
+        "phase": "Running",
+        "containers": [
+          {
+            "name": "postgresql",
+            "ready": true,
+            "restartCount": 0,
+            "imageID": "docker.io/library/postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+          }
+        ]
+      },
+      {
+        "name": "klisteni-b2b-5476468fc-fldh4",
+        "phase": "Running",
+        "containers": [
+          {
+            "name": "api",
+            "ready": true,
+            "restartCount": 0,
+            "imageID": "registry.orchid-labs.xyz:32443/orchid-labs/homelab/klisteniapp/b2b-api@sha256:ea1d8954d5b13dd230b77fae215cd55b4fdccacc2da6d183c4082e4dd6d93561"
+          },
+          {
+            "name": "web",
+            "ready": true,
+            "restartCount": 0,
+            "imageID": "registry.orchid-labs.xyz:32443/orchid-labs/homelab/klisteniapp/b2b-web@sha256:9da50516713fc4ef862d0bafb71def45ff8fb053f3c558e7a936c82be065e9e7"
+          }
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "Full source CI remains failed on deferred yoga preview provenance; no previews regenerated and no hashes bypassed.",
+    "Anatomy validation, build and publication audits after the failing preview command did not run in pipeline 1249.",
+    "Quality test result: 447 passed, 11 database-dependent tests skipped; deployed E2E and database evidence remain in the separate deployment report.",
+    "Recurring backups and retention explicitly deferred by the user; the prior live restore exercise remains valid evidence of that controlled run.",
+    "Physical device and printed QR manual acceptance remains with the user."
+  ]
+}

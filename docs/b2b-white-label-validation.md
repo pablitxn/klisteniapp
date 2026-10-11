@@ -1,6 +1,6 @@
 # Validación de marca blanca B2B — 11/10/2026
 
-Estado: **WL-0 a WL-8 completados y verificados localmente**. Implementación en `codex/b2b-white-label`, base `af87f603876cb99b2e6673f290fa8ec03721454b`. La evidencia siguiente es nueva; no reutiliza resultados de `508e9e1`. No se desplegó producción ni se regeneraron previews diferidas.
+Estado de este checkpoint: **WL-0 a WL-8 completados y verificados localmente**. Implementación en `codex/b2b-white-label`, base `af87f603876cb99b2e6673f290fa8ec03721454b`. La evidencia siguiente es nueva; no reutiliza resultados de `508e9e1`. Este checkpoint no desplegó producción ni regeneró previews diferidas. La autorización posterior y las pruebas sobre Atlas y Sur públicos están en el [checkpoint de despliegue](b2b-white-label-deployment.md).
 
 ## Checkpoints y alcance
 

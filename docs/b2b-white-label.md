@@ -1,6 +1,6 @@
 # Marca blanca B2B: dominios, marcas y múltiples sedes
 
-Fecha de definición e implementación: **11 de octubre de 2026**. Estado: **WL-0 a WL-8 implementados y verificados localmente** en `codex/b2b-white-label`. El [roadmap](roadmap-implementacion.md#checkpoints-de-marca-blanca-nueva-evidencia) registra checkpoints y la [validación nueva](b2b-white-label-validation.md) distingue pruebas automatizadas, runtime local y aceptación física. No se publicaron dominios de clientes ni se desplegó producción.
+Fecha de definición e implementación: **11 de octubre de 2026**. Estado del checkpoint original: **WL-0 a WL-8 implementados y verificados localmente** en `codex/b2b-white-label`. El [roadmap](roadmap-implementacion.md#checkpoints-de-marca-blanca-nueva-evidencia) registra checkpoints y la [validación nueva](b2b-white-label-validation.md) distingue pruebas automatizadas, runtime local y aceptación física. La autorización posterior permitió desplegar el [piloto público de Atlas y Sur](b2b-white-label-deployment.md), con evidencia propia sobre HTTPS real.
 
 ## 1. Objetivo y decisiones de producto
 
