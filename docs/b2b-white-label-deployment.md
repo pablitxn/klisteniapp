@@ -20,6 +20,34 @@ marca. El administrador selecciona sede y función; profesores y socios acceden
 únicamente a su sede. Los accesos están en el archivo privado del VPS
 `.cache/wl-deploy/accesos-manuales.md`; no se versionan las credenciales.
 
+## Actualización: una sola web B2B
+
+La revisión `bda51fb233b3c132b5e5bb90e6164f1e2171dd3a` está desplegada
+mediante [Mycelium PR47](https://github.com/pablitxn/mycelium/pull/47),
+revisión GitOps `27a1cd6af71f2bf7c2061bfa75254848dcbf5144`.
+La web comparte sesión, marca y sede: `/app` para socios y `/manage` para
+administradores/profesores, con rutas por dominio y compatibilidad de los links
+anteriores de `/backoffice/`. `backoffice` queda reservado para una futura consola
+de owner; no se crea esa consola en esta entrega.
+
+La [evidencia del upgrade](validation/b2b-unified-deployed-2026-10-11.json)
+registra Chromium táctil **24/24** y WebKit táctil **24/24**, sin errores JavaScript;
+las dos marcas mantienen documento/sesión/sede al navegar y conservan URL/contexto
+al recargar. Los smokes consultan entrenamiento y configuración; login, selección
+y logout afectan sólo sus sesiones sintéticas. Los cuatro controles de host/proxy/origen
+aprobaron y los bundles HTTPS coinciden byte por byte con el artifact construido.
+ArgoCD terminó `Synced / Healthy / Succeeded`, con API/web `2/2` y PostgreSQL `1/1`.
+
+Antes de promover los digests se capturaron DB, medios y configuración privados y
+se verificó su restauración aislada: 33 tablas y cuatro medios. No hay migraciones
+nuevas; los init containers comprobaron migraciones y rol runtime limitado.
+B2C conserva sus generaciones e imágenes y su readiness público respondió 200.
+La CI GitOps aprobó; la auditoría exacta de fuente y artifact aprobó, con 93
+self-tests. El [pipeline de fuente 1252](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/pipelines/1252)
+aprobó lint, tipos y tests (14/14 tareas en cada etapa), y falló únicamente al
+validar el receipt de extracción de yoga previamente diferido. El gate permanece
+activo y no se afirma una CI global verde.
+
 ## Revisión y operación
 
 - Fuente de las imágenes: `45483e2dc15a8e3cd9df4b9aaa32893652434d28`.
