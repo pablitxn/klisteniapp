@@ -9,6 +9,12 @@ import { openAccountSettings } from './settings-helpers'
 const config = fixtureConfig()
 const pool = createPool(config)
 const email = (prefix: string) => `${prefix}-${randomUUID()}@admin.test`
+function recipientIp(info: TestInfo, slot: number) {
+  const projects = ['chromium-narrow', 'chromium-wide', 'chromium-desktop', 'webkit-narrow', 'webkit-wide', 'webkit-desktop']
+  const project = projects.indexOf(info.project.name)
+  if (project < 0) throw new Error('Unknown admin fixture project')
+  return `203.0.113.${20 + project * 10 + slot}`
+}
 test.afterAll(async () => { await pool.end() })
 test.beforeEach(async ({ context }, info) => {
   await context.setExtraHTTPHeaders({ 'X-Klisteniapp-Test-Client-IP': `198.51.100.${info.testId.split('').reduce((sum, c) => sum + c.charCodeAt(0), 0) % 250 + 1}` })
@@ -217,7 +223,7 @@ test('shared quota is atomic across recipients; duplicate email, expiry and revo
   const admin = await adminPanel(page)
   const label = `Quota ${randomUUID()}`
   const url = await shared(admin, label)
-  const contexts = await Promise.all([1, 2].map(n => browser.newContext({ ...info.project.use, baseURL: 'http://127.0.0.1:4187', extraHTTPHeaders: { 'X-Klisteniapp-Test-Client-IP': `203.0.113.${n}` } })))
+  const contexts = await Promise.all([1, 2].map(n => browser.newContext({ ...info.project.use, baseURL: 'http://127.0.0.1:4187', extraHTTPHeaders: { 'X-Klisteniapp-Test-Client-IP': recipientIp(info, n) } })))
   try {
     const recipients = await Promise.all(contexts.map(c => c.newPage()))
     await Promise.all(recipients.map(p => p.goto(url)))
@@ -254,7 +260,7 @@ test('user enable, suspend, revoke sessions and recover preserve history and acc
   const user = await createProvisionedUser(pool, config, { email: address, name: 'Managed QA', password })
   await new StateRepository(pool).addLog(user, { kind: 'cardio', log: { id: randomUUID(), date: '2026-10-01', activity: 'walk', minutes: 19 } })
   const original = (await pool.query('SELECT * FROM account_access WHERE user_id = $1', [user.id])).rows[0]
-  const memberContext = await browser.newContext({ ...info.project.use, baseURL: 'http://127.0.0.1:4187', extraHTTPHeaders: { 'X-Klisteniapp-Test-Client-IP': '203.0.113.80' } })
+  const memberContext = await browser.newContext({ ...info.project.use, baseURL: 'http://127.0.0.1:4187', extraHTTPHeaders: { 'X-Klisteniapp-Test-Client-IP': recipientIp(info, 3) } })
   await memberContext.route('**/models/*.glb', route => route.abort())
   try {
     const member = await memberContext.newPage()
