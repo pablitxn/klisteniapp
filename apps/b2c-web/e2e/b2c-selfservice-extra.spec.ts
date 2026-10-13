@@ -230,7 +230,6 @@ test('real yoga editor cancellation, reorder, pause, partial save and lost commi
   // Freeze between explicit advances: install alone keeps real time ticking,
   // which made exact elapsed assertions depend on browser/CPU latency.
   await page.clock.install()
-  await page.clock.pauseAt(new Date(Date.now() + 60_000))
   await login(page, 'QAYoga')
   await nav(page, 'Yoga')
   await page.getByRole('navigation', { name: 'Secciones de yoga' }).getByRole('button', { name: 'Mis prácticas' }).click()
@@ -253,6 +252,8 @@ test('real yoga editor cancellation, reorder, pause, partial save and lost commi
   expect(practice.steps.map(s => s.durationSeconds)).toEqual([7, 5])
   await page.getByRole('button', { name: 'Comenzar Pausa parcial QA', exact: true }).click()
   const session = page.getByRole('dialog', { name: 'Pausa parcial QA', exact: true })
+  await expect(session.getByRole('button', { name: 'Comenzar asana' })).toBeVisible()
+  await page.clock.pauseAt(new Date(Date.now() + 60_000))
   await session.getByRole('button', { name: 'Comenzar asana' }).click()
   await page.clock.runFor(2000)
   await session.getByRole('button', { name: 'Pausar', exact: true }).click()
@@ -262,6 +263,7 @@ test('real yoga editor cancellation, reorder, pause, partial save and lost commi
   await session.getByRole('button', { name: 'Continuar', exact: true }).click()
   await page.clock.runFor(1000)
   await session.getByRole('button', { name: 'Terminar ahora' }).click()
+  await page.clock.resume()
   await session.getByRole('button', { name: 'Revisar y guardar' }).click()
   await expect(session.getByRole('heading', { name: 'Una práctica a tu ritmo' })).toBeVisible()
   await page.route('**/api/me/yoga', async route => { await route.fetch(); await route.abort('connectionreset') })
