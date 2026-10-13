@@ -4,7 +4,9 @@ import { mkdirSync } from 'node:fs'
 import { whiteLabelTLS } from './b2b-wl-tls.mjs'
 
 if (
-  (await fetch('http://127.0.0.1:4360/').then((response) => response.text())) !== 'trainer QA ready'
+  (await fetch('http://127.0.0.1:4360/')
+    .then((response) => response.text())
+    .catch(() => null)) !== 'trainer QA ready'
 )
   throw new Error('Start scripts/b2b-trainer-e2e-server.mjs with a disposable test database first.')
 const require = createRequire(new URL('../apps/b2c-web/package.json', import.meta.url))

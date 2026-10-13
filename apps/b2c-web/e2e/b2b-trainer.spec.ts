@@ -18,7 +18,7 @@ async function login(
   origin = 'https://atlas.b2b.test',
 ) {
   if (test.info().project.name.includes('webkit') && process.env.TRAINER_WEBKIT_HTTP === '1')
-    origin = origin.replace(/^https:/, 'http:')
+    origin = origin.includes('sur.b2b.test') ? 'http://127.0.0.1:4468' : 'http://localhost:4468'
   await page.goto(`${origin}/manage`)
   await page.getByLabel('Email', { exact: true }).fill(email)
   await page.getByLabel('Contraseña', { exact: true }).fill(password)
@@ -70,7 +70,9 @@ async function request(
   )
 }
 async function sql(info: TestInfo, query: string, values: unknown[] = []) {
-  const proxyPort = new URL(info.project.use.proxy!.server).port
+  const proxyPort = info.project.name.includes('webkit')
+    ? '4368'
+    : new URL(info.project.use.proxy!.server).port
   const map = JSON.parse(
     readFileSync(new URL('../../../.cache/trainer/fixture-map.json', import.meta.url), 'utf8'),
   )
@@ -904,13 +906,11 @@ test('T17 trainer image library persists files, validates unsupported inputs and
 }) => {
   await login(page)
   await page.getByRole('button', { name: 'Archivos', exact: true }).click()
-  await page
-    .getByLabel('Archivo del gimnasio', { exact: true })
-    .setInputFiles({
-      name: 'unsupported.txt',
-      mimeType: 'text/plain',
-      buffer: Buffer.from('Synthetic invalid upload'),
-    })
+  await page.getByLabel('Archivo del gimnasio', { exact: true }).setInputFiles({
+    name: 'unsupported.txt',
+    mimeType: 'text/plain',
+    buffer: Buffer.from('Synthetic invalid upload'),
+  })
   await page.getByRole('button', { name: 'Subir a la biblioteca', exact: true }).click()
   await expect(page.getByText('Elegí un archivo del tipo indicado.', { exact: true })).toBeVisible()
   const png = await page.evaluate(() => {
@@ -923,13 +923,11 @@ test('T17 trainer image library persists files, validates unsupported inputs and
     return canvas.toDataURL('image/png').split(',')[1]
   })
   const label = `Imagen ${randomUUID()}`
-  await page
-    .getByLabel('Archivo del gimnasio', { exact: true })
-    .setInputFiles({
-      name: 'trainer-fixture.png',
-      mimeType: 'image/png',
-      buffer: Buffer.from(png, 'base64'),
-    })
+  await page.getByLabel('Archivo del gimnasio', { exact: true }).setInputFiles({
+    name: 'trainer-fixture.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(png, 'base64'),
+  })
   await page.getByLabel('Nombre del archivo', { exact: true }).fill(label)
   await page.getByRole('button', { name: 'Subir a la biblioteca', exact: true }).click()
   await expect(

@@ -32,47 +32,6 @@ const environments = [],
   tls = whiteLabelTLS().tls
 // Development HTTP is confined to WebKit's disposable schema and restricted proxy.
 const webkitHTTP = process.env.TRAINER_WEBKIT_HTTP === '1'
-function createHTTPTestProxy(gatewayPort) {
-  const proxy = http.createServer((request, response) => {
-    let url
-    try {
-      url = new URL(request.url)
-    } catch {
-      response.writeHead(403)
-      response.end()
-      return
-    }
-    if (
-      url.protocol !== 'http:' ||
-      !/^(atlas|sur|alias|unknown)\.b2b\.test$/.test(url.hostname) ||
-      (url.port && url.port !== '80')
-    ) {
-      response.writeHead(403)
-      response.end()
-      return
-    }
-    const upstream = http.request(
-      {
-        host: '127.0.0.1',
-        port: gatewayPort,
-        path: url.pathname + url.search,
-        method: request.method,
-        headers: { ...request.headers, host: url.host },
-      },
-      (result) => {
-        response.writeHead(result.statusCode, result.headers)
-        result.pipe(response)
-      },
-    )
-    upstream.on('error', () => {
-      if (!response.headersSent) response.writeHead(502)
-      response.end()
-    })
-    request.pipe(upstream)
-  })
-  proxy.closeTunnels = () => {}
-  return proxy
-}
 mkdirSync(new URL('../.cache/trainer/', import.meta.url), { recursive: true })
 const fixtureMap = {}
 const readiness = http.createServer((_request, response) => {
@@ -142,7 +101,7 @@ try {
     const config = {
       databaseUrl: url.href,
       secret: randomBytes(40).toString('hex'),
-      origin: `${protocol}://atlas.b2b.test`,
+      origin: protocol === 'http' ? `http://localhost:${gatewayPort}` : 'https://atlas.b2b.test',
       host: '127.0.0.1',
       port: apiPort,
       production: protocol === 'https',
@@ -157,7 +116,7 @@ try {
     const pool = (environment.pool = createPool(config))
     await migrate(pool, createAuth(pool, config, { migrating: true }))
     const auth = createAuth(pool, config)
-    // Seeding is explicitly synthetic; the served auth instance still enforces Secure cookies.
+    // HTTPS uses Secure cookies; the explicit loopback HTTP fixture uses development cookies.
     await seedWhiteLabelDemo(
       pool,
       auth,
@@ -168,6 +127,12 @@ try {
       SELECT 'atlas-demo','atlas-demo-norte',id,r.role FROM b2b_auth_user
       CROSS JOIN (VALUES ('coach')) AS r(role)
       WHERE email='coach@atlas.example.test' ON CONFLICT DO NOTHING`)
+    if (protocol === 'http') {
+      await pool.query(
+        "UPDATE b2b_domain SET host=CASE WHEN host='atlas.b2b.test' THEN $1 WHEN host='sur.b2b.test' THEN $2 ELSE host END",
+        [`localhost:${gatewayPort}`, `127.0.0.1:${gatewayPort}`],
+      )
+    }
     fixtureMap[proxyPort] = environment.schema
     writeFileSync(
       new URL('../.cache/trainer/fixture-map.json', import.meta.url),
@@ -186,11 +151,10 @@ try {
       ...(protocol === 'https' ? { tls } : {}),
     }))
     await listen(gateway, gatewayPort)
-    const proxy = (environment.proxy =
-      protocol === 'https'
-        ? createWhiteLabelTestProxy(gatewayPort)
-        : createHTTPTestProxy(gatewayPort))
-    await listen(proxy, proxyPort)
+    if (protocol === 'https') {
+      const proxy = (environment.proxy = createWhiteLabelTestProxy(gatewayPort))
+      await listen(proxy, proxyPort)
+    }
     console.info(`Trainer QA ${protocol} environment ready via loopback proxy ${proxyPort}.`)
   }
   await listen(readiness, 4360)

@@ -77,11 +77,16 @@ export default defineConfig({
       name: 'trainer-webkit-narrow',
       use: {
         browserName: 'webkit',
-        baseURL: `${process.env.TRAINER_WEBKIT_HTTP === '1' ? 'http' : 'https'}://atlas.b2b.test`,
+        baseURL:
+          process.env.TRAINER_WEBKIT_HTTP === '1'
+            ? 'http://localhost:4468'
+            : 'https://atlas.b2b.test',
         launchOptions: process.env.TRAINER_WEBKIT_EXECUTABLE
           ? { executablePath: process.env.TRAINER_WEBKIT_EXECUTABLE }
           : {},
-        proxy: { server: 'http://127.0.0.1:4368' },
+        ...(process.env.TRAINER_WEBKIT_HTTP === '1'
+          ? {}
+          : { proxy: { server: 'http://127.0.0.1:4368' } }),
         viewport: { width: 390, height: 844 },
         isMobile: true,
         hasTouch: true,
