@@ -1,28 +1,51 @@
-# Instrucciones para agentes
+# Agent instructions
 
-## Base de conocimiento compartida
+## Shared knowledge base
 
-Para tareas que necesiten contexto del proyecto —identidad, arquitectura,
-estado, fuentes, responsables, decisiones o preguntas abiertas— consulta la base
-Atlas aunque el pedido no la mencione. Resuelve `KB_ROOT` desde la raíz Git de
-este proyecto usando el mount real de `sysadmin-workspace`; en el layout actual
-está en `../sysadmin-workspace`. Verifica que `KB_ROOT` sea la raíz Git de ese
-repo y que existan `AGENTS.md`, `atlas/AGENTS.md` y `atlas/catalog/`. Si cambia
-el layout, usa el mount declarado y accesible de la sesión; no adivines rutas de
-host.
+For tasks needing project context (identity, architecture, status, sources,
+owners, decisions or open questions), consult Atlas even when the request does
+not mention it. Resolve `KB_ROOT` from this project's Git root using the actual
+`sysadmin-workspace` mount; in the current layout it is `../sysadmin-workspace`.
+Verify that `KB_ROOT` is that repository's Git root and contains `AGENTS.md`,
+`atlas/AGENTS.md` and `atlas/catalog/`. If the layout changes, use the session's
+declared, accessible mount; do not guess host paths.
 
-Lee esas instrucciones y la skill pertinente antes de responder o trabajar:
+Read those instructions and the relevant skill before responding or working:
 
-- Para contexto, navegación, fuentes, relaciones, responsables o estado de un
-  proyecto, abre `KB_ROOT/.agents/skills/atlas-navigate/SKILL.md`.
-- Para una actualización o reconciliación solicitada de la base, abre además
-  `KB_ROOT/.agents/skills/atlas-maintain/SKILL.md` y sigue su intake existente.
+- For project context, navigation, sources, relationships, owners or status,
+  open `KB_ROOT/.agents/skills/atlas-navigate/SKILL.md`.
+- For a requested knowledge-base update or reconciliation, also open
+  `KB_ROOT/.agents/skills/atlas-maintain/SKILL.md` and follow its existing intake.
 
-Si las skills no aparecen en el catálogo nativo, abre y lee esos archivos de
-forma explícita; el puntero no incorpora automáticamente su contenido. Que el
-repo esté montado junto a este proyecto no garantiza registro nativo. Si falta
-acceso, informa el límite sin crear mounts, instalar plugins ni copiar skills.
-El alcance de una skill es una instrucción, no un permiso: manda la
-autorización concreta del usuario y el acceso disponible. Una solicitud para
-actualizar Atlas no autoriza por sí sola cambios en este repo, otros repos,
-Notion o runtime.
+If the skills are absent from the native catalog, explicitly open and read those
+files; this pointer does not automatically include their contents. A neighboring
+mount does not guarantee native registration. If access is missing, report the
+limit without creating mounts, installing plugins or copying skills. Skill scope
+is an instruction, not permission: the user's mandate and available access govern.
+An Atlas update request alone does not authorize changes to this repository,
+other repositories, Notion or runtime.
+
+## Technical language and commits
+
+Follow the [canonical Atlas directive](https://github.com/pablitxn/sysadmin-workspace/blob/35be24cdef1275a3d850c9ccb999e11c3ffe6609/atlas/ops/standards/engineering-language-and-commits.md)
+at verified revision `35be24cdef1275a3d850c9ccb999e11c3ffe6609`
+([draft PR #5](https://github.com/pablitxn/sysadmin-workspace/pull/5)).
+Upstream merge/adoption is pending; the mounted Atlas main does not contain this
+policy. Until it is available there, use this concise fallback:
+
+- Write repository-authored technical documentation, agent instructions, code
+  comments, test descriptions and PR titles/bodies in English.
+- Preserve API identifiers/contracts, paths, localization, product content,
+  fixture values, external names, original source quotations and immutable
+  historical evidence. Record ambiguous exceptions for human review.
+- Use English Conventional Commits for new commits: `type(scope): description`.
+  Use a meaningful scope and write authored commit bodies in English too.
+  Do not rewrite published history or force push to repair old commit messages.
+- Use existing validation conventions. Executable structural checks cannot prove
+  English fluency, accurate translation, exception classification or unchanged
+  evidence meaning; those require human review. Record checks actually run,
+  pre-existing failures, tested revisions and remaining limits in the audit.
+- Coordinate changes to shared files across QA branches. Keep language work
+  separate from integration and preserve local/HTTPS/physical-test distinctions,
+  the Yoga preview failure and deferred model/Blender acceptance. Do not introduce
+  TLS bypasses or certificate-trust changes to obtain passing results.
