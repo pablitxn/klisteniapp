@@ -161,6 +161,9 @@ test('A08 published branch media and video controls load and play', async ({ pag
   await expect
     .poll(() => video.evaluate((element: HTMLVideoElement) => element.readyState))
     .toBeGreaterThanOrEqual(2)
+  await expect
+    .poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime))
+    .toBeGreaterThan(0)
   await video.evaluate((element: HTMLVideoElement) => element.pause())
   await screen(page, info)
 })
@@ -184,6 +187,7 @@ for (const name of ['hiddenBranch', 'archivedBranch', 'unpublishedBranch', 'webs
   }, info) => {
     await apply(info, name)
     await page.goto(atlas)
+    await expect(page.getByRole('heading', { name: 'Atlas Demo', exact: true })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Conocer Norte' })).toHaveCount(0)
     await page.goto(`${atlas}/sedes/norte`)
     await unavailable(page)
@@ -557,4 +561,91 @@ test('A32 malformed percent encoding is rejected at the document gateway', async
   await screen(page, info, 'gateway-rejection')
   await page.goto(atlas)
   await expect(page.getByRole('link', { name: 'Conocer Norte' })).toBeVisible()
+})
+
+test('A33 touch activation uses real touch pointer events in the mobile viewport', async ({
+  page,
+}, info) => {
+  await page.addInitScript(() => {
+    const pointerTypes: string[] = []
+    Object.assign(window, { qaPointerTypes: pointerTypes })
+    document.addEventListener('pointerdown', (event) => pointerTypes.push(event.pointerType))
+  })
+  await page.goto(atlas)
+  const touch = Boolean(info.project.use.hasTouch)
+  const link = page.getByRole('link', { name: 'Conocer Norte', exact: true })
+  if (touch) await link.tap()
+  else await link.click()
+  await expect(page.getByRole('heading', { name: 'Atlas Norte', exact: true })).toBeVisible()
+  const qr = page.getByText('Conocer equipo →').first()
+  if (touch) await qr.tap()
+  else await qr.click()
+  await expect(
+    page.getByRole('heading', { name: 'Movimientos para este equipo', exact: true }),
+  ).toBeVisible()
+  const login = page.getByRole('link', { name: 'Mi espacio →', exact: true })
+  if (touch) await login.tap()
+  else await login.click()
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
+  const pointers = await page.evaluate(
+    () => (window as Window & { qaPointerTypes: string[] }).qaPointerTypes,
+  )
+  expect(pointers.length).toBeGreaterThanOrEqual(3)
+  expect(pointers.every((pointer) => pointer === (touch ? 'touch' : 'mouse'))).toBe(true)
+  await info.attach('actual-pointer-types', {
+    body: JSON.stringify(pointers),
+    contentType: 'application/json',
+  })
+  await screen(page, info)
+})
+test('A34 unpublishing branch or brand revokes direct anonymous media access', async ({
+  page,
+}, info) => {
+  for (const name of ['hiddenBranch', 'archivedBranch', 'unpublishedBranch', 'websiteOff']) {
+    await apply(info, name)
+    await page.goto(atlas)
+    await expect(page.getByRole('heading', { name: 'Atlas Demo', exact: true })).toBeVisible()
+    expect((await api(page, fixture.media.branch.url)).status).toBe(404)
+  }
+  await apply(info, 'unpublishedRoot')
+  await page.goto(atlas)
+  expect((await api(page, fixture.media.root.url)).status).toBe(404)
+  await screen(page, info)
+})
+test('A35 browser without speech retains the full published written instructions', async ({
+  page,
+}, info) => {
+  await page.addInitScript(() =>
+    Object.defineProperty(window, 'speechSynthesis', { configurable: true, get: () => undefined }),
+  )
+  await page.goto(`${atlas}${unitPath}`)
+  await page.getByText('Cómo hacer Remo en polea sentado', { exact: true }).click()
+  await expect(
+    page.getByText(
+      'La lectura en voz no está disponible en este navegador. Seguí las instrucciones escritas.',
+      { exact: true },
+    ),
+  ).toBeVisible()
+  await expect(
+    page.getByText('Con el tronco estable, llevá el agarre hacia el torso.', { exact: true }),
+  ).toBeVisible()
+  await screen(page, info)
+})
+test('A36 brand logo enters login and invitation account entry can be cancelled', async ({
+  page,
+}, info) => {
+  await page.goto(atlas)
+  await page.locator('.brand-link').click()
+  await expect(page).toHaveURL(`${atlas}/app`)
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
+  await page.goto(`${atlas}/app/invite?token=synthetic-invalid`)
+  await page.getByRole('button', { name: 'Ya tengo una cuenta de gimnasio', exact: true }).click()
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
+  await expect(
+    page.getByText('Acepto incorporarme a esta marca con el acceso de esta invitación.'),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Volver', exact: true }).click()
+  await expect(page.getByLabel('Tu nombre', { exact: true })).toBeVisible()
+  expect((await api(page, '/api/b2b/me')).status).toBe(401)
+  await screen(page, info)
 })
