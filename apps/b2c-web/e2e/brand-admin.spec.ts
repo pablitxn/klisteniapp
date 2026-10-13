@@ -109,6 +109,24 @@ for (const [brand, branches] of [
     const errors: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
     await login(page, brand)
+    // The shell renders before the default section's lazy imports finish.
+    // Navigating then cancels those imports in the document being unloaded.
+    await expect(
+      page.getByRole('heading', { name: 'Preparemos tu gimnasio.', exact: true }),
+    ).toBeVisible()
+    const headings: Record<string, string> = {
+      whiteLabel: 'Una marca, varios espacios.',
+      preparation: 'Preparemos tu gimnasio.',
+      reports: 'Acompañar también es observar.',
+      people: 'Personas antes que números.',
+      programs: 'Planes con intención.',
+      catalog: 'Una biblioteca que crece.',
+      equipment: 'Conocé cada equipo.',
+      media: 'Los recursos de tu gimnasio.',
+      website: 'Tu gimnasio, también en la web.',
+      qr: 'Un acceso en cada equipo.',
+      brand: 'Un espacio con tu identidad.',
+    }
     for (const branch of branches) {
       await field(page, 'Sede y función').selectOption(`${brand}-demo-${branch}:admin`)
       for (const route of [
@@ -126,17 +144,30 @@ for (const [brand, branches] of [
       ]) {
         await page.goto(`${qaProtocol}://${brand}.b2b.test/manage/${route}`)
         await expect(button(page, 'Salir')).toBeVisible()
-        await expect(page.locator('main h1').first()).toBeVisible()
+        await expect(
+          page.getByRole('heading', { name: headings[route]!, exact: true }),
+        ).toBeVisible()
         await expect(page.getByRole('alert')).toHaveCount(0)
         await capture(page, info, `${brand}-${branch}-${route}`)
       }
       await button(page, 'Personas').click()
+      await expect(page.getByRole('heading', { name: headings.people!, exact: true })).toBeVisible()
       await button(page, 'Website').click()
+      await expect(
+        page.getByRole('heading', { name: headings.website!, exact: true }),
+      ).toBeVisible()
       await page.goBack()
       await expect(page).toHaveURL(/\/manage\/people$/)
+      await expect(page.getByRole('heading', { name: headings.people!, exact: true })).toBeVisible()
       await page.goForward()
       await expect(page).toHaveURL(/\/manage\/website$/)
+      await expect(
+        page.getByRole('heading', { name: headings.website!, exact: true }),
+      ).toBeVisible()
       await page.reload()
+      await expect(
+        page.getByRole('heading', { name: headings.website!, exact: true }),
+      ).toBeVisible()
       await expect(field(page, 'Sede y función')).toHaveValue(`${brand}-demo-${branch}:admin`)
     }
     expect(errors).toEqual([])
