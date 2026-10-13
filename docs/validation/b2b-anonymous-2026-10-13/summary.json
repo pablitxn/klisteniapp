@@ -1,0 +1,630 @@
+{
+  "testedFullMatrixCommit": "435ef3af8dfc43a1f10aa0e2e90d85ec583b76ee",
+  "testedFinalQaCommit": "128d332b11822b4df4aedae0f3d55bc8cf357441",
+  "baseCommit": "7172041102a8a7029af5fb3e2527a1fa51611a86",
+  "sourceEvidenceHead": "18b35173cbab6e3081e7f1b1005fc5b88963e55d",
+  "fullMatrixStats": {
+    "startTime": "2026-10-13T10:51:54.398Z",
+    "duration": 662870.91,
+    "expected": 252,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "finalTouchRecheck": {
+    "reason": "TypeScript correction to injected test property; product code unchanged",
+    "commit": "128d332b11822b4df4aedae0f3d55bc8cf357441",
+    "stats": {
+      "startTime": "2026-10-13T11:09:56.521Z",
+      "duration": 26606.576999999997,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "checks": [
+      {
+        "project": "anonymous-chromium-narrow",
+        "status": "PASS",
+        "pointerTypes": [
+          "touch",
+          "touch",
+          "touch"
+        ],
+        "durationMs": 8299
+      },
+      {
+        "project": "anonymous-chromium-wide",
+        "status": "PASS",
+        "pointerTypes": [
+          "touch",
+          "touch",
+          "touch"
+        ],
+        "durationMs": 9313
+      },
+      {
+        "project": "anonymous-chromium-desktop",
+        "status": "PASS",
+        "pointerTypes": [
+          "mouse",
+          "mouse",
+          "mouse"
+        ],
+        "durationMs": 9624
+      },
+      {
+        "project": "anonymous-webkit-narrow",
+        "status": "PASS",
+        "pointerTypes": [
+          "touch",
+          "touch",
+          "touch"
+        ],
+        "durationMs": 6921
+      },
+      {
+        "project": "anonymous-webkit-wide",
+        "status": "PASS",
+        "pointerTypes": [
+          "touch",
+          "touch",
+          "touch"
+        ],
+        "durationMs": 8196
+      },
+      {
+        "project": "anonymous-webkit-desktop",
+        "status": "PASS",
+        "pointerTypes": [
+          "mouse",
+          "mouse",
+          "mouse"
+        ],
+        "durationMs": 7562
+      }
+    ]
+  },
+  "physicalDevicesTested": false,
+  "projects": [
+    {
+      "project": "anonymous-chromium-narrow",
+      "engineVersion": "154.0.8037.57",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "protocol": "https",
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "project": "anonymous-chromium-wide",
+      "engineVersion": "154.0.8037.57",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "protocol": "https",
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "project": "anonymous-chromium-desktop",
+      "engineVersion": "154.0.8037.57",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "protocol": "https",
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "project": "anonymous-webkit-narrow",
+      "engineVersion": "26.6",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "protocol": "http",
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "project": "anonymous-webkit-wide",
+      "engineVersion": "26.6",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "protocol": "http",
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "project": "anonymous-webkit-desktop",
+      "engineVersion": "26.6",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "protocol": "http",
+      "passed": 42,
+      "failed": 0
+    }
+  ],
+  "flows": [
+    {
+      "flow": "A01 Atlas and Sur show distinct brands and every public branch",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A02 all four branch pages load with their published catalog and schedules",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A03 navigation through branch catalog QR reload and browser history",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A04 branch published contact differs from private profile drafts",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A05 QR header login and return link preserve the unit branch",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A06 QR routine entry retains unit machine branch and login context",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A07 root-only published gallery loads real image bytes",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A08 published branch media and video controls load and play",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A09 floor plan marker opens the unit; failed image keeps the textual route",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A10 hiddenBranch hides branch and QR without exposing private content",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A10 archivedBranch hides branch and QR without exposing private content",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A10 unpublishedBranch hides branch and QR without exposing private content",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A10 websiteOff hides branch and QR without exposing private content",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A11 hiddenUnit removes catalog entry QR and floor marker",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A11 archivedUnit removes catalog entry QR and floor marker",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A11 unpublishedMachine removes catalog entry QR and floor marker",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A11 equipmentOff removes catalog entry QR and floor marker",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A12 empty branch equipment and no published exercises have usable empty states",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A13 unpublished organization website keeps branch navigation and login usable",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A14 brand without published branches retains login and empty guidance",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A15 invalid routes encoded slugs unknown gym branch and unit fail safely",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A16 private media foreign brand URLs and auth-only endpoints are inaccessible",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A17 unknown host and canonical alias redirects reject secret queries",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A18 branch request failure response loss and retry recover without stale data",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A19 cancelled slow branch response cannot replace a different route",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A20 public context error offers a retry and recovers",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A21 landing website request error can be retried",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A22 login native validation wrong credentials and double submit stay anonymous",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A23 login response loss leaves a retryable anonymous form",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A24 every protected route shows login with expired synthetic cookies",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A25 invalid invitation is safe and has no account side effects",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A26 double activation of a branch link keeps one public context and no session",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A27 all four branch QR units and long title stay readable and isolated",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A28 published text instructions expand and collapse without loading a model",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A29 two simultaneous brand tabs expose only their own public data",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A30 keyboard skip link and normal brand route aliases remain usable",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A31 foreign query parameters do not expose a workspace or switch the brand",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A32 malformed percent encoding is rejected at the document gateway",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A33 touch activation uses real touch pointer events in the mobile viewport",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A34 unpublishing branch or brand revokes direct anonymous media access",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A35 browser without speech retains the full published written instructions",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    },
+    {
+      "flow": "A36 brand logo enters login and invitation account entry can be cancelled",
+      "projects": {
+        "anonymous-chromium-narrow": "PASS",
+        "anonymous-chromium-wide": "PASS",
+        "anonymous-chromium-desktop": "PASS",
+        "anonymous-webkit-narrow": "PASS",
+        "anonymous-webkit-wide": "PASS",
+        "anonymous-webkit-desktop": "PASS"
+      }
+    }
+  ],
+  "limits": [
+    "WebKit HTTPS: Unacceptable TLS certificate; system trust unchanged",
+    "Physical devices/camera/printed QR",
+    "Native audible speech",
+    "3D/models/previews UI by scope",
+    "Authenticated workspace UI in separate role sessions",
+    "Legacy GymEntry"
+  ],
+  "publicationPolicy": "Text and synthetic test code only. Screenshots, traces, raw logs, dumps and credentials remain local."
+}
