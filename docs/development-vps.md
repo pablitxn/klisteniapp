@@ -1,19 +1,19 @@
-# Continuar el desarrollo en un VPS con la Mac apagada
+<a id="continuar-el-desarrollo-en-un-vps-con-la-mac-apagada"></a>
 
-Actualizado: **11 de octubre de 2026**. Relevo de código para el
-[roadmap](roadmap-implementacion.md) y la [marca blanca B2B](b2b-white-label.md).
-No acredita conexión, preparación ni validación del VPS en esta sesión.
+# Continue development on VPS while Mac is off
 
-El VPS ejecuta Git, Codex, backend, PostgreSQL y navegadores sin interfaz gráfica.
-La Mac puede estar apagada; se necesita otro dispositivo con acceso SSH al VPS.
-Codex, Git remoto y descargas necesitan conexión. No agrega un modo sin conexión
-a la aplicación. Blender, calidad visual WebGL y teléfonos físicos conservan su revisión.
+Updated **October 11, 2026**, [roadmap](roadmap-implementacion.md)/[white-label](b2b-white-label.md)
+code handoff. No VPS connection/setup/validation established by this document.
+VPS runs Git/Codex/backend/PostgreSQL/headless browsers. Another SSH device needed;
+Codex/remotes/downloads online. No app offline mode. Blender/WebGL visual/physical
+phone review remains separate.
 
-## 1. Entregar el código antes de apagar la Mac
+<a id="1-entregar-el-código-antes-de-apagar-la-mac"></a>
 
-El checkpoint de relevo reúne el setup unificado y este plan. La referencia de
-este relevo es **`main` en el remoto `gitlab`**. Antes de cambiar de host, confirmar
-que los cambios previstos estén en Git y publicados, y anotar **rama, remoto y SHA**.
+## 1. Deliver code before turning off Mac
+
+Unified-setup/plan checkpoint reference: **remote `gitlab` main**. Ensure intended
+changes committed/published, record **branch/remote/SHA**.
 
 ```sh
 git status --short
@@ -23,30 +23,24 @@ git remote -v
 git rev-parse HEAD
 ```
 
-Revisar también los archivos nuevos: `git diff` no muestra su contenido. Incluir
-los scripts, configuración y documentación que forman el setup; seleccionar los
-archivos explícitamente al preparar el commit. `.env`, `.cache`, credenciales,
-bases, medios locales, `node_modules` y cachés no se transfieren por Git. Generar
-un entorno nuevo en el VPS. Publicar el código no inicia una sesión remota de Codex
-ni despliega la aplicación.
+Review untracked contents, absent from git diff. Explicitly select setup scripts/
+config/docs. .env/cache/credentials/DB/media/node_modules not transported; generate
+new VPS environment. Code publication starts neither remote Codex nor deployment.
 
-En el VPS, inspeccionar `git status`, rama y remotos; conservar cualquier trabajo existente.
-Hacer `git fetch <remoto>` y cambiar a la rama publicada, o crear un worktree desde
-el SHA acordado. Confirmar `git rev-parse HEAD` antes de editar. No usar `reset --hard`,
-borrar el checkout ni sobrescribir modificaciones. Si el setup aún no llegó, completar el relevo.
+Inspect VPS status/branch/remotes/preserve existing work. Fetch remote/switch published
+branch or agreed-SHA worktree; verify HEAD before edits. No reset--hard/checkout
+deletion/overwrite. If setup absent, finish handoff. One environment owns branch
+at a time; close VPS checkpoint before Mac fetch/local review, no simultaneous branch edits.
 
-Asignar la rama de implementación a un solo entorno a la vez. Al volver a la Mac,
-cerrar el checkpoint del VPS y traerlo con Git después de revisar el estado local.
-No editar simultáneamente la misma rama en ambos hosts.
+<a id="2-preparar-una-sesión-persistente-y-revisar-recursos"></a>
 
-## 2. Preparar una sesión persistente y revisar recursos
+## 2. Persistent session and resources
 
-Flujo: **Termius u otro cliente SSH → VPS → tmux → Codex CLI**. El alias histórico
-`code-klisteni` se debe revalidar: disponibilidad, checkout y sesión de destino.
-Host, usuario, ruta y alias se toman de la configuración privada vigente.
+**Termius/SSH→VPS→tmux→Codex CLI**. Revalidate historical `code-klisteni` alias,
+checkout/session. Current private config supplies host/user/path/alias.
 
 ```sh
-# Ya conectado por SSH al VPS, dentro del checkout elegido:
+# After connecting to the VPS through SSH, inside the selected checkout:
 pwd
 git status --short
 node --version
@@ -59,42 +53,40 @@ docker system df
 ss -ltn
 ```
 
-Comprobar también procesos existentes, espacio de cachés de pnpm/Playwright y
-acceso al daemon Docker. El repositorio pide Node **24+** y pnpm **12.7.0**;
-conservar `package.json`, lockfile e imágenes fijadas. Una diferencia del runtime
-global no justifica cambiar versiones del proyecto. Inventariar antes de instalar motores,
-dependencias o imágenes; no hacer limpieza global ni modificar SSH, VPN o firewall.
+Check processes/pnpm-Playwright caches/Docker access. Node**24+**, pnpm**12.7.0**,
+retain package.json/lock/pinned images. Global runtime difference is not reason to
+change project versions. Inventory before install; no global cleanup/SSH-VPN-firewall changes.
 
-Si no hay un alias adecuado, crear una sesión propia, por ejemplo
-`tmux new -s klisteni-white-label`. Usar ventanas distintas para Codex, Compose y
-Turbo. Desacoplar con `Ctrl-b d` y recuperar con
-`tmux attach -t klisteni-white-label`. Desconectar SSH conserva procesos dentro
-de tmux; reiniciar el VPS requiere arrancarlos otra vez. Verificar la autenticación
-de Codex sin copiar claves o sesiones privadas de la Mac.
+No suitable alias: owned `tmux new -s klisteni-white-label`, separate Codex/Compose/
+Turbo windows. `Ctrl-b d`, `tmux attach -t klisteni-white-label`. SSH disconnect
+retains tmux processes; VPS reboot requires restart. Verify Codex auth without
+copying Mac secrets/sessions.
 
-## 3. Arrancar el entorno propio del VPS
+<a id="3-arrancar-el-entorno-propio-del-vps"></a>
 
-Con recursos y dependencias revisados, desde el root:
+## 3. Start owned VPS environment
+
+After resource/dependency review, root:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm setup:dev
-# En una ventana de tmux:
+# In one tmux window:
 docker compose up
-# En otra ventana de tmux:
+# In another tmux window:
 pnpm exec turbo run dev
 ```
 
-El [setup unificado](development.md) crea secretos, espera PostgreSQL, migra y siembra
-las cuentas antes de iniciar las APIs. Conservar archivos privados y volúmenes:
-no regenerar contraseñas sobre bases existentes. Consultar las cuentas en `.cache/dev/` del VPS.
-Ante puertos ocupados, identificar sus dueños antes de detener algo. No ejecutar
-simultáneamente los helpers antiguos que comparten puertos.
+[Unified setup](development.md) secrets/wait/migrate/seed before APIs. Keep private
+files/volumes; no regenerated passwords against existing DBs. Accounts `.cache/dev/`.
+Identify occupied-port owners before stopping. No old helpers sharing ports simultaneously.
 
-## 4. Abrir las webs desde otro dispositivo
+<a id="4-abrir-las-webs-desde-otro-dispositivo"></a>
 
-`127.0.0.1` pertenece al dispositivo donde se abre. Mantener los servicios en loopback
-y usar un túnel SSH privado. Desde el cliente, sustituir el destino ya configurado:
+## 4. Open from another device
+
+127.0.0.1 belongs to viewing device. Keep services loopback/private SSH tunnel;
+substitute configured destination:
 
 ```sh
 ssh -N -o ExitOnForwardFailure=yes \
@@ -102,63 +94,53 @@ ssh -N -o ExitOnForwardFailure=yes \
   -L 127.0.0.1:5173:127.0.0.1:5173 USUARIO@HOST_SSH
 ```
 
-En Termius, configurar esos dos reenvíos locales equivalentes. Abrir en el
-dispositivo cliente `http://127.0.0.1:4200/manage`,
-`http://127.0.0.1:4200/app` y `http://127.0.0.1:5173/`. No hace falta exponer
-PostgreSQL o las APIs públicamente. Resolver puertos ocupados o configurar orígenes
-compatibles; cambiar sólo el puerto del túnel puede romper autenticación.
-El QR con loopback requiere un túnel propio en el dispositivo que lo abre.
+Termius equivalent local forwards. Client `http://127.0.0.1:4200/manage`,
+`http://127.0.0.1:4200/app`, `http://127.0.0.1:5173/`. No public DB/API exposure.
+Resolve occupied ports/compatible origins; tunnel-only port change may break auth.
+Loopback QR needs tunnel on viewing device.
 
-La suite `pnpm test:b2b:wl:e2e` usa `atlas.b2b.test` y `sur.b2b.test`, **dos orígenes del navegador
-servidos por el mismo proxy y aplicación**, con resolución local y TLS confiable.
-Usa proxies CONNECT restringidos que resuelven los hosts en cada navegador.
-La [guía WL](b2b-white-label-runtime.md#dos-dominios-https-en-navegadores-reales)
-documenta la CA local, su retiro y la frontera de confianza del proxy. Un acceso
-desde otro dispositivo requiere preservar host/origen y confiar explícitamente en
-la CA de pruebas; el túnel HTTP anterior sigue siendo sólo para el modo de una sede.
-Dos rutas en `127.0.0.1:4200`, o cambiar únicamente una cabecera con
-`curl`, no acreditan aislamiento de cookies, login y marca entre dominios.
+Historical `pnpm test:b2b:wl:e2e` uses atlas.b2b.test/sur.b2b.test, **two browser
+origins on same proxy/app**, local resolution/TLS, restricted CONNECT proxies.
+[WL guide](b2b-white-label-runtime.md#dos-dominios-https-en-navegadores-reales)
+records temporary CA/removal/proxy trust. Historical remote-device setup required
+preserved host/origin/explicit test-CA trust. Current user rule prohibits new
+trust changes/bypasses: adapt future runs to isolated HTTP or valid HTTPS/existing
+trust. Earlier HTTP tunnel covers single-branch mode only. Two loopback routes/
+curl header alone prove no domain-cookie/login/brand isolation.
 
-## 5. Implementar y validar por entregas
+<a id="5-implementar-y-validar-por-entregas"></a>
 
-Consultar primero los checkpoints WL del [roadmap](roadmap-implementacion.md)
-y la [evidencia nueva](b2b-white-label-validation.md); WL-0 a WL-8 están
-implementados y verificados en el alcance local autorizado. Seguir los criterios
-del [plan detallado](b2b-white-label.md). Registrar por entrega SHA, comandos,
-resultados, omisiones y pendientes. Para cambios de código, existen `pnpm lint`,
-`pnpm typecheck`, `pnpm test`, `pnpm build:b2b`, `pnpm test:b2b:api` y
-`pnpm test:b2b:e2e`; ejecutar los aplicables en serie. Agregar builds y recorridos
-B2C cuando cambien paquetes compartidos.
+## 5. Implement and validate by delivery
 
-`B2B_TEST_DATABASE_URL` y `TEST_DATABASE_URL` deben apuntar a bases desechables
-independientes de desarrollo y producción. La B2B exige nombre con `b2b` y `test`,
-sin `options`, y permisos de crear/eliminar schemas. No reutilizar las URLs del
-setup dev. Antes del navegador, comprobar motores y librerías Linux; instalar
-sólo lo necesario siguiendo la [matriz B2B](b2b-browser-validation.md).
+Read [roadmap](roadmap-implementacion.md)/[new WL evidence](b2b-white-label-validation.md):
+WL-0–WL-8 implemented/verified within authorized local scope. Follow [detailed plan](b2b-white-label.md).
+Record SHA/commands/results/skips/pending per delivery. Applicable serial lint/
+typecheck/test/build:b2b/test:b2b:api/test:b2b:e2e; shared changes need B2C builds/journeys.
 
-La suite HTTPS de dos marcas y cuatro sedes se ejecuta con `pnpm test:b2b:wl:e2e`
-tras preparar PostgreSQL de pruebas y la CA controlada para WebKit. El ensayo de
-restauración usa `pnpm test:b2b:wl:restore` y el contenedor PostgreSQL explícito
-`B2B_WL_TEST_POSTGRES_CONTAINER`. Ver prerequisitos, limpieza y comandos exactos
-en [operación WL](b2b-white-label-runtime.md). Las suites B2B anteriores
-conservan su alcance de regresión del modo de una sede.
-La regeneración/revisión completa de previews sigue diferida: conservar derivados,
-registrar la omisión y no falsificar hashes ni declarar `pnpm check` completo verde.
-Linux sin interfaz gráfica no sustituye la aceptación física o visual.
+`TEST_DATABASE_URL` and `B2B_TEST_DATABASE_URL` must point to disposable test
+databases, independent from development and production. B2B b2b/test name/no options/
+schema-create-drop; never dev URLs. Check Linux engine/libs before browser, necessary
+setup per [matrix](b2b-browser-validation.md).
 
-## Prompt para la siguiente instancia de Codex
+Historical HTTPS suite needed test DB/controlled WebKit CA. Current no-bypass rule
+requires adaptation before new browser runs. Restore `pnpm test:b2b:wl:restore`,
+explicit `B2B_WL_TEST_POSTGRES_CONTAINER`; [operation](b2b-white-label-runtime.md)
+requirements/cleanup/commands. Prior suites retain single-branch regression scope.
+Previews remain deferred: preserve derivatives/record omission/no falsified hashes/
+full check pass. Headless Linux does not replace physical/visual acceptance.
 
-> Continuemos el refactor B2B por dominios y marca blanca. Leé
-> `docs/roadmap-implementacion.md`, `docs/b2b-white-label.md`, `docs/b2b.md`,
-> `docs/development.md` y `docs/development-vps.md`. Inspeccioná rama, SHA,
-> cambios locales, instrucciones y recursos del VPS antes de modificar nada.
-> Confirmá los checkpoints y la evidencia WL-0 a WL-8 recibidos; no reinicies
-> el trabajo ya implementado. Continuá desde los pendientes reales, con incrementos
-> revisables y pruebas de aislamiento. Varias sedes forman parte de la primera
-> entrega: dominio → marca/organización → sede. Prepará Atlas y Sur con al menos
-> dos sedes cada una y permisos de profesores/socios limitados a las sedes
-> asignadas. Conservá B2C independiente. Usá bases
-> desechables para tests y secretos generados en este host. No actualices versiones
-> ni regeneres previews diferidas. No publiques dominios ni despliegues por este
-> relevo. Al cerrar cada entrega, actualizá estado y evidencia en el roadmap y
-> explicá qué está implementado, comprobado, omitido y pendiente.
+<a id="prompt-para-la-siguiente-instancia-de-codex"></a>
+
+## Prompt for next Codex instance
+
+> Continue B2B domain/white-label work. Read `docs/roadmap-implementacion.md`,
+> `docs/b2b-white-label.md`, `docs/b2b.md`, `docs/development.md` and
+> `docs/development-vps.md`. Inspect branch/SHA/local changes/instructions/VPS
+> resources before editing. Confirm received WL-0–WL-8 checkpoints/evidence;
+> do not restart implemented work. Continue actual pending items with reviewable
+> increments/isolation tests. Multiple branches belong to first delivery:
+> domain→brand/organization→branch. Atlas/Sur at least two branches each,
+> trainer/member permissions assigned-branch only. Keep B2C independent. Disposable
+> test DBs/host-generated secrets. No project-version updates/deferred-preview
+> regeneration/domain publication/deployment under this handoff. Update roadmap
+> status/evidence per delivery; distinguish implemented/tested/omitted/pending.
