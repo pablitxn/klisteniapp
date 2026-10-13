@@ -5,7 +5,7 @@ const output = process.env.KLISTENI_DEMO_BUILD_OUTPUT ??= `/tmp/klisteniapp-demo
 
 export default defineConfig({
   testDir: './e2e',
-  testIgnore: ['b2c-selfservice.spec.ts', 'b2c-selfservice-extra.spec.ts', 'b2b*.spec.ts', 'white-label*.spec.ts', 'analytics.spec.ts', 'accounts.spec.ts', 'subscriptions.spec.ts', 'account-access.spec.ts', 'forgot-password.spec.ts', 'health.spec.ts', 'ui-annotations-account.spec.ts', 'model-variant-account.spec.ts', 'yoga-account.spec.ts'],
+  testIgnore: ['b2c-selfservice.spec.ts', 'b2c-selfservice-extra.spec.ts', 'b2b*.spec.ts', 'white-label*.spec.ts', 'analytics.spec.ts', 'accounts.spec.ts', 'admin-accounts.spec.ts', 'subscriptions.spec.ts', 'account-access.spec.ts', 'forgot-password.spec.ts', 'health.spec.ts', 'ui-annotations-account.spec.ts', 'model-variant-account.spec.ts', 'yoga-account.spec.ts'],
   outputDir: process.env.CI ? './test-results' : `/tmp/klisteniapp-e2e-results-${process.pid}`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
