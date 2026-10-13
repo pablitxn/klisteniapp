@@ -270,12 +270,13 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
     },
     programs: {
       list: (orgId: string) => request(orgPath(orgId, '/programs'), responses.programs),
-      create: (orgId: string, body: B2BInputs['program']) =>
+      create: (orgId: string, body: B2BInputs['program'], requestId?: string) =>
         request(
           orgPath(orgId, '/programs'),
           responses.program,
           'POST',
           input(ProgramInputSchema, body),
+          requestId,
         ),
       update: (orgId: string, id: string, body: B2BInputs['programUpdate']) =>
         request(
@@ -302,12 +303,13 @@ function createEndpoints(accountId?: string, options: ClientOptions = {}) {
         request(orgPath(orgId, `/assignments/${segment(id)}/retire`), responses.ok, 'POST', {}),
       list: (orgId: string, memberId?: string) =>
         request(orgPath(orgId, `/assignments${memberQuery(memberId)}`), responses.assignments),
-      create: (orgId: string, body: B2BInputs['assignment']) =>
+      create: (orgId: string, body: B2BInputs['assignment'], requestId?: string) =>
         request(
           orgPath(orgId, '/assignments'),
           responses.assignment,
           'POST',
           input(ProgramAssignmentSchema, body),
+          requestId,
         ),
     },
     executions: {

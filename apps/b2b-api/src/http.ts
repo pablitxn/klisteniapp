@@ -703,7 +703,11 @@ export function createApiServer({
             return { programs: await service.programs(context) };
           if (route === '/programs' && method === 'POST')
             return {
-              program: await service.createProgram(context, ProgramInputSchema.parse(input)),
+              program: await service.createProgram(
+                context,
+                ProgramInputSchema.parse(input),
+                z.uuid().optional().parse(request.headers['idempotency-key']),
+              ),
             };
           const publishedProgram = /^\/programs\/([a-zA-Z0-9_-]+)\/versions\/([1-9][0-9]*)$/.exec(
             route,
@@ -743,6 +747,7 @@ export function createApiServer({
               assignment: await service.assignProgram(
                 context,
                 ProgramAssignmentSchema.parse(input),
+                z.uuid().optional().parse(request.headers['idempotency-key']),
               ),
             };
           if (route === '/executions' && method === 'GET')

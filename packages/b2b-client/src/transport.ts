@@ -35,6 +35,7 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
     schema: Parser<T>,
     method = 'GET',
     body?: unknown,
+    requestId?: string,
   ): Promise<T> {
     if (options.signal?.aborted || options.contextSignal?.aborted)
       throw new ApiError('Solicitud cancelada.', 0, 'ABORTED')
@@ -58,6 +59,7 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
           ...(accountId ? { 'X-Klisteni-B2B-Account': accountId } : {}),
           ...(options.branchId ? { 'X-Klisteni-B2B-Branch': options.branchId } : {}),
           ...(options.role ? { 'X-Klisteni-B2B-Role': options.role } : {}),
+          ...(requestId ? { 'Idempotency-Key': requestId } : {}),
           ...(body === undefined
             ? {}
             : {
