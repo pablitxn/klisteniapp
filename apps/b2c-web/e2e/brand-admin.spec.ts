@@ -645,6 +645,7 @@ for (const [brand, branch] of [
         ? `member@${brand}.example.test`
         : `member-${branch}@${brand}.example.test`
     const picker = field(page, 'Socio destinatario')
+    await expect(picker.locator('option').filter({ hasText: recipient })).toHaveCount(1)
     const options = await picker.locator('option').allTextContents()
     expect(options.some((option) => option.includes(recipient))).toBe(true)
     expect(

@@ -3,7 +3,7 @@
 // Two browser origins, one HTTP gateway/API/DB per profile. Never targets development data.
 import { createRequire } from 'node:module'
 import { randomBytes, randomUUID } from 'node:crypto'
-import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import http from 'node:http'
@@ -37,6 +37,9 @@ if (
 const owner = new Pool({ connectionString: source })
 const environments = []
 const fixtureMap = {}
+// A later build must not replace lazy chunks used by a browser already open.
+const builtDirectory = mkdtempSync(join(tmpdir(), 'klisteni-integration-build-'))
+cpSync(new URL('../apps/b2b-web/dist', import.meta.url), builtDirectory, { recursive: true })
 mkdirSync(new URL('../.cache/trainer/', import.meta.url), { recursive: true })
 const readiness = http.createServer(async (request, response) => {
   try {
@@ -84,6 +87,7 @@ async function close() {
       }),
     )
     await owner.end()
+    rmSync(builtDirectory, { recursive: true, force: true })
     if (results.some((result) => result.status === 'rejected'))
       throw new Error('Integration browser environment cleanup failed.')
   })()
@@ -164,6 +168,7 @@ try {
     const gateway = (environment.gateway = createGateway({
       apiPort,
       built: true,
+      builtDirectory,
       whiteLabel: true,
       proxySecret,
       domainProtocol: protocol,

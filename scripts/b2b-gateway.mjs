@@ -10,7 +10,7 @@ import { normalizeDomainHost } from '../apps/b2b-api/src/domain-context.ts';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.glb': 'model/gltf-binary', '.gltf': 'model/gltf+json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webm': 'video/webm', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.mp4': 'video/mp4', '.woff2': 'font/woff2' };
 
-export function createGateway({ apiPort = 4201, webPort = 4210, built = false,
+export function createGateway({ apiPort = 4201, webPort = 4210, built = false, builtDirectory,
   whiteLabel = process.env.B2B_WHITE_LABEL === 'true', proxySecret = process.env.B2B_PROXY_SECRET,
   domainProtocol = process.env.B2B_DOMAIN_PROTOCOL ?? 'https', tls } = {}) {
   if (whiteLabel && (!proxySecret || !/^[a-zA-Z0-9_-]{32,256}$/.test(proxySecret))) throw new Error('White-label gateway requires B2B_PROXY_SECRET');
@@ -80,7 +80,7 @@ export function createGateway({ apiPort = 4201, webPort = 4210, built = false,
       !pathname.includes('__b2b_hmr') && !await domainEntry(request, response)) return;
     if (!built) { proxy(request, response, webPort); return; }
     if (!['GET', 'HEAD'].includes(request.method ?? '')) { response.writeHead(405); response.end(); return; }
-    const directory = resolve(root, 'apps/b2b-web/dist');
+    const directory = resolve(builtDirectory ?? resolve(root, 'apps/b2b-web/dist'));
     let relative;
     try { relative = decodeURIComponent(pathname.slice(1)); }
     catch { response.writeHead(400); response.end(); return; }
