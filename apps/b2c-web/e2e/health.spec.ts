@@ -26,7 +26,7 @@ async function mockAccount(page: Page, configure?: (state: ServerState) => void)
   })
   await page.goto('/')
   await expect(page.locator('.local-badge')).toContainText('Sincronizado con tu cuenta')
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Mi salud', exact: true }).click()
   return { writes, getState: () => state, conflict: () => { reject = true; state = { data: { ...state.data, settings: { ...state.data.settings, health: { ...state.data.settings.health!, profile: { context: 'Contexto guardado desde otro dispositivo' } } } }, revision: state.revision + 1 } }, resume: () => { reject = false } }
 }
 async function section(page: Page, name: string) {
@@ -269,7 +269,7 @@ test('free local health, goals and manual imports persist without an account or 
     return route.fulfill({ json: null })
   })
   await page.goto('/')
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Mi salud', exact: true }).click()
   await expect(page.getByText(/Modo local gratuito:/)).toBeVisible()
   await section(page, 'Cuerpo')
   await page.getByRole('button', { name: 'Editar perfil', exact: true }).click()
@@ -296,7 +296,7 @@ test('free local health, goals and manual imports persist without an account or 
   expect(local.settings.health.goals[0].title).toBe('Mi meta local')
   expect(local.settings.health.measurements).toHaveLength(1)
   await page.reload()
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Mi salud', exact: true }).click()
   await expect(page.locator('.health-trend-value')).toContainText('80 kg')
   await expect(page.getByRole('button', { name: 'Exportar mis datos', exact: true })).toHaveCount(0)
   await openSettings(page, 'Datos')
