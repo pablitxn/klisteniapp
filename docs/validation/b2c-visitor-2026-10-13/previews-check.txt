@@ -1,0 +1,121 @@
+$ node scripts/generate-exercise-previews.mjs --check && pnpm body-previews:check && pnpm yoga-previews:check
+exercise: workspace relocation verified against exact current input hashes; original capture identities retained.
+All 74 previews (37 exercises × 2 models) match the current morphology, motion, renderer and generated files.
+$ node scripts/generate-body-previews.mjs --check
+body: workspace relocation verified against exact current input hashes; original capture identities retained.
+All 24 isolated muscle previews match current model variants, capture settings, provenance and WebP files.
+$ node scripts/generate-yoga-previews.mjs --check
+yoga: workspace relocation verified against exact current input hashes; original capture identities retained.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Extraction receipt is stale. Source changes require new captures; do not update recorded capture hashes.
++ actual - expected
+... Skipped lines
+
+  {
+    'apps/web/src/components/AnatomyStudio.tsx': '39ad02ce1176393808c01352546dfe9a3a8f3a6d3e2243725189a956a2c1763a',
+    'apps/web/src/components/YogaStage.tsx': 'f647df65fba9a1f4e6478b75e88a9e74850dfb0151d6c5c412d903ff27dada9e',
+    'apps/web/src/data/yoga.ts': '24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a',
+    'apps/web/src/lib/anatomy-model.ts': '78993bd645e335572000fdcc72a3288c618d0f160df6669acf1f626bac01de66',
+...
+    'packages/scene-schema/src/yoga.ts': '9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e',
++   'pnpm-lock.yaml': 'caf39635007fd2c811e47f92c9cd7bc1fddda9b76a4b8c9c5be7c6d5ef2b9ba8',
++   'scripts/generate-yoga-previews.mjs': '10cefcbb02c045f1ae59c1663655728763e3fd12daabeb1d79bb8ea4751214f8',
++   'scripts/preview-browser.mjs': '3d54351c1fb068ec4b3780c403278d4a80af7b10c9aa31be71032088049ec8ac',
++   'scripts/preview-capture-state.mjs': 'b26f2ad47df272d8cad2e9d4bd2caa4f0b4bb855ad326371276bfae0e5feedec',
+-   'pnpm-lock.yaml': 'e5ca0a48172a1df35d73fcf0ce850ee774aa8931517851a60b86a7080b4236eb',
+-   'scripts/generate-yoga-previews.mjs': '91048bc18549545d0436f9e4203aa2fd7941cb5af425a6ecfce6dc53b29a43f8',
+    'scripts/preview-provenance.mjs': 'c046df8afe8a771437642486e0c0d0bf9bcf317e4626df05d584b1e96029234c'
+  }
+
+    at loadRetainedCaptures (file:///workspace/klisteniapp/scripts/preview-provenance.mjs:85:10)
+    at async file:///workspace/klisteniapp/scripts/generate-yoga-previews.mjs:147:20 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: {
+    'scripts/preview-browser.mjs': '3d54351c1fb068ec4b3780c403278d4a80af7b10c9aa31be71032088049ec8ac',
+    'scripts/preview-capture-state.mjs': 'b26f2ad47df272d8cad2e9d4bd2caa4f0b4bb855ad326371276bfae0e5feedec',
+    'scripts/preview-provenance.mjs': 'c046df8afe8a771437642486e0c0d0bf9bcf317e4626df05d584b1e96029234c',
+    'packages/anatomy-viewer/package.json': '4ac29d459121ae42d8f011bb73e4519b8be4a3beb8606f1364527f8e441102b2',
+    'packages/model-assets/package.json': '978eee973c33157871e0e1d851768c84d9f6b79e0b4097d3ac30c119decc9f3e',
+    'packages/catalog-base/package.json': '587d2a1fe1ae8cda97c2a86f111e262bbb6a3f55c3473390a31b0daa7c0f7b7e',
+    'packages/anatomy-viewer/src/anatomy-model.ts': '42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa',
+    'packages/anatomy-viewer/src/anatomy-rig.ts': '7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5',
+    'packages/anatomy-viewer/src/anatomy-variants.ts': '6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e',
+    'packages/anatomy-viewer/src/anatomy-variant-surface.ts': 'af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e',
+    'packages/anatomy-viewer/src/anatomy-render-settings.ts': '08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2',
+    'packages/anatomy-viewer/src/AnatomyStudio.tsx': '1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2',
+    'packages/model-assets/src/index.ts': 'a19e09aed8e401b237a920a4cdf890c9e824fb5d6bf4b6faff6b48494ce8b2fe',
+    'packages/model-assets/src/vite.ts': 'e8a46e71940e5fc333de169eaa2af84092249b1f69db14d8aed7c2f74fb56b98',
+    'scripts/generate-yoga-previews.mjs': '10cefcbb02c045f1ae59c1663655728763e3fd12daabeb1d79bb8ea4751214f8',
+    'apps/web/yoga-preview-capture.html': '4e59189df970eb6c42e25c3dda7f5392b873cf513d7560c93b668e7de4d96f59',
+    'apps/web/src/yoga-preview-capture.tsx': '689e4b0bcdfe6fc56ca9505e2bee833b0dc0f5c392ebab4ef2a2c411b44903eb',
+    'apps/web/src/components/YogaStage.tsx': 'f647df65fba9a1f4e6478b75e88a9e74850dfb0151d6c5c412d903ff27dada9e',
+    'apps/web/src/lib/yoga-rig.ts': '8c90d0752cd69d18c9c49ed2f66247a31d29ac30ec483ed531e14dfe8c6fd139',
+    'apps/web/src/lib/yoga-anatomy.ts': '756a3cc896ce14be8119a9901fb02300ecfbe61307b32b3397633562fde8e2f5',
+    'apps/web/src/lib/yoga-motion.ts': '0b8dd83bb9ba39bd7f599cef281ce85a9d35b72adb512a0605f46bbb526aa9cf',
+    'apps/web/src/lib/yoga-rendering.ts': '84e4c3f320a4eeca39a5347b9ebc4a78aab08c51affceacd1692f6be699e9289',
+    'apps/web/src/lib/yoga-preview-assets.ts': 'a0cf4db499f568fbdfd52164ae63b3dc7d000b300e4a84be406ce88b997dc555',
+    'apps/web/src/data/yoga.ts': '24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a',
+    'apps/web/src/components/AnatomyStudio.tsx': '39ad02ce1176393808c01352546dfe9a3a8f3a6d3e2243725189a956a2c1763a',
+    'apps/web/src/lib/anatomy-model.ts': '78993bd645e335572000fdcc72a3288c618d0f160df6669acf1f626bac01de66',
+    'apps/web/src/lib/anatomy-rig.ts': '84d503afda0856146c392f2d5b7ad3840b7ac243c04990187c63dbdb65474628',
+    'apps/web/src/lib/anatomy-variants.ts': 'af2f46206281607de86359bcead8e7e5c5882fabe30da5ea663086f701874e4c',
+    'apps/web/src/lib/anatomy-variant-surface.ts': '05257bd67c2c12f6b182777757bce2ca87cd22f19d2bf591749be020ac090626',
+    'apps/web/src/lib/anatomy-render-settings.ts': 'f4806b04faa64f0b3b4fa1dd2eacc3b3be9bc1b87b657e407424cfc595423907',
+    'packages/model-assets/public/models/anatomy.glb': '1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c',
+    'packages/model-assets/public/models/rig-landmarks.json': '99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3',
+    'packages/model-assets/public/models/anatomy-manifest.json': 'f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778',
+    'packages/model-assets/public/previews/yoga/NOTICE.md': '1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677',
+    'packages/geometry/src/index.ts': 'd455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5',
+    'packages/scene-schema/src/index.ts': '4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769',
+    'packages/scene-schema/src/yoga.ts': '9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e',
+    'pnpm-lock.yaml': 'caf39635007fd2c811e47f92c9cd7bc1fddda9b76a4b8c9c5be7c6d5ef2b9ba8'
+  },
+  expected: {
+    'scripts/preview-provenance.mjs': 'c046df8afe8a771437642486e0c0d0bf9bcf317e4626df05d584b1e96029234c',
+    'packages/anatomy-viewer/package.json': '4ac29d459121ae42d8f011bb73e4519b8be4a3beb8606f1364527f8e441102b2',
+    'packages/model-assets/package.json': '978eee973c33157871e0e1d851768c84d9f6b79e0b4097d3ac30c119decc9f3e',
+    'packages/catalog-base/package.json': '587d2a1fe1ae8cda97c2a86f111e262bbb6a3f55c3473390a31b0daa7c0f7b7e',
+    'packages/anatomy-viewer/src/anatomy-model.ts': '42abe6b9188fa953928bb7ecb49e1fab70857ca8917cf10f75f3a9aee67997aa',
+    'packages/anatomy-viewer/src/anatomy-rig.ts': '7a95bb7ad446dfda7ab01df48b741f5ba1b40226abaf2e93381c3893803b40a5',
+    'packages/anatomy-viewer/src/anatomy-variants.ts': '6e4b3faf24e88b4397c4e041367ade91c7ce0a91f2fdabb93a22c2ef397b4d9e',
+    'packages/anatomy-viewer/src/anatomy-variant-surface.ts': 'af5a01d2766a77672f95d6d5c3b4ff4a0ef200303232696a9fed75bf86b2282e',
+    'packages/anatomy-viewer/src/anatomy-render-settings.ts': '08dd63927efed76cb6e6050a7e02b749219e45f80465af375b650d2a49ee1ea2',
+    'packages/anatomy-viewer/src/AnatomyStudio.tsx': '1a96f56da739312c84a74f9a1f6675a76a5df293f122e385d9f9260da21002f2',
+    'packages/model-assets/src/index.ts': 'a19e09aed8e401b237a920a4cdf890c9e824fb5d6bf4b6faff6b48494ce8b2fe',
+    'packages/model-assets/src/vite.ts': 'e8a46e71940e5fc333de169eaa2af84092249b1f69db14d8aed7c2f74fb56b98',
+    'scripts/generate-yoga-previews.mjs': '91048bc18549545d0436f9e4203aa2fd7941cb5af425a6ecfce6dc53b29a43f8',
+    'apps/web/yoga-preview-capture.html': '4e59189df970eb6c42e25c3dda7f5392b873cf513d7560c93b668e7de4d96f59',
+    'apps/web/src/yoga-preview-capture.tsx': '689e4b0bcdfe6fc56ca9505e2bee833b0dc0f5c392ebab4ef2a2c411b44903eb',
+    'apps/web/src/components/YogaStage.tsx': 'f647df65fba9a1f4e6478b75e88a9e74850dfb0151d6c5c412d903ff27dada9e',
+    'apps/web/src/lib/yoga-rig.ts': '8c90d0752cd69d18c9c49ed2f66247a31d29ac30ec483ed531e14dfe8c6fd139',
+    'apps/web/src/lib/yoga-anatomy.ts': '756a3cc896ce14be8119a9901fb02300ecfbe61307b32b3397633562fde8e2f5',
+    'apps/web/src/lib/yoga-motion.ts': '0b8dd83bb9ba39bd7f599cef281ce85a9d35b72adb512a0605f46bbb526aa9cf',
+    'apps/web/src/lib/yoga-rendering.ts': '84e4c3f320a4eeca39a5347b9ebc4a78aab08c51affceacd1692f6be699e9289',
+    'apps/web/src/lib/yoga-preview-assets.ts': 'a0cf4db499f568fbdfd52164ae63b3dc7d000b300e4a84be406ce88b997dc555',
+    'apps/web/src/data/yoga.ts': '24a35cd61c4c8691fb9dd86b5db7d5df54cd3451f6e6b8a1da81dbef542eee8a',
+    'apps/web/src/components/AnatomyStudio.tsx': '39ad02ce1176393808c01352546dfe9a3a8f3a6d3e2243725189a956a2c1763a',
+    'apps/web/src/lib/anatomy-model.ts': '78993bd645e335572000fdcc72a3288c618d0f160df6669acf1f626bac01de66',
+    'apps/web/src/lib/anatomy-rig.ts': '84d503afda0856146c392f2d5b7ad3840b7ac243c04990187c63dbdb65474628',
+    'apps/web/src/lib/anatomy-variants.ts': 'af2f46206281607de86359bcead8e7e5c5882fabe30da5ea663086f701874e4c',
+    'apps/web/src/lib/anatomy-variant-surface.ts': '05257bd67c2c12f6b182777757bce2ca87cd22f19d2bf591749be020ac090626',
+    'apps/web/src/lib/anatomy-render-settings.ts': 'f4806b04faa64f0b3b4fa1dd2eacc3b3be9bc1b87b657e407424cfc595423907',
+    'packages/model-assets/public/models/anatomy.glb': '1d44fe73cfda50984d486a2bfa711d0fd045a9d3d4787170e314681c6685307c',
+    'packages/model-assets/public/models/rig-landmarks.json': '99a5514966c5c796d2db109fc1d1f2b58ed4107821c1e1c04862141f3baaf2e3',
+    'packages/model-assets/public/models/anatomy-manifest.json': 'f8c838bcb87078b984036b3070517a0127ffe7bc977ef10800ea98aa9ecb2778',
+    'packages/model-assets/public/previews/yoga/NOTICE.md': '1f6ea9e2c17210e88f6277185b046bd6d9f6d7a0dbf8bd85aa395b4159b36677',
+    'packages/geometry/src/index.ts': 'd455b1c6f992c227268683e7689dd5a2b82acc3ccb9ccae702199fd80f5776f5',
+    'packages/scene-schema/src/index.ts': '4197e7d2a2b2f1a0fd93b45cc813910fab87092e9eddf40a8502ec5367126769',
+    'packages/scene-schema/src/yoga.ts': '9d42bdea03a47a38a3bda6f16d1b1a618bf2aa888b67a966104c5df36486ad3e',
+    'pnpm-lock.yaml': 'e5ca0a48172a1df35d73fcf0ce850ee774aa8931517851a60b86a7080b4236eb'
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

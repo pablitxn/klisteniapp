@@ -21,6 +21,36 @@ beforeEach(() => {
   reload()
 })
 
+test('a routine-only backup restores order and sets without needing health or yoga first', async () => {
+  assert.equal(await useAppStore.getState().updatePreferences({ exerciseIds: ['squat', 'pushup'], sets: 3 }), null)
+  assert.equal(values.has(LOCAL_PERSONAL_KEY), false)
+  const exported = useAppStore.getState().exportData()
+  const backup = JSON.parse(exported)
+  assert.equal(backup.version, 2)
+  assert.deepEqual(backup.settings.routines[0].exerciseIds, ['squat', 'pushup'])
+  values.clear(); reload()
+  assert.equal(await useAppStore.getState().importProgress(exported), null)
+  reload()
+  assert.deepEqual(useAppStore.getState().preferences.exerciseIds, ['squat', 'pushup'])
+  assert.equal(useAppStore.getState().preferences.sets, 3)
+  assert.deepEqual(useAppStore.getState().progress, { version: 1, workouts: [], cardio: [] })
+})
+
+test('failed deletion keeps the durable record and retry removes it', async () => {
+  const log = { id: 'delete-retry', date: '2026-10-01', activity: 'walk' as const, minutes: 15 }
+  assert.equal(await useAppStore.getState().addCardio(log), null)
+  const original = storage.setItem
+  storage.setItem = () => { throw new Error('Quota') }
+  try {
+    assert.notEqual(await useAppStore.getState().removeLog(log.id), null)
+    assert.deepEqual(useAppStore.getState().progress.cardio, [log])
+    assert.deepEqual(JSON.parse(values.get(STORAGE_KEY)!).cardio, [log])
+  } finally { storage.setItem = original }
+  assert.equal(await useAppStore.getState().removeLog(log.id), null)
+  reload()
+  assert.deepEqual(useAppStore.getState().progress.cardio, [])
+})
+
 test('local mode starts ready, reads legacy keys, and never calls a transport', async () => {
   const original = globalThis.fetch
   globalThis.fetch = () => { throw new Error('Local mode must not send requests') }
@@ -36,7 +66,10 @@ test('local mode starts ready, reads legacy keys, and never calls a transport', 
     await useAppStore.getState().refreshState()
     reload()
     assert.equal(useAppStore.getState().progress.cardio.length, 2)
-    assert.equal(JSON.parse(useAppStore.getState().exportData()).version, 1)
+    const exported = JSON.parse(useAppStore.getState().exportData())
+    assert.equal(exported.version, 2)
+    assert.equal(exported.progress.cardio.length, 2)
+    assert.deepEqual(exported.settings.routines[0].exerciseIds, ['squat'])
   } finally { globalThis.fetch = original }
 })
 test('local health and goals retain revision checks, persist, export and restore complete version 2 copies', async () => {
@@ -73,6 +106,12 @@ test('corrupt originals remain recoverable and invalid imports cannot overwrite 
   assert.equal(useAppStore.getState().exportData(), '{broken-personal')
   assert.notEqual(await useAppStore.getState().saveHealth(createEmptyHealthData(), 0), null)
   assert.equal(values.get(LOCAL_PERSONAL_KEY), '{broken-personal')
+  assert.equal(await useAppStore.getState().importProgress(JSON.stringify(createDefaultPersonalData('Replacement', 'UTC'))), null)
+  assert.equal(values.get('klisteniapp.progress.recovery'), '{broken-personal')
+  assert.equal(useAppStore.getState().recoveryRaw, '{broken-personal')
+  assert.equal([...values.entries()].some(([key, value]) => key.startsWith('klisteniapp.progress.recovery.') && value === '{broken-progress'), true)
+  reload()
+  assert.equal(useAppStore.getState().localPersonalData?.settings.profile.displayName, 'Replacement')
 })
 
 

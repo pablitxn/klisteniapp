@@ -1,0 +1,84 @@
+
+Running 2 tests using 1 worker
+
+(node:5022) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-desktop] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (1.9s)
+(node:5314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium-desktop] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (11.4s)
+
+
+  1) [chromium-desktop] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 2
+    Received: 1
+
+      86 |   await dialog.getByRole('button', { name: 'Guardar mi rutina', exact: true }).click()
+      87 |   const copy = await exported(page)
+    > 88 |   expect(copy.version).toBe(2)
+         |                        ^
+      89 |   const routine = copy.settings.routines.find((r: { id: string }) => r.id === copy.settings.activeRoutineId)
+      90 |   expect(routine).toMatchObject({ sets: 1, exerciseIds: ['squat', 'pushup', 'glute-bridge', 'dead-bug', 'calf-raise'] })
+      91 |   const other = await browser.newContext({ viewport: page.viewportSize()!, reducedMotion: 'reduce' })
+        at /workspace/klisteniapp/apps/b2c-web/e2e/visitor-local.spec.ts:88:24
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-0/traces/fdc828148e8d12e61c42-5f48b09a830d8aa2051d-recording1.network' -> '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-0/traces/fdc828148e8d12e61c42-5f48b09a830d8aa2051d-recording1-pwnetcopy-1.network'
+
+    Error: browserContext._wrapApiCall: ENOENT: no such file or directory, open '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-0/traces/fdc828148e8d12e61c42-5f48b09a830d8aa2051d.trace'
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/demo/visitor-local-V02-routine--6b78a--a-separate-browser-context-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/demo/visitor-local-V02-routine--6b78a--a-separate-browser-context-chromium-desktop/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../artifacts/visitor-qa/demo/visitor-local-V02-routine--6b78a--a-separate-browser-context-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-desktop] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.activity-history article')
+    Expected: 1
+    Received: 0
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.activity-history article') with timeout 10000ms
+      - waiting for locator('.activity-history article')
+        24 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      173 |   await page.getByRole('button', { name: 'Sí, eliminar', exact: true }).click()
+      174 |   await expect(page.getByRole('alert').filter({ hasText: 'No pudimos guardar' }).first()).toBeVisible()
+    > 175 |   await expect(page.locator('.activity-history article')).toHaveCount(1)
+          |                                                           ^
+      176 |   expect((await readProgress(page)).cardio).toHaveLength(1)
+      177 |   await page.evaluate(() => (window as unknown as { restoreStorage: () => void }).restoreStorage())
+      178 |   await page.getByRole('button', { name: 'Sí, eliminar', exact: true }).click()
+        at /workspace/klisteniapp/apps/b2c-web/e2e/visitor-local.spec.ts:175:59
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-1/traces/fdc828148e8d12e61c42-8ef1c557016a3acee182-recording1.network' -> '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-1/traces/fdc828148e8d12e61c42-8ef1c557016a3acee182-recording1-pwnetcopy-1.network'
+
+    Error: browserContext._wrapApiCall: ENOENT: no such file or directory, open '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-1/traces/fdc828148e8d12e61c42-8ef1c557016a3acee182.trace'
+
+    Error: ENOENT: no such file or directory, open '/workspace/klisteniapp/artifacts/visitor-qa/demo/.playwright-artifacts-1/57ed81ea47fde5006359ddd15e9bb638.zip'
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/demo/visitor-local-V05-failed-d-deea3-ty-visible-and-allows-retry-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium-desktop] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context
+    [chromium-desktop] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry
+undefined
+/workspace/klisteniapp/apps/b2c-web:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test --config playwright.visitor.config.ts --project chromium-desktop -g 'V02|V05'
