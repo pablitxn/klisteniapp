@@ -76,7 +76,9 @@ export function MemberWorkspace({
       const api = client.withSignal(signal)
       const [assignments, executions, exercises] = await Promise.all([
         api.assignments.list(org.id),
-        whiteLabel ? api.executions.history() : api.executions.list(org.id),
+        // The selected workspace shows only this branch. Brand-wide history is
+        // available separately through /app/history/all, including former grants.
+        api.executions.list(org.id),
         api.catalog.listExercises(org.id),
       ])
       return { ...assignments, ...executions, ...exercises }
