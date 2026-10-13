@@ -1,36 +1,85 @@
-# Integraciones de salud y acceso a la nube
+<a id="integraciones-de-salud-y-acceso-a-la-nube"></a>
+# Health integrations and cloud access
 
-La demo pública conserva registro, importación y dashboards locales. Una conexión futura que guarde datos en un servidor pertenece a una instancia configurada por su operador; esta distribución no conecta proveedores, usuarios ni credenciales automáticamente. [Modos y configuración](deployment.md).
+The public demo retains local recording, import and dashboards. A future connection
+that stores data on a server belongs to an operator-configured instance; this
+distribution does not automatically connect providers, users or credentials.
+[Modes and configuration](deployment.md).
 
-Estado contrastado con fuentes oficiales el **4 de octubre de 2026**. El dashboard, las metas y la importación del [JSON normalizado](health-import.md) están disponibles en Klisteni. **No hay una conexión automática con Google Health, Health Connect o Samsung implementada.** La cuenta con acceso a la nube prepara la persistencia de futuras integraciones; pagar o tener acceso vitalicio no habilita un proveedor que todavía no está integrado.
+Status checked against official sources on **October 4, 2026**. Dashboards, goals
+and [normalized JSON](health-import.md) import are available in Klisteni. **No
+automatic Google Health, Health Connect or Samsung connection is implemented.**
+Cloud-enabled accounts prepare persistence for future integrations; payment or
+lifetime access does not enable a provider that is not integrated yet.
 
-## Dos rutas distintas
+<a id="dos-rutas-distintas"></a>
+## Two distinct routes
 
-| Ruta | Dónde se obtienen los datos | Dependencia pendiente |
+| Route | Data source | Pending dependency |
 | --- | --- | --- |
-| Google Health API | API cloud de Google con OAuth 2.0 | Admisión del proyecto, configuración y autorización del proveedor; implementación del conector |
-| Health Connect | Almacén del teléfono, mediante API Android | Aplicación Android de Klisteni, permisos y protocolo de sincronización |
+| Google Health API | Google cloud API with OAuth 2.0 | Project admission, provider configuration/authorization and connector implementation |
+| Health Connect | Phone storage through the Android API | Klisteni Android application, permissions and synchronization protocol |
 
-Iniciar sesión con Google no concede permisos sobre Health Connect. Tampoco demuestra que los datos de un reloj estén disponibles en Google Health API. La [propuesta Android existente](health-sync.md) conserva el recorrido Samsung Health → Health Connect → aplicación Android → cuenta Klisteni y sus requisitos de prueba con un teléfono real.
+Google sign-in grants no Health Connect permission and does not establish that
+watch data is available through Google Health API. The [existing Android proposal](health-sync.md)
+retains Samsung Health → Health Connect → Android application → Klisteni account
+and requires testing on a real phone.
 
-## Google Health API: disponibilidad real
+<a id="google-health-api-disponibilidad-real"></a>
+## Google Health API: actual availability
 
-Google Health API es una API web nueva que utiliza Google OAuth 2.0. Al revisar la documentación oficial, el aviso de disponibilidad dice: **“we are not onboarding new projects at this time”**. La integración de un proyecto nuevo no puede prometerse activa hasta que Google habilite ese acceso. La ruta no depende de restaurar Google Fit ni de usar la API antigua de Fitbit. [Disponibilidad publicada](https://developers.google.com/health/get-started).
+Google Health API is a new web API using Google OAuth 2.0. At the documented review,
+the official availability notice stated: **“we are not onboarding new projects at
+this time”**. A new project's integration cannot be promised active until Google
+enables access. This route does not depend on restoring Google Fit or using the
+old Fitbit API. [Published availability](https://developers.google.com/health/get-started).
 
-Las instrucciones públicas permiten preparar el trabajo: proyecto Google Cloud, API habilitada, cliente OAuth de tipo web, URI de retorno y usuarios de prueba. El ejemplo de lectura utiliza el permiso `https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly` y `GET https://health.googleapis.com/v4/users/me/dataTypes/exercise/dataPoints`. Esto acredita la existencia del contrato, no que un proyecto Klisteni tenga acceso ni que todas las categorías del dashboard estén cubiertas. [Codelab oficial](https://developers.google.com/health/codelabs/make-your-first-api-call).
+Public instructions allow preparation: Google Cloud project, enabled API, web
+OAuth client, return URI and test users. The read example uses
+`https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly` and
+`GET https://health.googleapis.com/v4/users/me/dataTypes/exercise/dataPoints`.
+This establishes the contract's existence, not Klisteni project access or coverage
+of every dashboard category. [Official codelab](https://developers.google.com/health/codelabs/make-your-first-api-call).
 
-## Camino de implementación cuando exista acceso
+<a id="camino-de-implementación-cuando-exista-acceso"></a>
+## Implementation path once access is available
 
-1. **Confirmar el proyecto habilitado.** Completar los pasos del proveedor y una lectura real con una cuenta autorizada. Registrar las categorías, procedencias, intervalo histórico y permisos disponibles. No dar por completo el catálogo de salud basándose en una respuesta de ejercicios.
-2. **Agregar autorización separada.** Vincular el permiso de salud desde una sesión Klisteni válida y con acceso a la nube. Guardar el estado OAuth de un solo uso en el servidor, validar el retorno y limitar permisos a las categorías ofrecidas. La autorización de salud no cambia el rol ni el plan del usuario.
-3. **Guardar credenciales en el servidor.** Cifrar tokens con una clave fuera de la base y de Git; no enviarlos a localStorage, al export personal ni a analytics. Solicitar acceso offline solo para la sincronización acordada. Google recomienda renovar tokens cuando hacen falta y evitar renovaciones masivas programadas. [Acceso y autorización](https://developers.google.com/health/migration/data-access).
-4. **Normalizar sin inventar datos.** Conservar ID y modificación de origen, unidades, zona horaria y procedencia; paginar hasta completar la ventana. Implementar correcciones, eliminaciones y cursores antes de llamar automática a la sincronización. El importador actual es una operación de archivo y no representa ese protocolo incremental.
-5. **Aplicar el acceso a la nube.** La comprobación del servidor debe bloquear nuevas ingestas al vencer prueba o pago, conservando lectura y exportación del historial. Renovar una suscripción no renueva permisos revocados en Google.
-6. **Ofrecer desconexión y borrado por separado.** Revocar tokens y detener trabajos al desconectar; eliminar datos solo cuando la persona elija esa acción. Aislar credenciales, colas y cursores por usuario y conexión.
-7. **Probar los límites reales.** Permiso parcial/revocado, token vencido, paginación, lote repetido, corrección, eliminación, cambio de cuenta, falta de acceso cloud y recuperación tras una falla. Comparar el resultado con la cuenta origen sin registrar medidas personales en los logs.
+1. **Confirm project enablement.** Complete provider steps and a real read with an
+   authorized account. Record categories, provenance, historical interval and
+   available permissions. One exercise response does not establish a full health catalog.
+2. **Add separate authorization.** Link health permission from a valid Klisteni
+   session with cloud access. Store one-use OAuth state on the server, validate
+   the callback and restrict permissions to offered categories. Health authorization
+   changes neither the user's role nor plan.
+3. **Store credentials on the server.** Encrypt tokens with a key outside the DB
+   and Git; never send them to localStorage, personal exports or analytics. Request
+   offline access only for agreed synchronization. Google recommends refreshing
+   tokens when needed and avoiding scheduled mass refreshes.
+   [Access and authorization](https://developers.google.com/health/migration/data-access).
+4. **Normalize without inventing data.** Preserve source ID/modification, units,
+   timezone and provenance; paginate the full window. Implement corrections,
+   deletions and cursors before calling synchronization automatic. The current
+   file importer does not implement that incremental protocol.
+5. **Enforce cloud access.** Server checks must block new ingestion after trial or
+   payment expiry while retaining history reads/exports. Renewing a subscription
+   does not renew permissions revoked in Google.
+6. **Separate disconnection and deletion.** Revoke tokens and stop jobs on
+   disconnection; delete data only when the person chooses it. Isolate credentials,
+   queues and cursors by user and connection.
+7. **Test actual limits.** Partial/revoked permission, expired token, pagination,
+   repeated batches, correction, deletion, account change, missing cloud access
+   and failure recovery. Compare with the source account without logging personal measurements.
 
-La interfaz debe mostrar **Pendiente de habilitación** hasta que autorización, lectura, persistencia y revocación estén probadas. Un botón de conexión, un token emitido o una respuesta exitosa sin datos no justifican mostrar “sincronizado”. La última medición, la última consulta y el último guardado confirmado son instantes distintos.
+The UI must show the localized **Pendiente de habilitación** status until
+authorization, reading, persistence and revocation are tested. A connect button,
+issued token or successful empty response does not justify “synchronized”. The
+last measurement, last query and last confirmed save are distinct instants.
 
-## Lo que se puede usar ahora
+<a id="lo-que-se-puede-usar-ahora"></a>
+## Available now
 
-Continuar con registros manuales, metas, dashboards y archivos normalizados. En modo local permanecen en el navegador; en una cuenta con prueba, período pagado o derecho vitalicio se pueden guardar en la nube. Se conserva la separación entre el consentimiento opcional de analytics y la autorización para datos personales de salud. Los valores del dashboard, notas, rutinas, credenciales y respuestas del proveedor no se envían a Umami.
+Use manual records, goals, dashboards and normalized files. In local mode they
+remain in the browser; an account with trial, paid period or lifetime entitlement
+can save them in the cloud. Optional analytics consent remains separate from
+personal-health-data authorization. Dashboard values, notes, routines, credentials
+and provider responses are not sent to Umami.
