@@ -1,251 +1,182 @@
-# WL-0: inventario y decisiones de implementación
+<a id="wl-0-inventario-y-decisiones-de-implementación"></a>
 
-Fecha: **11 de octubre de 2026**. Este checkpoint concreta el
-[plan de marca blanca](b2b-white-label.md) sobre el código recibido. Documenta
-decisiones para WL-1–WL-8; no acredita su implementación ni un despliegue.
-El estado y los resultados de cada etapa se registran en el
-[roadmap](roadmap-implementacion.md).
+# WL-0: inventory and implementation decisions
 
-## 1. Límite y recorrido de la entrega
+**October 11, 2026** checkpoint concretizes [white-label plan](b2b-white-label.md)
+on received code. Decisions WL-1–WL-8, not implementation/deployment evidence;
+[roadmap](roadmap-implementacion.md) stage results. Later validation retains own revision.
 
-La organización sigue siendo la marca y el límite entre clientes. La sede es
-una entidad propia, con identidad estable y organización obligatoria. Una
-instancia B2B y su PostgreSQL sirven Atlas Centro/Norte y Sur Centro/Oeste.
-Las dos marcas se prueban en hosts diferentes contra ese mismo runtime.
-B2C conserva aplicaciones, DB, cookies, cuentas y suscripciones independientes.
+<a id="1-límite-y-recorrido-de-la-entrega"></a>
 
-La primera entrega vertical debe permitir crear una sede, autorizar personas,
-preparar sus unidades, prescribir, registrar y consultar una ejecución. Una
-persona puede entrenar socios en Centro y practicar como socio en Norte. La
-selección de marca, sede y función es explícita cuando existe más de una opción.
+## 1. Delivery boundary and journey
 
-Fuera del trabajo autorizado: despliegue de producción, publicación de DNS real,
-SSO entre dominios, builds por cliente, CSS/JS arbitrarios y regeneración de los
-previews diferidos. La aceptación física de Safari/iPhone, voces, WebGL y QR
-impreso no se sustituye por el navegador headless del VPS.
+Organization brand/customer boundary; branch own stable identity/mandatory org.
+One B2B/PostgreSQL Atlas Centro-Norte/Sur Centro-Oeste, different hosts same runtime.
+Independent B2C apps/DB/cookies/accounts/subscriptions. First vertical create branch/
+authorize people/units/prescribe/log/monitor. Person trainer Centro/member Norte;
+explicit brand-branch-role selection when multiple.
+Excluded production/real DNS/cross-domain SSO/per-client builds/arbitrary CSS-JS/
+deferred previews. Headless VPS no physical Safari-iPhone/voice/WebGL/printed QR replacement.
 
-## 2. Inventario comprobado en el checkout anterior a WL-1
+<a id="2-inventario-comprobado-en-el-checkout-anterior-a-wl-1"></a>
 
-| Área | Estado encontrado | Archivos afectados y obligación |
+## 2. Verified pre-WL-1 inventory
+
+| Area | Found state | Affected files/obligation |
 | --- | --- | --- |
-| Schema | SQL propio con migraciones `001-initial`, `002-catalog-lifecycle`, `003-content-media`; no usa Prisma | `apps/b2b-api/src/database.ts`, `migrate.ts`: migración aditiva, backfill e integridad compuesta |
-| Cuentas | Better Auth B2B separado; `baseURL` y `trustedOrigins` usan un único `config.origin`; cookie host-only | `auth.ts`, `config.ts`: origen de marca resuelto en servidor, asociación verificable de sesión y rechazo genérico de membresía incorrecta |
-| HTTP | Sanitiza Host y cabeceras forwarded para auth; mutaciones exigen el origen global | `http.ts`: resolución antes de auth/public/media, origen exacto actual, controles antes del streaming |
-| Transacciones | `organization()` bloquea organización y revalida sesión/membresía dentro de la transacción | `service.ts`, `organization-context.ts`: conservar esa serialización; añadir sede, función y concesiones al contexto |
-| Personas | `b2b_membership.role` único por marca; `b2b_coach_assignment` sin sede | `service.ts`, `packages/b2b-contracts/src/organization.ts`, `People.tsx`: separar administrador de marca y concesiones operativas de sede |
-| Inventario | `b2b_unit.location` es texto libre; todos los queries filtran sólo organización | `equipment/index.ts`, `Equipment.tsx`, `QRCodes.tsx`, contratos de catálogo: sede obligatoria, disponibilidad y QR contextual |
-| Biblioteca | Modelos/ejercicios tienen propietario marca o base global; programas/versiones pertenecen a marca | `catalog/index.ts`, `training/index.ts`, contratos/dominio: reutilización y procedencia conservadas, disponibilidad de sede explícita |
-| Prescripción e historial | Asignaciones/ejecuciones sólo tienen organización; versiones publicadas guardan snapshots | `training/repository.ts`, `training/rules.ts`, contratos de entrenamiento: asignación/ejecución con sede; autorización histórica separada |
-| Website | `b2b_website` es singleton por organización; publicación incluye brand y content | `service.ts`, `Website.tsx`, `websiteDraft.ts`, `PublicGym.tsx`: identidad pública independiente y publicación propia de sede |
-| Medios | Propietario organización; staff puede acceder a todo su inventario; socio por referencia autorizada | `service.ts:mediaAccess`, `media.ts`, `MediaLibrary.tsx`, `ContentMedia.tsx`: ámbito explícito y comprobación del host/sede para GET, HEAD y Range |
-| Invitaciones | Token hasheado, expiración y uso único; no guarda sede | `service.ts`, contratos de organización, `Invitation.tsx`: backfill de Principal y consumo dentro de la marca correcta |
-| Cliente y sesión | `/me` expone todas las membresías; las aplicaciones eligen rol/marca de listas; controlador cancela respuestas obsoletas | `b2b-client/src`, `b2b-react/src`, `app/ApplicationProvider.tsx` y `app/Workspace.tsx`: respuesta acotada a host, contexto operativo validado y limpieza al cambiarlo |
-| Borradores | Entrenamiento usa organización/cuenta/asignación; editores organización/cuenta/tipo/entidad | `sessionDraft.ts`, `editorDraftStorage.ts`, `useEditorDraft.tsx`: versionar claves e incluir sede/función cuando es operativa |
-| Proxy | Gateway local reemplaza Host por loopback; Nginx pasa `$host`, elimina forwarded | `scripts/b2b-gateway.mjs`, `docker/nginx.b2b.conf`: preservar host normalizado mediante frontera de confianza explícita |
-| Fixtures/operador | Demo Atlas/Sur y herramientas de organización sin sedes | `demo.ts`, `operator.ts`, scripts setup/runtime/E2E: dos sedes por marca, dominios y escenarios negativos |
-| Tests | Suites API con schemas desechables; Playwright en un origen y tres proyectos | `apps/b2b-api/tests`, `apps/b2c-web/playwright.b2b.config.ts`, suites B2B: añadir dos hosts, migración previa y matriz D01–D19 |
+| Schema | Own SQL001-initial/002-catalog-lifecycle/003-content-media, no Prisma | database.ts/migrate.ts additive backfill/composite integrity |
+| Accounts | Independent Better Auth, baseURL-trustedOrigins single config.origin/host-only cookie | auth.ts/config.ts server-brand origin/session binding/generic wrong-membership rejection |
+| HTTP | Host-forwarded auth sanitization/global mutation origin | http.ts resolve before auth-public-media/current exact origin/before streaming |
+| Transactions | organization() lock/session-membership revalidation | service.ts/organization-context.ts retain serialization/add branch-role-grants |
+| People | One b2b_membership.role/brand, unscoped b2b_coach_assignment | service.ts, packages/b2b-contracts/src/organization.ts, People.tsx admin-vs-branch grants |
+| Inventory | Free-text unit.location/org-only queries | equipment/index.ts, Equipment.tsx, QRCodes.tsx, catalog contracts mandatory branch/availability/context QR |
+| Library | Brand/global model-exercise ownership, brand program-version | catalog/index.ts, training/index.ts, contracts-domain retain reuse/provenance/branch availability |
+| Prescriptions/history | Org-only assignments-executions/immutable version snapshots | training/repository.ts, rules.ts, training contracts branch/historical auth |
+| Website | Org singleton b2b_website, brand-content publication | service.ts, Website.tsx, websiteDraft.ts, PublicGym.tsx independent identity/branch publication |
+| Media | Org ownership/staff-wide/member references | service.ts: mediaAccess, media.ts, MediaLibrary.tsx, ContentMedia.tsx host-branch GET-HEAD-Range |
+| Invitations | Hashed/expired/one-use, no branch | service.ts, org contracts, Invitation.tsx Principal backfill/correct-brand consumption |
+| Client/session | me all memberships/apps role-brand lists/stale-response cancellation | b2b-client/src, b2b-react/src, ApplicationProvider.tsx, Workspace.tsx host-scoped/validated context/cleanup |
+| Drafts | Org-account-assignment; editor org-account-type-entity | sessionDraft.ts, editorDraftStorage.ts, useEditorDraft.tsx version keys/operational branch-role |
+| Proxy | Local Host→loopback, Nginx host/forwarded stripping | scripts/b2b-gateway.mjs, docker/nginx.b2b.conf normalized-host explicit trust |
+| Fixtures/operator | Atlas-Sur/no branches | demo.ts, operator.ts, setup-runtime-E2E scripts/two branches-domains-negative cases |
+| Tests | Disposable API schemas/one-origin three-project Playwright | apps/b2b-api/tests, apps/b2c-web/playwright.b2b.config.ts, B2B suites/two-host-old migration-D01–D19 |
 
-Archivos de frontend abreviados en la tabla se ubican en `apps/b2b-web/src/features`,
-`apps/b2b-web/src` o `packages/b2b-ui/src` según el dominio indicado.
+API paths relative apps/b2b-api/src; frontend abbreviations features/root/b2b-ui by domain.
 
-## 3. Entidades y compatibilidad
+<a id="3-entidades-y-compatibilidad"></a>
 
-Agregar sedes, concesiones de sede, dominios, asociación de sesión a marca,
-identidad versionada, preferencias/capacidades y publicación por sede. Cada
-relación de sede utiliza una FK compuesta `(organization_id, branch_id)`;
-conocer un ID real de Sur nunca permite asociarlo a Atlas. Los slugs son únicos
-por marca y no se usan como autorización.
+## 3. Entities and compatibility
 
-La membresía de marca conserva estado activo y administración de marca. El
-rol heredado `coach`/`member` sólo se conserva para compatibilidad/migración;
-la autorización operativa nueva consulta concesiones de sede. No se obtiene
-el rol efectivo eligiendo el mayor rol que una persona tenga en otra sede.
+Add branches/grants/domains/brand-bound sessions/versioned identity/preferences-
+capabilities/branch publication. Composite FK(organization_id, branch_id); real Sur
+ID cannot bind Atlas. Per-brand unique slugs, not authorization. Brand membership
+active/admin retained; legacy coach-member migration compatibility only, new operational
+grants, no max-role from another branch.
 
-Pertenecen a sede: unidades físicas, vínculo entrenador-socio, asignaciones,
-ejecuciones, datos/contacto/horarios/contenido público del establecimiento y
-medios que se hayan subido con ese ámbito. Los modelos, ejercicios y programas
-pueden ser biblioteca de marca; disponibilidad y modificación tienen permisos
-explícitos. Un entrenador que sólo trabaja en Centro no publica ni modifica
-contenido de Norte por compartir el ID de organización.
+Branch units/coaching/assignments/executions/location-contact-schedule-public content/
+scoped uploads. Models/exercises/programs possible brand library, explicit availability-
+modify permissions. Centro-only trainer cannot publish/edit Norte because same org.
+Migration deterministic **Principal**, existing operational data/IDs/location retained;
+admins brand, staff-members original Principal only. Old invitations server Principal,
+token-expiry-one-use retained, no later-branch access.
 
-La migración crea **Principal** por organización con un ID determinista, asigna
-los datos operativos existentes a ella y conserva todos los IDs y `location`.
-Los administradores siguen administrando su marca; entrenadores/socios sólo
-reciben su acceso anterior en Principal. Invitaciones antiguas de staff/socio
-se resuelven a Principal en datos del servidor, conservando token, caducidad y
-uso único; una invitación antigua no da acceso a sedes creadas posteriormente.
+No indiscriminate snapshot JSON rewrites. Migrated assignment-execution/versioned
+adapter supplies historic context, immutable exercise-model content. History actual
+record branch, not current selector. Version b2b_unit_batch keys/results, no Centro
+replay Norte units. Tables-columns→backfill→anomaly checks→constraints-indexes→strict
+contracts. Inconsistent cross-brand abort, no silent correction. Domain activation
+old unbound sessions new login.
 
-No modificar indiscriminadamente el JSON de snapshots. El contexto histórico
-se obtiene de la asignación/ejecución migrada o de un adaptador versionado; el
-contenido publicado de ejercicios/modelos permanece inmutable. El historial
-debe mostrar el nombre/ID de sede correspondiente al registro y no inferirlo
-de la selección actual. Versionar también claves/resultados idempotentes de
-`b2b_unit_batch`: una repetición de Centro no debe recuperar unidades de Norte.
+<a id="4-matriz-de-permisos-efectiva"></a>
 
-Ejecutar en orden: tablas/columnas, backfill, comprobaciones de datos anómalos,
-constraints/índices y contratos estrictos. La migración aborta ante relaciones
-inconsistentes; no corrige silenciosamente una referencia de otra marca. Al
-activar dominios, las sesiones antiguas sin asociación requieren nuevo login.
+## 4. Effective permission matrix
 
-## 4. Matriz de permisos efectiva
+Trusted host→active brand→brand session→active membership→authorized branch-role→
+permission→resource. Client header-body-query-localStorage alone grants nothing.
 
-Toda operación sigue: host confiable → marca activa → sesión de esa marca →
-membresía activa → sede/función autorizada → permiso → recurso. Ningún header,
-body, query o localStorage del cliente concede permisos por sí mismo.
-
-| Acción | Admin de marca | Entrenador de sede | Socio de sede |
+| Action | Brand admin | Branch trainer | Branch member |
 | --- | --- | --- | --- |
-| Configurar marca/tema/capacidades y gestionar sedes/personas | Sí, sólo su marca | No | No |
-| Activar/verificar/reasignar dominio | Operador de plataforma; admin sólo solicita | No | No |
-| Leer inventario/catálogo operativo | Sede elegida | Sedes concedidas | Sedes concedidas y contenido permitido |
-| Crear/mover/archivar unidad; publicar website de sede | Sí, sede identificada | No | No |
-| Crear/editar biblioteca compartida de marca | Sí | Sólo recursos expresamente de su ámbito | No |
-| Prescribir rutina | Sede elegida y socio autorizado allí | Sólo socio asignado en esa misma sede | No |
-| Registrar ejecución | No en nombre ajeno | Sólo cuando actúa como socio autorizado | Sólo propia y en sede operativa autorizada |
-| Consultar actividad actual | Sede elegida; agregado explícito si se implementa | Sólo socios asignados en la sede elegida | Sólo propia |
-| Leer historial de sede a la que ya no tiene acceso operativo | Sí dentro de su marca | No sin permisos y relación vigentes | Sí, sólo propio y con membresía de marca activa |
-| Leer medios privados | Propiedad/referencia dentro de su marca | Ámbito concedido y referencia autorizada | Referencia de contenido autorizado o snapshot propio |
-| Exportar historial | Registros de su marca autorizados | Sólo alcance vigente si se ofrece exportación | Sólo historial propio mientras tenga membresía activa |
+| Brand-theme-capabilities/branches-people | Own brand | No | No |
+| Domain verify-activate-transfer | Platform operator; admin request only | No | No |
+| Operational catalog/inventory | Selected branch | Granted branches | Granted/permitted content |
+| Unit create-move-archive/branch website publish | Identified branch | No | No |
+| Shared brand-library edit | Yes | Explicit scoped resources only | No |
+| Prescribe | Selected branch/authorized member | Assigned member same branch | No |
+| Execute | Not for someone else | Only authorized member role | Own/authorized active branch |
+| Current activity | Selected branch/explicit implemented aggregate | Assigned members selected branch | Own |
+| History after operational branch access lost | Own brand | No without current permissions/relationship | Own/active brand membership |
+| Private media | Own-brand property/reference | Granted scope/reference | Authorized content/own snapshot |
+| Export | Authorized own-brand records | Current scope if offered | Own history/active membership |
 
-No introducir vistas agregadas implícitas para entrenadores. El administrador
-selecciona sede en pantallas operativas. Cualquier futuro agregado debe enumerar
-su alcance y utilizar queries/autorización específicos.
+No implicit trainer aggregation; admin selects operational branch. Future aggregate
+explicit scope/dedicated authorization-query. Revocations share org lock with writes,
+queued old permission rejected. Context change invalidates pending/remounts keyed
+consumers/only own drafts. Logout/revoke sensitive cleanup/cross-tab notice, not
+recall already-received bytes.
 
-Las revocaciones comparten el bloqueo de organización ya existente con las
-mutaciones para impedir que una petición en espera escriba con permisos viejos.
-Cambiar sede/función invalida resultados pendientes, remonta los consumidores
-con una clave de contexto y recupera exclusivamente sus borradores. Logout o
-revocación limpia estado sensible y notifica otras pestañas; no promete retirar
-bytes que el navegador ya recibió.
+<a id="5-traslados-archivo-y-salida-de-marca"></a>
 
-## 5. Traslados, archivo y salida de marca
+## 5. Transfer, archive and brand exit
 
-**Traslado de persona:** conceder el destino y revocar el origen mediante una
-acción administrativa explícita. Las asignaciones previas no cambian de sede.
-Las nuevas prescripciones requieren acceso/relación en destino; una sesión
-encolada del origen se rechaza después de la revocación. El socio mantiene
-lectura de sus ejecuciones y snapshots anteriores mientras su membresía de
-marca esté activa. Ese permiso histórico no abre inventario actual ni medios
-privados que no estén referenciados por su historial.
+**Person:**explicit destination grant/source revoke; old assignment branch unchanged.
+New prescriptions destination access/coaching, queued origin rejects after revoke.
+Active brand member retains own historic executions/snapshots, not current inventory/
+unreferenced private media.
+**Unit:**same brand/active destination; incompatible active assignments block. Explicit
+close-reassign affected prescriptions first, no homonymous automatic substitute.
+Missing retirement functionality retains blocker/limit. Historic QR/ID retained,
+destination only after publication/auth confirmed.
+**Archive:**row/history retained; no new assignment-execution-inventory/public operational
+publication. Own/admin history remains, no trainer escalation. Explicit restore, no
+automatic revoked grants.
+**Full brand exit:**immediate sessions/access revoke, records retained/authorized admin
+controlled export; member may export before exit if flow exists. No public download/
+automatic deletion/undefined contractual retention promises. Legal deletion-retention
+not WL automated; offboarding UI describes retained data/lost access.
 
-**Traslado de unidad:** sólo dentro de la misma marca y hacia sede activa.
-Bloquear si existen asignaciones activas incompatibles que necesitan esa
-unidad/modelo en origen. La resolución explícita consiste en cerrar/reasignar
-las prescripciones afectadas antes de mover; no sustituir automáticamente una
-unidad homónima. Si el sistema aún no permite cerrar una asignación, el bloqueo
-se conserva y se registra como limitación. Historial y QR conservan el ID; el
-QR resuelve el destino sólo después de confirmar publicación y autorización.
+<a id="6-dominios-y-sesiones"></a>
 
-**Archivo de sede:** conserva su fila y todo el historial. Impide nuevas
-asignaciones, ejecuciones y operaciones del inventario, y retira publicación
-pública operativa. El historial del propietario y administrador sigue legible.
-No se amplía el acceso del entrenador. Restaurar una sede es una acción
-administrativa explícita; no restaura automáticamente concesiones revocadas.
+## 6. Domains and sessions
 
-**Salida completa de marca:** la política conservadora de esta entrega revoca
-acceso y sesiones inmediatamente, conserva los registros y permite al
-administrador autorizado atender una exportación. Antes de la baja, el socio
-puede exportar su historial propio si el flujo está implementado. La revocación
-no borra registros ni crea acceso público para descargarlos; una exportación
-posterior se gestiona mediante el administrador y un canal controlado. No se
-promete borrado automático ni un plazo de retención contractual que todavía no
-se haya definido. Las solicitudes de borrado/retención legal no se automatizan
-en WL. La interfaz de baja debe expresar la conservación y la pérdida de acceso.
+Normalized unique registry organization/state/verification/revision/primary-alias.
+WL no default for unknown-malformed-pending-paused-disabled. Configured proxy-only
+host identity, strips client values. Internal health/readiness data-free exception.
+Server session brand/current domain association; copied cookies/reactivated-reassigned
+host grants nothing. Binding for auth/get-session, me, media, website, invitations, exports/
+legacy links. Me current host brand only, foreign login generic/no usable session.
+Exact current origin auth-writes; Atlas/Sur not interchangeable. Host-only/HttpOnly/
+SameSite/HTTPS Secure, no shared cookie/SSO. Verified aliases registry primary only,
+association changes immediate cache-session invalidation.
 
-## 6. Dominios y sesiones
+Website/QR/new invite canonical primary. g-slug current brand only; directory if
+retained known-public redirects, not login bypass. Invite secrets no query/logs.
+No legacy cross-host transfer absent proven mechanism; safe canonical continuation,
+not token relocation to unvalidated destination.
 
-El host se normaliza y se busca en un registro único con organización, estado,
-evidencia de verificación, revisión y condición de principal/alias. En modo WL
-no hay marca por defecto para un host desconocido, mal formado, pendiente,
-pausado o desactivado. La API sólo acepta la identidad de host proporcionada por
-el proxy configurado; el proxy elimina valores de cliente antes de inyectarla.
-Health/readiness internos se documentan como excepción operativa sin datos.
+<a id="7-temas-publicación-y-módulos-iniciales"></a>
 
-La sesión se vincula en servidor a la marca y a una asociación de dominio
-vigente. Copiar cookies entre hosts o reactivar/reasignar un dominio no concede
-acceso. La comprobación incluye `/auth/get-session`, `/me`, medios, website,
-invitaciones, exportaciones y enlaces heredados. `/me` entrega sólo la marca
-del host actual. Un login con cuenta ajena devuelve un error genérico y nunca
-una sesión utilizable para esa marca.
+## 7. Themes, publication and initial modules
 
-El origen exacto actual autoriza auth y mutaciones; registrar Atlas y Sur no
-los convierte en orígenes intercambiables. Cookies host-only, HttpOnly,
-SameSite y Secure bajo HTTPS; no hay cookie compartida ni SSO. Alias verificados
-redirigen al principal registrado sólo mediante destinos obtenidos del registro.
-Los cambios de asociación invalidan cachés/sesiones aplicables inmediatamente.
+Versioned distinguishable Atlas compact-geometric/Sur spacious-rounded. Palette/
+catalog fonts/forms/logo/text/images/readable validated tokens, no customer HTML-CSS-JS.
+Login/selectors/website/member-management/empty-error/browser title shared published
+identity. Authorized draft/explicit audited versioned publish-restore; preview no
+other-session/form effect. Brand website/branch website/minimal login identity
+separate cycles; website withdrawal retains login. Migration last public identity,
+not differing private draft.
 
-Website, QR e invitaciones nuevas se generan con el principal de la marca.
-`/g/:slug` sólo puede resolver la marca actual; el directorio general, si se
-conserva, redirige entradas públicas conocidas y no funciona como bypass de login.
-Los secretos de invitación siguen fuera de query strings/logs. No habilitar un
-traspaso entre hosts de una invitación heredada hasta probar un mecanismo
-específico; presentar una continuación segura en el dominio canónico es mejor
-que trasladar automáticamente tokens a un destino no validado.
+Effective capability=platform∩brand∩branch∩user permission∩service conditions.
+Branch cannot elevate; auth/authz/own history-export foundational, not optional.
 
-## 7. Temas, publicación y módulos iniciales
-
-Temas versionados con dos variantes compartidas y distinguibles: **Atlas,
-compacto y geométrico**, y **Sur, amplio y redondeado**. Usar paleta, tipografías
-de catálogo, formas, logo, textos e imágenes; defaults legibles y validación
-de tokens. No se acepta HTML/CSS/JS de cliente. Login, selectores, website,
-miembro, backoffice, vacíos/errores y título de navegador aplican la misma
-identidad publicada.
-
-El borrador de identidad requiere autorización. Publicar/revertir es explícito,
-versionado y auditable; preview no altera otras sesiones ni sus formularios.
-Website de marca, website de sede e identidad mínima de acceso tienen ciclos
-separados. Retirar el website conserva el login de miembros. La migración
-preserva la última identidad pública existente aunque el borrador privado difiera.
-
-Capacidad efectiva = habilitación de plataforma ∩ preferencia de marca ∩
-preferencia de sede ∩ permiso de usuario ∩ condiciones de servicio. Una sede
-no eleva capacidades. Autenticación, autorización, lectura histórica y
-exportación propia son funciones base y no módulos opcionales.
-
-| Módulo inicial | Dependencias | Política al desactivar |
+| Module | Dependencies | Disable policy |
 | --- | --- | --- |
-| Website público | Identidad mínima independiente | Retirar lectura/publicación pública; conservar borrador e historial de versiones; login permanece |
-| Equipo/QR | Catálogo disponible e inventario de sede | Bloquear nuevas operaciones/publicación del módulo y QR públicos; preservar snapshots y referencias históricas autorizadas |
-| Plano/espacio | Website y, para puntos de unidades, equipo | Ocultar publicación/plano actual y bloquear edición/publicación mientras esté apagado; no borrar medios ni historial |
-| Medios | Almacenamiento privado autorizado | Bloquear nuevas cargas/selecciones; conservar lectura de medios ya referenciados por publicaciones o snapshots autorizados |
-| Voz guiada | Entrenamiento e instrucciones escritas | Detener/ocultar lectura de voz; entrenamiento y texto permanecen disponibles |
+| Public website | Independent minimum identity | Public read-publish removed/draft-version history retained/login |
+| Equipment/QR | Available catalog/branch inventory | Block new operations-publication/public QR; authorized historic snapshots |
+| Plan/space | Website; unit points equipment | Hide current plan/block edit-publish; no media-history deletion |
+| Media | Authorized private storage | Block uploads-selections; published/snapshot references readable |
+| Guided voice | Training/written instruction | Hide-stop voice; text-training retained |
 
-No permitir que apagar equipo o medios invalide silenciosamente una rutina
-activa. Los registros y snapshots siguen accesibles por su autorización
-histórica, aunque su recurso ya no se ofrezca para nuevas prescripciones.
-Ocultar una entrada de biblioteca afecta nuevas selecciones de esa sede; no
-modifica la base compartida ni las versiones asignadas. Publicar recursos
-privados en otra sede exige una acción autorizada explícita.
+Equipment/media off not silently invalidate active routine; historic authorization
+retained even unavailable new prescriptions. Branch-hidden library affects new
+selection, not base/assigned versions; cross-branch private publication explicit authorization.
 
-## 8. Checkpoints y evidencia exigida
+<a id="8-checkpoints-y-evidencia-exigida"></a>
 
-1. **WL-1:** fixture anterior y vacía migradas; Principal con IDs/datos/roles
-   preservados; dos sedes Atlas/Sur; FKs rechazan organización/sede cruzadas.
-2. **WL-2/3:** dos hosts del mismo runtime; rechazo de hosts/proxy/orígenes
-   incorrectos, login ajeno, cookie copiada, roles cruzados y revocación en cola.
-3. **WL-4:** recorrido administrador → entrenador → socio → seguimiento en
-   cada sede; invitaciones nuevas/heredadas y cambio de sede con borrador.
-4. **WL-5/6:** publicación separada y reversión; políticas de módulos en UI/API;
-   disponibilidad, traslado/archivo y lectura histórica después de revocar sede.
-5. **WL-7/8:** dominio principal/alias/baja; HTTPS con CA controlada; matriz
-   D01–D19 en Chromium escritorio/táctil y WebKit táctil; backup/restauración
-   conjunta de DB/medios/configuración y regresión B2C aplicable.
+## 8. Required checkpoints and evidence
 
-Usar DB/schema desechables, comandos documentados y evidencia nueva. Los
-resultados anteriores de `508e9e1` certifican sólo la base. Registrar por fase
-SHA o diff, comandos, resultado, topología, omisiones y riesgos. El plan no
-autoriza el despliegue de producción y no declara prueba física ni DNS público.
+1. WL-1 old-empty fixtures migrate/Principal IDs-data-roles/two branches each/composite FK rejection.
+2. WL-2/3 two hosts/same runtime/reject wrong host-proxy-origin/foreign login/copied cookie/cross role/queued revoke.
+3. WL-4 admin→trainer→member→monitor each/new-old invitations/context draft.
+4. WL-5/6 separate publication-restore/UI-API module policies/availability-transfer-archive/historic access.
+5. WL-7/8 primary-alias-offboarding/controlled-CA historical HTTPS/D01–D19 three engines/joint DB-media-config restore/B2C regressions. Future tests follow current no-bypass/trust-change rule.
 
-Riesgos que bloquean cerrar una fase: queries sólo por organización en una ruta
-operativa; privilegios deducidos del rol heredado; medios públicos resueltos
-antes de comprobar marca; cache de dominio sin invalidación; login global que
-evade binding; inventario/borradores idempotentes reutilizados en otra sede;
-snapshots adaptados desde contenido mutable; E2E usando dos paths en un host;
-restauración de DB sin medios/configuración compatibles.
+Disposable DB/schema/documented commands/new evidence.508e9e1 base only; per phase
+SHA-diff/commands/result/topology/skips/risks. No authorized production/DNS/physical
+claim. Blocking risks: org-only operational queries/legacy-derived permissions/
+media before brand check/stale domain cache/global unbound login/cross-branch
+idempotent inventory-drafts/mutable snapshot adapters/two paths instead of origins/
+DB-only restore without compatible media-config.
 
-Después de crear sedes y concesiones no se permite arrancar el binario antiguo
-que sólo conoce organización. Recuperación: binario compatible, corrección
-hacia adelante o restauración coordinada ensayada con escrituras detenidas y
-copia previa del estado actual. Registrar el punto de recuperación y el
-tratamiento de escrituras posteriores al backup; no borrarlas para simular
-compatibilidad. La reversión visual de un tema no revierte schema ni permisos.
+After branches/grants no old org-only binary. Compatible binary/forward fix or
+quiesced coordinated restore with preserved current state; record recovery point/
+post-backup writes, no deletion to fake compatibility. Theme rollback no schema-permission rollback.

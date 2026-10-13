@@ -1,85 +1,174 @@
-# Sincronización de salud: ruta propuesta y requisitos
+<a id="sincronización-de-salud-ruta-propuesta-y-requisitos"></a>
 
-La demo pública conserva registro, importación y dashboards locales. Una conexión futura que guarde datos en un servidor pertenece a una instancia configurada por su operador; esta distribución no conecta proveedores, usuarios ni credenciales automáticamente. [Modos y configuración](deployment.md).
+# Health synchronization: proposed route and requirements
 
-Estado al **4 de octubre de 2026**: Klisteniapp permite registrar información de salud e importar su [JSON normalizado](health-import.md). **No hay un conector Android, vinculación Samsung/Google ni sincronización automática implementados.** Esta página documenta una propuesta y sus dependencias; las capacidades de terceros se contrastaron con documentación oficial en esa fecha. No se probó un Galaxy Watch ni un teléfono real.
+Public demo retains local recording/import/dashboards. Future server-saving connection
+belongs to operator-configured instance; no automatic provider/user/credential
+connection. [Modes/configuration](deployment.md).
 
-## Ruta recomendada para Galaxy Watch8
+Status on **October 4, 2026**: Klisteniapp records health/imports [normalized JSON](health-import.md).
+**No Android connector, Samsung/Google linking or automatic synchronization implemented.**
+This is a proposal/dependencies; third-party capabilities checked against official
+docs on that date. No Galaxy Watch/physical phone tested.
+
+<a id="ruta-recomendada-para-galaxy-watch8"></a>
+
+## Recommended Galaxy Watch8 route
 
 ```text
 Galaxy Watch8
-  → Samsung Health en el teléfono
-  → Health Connect en ese teléfono
-  → aplicación Android de Klisteni que lee los permisos elegidos
-  → API autenticada de Klisteni
-  → dashboard privado de la cuenta, accesible también desde la web
+  → Samsung Health on phone
+  → Health Connect on that phone
+  → Klisteni Android app reading selected permissions
+  → authenticated Klisteni API
+  → private account dashboard, also accessible from web
 ```
 
-Health Connect almacena datos en el dispositivo y ofrece una API Android. Iniciar sesión con Google no concede acceso a ese almacén. La web actual necesita una aplicación Android que lo lea y envíe los registros autorizados a la cuenta; agregar únicamente un botón de OAuth no completa esta ruta. [Diferencia entre las APIs Android y la plataforma cloud](https://developer.android.com/health-and-fitness/health-connect/migration/fit/faq).
+Health Connect stores device data/provides Android API. Google login grants no
+storage access. Current web requires Android app to read/send authorized records;
+OAuth button alone does not complete route. [Android/cloud API distinction](https://developer.android.com/health-and-fitness/health-connect/migration/fit/faq).
 
-La recomendación es empezar con lectura hacia Klisteni y mantener las anotaciones manuales. El envío de cambios desde Klisteni hacia Samsung requiere otro contrato y permisos, y no forma parte de esta primera etapa.
+Start with reads into Klisteni/retain manual notes. Sending Klisteni changes back
+to Samsung requires another contract/permissions, outside first stage.
 
-## Qué necesitamos, en cinco pasos
+<a id="qué-necesitamos-en-cinco-pasos"></a>
 
-1. **Comprobar el teléfono y los datos disponibles.** Anotar Android, Samsung Health y Health Connect instalados. Confirmar que una medición real del reloj aparece primero en Samsung Health y luego en Health Connect. Samsung configura este enlace en Samsung Health → Ajustes → Health Connect; el usuario elige qué compartir. [Configuración Samsung](https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect).
-2. **Crear e instalar el puente Android.** Una app pequeña puede encargarse de permisos, primera lectura, sincronización y estado, mientras la interfaz principal sigue siendo la web. Health Connect viene integrado desde Android 14; en versiones anteriores compatibles se instala aparte. Comprobar disponibilidad y características en ejecución, sin deducirlas solo de la versión. [Inicio y compatibilidad](https://developer.android.com/health-and-fitness/health-connect/get-started).
-3. **Vincularlo a la cuenta Klisteni.** Diseñar un emparejamiento autenticado, por ejemplo un código de un solo uso aprobado desde la sesión de la cuenta. Emitir credenciales revocables del dispositivo con alcance de sincronización, caducidad y almacenamiento seguro. Esto es una propuesta: el backend actual todavía no las emite.
-4. **Leer el historial accesible y después los cambios.** Permisos por categoría; permisos adicionales para historial anterior y segundo plano cuando estén disponibles. Mostrar rango realmente importado, campos ausentes y confirmación del servidor. La primera importación no puede prometer todo el historial de Samsung. [Lectura e historial](https://developer.android.com/health-and-fitness/health-connect/read-data).
-5. **Mantener sincronización y visibilidad.** Ejecutar al abrir el puente, con un botón manual y trabajos periódicos; añadir reintentos, cola sin conexión y revocación. El dashboard debe distinguir última medición, última lectura del teléfono y último guardado confirmado. Un intento de envío no es un guardado.
+## Five required steps
 
-Para publicar la app Android en Google Play se deben completar Data Safety y la declaración de aplicación de salud, justificar los tipos solicitados y presentar la política de privacidad correspondiente. Primero conviene validar una compilación de desarrollo con el teléfono real; distribuir públicamente requiere completar el proceso de publicación. [Publicación en Google Play](https://developer.android.com/health-and-fitness/health-connect/publish).
+1. **Check phone/data.** Record Android/Samsung Health/Health Connect versions.
+   Verify real watch measurement in Samsung Health then Health Connect. Samsung
+   Health → Ajustes → Health Connect configures link/user sharing.
+   [Samsung configuration](https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect).
+2. **Create/install Android bridge.** Small app handles permissions/initial read/
+   synchronization/status while main UI stays web. Health Connect integrated from
+   Android14, separately installed on earlier compatible versions. Check availability/
+   features at runtime, not version alone. [Setup/compatibility](https://developer.android.com/health-and-fitness/health-connect/get-started).
+3. **Link Klisteni account.** Authenticated pairing, e.g. one-use code approved from
+   account session. Revocable device credentials with sync scope/expiry/secure
+   storage. Proposed only; backend does not yet issue them.
+4. **Read accessible history then changes.** Category permissions; extra history/
+   background permissions where available. Display actual imported range/missing
+   fields/server confirmation. First import cannot promise all Samsung history.
+   [Reads/history](https://developer.android.com/health-and-fitness/health-connect/read-data).
+5. **Maintain sync/visibility.** On opening/manual button/periodic jobs, with retry/
+   offline queue/revocation. Distinguish last measurement/phone read/confirmed save;
+   submission attempt is not save.
 
-## Frecuencia y alcance reales
+Google Play publication needs Data Safety/health-app declaration, justified data
+types/privacy policy. Validate development build on real phone first; public
+distribution requires publication process. [Google Play](https://developer.android.com/health-and-fitness/health-connect/publish).
 
-La sincronización automática será **periódica**, con demoras variables. WorkManager admite un intervalo mínimo de 15 minutos, pero Android determina cuándo ejecuta el trabajo según restricciones y optimizaciones; incluso puede aplazar u omitir una ejecución. Propuesta inicial: programar cada hora, además de sincronizar al abrir y bajo demanda, y medir el comportamiento real antes de ajustar la frecuencia. Esto no es una garantía de actualización cada hora. [Programación periódica](https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work).
+<a id="frecuencia-y-alcance-reales"></a>
 
-Samsung también controla la etapa reloj → teléfono: puede sincronizar al reconectar o abrir/actualizar Samsung Health, y el pulso continuo no se transmite inmediatamente por motivos de batería. La recepción de datos del reloj y la ejecución del puente son demoras distintas. Su documentación enumera peso, grasa corporal, pasos, pulso, sueño, ejercicio y nutrición; el alcance cambia con la versión. [Sincronización Samsung](https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect).
+## Actual frequency and scope
 
-Health Connect permite lecturas en segundo plano con `READ_HEALTH_DATA_IN_BACKGROUND` y comprobación de la característica. Sin ese permiso, ofrecer sincronización al abrir. Por defecto puede leerse desde 30 días antes de la primera concesión del permiso; `READ_HEALTH_DATA_HISTORY` amplía el acceso cuando está disponible y autorizado. Reinstalar revoca permisos y cambia esa referencia. Tener permiso no significa que Samsung haya transferido todo su historial. La guía Android actual admite segundo plano, aunque algunos artículos antiguos de Samsung aún afirman que solo se puede leer en primer plano. [Reglas actuales de lectura](https://developer.android.com/health-and-fitness/health-connect/read-data).
+Automatic sync will be **periodic**, variable delays. WorkManager minimum15 minutes;
+Android schedules by constraints/optimization and may defer/skip. Initial proposal:
+hourly plus on opening/on demand; measure before adjusting. No hourly guarantee.
+[Periodic scheduling](https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work).
 
-## Datos y diferencias que debe conservar el adaptador
+Samsung controls watch→phone: may sync on reconnect/open/refresh; continuous pulse
+not immediate for battery reasons. Watch receipt/bridge execution are separate
+delays. Docs list weight/body fat/steps/pulse/sleep/exercise/nutrition; version-dependent.
+[Samsung sync](https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect).
 
-| Información | Tratamiento propuesto |
+Background reads require `READ_HEALTH_DATA_IN_BACKGROUND`/feature check; otherwise
+sync on opening. Default reads start30 days before initial permission;
+`READ_HEALTH_DATA_HISTORY` extends when available/authorized. Reinstall revokes/
+changes reference. Permission does not establish full Samsung transfer. Current
+Android guide supports background; some older Samsung articles say foreground only.
+[Read rules](https://developer.android.com/health-and-fitness/health-connect/read-data).
+
+<a id="datos-y-diferencias-que-debe-conservar-el-adaptador"></a>
+
+## Adapter data distinctions
+
+| Information | Proposed treatment |
 | --- | --- |
-| Peso y porcentaje de grasa | Importar observaciones disponibles, con fecha, unidad, origen e identidad estables. |
-| Sueño | Conservar sesiones y fases del origen antes de resumir; evitar contar dos veces intervalos superpuestos. El JSON actual conserva un resumen, no todas las fases. |
-| Pasos | Aplicar la agregación apropiada o una política explícita de origen; no sumar teléfono y reloj como si fueran actividad distinta. Android recomienda `aggregate()` para los pasos acumulativos. |
-| Pulso | El contrato actual acepta resúmenes. Para analizar una sesión en detalle hay que ampliar el modelo para muestras con instante, intervalos y cobertura. |
-| Comidas | Importar nutrientes conocidos y conservar los faltantes como ausentes; no convertir falta de registros en consumo cero. |
-| Perímetros y suplementos | Seguir con registro manual mientras no exista un origen compatible verificado. |
+| Weight/body-fat percentage | Available observations with date/unit/source/stable identity |
+| Sleep | Preserve source sessions/phases before summary; avoid overlapping double count. Current JSON retains summary, not all phases |
+| Steps | Appropriate aggregation/explicit origin policy; do not sum phone/watch as separate activity. Android recommends cumulative-step `aggregate()` |
+| Pulse | Current contract accepts summaries; detailed sessions need timestamped samples/intervals/coverage model |
+| Meals | Known nutrients; missing remains absent, not zero consumption |
+| Circumferences/supplements | Manual until verified compatible source |
 
-[Lectura y agregación](https://developer.android.com/health-and-fitness/health-connect/read-data), [contrato actual de Klisteni](health-import.md).
+[Reading/aggregation](https://developer.android.com/health-and-fitness/health-connect/read-data),
+[current contract](health-import.md).
 
-La lista de Health Connect incluye `LeanBodyMassRecord`, pero no un tipo equivalente al campo de **masa muscular esquelética** de Klisteni; masa magra y músculo esquelético no son intercambiables. No rellenar `skeletalMuscleKg` con masa magra ni estimarlo por diferencia. [Tipos de Health Connect](https://developer.android.com/health-and-fitness/health-connect/data-types).
+Health Connect has `LeanBodyMassRecord`, no equivalent Klisteni **skeletal muscle
+mass** field. Lean mass/skeletal muscle are not interchangeable. Never fill
+`skeletalMuscleKg` with lean mass or difference estimate. [Data types](https://developer.android.com/health-and-fitness/health-connect/data-types).
 
-Samsung Health Data SDK sí expone `SKELETAL_MUSCLE_MASS` en kilogramos y otros campos de composición corporal. Es una alternativa posterior para una integración Samsung más completa, pendiente de comprobar datos reales. Para distribuir una app con ese SDK se requiere aprobación de Samsung y registro del paquete y su firma; el modo de desarrollo se limita a pruebas. [Composición corporal](https://developer.samsung.com/health/data/api-reference/-shd/com.samsung.android.sdk.health.data.request/-data-type/-body-composition-type/index.html), [proceso de Samsung](https://developer.samsung.com/health/data/process.html).
+Samsung Health Data SDK exposes `SKELETAL_MUSCLE_MASS` in kg/other composition
+fields: later alternative for fuller Samsung integration, actual-data verification
+pending. Distribution requires Samsung approval/package/signature registration;
+development mode tests only. [Body composition](https://developer.samsung.com/health/data/api-reference/-shd/com.samsung.android.sdk.health.data.request/-data-type/-body-composition-type/index.html),
+[Samsung process](https://developer.samsung.com/health/data/process.html).
 
-## Protocolo incremental pendiente
+<a id="protocolo-incremental-pendiente"></a>
 
-Health Connect entrega altas/correcciones mediante `UpsertionChange` y bajas mediante `DeletionChange`. Las bajas solo contienen el ID: hay que conservar la correspondencia con tipo y registro propio. Android recomienda tokens separados por tipo; un token sin usar caduca dentro de 30 días. Ante caducidad se necesita releer y reconciliar el rango accesible sin duplicados. [Cambios y recuperación](https://developer.android.com/health-and-fitness/health-connect/sync-data).
+## Pending incremental protocol
 
-Diseño propuesto para Klisteni:
+Health Connect adds/corrects through `UpsertionChange`, deletes through
+`DeletionChange`. Deletion contains only ID; retain type/own-record mapping.
+Android recommends per-type tokens; unused token expires within30 days. Expiry
+requires reread/reconciliation of accessible range without duplicates.
+[Changes/recovery](https://developer.android.com/health-and-fitness/health-connect/sync-data).
 
-- Obtener un cursor antes de la primera lectura, paginar el historial y procesar después los cambios ocurridos durante esa lectura. Guardar cada cursor solo después de persistir el lote o dejarlo en una cola durable que garantice su reenvío.
-- Identificar registros por cuenta, conexión, aplicación de origen, tipo e ID. Distinguir instante observado, modificación en origen y recepción. Enviar lotes idempotentes y devolver una confirmación verificable.
-- Guardar altas y cambios mediante operaciones incrementales, y conservar marcas de eliminación para evitar que un reintento restaure datos borrados. No sobrescribir notas o correcciones del usuario con un cambio del proveedor: mantener ambas capas o presentar el conflicto.
-- Al caducar un token, volver a leer una ventana autorizada y reconciliarla solo cuando la lectura sea completa. No inferir bajas por permisos revocados, páginas pendientes, ausencia de conexión ni datos fuera del rango legible; declarar la cobertura incompleta.
-- Pausar la categoría cuyo permiso se revocó; separar desconectar de borrar el historial ya guardado. Al cambiar de cuenta, aislar credenciales, cola y cursores para impedir que se envíen datos de una persona a otra.
+Proposed Klisteni design:
 
-El backend observado guarda el objeto `health` completo en `personal_state.settings` mediante `PUT /api/me/health` y una revisión esperada. El importador JSON rechaza una identidad de origen cuyo contenido cambió. Eso protege las ediciones actuales, pero **no implementa** un protocolo automático de correcciones/bajas del proveedor. Faltan emparejamiento y credenciales de dispositivo, ingestión incremental, identidades y versiones de origen estructuradas, marcas de eliminación de salud y estado persistente de sincronización. Las marcas de eliminación de entrenamientos existentes no cubren los registros de salud. Código: [ruta API](../apps/b2c-api/src/http.ts), [persistencia](../apps/b2c-api/src/state.ts), [importador](../apps/b2c-web/src/lib/health-import.ts).
+- Cursor before initial read; paginate history/process changes during read. Save
+  cursor only after batch persistence or durable guaranteed-redelivery queue.
+- Identify by account/connection/source app/type/ID; distinguish observation/source
+  modification/receipt. Idempotent batches/verifiable acknowledgment.
+- Incremental upserts/deletion tombstones prevent retries restoring deleted data.
+  Do not overwrite user notes/corrections with provider change: retain both layers
+  or expose conflict.
+- Expired token: reread authorized window/reconcile only complete read. Never infer
+  deletion from revoked permission/pending pages/offline/out-of-range data; declare
+  incomplete coverage.
+- Pause revoked category; separate disconnect/history deletion. Account change
+  isolates credentials/queue/cursors to prevent cross-person submission.
 
-## Google Health API y Google Fit
+Observed backend saves whole `health` in `personal_state.settings` through
+`PUT /api/me/health`/expected revision. JSON importer rejects changed content for
+same source identity. Protects current edits, **not** automatic provider correction/
+deletion protocol. Missing: device pairing/credentials, incremental ingestion,
+structured source identity/version, health tombstones/persisted sync state.
+Training tombstones do not cover health. [API](../apps/b2c-api/src/http.ts),
+[persistence](../apps/b2c-api/src/state.ts), [importer](../apps/b2c-web/src/lib/health-import.ts).
 
-Google Health API es una API cloud distinta, utiliza Google OAuth 2.0 y reemplaza la Fitbit Web API. Los permisos de salud son restringidos y requieren revisión. La documentación actual indica que **no se están incorporando proyectos nuevos**. Por eso no se adopta como dependencia de la primera integración. [Descripción](https://developers.google.com/health/about), [disponibilidad publicada](https://developers.google.com/health/get-started).
+<a id="google-health-api-y-google-fit"></a>
 
-No sería correcto afirmar que solo puede contener datos de Fitbit/Pixel Watch: la referencia también contempla datos provenientes de Health Connect. Si se abre el acceso, habrá que validar categorías, procedencia y cobertura Samsung realmente disponibles en esa cuenta antes de ofrecer la vía cloud. [Orígenes de Google Health API](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list).
+## Google Health API and Google Fit
 
-Google Fit no admite nuevas altas desde el 1 de mayo de 2024 y su retirada está anunciada para 2026; la FAQ consultada no fija un día exacto. Fitbit Web API finalizó soporte el 30 de septiembre de 2026 y tiene apagado previsto el 30 de octubre de 2026. No son la misma API ni el mismo calendario. [FAQ Google Fit](https://developer.android.com/health-and-fitness/health-connect/migration/fit/faq), [calendario Fitbit](https://developers.google.com/health/about).
+Separate Google OAuth2.0 cloud API replaces Fitbit Web API; restricted health
+permissions require review. At documented review, **new projects were not being
+onboarded**, so not initial dependency. [Overview](https://developers.google.com/health/about),
+[published availability](https://developers.google.com/health/get-started).
 
-## Verificación antes de habilitar la sincronización
+Not limited necessarily to Fitbit/Pixel Watch: reference includes Health Connect
+origin. If access opens, validate actual categories/provenance/Samsung coverage
+before offering cloud route. [Origins](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list).
 
-Probar con datos autorizados del teléfono: primera lectura y paginación, permiso parcial y revocado, histórico mayor a 30 días si está disponible, lote repetido, corrección y eliminación en origen, interrupción de red, token caducado, cierre/reinicio de la app y cambio de cuenta. Comparar muestras e intervalos contra Samsung Health y Health Connect, anotando qué campos no llegan. Confirmar que el dashboard solo marca guardado después de la respuesta de la API.
+Google Fit stopped new registration May1,2024; retirement announced for2026, no
+exact day in consulted FAQ. Fitbit Web API support ended September 30, 2026; shutdown
+planned October 30, 2026. Separate APIs/calendars. [Fit FAQ](https://developer.android.com/health-and-fitness/health-connect/migration/fit/faq),
+[Fitbit timeline](https://developers.google.com/health/about).
 
-Los gráficos personales utilizan datos de la cuenta para el propio usuario. La analítica de visitas del producto, como Umami, no debe recibir medidas, sueño, comidas, notas, objetivos, credenciales ni payloads del conector. Esto no impide analizar tendencias en el dashboard privado. El consentimiento de visitas y los permisos de sincronización son decisiones separadas.
+<a id="verificación-antes-de-habilitar-la-sincronización"></a>
 
-Las pruebas del JSON actual verifican el contrato de Klisteni; no demuestran conexión a Samsung, cobertura histórica ni precisión del reloj. Para la sincronización, los criterios anteriores siguen pendientes hasta implementar el puente y probarlo con hardware real.
+## Verification before enabling synchronization
+
+Authorized phone data: initial read/pagination/partial-revoked permissions/history
+>30 days where available/repeated batch/source correction-deletion/network interruption/
+expired token/app close-restart/account change. Compare samples/intervals against
+Samsung Health/Health Connect; record missing fields. Dashboard marks saved only
+on API acknowledgment.
+
+Private charts use account data for owner. Product visit analytics such as Umami
+must receive no measurements/sleep/meals/notes/goals/credentials/connector payload.
+Private trend analysis remains possible. Visit consent/sync permissions separate.
+
+Current JSON tests verify Klisteni contract, not Samsung connection/history coverage/
+watch accuracy. Sync criteria remain pending Android bridge/real hardware testing.

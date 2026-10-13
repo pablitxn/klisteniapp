@@ -1,60 +1,92 @@
-# Anatomía 3D de Klisteni: créditos y licencia
+<a id="anatomía-3d-de-klisteni-créditos-y-licencia"></a>
 
-Anatomía basada en **BodyParts3D**, The Database Center for Life Science, y **Z-Anatomy**, Gauthier Kervyn y colaboradores. Los FBX fueron distribuidos por **Lluís Vinent Juanico** en su aplicación Z-Anatomy. La adaptación anatómica de Klisteni se distribuye bajo **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
+# Klisteni 3D anatomy: credits and license
 
-- [Resumen y condiciones de CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- [Texto completo de la licencia, incluido con estos archivos](./LICENSE-anatomy.txt).
-- [Z-Anatomy: modelos, autores y créditos](https://github.com/Z-Anatomy/Models-of-human-anatomy).
-- [Avisos originales de atribución y componentes](https://github.com/Z-Anatomy/Models-of-human-anatomy/blob/master/License.txt).
-- [Repositorio de la distribución FBX](https://github.com/LluisV/Z-Anatomy/tree/6c7f9016bd5899ac8edafd31b9900c151df42ed6).
-- [Licencia de esa distribución](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/LICENSE).
+Based on **BodyParts 3D**, The Database Center for Life Science, and **Z-Anatomy**,
+Gauthier Kervyn and contributors. FBX distributed by **Lluís Vinent Juanico** through
+Z-Anatomy application. Klisteni adaptation under **Creative Commons
+Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
 
-## Fuentes fijadas
+- [License summary/conditions](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Included full license](./LICENSE-anatomy.txt).
+- [Z-Anatomy models/authors](https://github.com/Z-Anatomy/Models-of-human-anatomy).
+- [Original attribution/component notices](https://github.com/Z-Anatomy/Models-of-human-anatomy/blob/master/License.txt).
+- [Pinned FBX repository](https://github.com/LluisV/Z-Anatomy/tree/6c7f9016bd5899ac8edafd31b9900c151df42ed6).
+- [Distribution license](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/LICENSE).
 
-Revisión de origen: `6c7f9016bd5899ac8edafd31b9900c151df42ed6`. Los tres sistemas proceden de la misma revisión y comparten coordenadas:
+<a id="fuentes-fijadas"></a>
+
+## Pinned sources
+
+Revision `6c7f9016bd5899ac8edafd31b9900c151df42ed6`, three registered-coordinate systems:
 
 - [MuscularSystem100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/MuscularSystem100.fbx).
 - [SkeletalSystem100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/SkeletalSystem100.fbx).
 - [Regions of human body100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/Regions%20of%20human%20body100.fbx).
 
-## Atribución conservada
+<a id="atribución-conservada"></a>
 
-Los créditos de Z-Anatomy incluyen estos avisos históricos:
+## Retained attribution
+
+Original historical Z-Anatomy notices preserved:
 
 > BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan
 
 > Z-Anatomy - The libre 3D atlas of anatomy - CC-BY-SA 4.0
 
-El [archivo oficial de BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html) informa de una actualización a CC BY 4.0 el 27 de febrero de 2025, y solicita el crédito “BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International”. Esa actualización no elimina ShareAlike de las modificaciones de Z-Anatomy usadas aquí: la adaptación se mantiene bajo CC BY-SA 4.0.
+[Official BodyParts3D archive](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html)
+records February27,2025 CC BY4.0 update and requested original credit:
+“BodyParts3D, © The Database Center for Life Science licensed under CC Attribution
+4.0 International”. This does not remove ShareAlike from used Z-Anatomy modifications;
+adaptation remains CC BY-SA4.0.
 
-## Adaptación y alcance
+<a id="adaptación-y-alcance"></a>
 
-### Variantes corporales de visualización
+## Adaptation and scope
 
-La opción **Hombre** mantiene la geometría de referencia descrita abajo. La opción **Mujer** es una adaptación paramétrica ilustrativa de esa misma fuente: modifica suavemente las proporciones de hombros, cintura y pelvis en piel, músculos, huesos y referencias articulares, y añade un contorno externo de pecho únicamente a la piel. La estatura normalizada se mantiene. No añade órganos ni datos anatómicos femeninos independientes y no constituye un atlas femenino clínicamente validado. Los parámetros son decisiones gráficas, no mediciones de una población ni de la persona usuaria.
+<a id="variantes-corporales-de-visualización"></a>
 
-La adaptación se calcula en `packages/anatomy-viewer/src/anatomy-variants.ts`; el GLB y el archivo Blender de origen se conservan sin cambios. Los apoyos se recalculan a partir de la superficie adaptada. Los GIFs, WebP y miniaturas de ambas variantes son capturas del mismo renderer; sus manifiestos registran la variante, fuentes y hashes. Estas adaptaciones y sus capturas conservan la atribución y la licencia CC BY-SA 4.0 de los datos anatómicos. Elegir una variante es una preferencia visual y no cambia la prescripción de ejercicio ni los datos de salud.
+### Display body variants
 
-### Geometría base
+**Hombre** reference geometry below;**Mujer** illustrative parametric source adaptation,
+smooth shoulder-waist-pelvis field across skin-muscles-bones-joints,external chest
+contour skin-only,same normalized height. No organs/independent female data/clinical
+female atlas. Parameters graphics choices,not population/user measurements.
+`packages/anatomy-viewer/src/anatomy-variants.ts` reproducible adaptation;original
+GLB/Blender unchanged,supports recomputed adapted surface. GIF-WebP-thumbnails same
+renderer,manifest variant/sources/hashes,credits/CC BY-SA4.0 retained. Visual choice
+not exercise prescription/health data.
 
-La variante Mujer sustituye además los detalles genitales masculinos de la piel por dos superficies pélvicas neutras, trianguladas a partir de los bordes externos originales. `anatomy-variant-surface.ts` conserva esos bordes y documenta la modificación; las superficies se etiquetan como ilustrativas y no representan órganos femeninos. La descripción de conservación de coordenadas y caras siguientes corresponde a la geometría base.
+<a id="geometría-base"></a>
 
-Klisteni adapta estas fuentes para una visualización educativa en la web. El archivo [anatomy.glb](./anatomy.glb) está acompañado de un [manifiesto de procedencia y optimización](./anatomy-manifest.json) con los SHA-256 de las descargas, coordenadas, recuentos y cambios. La adaptación comprende:
+### Base geometry
 
-- Selección de estructuras; retirada de marcadores, geometría auxiliar, fascias, bursas, vainas y huesecillos auditivos.
-- Conservación de las caras exteriores originales de la superficie corporal y retirada de sus caras internas de cierre `Skin-in`.
-- Conversión FBX a GLB y transformación global común de los tres sistemas: altura de visualización de 1,80 m, suelo en el origen y eje vertical de glTF. La altura es una normalización gráfica, no la talla de la persona usuaria.
-- Reducción adaptativa de polígonos en músculos y huesos; conservación de la superficie exterior sin decimación.
-- Colores de visualización de tejidos, conservando la distinción de caras de tendón, y organización por grupos educativos.
+Female variant additionally replaces source male genital skin details with two
+neutral pelvic surfaces triangulated from original outer boundaries.
+anatomy-variant-surface.ts retains/document boundaries,labels illustrative/not
+female organs. Coordinate-face preservation below describes base.
 
-La superficie exterior procede del mismo atlas que músculos y huesos. No hay ajuste de partes a otro cuerpo mediante escalas independientes. El [archivo de referencias articulares](./rig-landmarks.json) identifica por separado los puntos seleccionados para el movimiento ilustrativo.
+Educational adaptation [anatomy.glb](./anatomy.glb),[provenance/optimization manifest](./anatomy-manifest.json)
+source SHA-256/coordinates/counts/changes:
 
-Al preparar el modelo en el navegador se comparten pesos de animación entre regiones de piel y se subdividen caras en encuentros coincidentes de borde, conservando las posiciones de referencia. No se rellenan huecos ni se crea una superficie corporal nueva. Los bordes axilares identificados comparten una deformación local sin soldar las pequeñas separaciones de la fuente. El rig añade movimiento educativo de las escápulas para la W y referencias de apoyo calculadas desde la superficie para cabeza y palmas; no representa una simulación de contacto o una validación clínica.
+- Selected structures;removed markers/auxiliary/fascia/bursae/sheaths/auditory ossicles.
+- Original outer skin faces retained,internal Skin-in closures removed.
+- FBX→GLB/common global1.80m/floor origin/glTF vertical,graphical not user height.
+- Adaptive muscle-bone decimation,undecimated external surface.
+- Tissue colors/tendon face distinction/educational grouping.
 
-El subconjunto no incorpora los modelos independientes de riñón u oído interno que los créditos de Z-Anatomy identifican con licencias no comerciales. No se incorporan las definiciones ni las traducciones automáticas de Wikipedia distribuidas por el proyecto. La licencia de los datos anatómicos es independiente de la licencia del código de la aplicación.
+Same atlas skin-muscles-bones,no independent scale-to-other-body.[Joint landmarks](./rig-landmarks.json)
+separately selected illustrative motion references. Browser shared skin weights/
+coincident-edge subdivisions preserve reference positions,no gap filling/new body.
+Axillary local deformation without welding source gaps. Educational W scapula/head-
+palm surface supports,not contact simulation/clinical validation.
 
-La superficie muestra regiones corporales; no es una representación histológica de las capas de la piel. El artículo original describe una base TARO de resonancia magnética con intervalos de 2 mm y posteriores segmentaciones y reconstrucciones por ilustradores médicos. Ese espaciado **no es una garantía de precisión de 2 mm del modelo actual**. [Mitsuhashi et al., *BodyParts3D: 3D structure database for anatomical concepts*, DOI 10.1093/nar/gkn613](https://pmc.ncbi.nlm.nih.gov/articles/PMC2686534/).
+Excluded independent noncommercial kidney/inner-ear models cited by source;no
+Wikipedia definitions/machine translations. Anatomy license independent code.
+Skin regions not histological layers. Original TARO MRI2mm spacing plus medical-
+illustrator segmentation/reconstruction,**not current2mm accuracy guarantee**.
+[Mitsuhashi et al., BodyParts3D: 3D structure database for anatomical concepts, DOI10.1093/nar/gkn613](https://pmc.ncbi.nlm.nih.gov/articles/PMC2686534/).
 
-El detalle anatómico permite estudiar forma y ubicación. Las poses, deformaciones y colores de ejercicio son recursos didácticos de Klisteni: no constituyen una simulación biomecánica validada, una medición de activación muscular ni una evaluación clínica. El modelo no representa las dimensiones de la persona usuaria. No se implica aprobación de Klisteni por los autores originales.
-
-Aviso actualizado el 3 de octubre de 2026.
+Detail aids shape/location;app poses/deformations/colors educational,not validated
+biomechanics/activation/clinical assessment/user dimensions/original-author endorsement.
+Original notice updated October3,2026;English editorial translation October13,2026.
