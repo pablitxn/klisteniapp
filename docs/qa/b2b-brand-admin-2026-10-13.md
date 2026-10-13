@@ -2,7 +2,7 @@
 
 **Completado: 108 grupos UI únicos aprobados** (27 por perfil), mediante las pasadas y reejecuciones detalladas abajo. Lint, tipos, 587 tests (API B2B 77/77 incluida) y build B2B aprobados. Ocho problemas corregidos en commits locales; ningún bloqueo activo. La matriz conserva explícitamente lo no ejecutado.
 
-Código final probado: `a87daf4f8460e6dd710defca8bea57b0f8bf9414`. Base: `7172041102a8a7029af5fb3e2527a1fa51611a86`; rama `qa/b2b-brand-admin-20261013`. Los commits de evidencia posteriores sólo completan este reporte y sus artefactos.
+Código final probado: `a87daf4f8460e6dd710defca8bea57b0f8bf9414`. Base: `7172041102a8a7029af5fb3e2527a1fa51611a86`; rama `qa/b2b-brand-admin-20261013`. Los commits de evidencia completan el reporte y sus artefactos. El relevo posterior desactiva la excepción TLS del config sin repetir la batería; los resultados de navegador siguen correspondiendo al protocolo histórico documentado abajo.
 
 ## Revisión y aislamiento
 
@@ -26,7 +26,13 @@ Son pruebas de motores con emulación, no dispositivos físicos iPhone/Android n
 
 Playwright 1.63.0; Node 24.19.0; pnpm 12.7.0 (el pnpm del PATH general era 11.25.0; se usó el instalado en `/workspace/.onboarding/tools/node_modules/.bin`). La descarga de Chromium de Playwright recibió 403; se usó el Chromium disponible. WebKit y FFmpeg se descargaron por el mirror alternativo oficial. Faltaban librerías: se descargaron paquetes Debian y se extrajeron en `/workspace/.cache/webkit-deps`, sin instalación del sistema. El launcher local conserva las rutas del bundle y añade esa carpeta de librerías. El smoke real del motor mostró `26.6 Engine ready`.
 
-Los orígenes HTTPS de prueba se resuelven mediante un proxy CONNECT loopback. `ignoreHTTPSErrors: true` limita esta batería a UI, permisos, cookies y persistencia; **no acredita confianza TLS de un dispositivo ni del sistema**. No se modificó el trust store. Hay suites WL anteriores de TLS estricto, que tienen evidencia separada.
+Protocolo realmente utilizado en esta tanda: navegador → proxy HTTP CONNECT `127.0.0.1:4350` para WebKit → gateway HTTPS/TLS `127.0.0.1:4448` → API HTTP interna `127.0.0.1:4449`. URLs de navegador: `https://atlas.b2b.test` y `https://sur.b2b.test`. El certificado de fixture era autofirmado por una CA local desechable. Los tres proyectos Chromium usaron el mismo esquema con sus puertos propios.
+
+**Los cuatro proyectos usaron `ignoreHTTPSErrors: true` durante las pruebas históricas.** Se omitió el rechazo del navegador por errores de certificado; la evidencia no acredita validación de cadena/CA, identidad TLS del servidor ni confianza del sistema. No se modificó el trust store en esta tanda. WebKit fue WPE Linux 26.6 mediante el protocolo de automatización Playwright `--inspector-pipe`, con viewport táctil emulado; no Safari/iOS físico.
+
+La evidencia histórica WL del 11/10 tiene otro protocolo: `playwright.white-label.config.ts` usa `ignoreHTTPSErrors: false`, pero Chromium contiene `--ignore-certificate-errors-spki-list` para el certificado exacto de fixture; la guía runtime documenta confianza temporal de una CA para WebKit. Son una excepción SPKI y un cambio temporal de confianza, respectivamente; no deben presentarse como certificados públicos válidos ni atribuirse a esta tanda.
+
+**Regla de relevo para pruebas futuras:** HTTP loopback aislado o HTTPS con certificado válido y confianza ya existente. Prohibidos `ignoreHTTPSErrors`, excepciones SPKI, `NODE_TLS_REJECT_UNAUTHORIZED=0` y cambios de confianza del navegador/sistema. El config de esta rama ahora fija `ignoreHTTPSErrors: false`; no fue reejecutado por instrucción del usuario. La fixture HTTPS autofirmada actual no habilita una nueva corrida bajo esa regla: primero debe adaptarse el escenario a una de las dos alternativas permitidas.
 
 ## Inventario previo de rutas y acciones
 
@@ -141,11 +147,11 @@ Los tres fallos de retiro de asignaciones de la primera pasada completa se debí
 
 Se respetó el rate limit: el helper espera `retry-after` cuando aparece 429. No se apagó ni rebajó el límite. Los intentos de desarrollo tuvieron errores de selectores/fixtures que se corrigieron (nombres de unidades con dos dígitos, forma del snapshot de asignación, botón de comparación del website, tipo de PNG y actualización asíncrona de módulos); no son bugs del producto. Un intento concurrente del runner falló por puerto ocupado y afectó artefactos intermedios; se repitió la evidencia definitiva en serie. Los baselines de bugs y el reporte final se conservan separados. El último cierre incluye también el arreglo de campo de cabecera y de botones de vuelta; todos sus recorridos afectados se repitieron. No hay bugs reproducidos de esta tanda pendientes de corrección. Las variantes NOT RUN siguen abiertas para otra tanda.
 
-## Reproducir y preparar la revisión manual
+## Setup histórico y preparación de una revisión futura
 
 1. Instalar Node 24 y la versión pnpm declarada; `pnpm install --frozen-lockfile --ignore-scripts`. Preparar PostgreSQL local de desarrollo con `pnpm setup:dev` y `docker compose up -d`. Crear una base **nueva desechable** con nombre `klisteni_b2b_test`; exportar `B2B_TEST_DATABASE_URL` con conexión local y permiso de crear schemas. Ninguna credencial de producción es necesaria.
 2. Instalar los navegadores de Playwright o definir `QA_CHROMIUM_PATH` al Chromium disponible. En este Cloud WebKit usa `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright` y `QA_WEBKIT_PATH=/workspace/.cache/webkit-deps/webkit-local.sh`.
-3. Ejecutar desde la raíz, en serie:
+3. Estos comandos registran la invocación histórica. Para una nueva corrida, adaptar antes el escenario a HTTP loopback aislado o HTTPS con certificado válido, sin excepciones de certificado ni modificaciones de confianza:
 
    ```sh
    QA_ARTIFACT_GROUP=chromium pnpm --filter @klisteniapp/b2c-web exec playwright test \
@@ -157,7 +163,7 @@ Se respetó el rate limit: el helper espera `retry-after` cuando aparece 429. No
      --config playwright.brand-admin.config.ts --project admin-webkit-touch
    ```
 
-4. Para mantener el escenario abierto: `pnpm build:b2b`, luego `node scripts/b2b-wl-e2e-server.mjs` con esa URL de DB exportada. Los schemas y medios se crean de cero y se eliminan al Ctrl-C. Se puede abrir Chromium con un perfil separado y proxy `http://127.0.0.1:4342`. Usar `https://atlas.b2b.test/manage` y `https://sur.b2b.test/manage`; no dominios reales. Para confianza TLS, el certificado de fixture tiene un SPKI imprimible con `whiteLabelTLS().spki`; limitar la excepción a ese certificado en ese perfil, sin cambios de trust store.
+4. Arranque histórico del escenario (no habilita confianza TLS para una nueva prueba): `pnpm build:b2b`, luego `node scripts/b2b-wl-e2e-server.mjs` con esa URL de DB exportada. Los schemas y medios se crean de cero y se eliminan al Ctrl-C. Se puede abrir Chromium con un perfil separado y proxy `http://127.0.0.1:4342`. Usar `https://atlas.b2b.test/manage` y `https://sur.b2b.test/manage`; no dominios reales. Para una revisión nueva, usar un escenario HTTP loopback aislado o certificados HTTPS válidos; no reutilizar excepciones SPKI ni instalar la CA de fixture.
 5. Usuarios ficticios: `admin@atlas.example.test`, `admin@sur.example.test`; coaches y miembros están en `seedWhiteLabelDemo`. Contraseña exclusiva del fixture: `browser-tests-only-password-2026`. No corresponde a ninguna cuenta real. No reutilizarla fuera de esta demo.
 6. Los reportes están en `.cache/brand-admin/<grupo>/report/index.html`; `playwright show-trace /ruta/trace.zip` permite reproducir DOM, interacciones y red. Traces incluyen credenciales/tokens **sintéticos**; conservarlos como evidencia de pruebas locales, no mezclarlos con capturas de producción.
 
@@ -206,3 +212,7 @@ Pasadas principales conservadas:
 | `closeout-affected` | 16/16 | Cuatro recorridos afectados en los cuatro perfiles, sobre el cierre de código |
 
 El conteo final toma **sólo el último resultado de cada par flujo/proyecto**. No transforma una corrida fallida en verde ni oculta sus archivos. Browser schemas restantes después del cierre: **0**, verificados mediante una consulta read-only sobre la base local de test. No se conservaron datos de esos schemas; el escenario manual se vuelve a sembrar con el runner.
+
+## Relevo Git
+
+El bundle incremental de código transporta todos los commits desde la base `7172041102a8a7029af5fb3e2527a1fa51611a86` hasta el HEAD de esta rama. Incluye el árbol versionado completo (código, tests, documentos y capturas pequeñas), pero excluye el archivo externo de evidencia de 389 MiB, bases, certificados, secretos, node_modules y cachés. Su restauración se verifica en un clon descartable que inicialmente contiene sólo la base: ausencia del commit final antes de importar, `git bundle verify`, importación de la rama, igualdad de HEAD/tree y archivos tracked byte a byte. La constancia y hashes se entregan junto al bundle, fuera del árbol Git para evitar autorreferencias. No se repite la batería ni se publica la rama/PR.

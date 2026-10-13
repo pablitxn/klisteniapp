@@ -1,7 +1,9 @@
 import { defineConfig } from '@playwright/test'
 import { fileURLToPath } from 'node:url'
 
-// QA role suite: local TLS test domains only. No system trust-store changes.
+// Historical QA used a self-signed fixture with TLS validation omitted.
+// Future runs require valid HTTPS certificates or a separate HTTP loopback fixture.
+// Do not bypass certificate checks or change the system/browser trust store.
 const root = fileURLToPath(new URL('../..', import.meta.url))
 const group = process.env.QA_ARTIFACT_GROUP ?? ''
 if (group && !/^[a-z0-9-]+$/.test(group)) throw new Error('Invalid QA_ARTIFACT_GROUP')
@@ -27,7 +29,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://atlas.b2b.test',
     actionTimeout: 15_000,
-    ignoreHTTPSErrors: true,
+    ignoreHTTPSErrors: false,
     reducedMotion: 'reduce',
     locale: 'es-AR',
     timezoneId: 'UTC',
