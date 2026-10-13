@@ -2,6 +2,9 @@ import { defineConfig } from '@playwright/test'
 import { fileURLToPath } from 'node:url'
 const root = fileURLToPath(new URL('../..', import.meta.url))
 const role = process.env.QA_INTEGRATION_ROLE ?? 'member'
+const offset = Number(process.env.QA_INTEGRATION_PORT_OFFSET ?? 0)
+if (!Number.isInteger(offset) || offset < 0 || offset > 4000)
+  throw new Error('Invalid integration port offset')
 const matches: Record<string, string | string[]> = {
   member: 'member-qa.spec.ts',
   trainer: 'b2b-trainer.spec.ts',
@@ -52,13 +55,15 @@ export default defineConfig({
   },
   projects: views.map((view, index) => ({
     name: `${role}-${view.name}`,
-    metadata: { fixtureIndex: index, protocol: 'http' },
+    metadata: { fixtureIndex: index, protocol: 'http', fixtureControlPort: 4348 + offset },
     use: {
       browserName: view.engine as 'chromium' | 'webkit',
       viewport: { width: view.width, height: view.height },
       hasTouch: view.touch,
       isMobile: view.touch,
-      proxy: { server: `http://127.0.0.1:${[4342, 4344, 4346, 4350, 4352, 4354][index]}` },
+      proxy: {
+        server: `http://127.0.0.1:${[4342, 4344, 4346, 4350, 4352, 4354][index]! + offset}`,
+      },
       launchOptions: {
         executablePath:
           view.engine === 'chromium'
@@ -69,9 +74,11 @@ export default defineConfig({
   })),
   webServer: {
     command:
-      'pnpm --filter @klisteniapp/b2b-web build && node scripts/b2b-integration-e2e-server.mjs',
+      process.env.QA_INTEGRATION_USE_BUILT === '1'
+        ? 'node scripts/b2b-integration-e2e-server.mjs'
+        : 'pnpm --filter @klisteniapp/b2b-web build && node scripts/b2b-integration-e2e-server.mjs',
     cwd: root,
-    url: 'http://127.0.0.1:4348/',
+    url: `http://127.0.0.1:${4348 + offset}/`,
     timeout: 180_000,
     reuseExistingServer: false,
     gracefulShutdown: { signal: 'SIGTERM', timeout: 15000 },

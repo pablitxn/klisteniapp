@@ -20,15 +20,19 @@ import { seedWhiteLabelDemo } from '../apps/b2b-api/src/white-label-demo.ts'
 const requireApi = createRequire(new URL('../apps/b2b-api/package.json', import.meta.url))
 const { Pool } = requireApi('pg')
 const source = process.env.B2B_TEST_DATABASE_URL
+const offset = Number(process.env.QA_INTEGRATION_PORT_OFFSET ?? 0)
+if (!Number.isInteger(offset) || offset < 0 || offset > 4000)
+  throw new Error('Invalid integration port offset')
 if (!source) throw new Error('Set B2B_TEST_DATABASE_URL to a dedicated disposable database.')
 const sourceUrl = new URL(source)
 if (
   !/^postgres(?:ql)?:$/.test(sourceUrl.protocol) ||
+  !['localhost', '127.0.0.1', '[::1]'].includes(sourceUrl.hostname) ||
   !/(?:b2b.*test|test.*b2b)/i.test(decodeURIComponent(sourceUrl.pathname)) ||
   sourceUrl.searchParams.has('options')
 )
   throw new Error(
-    'Refusing white-label tests: dedicated b2b/test database without connection options required.',
+    'Refusing integration tests: dedicated loopback b2b/test database without connection options required.',
   )
 const owner = new Pool({ connectionString: source })
 const environments = []
@@ -98,9 +102,11 @@ async function listen(server, port) {
   })
 }
 try {
-  for (const [index, proxyPort] of [4342, 4344, 4346, 4350, 4352, 4354].entries()) {
+  for (const [index, proxyPort] of [4342, 4344, 4346, 4350, 4352, 4354]
+    .map((port) => port + offset)
+    .entries()) {
     const protocol = 'http'
-    const gatewayPort = 4542 + index * 2,
+    const gatewayPort = 4542 + offset + index * 2,
       apiPort = gatewayPort + 1
     const environment = {
       schema: `${process.env.QA_INTEGRATION_ROLE === 'trainer' ? 'b2b_trainer_browser' : 'b2b_wl_browser'}_${randomUUID().replaceAll('-', '')}`,
@@ -146,10 +152,11 @@ try {
       )
     }
     fixtureMap[proxyPort] = environment.schema
-    writeFileSync(
-      new URL('../.cache/trainer/fixture-map.json', import.meta.url),
-      JSON.stringify(fixtureMap),
-    )
+    if (process.env.QA_INTEGRATION_ROLE === 'trainer')
+      writeFileSync(
+        new URL('../.cache/trainer/fixture-map.json', import.meta.url),
+        JSON.stringify(fixtureMap),
+      )
     await pool.query(`INSERT INTO b2b_domain(host,organization_id,status,primary_domain,verified_at,dns_verified_at,tls_verified_at,tls_expires_at,verification_evidence)
       VALUES('alias.b2b.test','atlas-demo','active',false,now(),now(),now(),now()+interval '1 day','isolated alias fixture only')`)
     const server = (environment.server = createApiServer({ config, pool, auth }))
@@ -237,7 +244,7 @@ try {
     await listen(proxy, proxyPort)
     console.info(`Integration HTTP environment ready via loopback proxy ${proxyPort}.`)
   }
-  await listen(readiness, 4348)
+  await listen(readiness, 4348 + offset)
 } catch (error) {
   console.error(
     error instanceof Error
