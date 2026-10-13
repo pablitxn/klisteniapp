@@ -227,7 +227,10 @@ test('real account import limits and malformed health files fail before any pers
 })
 
 test('real yoga editor cancellation, reorder, pause, partial save and lost committed log response', async ({ page }, info) => {
+  // Freeze between explicit advances: install alone keeps real time ticking,
+  // which made exact elapsed assertions depend on browser/CPU latency.
   await page.clock.install()
+  await page.clock.pauseAt(new Date(Date.now() + 60_000))
   await login(page, 'QAYoga')
   await nav(page, 'Yoga')
   await page.getByRole('navigation', { name: 'Secciones de yoga' }).getByRole('button', { name: 'Mis prácticas' }).click()
