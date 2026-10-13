@@ -89,8 +89,7 @@ export class WhiteLabelService {
         published_version: number;
         website: boolean;
       }>(
-        `SELECT o.id,o.slug,t.published,t.published_version,EXISTS(SELECT 1 FROM b2b_branch b WHERE b.organization_id=o.id AND b.status='active' AND b.public AND b.published IS NOT NULL AND b.published_profile IS NOT NULL
-        AND NOT EXISTS(SELECT 1 FROM b2b_branch_module bm WHERE bm.organization_id=b.organization_id AND bm.branch_id=b.id AND bm.module='website' AND NOT bm.enabled)) website
+        `SELECT o.id,o.slug,t.published,t.published_version,EXISTS(SELECT 1 FROM b2b_website w WHERE w.organization_id=o.id AND w.published IS NOT NULL) website
        FROM b2b_organization o JOIN b2b_theme t ON t.organization_id=o.id WHERE o.id=$1`,
         [domain.organizationId],
       )

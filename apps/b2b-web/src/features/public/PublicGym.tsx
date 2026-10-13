@@ -1,5 +1,5 @@
 import { b2bClient } from '@klisteniapp/b2b-client'
-import type { PublicSite, PublicUnit } from '@klisteniapp/b2b-contracts'
+import type { BrandContext, PublicSite, PublicUnit } from '@klisteniapp/b2b-contracts'
 import { useLoad } from '@klisteniapp/b2b-react'
 import { Notice, Shell } from '@klisteniapp/b2b-ui'
 import { ContentMedia, FloorPlan } from '@klisteniapp/b2b-ui/content'
@@ -86,12 +86,14 @@ export function PublicGym({
   branchSlug,
   branchId,
   themeColor,
+  branches,
 }: {
   slug: string
   unitId?: string
   branchSlug?: string
   branchId?: string
   themeColor?: string
+  branches?: BrandContext['branches']
 }) {
   const { data, error, loading, reload } = useLoad<PublicSite | PublicUnit>((signal) => {
     const client = b2bClient.withSignal(signal)
@@ -100,7 +102,12 @@ export function PublicGym({
   const brand = data?.organization.brand
   const unit = data && 'unit' in data ? data : null
   const site = data && 'website' in data ? data : null
-  const memberUrl = `/login?gym=${encodeURIComponent(slug)}${branchId ? `&branch=${encodeURIComponent(branchId)}` : ''}`
+  const selectedBranchId = unit?.unit.branchId ?? branchId
+  const selectedBranch = branches?.find((branch) => branch.id === selectedBranchId)
+  const memberUrl = `/login?gym=${encodeURIComponent(slug)}${selectedBranchId ? `&branch=${encodeURIComponent(selectedBranchId)}` : ''}`
+  const gymUrl = selectedBranch
+    ? `/sedes/${encodeURIComponent(selectedBranch.slug)}`
+    : `/g/${encodeURIComponent(slug)}`
 
   return (
     <Shell
@@ -139,7 +146,7 @@ export function PublicGym({
                     'Movete con acompañamiento, a tu ritmo. Descubrí nuestro espacio y encontrá tu próxima rutina.'}
               </p>
               {unit ? (
-                <a className="button" href={`/g/${slug}`}>
+                <a className="button" href={gymUrl}>
                   Ver el gimnasio
                 </a>
               ) : (

@@ -10,7 +10,7 @@ export function BrandEntry({ context }: { context: BrandContext }) {
       context.websitePublished
         ? b2bClient.withSignal(signal).public.site(context.organization.slug)
         : Promise.resolve(null),
-    context.organization.id,
+    `${context.organization.id}/${context.websitePublished}`,
   )
   return (
     <Shell
@@ -39,6 +39,11 @@ export function BrandEntry({ context }: { context: BrandContext }) {
       </section>
       <section style={{ marginTop: 30 }}>
         <Notice error>{website.error}</Notice>
+        {website.error && (
+          <button className="button" onClick={website.reload}>
+            Reintentar
+          </button>
+        )}
         <h2>Nuestras sedes</h2>
         <div className="grid two">
           {context.branches.map((branch) => (
