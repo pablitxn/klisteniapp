@@ -15,7 +15,7 @@ for (const project of projects) {
   const output = resolve(root, project)
   await mkdir(output, { recursive: true })
   const code = await new Promise((done, reject) => {
-    const child = spawn('pnpm', ['--filter', '@klisteniapp/b2c-web', 'exec', 'playwright', 'test', '--config=playwright.b2c-qa.config.ts', `--project=${project}`], {
+    const child = spawn('pnpm', ['--filter', '@klisteniapp/b2c-web', 'exec', 'playwright', 'test', `--config=${process.env.B2C_QA_CONFIG ?? 'playwright.b2c-qa.config.ts'}`, `--project=${project}`, ...(process.env.B2C_QA_GREP ? ['--grep', process.env.B2C_QA_GREP] : [])], {
       stdio: 'inherit', env: { ...process.env, B2C_QA_OUTPUT: output, B2C_QA_REPORT: resolve(output, 'report.json') },
     })
     child.once('error', reject)

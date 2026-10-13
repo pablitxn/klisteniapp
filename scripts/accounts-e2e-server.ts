@@ -18,8 +18,8 @@ scopedUrl.searchParams.set('options', `-c search_path=${schema}`);
 const config = readConfig({
   DATABASE_URL: scopedUrl.toString(),
   BETTER_AUTH_SECRET: 'accounts-browser-tests-only-secret-do-not-use-in-production',
-  APP_ORIGIN: 'http://127.0.0.1:4181',
-  HOST: '127.0.0.1', PORT: '4182', NODE_ENV: 'test',
+  APP_ORIGIN: process.env.B2C_QA_WEB_ORIGIN ?? 'http://127.0.0.1:4181',
+  HOST: '127.0.0.1', PORT: process.env.B2C_QA_API_PORT ?? '4182', NODE_ENV: 'test',
   // Each browser uses a documentation-range IP to retain the real per-IP limiter
   // without unrelated tests consuming one localhost login allowance.
   TRUSTED_CLIENT_IP_HEADER: 'x-klisteniapp-test-client-ip',
@@ -70,7 +70,7 @@ try {
     server.once('error', reject);
     server.listen(config.port, config.host, resolve);
   });
-  console.info('Accounts browser fixture ready on 127.0.0.1:4182 with an isolated database schema');
+  console.info(`Accounts browser fixture ready on 127.0.0.1:${config.port} with an isolated database schema`);
 } catch (error) {
   console.error('Accounts browser fixture failed:', error instanceof Error ? error.message : 'unknown error');
   process.exitCode = 1;
