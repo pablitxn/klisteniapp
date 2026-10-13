@@ -1,10 +1,10 @@
 # Integración de las siete tandas QA — Klisteniapp
 
-**Checkpoint de revisión: QA final de administrador B2B en curso.** Las otras seis matrices están completas. Estado actual por combinación: [matrix.json](matrix.json); tabla legible de todos los flujos: [flows.md](flows.md). Los resultados se actualizarán al terminar la ejecución pendiente. No hay merge ni deploy.
+**Integración comprobada: 1164/1164 combinaciones PASS consolidadas en siete roles.** Estado por combinación e historial completo: [matrix.json](matrix.json); tabla legible: [flows.md](flows.md). Hay 828 casos con API/PostgreSQL, 120 contratos UI simulados y 216 recorridos de storage local. Los intentos fallidos siguen registrados. Rama publicada; PR draft bloqueado por revisión automática, pendiente de autorización explícita. No hay merge ni deploy.
 
 ## Fuentes y trazabilidad
 
-Base común y `origin/main` verificados: `7172041102a8a7029af5fb3e2527a1fa51611a86`. Worktree independiente `/workspace/klisteni-integration-20261013`, rama `qa/klisteni-integration-20261013`. Código/harness final comprobado: `06a13eef770ca3419c1897651496e6f9df4e6986`; producto combinado de las siete fuentes: merge `4f903962094bcc7069891d7aba7ad8683544d44c`. Los commits posteriores cambian fixtures, pruebas y documentación; no agregan decisiones de producto.
+Base común y `origin/main` verificados: `7172041102a8a7029af5fb3e2527a1fa51611a86`. Worktree independiente `/workspace/klisteni-integration-20261013`, rama `qa/klisteni-integration-20261013`. Código/harness final comprobado: `2822decd496bb51bf5ae1b2e321746c858ba0af7`; producto combinado de las siete fuentes: merge `4f903962094bcc7069891d7aba7ad8683544d44c`. Los commits posteriores cambian fixtures, pruebas y documentación; no agregan decisiones de producto.
 
 | Rol | Rama fuente | SHA | PR |
 | --- | --- | --- | --- |
@@ -46,6 +46,7 @@ No se detectó un defecto de producto nuevo confirmado en la integración. Los f
 - Video WebKit: faltaba decoder H.264. `gstreamer1.0-libav`/tools se descargaron y extrajeron en `/workspace/.cache/qa-codecs`, sin instalación del sistema. Wrapper local con plugin/registro/cache propios; reproducción con avance de `currentTime` pasó 3/3, luego se repitieron los 126 casos WebKit anónimos.
 - DB: una introspección de catálogo Kysely coincidió con DROP SCHEMA de tests unitarios y falló el arranque de una fixture. Se usó otra DB desechable para la repetición anónima. La introspección filtra el schema de destino; el fallo no demuestra cruce de datos. Para ejecuciones concurrentes, usar DB propia por rol además de schemas UUID.
 - Build: ejecutar build global sobre el `dist` servido produjo un chunk PeoplePage 404 en un navegador ya abierto. El gateway de desarrollo ahora acepta `builtDirectory`; el fixture copia el build a un directorio temporal fijo antes de servirlo. Regresión real verifica que reemplazar el build compartido no elimina el chunk de la copia. El comportamiento por defecto y las fronteras de proxy permanecen comprobados.
+- Navegación async: la pasada fija107/108 conserva un error WebKit al cancelar imports del documento que se estaba descargando (HAR: `Load request cancelled`, los mismos archivos luego200; sin404). El test leía un h1 genérico del shell antes de renderizar la sección. Ahora espera títulos específicos y contenido después de back/forward/reload; no filtra ni suprime errores JS. Inventario Atlas/Sur repetido8/8, 176 pantallas verificadas en cuatro perfiles.
 - Opciones async: una aserción leyó destinatarios antes de terminar la carga. Se espera la opción exacta antes de comprobar todos los destinatarios y exclusión de otras marcas. No se aumentaron timeouts ni se omitieron aserciones.
 
 Compartidos que requieren atención al integrar: `apps/b2c-web/src/lib/store.ts`, config/tsconfig y specs B2C; ProgramEditor, Invitation, Workspace/MemberWorkspace y estilos B2B; servicio/white-label-service y tests API; gateway local y nuevo fixture HTTP. El diff de integración no cambia modelos, manifests, capturas canónicas, scripts de previews ni lockfile.
@@ -60,9 +61,9 @@ Compartidos que requieren atención al integrar: `apps/b2c-web/src/lib/store.ts`
 | B2B socio | 16 | 6 | PASS 96/96 en una corrida |
 | B2B entrenador | 20 | 6 | PASS 120/120 en una corrida |
 | B2B anónimo | 42 | 6 | PASS 252/252 consolidado: Chromium126 y nueva WebKit126; intentos previos conservados |
-| B2B administrador | 27 | 4 | Corrida fija de 108 en curso; anterior106/108, dos fallos de harness corregidos |
+| B2B administrador | 27 | 4 | PASS 108/108 consolidado: corrida fija107/108 + inventario reforzado8/8; intentos106/108 y anteriores conservados |
 
-El objetivo de esta matriz es 1164 combinaciones de flujo/perfil, no cobertura absoluta. B2C autogestionado distingue **168 casos con API/PostgreSQL reales** y **120 casos de contrato UI con transporte simulado** (`health`, `yoga-account`, `account-access`, `forgot-password`). Sus recorridos reales suplementan esas pantallas con persistencia, sesión, errores, import/export y replay. Visitante usa storage local por diseño. B2B y administración B2C usan backend real aislado; los errores y pérdidas de respuesta se inyectan deliberadamente. Las pruebas comprueban efectos persistidos cuando corresponde, no sólo HTTP.
+Se completaron las 1164 combinaciones de flujo/perfil de esta matriz, con resultados consolidados; no es cobertura absoluta. B2C autogestionado distingue **168 casos con API/PostgreSQL reales** y **120 casos de contrato UI con transporte simulado** (`health`, `yoga-account`, `account-access`, `forgot-password`). Sus recorridos reales suplementan esas pantallas con persistencia, sesión, errores, import/export y replay. Visitante usa storage local por diseño. B2B y administración B2C usan backend real aislado; los errores y pérdidas de respuesta se inyectan deliberadamente. Las pruebas comprueban efectos persistidos cuando corresponde, no sólo HTTP.
 
 Inventario de rutas/acciones previo a seleccionar casos: fuentes primarias de cada rol enlazadas en sus [siete fichas](fichas/), `apps/b2b-web/src/routes.ts`, Workspaces/features, App/navegación/store B2C. La [tabla completa](flows.md) incluye happy paths, vacíos, límites/validación, fallos/retry, doble click, cancelación, reload/back/forward, pérdidas antes/después de commit, expiración/revocación y aislamiento. Los inventarios originales mantienen sus no ejecutados, incluso rutas legacy y máximos no cubiertos; no quedan convertidos en PASS por esta integración.
 
@@ -85,7 +86,7 @@ Los perfiles móviles tienen `hasTouch/isMobile`; desktop no. Movimiento reducid
 
 ## Checks sobre revisión final
 
-Checks ejecutados en `06a13ee` antes del commit documental:
+Lint/tipos y 602 tests globales terminaron en `2822dec`; build16/16 y gateway5/5 en `06a13ee`. El cambio posterior es exclusivamente la espera de secciones en el inventario E2E, revalidada8/8. Los commits documentales no cambian el código probado:
 
 | Comando | Resultado |
 | --- | --- |
@@ -98,7 +99,7 @@ Checks ejecutados en `06a13ee` antes del commit documental:
 | Proxy real: cinco destinos HTTP rechazados, tres CONNECT rechazados; DB remota rechazada | PASS9/9 |
 | `pnpm previews:check` | Exercise74 PASS, anatomía24 PASS; Yoga **FAIL PREVIO** receipt stale |
 
-El mismo gate de previews se ejecutó en worktree separado `main@7172041`: mismos positivos y mismo fallo Yoga, con los inputs del diff sin cambios. No se regeneraron previews ni se falsificaron hashes/snapshots. `check`, `check:all` y `check:release` completos no se declaran verdes; no se ejecutó la batería GPU/modelos excluida. El último commit documental no cambia el código comprobado. CI remoto se registra en el recibo de publicación; ausencia de workflows/status no significa PASS.
+El mismo gate de previews se ejecutó en worktree separado `main@7172041`: mismos positivos y mismo fallo Yoga, con los inputs del diff sin cambios. No se regeneraron previews ni se falsificaron hashes/snapshots. `check`, `check:all` y `check:release` completos no se declaran verdes; no se ejecutó la batería GPU/modelos excluida. El último commit documental no cambia el código comprobado. CI remoto se registra en el recibo de publicación; ausencia de workflows/status no significa PASS. En el checkpoint remoto96cb839: cero check-runs y cero PRs para esta rama, confirmados tras el rechazo de creación del draft.
 
 ## GitGuardian
 
@@ -106,7 +107,7 @@ El mismo gate de previews se ejecutó en worktree separado `main@7172041`: mismo
 
 ## Evidencia y reproducción
 
-[evidence-manifest.json](evidence-manifest.json) identifica capturas/trazas por path, tamaño y SHA256; [matrix.json](matrix.json) conserva cada intento y último resultado. Los grandes binarios se mantienen locales, fuera de Git. La ruta compartida de entrega y sus hashes se registra al cierre. Abrir una traza con `pnpm exec playwright show-trace /ruta/a/trace.zip`. Las capturas inspeccionadas muestran UI real y sus estados, no sólo respuestas HTTP. No hay datos personales reales ni enlaces de activación productivos.
+[evidence-manifest.json](evidence-manifest.json) identifica capturas/trazas por path, tamaño y SHA256; [matrix.json](matrix.json) conserva cada intento y último resultado. Los grandes binarios se mantienen locales, fuera de Git. Entrega local: `/workspace/shared/klisteni-integration-20261013/`, siete tar.gz con SHA256 en [archives.json](archives.json); ZIP pequeño de revisión y recibo remoto en esa misma carpeta. Los 3442 archivos del manifiesto incluyen capturas manuales y trazas de intentos anteriores. No se subieron binarios grandes ni se confirmó ninguna carga a Library. Abrir una traza con `pnpm exec playwright show-trace /ruta/a/trace.zip`. Las capturas inspeccionadas muestran UI real y sus estados, no sólo respuestas HTTP. No hay datos personales reales ni enlaces de activación productivos.
 
 Para reproducir en otra máquina, usar Node24+, pnpm12.7 del repo, dependencias del lockfile y Chromium/WebKit instalados. Crear un PostgreSQL17 **desechable** ligado sólo a loopback; elegir credenciales ficticias localmente, sin utilizar `.env` real. Crear DB B2C de prueba y una DB B2B cuyo nombre contenga b2b/test por cada rol concurrente. Exportar `TEST_DATABASE_URL` y `B2B_TEST_DATABASE_URL` apuntando a ellas. No usar una DB existente con datos reales. Aquí se utilizó el container propio `klisteni-qa-b2c-20261013`, puerto54339; las fixtures crean schemas UUID y los limpian al cerrar.
 
@@ -142,3 +143,7 @@ En revisión física posterior, repetir táctil/teclado, cámara/QR, audio y cam
 ## Retorno para Atlas pendiente
 
 Las siete [fichas](fichas/) están en estado draft/predocumentación, con fuentes/SHAs, hechos/correcciones, decisiones explícitas, pruebas históricas separadas de la integración y pendientes. No son entries absorbidas ni otro protocolo de conocimiento. Consolidar después por `atlas/runbooks/intake.md`, templates source/entry y `atlas/catalog/sources.yaml`; conciliar wiki Klisteniapp, intake2026-10-12 y retroactive-documentation, manteniendo historia. Los destinos son los existentes. No escribir Atlas concurrentemente ni convertir rama/PR draft/pruebas locales en merge/despliegue.
+
+## Publicación y bloqueo restante
+
+La rama `qa/klisteni-integration-20261013` se creó sin force en el remoto y se verifica de nuevo tras el commit final. La creación del PR draft tuvo un único intento rechazado por revisión automática: considera vigente la instrucción «no publicar un PR todavía». No hubo workaround, reintento ni publicación incierta; lookup confirmó cero PRs. Se solicitó autorización explícita, pendiente al cierre. Los PRs2–8 siguen abiertos y main no se modifica. [Recibo del checkpoint](publication-checkpoint.json); recibo final fuera de Git con SHA exacto en la carpeta compartida.

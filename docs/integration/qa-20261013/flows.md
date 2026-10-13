@@ -66,7 +66,7 @@ Cada fila agrupa un caso por rol y variante. El JSON contiene resultados por mot
 | brand-admin  | theme fields cannot change during a delayed save and a response to a closed editor preserves newer local work | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | a branch without activity archives and restores through UI without deleting its saved metadata | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | administrator filters a persisted partial training fixture and exports brand history with exact branch identity | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
-| brand-admin  | atlas/norte: administrator authors, publishes and assigns a version without crossing branch recipients | chromium-desktop: FAIL; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
+| brand-admin  | atlas/norte: administrator authors, publishes and assigns a version without crossing branch recipients | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | atlas/principal: administrator authors, publishes and assigns a version without crossing branch recipients | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | atlas: every administrator route in both branches renders, reloads and navigates back/forward | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | branch validation, duplicate slug, grant and removal, archive guard and empty branch | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
@@ -78,7 +78,7 @@ Cada fila agrupa un caso por rol y variante. El JSON contiene resultados por mot
 | brand-admin  | library validates file formats, renders uploaded image, retries failed load and isolates branches/brands | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | logout propagates to open tabs; another brand cannot reuse the admin session or operate foreign IDs | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | modules deny direct routes, stay branch scoped, retain data and recover after reenabling | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
-| brand-admin  | people administer brand membership, protect the last admin and keep branch coaching scoped | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: FAIL |
+| brand-admin  | people administer brand membership, protect the last admin and keep branch coaching scoped | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | routine conflict survives reload and preserves local prescription until an explicit comparison/rebase | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | sur/oeste: administrator authors, publishes and assigns a version without crossing branch recipients | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
 | brand-admin  | sur/principal: administrator authors, publishes and assigns a version without crossing branch recipients | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-narrow: PASS |
