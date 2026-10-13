@@ -1,212 +1,240 @@
-# Roadmap de implementación: marca blanca B2B, sedes, contenido 3D y UI
+<a id="roadmap-de-implementación-marca-blanca-b2b-sedes-contenido-3d-y-ui"></a>
 
-Actualizado: **11 de octubre de 2026**. Marca blanca integrada a `main` en `07209a4`, checkpoints debajo. Entrega anterior: `508e9e1`; evidencia anterior de runtime: `5187b27`. La base histórica del plan era `3fbfe10`.
+# Implementation roadmap: white-label B2B, branches, 3D content and UI
 
-**Entrega WL-0 a WL-8 aceptada y cerrada por el usuario el 11/10/2026**, mediante
-«acepto todo, termina», sobre la implementación, integración y piloto desplegado
-descritos abajo. Las previews, los backups periódicos y la retención conservan
-su estado diferido. Esta aceptación no agrega resultados de pruebas físicas ni
-declara aprobado el pipeline completo; sus límites y evidencia siguen registrados.
+Updated **October 11, 2026**. White-label main07209a4; previous508e9e1/runtime5187b27,
+historical plan base3fbfe10. **User accepted/closed WL-0–WL-8 October11** with original
+quotation “acepto todo, termina”, covering implementation/integration/deployed pilot.
+Previews/recurring backups/retention deferred; acceptance creates no physical tests/
+full-pipeline pass. Historical criteria below retained, not current-runtime verification.
 
-**Entrega anterior implementada:** el commit `508e9e1`, sobre `d70b2cb`, agrega recuperación/concurrencia de editores, QR con diagnóstico, registro móvil y voz opcional, prescripción por tiempo/RPE, plano 2D y vista estática del espacio, comparación de clips y exploración educativa B2C. Consultar [entrega y verificación de release](b2b-release.md) y [matriz de navegadores](b2b-browser-validation.md). El modelado/autoría Blender se realiza localmente por decisión del usuario. La validación con personas, teléfonos físicos y contenido revisado conserva sus criterios propios; no se confunde con las pruebas automatizadas.
+508e9e1 on d70b2cb: editor concurrency-recovery/QR diagnostics/mobile-voice/time-RPE/
+2D-static space/clip comparison/B2C education. [Release](b2b-release.md)/[browsers](b2b-browser-validation.md).
+Blender user-local; human/physical/content acceptance separate. October11 white-label:
+shared deployment/brand domains/context login-permissions/**multi-branch first delivery**/
+configurable design-modules-content. [Full plan](b2b-white-label.md), codex/b2b-white-label
+from af87f60, completed phases/new evidence not old release reuse; see [runtime operation](b2b-white-label-runtime.md). [VPS handoff](development-vps.md)
+Mac-off continuation; preview work after definitive models, existing retained/not
+code-runtime blocker. Three lines product-code/3D/UI testing, dependencies not dates,
+[technical B2B](b2b.md).
 
-**Marca blanca implementada el 11/10/2026:** una aplicación B2B compartida con dominio y experiencia propios por marca, login y permisos por contexto, **varias sedes desde la primera entrega**, diseños configurables, módulos y contenido por marca/sede. El [plan detallado de marca blanca](b2b-white-label.md) define el refactor completo WL-0 a WL-8, migración y aceptación E2E. La implementación por etapas comenzó en la rama `codex/b2b-white-label`, desde `af87f60`. WL-0 a WL-8 están implementados y verificados, con checkpoint local y un piloto público autorizado posteriormente. Los estados y pruebas nuevos se registran a continuación sin reutilizar evidencia de la entrega anterior.
+Later authorized45483e2 public klisteni-b2b-prod, Mycelium PR42/80ff2f5,
+[Atlas](https://atlas-klisteni.orchid-labs.xyz)/[Sur](https://sur-klisteni.orchid-labs.xyz)
+two each. HTTPS Chromium28/28, post-restart WebKit22/22, proxy4/4, restore5/5, restored
+API10/10; Argo33 Synced-Healthy/B2C unchanged. [Access/evidence/limits](b2b-white-label-deployment.md),
+[sanitized report](validation/b2b-white-label-deployed-2026-10-11.json). Local-closeout
+phrases below preserve original boundary. Klisteni MR1/Atlas main integrated via
+existing VPS SSH, no API-token escalation/Mac. Main pipeline1249/11434d9: one-task
+Turbo/quality2 GiB, lint-types-tests15/15+root23; Yoga stale failure/later steps not run.
+[Closeout](validation/b2b-white-label-closeout-2026-10-11.json).
 
-La implementación puede continuar desde otra instancia de Codex en un VPS con la Mac apagada siguiendo el [relevo remoto](development-vps.md). La generación y validación de miniaturas/previews se difieren hasta completar los modelos 3D y los cambios relacionados; los derivados existentes se conservan. Este trabajo diferido no bloquea el cierre de código y runtime.
+<a id="estado-de-entrega-y-continuación-entre-mac-y-vps"></a>
 
-Este documento ordena el trabajo desde la implementación actual. Separa tres líneas: **producto y código**, **producción de contenido 3D** e **iteración de UI probándola**. Define entregas y dependencias; no compromete fechas. La referencia técnica de lo que ya funciona es [Producto B2B](b2b.md).
+## Delivery status and Mac/VPS continuation
 
-**Checkpoint público posterior, 11/10/2026:** por nueva autorización se desplegó
-la revisión `45483e2` en `klisteni-b2b-prod`, mediante Mycelium PR42 (`80ff2f5`).
-[Atlas](https://atlas-klisteni.orchid-labs.xyz) y
-[Sur](https://sur-klisteni.orchid-labs.xyz) están activos con dos sedes cada uno.
-Pruebas sobre HTTPS público: Chromium **28/28**, WebKit tras reinicio **22/22**,
-frontera del proxy **4/4**, restauración **5/5 grupos** y API restaurada **10/10**.
-Las 33 aplicaciones ArgoCD quedaron Synced/Healthy; B2C conservó imágenes y datos.
-Consultar [accesos, evidencia y límites](b2b-white-label-deployment.md) y
-[reporte sanitizado](validation/b2b-white-label-deployed-2026-10-11.json).
-Las referencias a «cierre local» más abajo conservan el alcance histórico original.
-Klisteni MR1 y la documentación de Atlas ya están integrados a sus ramas `main`.
-La clave SSH existente del VPS permitió el cierre; no fue necesario ampliar
-los permisos del token API ni usar la Mac.
-El pipeline **1249** sobre `main` verificó el ajuste CI (`11434d9`): concurrencia
-de una tarea y límite de 2 GiB para `quality`. Lint, tipos y tests aprobaron
-15/15 paquetes, más 23 tests raíz. El pipeline completo permanece fallido sólo
-en la comprobación de previews de yoga diferidas (`Extraction receipt is stale`);
-los pasos posteriores no se ejecutaron. [Evidencia del cierre](validation/b2b-white-label-closeout-2026-10-11.json).
-
-## Estado de entrega y continuación entre Mac y VPS
-
-| Estado | Alcance | Evidencia o siguiente acción |
+| State | Scope | Evidence/next action |
 | --- | --- | --- |
-| Código implementado y comprobado | E1/E2, matriz automatizada E4 y extensiones de la sección 8; API, miembro y backoffice separados de B2C | [Resultados de la entrega](b2b-release.md) y [matriz B2B](b2b-browser-validation.md) |
-| Runtime de la entrega anterior comprobado | Imágenes reales, HTTPS, migraciones, permisos, persistencia y restauración de DB/medios; 8/8 grupos | [Informe versionado](validation/b2b-runtime-2026-10-11.json), ejecutado sobre `508e9e1` con árbol limpio |
-| Marca blanca completada y verificada localmente | WL-0 a WL-8: dominios, cuatro sedes, permisos, branding, módulos y recuperación | API 76/76; E2E HTTPS 30/30; B2C 3/3; imágenes 6/6 y restauración 6/6. [Checkpoints y matriz D01–D19](b2b-white-label-validation.md) |
-| Piloto público aceptado y entrega cerrada | Atlas y Sur, cuatro sedes, cuentas para pruebas manuales, volúmenes y DB dedicados | Aceptación explícita del usuario el 11/10/2026; 50 grupos de navegador público, reinicio y restauración probados. [Checkpoint de despliegue](b2b-white-label-deployment.md) |
-| Preparado para recibir contenido | Visor y carga de GLB estático, alternativa sin WebGL, validación binaria y hashes | `pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png` |
-| Pendiente en Blender local | Máquina real E3, autoría/integración del primer movimiento E5 y segundo caso visual E6 | Elegir máquina y medidas; producir fuentes, recursos y procedencia; revisión humana |
-| Verificación física sin nueva evidencia registrada; entrega aceptada | Piloto con administrador/profesor/socio, voces del dispositivo, Safari/iPhone y QR impreso | Pruebas manuales a cargo del usuario; no bloquean el cierre que aceptó |
-| Diferido por decisión del usuario | Regeneración y revisión completa de previews tras los cambios de modelos | Conservar lo existente; retomar B4 cuando los recursos estén listos |
-| Diferido por decisión del usuario | Backups periódicos y política de retención para producción | El ensayo de restauración del piloto aprobó; automatización pendiente para una etapa posterior |
+| Implemented/tested code | E1-E2/automated E4/section8/API-member-management independent | [Release](b2b-release.md)/[matrix](b2b-browser-validation.md) |
+| Previous runtime verified | Actual images/HTTPS/migrations/permissions/persistence/joint restore8/8 | [Report](validation/b2b-runtime-2026-10-11.json), clean508e9e1 |
+| Local white-label complete | WL-0–8/domains/four branches/permissions/branding/modules/recovery | API76/76, HTTPS30/30, B2C3/3, images6/6, restore6/6;[D01–19](b2b-white-label-validation.md) |
+| Public pilot accepted/closed | Atlas-Sur/four branches/manual-test accounts/dedicated volumes-DB | October11 user acceptance/50 browser groups/restart-restore;[checkpoint](b2b-white-label-deployment.md) |
+| Ready for content | Protected static GLB/fallback/binary-hash validator | pnpm equipment:check /ruta/maquina.glb --poster /ruta/maquina.png |
+| Local Blender pending | E3 machine/E5 first movement/E6 second visual | Choose measurements/editables-assets-provenance/human review |
+| No new physical evidence; delivery accepted | Staff-member/voice/Safari-iPhone/printed QR | User manual testing, not accepted closeout blocker |
+| User-deferred previews | Full regeneration/review after models | Retain/resume B4 |
+| User-deferred ops | Recurring production backups/retention | Pilot restore PASS, automation later |
 
-El código puede continuar en [macOS](development-macos.md) o en el [VPS mediante SSH y tmux](development-vps.md); la autoría Blender conserva su trabajo local. El checkout transporta código, documentación y assets versionados; las bases, credenciales y cachés no forman parte de Git. Antes de apagar la Mac, publicar en Git el checkpoint elegido del setup y esta documentación y verificar su SHA en el VPS: la edición local no los sincroniza automáticamente.
+[Mac](development-macos.md)/[VPS SSH-tmux](development-vps.md), Blender local. Git
+code-doc-assets, not DB-secrets-cache. Publish intended setup/docs checkpoint/verify
+VPS SHA before Mac-off; local edits not automatically synchronized. Public/local
+evidence separate; check/check:all/check:release/quality full previews remain pending,
+no altered provenance. Historical tables retain original scope; above dated current-state table.
 
-**Límite del cierre:** la evidencia pública corresponde al piloto Atlas/Sur descrito arriba; las pruebas locales tienen su informe propio. `pnpm check`, `check:all`, `check:release` y el job GitLab `quality` mantienen la comprobación completa de previews, pendiente; no se declaran verdes ni se modifica la procedencia para hacerlos pasar. Los resultados de código/runtime se registran por separado. Las tablas históricas y criterios siguientes conservan el alcance original; esta tabla indica el estado actual.
+<a id="1-punto-de-partida-y-decisiones-que-conservamos"></a>
 
-## 1. Punto de partida y decisiones que conservamos
+## 1. Starting point and retained decisions
 
-- B2B tiene **backend, PostgreSQL, sesiones y archivos independientes desde el inicio**. Backoffice y app del socio consumen esa API. B2C conserva su aplicación, backend, datos y suscripción autogestionada.
-- Compartimos catálogo, modelos, geometría y visores mediante paquetes internos. Cada producto sirve sus recursos; B2B no depende de la API ni del dominio B2C.
-- Un modelo de máquina es reutilizable; cada unidad física pertenece a un gimnasio y tiene ubicación, ajustes y QR. Una definición de máquina en el catálogo no implica que exista su modelo 3D.
-- El website básico del gimnasio forma parte de la entrega B2B: presentación, actividades, horarios, catálogo público y entrada de socios.
-- La prescripción publicada y la ejecución real son registros distintos. Las sustituciones tienen permisos y motivo. Abrir un QR o ver una animación no registra entrenamiento.
-- La demo usa el producto real con datos ficticios reiniciables. Los avances de UI se pueden probar con fotos, texto y recursos existentes mientras se producen nuevos modelos.
-- La evolución acordada mantiene **organización = empresa/marca**, incorpora **sede = establecimiento** y resuelve la marca desde un dominio verificado antes del login. La ubicación textual de una unidad no representa una sede. Los permisos nuevos se aplican en servidor a marca, sede, rol y recurso; ver el [modelo de permisos](b2b-white-label.md#4-modelo-de-marca-sede-y-permisos).
+Independent B2B backend/PostgreSQL/sessions/files from start; B2C self-service own.
+Internal shared catalog/models/geometry/viewers, per-product asset serving/no B2C
+API-domain dependence. Reusable machine model vs physical gym unit/location-settings-
+QR; definition not existing 3D. Basic website/activities-schedule-public catalog-member
+entry first delivery. Prescription distinct actual/substitutions authorized-reason;
+QR-animation no log. Resettable synthetic real-product demo/UI photos-text while
+modeling. Organization=brand, branch=establishment, verified pre-login domain;
+location not branch, server brand-branch-role-resource [permissions](b2b-white-label.md#4-modelo-de-marca-sede-y-permisos).
 
-### Estado de la base revisada, anterior a esta entrega
+<a id="estado-de-la-base-revisada-anterior-a-esta-entrega"></a>
 
-**Implementado** significa presente en el código; no acredita validación con usuarios, teléfonos reales ni un despliegue público.
+### Reviewed base before delivery
 
-| Área | Implementado en esta base | Trabajo siguiente |
+Implemented=code, not user/phone/public validation.
+
+| Area | Earlier base | Next work |
 | --- | --- | --- |
-| Separación B2B/B2C | API y DB propias; contratos, dominio, cliente, hooks y UI en paquetes; control automático de dependencias | Mantener estos límites al agregar capacidades |
-| Gimnasio y contenido | Marca, personas, modelos y unidades, biblioteca de archivos, revisión/publicación, website y etiquetas QR | Probar la preparación completa con contenido representativo y corregir fricciones |
-| Entrenamiento | Rutinas versionadas, asignaciones, alternativas, series reales, borradores, reintentos e historial comparado | Iterar prescripción y ejecución en móvil, incluyendo errores y recuperación |
-| Anatomía y movimientos | Visor compartido, movimientos registrados, recursos y previews; yoga ya existe en B2C | Revisar los movimientos reutilizados y producir los nuevos que requieran máquinas |
-| Máquinas 3D | Visor optativo y carga de GLB estático | Crear la primera máquina propia: no hay biblioteca de GLB dedicados de máquinas |
-| Pruebas de UI | E2E de recorridos, sesión, borradores, permisos y medios; algunas capturas en ancho móvil | Dispositivos táctiles, otros motores, accesibilidad, comparación visual selectiva y escaneo físico |
-| Extensiones | La base no incorpora voz guiada, plano interactivo ni recorrido virtual | Evaluarlas después de cerrar el recorrido principal; el espacio 3D es experimental |
+| B2B-B2C separation | Own API-DB/contracts-domain-client-hooks-UI/automated boundaries | Preserve |
+| Gym/content | Brand-people-model-unit-library-review-website-QR | Representative end-to-end preparation/friction |
+| Training | Versions/assignments/alternatives/actual sets/drafts/retry/history | Mobile errors/recovery |
+| Anatomy/movement | Shared registry/assets-previews/B2C yoga | Review reuse/new machine motion |
+| Machine 3D | Optional static GLB | First actual machine, no dedicated library |
+| UI tests | Flows/session-draft-permission-media/mobile captures | Touch/other engine/a11y/selective visual/physical QR |
+| Extensions | Earlier no voice-plan-virtual tour | After core; space 3D experimental |
 
-## 2. Orden de entregas
+<a id="2-orden-de-entregas"></a>
 
-### 2.1. Entrega de marca blanca y varias sedes
+## 2. Delivery order
 
-La implementación comenzó el **11/10/2026**; el registro de checkpoints indica el avance real por etapa. El [plan detallado](b2b-white-label.md) es la referencia para contratos, permisos, publicación, migraciones, pruebas y rollback; esta tabla fija el orden de trabajo.
+<a id="21-entrega-de-marca-blanca-y-varias-sedes"></a>
 
-| Etapa | Resultado | Dependencia |
+### 2.1. White-label and branches
+
+Started October11, actual progress checkpoints. [Detailed plan](b2b-white-label.md)
+contracts-permissions-publication-migration-tests-rollback.
+
+| Stage | Result | Dependency |
 | --- | --- | --- |
-| **WL-0** | Inventario del código/datos y decisiones concretas de permisos, sedes y compatibilidad | Base actual y definición acordada |
-| **WL-1** | Contratos, migraciones y fixtures: Atlas y Sur, dos sedes por marca | WL-0 |
-| **WL-2** | Host confiable, registro de dominios y contexto de marca antes del login | WL-1 |
-| **WL-3** | Sesiones ligadas a marca y autorización por sede/rol en todas las rutas | WL-2 |
-| **WL-4** | Login común, gestión/selección de sedes, destinos por rol e invitaciones/QR | WL-3 |
-| **WL-5** | Temas y plantillas, preview, publicación y reversión de identidad y websites | WL-4 |
-| **WL-6** | Módulos efectivos, catálogo por sede, traslados y archivo con historial preservado | WL-4 y contratos WL-5 |
-| **WL-7** | Operación de DNS/TLS, dominio principal/alias, cambios y diagnóstico | Comienza tras WL-2; integra WL-3 a WL-6 |
-| **WL-8** | Matriz E2E D01–D19, migración/restauración y piloto HTTPS | WL-1 a WL-7 |
+| WL-0 | Inventory/permission-branch-compatibility | Base/agreed definition |
+| WL-1 | Contracts/migration/two×two fixtures | WL-0 |
+| WL-2 | Trusted host/registry/pre-login | WL-1 |
+| WL-3 | Brand session/all-route branch-role auth | WL-2 |
+| WL-4 | Login/branch management/role/invite-QR | WL-3 |
+| WL-5 | Theme-template/preview-publish-restore | WL-4 |
+| WL-6 | Effective modules/branch catalog/transfers-archive-history | WL-4/WL-5 |
+| WL-7 | DNS-TLS/primary-alias/lifecycle | Starts2/integrates3–6 |
+| WL-8 | D01–D19/migration-restore/HTTPS | WL-1–7 |
 
-El primer recorrido vertical de WL-4 ya incluye varias sedes. El cierre completo exige dos marcas con diseños distintos y al menos dos sedes cada una, servidas por el mismo despliegue, con el circuito administrador → entrenador → socio → seguimiento y rechazos de acceso cruzado. Cambiar nombres o colores por URL no cumple esta aceptación.
+First WL-4 vertical already multi-branch. Two distinct designs/two branches each/same
+deployment/admin→trainer→member→monitor/cross rejects; URL name-color alone insufficient.
+Continue checkpoints/[VPS](development-vps.md), no new Blender dependency; old508e9e1
+scope distinct.
 
-La continuación parte de los checkpoints siguientes y del [relevo al VPS](development-vps.md), sin depender de nuevos modelos Blender. Los informes de `508e9e1` conservan su alcance histórico; la validación WL tiene evidencia propia.
+<a id="checkpoints-de-marca-blanca-nueva-evidencia"></a>
 
-### Checkpoints de marca blanca (nueva evidencia)
+### White-label checkpoints (new evidence)
 
-Base recibida: `af87f603876cb99b2e6673f290fa8ec03721454b`, árbol limpio, rama de trabajo `codex/b2b-white-label`. Node `24.21.0`, pnpm `12.7.0`; PostgreSQL local existente en loopback y base desechable `klisteni_b2b_test`. No se opera producción ni DNS público. Los cambios de cada etapa se verifican antes de cerrar su checkpoint.
+Clean base `af87f603876cb99b2e6673f290fa8ec03721454b`, codex/b2b-white-label,
+Node 24.21.0/pnpm12.7.0/existing local loopback disposable klisteni_b2b_test. No public
+operation at local stage; verify before checkpoint.
 
-| Etapa | Estado | Evidencia / siguiente paso |
+| Stage | State | Evidence |
 | --- | --- | --- |
-| WL-0 | Checkpoint `a451d9c` | [Mapa de archivos, matriz de permisos y políticas](b2b-white-label-decisions.md). Verificados checkout, runtime, puertos y DB de pruebas; no se cambiaron versiones |
-| WL-1 | Checkpoint `5fdf22d`; complemento 005 integrado | Migraciones `004-white-label` y `005-branch-publication-profile`, DTO y fixture Atlas/Sur con Centro y Norte/Oeste. Migración 5/5: JSON/IDs e invitaciones preservados, FKs cruzadas rechazadas y perfil público congelado hasta publicación |
-| WL-2/WL-3/WL-7 | Checkpoint `d0a9011` | Suite API 76/76; HTTP 7/7 y autorización 12/12: sesión de marca, permisos por sede/rol, invitaciones, medios privados/compartidos, revocaciones en cola, orígenes y dominios principal/alias. Operador DNS/TLS y Nginx/gateway; ninguna operación sobre dominios públicos |
-| WL-4–WL-6 | Checkpoint `15660fd` | Tipos globales 15/15, lint 15/15 y tests de frontend aprobados. Escritorio 3/3 recorridos UI: administrador gestiona sedes/permisos/tema/módulos, borradores aislados, entrenador prescribe y socio registra en cuatro sedes. Claves específicas de website, lotes y clips incluyen sede y rol |
-| WL-8 | Completado localmente; harness `c451df2`, imágenes `04d7836` | API 76/76 sin omitidas; E2E 30/30 en tres motores; B2C demo 3/3; lint/tipos 30/30 tareas; tests de 15 paquetes aprobados. Imágenes reales 6/6 y restauración DB/medios/configuración 6/6; [evidencia D01–D19](b2b-white-label-validation.md) |
+| WL-0 | a451d9c | [Inventory/policy](b2b-white-label-decisions.md), checkout-runtime-ports-DB/no version change |
+| WL-1 | 5fdf22d/+005 | 004-white-label/005-branch-publication-profile/DTO/two×two; migration5/5 JSON-IDs-invites/cross-FK/frozen profile |
+| WL-2/3/7 | d0a9011 | API76/76, HTTP7/7, auth12/12/session-grants-invites-private-shared media/queued revoke/origins-primary-alias/operator/gateway-no public domains |
+| WL-4–6 | 15660fd | types15/15, lint15/15, frontend tests; desktop3/3 admin-branches-grants-themes-modules/draft isolation/trainer-member four branches; website-batch-clip branch-role keys |
+| WL-8 | c451df2/images04d7836 | API76/76 no skips, three-engine30/30, B2C3/3, lint-types30/30,15-package tests, images6/6/joint restore6/6;[D01–19](b2b-white-label-validation.md) |
 
-Cierre de aceptación y evidencia: `5b27687`. La restauración final se repitió desde ese checkout limpio y pasó 6/6 controles.
+Closeout5b27687/clean restore rerun6/6; CA removed/temporary containers-schemas
+removed, physical-public domains outside local stage. Existing previews retained,
+full gates pending, no hash-snapshot-CI simulation.
 
-La CA de pruebas se retiró; los contenedores y schemas temporales se eliminaron. La aceptación física y los dominios públicos quedan fuera de este cierre local.
+<a id="22-entregas-e1e6-y-aceptación-que-conservamos"></a>
 
-Las previews existentes se conservan. `check`, `check:all`, `check:release` y sus gates siguen pendientes según la decisión de diferir previews; no se modifican hashes, snapshots ni CI para simular validación.
+### 2.2. E1–E6 retained acceptance
 
-### 2.2. Entregas E1–E6 y aceptación que conservamos
+Original admin prepare-publish→trainer prescribe→member routine-QR-log→monitor.
 
-La historia base se conserva durante el refactor: **administrador prepara y publica → profesor prescribe → socio abre rutina/QR y registra → profesor consulta lo realizado**. La tabla siguiente mantiene las entregas originales de producto, contenido y aceptación; su estado está resumido al inicio de este documento.
-
-| Entrega | Trabajo | Depende de | Criterio de cierre |
+| Delivery | Work | Dependency | Closeout |
 | --- | --- | --- | --- |
-| **E1. Recorrido de referencia** | Elegir un gimnasio ficticio, una máquina con dos unidades y ejercicios base/propios; recorrer los tres roles y registrar problemas reproducibles | Base actual | Historia repetible con datos conocidos y lista concreta de ajustes de UI/código |
-| **E2. UI usable de punta a punta** | Resolver esos problemas en preparación, catálogo, prescripción y registro; agregar regresiones de los comportamientos corregidos | E1 | Recorrido completo en escritorio y móvil, con estados de guardado, errores y recuperación claros |
-| **E3. Primera máquina 3D estática** | Modelar, exportar, revisar e integrar un recurso real con su imagen de respaldo | Selección de máquina en E1; puede avanzar junto a E2 | Modelo aprobado que carga desde la ficha y el QR sin impedir leer el contenido si falla 3D |
-| **E4. Validación integrada del gimnasio** | Revisar contenido, publicación, permisos y QR desde teléfono; probar el circuito completo en una instancia B2B accesible | E2; E3 se integra si está lista | Evidencia de los recorridos y correcciones verificadas; el 3D nuevo no bloquea esta entrega |
-| **E5. Primer ejercicio con máquina animada** | Autoría del movimiento, contactos, cámaras, integración y previews | Recurso y revisión de E3; contrato de animación elegido | Movimiento revisado desde varios ángulos y fases, con regresión B2C si cambia el renderer compartido |
-| **E6. Ampliación por lotes** | Segundo tipo de máquina/ejercicio; mejoras surgidas del uso; luego extensiones priorizadas | Aprendizajes de E4/E5 según el cambio | Reutilización demostrada en casos distintos, sin introducir dependencias de B2C |
+| E1 reference | Fictional gym/one machine-two units/base-own exercise/three roles/repro | Base | Repeatable known story/concrete UI-code issues |
+| E2 usable UI | Fix preparation-catalog-prescription-log/regressions | E1 | Desktop-mobile/clear save-error-recovery |
+| E3 static machine | Model-export-review-integrate/fallback | E1 selection, parallel E2 | Approved card-QR/readable no 3D |
+| E4 integration | Content-publication-permission/physical QR/full accessible instance | E2/E3 if ready | Verified journeys, new 3D not blocker |
+| E5 animated machine | Motion-contact-camera/integration/previews | E3/reviewed animation contract | Multi-angle-phase/B2C shared-render regression |
+| E6 batch growth | Second type/usage lessons/extensions | E4-E5 relevant | Distinct reuse/no B2C coupling |
 
-Camino principal: **E1 → E2 → E4**. Producción 3D: **E1 → E3 → E5**. Se integran cuando cada recurso está revisado. El plano del gimnasio y los clips generados tienen su propia evaluación, fuera de estas dependencias.
+Main E1→E2→E4,3D E1→E3→E5, join reviewed asset; plan/generated clips own evaluation.
 
-## 3. Línea A: producto, código y paquetes internos
+<a id="3-línea-a-producto-código-y-paquetes-internos"></a>
 
-### A1. Consolidar el recorrido existente
+## 3. Line A: product, code and internal packages
 
-Usar Atlas y Sur para probar aislamiento, con administrador, profesor y socio. Preparar contenido que fuerce casos reales: nombres largos, dos unidades del mismo modelo, un ejercicio propio sin animación, una alternativa autorizada y una ficha sin publicar.
+<a id="a1-consolidar-el-recorrido-existente"></a>
 
-1. Preparar marca, inventario y website desde el backoffice; subir contenido y revisar/publicar.
-2. Crear y asignar una rutina desde el profesor. Confirmar que editar el catálogo después no cambia su versión asignada.
-3. Abrir la ficha pública de una unidad y entrar como socio. Registrar series en borrador, recargar y guardar una sesión completa. En una sesión distinta, probar el guardado parcial; comprobar también el reintento exacto tras una respuesta perdida. Una ejecución confirmada es inmutable: guardar parcial no habilita continuar editando ese registro.
-4. Comparar prescripción y ejecución desde el profesor asignado. Verificar que otro gimnasio y un profesor sin asignación no acceden.
-5. Convertir cada bloqueo observado en un cambio pequeño con un caso de reproducción y un criterio de aceptación.
+### A1. Consolidate existing journey
 
-Los lugares de trabajo son [backoffice](../apps/b2b-web/src/features), [features del socio](../apps/b2b-web/src/features) y [API B2B](../apps/b2b-api/src). El ciclo de prueba visual se detalla en la línea C.
+Atlas-Sur admin-trainer-member, long names/two units/unanimated own exercise/
+authorized alternative/private card. Admin prepares-publishes/library; trainer
+assigns, catalog edit no assigned-version change. Member card-QR/draft-reload/full,
+separate partial/exact post-loss retry; confirmed partial immutable, not continued.
+Assigned trainer compare, foreign/unassigned denied. Small reproduced issue/criterion.
+[Management](../apps/b2b-web/src/features),[member features](../apps/b2b-web/src/features),
+[API](../apps/b2b-api/src); line C visual loop.
 
-### A2. Extender sin duplicar reglas ni acoplar productos
+<a id="a2-extender-sin-duplicar-reglas-ni-acoplar-productos"></a>
 
-| Tipo de cambio | Lugar adecuado | Regla |
+### A2. Extend without duplicated rules or coupling
+
+| Change | Owner | Rule |
 | --- | --- | --- |
-| Forma de una petición/respuesta | [b2b-contracts](../packages/b2b-contracts) | Schema y export público por dominio; conservar compatibilidad o migrarla explícitamente |
-| Compatibilidad, prescripción o ejecución | [b2b-domain](../packages/b2b-domain) | Regla pura; autorización efectiva y persistencia siguen en la API |
-| Endpoint o persistencia | [b2b-api](../apps/b2b-api) | Aislamiento por organización; migraciones sólo en DB B2B |
-| HTTP, cancelación y errores | [b2b-client](../packages/b2b-client) | Sin React; consumidores por su API pública |
-| Sesión y cargas React | [b2b-react](../packages/b2b-react) | Preservar cancelación, cambio de cuenta/gimnasio y descarte de respuestas tardías |
-| Controles y medios compartidos | [b2b-ui](../packages/b2b-ui) | Presentación con acciones inyectadas; visores opcionales en `/content` |
-| Navegación y comportamiento de una pantalla | La feature de cada app | Mantener el flujo local hasta que exista una segunda necesidad compartida |
-| Ejercicio educativo reutilizable | [catalog-base](../packages/catalog-base) | ID estable; una adaptación local conserva su procedencia |
-| Movimiento, render o recurso visual | [geometry](../packages/geometry), [anatomy-viewer](../packages/anatomy-viewer), [model-assets](../packages/model-assets) | Sin cuentas, organizaciones ni reglas comerciales |
+| Request-response | [contracts](../packages/b2b-contracts) | Public domain schema/export/explicit migration |
+| Compatibility-prescription-execution | [domain](../packages/b2b-domain) | Pure; API auth-persistence |
+| Endpoint-storage | [API](../apps/b2b-api) | Org isolation/B2B-only migration |
+| HTTP-cancel-errors | [client](../packages/b2b-client) | No React/public API |
+| React session-load | [React](../packages/b2b-react) | Account-gym cancellation/late discard |
+| Controls-media | [UI](../packages/b2b-ui) | Injected actions/optional content subpath |
+| Screen navigation | App feature | Local until actual second shared need |
+| Educational exercise | [catalog-base](../packages/catalog-base) | Stable ID/local provenance |
+| Motion-render-asset | [geometry](../packages/geometry)/[viewer](../packages/anatomy-viewer)/[assets](../packages/model-assets) | No account-org-commerce |
 
-Para una capacidad nueva: contrato → regla de dominio, si corresponde → persistencia/endpoint → cliente → feature → prueba del recorrido. Para un ajuste visual no hace falta modificar todas las capas. Extraer otro paquete cuando tenga una responsabilidad estable y consumidores reales; comprobar exports, dependencias y ciclos con `pnpm check:b2b:boundaries`.
+New contract→optional domain→storage-endpoint→client→feature→flow test. Visual
+change not every layer. New package stable responsibility/actual consumers,
+check:b2b:boundaries exports-deps-cycles.
 
-### A3. Condiciones para conservar B2C
+<a id="a3-condiciones-para-conservar-b2c"></a>
 
-- Mantener IDs, rutas de recursos y semántica del catálogo compartido. Las variaciones B2B viven en sus entidades locales.
-- Conservar los adaptadores de compatibilidad de B2C mientras existan consumidores. No extraer su store personal, billing o sincronización para resolver una pantalla B2B.
-- Un cambio en geometría, catálogo, recursos o visor se valida en ambos productos. Un cambio exclusivamente B2B no requiere migrar datos B2C.
-- Publicar versiones y conservar snapshots: los recursos históricos autorizados y la prescripción asignada deben seguir disponibles tras nuevas ediciones.
+### A3. Preserve B2C
 
-## 4. Línea B: diseñar y producir contenido 3D
+Stable IDs/resource URLs/catalog semantics/local B2B variants; retain compatibility
+adapters/never extract personal billing-store-sync for B2B UI. Shared geometry-
+catalog-assets-viewer both-product checks; B2B-only no B2C migration. Versioned
+snapshots/historic authorization/prescription survive edits.
 
-### B1. Una máquina estática completa
+<a id="4-línea-b-diseñar-y-producir-contenido-3d"></a>
 
-**Entrada:** elegir una máquina piloto y reunir fotos, dimensiones, ajustes, nombre y procedencia. Vincularla con el modelo de catálogo y sus unidades físicas. Estos identificadores cumplen funciones distintas del archivo GLB.
+## 4. Line B: design and produce 3D content
 
-**Autoría:** crear la fuente editable en Blender con escala, orientación, origen, partes y materiales consistentes. Revisar silueta, apoyos y ajustes desde frente, lateral y tres cuartos. Preparar una imagen de respaldo y texto que permitan entenderla sin abrir el visor.
+<a id="b1-una-máquina-estática-completa"></a>
 
-**Exportación:** producir un GLB autocontenido compatible con la carga actual: hasta 24 MiB, sin animaciones, skins, extensiones ni recursos externos; texturas internas JPEG/PNG. El máximo de carga no es un objetivo de rendimiento: medir peso, tiempo de apertura y fluidez en el teléfono elegido antes de multiplicar recursos.
+### B1. Complete static machine
 
-**Entrega:** fuente editable, GLB, imagen, medidas/orientación, procedencia y registro de revisión. Ubicaciones propuestas para recursos compartidos: `assets/blender/equipment/<id>.blend` y `packages/model-assets/public/models/equipment/`. Estas carpetas de autoría se crearán con el primer recurso; el validador `equipment:check`, la carga y el visor estático ya existen. No hay un importador general de movimientos Blender; [model-assets](../packages/model-assets/README.md) explica el manifiesto actual.
+Choose pilot photos/dimensions/settings/name/provenance/map model-unit IDs distinct
+GLB. Editable Blender scale-orientation-origin-parts-materials/front-side-three-quarter
+review/fallback image-text. Self-contained≤24 MiB GLB, no animation-skins-extensions-
+external, internal JPEG-PNG. Max not performance target; actual phone size/load/fluidity.
+Deliver source/GLB/image/measure-orientation/provenance/reviewer; first shared
+assets/blender/equipment/<id>.blend/packages/model-assets/public/models/equipment/.
+Folders with first asset; validator/upload/viewer existing, no general movement importer.
+[Manifest](../packages/model-assets/README.md). Gym library private vs product
+model-assets/per-build; one canon/identified versions, no divergent editable copies.
 
-Para contenido específico del gimnasio usar su biblioteca B2B; para contenido distribuido con el producto usar `model-assets` y servirlo en cada build. Conservar una fuente canónica y versiones identificables, sin mantener copias editables divergentes.
+<a id="b2-integrar-y-probar-la-máquina"></a>
 
-### B2. Integrar y probar la máquina
+### B2. Integrate and test machine
 
-1. Cargar el GLB de prueba desde el backoffice, asociarlo al modelo/unidad y completar su información.
-2. Revisar y publicar los recursos necesarios. Abrir la ficha y el QR con y sin sesión.
-3. Comprobar encuadre, giro, imagen de respaldo, carga voluntaria, error de archivo y ausencia de WebGL en móvil y escritorio.
-4. Confirmar que fotos e instrucciones siguen disponibles y que los medios privados no se vuelven públicos por conocer su URL.
+Upload management/associate model-unit/info/review-publish/card-QR unsigned-signed;
+framing/orbit/fallback/voluntary loading/bad-file/no-WebGL/mobile-desktop; private URL
+not public. [EquipmentModelViewer](../packages/anatomy-viewer/src/EquipmentModelViewer.tsx),
+[ContentMedia](../packages/b2b-ui/src/content/ContentMedia.tsx). E3 static, not animated exercise.
 
-La integración usa [EquipmentModelViewer](../packages/anatomy-viewer/src/EquipmentModelViewer.tsx) y [ContentMedia](../packages/b2b-ui/src/content/ContentMedia.tsx). Tener esta máquina estática lista cierra E3; todavía no entrega un ejercicio animado.
+<a id="b3-primer-movimiento-con-máquina"></a>
 
-### B3. Primer movimiento con máquina
+### B3. First machine movement
 
-Definir primero posición inicial, fases, apoyos, agarres, trayectoria, rango representado y cámaras. Revisar que cuerpo y máquina correspondan con las instrucciones y que manos, pies o asiento no atraviesen la geometría.
+Initial pose/phases/support-grip/path/range/cameras, body-machine-instructions/no
+hand-foot-seat penetration. Explicit existing geometry/anatomy rig movement,
+catalog-base ID/scene-schema ExerciseId/phases-camera; animationId supported only.
+Blender clips first contract-manifest-load-play; Yoga runtime→Blender,**no general
+reverse importer**, static uploads no animation. Multi-angle-phases/body variants/
+framing/reduced motion/defined human technical reviewer. Code tests no technique
+certification/highlight no measured activation.
 
-La primera opción es registrar un movimiento explícito sobre las poses y el rig existentes en `geometry` y `anatomy-viewer`. Incorporar su ID y entrada en `catalog-base`, ampliar `ExerciseId` en `scene-schema` cuando corresponda y registrar fases y cámara. Un ejercicio nuevo no recibe una animación automáticamente: `animationId` sólo puede apuntar a un movimiento educativo soportado.
+<a id="b4-derivados-y-reutilización"></a>
 
-Si se elige autoría de clips en Blender, implementar previamente su contrato, manifiesto, carga y reproducción. El taller de yoga actual exporta movimientos del runtime hacia Blender; **no hay un pipeline general Blender → movimiento de la app**. La carga de GLB estático del gimnasio tampoco acepta animaciones.
+### B4. Derivatives and reuse
 
-Revisar frente, lateral y tres cuartos en varias fases, las variantes corporales compatibles, encuadre y movimiento reducido. La revisión técnica/educativa requiere una persona definida; los tests comprueban comportamiento del código y no certifican la técnica del ejercicio. El resaltado anatómico muestra asociaciones educativas, no activación medida del usuario.
-
-### B4. Derivados y reutilización
-
-Generar poster y preview desde el mismo renderer que usa la app cuando el movimiento ya esté integrado. Revisar visualmente los resultados y después verificar procedencia/hashes. Una iteración puede generar sólo el ejercicio trabajado; antes de cerrar, regenerar todos los derivados afectados por cambios compartidos.
-
-Esta fase queda diferida por decisión del usuario mientras los modelos 3D y su integración sigan cambiando. Retomarla sobre los recursos definitivos; no completar ahora un lote de miniaturas que habrá que volver a producir. El cierre del código se documenta por separado y no certifica la procedencia ni la revisión completa del lote actual.
+Same-renderer poster-preview after integration, visual then hash-provenance. Partial
+iteration, all shared affected before close. User-deferred while 3D evolves, not
+repeat unstable batch; code closeout separate/not full current-batch provenance.
 
 ```sh
 pnpm previews:generate --exercise squat --model male --gif
@@ -216,116 +244,146 @@ pnpm --filter @klisteniapp/anatomy-viewer test
 pnpm --filter @klisteniapp/model-assets test
 ```
 
-`squat` es un ejemplo existente, no el comando de una futura máquina. Los requisitos de generación están en [Exercise previews](exercise-previews.md); el atlas y su procedencia en [Anatomy sources](anatomy-model-sources.md), y el taller Blender de yoga en [Yoga](yoga.md). Cambiar hashes para ocultar una diferencia visual no sustituye la revisión del recurso.
+squat existing example, not future machine command. [Requirements](exercise-previews.md),
+[atlas](anatomy-model-sources.md),[Yoga workshop](yoga.md). Hash edits not visual review.
+Second distinct machine before generalizing, per-resource license/attribution.
 
-Repetir con una segunda máquina distinta antes de generalizar componentes de autoría. Registrar licencia y atribución por recurso: el origen del atlas, los modelos propios y los medios aportados por un gimnasio pueden ser diferentes.
+<a id="5-línea-c-diseñar-la-ui-implementarla-y-probarla"></a>
 
-## 5. Línea C: diseñar la UI, implementarla y probarla
+## 5. Line C: design, implement and test UI
 
-### C1. Ciclo de cada iteración
+<a id="c1-ciclo-de-cada-iteración"></a>
 
-1. **Elegir una tarea:** por ejemplo, publicar una unidad y sus etiquetas, asignar una rutina o registrar una sustitución. Escribir qué debe lograr cada rol y cómo reconocer que terminó.
-2. **Bocetar estados:** contenido, jerarquía, acciones, carga, vacío, error, sin permiso, guardado, conflicto y reintento. Usar nombres, fotos e instrucciones representativos desde el primer boceto.
-3. **Implementar en la feature existente:** reutilizar controles de `b2b-ui`, contratos y hooks públicos. Conservar borradores, snapshots, cancelación y protección entre sesiones.
-4. **Recorrerla en el navegador:** ejecutar la tarea completa con cada rol involucrado y fallos relevantes. Probar teclado/foco, texto largo, ancho móvil y luego un teléfono táctil real.
-5. **Registrar y corregir:** guardar capturas cuando aclaren el problema; anotar pasos, resultado esperado y observado. Agregar una regresión cuando el problema sea de comportamiento; usar comparación visual sólo en pantallas y estados estables.
-6. **Repetir y cerrar:** una persona debe completar la tarea con los estados visibles de la aplicación. Volver a probar después de cada ajuste que afecte el recorrido.
+### C1. Iteration cycle
 
-La UI puede iterar con un GLB de prueba o con fotos. El recurso 3D definitivo se incorpora en B2; luego se repite el recorrido que lo consume.
+1. Role task/completion criterion, e.g.unit-label publication/routine assignment/substitution.
+2. Sketch content-hierarchy/actions/loading-empty-error-no permission/save-conflict-retry,
+   representative names/photos/instructions.
+3. Existing feature/shared public UI-contract-hooks, preserve drafts-snapshots-cancel-session guard.
+4. End-to-end roles/failures/keyboard-focus/long text/mobile then physical touch.
+5. Captures useful/reproduction-expected-actual/small fix/behavior regression, visual stable states only.
+6. Human completes visible task/retest affected journey each adjustment.
 
-### C2. Matriz mínima de recorridos
+Test GLB/photos before definitive B2 asset, then repeat consuming flow.
 
-| Usuario o situación | Prueba | Resultado esperado |
+<a id="c2-matriz-mínima-de-recorridos"></a>
+
+### C2. Minimum journey matrix
+
+| User/situation | Test | Expected |
 | --- | --- | --- |
-| Administrador | Preparar marca, contenido, dos unidades, website y etiquetas | Publicación explícita, fichas correctas y QR por unidad |
-| Profesor | Crear/asignar rutina, cambiar después el ejercicio y consultar ejecución | Prescripción asignada estable; acceso sólo a socios autorizados |
-| Socio | Abrir rutina/QR, sustituir, recuperar borrador tras recarga y guardar; probar parcial/completa en sesiones distintas | Contexto conservado y ejecución real separada de la prescripción; registros confirmados inmutables |
-| Visitante | Website y QR de una unidad publicada/retirada | Sólo contenido público disponible; ninguna actividad personal |
-| Red interrumpida | Perder respuesta de guardado y reintentar | Estado comprensible y una sola ejecución persistida |
-| Edición concurrente | Guardar sobre una revisión anterior | Conflicto visible y borrador recuperable |
-| Cambio de acceso | Cambiar cuenta/gimnasio, revocar membresía o suspender servicio | Sin datos residuales ni respuestas tardías de otra sesión |
-| Dispositivo limitado | Móvil, teclado, movimiento reducido, WebGL fallido | Acciones accesibles; lectura y registro funcionan con el contenido de respaldo |
+| Admin | Brand-content-two units-website-labels | Explicit publication/correct card/unit QR |
+| Trainer | Create-assign/later catalog edit/monitor | Stable prescription/assigned-only |
+| Member | Routine-QR/substitute/reload draft/save/separate partial-full | Context/actual distinct/confirmed immutable |
+| Visitor | Published-withdrawn website-unit | Public-only/no personal activity |
+| Network loss | Lost save/retry | Understandable state/one row |
+| Concurrent edit | Old revision save | Visible conflict/recoverable draft |
+| Access change | Account-gym/revoke/suspend | No stale sensitive/late foreign response |
+| Limited device | Mobile-keyboard-reduced/noWebGL | Accessible/fallback reads-logs |
 
-La configuración [Playwright B2B](../apps/b2c-web/playwright.b2b.config.ts) ejecuta proyectos de Chromium escritorio, Chromium táctil y WebKit táctil, cada uno con schema de PostgreSQL, API y origen independientes. La matriz recorre publicación/QR, registro, recuperación, permisos y fallos, y compara unas pocas pantallas estables. La emulación de WebKit no demuestra funcionamiento en Safari de un teléfono real ni escaneo con cámara; esos pasos de E4 siguen siendo físicos.
+[Playwright](../apps/b2c-web/playwright.b2b.config.ts): three engines/per-project DB-API-
+origin, publication-QR/log-recovery-permission-errors/few stable screenshots;
+emulated WebKit not phone Safari/camera, physical E4 separate.
 
-### C3. Entorno de trabajo y QR físico
+<a id="c3-entorno-de-trabajo-y-qr-físico"></a>
 
-Para todas las aplicaciones usar el [setup unificado desde el root](development.md): `pnpm setup:dev` una vez, `docker compose up` en una terminal y `pnpm exec turbo run dev` en otra. Ese entorno guarda sus cuentas privadas en `.cache/dev/` y usa bases separadas para B2C y B2B. Puede ejecutarse en Mac o en el VPS con [túnel privado](development-vps.md#4-abrir-las-webs-desde-otro-dispositivo).
+### C3. Environment and physical QR
 
-El helper dedicado anterior sigue disponible para trabajar sólo B2B; no ejecutarlo a la vez que el entorno unificado porque comparten puertos:
+[Unified root](development.md): setup once/Compose+Turbo terminals/private .cache/dev/
+separate DBs, Mac or [VPS private tunnel](development-vps.md#4-abrir-las-webs-desde-otro-dispositivo).
+Dedicated legacy B2B helper no concurrent shared ports:
 
 ```sh
 pnpm dev:b2b
 ```
 
-Abrir `http://127.0.0.1:4200/manage`, `http://127.0.0.1:4200/app` y `http://127.0.0.1:4200/g/atlas-demo`. Usar las cuentas ficticias de `.cache/b2b/demo.private.json` y la contraseña del env privado generado; no incorporarlas a capturas ni commits.
+4200/manage, app, g/atlas-demo; fictional .cache/b2b/demo.private.json/private env, no
+capture-commit credentials. [Local B2B](b2b.md#demo-local),[B2C launcher](ui-iteration.md)
+distinct. Phone-printed QR [HTTPS instance](b2b.md#instancia-independiente), loopback
+points phone itself; check before print, no B2C deployment needed.
 
-El entorno, dependencias y preparación de DB están en [Demo local B2B](b2b.md#demo-local). La guía [UI iteration](ui-iteration.md) corresponde a B2C y tiene otro lanzador.
+<a id="6-estado-de-los-cambios-concretos"></a>
 
-Para probar un QR impreso desde un teléfono, preparar una instancia B2B de prueba con origen HTTPS accesible desde ese teléfono según [Instancia independiente](b2b.md#instancia-independiente). Los QR de `127.0.0.1` apuntan al propio teléfono. Verificar el origen antes de imprimir; esta prueba no requiere cambiar ni desplegar B2C.
+## 6. Concrete change status
 
-## 6. Estado de los cambios concretos
+508e9e1 first three/code-static readiness,[release](b2b-release.md), Blender own
+acceptance. WL implemented above, physical/public own evidence.
 
-La entrega `508e9e1` implementa los tres primeros pasos de esta tabla y deja preparada la integración de recursos estáticos. La [guía de release](b2b-release.md) reúne alcance, comandos y evidencia; el contenido producido en Blender conserva su aceptación propia. Los cambios de marca blanca y sedes tienen implementación y checkpoints WL-0 a WL-8 arriba; conservan aceptación física y publicación propias.
-
-| Orden | Estado del código | Archivos o áreas | Aceptación que permanece separada |
+| Order | Code | Areas | Separate acceptance |
 | --- | --- | --- | --- |
-| **1** | Escenario Atlas/Sur ampliado; recuperación y conflictos de editores, publicación explícita y diagnóstico por unidad antes de imprimir QR | `apps/b2b-web/src/features`, `b2b-ui`, E2E B2B | Preparación y publicación por una persona del gimnasio piloto |
-| **2** | Registro móvil, etiquetas de series, recuperación, parcial definitivo, reintento exacto, duración y RPE; historial contra snapshot asignado | `apps/b2b-web/src/features`, contratos/dominio/API y E2E B2B | Completar el circuito con un socio en su teléfono |
-| **3** | Matriz Chromium escritorio/táctil y WebKit táctil, aislamiento por proyecto y seis capturas estables revisadas | `apps/b2c-web/playwright.b2b.config.ts`, E2E y snapshots | Safari/iOS físico y escaneo de una etiqueta impresa sobre HTTPS accesible |
-| **Blender local** | Visor estático y carga protegida comprobados con GLB técnico; error recuperable, carga voluntaria y alternativa sin WebGL; CLI `equipment:check` | `anatomy-viewer`, `b2b-ui`, biblioteca B2B y `scripts/validate-equipment.mjs` | Producir y revisar máquina, poster, instrucciones y procedencia de E3 |
-| **Con el recurso revisado** | Se conserva el registro explícito de movimientos soportados y la generación de derivados; no se inventa un movimiento de máquina ni un importador de clips Blender | `geometry`, `anatomy-viewer`, `catalog-base`, `model-assets` | Autoría, integración y revisión del movimiento E5 y segundo caso visual E6 |
-| **Previews diferidos** | Generadores y recursos existentes conservados; el lote completo no se declara regenerado ni validado | Derivados de ejercicios, anatomía y yoga en `model-assets` | Retomar generación, revisión y procedencia después de terminar los modelos y cambios relacionados, por decisión del usuario |
+| 1 | Atlas-Sur/repair-editor/publication/QR diagnostics | features/UI/E2E | Human pilot readiness |
+| 2 | Mobile sets/recover/partial/exact retry/time-RPE/snapshot history | features/contracts-domain-API/E2E | Actual member phone |
+| 3 | Three-engine/per-project/six stable comparisons | Playwright/E2E/snapshots | Physical Safari/printed HTTPS QR |
+| Local Blender | Protected tested static GLB/error-voluntary-noWebGL/equipment:check | viewer/UI/library/validate-equipment.mjs | E3 machine-poster-text/provenance |
+| Reviewed resource | Explicit motion/derivatives, no invented importer | geometry/viewer/catalog/assets | E5 movement/E6 second visual |
+| Deferred previews | Existing generators/assets, no full regeneration-validation | Exercise-anatomy-yoga assets | Definitive models then generation-review-provenance |
 
-## 7. Validación para cerrar cada entrega
+<a id="7-validación-para-cerrar-cada-entrega"></a>
 
-Para cambios de código B2B, desde la raíz:
+## 7. Validation per delivery
+
+Root B2B code:
 
 ```sh
 pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build:b2b
-# Configurar antes B2B_TEST_DATABASE_URL con PostgreSQL de prueba desechable:
+# First configure B2B_TEST_DATABASE_URL with disposable test PostgreSQL:
 pnpm test:b2b:api
 pnpm test:b2b:e2e
 ```
 
-`lint` incluye `check:b2b:boundaries`. La integración API omitida por falta de DB no cuenta como validación. El entorno y aislamiento de las suites están documentados en [Producto B2B](b2b.md); nunca usar una base real para tests o resets.
+Lint includes boundaries; missing DB skip not integration. [Isolation](b2b.md), no
+real DB/reset. Shared changes B2C build/affected journey/catalog-geometry-viewer
+preview/visual regression. Check lint-types-tests-preview-build, E2E B2C. Docs-only
+links/references/diff check. Current user exception only previews, decomposed code-
+integration-build-publication-runtime, not full check/release PASS. Every delivery
+changed/tested roles-devices/pending; E4 physical QR/tasks, E3-E5 resource/content review.
+[WL matrix](b2b-white-label-validation.md)two-host/two×two/session-API-media/publish-
+modules-migrate-restore. Historical test:b2b:wl:e2e controlled CA; current no-bypass
+rule adapt before new runs. Limited hosts serial projects; one-origin legacy scope only.
 
-Si cambian paquetes usados por B2C, agregar su build y recorridos afectados; para catálogo, geometría o visores, revisar también previews y regresión visual B2C. `pnpm check` reúne lint, tipos, tests, procedencia de previews y builds; `pnpm test:e2e` ejecuta los recorridos B2C. Si sólo cambia documentación, comprobar enlaces, referencias y `git diff --check`.
+<a id="8-capacidades-adicionales-de-esta-entrega"></a>
 
-Para el cierre actual, la excepción solicitada por el usuario difiere sólo la generación y validación de previews. Las comprobaciones de código, integración, builds, publicación y runtime se ejecutan y registran por separado. No se afirma que `pnpm check` o `pnpm check:release` completos hayan aprobado mientras su fase de previews siga pendiente.
+## 8. Additional delivery capabilities
 
-Cada entrega registra qué cambió, qué se probó, con qué roles/dispositivos y qué quedó pendiente. Para E4, incluir escaneo físico y tareas completas en móvil. Para E3/E5, incluir vistas del recurso y revisión del contenido, además de los checks de código.
+Requested roadmap extensions, not content/pilot acceptance replacement.
 
-La [matriz WL D01–D19](b2b-white-label-validation.md) agrega dos dominios HTTPS de prueba contra el mismo despliegue, dos sedes por marca, aislamiento de sesión/API/medios, publicación, módulos, migración y restauración. Ejecutar `pnpm test:b2b:wl:e2e` con la DB desechable y la CA controlada descritas en [operación WL](b2b-white-label-runtime.md); en hosts limitados, usar `--project` para correr los tres motores en procesos separados. La suite anterior de un origen conserva sólo su alcance de regresión legacy.
-
-## 8. Capacidades adicionales de esta entrega
-
-El pedido de implementar el roadmap incorpora también estas extensiones de código. Su disponibilidad no sustituye la revisión de contenido ni la evaluación del piloto.
-
-| Línea | Implementación | Condición para su aceptación en uso |
+| Line | Implementation | Use acceptance |
 | --- | --- | --- |
-| Gimnasios | Prescripción por repeticiones o duración, RPE objetivo y declarado; snapshots históricos y registro real separados | Validar dosis y contenido con el profesor; no se infieren objetivos ni esfuerzo del usuario |
-| Entradas públicas | Entrada B2B en `/` y `/gimnasios`, website en `/g/:slug`, acceso de socio y equipo; B2C conserva su aplicación independiente | Configurar los orígenes y el acceso del piloto |
-| B2C | Búsqueda de anatomía/yoga y enlaces de elongación/movilidad por región a contenido existente | Revisar pertinencia editorial; la consulta no registra práctica ni cambia la rutina |
-| Voz guiada | Lectura voluntaria, pausa/reanudación/detención, indicación de lado si existe en el texto y temporizador de descanso | Probar voces y audio del dispositivo; instrucciones y controles escritos siguen disponibles |
-| Espacio del gimnasio | Galería, plano con puntos y enlaces de unidades, lista accesible y GLB estático opcional de un sector | Producir plano/modelo y comprobar que ayuda a orientarse; medir el recurso en el teléfono |
-| Clips audiovisuales | Comparación de dos videos autorizados, procedencia, evaluación humana y exportación con IDs/hashes; copia por cuenta/gimnasio | Aportar clip de referencia y generado, permisos y revisor; la herramienta no genera un rig ni publica la evaluación |
+| Gyms | Reps-time/target-actual RPE/immutable prescribed-actual | Trainer dose/content, no inferred effort |
+| Public entry | root-gimnasios/g-slug/member-staff/independent B2C | Pilot origin/access |
+| B2C | Anatomy-yoga search/regional mobility-links | Editorial fit, reading no practice-routine mutation |
+| Voice | Voluntary read-pause-resume-stop/side text/rest timer | Actual audio/voice, text controls retained |
+| Space | Gallery/unit-linked plan/list/optional sector GLB | Produce plan-model/phone helpfulness/performance |
+| Video clips | Two authorized/reference-generated/provenance/human/export IDs-hashes/scoped draft | Clips-permissions-reviewer, no rig generation/publication |
 
-El plano/recorrido virtual, los clips generados y la personalización de avatares no bloquean E4. Las fotos y un croquis permiten una representación aproximada del espacio, sin prometer reconstrucción exacta. Reservas, control de acceso, ERP, facturación automática y app nativa quedan fuera de este recorrido.
+Virtual plan/generated clips/avatar personalization not E4 blocker; photos/sketch
+approximate, no exact reconstruction. Reservations/access control/ERP/automatic
+billing/native app excluded. Decide only next pilot machine-exercise/reviewer/
+provenance/devices; offboarding history-retention/export explicit before expansion.
+Pricing/sales/pilot agreements separate technical backlog.
 
-Antes de cada ampliación resolver sólo sus decisiones necesarias: máquina y ejercicio piloto, quién revisa contenido, procedencia de recursos y dispositivos objetivo. La conservación/exportación del historial al dejar un gimnasio requiere una política explícita antes de ampliar ese ciclo de vida. Pricing, ventas y acuerdos del piloto se tratan por separado de este backlog técnico.
+<a id="9-fuentes-y-mantenimiento"></a>
 
-## 9. Fuentes y mantenimiento
+## 9. Sources and maintenance
 
-Este plan reconcilia los documentos aportados con el código y las decisiones posteriores:
+Reconciles provided docs/code/later decisions:
 
-- **`Klisteniapp_minuta_2026-10-10.pdf`**: productos y datos separados (p. 3), prescripción/ejecución y catálogo (pp. 4–5), contenido 3D y espacio (pp. 6–7), arquitectura y demo (pp. 8–9), prioridad del website y procedencia (pp. 11–12).
-- **`Klisteniapp_Roadmap_2026-10-10.pdf`**: reglas (pp. 1–4), alcance y arquitectura propuesta (pp. 5–7), demo/uso real/extensiones (pp. 8–12), validación (p. 13) y dependencias (p. 16).
-- **Decisión posterior del usuario:** backend y DB B2B independientes desde el inicio, reutilización de modelos/ejercicios y preservación de B2C. Esta decisión ya implementada sustituye las opciones abiertas de arquitectura de los PDF.
-- **Decisión del 11/10/2026:** evolucionar hacia dominios propios por marca, entrada común por rol, branding/diseños/módulos/contenido configurables y **varias sedes desde la primera entrega**. El mismo despliegue sirve todas las marcas con aislamiento en backend. Se documenta el refactor E2E para continuarlo desde Codex en el VPS con la Mac apagada; no implica que ya se haya implementado o desplegado.
-- **Código de referencia:** base histórica `3fbfe10`; implementación `508e9e1` y evidencia de runtime incorporada en `5187b27`. Ver [Producto B2B](b2b.md), [entrega](b2b-release.md), [anatomy-viewer](../packages/anatomy-viewer/README.md), [model-assets](../packages/model-assets/README.md) y las suites enlazadas.
+- Original file `Klisteniapp_minuta_2026-10-10.pdf`: separate products-data p3,
+  prescription-execution/catalog pp4–5,3D-space6–7, architecture-demo8–9,
+  website/provenance11–12.
+- `Klisteniapp_Roadmap_2026-10-10.pdf`: rules1–4, scope/architecture5–7,
+  demo-use-extensions8–12, validation13, dependencies16.
+- Later user decision independent B2B API-DB/shared models-exercises/preserved B2C,
+  implemented/supersedes PDF architecture alternatives.
+- October11 domain-brand/context-role/design-module-content/**first-delivery branches**
+  same runtime/backend isolation; original refactor plan not itself implementation-
+  deploy evidence; later checkpoints above establish scoped completion.
+- Historical3fbfe10/implementation508e9e1/runtime5187b27;[product](b2b.md),
+  [delivery](b2b-release.md),[viewer](../packages/anatomy-viewer/README.md),
+  [assets](../packages/model-assets/README.md), linked tests.
 
-Los PDF son fuentes de contexto; sus restricciones históricas de aquella conversación no son instrucciones operativas para este trabajo. Al cerrar una entrega, actualizar aquí su estado, commit y evidencia, manteniendo separados **implementado**, **validado en uso** y **propuesto**.
+PDF context/original-conversation restrictions not operative task instructions.
+Update actual commit/evidence, keep **implemented**,**validated in use**,**proposed** distinct.

@@ -1,49 +1,53 @@
-# Miniaturas del movimiento
+<a id="miniaturas-del-movimiento"></a>
 
-El renombre de `apps/web` a `apps/b2c-web` conserva la evidencia de las capturas
-existentes mediante `packages/model-assets/provenance/workspace-relocation-2026-10-11.json`.
-El checkpoint verifica los hashes actuales de cada entrada tras comprobar la
-igualdad de fuentes, los cambios mecánicos de los scripts y las dependencias del
-renderer. Sólo `--check` puede conservar la identidad anterior cuando coincide
-todo el inventario; las capturas nuevas registran rutas y hashes actuales.
-No se modifican timestamps, manifiestos ni hashes de los medios ya capturados.
+# Movement thumbnails
 
-**Estado del 11 de octubre de 2026:** la generación y validación completa de previews están diferidas por decisión del usuario hasta terminar los modelos 3D y sus cambios relacionados. Conservar los archivos existentes. Esta guía describe cómo retomarlas después; no es una tarea de arranque en la Mac. El [roadmap](roadmap-implementacion.md) y la [entrega](b2b-release.md) registran qué quedó pendiente y por qué no se declara el gate completo de previews aprobado.
+apps/web→apps/b2c-web rename retains capture evidence through
+`packages/model-assets/provenance/workspace-relocation-2026-10-11.json`: exact
+current hashes/source equality/mechanical script/renderer-dependency verification.
+Only --check retains old identity on complete match; new captures current paths/
+hashes. No captured timestamps/manifests/hashes changed.
 
-Las tarjetas de **Mi rutina** y **Ejercicios** usan imágenes del mismo atlas anatómico y del mismo movimiento que el visor 3D. Las miniaturas se generan localmente con Chromium, desde una entrada de captura de Vite. La interfaz sirve los archivos resultantes como imágenes: cada tarjeta no crea otro canvas ni carga otra instancia del modelo. **Mi cuerpo** muestra miniaturas estáticas de las regiones anatómicas aisladas, descritas al final de esta guía.
+**October 11, 2026 status:** user-deferred full preview generation/validation until
+3D models/related changes complete. Preserve files; instructions for later resumption,
+not Mac-startup task. [Roadmap](roadmap-implementacion.md)/[delivery](b2b-release.md)
+explain pending/full gate not passing.
 
-El formato que consume la aplicación es **WebP animado**, acompañado de un **poster WebP estático**. Se puede exportar también GIF para compartir o comparar, pero la interfaz no lo necesita.
+Mi rutina/Ejercicios images same atlas/movement as 3D viewer; local Chromium/Vite
+capture, runtime images without per-card canvas/model. Mi cuerpo static isolated
+regions below. Animated WebP plus static WebP poster; optional GIF for sharing/comparison,
+not required UI. Global male/female shared morphology/scene/camera/path; visual
+choice not prescription/sex-gender-health inference.
 
-La preferencia global **Modelo corporal** selecciona la representación masculina (`male`) o femenina (`female`) para el visor y para las imágenes de ejercicios. El generador captura ambas con la misma escena, cámara y trayectoria, aplicando la morfología paramétrica compartida de `anatomy-variants.ts`. La selección de modelo visual no cambia la prescripción del ejercicio ni permite inferir sexo, género o condiciones de salud de la persona.
+<a id="requisitos"></a>
 
-## Requisitos
+## Requirements
 
-- Node.js 24 o superior y pnpm 12.7.0, como el resto del repositorio.
-- Dependencias instaladas y los archivos anatómicos existentes en `packages/model-assets/public/models`.
-- Chromium de Playwright, con WebGL disponible para renderizar la escena.
-- `cwebp` e `img2webp`, incluidos en las herramientas de WebP.
-- Solo para `--gif`: FFmpeg.
-
-Desde la raíz del repositorio:
+Node 24+/pnpm12.7.0/dependencies/models in packages/model-assets/public/models,
+Playwright Chromium/WebGL, cwebp/img2webp, FFmpeg only for --gif. Root:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm --filter @klisteniapp/b2c-web exec playwright install chromium
 
-# macOS con Homebrew: codificadores WebP
+# macOS with Homebrew: WebP encoders
 brew install webp
 
-# Opcional, para exportar GIF
+# Optional, for GIF export
 brew install ffmpeg
 ```
 
-El script busca los codificadores en `PATH`. Para instalaciones en otras rutas, admite `WEBP_CWEBP_BIN`, `WEBP_IMG2WEBP_BIN` y `FFMPEG_BIN`, cada una con la ruta de su ejecutable. No hace falta Blender para capturar el modelo ya preparado.
+PATH encoder search or WEBP_CWEBP_BIN/WEBP_IMG2WEBP_BIN/FFMPEG_BIN paths; no Blender
+for prepared model. GPU-less PREVIEW_SOFTWARE_WEBGL=1 explicitly SwiftShader/all
+three generators, manifest args; e.g. PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate
+--gif. Remove temporary frames after each publication/bounded disk.
 
-En un servidor sin GPU, `PREVIEW_SOFTWARE_WEBGL=1` activa explícitamente SwiftShader para los tres generadores. Los argumentos de Chromium quedan registrados en el manifiesto. Por ejemplo: `PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate --gif`. Los frames temporales se eliminan después de publicar cada captura, manteniendo el uso de disco acotado durante una regeneración completa.
-
-Los tres generadores aceptan `--only-stale` para retomar una ejecución interrumpida. Antes de omitir una captura comparan las fuentes actuales, las dimensiones/fps solicitadas, las versiones del navegador y codificadores, los argumentos del renderer y el hash y tamaño real de cada archivo. Exigen una fecha ISO UTC válida, con hasta cinco minutos de diferencia futura para tolerar relojes de distintos hosts. No cambian la fecha ni el manifiesto de las capturas verificadas. Para conservar también todos los GIF existentes, usar `PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate --gif --only-stale`. En yoga, combinarlo con `--contact-sheets` vuelve a renderizar sólo las tres fases de revisión de los ítems ya verificados; los archivos publicados conservan su procedencia original.
-
-Una regeneración completa y reanudable en Linux puede ejecutarse en serie así, conservando el log de cada familia y las planchas de revisión:
+--only-stale compares sources/size-fps/browser-encoder versions/renderer args/
+actual bytes-hash before skip. Valid ISO UTC,≤five-minute future clock tolerance;
+verified timestamp/manifest unchanged. Keep GIF with
+PREVIEW_SOFTWARE_WEBGL=1 pnpm previews:generate --gif --only-stale. Yoga
+--contact-sheets rerenders only three review phases for current items, preserving
+published provenance. Serial resumable Linux with family logs/review sheets:
 
 ```sh
 mkdir -p .cache/preview-review
@@ -53,88 +57,119 @@ PREVIEW_SOFTWARE_WEBGL=1 pnpm yoga-previews:generate --only-stale --contact-shee
 pnpm previews:check
 ```
 
-Mantener las fuentes quietas durante la captura; el generador rechaza publicarlas si cambiaron entre frames. Si una ejecución se interrumpe, corregir la causa y repetir el mismo comando con sus mismos parámetros. El registro por ítem distingue `Capturing` de `Verified current`. Una captura incompleta o un archivo ausente/corrupto se vuelve a generar, sin inventar comprobantes para los archivos previos. La comprobación final no necesita acceso a Git ni al recibo histórico cuando todas las capturas corresponden a las fuentes actuales.
+Sources stable during capture; reject mid-frame changes. Correct interruption cause/
+repeat same parameters. Capturing vs Verified current; incomplete/missing/corrupt
+recaptured, no invented receipts. Final check needs no Git/historic receipt when
+all captures current.
 
-## Generar y comprobar
+<a id="generar-y-comprobar"></a>
+
+## Generate and check
 
 ```sh
-# Regenerar todo el catálogo en ambos modelos conservando los GIF
+# Regenerate the whole catalog for both models, retaining GIFs
 pnpm previews:generate --gif
 
-# Iterar un ejercicio
+# Iterate on one exercise
 pnpm previews:generate --exercise squat --gif
 
-# Iterar solo la representación femenina de un ejercicio
+# Iterate on only the female representation of one exercise
 pnpm previews:generate --exercise squat --model female --gif
 
-# Regenerar varios ejercicios concretos
+# Regenerate selected exercises
 pnpm previews:generate --exercise pushup --exercise dead-bug --gif
 
-# Añadir un GIF junto a los dos WebP de un modelo
+# Add a GIF alongside both WebP files for one model
 pnpm previews:generate --exercise squat --model female --gif
 
-# Comprobar fuentes y archivos de todo el catálogo sin renderizar
+# Check sources and files for the entire catalog without rendering
 pnpm previews:check
 
-# Equivalente directo y ayuda
+# Direct equivalent and help
 node scripts/generate-exercise-previews.mjs --check
 pnpm previews:generate --help
 ```
 
-El catálogo incluye 37 identificadores, definidos en `ExerciseIdSchema` y en `packages/catalog-base/src/exercises.ts`. A los quince movimientos anteriores se agregan `quarter-squat`, `paused-squat`, `knee-narrow-pushup`, `narrow-pushup`, `dead-bug-heel-tap`, `quadruped-leg-extension`, `prone-t-raise`, `prone-y-raise`, `split-squat`, `single-leg-calf-raise`, `bridge-march` y `single-leg-glute-bridge`. La tercera ampliación suma `bent-knee-row`, `dead-bug-arm-only`, `sumo-squat`, `single-leg-deadlift`, `forward-lunge`, `quadruped-arm-raise`, `prone-hip-extension`, `supine-march`, `supine-heel-slide` y `plank-shoulder-tap`. El script valida los identificadores y arranca su propio servidor Vite en `127.0.0.1`, usando un puerto libre; no requiere una sesión de `pnpm dev` abierta. Cierra el navegador y el servidor al terminar.
+37 ExerciseIdSchema/catalog IDs. Added twelve quarter-squat/paused-squat/
+knee-narrow-pushup/narrow-pushup/dead-bug-heel-tap/quadruped-leg-extension/prone-t-raise/
+prone-y-raise/split-squat/single-leg-calf-raise/bridge-march/single-leg-glute-bridge;
+third ten bent-knee-row/dead-bug-arm-only/sumo-squat/single-leg-deadlift/forward-lunge/
+quadruped-arm-raise/prone-hip-extension/supine-march/supine-heel-slide/plank-shoulder-tap.
+Validate IDs/owned127.0.0.1 free-port Vite/no dev session required, close browser/server.
+Output packages/model-assets/public/previews:
 
-Los resultados quedan en `packages/model-assets/public/previews`:
-
-| Archivo | Uso |
+| File | Use |
 | --- | --- |
-| `{id}-poster.webp` | Imagen estática de una fase representativa |
-| `{id}.webp` | Ciclo completo animado en bucle |
-| `{id}.gif` | Exportación opcional con `--gif` |
-| `female/{id}-poster.webp`, `female/{id}.webp`, `female/{id}.gif` | Los mismos formatos para la representación femenina |
-| `manifest.json` | Parámetros, versiones del renderizador y hashes de procedencia y resultados |
-| `NOTICE.md` | Créditos y licencia de las imágenes anatómicas |
+| {id}-poster.webp | Representative static phase |
+| {id}.webp | Full loop |
+| {id}.gif | Optional --gif |
+| female/{id}-poster.webp, female/{id}.webp, female/{id}.gif | Female formats |
+| manifest.json | Capture params/renderer versions/provenance-output hashes |
+| NOTICE.md | Anatomical-image credits/license |
 
-Los archivos sin prefijo conservan los enlaces existentes de la representación masculina. [`exercise-preview-assets.ts`](../apps/b2c-web/src/lib/exercise-preview-assets.ts) resuelve las rutas de poster, animación y GIF para ambos modelos. `--model male`, `--model female` o `--model all` selecciona la captura; el valor predeterminado es `all`. Una generación sin `--gif` elimina el GIF previo del ejercicio y modelo regenerados. La aplicación sigue usando WebP en ambos casos.
+Unprefixed male links preserved; [asset resolver](../apps/b2c-web/src/lib/exercise-preview-assets.ts)
+all formats/models. --model male/female/all, default all. Without --gif deletes old
+GIF for regenerated exercise/model, UI remains WebP. Manifest v2
+variants.male.exercises/variants.female.exercises/modelVariant/sources/files;
+old male history preserved until individually replaced. Console frames/duration/
+actual WebP size, manifest bytes; no fixed-size promise.
 
-El manifiesto de versión 2 guarda cada catálogo en `variants.male.exercises` y `variants.female.exercises`; cada entrada registra `modelVariant`, sus fuentes y sus archivos. Al regenerar desde un manifiesto antiguo se conserva el historial masculino hasta reemplazar cada entrada por una captura nueva.
+<a id="resolución-tiempo-y-encuadre"></a>
 
-La consola informa por ejercicio la cantidad de frames, la duración y el tamaño real del WebP generado. Consultá los campos `bytes` de `manifest.json` para conocer el peso de cada archivo; no hay un peso fijo prometido para todas las poses o resoluciones.
+## Resolution, timing and framing
 
-## Resolución, tiempo y encuadre
+Default256×256,12fps, DPR1, opaque #172526. Bilateral/unilateral6s/72frames;
+alternating10s/120frames both sides/center return: dead bug/heel taps/reverse-lateral
+lunge/bird dog/quadruped legs/climber/marching bridge/arms-only dead bug/forward
+lunge/quadruped arm/supine march/heel slide/shoulder taps. Shared exercise-animation.ts
+viewer/generator duration/half-cycle labels.
 
-Los valores predeterminados son **256 × 256 píxeles**, **12 frames por segundo**, DPR 1 y fondo opaco `#172526`. Cada ciclo bilateral o unilateral dura **6 segundos / 72 frames**. Los movimientos con metadata `laterality: alternating` duran **10 segundos / 120 frames** para mostrar ambos lados con una vuelta al centro: dead bug, sus toques de talón, zancada atrás y lateral, bird dog, extensión de pierna en cuadrupedia, escaladores, marcha de puente, dead bug solo de brazos, zancada adelante, elevación de brazo en cuadrupedia, marcha supina, deslizamiento de talón y toques de hombro en plancha. El visor y el generador comparten esas duraciones en `exercise-animation.ts`; los rótulos del visor siguen también las dos mitades de cada ciclo alternado.
-
-`split-squat`, `single-leg-calf-raise`, `single-leg-glute-bridge`, `single-leg-deadlift` y `prone-hip-extension` se practican por series de un lado antes de cambiar. Su metadata es `unilateral`, sus repeticiones se registran por lado y la demostración muestra un lado. Las fichas explicitan el cambio de pierna; no se simula una alternancia que convertiría el movimiento en otro ejercicio. La sentadilla con pausa sigue siendo un movimiento por repeticiones, con una meseta en la trayectoria: no incorpora un registro por segundos.
-
-Se pueden explorar otras resoluciones o cadencias:
+split-squat/single-leg-calf-raise/single-leg-glute-bridge/single-leg-deadlift/
+prone-hip-extension unilateral per-side sets/viewer one side, explicit switch;
+no invented alternating variant. Paused squat repetition/trajectory plateau, not time log.
+Explore resolution/rate:
 
 ```sh
 pnpm previews:generate --exercise squat --size 384 --fps 16
 ```
 
-`--size` admite enteros entre 64 y 1024; `--fps`, entre 1 y 60. Cambiar estos valores modifica los archivos con los mismos nombres. Los parámetros usados quedan registrados por ejercicio; para recuperar los valores predeterminados, regenerá sin esas opciones. El poster se codifica con calidad 86 y la animación con calidad 78. El GIF opcional utiliza una paleta calculada desde sus frames.
+--size integer64–1024,--fps1–60, same filenames; params per item, default regenerate
+without overrides. Poster quality86, animation78, GIF frame-derived palette.
+[Camera config](../packages/anatomy-viewer/src/exercise-preview-config.ts): position/
+target/orthographic height/posterPhase, fixed cycle. Review whole range after angle/
+framing change, not single phase.
 
-Las cámaras están en [`exercise-preview-config.ts`](../packages/anatomy-viewer/src/exercise-preview-config.ts). Cada ejercicio define posición, objetivo, altura del encuadre ortográfico y `posterPhase`. La cámara permanece fija durante todo el ciclo. Para mejorar un ángulo o evitar recortes, cambiá esos datos y revisá todo el movimiento; no ajustes la imagen de una única fase olvidando los extremos.
+<a id="de-dónde-sale-cada-frame"></a>
 
-## De dónde sale cada frame
+## Frame source
 
-[`ExerciseStage.tsx`](../packages/anatomy-viewer/src/ExerciseStage.tsx) es la escena compartida entre `AnatomyViewer` y la captura. Reúne `AnatomicalModel`, `AnatomyStudio` y la barra de los dos remos, con piernas extendidas o rodillas flexionadas. La captura usa el GLB, las referencias articulares y el rig de la aplicación, con la capa muscular y sin resaltado de grupos. No mantiene una segunda animación dibujada a mano.
+[ExerciseStage](../packages/anatomy-viewer/src/ExerciseStage.tsx) shared viewer/capture:
+AnatomicalModel/AnatomyStudio/both-row bar(straight/bent legs). Actual GLB/landmarks/
+rig/muscles, no highlight, no separate hand animation. [Capture entry](../apps/b2c-web/src/preview-capture.tsx)
+waits model, window.__exerciseCapture.frame(phase); exact frame/frameCount pose-render-
+PNG, no wall-time screen recording. Excludes duplicate phase1/no loop pause, studio
+warmup before poster. [HTML](../apps/b2c-web/preview-capture.html) dev-only
+?exercise=squat&model=female(default male), not app import/production entry;
+production public/previews, no page/controller. Deterministic phase-camera,**not
+pixel equality across GPU/OS/Chromium/encoder versions**. Manifest date/versions/
+platform per item; shared exposure/tone mapping/shadows anatomy-render-settings.ts.
 
-[`preview-capture.tsx`](../apps/b2c-web/src/preview-capture.tsx) espera que el modelo esté preparado y expone `window.__exerciseCapture.frame(phase)`. El generador solicita fases exactas `frame / frameCount`: actualiza la pose, renderiza y obtiene el PNG de ese mismo frame. No depende de esperar una cantidad de milisegundos ni de grabar la pantalla a velocidad real. Se excluye el extremo duplicado de fase 1 para evitar una pausa al cerrar el bucle. Antes de guardar el poster se renderiza una fase de calentamiento del estudio y sus materiales.
+<a id="detectar-miniaturas-desactualizadas"></a>
 
-La entrada [`preview-capture.html`](../apps/b2c-web/preview-capture.html) es una página separada para desarrollo, accesible en el servidor Vite con `?exercise=squat&model=female` (sin `model`, usa `male`). No está importada por la aplicación ni configurada como entrada del build de producción. La web de producción consume los archivos de `public/previews`; no incluye la página ni el controlador `__exerciseCapture`.
+## Detect stale thumbnails
 
-La secuencia de fases y la cámara son deterministas. **No se promete igualdad de píxeles entre distintas GPU, sistemas operativos o versiones de Chromium y los codificadores.** El manifiesto guarda fecha, versiones de Chromium, `cwebp`, `img2webp` y plataforma por ejercicio para conservar la procedencia al regenerar solo una parte. El visor y la captura comparten exposición, tone mapping y tipo de sombras en `anatomy-render-settings.ts`.
+[Generator](../scripts/generate-exercise-previews.mjs) SHA-256 relevant generator/
+entry/camera/routes/scene/model/morphology/studio/rig/catalog-planning/geometry/
+schemas/GLB/landmarks/lock; laterality metadata affects cycle. Combined source hash/
+params/output hashes per entry.
 
-## Detectar miniaturas desactualizadas
-
-[`generate-exercise-previews.mjs`](../scripts/generate-exercise-previews.mjs) calcula SHA-256 de las fuentes relevantes: generador, entrada de captura, cámaras, rutas de recursos, escena, modelo, morfología paramétrica, estudio, rig, catálogo y metadata de planificación, geometría, esquemas, GLB, referencias articulares y lockfile. La metadata participa porque determina si la demostración alterna lados. Cada entrada del manifiesto conserva el hash combinado de esas fuentes, los parámetros de captura y el hash de cada archivo generado.
-
-La extracción a paquetes conserva las capturas originales de ejercicios y yoga, incluidos GIF, fecha y hashes originales. Un [registro de procedencia verificable](../packages/model-assets/provenance/README.md) demuestra la equivalencia de las fuentes trasladadas y fija los hashes actuales; cualquier cambio posterior lo invalida y requiere capturar otra vez. Las 24 imágenes de regiones musculares sí se generaron nuevamente con la implementación compartida.
-
-`pnpm previews:check` comprueba **todos los ejercicios en ambos modelos** (74 combinaciones), aunque la última generación haya usado `--exercise` o `--model`. También forma parte de `pnpm check`. Falla si falta una entrada, sus fuentes cambiaron, el modelo o la ruta no corresponden, falta un archivo o su contenido ya no coincide con el hash registrado. No necesita Chromium ni los codificadores porque solo lee archivos.
-
-El hash de fuentes es global: modificar, por ejemplo, una cámara o una pose marca como antiguas las otras entradas también. Regenerar una sola es útil mientras iterás; antes de dar por terminada la actualización, ejecutá:
+Exercise/yoga package extraction preserves original captures/GIF/dates/hashes;
+[verifiable provenance](../packages/model-assets/provenance/README.md) proves moved
+sources/current hashes; later changes invalidate/recapture.24 region images regenerated shared.
+previews:check all 37×2=74 even partial generation; part of check. Missing entries/
+changed sources/wrong model-path/missing-bad bytes fail. Read-only, no Chromium/encoders.
+Global source hash: one camera/pose change makes others stale too. Partial useful
+iteration, complete later:
 
 ```sh
 pnpm previews:generate --gif
@@ -145,13 +180,19 @@ pnpm check
 pnpm test:e2e
 ```
 
-Versioná las miniaturas, su manifiesto y los cambios de fuentes juntos. El chequeo valida trazabilidad e integridad; no compara visualmente las poses ni impone que todos los ejercicios tengan el mismo `size` o `fps`.
+Commit source/thumbnail/manifest together. Integrity/provenance, not visual pose
+comparison/uniform size-fps requirement.
 
-## Miniaturas de regiones del atlas
+<a id="miniaturas-de-regiones-del-atlas"></a>
 
-`pnpm body-previews:generate` prepara los dos modelos y captura las doce regiones musculares de cada uno. Usa la entrada de desarrollo `body-preview-capture.html?model=female`, el mismo `prepareAnatomy` del visor y una cámara ortográfica ajustada a los vértices visibles. Conserva las cámaras, el lado representativo, los colores y el fondo transparente del atlas. La variante mujer aplica primero la misma transformación paramétrica que el visor; no incorpora un atlas clínico independiente.
+## Atlas region thumbnails
 
-Los archivos se guardan en `public/previews/body` y `public/previews/female/body`, con sus propios manifiestos y créditos. Cada entrada registra variante, estructuras, triángulos, límites, cámara, versiones de herramientas y hashes de fuentes y WebP. `pnpm body-previews:check` verifica las 24 imágenes, incluidas dimensiones, selección anatómica y procedencia, sin abrir Chromium. `pnpm previews:check` incluye esta comprobación.
+body-previews:generate two models×12. Dev body-preview-capture.html?model=female,
+shared prepareAnatomy/orthographic visible-vertex framing, cameras/representative
+side/colors/transparent background. Female shared parametric adaptation, not clinical
+independent atlas. public/previews/body and public/previews/female/body own manifests/
+credits; variant/structures/triangles/bounds/camera/tool versions/source-WebP hashes.
+body-previews:check24 dimensions/anatomical selection/provenance/no browser, included previews:check.
 
 ```sh
 pnpm body-previews:generate --model female --region pectorals
@@ -159,28 +200,39 @@ pnpm body-previews:generate --contact-sheet /tmp/klisteni-body.png
 pnpm body-previews:check
 ```
 
-El segundo comando genera las dos variantes y dos hojas para revisión visual: `/tmp/klisteni-body.png` y `/tmp/klisteni-body-female.png`. Revisá ambas sobre fondo claro y oscuro y a tamaño de tarjeta. El generador rechaza fuentes que cambian durante la captura; si otra iteración modifica el renderer o el modelo, esperá a que se estabilice y repetí la generación. Una interrupción puede dejar un subconjunto actualizado; la comprobación identifica las imágenes pendientes.
+Second generates both/review sheets /tmp/klisteni-body.png,/tmp/klisteni-body-female.png.
+Light-dark/card-size review. Source changes during capture rejected; stabilize
+renderer/model then rerun. Interruption subset/check identifies pending.
 
-## Comportamiento de las tarjetas
+<a id="comportamiento-de-las-tarjetas"></a>
 
-- El poster se carga de forma diferida y permanece como base mientras se carga el movimiento.
-- En **Mi rutina**, se anima el ejercicio seleccionado. En ambas vistas también se anima la tarjeta al pasar el puntero o recibir foco.
-- El movimiento se desmonta cuando la miniatura queda fuera del viewport o se oculta la pestaña. Al volver a activarse, se muestra otra vez el recurso animado; no conserva una fase sincronizada con el visor.
-- Tanto **Reducir animaciones** en Ajustes como `prefers-reduced-motion` del sistema dejan solo el poster. Los cambios se aplican sin recargar.
-- Si falla el movimiento, queda el poster; si falla el poster, aparece un símbolo discreto de reproducción. Las tarjetas siguen siendo utilizables.
-- Al cambiar el modelo corporal, las tarjetas seleccionan sus nuevos recursos inmediatamente y conservan las reglas de movimiento reducido. Un error de carga de una representación no bloquea los recursos de la otra.
-- Las imágenes son decorativas para lectores de pantalla: el nombre y la información del ejercicio ya están en el texto de la tarjeta.
+## Card behavior
 
-## Revisión y recuperación
+- Lazy poster base while animation loads.
+- Mi rutina selected exercise animates; both views hover/focus animate.
+- Off-viewport/hidden tab unmount; reactivation own resource, no viewer phase synchronization.
+- Reducir animaciones/system prefers-reduced-motion poster-only/live changes.
+- Motion failure poster; poster failure discreet play symbol, usable card.
+- Body-model switch immediate new resources/reduced-motion rules; one variant load error does not block other.
+- Decorative screen-reader images; name/info already card text.
 
-Después de modificar una pose, el rig, el modelo o una cámara, comprobá el poster y el bucle a tamaño real de tarjeta, tanto en móvil como en escritorio. Revisá extremos, mitad de recorrido, manos, pies y apoyo en suelo, y comparalos con el visor. Probá también hover, foco con teclado y movimiento reducido. Un archivo que carga correctamente puede seguir teniendo un encuadre o una deformación que necesite corregirse.
+<a id="revisión-y-recuperación"></a>
 
-El generador captura y codifica en `.cache/exercise-previews-*`. Los tres generadores escriben el manifiesto completo en un archivo temporal antes de reemplazar cualquier imagen: si esa escritura falla por falta de espacio, se conservan los archivos publicados y su manifiesto anterior. Después reemplazan los recursos solicitados y, al final, renombran el manifiesto. El conjunto de varias URLs no forma una sola transacción del sistema de archivos: una interrupción entre esos renombrados puede dejar imágenes nuevas con el manifiesto anterior; los hashes detectan esa situación y `--only-stale` vuelve a capturar el ítem. No se actualizan hashes para aceptar archivos incompletos.
+## Review and recovery
 
-Si falla a mitad del catálogo, los ejercicios ya terminados quedan guardados; el resto puede seguir pendiente. El bloque de limpieza cierra procesos y retira temporales cuando el script sale normalmente o maneja un error. Después de un fallo o una interrupción, ejecutá `pnpm previews:check` y regenerá lo que indique; no asumas que todo el catálogo quedó actualizado.
+Pose/rig/model/camera change: poster/loop actual mobile-desktop card size/extremes/
+midrange/hands-feet-floor vs viewer; hover/keyboard/reduced motion. Valid load may
+still need framing/deformation fix.
 
-Si falta un codificador, el error identifica su ejecutable. Si Chromium no está instalado, ejecutá su comando de instalación de arriba. La preparación tiene un límite de 90 segundos y cada frame de 30 segundos: si el render no responde, el comando falla y limpia sus recursos. Si WebGL o la escena fallan, resolvé ese problema antes de aceptar imágenes nuevas; no reemplaces una captura fallida por una miniatura de otro ejercicio.
+Capture/encode .cache/exercise-previews-*. All generators stage complete manifest
+before replacing images; disk failure preserves published old set. Then resources/
+manifest rename; multiple URLs not one filesystem transaction. Interruption may
+leave new images/old manifest, hashes detect/only-stale recaptures, no acceptance-hash edit.
+Completed items saved/rest pending. Normal/handled-error cleanup; always check/rerun
+pending after interruption. Missing encoder identified; install Chromium as above.
+Model preparation90s/frame30s timeout cleans. Resolve WebGL/scene failure before
+acceptance, no other-exercise substitute.
 
-La fidelidad de estas imágenes es **respecto del modelo y las trayectorias implementadas**. Comparte sus límites de deformación educativa: no certifica técnica, activación muscular, contacto físico ni validez clínica. Consultá [fuentes y límites anatómicos](anatomy-model-sources.md) y [criterio educativo](exercise-sources.md).
-
-Las imágenes derivan de Z-Anatomy / BodyParts3D y conservan **CC BY-SA 4.0**, separada de la licencia del código. Los créditos y las adaptaciones están en [`public/previews/NOTICE.md`](../packages/model-assets/public/previews/NOTICE.md).
+Fidelity **implemented model/paths**, not technique/activation/physical contact/
+clinical validity. [Anatomical limits](anatomy-model-sources.md)/[educational criteria](exercise-sources.md).
+Z-Anatomy/BodyParts 3D **CC BY-SA4.0**, separate code license;[credits/adaptations](../packages/model-assets/public/previews/NOTICE.md).
