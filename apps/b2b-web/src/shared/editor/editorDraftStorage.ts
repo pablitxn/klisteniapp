@@ -7,7 +7,7 @@ export type DraftStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>
 export function editorDraftKey(
   accountId: string,
   orgId: string,
-  kind: 'exercise' | 'program' | 'machine' | 'unit' | 'website',
+  kind: 'exercise' | 'program' | 'machine' | 'unit' | 'website' | 'theme' | 'branch',
   entityId: string,
   branchId?: string,
   role?: string,

@@ -148,7 +148,8 @@ export class WhiteLabelService {
     const row = (
       await c.db.query<BranchRow>(
         `INSERT INTO b2b_branch(id,organization_id,slug,name,address,contact,timezone,opening_hours,status,public,draft)
-       VALUES($1,$2,$3,$4,$5,$6,$7,$8,'active',false,$9) RETURNING *`,
+       VALUES($1,$2,$3,$4,$5,$6,$7,$8,'active',false,$9)
+       ON CONFLICT(organization_id,slug) DO NOTHING RETURNING *`,
         [
           id,
           c.org.id,
@@ -162,6 +163,12 @@ export class WhiteLabelService {
         ],
       )
     ).rows[0];
+    if (!row)
+      throw new HttpError(
+        409,
+        'BRANCH_SLUG_TAKEN',
+        'Ya existe una sede con esa dirección del enlace. Elegí otra.',
+      );
     await audit(c, 'branch.create', id);
     return { branch: branchDTO(row) };
   }
