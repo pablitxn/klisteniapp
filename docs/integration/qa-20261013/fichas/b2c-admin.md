@@ -1,6 +1,6 @@
 ---
 id: 2026-10-13-orchid-labs-klisteniapp-qa-b2c-admin
-title: QA Klisteniapp — B2C administración
+title: QA Klisteniapp — B2C administration
 entity: orchid-labs
 domain: product
 source_type: review
@@ -10,38 +10,41 @@ source: ../../../b2c-admin-qa-2026-10-13.md
 created: 2026-10-13
 ---
 
-# QA Klisteniapp — B2C administración
+<a id="qa-klisteniapp--b2c-administración"></a>
+# QA Klisteniapp — B2C administration
 
-Pre-documentación pendiente de consolidación. Este archivo no es una entry registrada ni absorbida en Atlas. Fuente primaria: código y evidencia del repo owner; prueba local no demuestra despliegue.
+Pre-documentation awaiting consolidation. This file is neither a registered nor
+absorbed Atlas entry. Primary source: owner-repository code/evidence; local testing
+does not establish deployment.
 
 ## Summary
 
-Cuentas, búsqueda/vacíos, invitaciones personales/compartidas, límites y revocación, trial/lifetime, roles, sesiones y acceso administrativo con cloud expirado.
+Accounts, search/empty states, personal/shareable invitations, limits/revocation, trial/lifetime, roles, sessions and administrative access with expired cloud entitlement.
 
 ## Relevant Facts
 
-- Fuente inmutable: rama `qa/b2c-admin-20261013-sol`, SHA `478bcfb2e026a75cc6a25b43feb9cb5acfc2ca65`, [PR fuente](https://github.com/pablitxn/klisteniapp/pull/3). Base común `7172041102a8a7029af5fb3e2527a1fa51611a86`; fecha de trabajo 2026-10-13.
-- Correcciones incorporadas: Capacidad lifetime/trial validada hasta 10000; referencia de operación síncrona evita duplicaciones en mismo frame; colapsar administración no revela enlaces que llegan tarde.
-- Histórico: 84 combinaciones consolidadas de pasadas más reejecuciones, no una corrida inicial íntegramente verde. Nueva integración: 84/84 aprobadas. GitGuardian se localizó y evaluó por separado, sin cerrar la alerta.
-- Estado integrado y evidencia exacta por caso/motor/viewport: [matriz](../matrix.json), [informe](../README.md). Las fuentes permanecen ancestros; no se cerraron sus PRs.
-- Runtime local Cloud Linux, PostgreSQL/medios sintéticos aislados. No datos reales, correos, pagos, producción ni teléfonos físicos.
+- Immutable source: branch `qa/b2c-admin-20261013-sol`, SHA `478bcfb2e026a75cc6a25b43feb9cb5acfc2ca65`, [source PR](https://github.com/pablitxn/klisteniapp/pull/3). Common base `7172041102a8a7029af5fb3e2527a1fa51611a86`; work date 2026-10-13.
+- Incorporated corrections: Lifetime/trial capacity validated up to 10000; synchronous operation ref prevents same-frame duplication; collapsing administration hides late links.
+- Historical: 84 consolidated combinations from runs/reruns, not one entirely passing initial run. New integration: 84/84 passed. GitGuardian located/evaluated separately without closing alert.
+- Integrated status/exact case-engine-viewport evidence: [matrix](../matrix.json), [report](../README.md). Sources remain ancestors; their PRs were not closed.
+- Local Cloud Linux runtime, isolated synthetic PostgreSQL/media. No real data/mail/payments/production/physical phones.
 
 ## Decisions
 
-- Instrucción explícita del usuario del 2026-10-13: sesiones QA por rol, corregir bugs reproducibles, integración para revisión manual posterior. Mantener marca blanca existente; previews y Blender diferidos.
-- Integración con rama y PR draft independientes; sin merge a main ni deploy. Atlas permanece de lectura en esta tanda.
-- HTTP loopback permitido para fixtures; no excepciones TLS ni cambios de CA/trust. No certificar Secure cookies/HTTPS a partir de estas pruebas.
+- Explicit October 13, 2026 user instruction: role-specific QA sessions, correct reproducible bugs, integrate for later manual review. Retain existing white-label; previews/Blender deferred.
+- Separate integration branch/draft PR; no main merge/deployment. Atlas remains read-only in this task.
+- HTTP loopback allowed for fixtures; no TLS exceptions or CA/trust changes. These tests establish neither Secure cookies nor HTTPS.
 
 ## Open Questions
 
-- Revisión manual humana, teléfonos/cámara/QR impreso y HTTPS con confianza válida pendiente.
-- Yoga previews: receipt stale previo, checker conservado; no marcar gate completo verde ni regenerar capturas en esta tanda.
-- Reconciliar esta ficha con las otras seis y la integración final antes de marcar entry absorbed. Las limitaciones específicas y no ejecutados siguen en la matriz y fuente primaria.
+- Human manual review, phones/camera/printed QR and HTTPS with valid trust pending.
+- Yoga previews: previous stale receipt/checker retained; do not claim full gate passing or regenerate captures in this task.
+- Reconcile this note with other six/final integration before marking entry absorbed. Specific limits/unexecuted cases remain in matrix/primary source.
 
 ## Links
 
-- Fuente: [reporte del rol](../../../b2c-admin-qa-2026-10-13.md).
-- Integración: [sources.json](../sources.json), [README.md](../README.md), [matrix.json](../matrix.json).
-- Destino de intake existente: `sysadmin-workspace/atlas/runbooks/intake.md`; consolidar fuente/entry usando templates vigentes y registrar en `atlas/catalog/sources.yaml`.
-- Síntesis a conciliar: `atlas/wiki/klisteniapp.md`, intake `atlas/inbox/2026-10-12-klisteniapp-knowledge-intake.md`, `atlas/retroactive-documentation.md`; decisiones/preguntas sólo donde el intake lo exige.
-- Atlas leído `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`; no escrito. No hay nuevo protocolo ni catálogo paralelo.
+- Source: [role report](../../../b2c-admin-qa-2026-10-13.md).
+- Integration: [sources.json](../sources.json), [README.md](../README.md), [matrix.json](../matrix.json).
+- Existing intake destination: `sysadmin-workspace/atlas/runbooks/intake.md`; consolidate source/entry with current templates/register in `atlas/catalog/sources.yaml`.
+- Reconcile synthesis: `atlas/wiki/klisteniapp.md`, `atlas/inbox/2026-10-12-klisteniapp-knowledge-intake.md`, `atlas/retroactive-documentation.md`; decisions/questions only where intake requires.
+- Atlas read at `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`, not written. No new protocol/parallel catalog.

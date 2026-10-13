@@ -1,48 +1,78 @@
-# Integracion QA Klisteni — checkpoint de trabajo
+# Klisteni QA integration — working checkpoint
 
-Rama `qa/klisteni-integration-20261013`, worktree `/workspace/klisteni-integration-20261013`.
-Main remoto verificado `7172041102a8a7029af5fb3e2527a1fa51611a86`.
-Fuentes inmutables y PR2–8: `sources.json`. Todas son ancestros de la integracion;
-las ramas originales y sus PRs se conservan. Anonimo usa la variante publicable
-confirmada por el usuario; la rama original/evidencia grande no estaba publicada.
+Branch `qa/klisteni-integration-20261013`, worktree `/workspace/klisteni-integration-20261013`.
+Verified remote main `7172041102a8a7029af5fb3e2527a1fa51611a86`.
+Immutable sources/PR2–8: `sources.json`. All are integration ancestors; original
+branches/PRs preserved. Anonymous uses user-confirmed publishable variant;
+original branch/large evidence were unpublished.
 
-Resoluciones iniciales: union de exclusiones de specs instance/admin en config demo;
-union de configs tipadas admin/visitor/member, luego inclusion de todos los configs
-`playwright*.config.ts`. Esto descubrio un tipo WebServerConfig no exportado en el
-config extra B2C; se reemplazo por guardia sobre el array real de servidores.
-Stores B2C combinaron recuperacion durable/importacion del visitante con confirmacion
-exacta de respuesta perdida de yoga. ProgramEditor combina ID estable de creacion
-con bloqueo de salida hasta ACK; Invitation combina consentimiento de identidad
-existente y refresh de token por hashchange/popstate. No se descartaron regresiones.
+Initial resolutions: unite instance/admin exclusions in demo config; unite typed
+admin/visitor/member configs, then include every `playwright*.config.ts`. Found
+unexported WebServerConfig in extra B2C config; replaced with actual server-array
+guard. B2C stores combine durable visitor recovery/import and exact confirmation
+of lost yoga response. ProgramEditor combines stable creation ID/exit blocked
+until ACK; Invitation combines existing-identity consent/hashchange-popstate token
+refresh. No discarded regressions.
 
-Harness nuevo `scripts/b2b-integration-e2e-server.mjs` y config HTTP de integracion:
-HTTP ficticio por proxies restringidos en loopback, schemas UUID y medios desechables,
-marcas separadas y origen validado. No usa TLS, ignoreHTTPSErrors ni flags SPKI,
-CA/trust/credenciales del sistema. Auth conserva el limiter de producto (10/60s).
-HTTP no acredita cookies Secure, TLS ni produccion. La cobertura HTTPS del source
-admin B2B publicado a959fce estaba pendiente; no se reutiliza como nueva evidencia.
+New `scripts/b2b-integration-e2e-server.mjs`/HTTP config: fictional HTTP through
+restricted loopback proxies, disposable UUID schemas/media, separate brands,
+validated origin. No TLS, ignoreHTTPSErrors/SPKI flags, system CA/trust/credentials.
+Auth retains product limiter (10/60s). HTTP establishes neither Secure cookies,
+TLS nor production. Published B2B admin source a959fce HTTPS coverage pending;
+not reused as new evidence.
 
-Comprobado hasta este checkpoint: lint global 14/14 y formato, tipos 14/14 con todos
-los configs incluidos. Smoke admin B2B Chromium 320 HTTP: 4/4 (44 rutas de marcas/sedes,
-back/forward, Personas/permisos y modulos scoped). Tests globales corriendo con bases
-B2C y B2B ficticias distintas; matriz completa y gate Yoga aun pendientes.
+At this checkpoint: global lint14/14/format, types14/14/all configs. B2B admin
+Chromium320 HTTP smoke4/4 (44 brand/branch routes, back-forward, People/permissions,
+scoped modules). Global tests running with distinct fictional B2C/B2B DBs;
+complete matrix/Yoga gate pending.
 
-Próximo: concluir tests, revalidar matrices afectadas HTTP/mobile/desktop; resolver
-fallos reales, preparar informe unico/fichas de predocumentacion pendientes de Atlas,
-y publicar PR DRAFT. Atlas sin cambios de contenido, head27ae86c.
+Next recorded action: finish tests/revalidate affected HTTP/mobile/desktop matrices,
+resolve actual failures, prepare unified report/Atlas pre-documentation notes,
+publish DRAFT PR. Atlas content unchanged, head27ae86c.
 
-## Checkpoint recuperable solicitado
+## Requested recoverable checkpoint
 
-Siete fuentes incorporadas en merges locales, ultima base de merges `4f903962094bcc7069891d7aba7ad8683544d44c`. Sin conflictos Git pendientes. Lint/tipos globales 14/14 y tests globales 14/14 completados (601 tests, cero skips con ambas DB aisladas). Build global instance 16/16 completado. UI admin B2C 84/84 completada. Autogestion B2C sigue en sexto perfil; admin B2B nueva matriz 108 en curso.
+Seven sources incorporated in local merges, last merge base
+`4f903962094bcc7069891d7aba7ad8683544d44c`. No pending Git conflicts. Global lint/
+types14/14/tests14/14 complete (601 tests/zero skips with both isolated DBs).
+Global instance build16/16 complete. B2C admin UI84/84 complete. B2C self-service
+in sixth profile; new B2B admin108 matrix running.
 
-Intentos admin B2B conservados: primer intento HTTP no soportaba CONNECT de Playwright; segundo 10 PASS, fallos por `crypto.randomUUID` ausente en origen HTTP ficticio y cancelacion. No son evidencia de TLS ni fallos de producto confirmados. Fixture opt-in de UUID Web Crypto para esta matriz HTTP, sin elevar el origen a secure context ni cambiar cookies. Tercera corrida confirma los cuatro primeros casos, incluyendo ACK de programas, y continua. Gates previews fallaron; pendiente contraste exacto con baseline, sin regenerar assets. GitGuardian: `needs_review` documentado en JSON redacted; candidato fixture aislado byte-identico al commit reportado, check neutral sin anotaciones, falta finding/path/line exactos. No se cerro ni altero la alerta.
+Retained admin attempts: first HTTP lacked Playwright CONNECT support; second
+10 PASS, failures from absent `crypto.randomUUID` on fictional HTTP origin and
+cancellation. Neither TLS evidence nor confirmed product failure. Opt-in Web Crypto
+UUID fixture for HTTP matrix without secure-context elevation/cookie change.
+Third confirms first four cases including program ACK and continues. Preview gates
+failed; exact baseline comparison pending, no regeneration. GitGuardian
+`needs_review` in redacted JSON: isolated fixture candidate byte-identical to
+reported commit, neutral unannotated check, exact finding/path/line absent. Alert
+not closed/changed.
 
-## 13:01 UTC — avance verificado, no bloqueo
+## 13:01 UTC — verified progress, no blocker
 
-Codigo/harness06a13ee. Socio96/96; entrenador120/120; anonimo252/252 consolidado tras WebKit126/126 en DB propia; visitante216/216; adminB2C84/84; selfservice288/288 consolidado tras Yoga6/6. Ultimos checks: lint14, tipos14, tests602/zero skips (raiz26), build16. AdminB2B previo106/108: snapshot real de destinatarios evidencia carga async y traza WebKit identifica PeoplePage404 tras reemplazo de dist por build global. Regresion del gateway5/5 y fixture con copia fija del build. Nueva corrida completa108 activa; resultados anteriores intactos. README/matrix son autoridad del estado mas reciente. Checkpoint compartido /workspace/shared/klisteni-integration-checkpoint.md.
+Code/harness06a13ee. Member96/96; trainer120/120; anonymous252/252 consolidated
+after WebKit126/126 in owned DB; visitor216/216; B2C admin84/84; self-service288/288
+consolidated after Yoga6/6. Latest lint14/types14/tests602-zero skips (root26)/build16.
+Previous B2B admin106/108: actual recipient snapshot shows async load; WebKit trace
+identifies PeoplePage404 after global dist replacement. Gateway regression5/5,
+fixed-build-copy fixture. New complete108 run active; previous results intact.
+README/matrix authoritative for latest state. Shared checkpoint
+/workspace/shared/klisteni-integration-checkpoint.md.
 
-## Cierre QA — 1164 combinaciones aprobadas
+## QA completion — 1164 passing combinations
 
-Ultimo harness2822dec. Nueva corrida fija admin107/108; traza identifica Load request cancelled de imports iniciales antes de descargar el documento, luego mismos archivos200. El inventario ahora espera titulos reales de cada seccion y contenido tras history/reload, sin filtrar erroresJS. Reejecucion8/8 en cuatro perfiles; admin108/108 consolidado. Matriz final1164 PASS; previos44 runs retenidos, 3442 capturas/trazas con hashes. Global final lint/tipos14/14, tests602/zero skips; build16/16 y gateway5/5 sobre06a, sin cambios posteriores de producto. Siete archives locales; grandes binarios fueraGit. Rama remota96cb839 confirmada en checkpoint; PRdraft rechazado por auto-review (instruccion no publicarPRtodavia), autorizacion explicita solicitada y pendiente, cero PRs confirmado. Cierre documental local y actualizacion fast-forward de rama pendientes de registrar; sin merge/deploy/Atlaswrites.
+Latest harness2822dec. New fixed admin107/108; trace identifies Load request
+cancelled during initial document imports, same files later200. Inventory now waits
+actual section titles/content after history/reload, without JS filtering.
+Rerun8/8/four profiles; consolidated admin108/108. Final1164 PASS, previous44 runs
+retained, 3442 captures/traces with hashes. Final lint/types14/14/tests602-zero
+skips; build16/16/gateway5/5 on06a, no later product changes. Seven local archives;
+large binaries outside Git. Remote96cb839 confirmed at checkpoint; draft PR rejected
+by auto-review (instruction not to publish PR yet), explicit authorization requested/
+pending, zero PRs confirmed. Local documentation completion/branch fast-forward
+awaiting recording. No merge/deploy/Atlas writes.
 
-Limpieza final comprobada: cero schemas no sistemicos/public en las cuatro DB de QA usadas. Fixture servers/browser jobs terminados; PostgreSQL propio permanece para reproduccion. Los siete tar.gz coinciden con tamaño/SHA256 registrados. Todos los JSON y links primarios de fichas validos. Matriz JSON compacta para lectura programatica; flows.md conserva tabla humana completa. No mas cambios funcionales tras2822dec.
+Final cleanup verified: zero non-system/public schemas in four QA DBs. Fixture
+servers/browser jobs ended; owned PostgreSQL remains for reproduction. Seven tar.gz
+match recorded size/SHA256. All JSON/primary intake links valid. Compact machine-
+readable matrix JSON; flows.md full human table. No functional changes after2822dec.

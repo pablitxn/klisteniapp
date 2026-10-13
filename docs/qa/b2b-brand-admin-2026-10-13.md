@@ -1,218 +1,314 @@
-# QA e implementación: administrador de marca B2B — 13/10/2026
+<a id="qa-e-implementación-administrador-de-marca-b2b--13102026"></a>
+# QA and implementation: B2B brand administrator — 2026-10-13
 
-**Completado: 108 grupos UI únicos aprobados** (27 por perfil), mediante las pasadas y reejecuciones detalladas abajo. Lint, tipos, 587 tests (API B2B 77/77 incluida) y build B2B aprobados. Ocho problemas corregidos en commits locales; ningún bloqueo activo. La matriz conserva explícitamente lo no ejecutado.
+**Completed: 108 unique UI groups passed** (27/profile), through runs/reruns detailed
+below. Lint/types/587 tests (including B2B API 77/77)/B2B build passed. Eight issues
+corrected in local commits; no active blocker. Matrix explicitly retains unexecuted cases.
 
-Código final probado: `a87daf4f8460e6dd710defca8bea57b0f8bf9414`. Base: `7172041102a8a7029af5fb3e2527a1fa51611a86`; rama `qa/b2b-brand-admin-20261013`. Los commits de evidencia completan el reporte y sus artefactos. El relevo posterior desactiva la excepción TLS del config sin repetir la batería; los resultados de navegador siguen correspondiendo al protocolo histórico documentado abajo.
+Final tested code: `a87daf4f8460e6dd710defca8bea57b0f8bf9414`. Base:
+`7172041102a8a7029af5fb3e2527a1fa51611a86`; branch `qa/b2b-brand-admin-20261013`.
+Evidence commits complete report/artifacts. Later handoff disables config TLS
+exception without repeating suite; browser results still correspond to historical
+protocol documented below.
 
-## Revisión y aislamiento
+<a id="revisión-y-aislamiento"></a>
+## Revision and isolation
 
-- Checkout inicial limpio, rama `work`, HEAD `7172041102a8a7029af5fb3e2527a1fa51611a86`.
-- `git fetch origin` y `git merge --ff-only origin/main`: ya actualizado; no reset ni descarte. Rama propia `qa/b2b-brand-admin-20261013`.
-- Atlas: `/workspace/sysadmin-workspace`, HEAD `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`, rama inicial `work`, limpio y actualizado mediante fetch/fast-forward. Sin ediciones.
-- Leídas las instrucciones de ambos repos y `atlas/AGENTS.md`; skill local `.agents/skills/atlas-navigate/SKILL.md`, política de autoridad, wiki/retrospectiva y catálogo de Klisteniapp. Leídos `docs/roadmap-implementacion.md`, producto B2B y decisiones de marca blanca.
-- Fixtures `seedWhiteLabelDemo`: Atlas y Sur; Centro/Norte y Centro/Oeste. Cada proyecto usa PostgreSQL, schema aleatorio, sesiones y medios propios. El runner agrega un cuarto contexto para WebKit mediante `B2B_QA_EXTRA_PROXY=true`; aquí WebKit se ejecutó después de Chromium con un servidor nuevo. El runner rechaza bases cuyo nombre no contenga B2B/test y URLs con `options`; aquí todas las conexiones son loopback a bases desechables.
-- No producción, DNS, pagos, correos, modelos/autoría 3D ni previews modificados. Sin merge, deploy, push o PR.
+- Initial clean checkout, branch `work`, HEAD `7172041102a8a7029af5fb3e2527a1fa51611a86`.
+- `git fetch origin`, `git merge --ff-only origin/main`: already current; no reset/
+  discard. Own branch `qa/b2b-brand-admin-20261013`.
+- Atlas: `/workspace/sysadmin-workspace`, HEAD `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`,
+  initial branch `work`, clean/current after fetch/fast-forward. No edits.
+- Read both repo instructions/`atlas/AGENTS.md`, local
+  `.agents/skills/atlas-navigate/SKILL.md`, authority policy, Klisteniapp wiki/
+  retrospective/catalog, `docs/roadmap-implementacion.md`, B2B product/white-label decisions.
+- `seedWhiteLabelDemo` fixtures: Atlas/Sur, Centro/Norte and Centro/Oeste. Each project
+  owns PostgreSQL/random schema/sessions/media. Runner adds fourth WebKit context
+  through `B2B_QA_EXTRA_PROXY=true`; WebKit ran after Chromium with new server.
+  Runner rejects DB names without B2B/test and URLs with `options`; all actual
+  connections loopback/disposable.
+- No production/DNS/payments/mail/models/3D authoring/previews changed. No merge/
+  deploy/push/PR in this recorded task.
 
-## Motores y límites del entorno
+<a id="motores-y-límites-del-entorno"></a>
+## Engines and environment limits
 
-| Proyecto | Motor | Viewport CSS | Móvil/touch | Resultado final |
+| Project | Engine | CSS viewport | Mobile/touch | Final result |
 | --- | --- | --- | --- | --- |
-| admin-chromium-narrow | Chromium sistema 154.0.8037.57 | 320 × 740 | sí/sí | PASS 27/27, agregado de pasadas |
-| admin-chromium-wide | Chromium sistema 154.0.8037.57 | 412 × 915 | sí/sí | PASS 27/27, agregado de pasadas |
-| admin-chromium-desktop | Chromium sistema 154.0.8037.57 | 1440 × 1000 | no/no | PASS 27/27, agregado de pasadas |
-| admin-webkit-touch | Playwright WebKit 26.6, build 2359, WPE en Linux | 390 × 844 | sí/sí | PASS 27/27, agregado de pasadas |
+| admin-chromium-narrow | System Chromium 154.0.8037.57 | 320 × 740 | yes/yes | PASS 27/27, aggregated runs |
+| admin-chromium-wide | System Chromium 154.0.8037.57 | 412 × 915 | yes/yes | PASS 27/27, aggregated runs |
+| admin-chromium-desktop | System Chromium 154.0.8037.57 | 1440 × 1000 | no/no | PASS 27/27, aggregated runs |
+| admin-webkit-touch | Playwright WebKit 26.6, build 2359, Linux WPE | 390 × 844 | yes/yes | PASS 27/27, aggregated runs |
 
-Son pruebas de motores con emulación, no dispositivos físicos iPhone/Android ni Safari de iOS. Locale `es-AR`, zona UTC, movimiento reducido. Las capturas cubren pantallas reales servidas por Vite build/gateway/API/PostgreSQL.
+Emulated engine tests, not physical iPhone/Android/iOS Safari. Locale `es-AR`, UTC,
+reduced motion. Captures show actual screens served by Vite build/gateway/API/PostgreSQL.
 
-Playwright 1.63.0; Node 24.19.0; pnpm 12.7.0 (el pnpm del PATH general era 11.25.0; se usó el instalado en `/workspace/.onboarding/tools/node_modules/.bin`). La descarga de Chromium de Playwright recibió 403; se usó el Chromium disponible. WebKit y FFmpeg se descargaron por el mirror alternativo oficial. Faltaban librerías: se descargaron paquetes Debian y se extrajeron en `/workspace/.cache/webkit-deps`, sin instalación del sistema. El launcher local conserva las rutas del bundle y añade esa carpeta de librerías. El smoke real del motor mostró `26.6 Engine ready`.
+Playwright 1.63.0, Node 24.19.0, pnpm 12.7.0 (general PATH was 11.25.0; used
+`/workspace/.onboarding/tools/node_modules/.bin`). Playwright Chromium download 403;
+available Chromium used. WebKit/FFmpeg from official alternate mirror. Missing
+libs downloaded as Debian packages/extracted to `/workspace/.cache/webkit-deps`,
+no system installation. Local launcher retains bundle paths/adds library folder.
+Actual engine smoke reported `26.6 Engine ready`.
 
-Protocolo realmente utilizado en esta tanda: navegador → proxy HTTP CONNECT `127.0.0.1:4350` para WebKit → gateway HTTPS/TLS `127.0.0.1:4448` → API HTTP interna `127.0.0.1:4449`. URLs de navegador: `https://atlas.b2b.test` y `https://sur.b2b.test`. El certificado de fixture era autofirmado por una CA local desechable. Los tres proyectos Chromium usaron el mismo esquema con sus puertos propios.
+Actual protocol: browser → HTTP CONNECT proxy `127.0.0.1:4350` for WebKit → HTTPS/TLS
+gateway `127.0.0.1:4448` → internal HTTP API `127.0.0.1:4449`. Browser URLs:
+`https://atlas.b2b.test`, `https://sur.b2b.test`. Fixture certificate self-signed
+by disposable local CA. Three Chromium projects used same scheme/own ports.
 
-**Los cuatro proyectos usaron `ignoreHTTPSErrors: true` durante las pruebas históricas.** Se omitió el rechazo del navegador por errores de certificado; la evidencia no acredita validación de cadena/CA, identidad TLS del servidor ni confianza del sistema. No se modificó el trust store en esta tanda. WebKit fue WPE Linux 26.6 mediante el protocolo de automatización Playwright `--inspector-pipe`, con viewport táctil emulado; no Safari/iOS físico.
+**All four projects used `ignoreHTTPSErrors: true` during historical tests.** Browser
+certificate rejection bypassed; evidence establishes neither chain/CA validation,
+server TLS identity nor system trust. Trust store unchanged. WebKit was Linux WPE
+26.6 through Playwright `--inspector-pipe`, emulated touch, not physical Safari/iOS.
 
-La evidencia histórica WL del 11/10 tiene otro protocolo: `playwright.white-label.config.ts` usa `ignoreHTTPSErrors: false`, pero Chromium contiene `--ignore-certificate-errors-spki-list` para el certificado exacto de fixture; la guía runtime documenta confianza temporal de una CA para WebKit. Son una excepción SPKI y un cambio temporal de confianza, respectivamente; no deben presentarse como certificados públicos válidos ni atribuirse a esta tanda.
+October 11 historical WL evidence uses different protocol:
+`playwright.white-label.config.ts` has `ignoreHTTPSErrors: false`, but Chromium
+uses `--ignore-certificate-errors-spki-list` for exact fixture certificate; runtime
+guide records temporary CA trust for WebKit. These are SPKI exception/temporary
+trust change, not valid public certificates or evidence from this task.
 
-**Regla de relevo para pruebas futuras:** HTTP loopback aislado o HTTPS con certificado válido y confianza ya existente. Prohibidos `ignoreHTTPSErrors`, excepciones SPKI, `NODE_TLS_REJECT_UNAUTHORIZED=0` y cambios de confianza del navegador/sistema. El config de esta rama ahora fija `ignoreHTTPSErrors: false`; no fue reejecutado por instrucción del usuario. La fixture HTTPS autofirmada actual no habilita una nueva corrida bajo esa regla: primero debe adaptarse el escenario a una de las dos alternativas permitidas.
+**Future-test handoff rule:** isolated HTTP loopback or HTTPS with valid certificate/
+existing trust. No `ignoreHTTPSErrors`, SPKI exceptions,
+`NODE_TLS_REJECT_UNAUTHORIZED=0` or browser/system trust changes. Branch config now
+sets `ignoreHTTPSErrors: false`; not rerun per user instruction. Current self-signed
+HTTPS fixture cannot run under that rule until adapted to permitted alternative.
 
-## Inventario previo de rutas y acciones
+<a id="inventario-previo-de-rutas-y-acciones"></a>
+## Prior route/action inventory
 
-Fuente: `apps/b2b-web/src/routes.ts`, `app/Workspace.tsx`, `app/ManagementWorkspace.tsx` y las features. La API verifica permisos independientemente de la navegación.
+Source: `apps/b2b-web/src/routes.ts`, `app/Workspace.tsx`,
+`app/ManagementWorkspace.tsx`, features. API checks permissions independently of navigation.
 
-| Ruta | Acciones accesibles al administrador | Alcance |
+| Route | Administrator actions | Scope |
 | --- | --- | --- |
-| `/manage` | Elegir sede y función, salir; entrada a preparación/seguimiento | marca y contexto |
-| `/manage/whiteLabel` | Sedes y accesos; diseño publicado; módulos; catálogo y traslados; exportar historial de marca | marca y sede explícita |
-| `/manage/preparation` | Estado de preparación, abrir las secciones pendientes | sede |
-| `/manage/reports` | Filtrar socios, leer prescripción y ejecución guardadas | sede |
-| `/manage/people` | Buscar, invitar, copiar enlace, cambiar rol/membresía, pausar/reactivar, asignar acompañamiento | membresía de marca y acompañamiento por sede |
-| `/manage/programs` | Crear/editar/recuperar, movimientos/dosis, publicar versión, abrir/cancelar/asignar | sede; snapshots inmutables |
-| `/manage/catalog` | Buscar/filtrar, crear/adaptar/editar, recuperar, revisar y publicar ejercicios | catálogo según disponibilidad y propietario |
-| `/manage/equipment` | Unidades/lotes, ajustes/recursos, recuperar/conflictos, publicación, retirar/restaurar, QR | sede |
-| `/manage/media` | Subir, buscar, elegir/abrir archivos, reintentar carga; comparación privada de clips opcional | biblioteca de sede y recursos autorizados |
-| `/manage/website` | Textos, actividades, horarios, galería; guardar/recuperar/comparar/revisar/publicar/despublicar; plano opcional | sede |
-| `/manage/qr` | Diagnóstico, seleccionar/limpiar, generar, abrir fichas, imprimir y descargar | unidades públicas elegibles |
-| `/manage/brand` | Identidad legacy por URL; no aparece en la navegación WL | ruta compatible, render verificado; edición legacy NOT RUN |
-| `/login`, `/backoffice/*` | Login común y compatibilidad de enlaces | la ruta legacy se canoniza a `/manage/*` |
-| `/`, `/sedes/:slug`, `/g/:slug/units/:id` | Entrada y lectura del contenido publicado/QR | lectura pública de marca/sede |
-| `/app/invite#token=…` | Activación de persona ficticia, uso único; cuenta existente | invitación de marca y sede |
+| `/manage` | Choose branch/role, logout, preparation/monitoring entry | Brand/context |
+| `/manage/whiteLabel` | Branches/access, published design, modules/catalog/transfers, brand-history export | Brand/explicit branch |
+| `/manage/preparation` | Read readiness/open pending sections | Branch |
+| `/manage/reports` | Filter members/read saved prescriptions/executions | Branch |
+| `/manage/people` | Search/invite/copy link/change role-membership/pause-reactivate/assign coaching | Brand membership/branch coaching |
+| `/manage/programs` | Create/edit/recover/movements-prescriptions/publish version/open-cancel-assign | Branch/immutable snapshots |
+| `/manage/catalog` | Search/filter/create/adapt/edit/recover/review/publish exercises | Availability/owner catalog |
+| `/manage/equipment` | Units/batches/settings-resources/recovery-conflicts/publish-retire-restore/QR | Branch |
+| `/manage/media` | Upload/search/select/open/retry; optional private clip comparison | Branch library/authorized resources |
+| `/manage/website` | Text/activities/schedules/gallery; save/recover/compare/review/publish/unpublish; optional plan | Branch |
+| `/manage/qr` | Diagnostics/select-clear/generate/open pages/print-download | Eligible public units |
+| `/manage/brand` | Legacy URL identity, absent from WL navigation | Compatible route/render verified; legacy edit NOT RUN |
+| `/login`, `/backoffice/*` | Shared login/link compatibility | Legacy canonicalized to `/manage/*` |
+| `/`, `/sedes/:slug`, `/g/:slug/units/:id` | Entry/read published content/QR | Public brand/branch |
+| `/app/invite#token=…` | Fictional activation/one-use/existing account | Brand/branch invitation |
 
-La UI muestra biblioteca de modelos y visor opcional; su edición/autoría queda excluida por la instrucción del usuario. Herramientas de dominio, bootstrap, servicio y otras operaciones exclusivas del operador CLI no se implementaron en UI.
+UI displays model library/optional viewer; editing/authoring excluded by user.
+Domain/bootstrap/service and other CLI-only operator tools not implemented in UI.
 
-## Bugs reproducidos y corregidos
+<a id="bugs-reproducidos-y-corregidos"></a>
+## Reproduced and corrected bugs
 
-| ID | Antes | Corrección | Regresión/evidencia |
+| ID | Before | Correction | Regression/evidence |
 | --- | --- | --- | --- |
-| ADMIN-01 | Personas mostraba concesiones de sede, omitía administradores y cambiaba membresías globales con roles visibles incoherentes | roster de marca para el admin; lista separada y scoped para acompañamiento; texto explícito de alcance | baseline `people`; E2E de administrador visible, último admin, promoción/reversión, pausa/reactivación y selección scoped |
-| ADMIN-02 | Slug duplicado al crear sede terminaba en error 500 genérico | inserción atómica `ON CONFLICT`, HTTP 409 `BRANCH_SLUG_TAKEN`; no se sobrescribe ni duplica | E2E de validación/duplicado y test HTTP con conteo real en DB |
-| ADMIN-03 | Editor de diseño perdía cambios al navegar; conflicto sin recuperación; campos seguían editables durante el envío | copia local por cuenta/contexto, revisión original, comparación/rebase explícito, controles bloqueados durante envío y guardia de componente vigente | baseline `theme`; regresiones de recarga/navegación, conflicto/publicación/restauración y respuesta tardía |
-| ADMIN-04 | Editor de sede perdía dirección sin guardar al recargar; 409 sin forma de comparar/continuar | copia local, campos controlados, última revisión y comparación/rebase explícito; no remontar el editor por cada revisión | baseline `branch`; E2E de recarga y conflicto con actualización real concurrente |
-| ADMIN-06 | Selectores de rol móvil mostraban sólo la flecha; el roster de marca no resolvía nombres de coach de otra sede | ancho mínimo legible y lookup sobre el roster de marca | captura baseline `role-layout`, medida de texto real y reejecución UI en tres perfiles Chromium |
-| ADMIN-07 | WebKit desbordaba la cabecera 44 px al seleccionar una sede con nombre largo | contención local del campo del selector, límites de flex y foco visible en el contenedor; no se oculta overflow de body/html | diagnóstico geométrico 434/390, fixture de sede larga y reejecución real en cuatro perfiles |
-| ADMIN-08 | Volver desde ejercicio/rutina antes del ACK desmontaba el editor y dejaba el listado anterior pese a que el guardado persistía | botón de vuelta deshabilitado mientras guarda; navegación general conserva su recuperación existente | dos regresiones con PUT realmente confirmado y respuesta retenida; cuatro perfiles |
-| ADMIN-05 | Reabrir una invitación por fragmento en la misma pestaña conservaba el éxito anterior sin volver a validar | token como estado, sincronización hashchange/popstate y limpieza tras aceptación | baseline `invitation`; activación ficticia seguida por rechazo del enlace usado en el mismo documento |
+| ADMIN-01 | People displayed branch grants, omitted administrators, changed global memberships with inconsistent visible roles | Admin brand roster; separate scoped coaching list; explicit scope text | `people` baseline; visible admin/last-admin/promotion-reversal/pause-reactivation/scoped selection E2E |
+| ADMIN-02 | Duplicate branch slug caused generic 500 | Atomic `ON CONFLICT`, HTTP 409 `BRANCH_SLUG_TAKEN`; no overwrite/duplicate | Validation/duplicate E2E and HTTP test with real DB count |
+| ADMIN-03 | Design lost navigation edits, unrecoverable conflict, fields editable during submission | Per-account/context local copy/original revision/explicit compare-rebase/locked controls/current-component guard | `theme` baseline; reload/navigation/conflict/publication/restoration/late-response regressions |
+| ADMIN-04 | Branch lost unsaved address on reload; 409 without compare/continue | Local copy/controlled fields/latest revision/explicit compare-rebase; no remount each revision | `branch` baseline; reload/real concurrent update E2E |
+| ADMIN-06 | Mobile role selectors showed arrow only; brand roster did not resolve foreign-branch coach names | Readable minimum width/brand-roster lookup | `role-layout` baseline, actual text measurement/three Chromium reruns |
+| ADMIN-07 | WebKit header overflowed 44 px with long branch name | Local selector containment/flex limits/container-visible focus; no body/html overflow hiding | 434/390 geometry, long-branch fixture/four-profile rerun |
+| ADMIN-08 | Return before exercise/routine ACK unmounted editor, left stale list despite persisted save | Return disabled while saving; general navigation retains recovery | Two regressions with committed/held PUT response; four profiles |
+| ADMIN-05 | Reopening fragment invitation retained previous success without revalidation | Token state/hashchange-popstate sync/post-acceptance cleanup | `invitation` baseline; fictional activation then same-document used-link rejection |
 
-Código corregido en commits locales `94c9eb8`, `a889a4c` y `a87daf4`; checkpoint de QA `49459ab`. El commit de cierre guarda el informe definitivo y el manifiesto. No se cambiaron contratos ni controles de autorización. La copia local no vuelve válidos campos incompletos; servidor y publicación siguen validándolos. La clave conserva cuenta, marca, sede y función. Un diseño es de marca, pero su copia local conserva el contexto operativo en que se abrió: volver a esa sede permite recuperarla.
+Local code corrections: `94c9eb8`, `a889a4c`, `a87daf4`; QA checkpoint `49459ab`.
+Final commit stores definitive report/manifest. Contracts/authorization unchanged.
+Local copy does not validate incomplete fields; server/publication still validate.
+Key retains account/brand/branch/role. Design belongs to brand, but copy retains
+opening operational context: return to that branch to recover.
 
-## Matriz de flujos
+<a id="matriz-de-flujos"></a>
+## Flow matrix
 
-PASS se refiere al último resultado por flujo/proyecto, no a una única corrida limpia de toda la suite. El manifiesto conserva cada intento anterior, incluidos los fallos y su diagnóstico. PASS exige interacción UI más verificación persistida cuando hay escritura. Las API se usan también para preparar fixtures, producir conflictos/errores y comprobar efectos; no sustituyen la inspección de pantallas.
+PASS means latest flow/project result, not one clean full-suite run. Manifest
+retains all earlier attempts/failures/diagnostics. Requires UI interaction and
+persisted verification for writes. APIs prepare fixtures/conflicts/errors/check
+effects, without replacing screen inspection.
 
-| Flujo | Fixture/condición | Chromium 320 | Chromium 412 | Desktop | WebKit 390 | Comprobación |
+| Flow | Fixture/condition | Chromium 320 | Chromium 412 | Desktop | WebKit 390 | Check |
 | --- | --- | --- | --- | --- | --- | --- |
-| 11 rutas en ambas sedes de Atlas | datos iniciales Atlas | PASS | PASS | PASS | PASS | 22 pantallas por proyecto, sin overflow/alertas/errores JS |
-| 11 rutas en ambas sedes de Sur | datos iniciales Sur | PASS | PASS | PASS | PASS | 22 pantallas por proyecto |
-| Back/forward y recarga | Personas → Website, ambas marcas y sedes | PASS | PASS | PASS | PASS | URL y contexto conservados |
-| Personas y roles de marca | admin + multicontexto | PASS | PASS | PASS | PASS | último admin protegido, rol conservado al recargar |
-| Pausa/reactivación y acompañamiento | miembro de marca y socio/coach de Centro | PASS | PASS | PASS | PASS | estado real y selector excluye Norte |
-| Buscar persona sin coincidencias | query ficticia | PASS | PASS | PASS | PASS | tabla vacía |
-| Crear sede y validación | campos vacíos, zona inválida, slug repetido | PASS | PASS | PASS | PASS | una única fila de sede y error recuperable |
-| Conceder/retirar acceso | socio en sede nueva sin actividad | PASS | PASS | PASS | PASS | grant aparece/desaparece |
-| Guardar sede, recargar, conflicto | dirección local + actualización concurrente real | PASS | PASS | PASS | PASS | comparación, rebase y dirección persistida |
-| Archivo con actividad | Centro con asignaciones activas | PASS | PASS | PASS | PASS | rechazo, historial intacto |
-| Archivo/restauración sin actividad | sede vacía propia de cada proyecto | PASS | PASS | PASS | PASS | selector/estado/metadata persistidos |
-| Inventario vacío y rutina vacía | sede recién creada | PASS | PASS | PASS | PASS | estados vacíos y arrays vacíos reales |
-| Lote de dos unidades y doble submit | labels numerados, clicks en el mismo frame | PASS | PASS | PASS | PASS | un POST inicial |
-| Pérdida de respuesta y recuperación de lote | POST realmente confirmado, respuesta abortada | PASS | PASS | PASS | PASS | reintento tras reload, exactamente dos filas |
-| Cerrar y recuperar editor | lote aún sin enviar | PASS | PASS | PASS | PASS | no se pierde el borrador |
-| Conflicto de unidad, publicación/retiro/restauración | unidad seed y revisión concurrente | PASS | PASS | PASS | PASS | review obligatorio, revisión y visibilidad |
-| QR generado y ficha correcta | unidad publicada de Atlas Centro | PASS | PASS | PASS | PASS | imagen de QR, URL absoluta y pantalla pública |
-| Diseño: borrador, conflicto y recuperación | título ficticio + otro editor | PASS | PASS | PASS | PASS | no publicar borrador implícitamente; compare explícito |
-| Publicar/restaurar diseño | historial publicado de la marca | PASS | PASS | PASS | PASS | contexto público cambia y vuelve por nueva versión |
-| Respuesta de diseño tardía | PUT confirmado y retenido; navegar y editar una copia nueva | PASS | PASS | PASS | PASS | campos bloqueados; copia posterior sobrevive recarga |
-| Branding/logo y contraste | PNG propio, contraste inválido | PASS | PASS | PASS | PASS | rechazo sin alterar público, logo publicado/restaurado |
-| Website: validación, conflicto y recarga | Sur Oeste, actividad incompleta, edición concurrente | PASS | PASS | PASS | PASS | comparar, conservar/rebase y persistir |
-| Website: revisión/publicación | contenido ficticio guardado | PASS | PASS | PASS | PASS | confirmación requerida y website público renderizado |
-| Despublicar y conservar cambios locales | título sin guardar al retirar | PASS | PASS | PASS | PASS | público retirado, servidor conserva borrador previo y copia se recupera |
-| Biblioteca: vacío, formato y errores | SVG, PNG vacío, contenido falsificado y PNG válido | PASS | PASS | PASS | PASS | rechazos y bytes/hash reales; imagen decodificada |
-| Biblioteca: búsqueda y reintento | sin coincidencias y 503 interceptado | PASS | PASS | PASS | PASS | vacío, error visible y recuperación |
-| Biblioteca: aislamiento | Atlas Centro → Norte → Sur | PASS | PASS | PASS | PASS | no aparece la imagen ajena; medio cruzado 404 |
-| Ejercicio: validación y recuperación | texto ficticio, sin animación/modelo nuevo | PASS | PASS | PASS | PASS | instrucciones requeridas y copia recuperada |
-| Ejercicio: revisión/publicación/edición | ejercicio local Norte | PASS | PASS | PASS | PASS | publicar requiere revisar; editar vuelve a borrador |
-| Conflicto de programa | edición concurrente real + reload + copia local | PASS | PASS | PASS | PASS | comparación/rebase explícito y prescripción persistida |
-| Vuelta durante guardado de ejercicio/rutina | respuestas retenidas tras commit real | PASS | PASS | PASS | PASS | botón bloqueado hasta ACK y listado actualizado |
-| Sede larga en cabecera | nombre largo creado por UI | PASS | PASS | PASS | PASS | sin desborde horizontal y control/foco conservados |
-| Programas en cuatro sedes | rutina por tiempo/RPE, socio scoped | PASS | PASS | PASS | PASS | recuperar, guardar, publicar V1, asignar, V2 conserva snapshot V1 |
-| Módulos de sede y marca | equipment Centro; website marca | PASS | PASS | PASS | PASS | rutas directas/POST bloqueados; otras sedes correctas; datos conservados |
-| Disponibilidad de catálogo | ocultar/habilitar ejercicio base en Sur Centro | PASS | PASS | PASS | PASS | configuración persistida y reversión UI |
-| Traslado de unidad | Sur Centro → Oeste, actividad inicial | PASS | PASS | PASS | PASS | primero rechazo; finalizar asignaciones; unidad cambia de sede y queda privada |
-| Sesión expirada durante escritura | cookie retirada del contexto ficticio | PASS | PASS | PASS | PASS | POST rechazado, login y recuperación de la misma cuenta |
-| Aislamiento de borradores | Centro/Norte y admin/coach | PASS | PASS | PASS | PASS | cuenta/contexto diferente no recibe copia |
-| Logout entre pestañas y marcas | dos tabs Atlas y sesión separada Sur | PASS | PASS | PASS | PASS | tabs Atlas pierden UI privada; Sur conserva sesión |
-| IDs y URL de otra marca | unidad real Sur desde Atlas | PASS | PASS | PASS | PASS | rechazo real y comparación de datos Sur antes/después |
-| Invitación y uso único | nuevo email ficticio en Sur Oeste | PASS | PASS | PASS | PASS | activación; grant sólo Oeste; reabrir usado rechaza |
-| Seguimiento y exportación | ejecución parcial ficticia en Norte guardada por API de fixture | PASS | PASS | PASS | PASS | filtro real, parcial/snapshot visibles, JSON con ID y sede exactos |
-| Copiar invitación al portapapeles | permiso clipboard de navegador | NOT RUN | NOT RUN | NOT RUN | NOT RUN | crear/activar sí; clipboard no ejecutado |
-| Impresión/PDF y lectura física de QR | dispositivo e impresora reales | NOT RUN | NOT RUN | NOT RUN | NOT RUN | imagen/enlace/ficha sí; impresión/escaneo físicos pendientes |
-| Edición de identidad legacy y operadores | rutas compatibles/CLI | NOT RUN | NOT RUN | NOT RUN | NOT RUN | render legacy sí; flujo WL usa Diseño publicado |
-| Plano, archivos de video/GLB, reproducción/comparación de clips | contenido y revisión correspondientes | NOT RUN | NOT RUN | NOT RUN | NOT RUN | no certificar contenido, modelos ni previews |
-| Todos los módulos individualmente y todas las opciones del editor de dosis | variantes adicionales | NOT RUN | NOT RUN | NOT RUN | NOT RUN | se probaron equipment/website y dosis tiempo/RPE |
-| Pérdida de respuesta en nuevas rutinas, ejercicios e invitaciones | creación no idempotente | NOT RUN | NOT RUN | NOT RUN | NOT RUN | la recuperación exacta ejercitada es lote de unidades; no extrapolar |
-| Servicios externos, producción y emails | fuera de alcance | NOT RUN | NOT RUN | NOT RUN | NOT RUN | no se operaron |
+| 11 routes, both Atlas branches | Initial Atlas data | PASS | PASS | PASS | PASS | 22 screens/project; no overflow/alerts/JS errors |
+| 11 routes, both Sur branches | Initial Sur data | PASS | PASS | PASS | PASS | 22 screens/project |
+| Back-forward/reload | Personas → Website, both brands/branches | PASS | PASS | PASS | PASS | URL/context retained |
+| People/brand roles | Admin/multicontext | PASS | PASS | PASS | PASS | Last admin protected; role after reload |
+| Pause/reactivate/coaching | Brand member/Centro member-coach | PASS | PASS | PASS | PASS | Real state; selector excludes Norte |
+| No-match person search | Fictional query | PASS | PASS | PASS | PASS | Empty table |
+| Create branch/validation | Empty/invalid zone/duplicate slug | PASS | PASS | PASS | PASS | One branch row/recoverable error |
+| Grant/revoke access | New-branch member without activity | PASS | PASS | PASS | PASS | Grant appears/disappears |
+| Save branch/reload/conflict | Local address/real concurrent update | PASS | PASS | PASS | PASS | Compare/rebase/persisted address |
+| Archive with activity | Centro active assignments | PASS | PASS | PASS | PASS | Rejection/history intact |
+| Archive/restore without activity | Per-project empty branch | PASS | PASS | PASS | PASS | Persisted selector/state/metadata |
+| Empty inventory/routine | Newly created branch | PASS | PASS | PASS | PASS | Empty states/actual arrays |
+| Two-unit batch/double submit | Numbered labels/same-frame clicks | PASS | PASS | PASS | PASS | One initial POST |
+| Lost response/batch recovery | Committed POST/aborted response | PASS | PASS | PASS | PASS | Reload retry/exactly two rows |
+| Close/recover editor | Unsubmitted batch | PASS | PASS | PASS | PASS | Draft retained |
+| Unit conflict/publish/retire/restore | Seed unit/concurrent revision | PASS | PASS | PASS | PASS | Required review/revision/visibility |
+| Generated QR/correct page | Published Atlas Centro unit | PASS | PASS | PASS | PASS | QR image/absolute URL/public screen |
+| Design draft/conflict/recovery | Fictional title/other editor | PASS | PASS | PASS | PASS | No implicit publication/explicit compare |
+| Publish/restore design | Brand published history | PASS | PASS | PASS | PASS | Public context changes/restored through new version |
+| Late design response | Committed/held PUT; navigate/edit new copy | PASS | PASS | PASS | PASS | Locked fields/later copy survives reload |
+| Branding/logo/contrast | Owned PNG/invalid contrast | PASS | PASS | PASS | PASS | Reject without public mutation; publish/restore logo |
+| Website validation/conflict/reload | Sur Oeste/incomplete activity/concurrent edit | PASS | PASS | PASS | PASS | Compare/retain-rebase/persist |
+| Website review/publication | Saved fictional content | PASS | PASS | PASS | PASS | Required confirmation/public render |
+| Unpublish/retain local edits | Unsaved title during withdrawal | PASS | PASS | PASS | PASS | Public removed/server prior draft/local recovery |
+| Library empty/format/errors | SVG/empty PNG/spoofed content/valid PNG | PASS | PASS | PASS | PASS | Rejections/actual bytes-hash/decoded image |
+| Library search/retry | No matches/intercepted 503 | PASS | PASS | PASS | PASS | Empty/visible error/recovery |
+| Library isolation | Atlas Centro → Norte → Sur | PASS | PASS | PASS | PASS | Foreign image absent/crossed media 404 |
+| Exercise validation/recovery | Fictional text/no new model-animation | PASS | PASS | PASS | PASS | Required instructions/recovered copy |
+| Exercise review/publish/edit | Local Norte exercise | PASS | PASS | PASS | PASS | Review before publish/edit returns draft |
+| Program conflict | Real concurrent edit/reload/local copy | PASS | PASS | PASS | PASS | Explicit compare/rebase/persisted prescription |
+| Return during exercise/routine save | Held responses after real commit | PASS | PASS | PASS | PASS | Blocked until ACK/refreshed list |
+| Long branch header | UI-created long name | PASS | PASS | PASS | PASS | No horizontal overflow/control-focus retained |
+| Programs in four branches | Time/RPE routine/scoped member | PASS | PASS | PASS | PASS | Recover/save/publish V1/assign/V2 retains V1 snapshot |
+| Branch/brand modules | Centro equipment/brand website | PASS | PASS | PASS | PASS | Direct routes/POST blocked; other branches/data correct |
+| Catalog availability | Hide/enable base exercise Sur Centro | PASS | PASS | PASS | PASS | Persisted config/UI reversal |
+| Unit transfer | Sur Centro → Oeste/initial activity | PASS | PASS | PASS | PASS | Initial reject; finish assignments; branch changes/private unit |
+| Session expiry during write | Removed fictional-context cookie | PASS | PASS | PASS | PASS | POST rejection/login/same-account recovery |
+| Draft isolation | Centro/Norte, admin/coach | PASS | PASS | PASS | PASS | No copy for different account/context |
+| Cross-tab/brand logout | Two Atlas tabs/separate Sur session | PASS | PASS | PASS | PASS | Atlas private UI lost/Sur session retained |
+| Other-brand IDs/URL | Real Sur unit through Atlas | PASS | PASS | PASS | PASS | Actual rejection/Sur before-after data comparison |
+| Invitation/one-use | New fictional Sur Oeste email | PASS | PASS | PASS | PASS | Activation/Oeste-only grant/used-link rejection |
+| Monitoring/export | Fictional partial Norte execution via fixture API | PASS | PASS | PASS | PASS | Actual filter/partial-snapshot/JSON exact ID-branch |
+| Invitation clipboard copy | Browser clipboard permission | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Creation/activation yes, clipboard unexecuted |
+| Print/PDF/physical QR | Real device/printer | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Image/link/page yes; physical print/scan pending |
+| Legacy identity editing/operators | Compatible routes/CLI | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Legacy render yes; WL published Design workflow |
+| Plan/video-GLB/playback/clip comparison | Corresponding content/review | NOT RUN | NOT RUN | NOT RUN | NOT RUN | No content/model/preview certification |
+| Every module/dose-editor option | Additional variants | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Equipment/website/time-RPE tested |
+| Lost creation response: routine/exercise/invitation | Non-idempotent creation | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Exact recovery tested for unit batch only |
+| External services/production/email | Outside scope | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Not operated |
 
-## Checks de cierre
+<a id="checks-de-cierre"></a>
+## Completion checks
 
-| Comando | Resultado |
+| Command | Result |
 | --- | --- |
-| `pnpm lint` | PASS; boundaries, 14 paquetes y formato B2B |
-| `pnpm typecheck` | PASS; 14 paquetes |
-| `pnpm test` con ambas URLs de bases desechables | PASS 587/587, cero skips; 14 paquetes + 25 tests raíz; integración B2B incluida |
-| `pnpm test:b2b:api` con base desechable | PASS 77/77; cero skips |
-| `pnpm build:b2b` | PASS; warning existente de chunks >500 kB |
-| suite UI de administrador Chromium | PASS 81/81 grupos únicos por agregación: inicial 68/72; rechecks 9/9, rutina concurrente 3/3 y cierre de afectados 12/12 en Chromium |
-| suite UI de administrador WebKit | PASS 27/27 grupos únicos por agregación: inicial 23/25; diagnóstico y cierre focalizado 4/4 |
+| `pnpm lint` | PASS; boundaries, 14 packages/B2B format |
+| `pnpm typecheck` | PASS; 14 packages |
+| `pnpm test` with both disposable DB URLs | PASS 587/587, zero skips; 14 packages + 25 root tests; B2B integration included |
+| `pnpm test:b2b:api` with disposable DB | PASS 77/77, zero skips |
+| `pnpm build:b2b` | PASS; existing >500 kB chunk warning |
+| Chromium admin UI | PASS 81/81 unique aggregated groups: initial 68/72, rechecks 9/9, concurrent routine 3/3, affected completion 12/12 |
+| WebKit admin UI | PASS 27/27 unique aggregated groups: initial 23/25, targeted diagnostic/completion 4/4 |
 | `git diff --check` | PASS |
-| `pnpm check` / release / previews | NOT RUN; previews diferidas por instrucción explícita; no se alteraron gates ni snapshots |
+| `pnpm check` / release / previews | NOT RUN; previews explicitly deferred, gates/snapshots unchanged |
 
-Los tres fallos de retiro de asignaciones de la primera pasada completa se debían a `first()` apuntando a la fila siguiente; el cuarto era una imagen lazy aún sin decodificar. Las reejecuciones esperan el cambio real de filas y la carga de imagen, con fixtures de varias asignaciones. No se ocultaron fallos ni se rebajó una aserción de producto.
+Three assignment-retirement failures in first full run used `first()` pointing to
+next row; fourth was undecoded lazy image. Reruns wait for actual row change/image
+load with multi-assignment fixtures. No hidden failures/weakened product assertion.
 
-Se respetó el rate limit: el helper espera `retry-after` cuando aparece 429. No se apagó ni rebajó el límite. Los intentos de desarrollo tuvieron errores de selectores/fixtures que se corrigieron (nombres de unidades con dos dígitos, forma del snapshot de asignación, botón de comparación del website, tipo de PNG y actualización asíncrona de módulos); no son bugs del producto. Un intento concurrente del runner falló por puerto ocupado y afectó artefactos intermedios; se repitió la evidencia definitiva en serie. Los baselines de bugs y el reporte final se conservan separados. El último cierre incluye también el arreglo de campo de cabecera y de botones de vuelta; todos sus recorridos afectados se repitieron. No hay bugs reproducidos de esta tanda pendientes de corrección. Las variantes NOT RUN siguen abiertas para otra tanda.
+Rate limit respected: helper waits `retry-after` for 429, no disabled/lowered limit.
+Development selector/fixture errors corrected (two-digit unit names, assignment
+snapshot shape, website compare button, PNG type, async module refresh), not product
+bugs. Concurrent runner attempt failed on occupied port/affected intermediate
+artifacts; definitive evidence repeated serially. Bug baselines/final report
+separate. Final completion also includes header/return-button fixes; all affected
+journeys rerun. No pending reproduced bugs; NOT RUN variants remain for later task.
 
-## Setup histórico y preparación de una revisión futura
+<a id="setup-histórico-y-preparación-de-una-revisión-futura"></a>
+## Historical setup and future review preparation
 
-1. Instalar Node 24 y la versión pnpm declarada; `pnpm install --frozen-lockfile --ignore-scripts`. Preparar PostgreSQL local de desarrollo con `pnpm setup:dev` y `docker compose up -d`. Crear una base **nueva desechable** con nombre `klisteni_b2b_test`; exportar `B2B_TEST_DATABASE_URL` con conexión local y permiso de crear schemas. Ninguna credencial de producción es necesaria.
-2. Instalar los navegadores de Playwright o definir `QA_CHROMIUM_PATH` al Chromium disponible. En este Cloud WebKit usa `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright` y `QA_WEBKIT_PATH=/workspace/.cache/webkit-deps/webkit-local.sh`.
-3. Estos comandos registran la invocación histórica. Para una nueva corrida, adaptar antes el escenario a HTTP loopback aislado o HTTPS con certificado válido, sin excepciones de certificado ni modificaciones de confianza:
+1. Install Node 24/declared pnpm; `pnpm install --frozen-lockfile --ignore-scripts`.
+   Prepare local PostgreSQL with `pnpm setup:dev`, `docker compose up -d`. Create
+   **new disposable** `klisteni_b2b_test`; export local `B2B_TEST_DATABASE_URL` with
+   schema-creation permission. No production credential needed.
+2. Install Playwright browsers or `QA_CHROMIUM_PATH` for available Chromium. Cloud
+   WebKit: `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright`,
+   `QA_WEBKIT_PATH=/workspace/.cache/webkit-deps/webkit-local.sh`.
+3. Following commands record historical invocation. Before new run adapt to isolated
+   HTTP loopback or valid HTTPS, without certificate exception/trust changes:
 
-   ```sh
-   QA_ARTIFACT_GROUP=chromium pnpm --filter @klisteniapp/b2c-web exec playwright test \
-     --config playwright.brand-admin.config.ts \
-     --project admin-chromium-narrow --project admin-chromium-wide \
-     --project admin-chromium-desktop
-   # Reporte separado, sin pisar capturas ni traces de Chromium.
-   QA_ARTIFACT_GROUP=webkit pnpm --filter @klisteniapp/b2c-web exec playwright test \
-     --config playwright.brand-admin.config.ts --project admin-webkit-touch
-   ```
+{{BLOCK0}}
 
-4. Arranque histórico del escenario (no habilita confianza TLS para una nueva prueba): `pnpm build:b2b`, luego `node scripts/b2b-wl-e2e-server.mjs` con esa URL de DB exportada. Los schemas y medios se crean de cero y se eliminan al Ctrl-C. Se puede abrir Chromium con un perfil separado y proxy `http://127.0.0.1:4342`. Usar `https://atlas.b2b.test/manage` y `https://sur.b2b.test/manage`; no dominios reales. Para una revisión nueva, usar un escenario HTTP loopback aislado o certificados HTTPS válidos; no reutilizar excepciones SPKI ni instalar la CA de fixture.
-5. Usuarios ficticios: `admin@atlas.example.test`, `admin@sur.example.test`; coaches y miembros están en `seedWhiteLabelDemo`. Contraseña exclusiva del fixture: `browser-tests-only-password-2026`. No corresponde a ninguna cuenta real. No reutilizarla fuera de esta demo.
-6. Los reportes están en `.cache/brand-admin/<grupo>/report/index.html`; `playwright show-trace /ruta/trace.zip` permite reproducir DOM, interacciones y red. Traces incluyen credenciales/tokens **sintéticos**; conservarlos como evidencia de pruebas locales, no mezclarlos con capturas de producción.
+4. Historical scenario (grants no new TLS trust): `pnpm build:b2b`, then
+   `node scripts/b2b-wl-e2e-server.mjs` with exported DB URL. Schemas/media created
+   fresh/removed on Ctrl-C. Separate Chromium profile/proxy `http://127.0.0.1:4342`,
+   fictional `https://atlas.b2b.test/manage`, `https://sur.b2b.test/manage`, no real
+   domains. New review uses isolated HTTP loopback or valid HTTPS; no reused SPKI
+   exception/fixture CA installation.
+5. Fictional `admin@atlas.example.test`, `admin@sur.example.test`; coaches/members
+   in `seedWhiteLabelDemo`. Fixture-only password `browser-tests-only-password-2026`,
+   no real account; never reuse outside demo.
+6. Reports: `.cache/brand-admin/<grupo>/report/index.html`;
+   `playwright show-trace /ruta/trace.zip` replays DOM/interactions/network. Traces
+   contain **synthetic** credentials/tokens; separate from production captures.
 
-Checklist manual breve:
+Brief manual checklist:
 
-- En las tablas móviles, desplazarse horizontalmente para leer y usar todas las columnas.
-- En 320/412 px y escritorio, entrar como admin Atlas; cambiar Centro/Norte y comprobar el contexto visible en cada sección.
-- Personas: comprobar administrador y personas de ambas sedes; cambiar membresía de una persona ficticia, pausarla/reactivarla y revisar que el acompañamiento use sólo la sede actual.
-- Marca y sedes: crear una sede; repetir slug; editar dirección, recargar y recuperar; provocar cambio en otra pestaña, comparar y continuar o descartar.
-- Unidades: registrar dos con un modelo existente; cerrar/recuperar; revisar publicación; abrir QR y ficha correcta; retirar/restaurar. La impresión y el escaneo físico necesitan una instalación accesible desde el teléfono.
-- Diseño: editar, navegar/recuperar, guardar sin publicar, publicar y restaurar. Website de Sur Oeste: guardar/revisar/publicar y despublicar conservando una edición pendiente.
-- Subir una imagen ficticia válida; probar archivo inválido; cambiar sede/marca y confirmar aislamiento.
-- Crear programa por tiempo/RPE en cada sede; publicar V1 y asignar al socio correcto; publicar V2 y confirmar que el asignado sigue en V1.
-- Quitar sesión mientras hay un editor abierto; guardar, volver a entrar y recuperar sólo en la misma cuenta/contexto. Cerrar sesión en una pestaña y comprobar otra.
+- Scroll mobile tables horizontally to read/use every column.
+- At 320/412 px/desktop sign in Atlas admin, switch Centro/Norte, check each section context.
+- Personas: administrators/both branches; change fictional membership/pause-reactivate;
+  coaching uses current branch only.
+- Brand/branches: create/repeat slug/edit address/reload-recover; another-tab change,
+  compare/continue/discard.
+- Units: register two with existing model, close/recover/review publication/open correct
+  QR/page/retire-restore. Physical print/scan requires phone-accessible installation.
+- Design: edit/navigate-recover/save without publish/publish-restore. Sur Oeste Website:
+  save-review-publish/unpublish with pending edit retained.
+- Upload fictional valid image, invalid file, change branch/brand/check isolation.
+- Time/RPE program each branch: publish V1/assign correct member/publish V2; assignment stays V1.
+- Remove session with editor open/save/reenter/recover only same account/context;
+  cross-tab logout.
 
-## Integración y retorno para Atlas
+<a id="integración-y-retorno-para-atlas"></a>
+## Integration and Atlas handoff
 
-Archivos compartidos que requieren coordinar integración con otros roles:
+Shared integration files:
 
-- `features/organization/WhiteLabelSettings.tsx`: editores de diseño/sede y claves estables; UI de marca compartida.
-- `features/people/People.tsx`, `PeoplePage.tsx`: roster administrativo; conserva vista/acompañamiento scoped del coach.
-- `features/catalog/ExerciseEditor.tsx`, `features/programs/ProgramEditor.tsx`: sólo guardia de botón de vuelta mientras guarda, compartida con coach.
-- `packages/b2b-ui/src/white-label.css`: cabecera/contexto compartido por administrador, coach y socio; contención de campo y foco.
-- `features/invitations/Invitation.tsx`: estado de token para todos los roles que aceptan invitación.
-- `shared/editor/editorDraftStorage.ts`, `useEditorDraft.tsx`: se agregan tipos `theme` y `branch`; no cambia la forma o semántica de las claves existentes.
-- `apps/b2b-api/src/white-label-service.ts`: sólo creación de sede con slug duplicado.
-- Runner compartido `scripts/b2b-wl-e2e-server.mjs`: un cuarto contexto opcional, desactivado para las suites anteriores. Test HTTP compartido `white-label-http.test.ts`; helpers, configuración y specs nuevos bajo prefijo `brand-admin` sin modificar suites ni snapshots existentes.
+- `features/organization/WhiteLabelSettings.tsx`: design/branch editors/stable keys/shared brand UI.
+- `features/people/People.tsx`, `PeoplePage.tsx`: admin roster, retain scoped coach view/coaching.
+- `features/catalog/ExerciseEditor.tsx`, `features/programs/ProgramEditor.tsx`: save-time return guard shared with coach.
+- `packages/b2b-ui/src/white-label.css`: admin/coach/member header/context; field containment/focus.
+- `features/invitations/Invitation.tsx`: token state for all invitation roles.
+- `shared/editor/editorDraftStorage.ts`, `useEditorDraft.tsx`: new `theme`/`branch` types; existing key shape/semantics unchanged.
+- `apps/b2b-api/src/white-label-service.ts`: duplicate-slug branch creation only.
+- `scripts/b2b-wl-e2e-server.mjs`: optional fourth context disabled for prior suites.
+  Shared `white-label-http.test.ts`; new brand-admin helpers/config/specs without
+  altering existing suites/snapshots.
 
-Resumen para un intake posterior de Atlas: nueva evidencia **local de implementación y QA del admin B2B**, sobre base `7172041`, en rama propia. Marca blanca permanece implementada; se corrigieron coherencia/lectura de Personas, slug duplicado, recuperación/concurrencia de editores de marca/sede, navegación de invitaciones, cabecera con sede larga y vuelta de editores durante guardado. Nueva evidencia: 108 grupos UI únicos aprobados por agregación y 587 tests, con límites físicos/TLS y variantes pendientes declarados. Preservar la separación entre código, pruebas locales, emulación y despliegue histórico. No hay nuevo deploy, pruebas físicas, generación de modelos/previews, respaldo recurrente ni nueva verificación de dominios/TLS público. Los pendientes de previews, contenido y backups históricos de Atlas no cambian. La KB no fue escrita.
+Later Atlas intake: **local B2B administrator implementation/QA**, base `7172041`,
+own branch. White-label remains implemented; corrected People coherence/read,
+duplicate slug, brand/branch editor recovery/concurrency, invitation navigation,
+long-branch header and save-time editor return. Evidence: 108 unique aggregated
+passing UI groups/587 tests, declared physical/TLS limits/pending variants. Separate
+code/local tests/emulation/historical deployment. No new deployment, physical
+validation, model/preview generation, recurring backup or public domain/TLS check.
+Historical Atlas preview/content/backup pending work unchanged; KB not written.
 
-## Evidencia seleccionada
+<a id="evidencia-seleccionada"></a>
+## Selected evidence
 
-Las capturas estables de revisión se conservan en [la carpeta de evidencia](b2b-brand-admin-2026-10-13-evidence/). [Manifiesto con hashes y resultados por flujo](b2b-brand-admin-2026-10-13-evidence/manifest.json). Los resultados JSON, traces y logs completos permanecen en `.cache/brand-admin` y en el paquete local `.cache/brand-admin-evidence-2026-10-13.tar.gz`.
+Stable review captures in [evidence directory](b2b-brand-admin-2026-10-13-evidence/).
+[Hashes/per-flow results manifest](b2b-brand-admin-2026-10-13-evidence/manifest.json).
+Full JSON/traces/logs remain in `.cache/brand-admin` and local
+`.cache/brand-admin-evidence-2026-10-13.tar.gz`.
 
-Pasadas principales conservadas:
+Retained main runs:
 
-| Grupo | Resultado bruto | Propósito |
+| Group | Raw result | Purpose |
 | --- | --- | --- |
-| `final-chromium-initial` | 68/72 | Suite inicial completa; tres errores de selector dinámico y una espera de imagen lazy |
-| `final-chromium-recheck` | 9/9 | Personas, biblioteca y traslado en los tres perfiles, fixtures de varias asignaciones |
-| `final-chromium-program` | 3/3 | Conflicto/recuperación de rutina en los tres perfiles |
-| `final-webkit` | 23/25 | Suite WPE completa; detectó desborde y vuelta prematura de editor |
-| `webkit-overflow-diagnostic` | 1/2 | Reproducción y geometría de desborde |
-| `editor-pending-baseline` | 0/2 | Reproducciones de vuelta antes de ACK |
-| `final-webkit-recheck` | 2/4 | Diagnóstico intermedio; contención aún insuficiente y ambigüedad entre ejercicio y plantilla homónima |
-| `closeout-affected` | 16/16 | Cuatro recorridos afectados en los cuatro perfiles, sobre el cierre de código |
+| `final-chromium-initial` | 68/72 | Initial full suite; three dynamic-selector errors/one lazy-image wait |
+| `final-chromium-recheck` | 9/9 | People/library/transfer in three profiles/multiple assignments |
+| `final-chromium-program` | 3/3 | Routine conflict/recovery in three profiles |
+| `final-webkit` | 23/25 | Full WPE suite; overflow/premature editor return |
+| `webkit-overflow-diagnostic` | 1/2 | Overflow reproduction/geometry |
+| `editor-pending-baseline` | 0/2 | Return before ACK reproductions |
+| `final-webkit-recheck` | 2/4 | Intermediate: insufficient containment/same-name exercise-template ambiguity |
+| `closeout-affected` | 16/16 | Four affected journeys/four profiles on final code |
 
-El conteo final toma **sólo el último resultado de cada par flujo/proyecto**. No transforma una corrida fallida en verde ni oculta sus archivos. Browser schemas restantes después del cierre: **0**, verificados mediante una consulta read-only sobre la base local de test. No se conservaron datos de esos schemas; el escenario manual se vuelve a sembrar con el runner.
+Final count uses **only latest result per flow/project pair**; neither converts
+failed run to passing nor hides files. Remaining browser schemas: **0**, verified
+read-only on local test DB. Schema data not retained; manual scenario reseeded.
 
-## Relevo Git
+<a id="relevo-git"></a>
+## Git handoff
 
-El bundle incremental de código transporta todos los commits desde la base `7172041102a8a7029af5fb3e2527a1fa51611a86` hasta el HEAD de esta rama. Incluye el árbol versionado completo (código, tests, documentos y capturas pequeñas), pero excluye el archivo externo de evidencia de 389 MiB, bases, certificados, secretos, node_modules y cachés. Su restauración se verifica en un clon descartable que inicialmente contiene sólo la base: ausencia del commit final antes de importar, `git bundle verify`, importación de la rama, igualdad de HEAD/tree y archivos tracked byte a byte. La constancia y hashes se entregan junto al bundle, fuera del árbol Git para evitar autorreferencias. No se repite la batería ni se publica la rama/PR.
+Incremental code bundle transports commits from base
+`7172041102a8a7029af5fb3e2527a1fa51611a86` to branch HEAD. Includes complete tracked
+tree (code/tests/docs/small captures), excludes external 389 MiB evidence archive,
+DBs/certificates/secrets/node_modules/caches. Restore verified in disposable clone
+initially containing only base: final commit absent before import, `git bundle verify`,
+branch import, HEAD/tree equality and tracked files byte-for-byte. Evidence/hashes
+outside Git tree avoid self-reference. Suite not repeated and branch/PR not
+published in the recorded handoff.
