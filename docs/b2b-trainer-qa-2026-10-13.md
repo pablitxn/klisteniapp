@@ -199,6 +199,18 @@ en el workspace ignorado por Git, sin publicarlas en un servicio externo.
 Desde la raíz, con Node 24, dependencias instaladas y pnpm. Los valores siguientes
 son exclusivamente de demostración; no reutilizar credenciales de una instancia.
 
+En este Cloud, preparar primero las rutas usadas durante QA:
+
+```sh
+export PATH=/workspace/.cache/qa-bin:$PATH
+export PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright
+export TRAINER_CHROMIUM_EXECUTABLE=/usr/bin/chromium
+export TRAINER_WEBKIT_EXECUTABLE=/workspace/.cache/ms-playwright/webkit-2359/pw_run.sh
+```
+
+En otro host, instalar las dependencias habituales y navegadores Playwright;
+omitir estos ejecutables y el wrapper propios del Cloud.
+
 ```sh
 docker run -d --name klisteni-b2b-trainer-manual \
   -e POSTGRES_DB=klisteni_b2b_trainer_test -e POSTGRES_USER=trainer_qa \
@@ -223,6 +235,8 @@ ficticia del entrenador, siembra el programa **Demostración entrenador · tiemp
 y repeticiones** y dos registros ficticios vía una sesión separada del socio.
 Permanece abierto para revisión. `--smoke` verifica la misma preparación,
 guarda `.cache/trainer/manual-demo.png` y cierra. No agrega confianza al sistema.
+Se verificó el modo `--smoke`; la apertura interactiva con GUI del lanzador
+manual queda NOT RUN, separada de los recorridos UI automatizados.
 La fixture incluye Centro/Norte de Atlas y Centro/Oeste de Sur; los correos
 terminan en `.example.test`. Contraseña sintética del harness:
 `browser-tests-only-password-2026`; no hay credenciales reales ni emails enviados.
