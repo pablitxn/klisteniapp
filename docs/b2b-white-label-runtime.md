@@ -1,27 +1,47 @@
-# Operación de dominios B2B y validación local
+<a id="operación-de-dominios-b2b-y-validación-local"></a>
 
-Este procedimiento prepara una aplicación compartida; no configura DNS, certificados públicos ni producción. B2C conserva su API, secretos, base y cookies independientes. El modo anterior usa `B2B_WHITE_LABEL=false` (valor por defecto) únicamente mientras no haya dominios verificados/activos ni múltiples sedes. La API rechaza ese modo con `WHITE_LABEL_REQUIRED` cuando la base ya exige aislamiento por dominio/sede; volver al binario anterior no es un rollback seguro.
+# B2B domain operation and local validation
 
-## Frontera de confianza
+Shared-app procedure, not public DNS/certificate/production setup. B2C independent
+API/secrets/DB/cookies. Legacy default `B2B_WHITE_LABEL=false` only without active-
+verified domains/multiple branches; otherwise `WHITE_LABEL_REQUIRED`, old binary
+unsafe rollback. Historical browser-certificate procedures below are preserved
+evidence. **Current instruction: no new browser bypasses or trust changes; use
+isolated HTTP loopback or valid HTTPS with existing trust for future runs.**
 
-En marca blanca la API requiere `B2B_WHITE_LABEL=true`, `B2B_PROXY_SECRET` independiente (32 caracteres como mínimo), `B2B_TRUSTED_PROXY_ADDRESSES` con IPs exactas del proxy y `B2B_DOMAIN_PROTOCOL=https`. Las direcciones por defecto son exclusivamente loopback IPv4/IPv6. Una red Docker debe fijar la IP del proxy y declararla explícitamente; no se admite confiar en toda una subred ni en cualquier cliente que conozca un dominio.
+<a id="frontera-de-confianza"></a>
 
-El gateway termina TLS y reemplaza las cabeceras de identidad. La API compara el peer TCP y el secreto antes de interpretar `X-Klisteni-B2B-Host`; no confía en `Host`, `Forwarded`, `X-Forwarded-Host` ni `Origin` como selector de marca. `Origin` se compara después con el origen exacto de esa marca para las mutaciones. Las credenciales de proxy no se envían al navegador.
+## Trust boundary
 
-El registro se consulta en cada petición. Un host solicitado, sin verificaciones, pausado, desconocido o con certificado vencido falla sin organización de respaldo. También falla un alias cuyo principal ya no está activo. La API puede exponer health/readiness internos sin contexto de marca; el proxy público expone sólo su health y las rutas de aplicación previstas.
+White-label requires B2B_WHITE_LABEL=true, independent B2B_PROXY_SECRET≥32,
+B2B_TRUSTED_PROXY_ADDRESSES exact proxy IPs, B2B_DOMAIN_PROTOCOL=https. Default IPv4/
+IPv6 loopback only. Docker fixed proxy IP/explicit declaration, no subnet-wide trust/
+trust merely because client knows domain.
 
-`docker/nginx.b2b.conf` supone un listener privado detrás de TLS. Reemplaza las mismas cabeceras. Su mapa de secreto vacío funciona exclusivamente en modo anterior: para una instalación marca blanca, generar un archivo protegido y montarlo como `/etc/nginx/b2b-proxy-identity.conf`:
+Gateway TLS/replaces identity headers. API TCP peer/secret check before
+X-Klisteni-B2B-Host; Host/Forwarded/X-Forwarded-Host/Origin not brand selector.
+Origin then exact-brand mutation check. No browser proxy credentials. Registry
+per request; requested/unverified/paused/unknown/expired certificate rejects with
+no fallback, alias rejects inactive primary. Internal API health/readiness may
+lack brand; public proxy only own health/intended app paths.
+
+`docker/nginx.b2b.conf` private listener behind TLS/replaces headers. Empty secret
+map legacy only; white-label private protected /etc/nginx/b2b-proxy-identity.conf:
 
 ```sh
-# B2B_PROXY_SECRET ya debe existir en el entorno privado; no imprimirlo.
+# B2B_PROXY_SECRET must already exist in the private environment; do not print it.
 node scripts/b2b-proxy-secret.mjs .cache/b2b/proxy-identity.conf
 ```
 
-El generador crea un archivo nuevo con permiso 0600; nunca sobreescribe uno existente. Hacerlo legible únicamente para el UID del contenedor durante el montaje privado. No incorporar ese archivo al build ni a Git. La API debe recibir el mismo secreto y la IP exacta del Nginx. No publicar su puerto directamente.
+New0600 file, never overwrite; private mount readable container UID only, no build/Git.
+API same secret/exact Nginx IP, no direct public port.
 
-## Registro, verificación y activación
+<a id="registro-verificación-y-activación"></a>
 
-El operador usa su entorno privado y una conexión autorizada a la base B2B. No hay endpoint que permita a un administrador de gimnasio activar o transferir dominios. Ejemplos con hosts ilustrativos:
+## Request, verify and activate
+
+Operator private env/authorized B2B DB, no gym-admin activation/transfer endpoint.
+Illustrative hosts:
 
 ```sh
 node --env-file=apps/b2b-api/.env apps/b2b-api/src/domain-operator.ts request atlas.example.test atlas-demo
@@ -30,47 +50,70 @@ node --env-file=apps/b2b-api/.env apps/b2b-api/src/domain-operator.ts activate a
 node --env-file=apps/b2b-api/.env apps/b2b-api/src/domain-operator.ts diagnose
 ```
 
-`request` entrega el nombre y valor TXT de comprobación de propiedad. Antes de `verify`, configurar `B2B_DOMAIN_EXPECTED_ADDRESSES` con las IPs exactas del ingress, separadas por coma. La comprobación consulta el TXT, todas las direcciones A/AAAA y TLS con validación de nombre/CA. Cualquier dirección no esperada falla. Las redes CDN necesitan declarar sus destinos admitidos mediante operación explícita; no desactivar la comprobación porque cambió una IP.
+request TXT name/value. Before verify, B2B_DOMAIN_EXPECTED_ADDRESSES comma-separated
+exact ingress IPs; TXT/all A-AAAA/TLS hostname-CA, unexpected address fails. Explicit
+CDN allowed destinations, no disabling due changed IP. Verify persists DNS/date/
+expiry/fingerprint; activate three current verifications, alias active primary.
+Suite cert/local resolution fixtures, not real ownership/public activation.
 
-`verify` conserva evidencia de DNS, fecha, vencimiento y huella del certificado. `activate` exige las tres verificaciones vigentes; un alias requiere un principal activo. Los certificados y las resoluciones locales de las suites son fixtures, no evidencia de propiedad real ni activaciones públicas.
+<a id="principal-alias-pausa-y-transferencia"></a>
 
-## Principal, alias, pausa y transferencia
+## Primary, alias, pause and transfer
 
-Dar de alta y verificar otro host, luego `activate NUEVO --primary`, cambia el principal de forma transaccional. El anterior permanece como alias verificado mientras conserve su estado activo. Cambiar el principal incrementa la generación de todos los dominios de esa marca, por lo que las sesiones previas deben autenticarse de nuevo. Los enlaces nuevos se generan desde el registro del principal, nunca desde cabeceras del cliente.
-
-Los alias sólo redirigen navegación GET/HEAD segura. Los redirects limpian fragmentos y rechazan queries, rutas de autenticación/invitación y métodos de escritura. No trasladar un token de sesión o invitación a otro origen automáticamente. Un QR público sin secretos puede continuar por el alias; un QR cuyo dominio fue pausado debe reimprimirse o reactivarse tras verificarlo. Los enlaces de invitación deben entregarse de nuevo desde el origen canónico mediante su flujo autorizado.
+Register/verify new host, activate NUEVO --primary transaction. Old remains verified
+active alias. Primary change increments brand domain generations, old sessions
+reauthenticate. New links primary registry, never client headers. Aliases safe
+GET-HEAD navigation only; clear fragment/reject queries/auth-invite paths/writes.
+No automatic session-invite token transfer. Secret-free public QR through alias;
+paused-domain QR reprint/reactivation after verify. Reissue invitation from canonical
+origin authorized flow.
 
 ```sh
 node --env-file=apps/b2b-api/.env apps/b2b-api/src/domain-operator.ts pause atlas.example.test
 node --env-file=apps/b2b-api/.env apps/b2b-api/src/domain-operator.ts reassign atlas.example.test sur-demo
 ```
 
-La pausa conserva la propiedad reservada y revoca contexto inmediatamente; para reactivar se exige una verificación nueva. Si se pausa el principal, sus aliases tampoco resuelven. La transferencia exige primero pausa, borra las asociaciones de sesión, rota el desafío TXT y vuelve a estado solicitado. No permite que otra marca reclame automáticamente un dominio abandonado.
+Pause reserves ownership/revokes context immediately; new verification for reactivation.
+Primary pause blocks aliases. Transfer pause first/remove session links/rotate TXT/
+requested state, no automatic abandoned-domain claim. diagnose dates/generation/
+renew-soon<14days. Verify renewed cert; active failure pauses/invalidates generation.
+Rollback primary: recheck DNS-TLS-ownership/activate ANTERIOR --primary, never old
+session associations. Per-request registry invalidation needs no process restart.
 
-`diagnose` muestra fechas, generación y aviso `renew-soon` a menos de 14 días del vencimiento. Repetir `verify` tras renovación comprueba el certificado nuevo. Un fallo de verificación de un dominio activo lo pausa e invalida su generación. Para rollback a un principal anterior: comprobar DNS/TLS/propiedad de nuevo y ejecutar `activate ANTERIOR --primary`; nunca restaurar asociaciones antiguas de sesión. La consulta por petición hace innecesario reiniciar procesos para invalidar la caché del registro.
+<a id="pruebas-reproducibles"></a>
 
-## Pruebas reproducibles
+## Reproducible tests
 
 ```sh
 node --test apps/b2b-api/tests/config.test.ts apps/b2b-api/tests/domain-context.test.ts
 node --env-file=.cache/wl/test.env --test apps/b2b-api/tests/domain-lifecycle.test.ts scripts/b2b-gateway.test.mjs
 ```
 
-La segunda orden requiere una base desechable cuyo nombre contenga `b2b` y `test`, sin `options`; crea y elimina su propio schema. No usar credenciales de desarrollo/producción. Cubre verificación incompleta, alias, cambio de principal, pausa, transferencia explícita, vencimiento y rechazo de cabeceras falsificadas. Las pruebas del gateway usan puertos efímeros en loopback.
+Second needs disposable b2b/test DB/no options, own schema cleanup, no dev-production
+credentials. Incomplete verification/alias-primary-pause-transfer-expiry/forged
+headers; gateway ephemeral loopback ports.
 
-### Dos dominios HTTPS en navegadores reales
+<a id="dos-dominios-https-en-navegadores-reales"></a>
 
-`scripts/b2b-wl-e2e-server.mjs` crea tres entornos aislados (Chromium escritorio, Chromium táctil y WebKit táctil), cada uno con su schema, API, gateway TLS y proxy CONNECT restringido. El navegador usa `https://atlas.b2b.test` y `https://sur.b2b.test` simultáneamente; el proxy de cada proyecto resuelve ambos al mismo gateway en loopback. No se cambia `/etc/hosts` ni se instala DNS. Las cookies usan sus dominios reales y `Secure`; no se simulan orígenes con cabeceras `Host` del cliente.
+### Two HTTPS domains in actual browser engines
 
-Preparar una CA desechable y certificado con SAN para los hosts de prueba:
+Historical b2b-wl-e2e-server three environments: desktop-touch Chromium/touch WebKit,
+each schema/API/TLS gateway/restricted CONNECT. Simultaneous atlas.b2b.test/sur.b2b.test
+same loopback gateway/project; no hosts/DNS. Actual per-host Secure cookies, not
+Host-header origin simulation. Historical disposable SAN certificate setup:
 
 ```sh
 node scripts/b2b-wl-tls.mjs
 ```
 
-Todo el material queda bajo `.cache/wl/tls/`, ignorado por Git; claves privadas 0600 y validez de siete días. No regenerar mientras haya navegadores corriendo: el helper falla ante vencimiento próximo para exigir un nuevo ciclo de confianza. Chromium recibe una excepción limitada al SPKI exacto de ese certificado; `ignoreHTTPSErrors` permanece desactivado. La prueba de WebKit requiere confianza real en la CA. En el Linux verificado, las variables `SSL_CERT_FILE`, `CURL_CA_BUNDLE` y `WEBKIT_TLS_CAFILE_PEM` no modifican el almacén del bundle instalado; se comprobó primero que el navegador rechazaba el certificado y después que aceptaba la CA local.
+.cache/wl/tls Git-ignored/private keys0600/seven-day validity. No regeneration while
+browsers active; near-expiry fails/new trust cycle. Historical Chromium exact-SPKI
+exception/ignoreHTTPSErrors disabled; WebKit local CA trust. Verified Linux
+SSL_CERT_FILE/CURL_CA_BUNDLE/WEBKIT_TLS_CAFILE_PEM did not change installed bundle
+store; browser rejection then CA acceptance observed.
 
-Para WebKit, agregar únicamente la CA pública al almacén de la máquina de pruebas y retirarla al finalizar (requiere permisos de administración de ese host):
+**Historical trust-change transcript, not authorization for future tests:** previous
+WebKit run added public CA to test host store/removed it afterward with admin permission:
 
 ```sh
 sudo install -m 0644 .cache/wl/tls/ca.crt /usr/local/share/ca-certificates/klisteni-wl-test.crt
@@ -80,33 +123,52 @@ sudo rm /usr/local/share/ca-certificates/klisteni-wl-test.crt
 sudo update-ca-certificates
 ```
 
-La configuración falla ante errores TLS: no usar `NODE_TLS_REJECT_UNAUTHORIZED=0` ni desactivar globalmente las comprobaciones del navegador. En CI, usar una imagen aislada con esta CA instalada durante la tarea y destruirla después. Evidencia y trazas quedan en `.cache/wl/browser-results` y `.cache/wl/browser-report`. No acredita dispositivos físicos ni un dominio/certificado público de producción.
+Config rejects TLS errors; never NODE_TLS_REJECT_UNAUTHORIZED=0/global browser
+checks off. Historical CI used disposable CA image/destroyed afterward. Current
+rule supersedes new trust installation/SPKI exceptions; adapt harness first.
+Results .cache/wl/browser-results/browser-report, not physical devices/public production cert.
 
-## Capacidades de plataforma
+<a id="capacidades-de-plataforma"></a>
 
-El administrador de marca configura preferencias en el backoffice; sólo el operador modifica el techo de capacidades de la plataforma. Esta operación toma el mismo bloqueo de organización que las escrituras, valida el módulo registrado y deja auditoría sin secretos:
+## Platform capabilities
+
+Brand admin preferences in management; operator only platform ceiling. Organization
+write lock/registered module validation/secret-free audit:
 
 ```sh
 B2B_ORG_SLUG=atlas-demo B2B_MODULE=voice B2B_MODULE_ENABLED=false \
   node --env-file=apps/b2b-api/.env apps/b2b-api/src/operator.ts module-access
 ```
 
-Los IDs iniciales son `website`, `equipment`, `floorPlan`, `media`, `voice`. La preferencia de sede y la de marca no elevan el permiso de plataforma. `floorPlan` requiere equipamiento y medios. Apagar una capacidad conserva datos y aplica su política de lectura/historial documentada en WL-0; no deshabilita autenticación, historial propio ni exportación.
+IDs website/equipment/floorPlan/media/voice; branch-brand preference no platform
+escalation. floorPlan needs equipment/media. Disabled retains data/WL-0 read-history
+policy, not auth/own history/export removal.
 
-## Ensayo de recuperación
+<a id="ensayo-de-recuperación"></a>
+
+## Recovery rehearsal
 
 ```sh
 B2B_WL_TEST_POSTGRES_CONTAINER=klisteni-b2b-db-1 \
   node --env-file=.cache/wl/test.env scripts/b2b-wl-restore.mjs
 ```
 
-Requiere PostgreSQL de pruebas en loopback y permiso para crear dos bases temporales. Detiene las escrituras del origen sintético, crea un `pg_dump` completo, copia medios/configuración a recursos separados y restaura con `pg_restore --exit-on-error`. Comprueba IDs, concesiones, invitaciones pendientes, snapshots, temas, dominios, bytes de medios, login e historial propio. Elimina solamente sus bases y archivos temporales; el informe sanitizado queda en `.cache/wl/restore-report.json`. La configuración privada y el dump nunca se agregan a Git.
+Loopback test PostgreSQL/two temporary DB creation. Quiesce synthetic source/full
+pg_dump/separate media-config/pg_restore --exit-on-error. IDs/grants/pending invites/
+snapshots/themes/domains/media/login/own history checked. Own DB/temp cleanup,
+.cache/wl/restore-report.json sanitized; no private config/dump Git.
 
-Para una recuperación real, primero detener escrituras y preservar DB/medios/configuración actuales; restaurar en recursos separados, verificar esta matriz y decidir cómo reconciliar escrituras posteriores al respaldo antes de cambiar el servicio. El ensayo sintético no contiene escrituras posteriores pendientes. Una reversión de tema sólo cambia identidad; no revierte migraciones ni permisos. API y frontend deben actualizarse juntos con migraciones 004/005, y las sesiones anteriores al modo por dominio requieren nuevo login.
+Actual recovery: quiesce/preserve current DB-media-config, restore separately/check
+matrix/decide post-backup reconciliation before switching. Synthetic run has no
+pending later writes. Theme rollback identity-only, no migration-permission rollback.
+API/frontend coordinated004-005, pre-domain sessions new login.
 
-## Imágenes compartidas: smoke local
+<a id="imágenes-compartidas-smoke-local"></a>
 
-Con los bundles de `member-web` y `backoffice` compilados, construir tags exclusivos de prueba y verificar el SHA esperado. La revisión siguiente corresponde a la ejecución registrada; para otra revisión, usar el mismo SHA en ambas imágenes y en el smoke:
+## Shared images: local smoke
+
+Historical member-web/backoffice bundles compiled, exclusive test tags/expected SHA;
+new revision same SHA both images/smoke:
 
 ```sh
 docker build --platform linux/amd64 -f docker/b2b-api/Dockerfile --build-arg OCI_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 -t klisteni-b2b-api:wl-test .
@@ -115,8 +177,12 @@ B2B_WL_EXPECTED_REVISION=04d78368b6e0b6ac1ca74288dc9235145e563799 \
   node --env-file=.cache/wl/test.env scripts/b2b-wl-runtime-smoke.mjs
 ```
 
-El harness usa un schema sintético propio, migraciones ejecutadas desde la imagen API, contenedores de sólo lectura sin capacidades y puertos efímeros vinculados exclusivamente a loopback. Un terminador TLS local conserva el host hacia el Nginx real de la imagen; éste reemplaza las cabeceras de confianza. Las solicitudes validan certificado/CA/SNI explícitamente, sin modificar el almacén de confianza del sistema.
-
-La ejecución del 11/10/2026 pasó sus seis grupos de comprobaciones: migración, readiness, HTML/contexto/login/sesión con dos sedes por marca para Atlas y Sur, rechazo de cookies copiadas, y política de hosts desconocidos/alias/queries secretas en Nginx. Ambas marcas compartieron las mismas imágenes y procesos. Se eliminaron los contenedores, schema y archivos privados temporales; no se desplegó producción. Los tags locales quedan disponibles para inspección.
-
-[Evidencia de imágenes](validation/b2b-white-label-images-2026-10-11.json) incluye IDs, revisión OCI comprobada, Node y Nginx. [Evidencia de navegadores](validation/b2b-white-label-browsers-2026-10-11.json) registra los 30 casos finales aprobados en Chromium escritorio/táctil y WebKit táctil, las revisiones por proyecto y la retirada de la CA temporal. Son navegadores con emulación táctil, no dispositivos físicos.
+Own synthetic schema/image migrations/read-only capability-free containers/free
+loopback ports. Local TLS preserves host to actual Nginx, which replaces trust
+headers. Explicit certificate-CA-SNI validation, no system store changes.
+October11 six groups: migration/readiness/HTML-context-login-session/two branches
+per brand/copied cookies/unknown-alias-secret queries. Shared images/processes,
+container-schema-private cleanup, no production deployment; tags remain inspection.
+[Image evidence](validation/b2b-white-label-images-2026-10-11.json) IDs/OCI/Node-Nginx;
+[browser evidence](validation/b2b-white-label-browsers-2026-10-11.json)30 final cases/
+project revisions/temporary-CA removal, emulation not physical devices.

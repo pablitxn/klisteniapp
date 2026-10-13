@@ -1,55 +1,87 @@
-# Modelos anatómicos: procedencia, licencia y alcance
+<a id="modelos-anatómicos-procedencia-licencia-y-alcance"></a>
 
-Investigación realizada el 3 de octubre de 2026. Este documento registra las fuentes comprobadas y el criterio para incorporar un cuerpo anatómico detallado a Klisteni. Se verificaron páginas de origen, metadatos, el inventario importado y el informe del exportador. El manifiesto y el inventario generado acompañan a los archivos; la documentación de la fuente por sí sola no certifica el contenido de un GLB.
+# Anatomical models: provenance, license and scope
 
-## Fuente elegida
+Research October 3, 2026. Source pages/metadata/import inventory/exporter report
+verified for detailed body incorporation. Manifest/generated inventory accompany
+assets; source docs alone never certify GLB contents.
 
-Desde el 5 de octubre de 2026, la preferencia global **Modelo corporal** permite representar esa fuente como **Hombre** (base conservada) o **Mujer** (adaptación paramétrica ilustrativa). El código reproducible de la adaptación está en `packages/anatomy-viewer/src/anatomy-variants.ts`: aplica un campo continuo a capas y referencias articulares, conserva altura/suelo y recalibra los apoyos. El contorno del pecho se modifica sólo en la superficie de piel. No se incorporó una fuente independiente de anatomía femenina ni se validó un atlas femenino clínico. Los nombres de estructuras, músculos implicados y ejercicios conservan su significado educativo.
+<a id="fuente-elegida"></a>
 
-El GLB y el Blender base permanecen intactos. Por tanto, las afirmaciones siguientes sobre conservación de coordenadas describen **la base**; las capturas de la variante femenina documentan una modificación derivada. Ambas variantes y sus capturas conservan los créditos/licencia del atlas; la preferencia visual no informa sexo, identidad ni datos médicos de la cuenta. Véase también `docs/body-model-variants.md` para persistencia, generación y verificación.
+## Selected source
 
-La fuente elegida contiene las **mallas musculares, óseas y de superficie corporal de Z-Anatomy**, derivadas de BodyParts3D. Los tres archivos comparten coordenadas; permiten alternar entre cuerpo exterior y anatomía conservando la relación espacial de la fuente. El repositorio oficial describe el origen y los autores; la aplicación de Lluís Vinent ofrece los sistemas como archivos FBX separados. [Z-Anatomy, proyecto de modelos](https://github.com/Z-Anatomy/Models-of-human-anatomy), [Z-Anatomy, aplicación y exportaciones](https://github.com/LluisV/Z-Anatomy/tree/PC-Version).
+Since October5, Modelo corporal selects Hombre (retained base)/Mujer (illustrative
+parametric). `packages/anatomy-viewer/src/anatomy-variants.ts` continuous layer-joint
+field, same height-floor/recalibrated supports; chest contour skin-only. No separate
+female source/clinical female atlas. Names/muscles/exercises educational meaning retained.
+Base GLB/Blender intact; coordinate-preservation claims below **base** only, female
+captures derived change. Credits/license retained; visual preference not sex/identity/
+account medical data. [Body variants](body-model-variants.md).
 
-El commit de la rama `PC-Version` fijado para la importación es `6c7f9016bd5899ac8edafd31b9900c151df42ed6`. El manifiesto registra SHA-256 de cada descarga, comprobados contra los tres archivos usados, para que una actualización de la rama no cambie silenciosamente el modelo. Los tamaños siguientes son los mostrados por GitHub, no el peso del asset optimizado.
+**Z-Anatomy muscle/bone/body-surface meshes**, derived BodyParts 3D, shared coordinates.
+Official provenance/authors, Lluís Vinent application separate FBX.
+[Model project](https://github.com/Z-Anatomy/Models-of-human-anatomy),
+[application/exports](https://github.com/LluisV/Z-Anatomy/tree/PC-Version).
+Pinned PC-Version `6c7f9016bd5899ac8edafd31b9900c151df42ed6`, SHA-256 checked against
+three used downloads, no silent moving-branch change. GitHub advertised sizes, not optimized asset:
 
-| Recurso | Tamaño anunciado | Uso |
+| Resource | Published size | Use |
 | --- | --- | --- |
-| [MuscularSystem100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/MuscularSystem100.fbx) | 35,6 MB | Músculos y estructuras asociadas; filtrar por inventario, no asumir que todo objeto es tejido muscular. |
-| [SkeletalSystem100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/SkeletalSystem100.fbx) | 39,4 MB | Referencias óseas de postura y ubicación. |
-| [Regions of human body100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/Regions%20of%20human%20body100.fbx) | 4,23 MB | Territorios de la superficie corporal nativa, registrados con los dos sistemas anteriores. |
-| [Collections — Muscles.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Muscles.csv) | Metadatos | Nombres y distribución de estructuras en diez capas. |
-| [Collections — Group-Muscles.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Group-Muscles.csv) | Metadatos | Relación entre un músculo compuesto y sus cabezas o porciones. |
-| [Collections — Bones.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Bones.csv) | Metadatos | Capas de estructuras óseas. |
-| [Collections — Skin.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Skin.csv) | Metadatos | Regiones superficiales del cuerpo, uñas y otros elementos exteriores. |
+| [MuscularSystem100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/MuscularSystem100.fbx) | 35.6 MB | Muscles/associated structures: filter inventory, not all objects muscular tissue. |
+| [SkeletalSystem100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/SkeletalSystem100.fbx) | 39.4 MB | Bone posture/location references. |
+| [Regions of human body100.fbx](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/Regions%20of%20human%20body100.fbx) | 4.23 MB | Native body-surface territories registered to both other systems. |
+| [Collections — Muscles.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Muscles.csv) | Metadata | Names/distribution across ten layers. |
+| [Collections — Group-Muscles.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Group-Muscles.csv) | Metadata | Compound muscle to heads/portions. |
+| [Collections — Bones.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Bones.csv) | Metadata | Bone layers. |
+| [Collections — Skin.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Skin.csv) | Metadata | Surface regions/nails/other outer elements. |
 
-Descargas directas, fijadas a la misma revisión:
+Same-revision raw:
 
-- [FBX muscular, raw](https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/MuscularSystem100.fbx)
-- [FBX esquelético, raw](https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/SkeletalSystem100.fbx)
-- [FBX de superficie corporal, raw](https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/Regions%20of%20human%20body100.fbx)
+- [Muscular FBX](https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/MuscularSystem100.fbx).
+- [Skeletal FBX](https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/SkeletalSystem100.fbx).
+- [Body-surface FBX](https://raw.githubusercontent.com/LluisV/Z-Anatomy/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Models/FBX/Regions%20of%20human%20body100.fbx).
 
-La inspección local de los tres FBX produjo 686 objetos de malla musculares, 1952 esqueléticos y 301 de superficie. **Son objetos importados, no cantidades de músculos, huesos ni estructuras exportadas**: incluyen marcadores, subdivisiones, duplicados conceptuales y geometría auxiliar. El informe está en `.cache/anatomy/source-inspection.json`; el [manifiesto del GLB](../packages/model-assets/public/models/anatomy-manifest.json) registra el subconjunto realmente conservado y los SHA-256 de las descargas.
+Imported mesh objects686 muscle/1952 skeletal/301 surface, **not counts of muscles,
+bones/exported structures**: markers/subdivisions/conceptual duplicates/auxiliary
+geometry. `.cache/anatomy/source-inspection.json`; [GLB manifest](../packages/model-assets/public/models/anatomy-manifest.json)
+retained subset/download hashes. Surface pectoral-deltoid-posterior-thigh regions,
+Skin-* exterior/Skin-in caps/nails. Ten organizational layers **not ten histological
+skin layers**. Common global transformation preserves native registration; no
+visually fitted foreign body/clinical validation by visual coincidence.
 
-La superficie contiene territorios como región pectoral, deltoidea y posterior del muslo, con materiales exteriores `Skin-*`, caras de cierre `Skin-in` y uñas. Es una superficie anatómica segmentada; sus diez capas de organización **no representan diez capas histológicas de piel**. La conversión conserva el registro nativo mediante la misma transformación global para todos los sistemas. No se sustituye esta superficie por un cuerpo de otro catálogo ajustado a ojo, ni se interpreta una coincidencia visual como validación clínica.
+[Blender pipeline](../scripts/blender/build_anatomy.py)→[GLB](../packages/model-assets/public/models/anatomy.glb),
+`assets/blender/anatomy.blend`; global1.80m, no independently stretched limbs.
+Remove Skin-in/preserve undecimated exterior/adaptive interior reductions with
+one-way sampled vertex distances, **not global-error bound/anatomical validation**.
+`assets/blender/optimization-report.json` exclusions/per-mesh results.
 
-El pipeline de [Blender](../scripts/blender/build_anatomy.py) convierte esos datos a [anatomy.glb](../packages/model-assets/public/models/anatomy.glb) y guarda la escena editable en `assets/blender/anatomy.blend`. Normaliza globalmente la altura a 1,80 m sin estirar extremidades por separado. Retira cierres internos `Skin-in` y conserva las caras exteriores sin decimación; reduce polígonos interiores mediante controles muestrales de distancia. Esos controles comparan algunos vértices de la fuente con el resultado, en una sola dirección: **no son una cota de error global ni una validación anatómica**. El inventario de exclusiones y resultados por malla está en `assets/blender/optimization-report.json`.
+GLB 500,290 triangles. Viewer preserves source file/reference vertices; in-memory
+T-junction subdivisions share skin edges under deformation, connectivity changes,
+no gaps filled/new surface. Axillary weights shared for source gaps~0.15–2.19mm,
+local normalized-atlas discontinuities, **not anatomical accuracy**, no welded/visual repair.
 
-El GLB exportado contiene 500 290 triángulos. La preparación del visor conserva ese archivo y las posiciones de sus vértices; en memoria subdivide caras en encuentros coincidentes de tipo T para que las regiones superficiales compartan bordes al deformarse. La subdivisión modifica la conectividad, no rellena huecos ni inventa una superficie nueva. También comparte pesos en bordes axilares documentados, donde la fuente presenta separaciones de aproximadamente 0,15–2,19 mm. Esas distancias describen discontinuidades locales del atlas normalizado, **no precisión anatómica**; las posiciones y las separaciones originales no se sueldan ni se corrigen a ojo.
+BodyParts 3D original OBJ/IS-A/PART-OF/organ names-IDs alternative direct subset
+without Z-Anatomy changes. [Official downloads](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html).
 
-BodyParts3D también ofrece los datos originales y tablas de relaciones `IS-A` y `PART-OF`, con nombres de órganos y sus identificadores. Es una alternativa para reconstruir un subconjunto directamente desde la fuente sin las modificaciones de Z-Anatomy. La página de descargas publica archivos OBJ y tablas que permiten enlazar mallas con conceptos anatómicos. [Archivo oficial de BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html).
+<a id="publicar-el-fuente-de-blender-sin-residuos-del-editor"></a>
 
-## Publicar el fuente de Blender sin residuos del editor
+## Publish Blender source without editor residues
 
-Blender puede conservar bytes de una ruta anterior después del terminador NUL de los campos del explorador de archivos. Asignar `//` o una cadena vacía limpia el texto visible, pero no necesariamente toda la capacidad del campo. El generador usa [public_metadata.py](../scripts/blender/public_metadata.py) para sobrescribir primero las capacidades completas de directorio y nombre de archivo con un relleno neutro, y luego dejar los valores públicos. Revisa ambos modos del explorador y conserva su modo original.
+File-browser fields may retain prior-path bytes after NUL. Visible // or empty text
+may leave capacity uncleared. [public_metadata.py](../scripts/blender/public_metadata.py)
+overwrites full directory/filename capacities with neutral filler, then public
+values; both browser modes/original mode retained.
 
-La comprobación estructural siguiente descomprime el `.blend`, lee su SDNA y revisa la capacidad completa de esos campos, incluidos los bytes posteriores al NUL. Requiere Python 3 y `zstd` en `PATH` para archivos comprimidos con zstd. Un resultado correcto contiene `passed: true`; un formato desconocido o bytes residuales distintos del relleno permitido hacen fallar el comando. Es una comprobación específica de los campos del explorador, complementaria a la auditoría de indicadores privados.
+Structural check decompresses .blend/SDNA/full capacities incl post-NUL, Python3/
+zstd PATH for zstd compression. passed: true; unknown format/unexpected residues
+fail. Specific buffer check complements private-indicator audit.
 
 ```sh
 python3 scripts/blender/audit_file_browser_buffers.py assets/blender/anatomy.blend
 python3 -m unittest discover -s scripts/blender -p 'test_*.py'
 ```
 
-Para limpiar un fuente existente, generar una copia nueva con Blender nativo:
+Clean existing source into new native-Blender copy:
 
 ```sh
 audit_dir="$(mktemp -d)"
@@ -60,79 +92,119 @@ blender --background --factory-startup --disable-autoexec --python-exit-code 1 \
 python3 scripts/blender/audit_file_browser_buffers.py "$audit_dir/anatomy.blend"
 ```
 
-El sanitizador conserva el archivo de entrada, reabre la copia y compara fingerprints de los arrays completos de malla, atributos, pesos, transformaciones, materiales, propiedades de procedencia y ajustes seleccionados de escena/vista. No muestrea geometría ni vuelve a exportar el GLB. Rechaza animaciones, rigs y otros contenidos que este verificador del atlas estático no cubre; tampoco afirma revisar exhaustivamente todos los ajustes anidados de render, herramientas o interfaz. La reconstrucción matemática de los movimientos de la aplicación permanece separada del fuente estático.
+Sanitizer preserves input/reopens output/fingerprints full mesh arrays/attributes/
+weights/transforms/materials/provenance/selected scene-view settings; no geometry
+sampling/GLB reexport. Rejects animation/rigs/unsupported non-static contents,
+not exhaustive nested render/tool/UI settings. App movement math separate.
+Before replacement require preserved: true/inputUnchanged: true/changedCategories:[]/
+fileBrowserBuffers.passed: true plus operator external-policy audit. Failure retain
+original/review copy, no ignored error/expected-hash change. No attribution/license/catalog mutation.
 
-Antes de reemplazar el fuente, exigir `preserved: true`, `inputUnchanged: true`, `changedCategories: []` y `fileBrowserBuffers.passed: true` en el reporte, además de una auditoría con la política externa del operador. Ante cualquier fallo, conservar el original y revisar la copia; no ignorar el error ni modificar un hash esperado para aceptarla. La limpieza de metadatos no modifica las atribuciones, las licencias ni el catálogo.
+<a id="licencias-comprobadas"></a>
 
-## Licencias comprobadas
+## Verified licenses
 
-| Capa de procedencia | Condición publicada | Aplicación a Klisteni |
+| Provenance layer | Published condition | Application |
 | --- | --- | --- |
-| BodyParts3D, descarga oficial actual | CC BY 4.0 International; página actualizada el 27 de febrero de 2025 | Las nuevas descargas directas del archivo se acompañan de la atribución que solicita DBCLS. |
-| Z-Anatomy, modificaciones y modelos distribuidos por el proyecto | CC BY-SA 4.0 International | Las adaptaciones de esas mallas deben conservar crédito, indicación de cambios y licencia compatible con ShareAlike. |
-| Material adicional citado por Z-Anatomy | Incluye licencias específicas, algunas no comerciales | Excluir los modelos ajenos al subconjunto musculoesquelético y comprobar el inventario de objetos exportados. |
+| Current direct BodyParts 3D | CC BY4.0, updated February27,2025 | DBCLS requested attribution for new direct downloads |
+| Z-Anatomy modifications/models | CC BY-SA4.0 | Credits/change notice/ShareAlike-compatible adaptation |
+| Other Z-Anatomy-cited materials | Specific licenses, some noncommercial | Exclude outside musculoskeletal subset/check exported inventory |
 
-Fuentes: [licencia actual de BodyParts3D](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html), [licencia y créditos de Z-Anatomy](https://github.com/Z-Anatomy/Models-of-human-anatomy/blob/master/License.txt), [licencia de la distribución FBX](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/LICENSE).
+[BodyParts3D license](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html),
+[Z-Anatomy credits](https://github.com/Z-Anatomy/Models-of-human-anatomy/blob/master/License.txt),
+[FBX license](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/LICENSE).
+Historic CC BY-SA2.1 Japan credit differs from current source CC BY4.0; original
+update does not relicense Z-Anatomy modifications. This FBX derivative **CC BY-SA4.0**/
+historic attribution chain. Share/adapt/commercial under attribution/change notice/
+ShareAlike, no additional rights restrictions. GLB not MIT simply because code is.
+[Summary](https://creativecommons.org/licenses/by-sa/4.0/), [legal text](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en).
 
-Hay una diferencia documental importante: Z-Anatomy conserva el crédito histórico **CC BY-SA 2.1 Japan** de BodyParts3D; el archivo oficial de BodyParts3D ahora publica **CC BY 4.0**. El cambio de la fuente original no convierte automáticamente las modificaciones de Z-Anatomy en CC BY. Para el derivado que parte de los FBX de Z-Anatomy, se mantiene **CC BY-SA 4.0**, además de la cadena de atribución histórica.
+<a id="exclusiones-de-este-subconjunto"></a>
 
-La licencia CC BY-SA permite compartir y adaptar, incluso comercialmente, con atribución, aviso de modificaciones y ShareAlike para el material adaptado. No permite añadir restricciones que impidan ejercer esos derechos. La licencia del modelo debe mostrarse por separado de la licencia del código escrito para Klisteni: no se debe etiquetar el GLB como MIT por estar en un repositorio cuyo código use MIT. [Resumen oficial CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), [texto legal](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en).
+### Subset exclusions
 
-### Exclusiones de este subconjunto
+Credits list University of Dundee inner ear **CC BY-NC-SA4.0**, Lissie Cowley kidney
+**CC BY-NC4.0**, brain/cranial references with other terms; excluded musculoskeletal
+improvement. [Credits](https://github.com/Z-Anatomy/Models-of-human-anatomy/blob/master/License.txt).
+Kidney.l/r in [Viscera.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Viscera.csv).
+Binary inspection found six Incus/Malleus/Stapes left-right, missed initial CSV
+search; excluded as irrelevant/uncertain attribution, **not necessarily those
+noncommercial inner-ear models**. Outer ear part of skin. Publish inclusion/
+exclusion names; foreign-provenance structure excluded until identified. No bulk
+Wikipedia definitions/machine translations; app educational prose own/referenced.
 
-El archivo de créditos de Z-Anatomy menciona específicamente un oído interno de University of Dundee bajo **CC BY-NC-SA 4.0** y un riñón de Lissie Cowley bajo **CC BY-NC 4.0**, además de referencias cerebrales y nervios craneales con otras condiciones. No se incorporan esos modelos a esta mejora del aparato musculoesquelético. [Créditos de los modelos](https://github.com/Z-Anatomy/Models-of-human-anatomy/blob/master/License.txt).
+<a id="crédito-para-acompañar-el-asset-derivado"></a>
 
-Como evidencia de organización, `Kidney.l` y `Kidney.r` aparecen en [Collections — Viscera.csv](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Viscera.csv). La inspección binaria importada encontró seis huesecillos del oído en el sistema esquelético (`Incus`, `Malleus`, `Stapes`, izquierdo y derecho), aunque la búsqueda inicial del CSV no los detectó. Se excluyen por no aportar a esta visualización y para evitar una atribución incierta del subconjunto auditivo; **no se afirma que esos seis objetos sean necesariamente el modelo de oído interno con licencia no comercial**. El pabellón exterior del oído pertenece a la superficie corporal. El importador debe publicar nombres incluidos y excluidos; si apareciera una estructura de procedencia distinta, se excluye del GLB hasta identificarla.
+### Credit accompanying derived asset
 
-No se importan en bloque definiciones ni traducciones: Z-Anatomy identifica textos basados en Wikipedia y advierte sobre traducciones automáticas. Los textos educativos de la aplicación se mantienen como contenido propio, con sus referencias de ejercicio.
-
-### Crédito para acompañar el asset derivado
-
-El aviso público está en [NOTICE.md](../packages/model-assets/public/models/NOTICE.md), con la [licencia completa](../packages/model-assets/public/models/LICENSE-anatomy.txt). El crédito breve para la interfaz es:
+[Public NOTICE](../packages/model-assets/public/models/NOTICE.md)/[full license](../packages/model-assets/public/models/LICENSE-anatomy.txt).
+Original localized UI-credit quotation preserved verbatim:
 
 > Anatomía 3D basada en BodyParts3D, The Database Center for Life Science, y en Z-Anatomy, Gauthier Kervyn y colaboradores. Exportación FBX distribuida por Lluís Vinent. Subconjunto y adaptación para Klisteni bajo CC BY-SA 4.0. Cambios: selección de estructuras, conversión de formato y optimizaciones descritas en el manifiesto del asset.
 
-Los enlaces de origen y licencia deben acompañar ese crédito. Para preservar los avisos publicados por Z-Anatomy se conservan también:
+Source/license links accompany credit. Original notices retained:
 
 > BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan
 
 > Z-Anatomy - The libre 3D atlas of anatomy - CC-BY-SA 4.0
 
-Si se usa una descarga directa actual de BodyParts3D, su página solicita: “BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International”. [Atribución del archivo oficial](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html).
+Current direct BodyParts3D requested quotation: “BodyParts3D, © The Database Center
+for Life Science licensed under CC Attribution 4.0 International”.
+[Official attribution](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html).
 
-## Mapa anatómico para los doce grupos actuales
+<a id="mapa-anatómico-para-los-doce-grupos-actuales"></a>
 
-Esta tabla propone el vínculo entre nombres encontrados en los CSV y los IDs educativos ya usados por la app. Las porciones y lados deben conservar sus nombres específicos en los metadatos del asset, aunque compartan un color de grupo. Los sufijos `.l` y `.r` representan lados izquierdo y derecho en estas tablas. [Grupos originales](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Group-Muscles.csv), [estructuras y capas](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Muscles.csv).
+## Anatomical map for twelve current groups
 
-| ID de Klisteni | Estructuras que agrupar | Distinción a conservar |
+CSV names→existing educational IDs. Portion/side names retained even shared color;
+.l/.r left/right. [Original groups](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Group-Muscles.csv),
+[structures/layers](https://github.com/LluisV/Z-Anatomy/blob/6c7f9016bd5899ac8edafd31b9900c151df42ed6/Resources/Layers/Collections%20-%20Muscles.csv).
+
+| Klisteni ID | Grouped structures | Retained distinction |
 | --- | --- | --- |
-| `pectorals` | Cabezas clavicular y esternocostal y porción abdominal del pectoral mayor | El pectoral menor queda independiente; no es equivalente funcional al mayor. |
-| `deltoids` | Porciones clavicular, acromial y espinal del deltoides | Anterior, media y posterior tienen funciones distintas; colorear todo el grupo es una simplificación. |
-| `triceps` | Cabezas larga, lateral y medial del tríceps braquial | Conservar las tres cabezas y su lateralidad. |
-| `lats` | Dorsal ancho | No incluir redondo mayor por proximidad. |
-| `biceps` | Cabezas larga y corta del bíceps braquial | No confundir con bíceps femoral ni con braquial. |
-| `upper-back` | Porciones ascendente, transversa y descendente del trapecio; romboides mayor y menor | El manguito rotador no pertenece a esta agrupación. |
-| `abdominals` | Recto abdominal y transverso abdominal | Son capas diferentes; el transverso no es una placa superficial. |
-| `obliques` | Oblicuo abdominal externo e interno | No incluir músculos oblicuos de ojos, cuello o dedos por coincidencia de nombre. |
-| `glutes` | Glúteo mayor, medio y menor | Medio y menor quedan parcialmente cubiertos por otras estructuras. |
-| `quadriceps` | Recto femoral y vastos lateral, medial e intermedio | El vasto intermedio queda profundo; no se debe mover a la superficie para hacerlo visible. |
-| `hamstrings` | Semitendinoso, semimembranoso y cabezas del bíceps femoral | Grupo didáctico de cara posterior del muslo; conservar la identidad de cada cabeza. |
-| `calves` | Cabezas medial y lateral del gastrocnemio y sóleo | El tendón calcáneo puede mostrarse, pero no debe etiquetarse como tejido contráctil. |
+| pectorals | Clavicular/sternocostal/abdominal pectoralis major | Minor separate/not functional equivalent |
+| deltoids | Clavicular/acromial/spinal portions | Anterior-middle-posterior roles differ; shared color simplified |
+| triceps | Long/lateral/medial brachial heads | Three heads/sides |
+| lats | Latissimus dorsi | No nearby teres major |
+| biceps | Long/short brachial heads | Not femoral biceps/brachialis |
+| upper-back | Ascending/transverse/descending trapezius/major-minor rhomboids | No rotator cuff |
+| abdominals | Rectus/transversus abdominis | Distinct layers/transverse not superficial plate |
+| obliques | External/internal abdominal | No eye-neck-finger homonyms |
+| glutes | Maximus/medius/minimus | Medius/minimus partly covered |
+| quadriceps | Rectus femoris/lateral-medial-intermediate vasti | Intermedius deep,not moved outward for visibility |
+| hamstrings | Semitendinosus/semimembranosus/biceps femoris heads | Educational posterior thigh/each head identity |
+| calves | Medial-lateral gastrocnemius/soleus | Calcaneal tendon visible,not contractile tissue |
 
-No conviene clasificar por coincidencias amplias como `biceps`, `oblique` o `gluteal`: las tablas contienen músculos homónimos de otras regiones y bursas con nombres musculares. La selección debe usar una lista explícita o patrones específicos comprobados. Los demás músculos pueden permanecer visibles con un color neutro para que el cuerpo no pierda continuidad; “sin destacar” no significa que estén inactivos.
+No broad biceps/oblique/gluteal matching: homonyms/bursae. Explicit verified
+allowlist/specific patterns. Other muscles neutral preserve body continuity;
+unhighlighted not inactive.
 
-## Fidelidad visual y movimiento
+<a id="fidelidad-visual-y-movimiento"></a>
 
-BodyParts3D documenta un modelo de varón adulto. El artículo de Mitsuhashi y colaboradores describe una base TARO construida a partir de imágenes de resonancia de un voluntario, con intervalos de 2 mm. Después se añadieron segmentaciones y se reconstruyeron detalles y contornos mediante edición 3D por ilustradores médicos que consultaron textos, atlas y modelos anatómicos. **Los 2 mm describen el espaciado de las imágenes originales: no son una precisión medida ni una tolerancia garantizada de BodyParts3D, Z-Anatomy o del GLB de Klisteni.** [Descripción oficial](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html), [Mitsuhashi et al., *BodyParts3D: 3D structure database for anatomical concepts*, Nucleic Acids Research 37, D782–D785, DOI 10.1093/nar/gkn613](https://pmc.ncbi.nlm.nih.gov/articles/PMC2686534/).
+## Visual fidelity and movement
 
-La fuente constituye una referencia anatómica detallada, con posteriores modificaciones de Z-Anatomy; no representa a la persona usuaria ni todas las variaciones humanas. Conserva decisiones de modelado, territorios conceptuales y estructuras auxiliares. Preservar sus coordenadas evita introducir un nuevo desajuste entre sistemas, pero no demuestra exactitud absoluta del atlas ni revisión clínica de esta aplicación.
+Adult male source. Mitsuhashi TARO volunteer MRI2mm intervals,later segmentation/
+medical-illustrator3D reconstructions referencing texts-atlases-models. **2mm source
+spacing,not measured accuracy/guaranteed tolerance of BodyParts3D/Z-Anatomy/Klisteni.**
+[Official description](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html),
+[Mitsuhashi et al., BodyParts3D: 3D structure database for anatomical concepts, NAR37,D782–D785,DOI10.1093/nar/gkn613](https://pmc.ncbi.nlm.nih.gov/articles/PMC2686534/).
+Detailed reference/later modifications,not user/all variation. Source modeling/
+conceptual territories/auxiliary structures retained. Coordinates prevent new
+misregistration,not absolute accuracy/app clinical review.
 
-Incorporar estas mallas mejora forma, ubicación y separación de estructuras. Animarlas exige trabajo adicional: articulaciones coherentes, pesos de deformación, continuidad de tendones y control de penetraciones. Un FBX anatómico no demuestra por sí mismo que contenga un rig adecuado para flexiones o sentadillas. La inspección del importador determina si hay armatures, skinning y clips aprovechables.
+Animation needs coherent joints/deformation weights/tendon continuity/penetration
+control; anatomical FBX alone no suitable squat-push-up rig. Import inspection
+armatures/skinning/usable clips. Independent scapula/W retraction; GLB head-palm/
+shoulder-pelvis supports/visual clearance. Illustrative,not scapulohumeral rhythm/
+physical contacts/musculotendon lengths/forces-joint loads/user technique validation.
+Colors catalog roles,not measured activation. Verify reference pose/superficial-deep/
+sides/group selection/extremes/front-back-side captures. Mobile optimized contours/
+insertions/touch response/reduction percentage documented.
 
-La animación de Klisteni incluye escápulas independientes con retracción durante la W. Sus referencias de apoyo de cabeza y palmas, además de hombros y pelvis, se derivan de la superficie del GLB con márgenes de separación visual. Son decisiones de una animación ilustrativa: no validan un ritmo escapulohumeral, contactos físicos, longitudes musculotendinosas, fuerzas, cargas articulares ni calidad técnica de un usuario. Los colores siguen representando grupos implicados según el catálogo, no mediciones de activación.
+<a id="referencia-visual-de-elsevier"></a>
 
-El recorrido de verificación debe cubrir postura de referencia, capas superficial y profunda, lateralidad, selección de cada grupo y los extremos de cada ejercicio. Las capturas deben incluir frente, espalda y perfil. En móvil, la geometría optimizada debe conservar contornos e inserciones visuales importantes y mantener respuesta al tacto; el porcentaje de reducción se documenta junto al archivo exportado.
+## Elsevier visual reference
 
-## Referencia visual de Elsevier
-
-[Complete Anatomy](https://www.elsevier.com/products/complete-anatomy) sirve como referencia de claridad, navegación por capas y nivel de detalle deseado. Su página describe modelos propios y funciones de una plataforma comercial; no publica allí una licencia para extraer y redistribuir sus mallas. Esta implementación usa las fuentes abiertas identificadas arriba y no incorpora assets ni capturas extraídas de Complete Anatomy. No se afirma equivalencia de alcance o revisión clínica con ese producto.
+[Complete Anatomy](https://www.elsevier.com/products/complete-anatomy) clarity/layers/
+detail reference,commercial proprietary model,no redistribution permission shown.
+Implementation open sources above,no extracted assets/screenshots/no clinical-scope equivalence.
