@@ -1,8 +1,9 @@
 # Klisteni documentation
 
 Start with the [visual product tour](../README.md). The guides below explain the
-current implementation, its evidence and its operating limits. Most technical
-guides are written in Spanish, matching the application.
+current implementation, its evidence and its operating limits. Repository-authored
+technical prose follows the English policy in [AGENTS.md](../AGENTS.md); localized
+application content and original evidence retain their source language.
 
 | I want to… | Read |
 | --- | --- |
