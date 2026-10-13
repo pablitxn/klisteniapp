@@ -1,6 +1,9 @@
 import { defineConfig } from '@playwright/test'
 import whiteLabel from './playwright.white-label.config'
 
+const server = whiteLabel.webServer
+if (!server || Array.isArray(server)) throw new Error('Member QA requires one WL harness')
+
 // Synthetic HTTPS origins and disposable per-engine schemas from the WL harness.
 // WebKit's context accepts only this harness's self-signed certificate; this
 // suite does not attest certificate trust or change the machine's CA store.
@@ -43,7 +46,7 @@ export default defineConfig({
     })),
   ),
   webServer: {
-    ...whiteLabel.webServer,
+    ...server,
     // Opt in only while manually inspecting the same disposable local harness.
     reuseExistingServer: process.env.B2B_QA_REUSE_SERVER === 'true',
   },

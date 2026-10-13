@@ -7,11 +7,36 @@ const sur = 'https://sur.b2b.test'
 const center = 'atlas-demo-principal'
 const north = 'atlas-demo-norte'
 const pageErrors = new WeakMap<Page, string[]>()
+const browserDiagnostics = new WeakMap<Page, Array<{ name: string; message: string }>>()
 
 test.beforeEach(async ({ page }) => {
   const errors: string[] = []
+  const diagnostics: Array<{ name: string; message: string }> = []
   pageErrors.set(page, errors)
-  page.on('pageerror', (error) => errors.push(error.message))
+  browserDiagnostics.set(page, diagnostics)
+  page.on('pageerror', (error) => diagnostics.push({ name: error.name, message: error.message }))
+  // WebKit also emits Inspector network cancellation diagnostics as pageerror.
+  // Measure actual uncaught script errors/rejections at their browser boundary,
+  // retaining every Inspector diagnostic separately for review.
+  await page.exposeFunction('__memberQaFault', (fault: { kind: string; message: string }) => {
+    errors.push(`${fault.kind}: ${fault.message}`)
+  })
+  await page.addInitScript(() => {
+    const report = (kind: string, message: string) => {
+      const binding = (
+        window as unknown as {
+          __memberQaFault: (fault: { kind: string; message: string }) => Promise<void>
+        }
+      ).__memberQaFault
+      void binding({ kind, message }).catch(() => undefined)
+    }
+    window.addEventListener('error', (event) => {
+      if (event instanceof ErrorEvent) report('error', event.message)
+    })
+    window.addEventListener('unhandledrejection', (event) => {
+      report('unhandledrejection', String(event.reason))
+    })
+  })
 })
 
 async function api<T>(
@@ -52,6 +77,9 @@ async function login(
   await page.goto(`${origin}${path}`)
   await page.getByLabel('Email', { exact: true }).fill(email)
   await page.getByLabel('Contraseña', { exact: true }).fill(password)
+  await submitLogin(page)
+}
+async function submitLogin(page: Page) {
   for (let attempt = 0; attempt < 3; attempt++) {
     const [response] = await Promise.all([
       page.waitForResponse(
@@ -226,6 +254,17 @@ test.afterEach(async ({ page, browser }, info) => {
       2,
     ),
   })
+  await info.attach('browser-diagnostics.json', {
+    contentType: 'application/json',
+    body: JSON.stringify(
+      {
+        inspector: browserDiagnostics.get(page) ?? [],
+        uncaughtScriptFaults: pageErrors.get(page) ?? [],
+      },
+      null,
+      2,
+    ),
+  })
   expect(pageErrors.get(page) ?? [], 'uncaught JavaScript errors').toEqual([])
 })
 
@@ -355,7 +394,7 @@ test('QR keeps the equipment and branch through contextual login and never recor
   await page.getByRole('link', { name: 'Ver este equipo en mi rutina →', exact: true }).click()
   await page.getByLabel('Email', { exact: true }).fill('member@atlas.example.test')
   await page.getByLabel('Contraseña', { exact: true }).fill(password)
-  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
+  await submitLogin(page)
   await expect(page.getByText(/Estás consultando el equipo/)).toBeVisible()
   expect(new URL(page.url()).searchParams.get('machine')).toBe('base-cable-station-v1')
   const before = await history(page)
