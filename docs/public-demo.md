@@ -1,69 +1,105 @@
-# Demo local e instancia propia
+<a id="demo-local-e-instancia-propia"></a>
 
-## Clonar y ejecutar sin servicios privados
+# Local demo and independent instance
 
-Requisitos: Node.js 24 o posterior y pnpm 12.7.0. Las dependencias se descargan del registro público durante la instalación; después, el runtime de demo sólo necesita sus archivos estáticos. No necesita PostgreSQL, credenciales, Blender, repositorios privados ni un submódulo.
+<a id="clonar-y-ejecutar-sin-servicios-privados"></a>
+
+## Clone and run without private services
+
+Requirements: Node.js 24+ and pnpm 12.7.0. Installation downloads public-registry
+dependencies; demo runtime then needs only static files. No PostgreSQL, credentials,
+Blender, private repositories or submodule required.
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm dev:demo
 ```
 
-El modo predeterminado es `demo`. Para producir y servir una distribución estática:
+Default mode `demo`. Build/serve static distribution:
 
 ```sh
 pnpm build:demo
 pnpm --filter @klisteniapp/b2c-web preview --host 127.0.0.1
 ```
 
-El resultado está en `apps/b2c-web/dist`. Publicá **esa carpeta**, con fallback SPA a `index.html`, incluidos sus modelos, previews y avisos de licencia. No publiques todo el checkout ni los archivos `.env`, directorios de pruebas o evidencias operativas. Para desplegar bajo un subdirectorio hay que configurar también el enrutamiento; el ejemplo está preparado para la raíz del sitio.
+Output `apps/b2c-web/dist`. Publish **that directory**, with SPA fallback to
+`index.html`, including models/previews/license notices. Do not publish full checkout,
+`.env`, test directories or operational evidence. Subdirectory deployment also
+requires routing configuration; example assumes site root.
 
-`/privacy` funciona directamente como ruta estática sin backend. No existe service worker: poder usar los datos localmente no implica que la web pueda arrancar sin conexión antes de descargar sus archivos.
+`/privacy` works directly as static route without backend. No service worker:
+local data use does not guarantee offline startup before files download.
 
-## Un recorrido completo
+<a id="un-recorrido-completo"></a>
 
-1. Abrí **Mi rutina**, explorá un ejercicio y sus instrucciones. Cambiá entre piel, músculos y huesos, o usá el contenido textual si no hay WebGL.
-2. Personalizá ejercicios y series, iniciá una sesión, registrá repeticiones y guardala. Revisá la sesión en **Mi progreso**.
-3. Registrá una caminata y verificá sus minutos. Recargá: ambas actividades deben continuar allí.
-4. En **Mi salud**, registrá una medida corporal, una noche de sueño y un objetivo propio. El dashboard usa tus registros; no simula una cuenta o un historial de otra persona.
-5. Descargá una copia desde **Ajustes**. Importala en otro perfil del navegador para trasladar tus datos. El importador admite progreso v1 y copias personales v2; una importación local reemplaza la copia local tras confirmarla. Conservá una exportación previa si querés poder volver atrás.
-6. Para datos del reloj, **Mi salud → Importar** acepta el formato normalizado documentado en [importación de salud](health-import.md), con vista previa y confirmación. Los ZIP/CSV nativos de fabricantes necesitan conversión; no existe sincronización automática con el reloj en esta versión.
+## Complete walkthrough
 
-El historial empieza vacío. No se añaden datos ficticios a tu almacenamiento ni se sobrescribe el historial al actualizar. Las claves locales existentes (`klisteniapp.progress.v1`, preferencias y `klisteniapp.personal.v2`) se conservan. Los formularios sin guardar y los entrenamientos en curso todavía no forman parte de una copia exportada.
+1. Open **Mi rutina**, explore exercise/instructions. Switch skin/muscles/bones or
+   use textual content without WebGL.
+2. Customize exercises/sets, start session, record reps/save. Review **Mi progreso**.
+3. Record walk/check minutes. Reload: both activities remain.
+4. **Mi salud**: record measurement/sleep/own goal. Dashboard uses your records,
+   without simulating another person's account/history.
+5. Download copy through **Ajustes**, import another browser profile to move data.
+   Importer accepts progress v1/personal v2; confirmed local import replaces local
+   copy. Retain previous export for rollback.
+6. **Mi salud → Importar** accepts [normalized health format](health-import.md),
+   preview/confirmation. Native manufacturer ZIP/CSV needs conversion; no automatic
+   watch synchronization in this version.
 
-## Qué cambia entre modos
+History starts empty. No fictional data seeded in storage/history overwritten on
+upgrade. Existing `klisteniapp.progress.v1`, preferences, `klisteniapp.personal.v2`
+keys retained. Unsaved forms/in-progress training not yet part of exported copy.
 
-| Función | Demo predeterminada | Instancia explícita |
+<a id="qué-cambia-entre-modos"></a>
+
+## Differences between modes
+
+| Feature | Default demo | Explicit instance |
 | --- | --- | --- |
-| Catálogo, anatomía y previews | Incluidos | Incluidos |
-| Rutinas, progreso, salud, objetivos y copias locales | Gratuitos | Gratuitos sin iniciar sesión |
-| Inicialización de sesiones y pantallas de cuenta | Ausentes del bundle | Habilitadas |
-| PostgreSQL y guardado entre dispositivos | No se usan | Requieren backend configurado |
-| Invitaciones y suscripciones | No se usan | Backend; pagos desactivados por defecto |
-| Analytics | Módulo desactivado, sin solicitudes | Configuración pública explícita y consentimiento |
-| Privacidad | Texto local sin identidad o hosting asumidos | Perfil del operador incorporado al build |
+| Catalog/anatomy/previews | Included | Included |
+| Local routines/progress/health/goals/backups | Free | Free without login |
+| Session initialization/account screens | Absent from bundle | Enabled |
+| PostgreSQL/cross-device saving | Unused | Configured backend required |
+| Invitations/subscriptions | Unused | Backend; payments disabled by default |
+| Analytics | Disabled module/no requests | Explicit public configuration/consent |
+| Privacy | Local text without assumed operator/hosting | Operator profile built in |
 
-El modo se decide **durante la compilación**. No se activa una cuenta por encontrar una cookie, por recibir una respuesta de `/api`, por parámetros en la URL ni por restaurar un consentimiento antiguo. Para cambiar de modo hay que crear un nuevo build.
+Mode selected **at build time**. Cookie/API response/URL parameters/restored old
+consent cannot activate account. Changing mode requires new build.
 
-## Configurar una instancia
+<a id="configurar-una-instancia"></a>
 
-El servidor genérico continúa en `apps/b2c-api`; cada operador instala su base, genera secretos, crea sus usuarios y decide sus políticas. Seguí [cuentas](accounts.md) y [despliegue](deployment.md). No hay dependencias de una instalación particular.
+## Configure an instance
 
-Creá un archivo fuera del repositorio a partir de `apps/b2c-web/instance-profile.example.json`, y reemplazá **todos** los campos de ejemplo. Contiene información pública, no credenciales: identidad y contacto del operador, hosting, procesamiento de correo, conservación de cuenta, backups, logs y analytics, y fecha de actualización. Se valida al construir y se muestra como texto en Privacidad sin consultar la API.
+Generic server remains `apps/b2c-api`; operator installs DB/generates secrets/creates
+users/chooses policies. Follow [accounts](accounts.md)/[deployment](deployment.md).
+No dependency on a particular installation.
+
+Create file outside repo from `apps/b2c-web/instance-profile.example.json`, replace
+**all** examples. Public information, not credentials: operator identity/contact,
+hosting/mail processing/account retention/backups/logs/analytics/update date.
+Build validates it; Privacy displays text without API query.
 
 ```sh
 export KLISTENI_PUBLIC_PROFILE_FILE=/absolute/path/to/public-profile.json
 export KLISTENI_API_URL=http://127.0.0.1:3001
 pnpm dev:instance
-# O una distribución estática para esa instancia:
+# Or a static distribution for that instance:
 pnpm build:instance
 ```
 
-`KLISTENI_API_URL` configura el proxy de desarrollo. En producción, el operador configura el proxy del mismo origen para `/api`; no se incorpora una URL privada de backend al navegador. El perfil público se incorpora al bundle: cualquier visitante puede leerlo. Contraseñas, claves, cookies y tokens jamás deben ir en ese archivo ni en variables `VITE_*`.
+`KLISTENI_API_URL` configures development proxy. Production operator configures
+same-origin `/api` proxy; no private backend URL embedded in browser. Public profile
+is bundled/readable by any visitor. Never put passwords/keys/cookies/tokens in it
+or `VITE_*` variables.
 
-La compilación no habilita Mercado Pago, correo, OAuth ni integraciones por sí sola. Esos proveedores necesitan configuración separada. El adaptador de pagos implementado sigue limitado al entorno de desarrollo.
+Build alone enables neither Mercado Pago/mail/OAuth nor integrations. Providers
+need separate configuration. Implemented payment adapter remains development-only.
 
-## Verificar antes de publicar
+<a id="verificar-antes-de-publicar"></a>
+
+## Verify before publication
 
 ```sh
 pnpm check
@@ -73,8 +109,18 @@ pnpm --filter @klisteniapp/b2c-web exec playwright install chromium
 pnpm test:e2e
 ```
 
-La auditoría revisa el árbol publicable y los metadatos de assets; consultá la ayuda del script para revisar también una distribución compilada. No reemplaza una revisión de vulnerabilidades o de dependencias. Las pruebas de instancia se ejecutan aparte con una base desechable y nunca deben apuntar a una base de usuarios reales.
+Audit inspects publishable tree/asset metadata; script help also explains inspecting
+built distribution. Does not replace vulnerability/dependency review. Instance
+tests run separately against disposable DB, never real-user DB.
 
-Los indicadores propios del operador se guardan en una política fuera del árbol público y se pasan con `--private-patterns /absolute/path/outside-repository/policy.json`. No los copies en fixtures negativos, regex de ejemplo o strings partidos dentro del detector. Con esa política, el auditor también reconstruye estáticamente literales con escapes, concatenaciones de literales y arrays de literales con `join()`; nunca ejecuta el código inspeccionado. No interpreta identificadores, llamadas arbitrarias ni valores calculados durante la ejecución, y falla si supera los límites del analizador. El CI genérico ejecuta las pruebas sintéticas del auditor; las reglas específicas del operador requieren pasar explícitamente su política externa.
+Operator indicators stored in policy outside public tree and passed with
+`--private-patterns /absolute/path/outside-repository/policy.json`. Never copy them
+into negative fixtures/example regex/split detector strings. With policy, auditor
+statically reconstructs escaped literals/literal concatenations/literal arrays
+using `join()`, never executing inspected code. No identifiers/arbitrary calls/
+runtime values interpreted; parser-limit excess fails. Generic CI runs synthetic
+auditor tests; operator rules require explicitly supplied external policy.
 
-El CI público ejecuta checks genéricos, no publica imágenes ni despliega instancias. El código público no incluye la configuración, credenciales, runbooks ni recuperación privada de ningún operador. Las licencias anatómicas deben acompañar sus modelos y renders; la licencia del código no las reemplaza.
+Public CI runs generic checks, without publishing images/deploying instances.
+Public code excludes any operator's private configuration/credentials/runbooks/
+recovery. Anatomical licenses accompany models/renders; code license does not replace them.
