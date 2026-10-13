@@ -1,20 +1,27 @@
-# Miniaturas anatómicas de Klisteni: créditos y licencia
+<a id="miniaturas-anatómicas-de-klisteni-créditos-y-licencia"></a>
 
-Los posters WebP, las animaciones WebP y los GIF de este directorio son renderizados de la adaptación anatómica de Klisteni, basada en **BodyParts3D**, The Database Center for Life Science, y **Z-Anatomy**, Gauthier Kervyn y colaboradores. Los modelos FBX de origen fueron distribuidos por **Lluís Vinent Juanico** en su aplicación Z-Anatomy.
+# Klisteni anatomical thumbnails: credits and license
 
-Este aviso cubre también los medios de `female/`: son capturas de la adaptación paramétrica ilustrativa descrita en el aviso del modelo, no de una fuente independiente de anatomía femenina. El manifiesto identifica cada variante por separado. Los medios de regiones musculares de `body/` y `female/body/` conservan asimismo estos créditos y sus avisos específicos.
+WebP posters/animations/GIF render Klisteni's **BodyParts 3D**, The Database Center
+for Life Science, and **Z-Anatomy**, Gauthier Kervyn/contributors adaptation. Source
+FBX distributed by **Lluís Vinent Juanico** through Z-Anatomy app.
 
-Estas imágenes derivadas se distribuyen bajo **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**. La licencia del código de Klisteni no reemplaza la licencia de las imágenes anatómicas.
+Includes female/ parametric adaptation, not independent female source; manifest
+separates variants. body/ and female/body/ retain credits/specific notices.
+**Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**; code
+license does not replace image license.
 
-- [Créditos completos, fuentes fijadas y adaptaciones del modelo](../models/NOTICE.md).
-- [Texto completo de la licencia CC BY-SA 4.0](../models/LICENSE-anatomy.txt).
-- [Resumen de la licencia CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- [Z-Anatomy: modelos, autores y créditos](https://github.com/Z-Anatomy/Models-of-human-anatomy).
+- [Full credits/pinned sources/adaptations](../models/NOTICE.md).
+- [Full CC BY-SA4.0](../models/LICENSE-anatomy.txt).
+- [Summary](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Models/authors](https://github.com/Z-Anatomy/Models-of-human-anatomy).
+- [English capture-pinned notice translations](../../../../docs/asset-notices/README.md).
 
-Crédito de BodyParts3D conservado: **BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International**. Las modificaciones de Z-Anatomy y la adaptación usada aquí mantienen su distribución bajo CC BY-SA 4.0, como detalla el aviso del modelo.
+Original retained credit: **BodyParts 3D, © The Database Center for Life Science
+licensed under CC Attribution 4.0 International**. Z-Anatomy modifications/Klisteni
+adaptation remain CC BY-SA4.0 per model notice.
 
-Klisteni añade a las mallas adaptadas poses y deformaciones educativas, cámaras, iluminación de estudio, materiales, apoyos gráficos y codificación como imágenes estáticas o animadas. El manifiesto de este directorio registra los hashes de las fuentes y de los archivos generados. El renderizado usa la capa muscular del mismo modelo que la aplicación.
-
-Las imágenes no constituyen una simulación biomecánica validada ni una evaluación clínica. No se implica aprobación de Klisteni por los autores originales.
-
-Aviso actualizado el 5 de octubre de 2026.
+Klisteni adds educational poses/deformations/cameras/studio lighting/materials/
+graphic supports/static-animated encoding. Manifest source/output hashes, muscle
+layer same app model. Not validated biomechanics/clinical assessment/author endorsement.
+Original notice updated October 5, 2026; English translation October 13, 2026.
