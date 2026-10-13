@@ -206,6 +206,12 @@ for (const kind of ['exercise', 'program'] as const) {
       const saved = page
         .locator('article')
         .filter({ has: page.getByRole('heading', { name: item.name, exact: true }) })
+        .filter({
+          has: page.getByRole('button', {
+            name: kind === 'exercise' ? 'Editar' : 'Editar borrador',
+            exact: true,
+          }),
+        })
       if (kind === 'exercise') await expect(saved).toContainText('BORRADOR')
       else await expect(saved).toContainText(`Guardado pendiente ${info.project.name}`)
       await page.screenshot({

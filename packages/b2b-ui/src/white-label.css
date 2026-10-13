@@ -11,5 +11,8 @@
 .brand-theme[data-theme-layout=energetic] .hero{border-radius:var(--radius);border-left:8px solid var(--accent)}
 .brand-theme[data-theme-layout=energetic] .access-layout{grid-template-columns:1fr 1.1fr;gap:5%}
 .brand-theme .brand-login-image{width:100%;max-height:270px;object-fit:cover;border-radius:var(--radius)}
-.brand-theme .header-actions .field{max-width:300px}
+.brand-theme .header-actions{min-width:0}
+.brand-theme .header-actions .field{min-width:0;max-width:300px;overflow:clip}
+.brand-theme .header-actions .field:focus-within{outline:3px solid #8a9f48;outline-offset:3px}
+.brand-theme .header-actions select{min-width:0;max-width:100%}
 @media(max-width:720px){.brand-theme .header-actions{flex-wrap:wrap;justify-content:flex-end}.brand-theme .header-actions .field{max-width:210px}.brand-theme .site-header{align-items:flex-start}}
