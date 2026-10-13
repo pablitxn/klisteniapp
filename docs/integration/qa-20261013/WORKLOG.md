@@ -1,0 +1,38 @@
+# Integracion QA Klisteni — checkpoint de trabajo
+
+Rama `qa/klisteni-integration-20261013`, worktree `/workspace/klisteni-integration-20261013`.
+Main remoto verificado `7172041102a8a7029af5fb3e2527a1fa51611a86`.
+Fuentes inmutables y PR2–8: `sources.json`. Todas son ancestros de la integracion;
+las ramas originales y sus PRs se conservan. Anonimo usa la variante publicable
+confirmada por el usuario; la rama original/evidencia grande no estaba publicada.
+
+Resoluciones iniciales: union de exclusiones de specs instance/admin en config demo;
+union de configs tipadas admin/visitor/member, luego inclusion de todos los configs
+`playwright*.config.ts`. Esto descubrio un tipo WebServerConfig no exportado en el
+config extra B2C; se reemplazo por guardia sobre el array real de servidores.
+Stores B2C combinaron recuperacion durable/importacion del visitante con confirmacion
+exacta de respuesta perdida de yoga. ProgramEditor combina ID estable de creacion
+con bloqueo de salida hasta ACK; Invitation combina consentimiento de identidad
+existente y refresh de token por hashchange/popstate. No se descartaron regresiones.
+
+Harness nuevo `scripts/b2b-integration-e2e-server.mjs` y config HTTP de integracion:
+HTTP ficticio por proxies restringidos en loopback, schemas UUID y medios desechables,
+marcas separadas y origen validado. No usa TLS, ignoreHTTPSErrors ni flags SPKI,
+CA/trust/credenciales del sistema. Auth conserva el limiter de producto (10/60s).
+HTTP no acredita cookies Secure, TLS ni produccion. La cobertura HTTPS del source
+admin B2B publicado a959fce estaba pendiente; no se reutiliza como nueva evidencia.
+
+Comprobado hasta este checkpoint: lint global 14/14 y formato, tipos 14/14 con todos
+los configs incluidos. Smoke admin B2B Chromium 320 HTTP: 4/4 (44 rutas de marcas/sedes,
+back/forward, Personas/permisos y modulos scoped). Tests globales corriendo con bases
+B2C y B2B ficticias distintas; matriz completa y gate Yoga aun pendientes.
+
+Próximo: concluir tests, revalidar matrices afectadas HTTP/mobile/desktop; resolver
+fallos reales, preparar informe unico/fichas de predocumentacion pendientes de Atlas,
+y publicar PR DRAFT. Atlas sin cambios de contenido, head27ae86c.
+
+## Checkpoint recuperable solicitado
+
+Siete fuentes incorporadas en merges locales, ultima base de merges `4f903962094bcc7069891d7aba7ad8683544d44c`. Sin conflictos Git pendientes. Lint/tipos globales 14/14 y tests globales 14/14 completados (601 tests, cero skips con ambas DB aisladas). Build global instance 16/16 completado. UI admin B2C 84/84 completada. Autogestion B2C sigue en sexto perfil; admin B2B nueva matriz 108 en curso.
+
+Intentos admin B2B conservados: primer intento HTTP no soportaba CONNECT de Playwright; segundo 10 PASS, fallos por `crypto.randomUUID` ausente en origen HTTP ficticio y cancelacion. No son evidencia de TLS ni fallos de producto confirmados. Fixture opt-in de UUID Web Crypto para esta matriz HTTP, sin elevar el origen a secure context ni cambiar cookies. Tercera corrida confirma los cuatro primeros casos, incluyendo ACK de programas, y continua. Gates previews fallaron; pendiente contraste exacto con baseline, sin regenerar assets. GitGuardian: `needs_review` documentado en JSON redacted; candidato fixture aislado byte-identico al commit reportado, check neutral sin anotaciones, falta finding/path/line exactos. No se cerro ni altero la alerta.

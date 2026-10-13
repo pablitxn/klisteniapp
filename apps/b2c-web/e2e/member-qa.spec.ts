@@ -1,9 +1,10 @@
-import { expect, test, type Browser, type Page, type TestInfo } from '@playwright/test'
+const qaProtocol = process.env.QA_INTEGRATION_HTTP === '1' ? 'http' : 'https'
+import { expect, test, type Browser, type Page, type TestInfo } from './fixtures/integration-test'
 import type { Execution, Me, Program } from '../../../packages/b2b-contracts/src/index.ts'
 
 const password = 'browser-tests-only-password-2026'
-const atlas = 'https://atlas.b2b.test'
-const sur = 'https://sur.b2b.test'
+const atlas = `${qaProtocol}://atlas.b2b.test`
+const sur = `${qaProtocol}://sur.b2b.test`
 const center = 'atlas-demo-principal'
 const north = 'atlas-demo-norte'
 const pageErrors = new WeakMap<Page, string[]>()

@@ -1,4 +1,4 @@
-import { expect, test, type Page, type TestInfo } from '@playwright/test'
+import { expect, test, type Page, type TestInfo } from './fixtures/integration-test'
 import { createRequire } from 'node:module'
 import { readFileSync } from 'node:fs'
 import { randomUUID } from 'node:crypto'
@@ -10,14 +10,18 @@ const { Pool } = requireApi('pg')
 const center = 'atlas-demo-principal'
 const north = 'atlas-demo-norte'
 const protocol = (info: TestInfo) =>
-  info.project.name.includes('webkit') && process.env.TRAINER_WEBKIT_HTTP === '1' ? 'http' : 'https'
+  process.env.QA_INTEGRATION_HTTP === '1' ||
+  (info.project.name.includes('webkit') && process.env.TRAINER_WEBKIT_HTTP === '1')
+    ? 'http'
+    : 'https'
 
 async function login(
   page: Page,
   email = 'coach@atlas.example.test',
   origin = 'https://atlas.b2b.test',
 ) {
-  if (test.info().project.name.includes('webkit') && process.env.TRAINER_WEBKIT_HTTP === '1')
+  if (process.env.QA_INTEGRATION_HTTP === '1') origin = origin.replace('https://', 'http://')
+  else if (test.info().project.name.includes('webkit') && process.env.TRAINER_WEBKIT_HTTP === '1')
     origin = origin.includes('sur.b2b.test') ? 'http://127.0.0.1:4468' : 'http://localhost:4468'
   await page.goto(`${origin}/manage`)
   await page.getByLabel('Email', { exact: true }).fill(email)
@@ -70,9 +74,10 @@ async function request(
   )
 }
 async function sql(info: TestInfo, query: string, values: unknown[] = []) {
-  const proxyPort = info.project.name.includes('webkit')
-    ? '4368'
-    : new URL(info.project.use.proxy!.server).port
+  const proxyPort =
+    process.env.QA_INTEGRATION_HTTP !== '1' && info.project.name.includes('webkit')
+      ? '4368'
+      : new URL(info.project.use.proxy!.server).port
   const map = JSON.parse(
     readFileSync(new URL('../../../.cache/trainer/fixture-map.json', import.meta.url), 'utf8'),
   )

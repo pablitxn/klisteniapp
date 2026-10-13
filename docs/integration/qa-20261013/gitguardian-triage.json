@@ -1,0 +1,94 @@
+{
+  "schema_version": "triage-finding/v0",
+  "repository": {
+    "path": "/workspace/klisteni-integration-20261013",
+    "revision": "4f903962094bcc7069891d7aba7ad8683544d44c"
+  },
+  "findings": [
+    {
+      "triage_item_id": "triage-001",
+      "input_id": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "source_type": "scanner_ticket",
+      "title": "GitGuardian Generic Password reported on B2C administrator fixture commit",
+      "normalized_input": {
+        "vulnerable_component": "Exact scanner location unknown; scripts/b2c-admin-fixtures.ts inspected as supplied candidate",
+        "claimed_source": "Repository credential literal; exact matched value unavailable",
+        "claimed_sink": "Public Git history; production credential reuse/exposure not established",
+        "claimed_control": "unknown",
+        "affected_version_or_path": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+        "preconditions": [
+          "Exact matched scanner location must be correlated",
+          "Production reuse would be needed to establish production credential impact"
+        ],
+        "impact": "unknown",
+        "references": [
+          "User-supplied GitGuardian alert description",
+          "https://github.com/pablitxn/klisteniapp/commit/cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+          "https://api.github.com/repos/pablitxn/klisteniapp/commits/478bcfb2e026a75cc6a25b43feb9cb5acfc2ca65/check-runs"
+        ]
+      },
+      "verdict": "needs_review",
+      "confidence": "medium",
+      "affected_locations": [
+        {
+          "label": "candidate literal",
+          "path": "scripts/b2c-admin-fixtures.ts",
+          "lines": "11",
+          "detail": "Test fixture credential constant; value intentionally omitted"
+        },
+        {
+          "label": "entry controls",
+          "path": "scripts/b2c-admin-fixtures.ts",
+          "lines": "12-20",
+          "detail": "Loopback DB host required; UUID fixture schema and exclusive search_path; explicit test configuration and loopback API origin"
+        },
+        {
+          "label": "lifetime",
+          "path": "scripts/b2c-admin-fixtures.ts",
+          "lines": "22-60",
+          "detail": "New fixture schema, fictitious users, no requested email, schema dropped on closure; serve entrypoint"
+        }
+      ],
+      "reachable_path": [
+        "Fixture literal -> createProvisionedUser in dedicated UUID schema -> local test sign-in",
+        "Production API Docker command targets apps/b2c-api/src/server.ts, which does not import the fixture"
+      ],
+      "boundary_assessment": {
+        "product_surface": "test/fixture",
+        "source_trust": "trusted_developer_config",
+        "boundary_crossed": null,
+        "policy_basis": "No applicable SECURITY.md found; static script guards, Docker startup and product QA documentation"
+      },
+      "exploitability_stack_rank": {
+        "rank_queue": "needs_review",
+        "rank": 1,
+        "rationale": "Only supplied finding; exact scanner correlation and production reuse are unverified",
+        "drivers": [
+          "public repository literal",
+          "local test-only entrypoint evidenced",
+          "unknown exact matched location",
+          "unknown external credential reuse"
+        ]
+      },
+      "evidence": [
+        "Candidate fixture file is byte-identical between reported commit and current integration checkout",
+        "GitHub reported no check-runs/statuses on cf73bbc",
+        "GitGuardian Security Checks on source branch head 478bcfb: completed/neutral, check 115277315733, zero annotations",
+        "Only references to fixture module are its own script, admin Playwright config and admin E2E spec"
+      ],
+      "counterevidence": [
+        "Runtime config requires loopback host and a UUID klisteni_admin schema; no existing production tables imported",
+        "Literal supplied to provision fictitious test accounts; no production startup import",
+        "No evidence of a production credential or incident in available static inputs"
+      ],
+      "proof_gaps": [
+        "Original GitGuardian finding URL/id, file/line and redacted match fingerprint absent",
+        "Neutral check without annotations does not dismiss the supplied alert",
+        "External reuse cannot be established from this repository",
+        "Common security-guidance/static-assessment references unavailable through the supplied skill resources; no policy resolver execution is claimed"
+      ],
+      "recommended_next_step": "Obtain GitGuardian finding metadata (URL/id/path/line or redacted fingerprint), correlate exact match, and confirm no non-test reuse before any final disposition. Do not close scanner alert or rotate/change credentials based on this incomplete input.",
+      "fix_finding_handoff": null
+    }
+  ]
+}

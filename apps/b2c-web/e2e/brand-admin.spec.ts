@@ -1,4 +1,5 @@
-import { expect, test, type Page, type TestInfo } from '@playwright/test'
+const qaProtocol = process.env.QA_INTEGRATION_HTTP === '1' ? 'http' : 'https'
+import { expect, test, type Page, type TestInfo } from './fixtures/integration-test'
 import type {
   Unit,
   Website,
@@ -53,7 +54,7 @@ async function read<T>(page: Page, brand: string, branch: string, path: string) 
 }
 async function login(page: Page, brand = 'atlas', branch = 'principal') {
   page.on('dialog', (dialog) => dialog.accept())
-  await page.goto(`https://${brand}.b2b.test/manage`)
+  await page.goto(`${qaProtocol}://${brand}.b2b.test/manage`)
   await brandAdminSignIn(page, `admin@${brand}.example.test`)
   await field(page, 'Sede y función').selectOption(`${brand}-demo-${branch}:admin`)
   await expect(field(page, 'Sede y función')).toHaveValue(`${brand}-demo-${branch}:admin`)
@@ -123,7 +124,7 @@ for (const [brand, branches] of [
         'qr',
         'brand',
       ]) {
-        await page.goto(`https://${brand}.b2b.test/manage/${route}`)
+        await page.goto(`${qaProtocol}://${brand}.b2b.test/manage/${route}`)
         await expect(button(page, 'Salir')).toBeVisible()
         await expect(page.locator('main h1').first()).toBeVisible()
         await expect(page.getByRole('alert')).toHaveCount(0)
@@ -372,7 +373,7 @@ test('unit concurrency is recoverable, requires review, publishes correct QR and
   await expect(page.locator('.qr-label img')).toBeVisible()
   await expect(page.locator('.qr-absolute-url')).toHaveAttribute(
     'href',
-    `https://atlas.b2b.test${initial.publicPath}`,
+    `${qaProtocol}://atlas.b2b.test${initial.publicPath}`,
   )
   await capture(page, info, 'qr-label')
   await page.locator('.qr-absolute-url').click()
@@ -505,7 +506,7 @@ test('website validation, reload, concurrency, review/publication and withdrawal
   await button(page, 'Publicar website').click()
   await expect(page.getByRole('status').filter({ hasText: 'Website publicado' })).toBeVisible()
   const published = await page.context().newPage()
-  await published.goto('https://sur.b2b.test/sedes/oeste')
+  await published.goto(`${qaProtocol}://sur.b2b.test/sedes/oeste`)
   await expect(
     published.getByRole('heading', { name: `Website QA ${info.project.name}`, exact: true }),
   ).toBeVisible()
@@ -833,10 +834,10 @@ test('logout propagates to open tabs; another brand cannot reuse the admin sessi
 }, info) => {
   await login(page)
   const other = await context.newPage()
-  await other.goto('https://atlas.b2b.test/manage/people')
+  await other.goto(`${qaProtocol}://atlas.b2b.test/manage/people`)
   await expect(button(other, 'Salir')).toBeVisible()
   const surPage = await context.newPage()
-  await surPage.goto('https://sur.b2b.test/manage')
+  await surPage.goto(`${qaProtocol}://sur.b2b.test/manage`)
   await expect(field(surPage, 'Email')).toBeVisible()
   expect([403, 404]).toContain((await api(page, 'sur', 'principal', '/branches')).status)
   await brandAdminSignIn(surPage, 'admin@sur.example.test')
@@ -892,7 +893,7 @@ test('invitations validate inputs, activate synthetic member and grant only the 
   await button(page, 'Crear invitación').click()
   await expect(page.getByRole('status').filter({ hasText: 'Invitación creada' })).toBeVisible()
   const url = await page.locator('a.code-link').getAttribute('href')
-  expect(new URL(url!).origin).toBe('https://sur.b2b.test')
+  expect(new URL(url!).origin).toBe(`${qaProtocol}://sur.b2b.test`)
   // Never attach an activation URL screenshot; the generated token is confined to this disposable DB.
   const invited = await context.newPage()
   await invited.goto(url!)
@@ -988,10 +989,10 @@ test('brand image upload is private until publishing and contrast validation pre
   const logo = await field(page, 'Logo').inputValue()
   expect(logo).toMatch(/^\/api\/b2b\/media\//)
   const anonymous = await page.context().newPage()
-  await anonymous.goto('https://sur.b2b.test/')
+  await anonymous.goto(`${qaProtocol}://sur.b2b.test/`)
   expect(
     await anonymous.evaluate(
-      async (url) => (await fetch(`https://sur.b2b.test${url}`)).status,
+      async (url) => (await fetch(`${location.protocol}//sur.b2b.test${url}`)).status,
       logo,
     ),
   ).toBe(404)
@@ -1079,7 +1080,7 @@ test('administrator filters a persisted partial training fixture and exports bra
 }, info) => {
   test.setTimeout(180_000)
   // Arrange a real persisted member record through the local API; only the admin UI is under test.
-  await page.goto('https://atlas.b2b.test/')
+  await page.goto(`${qaProtocol}://atlas.b2b.test/`)
   const fixtureId = await page.evaluate(async (password) => {
     const signed = await fetch('/api/b2b/auth/sign-in/email', {
       method: 'POST',

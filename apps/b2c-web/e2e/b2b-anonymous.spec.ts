@@ -1,4 +1,4 @@
-import { test, expect, type Page, type TestInfo } from '@playwright/test'
+import { test, expect, type Page, type TestInfo } from './fixtures/integration-test'
 
 let protocol = 'https',
   atlas = 'https://atlas.b2b.test',

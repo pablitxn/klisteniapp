@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test, type Page } from './fixtures/integration-test'
 import type { Branch } from '../../../packages/b2b-contracts/src/index.ts'
 import { brandAdminSignIn } from './fixtures/brand-admin-sign-in'
 async function login(page: Page) {
