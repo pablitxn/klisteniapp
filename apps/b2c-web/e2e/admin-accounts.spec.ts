@@ -104,6 +104,12 @@ test('inventory: account states, empty shared list, self protection and mobile l
   await expect(self.getByRole('button', { name: /Deshabilitar|Cerrar sus sesiones|Crear recuperación/ })).toHaveCount(0)
   await expect(admin.getByRole('checkbox', { name: /Enviar los nuevos enlaces por email/ })).toBeDisabled()
   await expect(admin).toContainText('El correo no está configurado')
+  if (info.project.use.hasTouch) {
+    await admin.locator('summary').tap()
+    await expect(admin).not.toHaveAttribute('open', '')
+    await admin.locator('summary').tap()
+    await expect(admin.getByLabel('Email de la persona')).toBeVisible()
+  }
   await admin.getByRole('button', { name: 'Actualizar', exact: true }).click()
   await self.scrollIntoViewIfNeeded()
   await evidence(page, info, 'account-states')
@@ -257,6 +263,9 @@ test('user enable, suspend, revoke sessions and recover preserve history and acc
     const admin = await adminPanel(page)
     const row = userRow(admin, address)
     await row.getByRole('button', { name: 'Cerrar sus sesiones' }).click()
+    // A click resolves when dispatched, before the API transaction necessarily
+    // commits. Check the UI acknowledgement before inspecting persisted effects.
+    await expect(admin.getByRole('status')).toContainText('Sesiones revocadas.')
     expect((await pool.query('SELECT id FROM auth_session WHERE "userId" = $1', [user.id])).rowCount).toBe(0)
     await member.reload()
     await expect((await openAccountSettings(member)).getByRole('button', { name: 'Entrar a mi cuenta' })).toBeVisible()
