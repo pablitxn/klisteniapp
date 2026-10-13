@@ -1,143 +1,113 @@
-# Piloto público de marca blanca — 11 de octubre de 2026
+<a id="piloto-público-de-marca-blanca--11-de-octubre-de-2026"></a>
 
-Desplegado y verificado en `production-k3s`, aplicación ArgoCD y namespace
-`klisteni-b2b-prod`, por autorización posterior al cierre local WL-0 a WL-8.
+# Public white-label pilot — October 11, 2026
 
-**Aceptado y cerrado por el usuario el 11/10/2026** mediante «acepto todo,
-termina». La aceptación incluye los límites documentados: previews, backups
-periódicos y retención diferidos, y pipeline completo pendiente por las previews
-de yoga. No se atribuyen nuevas pruebas físicas a esta aceptación.
+Deployed/verified `production-k3s`, ArgoCD app/namespace `klisteni-b2b-prod`, later
+authorization after local WL-0–WL-8. **User accepted/closed October 11, 2026** through
+original quotation “acepto todo, termina”. Includes documented deferred previews/
+periodic backups/retention and full pipeline pending yoga. No new physical tests
+attributed to acceptance. This remains dated deployment evidence, not current-runtime verification.
 
-| Marca | Web pública | Sedes |
+| Brand | Public web | Branches |
 | --- | --- | --- |
 | Atlas Demo | https://atlas-klisteni.orchid-labs.xyz | Centro, Norte |
 | Sur Demo | https://sur-klisteni.orchid-labs.xyz | Centro, Oeste |
 
-En cada dominio, `/app` abre el espacio del socio y `/manage` el de
-administradores y profesores. Hay diez cuentas sintéticas con contraseñas
-aleatorias distintas: un administrador y un profesor/socio por sede en cada
-marca. El administrador selecciona sede y función; profesores y socios acceden
-únicamente a su sede. Los accesos están en el archivo privado del VPS
-`.cache/wl-deploy/accesos-manuales.md`; no se versionan las credenciales.
+Each domain `/app` member/`/manage` admin-trainer. Ten synthetic accounts/distinct
+random passwords: one admin and trainer-member per branch each brand. Admin selects
+branch/role; others assigned branch only. VPS private
+`.cache/wl-deploy/accesos-manuales.md`, no versioned credentials.
 
-## Actualización: una sola web B2B
+<a id="actualización-una-sola-web-b2b"></a>
 
-La revisión `bda51fb233b3c132b5e5bb90e6164f1e2171dd3a` está desplegada
-mediante [Mycelium PR47](https://github.com/pablitxn/mycelium/pull/47),
-revisión GitOps `27a1cd6af71f2bf7c2061bfa75254848dcbf5144`.
-La web comparte sesión, marca y sede: `/app` para socios y `/manage` para
-administradores/profesores, con rutas por dominio y compatibilidad de los links
-anteriores de `/backoffice/`. `backoffice` queda reservado para una futura consola
-de owner; no se crea esa consola en esta entrega.
+## Upgrade: one B2B web application
 
-La [evidencia del upgrade](validation/b2b-unified-deployed-2026-10-11.json)
-registra Chromium táctil **24/24** y WebKit táctil **24/24**, sin errores JavaScript;
-las dos marcas mantienen documento/sesión/sede al navegar y conservan URL/contexto
-al recargar. Los smokes consultan entrenamiento y configuración; login, selección
-y logout afectan sólo sus sesiones sintéticas. Los cuatro controles de host/proxy/origen
-aprobaron y los bundles HTTPS coinciden byte por byte con el artifact construido.
-ArgoCD terminó `Synced / Healthy / Succeeded`, con API/web `2/2` y PostgreSQL `1/1`.
+`bda51fb233b3c132b5e5bb90e6164f1e2171dd3a` deployed through
+[Mycelium PR47](https://github.com/pablitxn/mycelium/pull/47),
+GitOps `27a1cd6af71f2bf7c2061bfa75254848dcbf5144`. Shared session/brand/branch,
+member app/staff manage/domain routes/legacy backoffice links. Future owner console
+reserved, not created.
 
-Antes de promover los digests se capturaron DB, medios y configuración privados y
-se verificó su restauración aislada: 33 tablas y cuatro medios. No hay migraciones
-nuevas; los init containers comprobaron migraciones y rol runtime limitado.
-B2C conserva sus generaciones e imágenes y su readiness público respondió 200.
-La CI GitOps aprobó; la auditoría exacta de fuente y artifact aprobó, con 93
-self-tests. El [pipeline de fuente 1252](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/pipelines/1252)
-aprobó lint, tipos y tests (14/14 tareas en cada etapa), y falló únicamente al
-validar el receipt de extracción de yoga previamente diferido. El gate permanece
-activo y no se afirma una CI global verde.
+[Upgrade evidence](validation/b2b-unified-deployed-2026-10-11.json): touch Chromium
+**24/24**, WebKit**24/24**, zero JS errors; both brands document-session-branch preserved
+through navigation/reload. Smokes read training/config; login-selection-logout
+only synthetic sessions. Four host-proxy-origin checks passed; HTTPS bundles
+byte-identical artifact. Argo Synced/Healthy/Succeeded, API-web2/2, DB1/1.
 
-## Revisión y operación
+Before digest promotion private DB-media-config capture/isolated restore33 tables/
+four media. No new migration; init checks migrations/limited runtime role. B2C
+images/generations retained, public readiness200. GitOps CI/source-artifact audit
+PASS,93 self-tests. [Source pipeline1252](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/pipelines/1252)
+lint/types/tests14/14 each; failed only deferred Yoga extraction receipt. Gate active,
+no globally passing CI claim.
 
-- Fuente de las imágenes: `45483e2dc15a8e3cd9df4b9aaa32893652434d28`.
-- [Promoción GitOps PR42](https://github.com/pablitxn/mycelium/pull/42),
-  `80ff2f5dade3bec9258118f31315be00d0b3d0d5`.
-- [Operación y recuperación PR43](https://github.com/pablitxn/mycelium/pull/43).
-- [MR de fuente](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/merge_requests/1):
-  **integrada a `main` en `07209a4`**, incluyendo el ajuste de concurrencia CI;
-  GitLab confirmó la MR como `merged`. Atlas quedó integrado en `1d2c439`.
-  El token de API del VPS tiene rol Developer, pero la clave SSH existente
-  permitió ambas integraciones respetando las protecciones, sin ampliar permisos
-  ni copiar credenciales desde la Mac. El despliegue conserva los digests de
-  `45483e2`; los commits posteriores sólo cambian evidencia y configuración CI.
+<a id="revisión-y-operación"></a>
 
-Mycelium conserva los manifests y los scripts operativos en
-`applications/klisteni-b2b/`. Nginx y API comparten pod; la API escucha solamente
-en loopback y exige la identidad del proxy. PostgreSQL y medios usan volúmenes
-dedicados. La migración usa un propietario de esquema separado del rol runtime
-sin DDL; los init containers comprobaron cinco migraciones y sus permisos antes
-de arrancar la aplicación. Secretos sellados, TLS y rutas explícitas del túnel
-completan el acceso público. Ambos dominios pasaron TXT, DNS y TLS reales antes
-de activarse; previamente respondían 421.
+## Revision and operation
 
-El sitio B2C `klisteniapp.orchid-labs.xyz` conserva sus deployments, generaciones,
-digests y base anteriores; su readiness y acceso público aprobaron.
+- Image source `45483e2dc15a8e3cd9df4b9aaa32893652434d28`.
+- [GitOps promotion PR42](https://github.com/pablitxn/mycelium/pull/42), `80ff2f5dade3bec9258118f31315be00d0b3d0d5`.
+- [Operation/recovery PR43](https://github.com/pablitxn/mycelium/pull/43).
+- [Source MR](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/merge_requests/1)
+  **merged main07209a4**, including CI concurrency; GitLab merged state. Atlas1d2c439.
+  VPS API token Developer; existing SSH key permitted integrations respecting
+  protections/no expanded permissions/Mac credential copy. Deployed45483e2 digests;
+  later evidence/CI-config commits only.
 
-## Evidencia desplegada
+Mycelium `applications/klisteni-b2b/` manifests/ops. API-Nginx shared pod, API loopback/
+proxy identity; dedicated DB/media volumes. Separate schema-owner migrations/runtime
+no DDL; init verified five migrations/permissions. Sealed secrets/TLS/explicit
+Tunnel routes. Real TXT/DNS/TLS before activation; previously421. B2C
+klisteniapp.orchid-labs.xyz deployments/generations/digests/DB unchanged, readiness/public PASS.
 
-La [evidencia JSON](validation/b2b-white-label-deployed-2026-10-11.json) registra
-digests efectivos, resultados, fechas y límites. Las capturas de
-[Atlas](validation/b2b-white-label-deployed-atlas-2026-10-11.png) y
-[Sur](validation/b2b-white-label-deployed-sur-2026-10-11.png) proceden del HTTPS público.
+<a id="evidencia-desplegada"></a>
 
-| Comprobación | Resultado |
+## Deployed evidence
+
+[JSON](validation/b2b-white-label-deployed-2026-10-11.json): effective digests/results/
+dates/limits. [Atlas](validation/b2b-white-label-deployed-atlas-2026-10-11.png),
+[Sur](validation/b2b-white-label-deployed-sur-2026-10-11.png) public HTTPS captures.
+
+| Check | Result |
 | --- | --- |
-| Chromium táctil, HTTPS público | **28/28**, cero errores JavaScript |
-| WebKit táctil, después de recrear el pod | **22/22**, cero errores JavaScript |
-| Host desconocido, identidad proxy y origen cruzado | **4/4** |
-| Restauración de DB, medios y configuración | **5/5 grupos**; 33 tablas y 4 medios idénticos |
-| API aislada sobre la copia restaurada | **10/10**; login, permisos, historial, branding y cookies cruzadas |
-| Persistencia posterior al reinicio | 2 marcas, 4 sedes, 10 usuarios, 8 permisos de sede, 4 medios y 4 ejecuciones |
-| ArgoCD al cierre funcional | **33 aplicaciones Synced/Healthy**; API/web 2/2, PostgreSQL 1/1 |
+| Touch Chromium/public HTTPS | **28/28**, zero JS errors |
+| Touch WebKit/post-pod recreation | **22/22**, zero JS errors |
+| Unknown host/proxy identity/cross origin | **4/4** |
+| DB/media/config restore | **5/5 groups**,33 tables/four media identical |
+| Isolated restored-copy API | **10/10**, login/permissions/history/branding/cross cookies |
+| Post-restart persistence | Two brands/four branches/ten users/eight grants/four media/four executions |
+| Functional closeout Argo | **33 apps Synced/Healthy**, API-web2/2, DB1/1 |
 
-Chromium completó cuatro rutinas mediante UI y consultó su seguimiento con cada
-profesor. Probó publicación/restauración de temas, módulos, revocación y reposición
-de permisos, cookies entre marcas, upload real y permisos de medios GET/HEAD/Range.
-WebKit volvió a entrar con las mismas cuentas e identificadores después del
-reinicio, sin editar configuración ni entrenamiento. Las configuraciones y los
-permisos modificados por el smoke quedaron restaurados; permanecen los datos
-sintéticos de entrenamiento y cuatro imágenes pequeñas para pruebas manuales.
+Chromium completed four UI routines/read monitoring with each trainer. Theme publish/
+restore, modules, grant revoke-restore, cross cookies, real upload/media GET-HEAD-Range.
+WebKit same accounts/IDs after restart, no training/config edits. Smoke config/grants
+restored; synthetic training/four small manual-test images retained.
 
-La copia de recuperación se conserva bajo `.cache/wl-deploy/backups/` con acceso
-privado. El ensayo restauró otra base y otro directorio de medios, usó una segunda
-API sólo en loopback y eliminó sus temporales. La API pública siguió disponible:
-se verificó ausencia de cambios con hashes antes y después de la captura, durante
-el intervalo controlado previo a entregar los accesos. No se afirma un bloqueo
-de escrituras ni una política de backup periódico o recuperación de todo el host.
-El usuario difirió explícitamente los backups periódicos y la política de
-retención hasta una etapa posterior de operación en producción; no bloquean
-las pruebas manuales del piloto.
+Private `.cache/wl-deploy/backups/` copy. Separate DB/media/loopback-only second API,
+temporaries removed. Public API remained available; before-after hashes confirm
+no changes during controlled pre-handoff capture interval. No write lock/periodic
+backup/full-host recovery claim. User explicitly deferred recurring backups/
+retention to later production operations, no pilot-manual-test blocker.
 
-## Límites y próxima operación
+<a id="límites-y-próxima-operación"></a>
 
-La CI GitOps aprobó. La traza del pipeline de fuente **1244**, job **5356**,
-precisa la causa de `runner_system_failure`: Kubernetes terminó el contenedor
-con `OOMKilled`/137 durante lint, al ejecutar diez tareas dentro de un límite de
-1 GiB. `07209a4` serializa Turbo: el pipeline **1247** aprobó lint 15/15 y formato,
-pero TypeScript agotó el heap de Node durante `web:typecheck` (134). `11434d9`
-eleva sólo el límite de `quality` a **2 GiB**, dentro del override permitido por
-el runner, conservando el request de 256 MiB y la concurrencia de una tarea.
-No se modificaron los límites globales del clúster ni se usó la Mac.
+## Limits and next operation
 
-La verificación sobre `main`, [pipeline **1249**, job **5363**](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/jobs/5363),
-aprobó **lint 15/15**, **tipos 15/15** y **tests 15/15 paquetes**, además de los
-23 tests raíz: **447 aprobados, 11 omitidos y cero fallos** en total. Las integraciones
-con DB se omiten en este job sin URL; su evidencia local y desplegada se conserva
-por separado. La comprobación de previews aprobó 74 de ejercicios y 24 musculares,
-pero yoga se detuvo con `Extraction receipt is stale`:
-los cambios de fuentes requieren nuevas capturas. No hubo otro fallo de memoria.
-El pipeline completo sigue **fallido por las previews diferidas**; los pasos de
-anatomía, build y auditoría posteriores no se ejecutaron en este pipeline.
-Consultar la [evidencia del cierre de integración y CI](validation/b2b-white-label-closeout-2026-10-11.json).
+GitOps CI PASS. Source pipeline**1244**, job**5356**, runner_system_failure from
+Kubernetes OOMKilled/137 during ten lint tasks/1 GiB.07209a4 serialized Turbo;
+**1247**lint15/15/format PASS, Node heap exhausted web: typecheck134.11434d9 raises
+quality only**2 GiB**, within runner override;256 MiB request/one-task concurrency
+retained. No global cluster limit/Mac use.
 
-La generación y revisión de previews siguen diferidas, sin regeneraciones ni
-cambios de hashes para omitirlas; el gate completo conserva esa comprobación.
-Teléfono y QR físicos, Blender y revisión humana del contenido conservan su
-aceptación propia.
+Main [pipeline1249/job5363](https://gitlab.orchid-labs.xyz/orchid-labs/homelab/klisteniapp/-/jobs/5363):
+**lint15/15, types15/15, tests15/15 packages**,23 root;**447 PASS,11 SKIP, zero FAIL**.
+DB integrations skipped without URLs, separate local/deployed evidence. Previews
+exercise74/body24 PASS, yoga `Extraction receipt is stale`, source changes need new
+captures. No further memory failure. Full pipeline **failed on deferred previews**;
+later anatomy/build/publication unexecuted. [Closeout/CI evidence](validation/b2b-white-label-closeout-2026-10-11.json).
 
-La evidencia TLS almacenada vence el **22/11/2026 23:56:33 UTC**. Revalidar los
-dos dominios con el operador **antes del 08/11/2026**, comprobando su DNS y
-certificado vigente. La renovación automática del certificado de Cloudflare no
-renueva ese registro de la aplicación. El runbook de Mycelium documenta el comando,
-su efecto sobre sesiones y el procedimiento de recuperación ante una pausa.
+Generation/review deferred, no hash changes/regeneration to bypass gate. Phone/QR/
+Blender/human content separate acceptance. Stored TLS evidence expires
+**November 22, 2026 23:56:33 UTC**. Revalidate both domains with operator **before
+November 8, 2026**, current DNS/cert. Cloudflare automatic renewal does not renew app
+record. Mycelium runbook command/session effects/recovery after pause.

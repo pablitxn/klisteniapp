@@ -36,7 +36,7 @@ if (base) {
       if (!after.includes(sha)) errors.push(`Missing historical SHA ${sha} in ${path}`);
     }
   }
-  console.log(`Checked ${paths.length} changed paths against ${base}; executable/product/evidence files preserved.`);
+  console.log(`Checked ${paths.length} changed paths against ${base}; only permitted documentation/audit paths changed; historical SHA references retained.`);
 }
 if (range) {
   const subjects = git('log', '--format=%s', range).split('\n').filter(Boolean);
@@ -51,7 +51,7 @@ if (args.includes('--inventory')) {
   const paths = git('ls-files', '*.md').split('\n').filter(Boolean);
   for (const path of paths) {
     const prose = readFileSync(path, 'utf8')
-      .replace(/^```[^\n]*\n[\s\S]*?^```/gm, '')
+      .replace(/^[ \t]*```[^\n]*\n[\s\S]*?^[ \t]*```/gm, '')
       .replace(/`[^`]+`/g, '')
       .replace(/<a id="[^"]+"><\/a>/g, '');
     if (hints.test(prose)) console.log(`HUMAN REVIEW: ${path}`);
