@@ -161,6 +161,7 @@ export function People({
                       {admin ? (
                         <select
                           aria-label={`Rol de ${member.name}`}
+                          style={{ minWidth: brandWide ? 230 : 170 }}
                           value={member.role}
                           disabled={action.busy || !active}
                           onChange={(event) =>
@@ -188,7 +189,7 @@ export function People({
                       {member.coachIds
                         .map(
                           (id) =>
-                            members.find((item) => item.userId === id)?.name ??
+                            roster.find((item) => item.userId === id)?.name ??
                             'Profesional asignado',
                         )
                         .join(', ') || '—'}
