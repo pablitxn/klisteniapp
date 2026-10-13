@@ -588,7 +588,7 @@ test('A33 touch activation uses real touch pointer events in the mobile viewport
   else await login.click()
   await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
   const pointers = await page.evaluate(
-    () => (window as Window & { qaPointerTypes: string[] }).qaPointerTypes,
+    () => (window as Window & { qaPointerTypes?: string[] }).qaPointerTypes ?? [],
   )
   expect(pointers.length).toBeGreaterThanOrEqual(3)
   expect(pointers.every((pointer) => pointer === (touch ? 'touch' : 'mouse'))).toBe(true)
