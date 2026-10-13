@@ -1,8 +1,9 @@
-# Matriz final de UI del visitante
+<a id="matriz-final-de-ui-del-visitante"></a>
+# Final visitor UI matrix
 
-Cada celda: demo / instancia. Los estados corresponden a la última ejecución de cada caso; el JSON conserva también las corridas originales y el fallo de selector V16 corregido.
+Each cell: demo / instance. Status corresponds to latest per-case execution; JSON also retains original runs and corrected V16 selector failure.
 
-| Caso | Chromium 320 | Chromium 430 | Chromium 1440 | WebKit 320 | WebKit 430 | WebKit 1440 |
+| Case | Chromium 320 | Chromium 430 | Chromium 1440 | WebKit 320 | WebKit 430 | WebKit 1440 |
 | --- | --- | --- | --- | --- | --- | --- |
 | V01 | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS |
 | V02 | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS |
@@ -23,9 +24,10 @@ Cada celda: demo / instancia. Los estados corresponden a la última ejecución d
 | V17 | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS |
 | V18 | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS | PASS / PASS |
 
-## Recorridos educativos adicionales
+<a id="recorridos-educativos-adicionales"></a>
+## Additional educational journeys
 
-| Archivo / flujo | Chromium | WebKit |
+| File / flow | Chromium | WebKit |
 | --- | --- | --- |
 | body-guide.spec.ts · a custom routine containing a pull shows its actual role in the atlas | PASS | PASS |
 | body-guide.spec.ts · all twelve atlas cards explain their structure and function without mounting a viewer | PASS | PASS |
@@ -65,13 +67,14 @@ Cada celda: demo / instancia. Los estados corresponden a la última ejecución d
 | yoga.spec.ts · storage failure retains the practice draft and reports failure | PASS | PASS |
 | yoga.spec.ts · timer excludes pauses and skips, saves a partial snapshot and appears in global history | PASS | PASS |
 
-## Límites
+<a id="límites"></a>
+## Limits
 
-| Estado | Área |
+| Status | Area |
 | --- | --- |
-| FAIL previo | Gate de previews de yoga: Extraction receipt is stale |
-| NOT RUN | Teléfonos físicos, lector de pantalla, voz y teclado virtual |
-| NOT RUN | Todas las combinaciones de campos/fechas/metas de salud |
-| NOT RUN | Escritores concurrentes en dos pestañas del mismo origen |
-| NOT RUN | Ciclo de cuenta, billing e integraciones nativas de reloj |
-| NOT RUN | Arranque offline antes de descargar la app |
+| Pre-existing FAIL | Yoga preview gate: Extraction receipt is stale |
+| NOT RUN | Physical phones, screen reader, voice and virtual keyboard |
+| NOT RUN | All health field/date/goal combinations |
+| NOT RUN | Concurrent writers in two same-origin tabs |
+| NOT RUN | Account lifecycle, billing and native watch integrations |
+| NOT RUN | Offline startup before downloading app |
