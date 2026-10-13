@@ -1,12 +1,14 @@
 # Klisteni English engineering audit — 2026-10-13
 
-The seven source PRs and their primary authored QA reports now use English.
-English guidance and Conventional Commits rules are persistent in AGENTS. All
-seven source branches received new documentation-only commits with verified
-remote SHAs. A separate language branch is stacked on the verified integration
-baseline. **Repository-wide translation remains incomplete:** 29 older
-Markdown candidates still require translation or section-level provenance review.
-This report does not claim organization-wide compliance.
+Repository-authored technical prose has been corrected to English across the
+reviewed repository and all seven source QA branches. The seven QA reports and
+active PR titles/bodies are English. The continuation resolved all 29 previously
+listed older candidates: 24 technical guides, two notices translated in place and
+three byte-pinned capture notices with complete English companions. Persistent
+AGENTS guidance covers English and Conventional Commits. Classified data, original
+quotations and immutable evidence remain intentionally unchanged. Human acceptance
+and one serialized editorial-data classification remain explicit review items;
+this report does not claim organization-wide compliance.
 
 ## Scope and authority
 
@@ -44,9 +46,15 @@ settings are not claimed verified. No subordinate tasks were spawned per PR.
   command examples is retained; authored comments are English.
 - Translated integration README, working checkpoints, seven draft intake notes and
   authored GitGuardian explanation. No new triage or external alert disposition.
-- Translated three reviewed technical guides: body models, personal dashboard and
-  health-integration status. Existing dated provider claims remain dated claims;
-  this audit did not refresh external provider availability.
+- Translated the three initially reviewed guides and all 24 older technical guides
+  listed in the continuation inventory. Architecture, B2B deployment/validation,
+  development, exercises, subscriptions, health import/sync and Yoga are covered.
+  Existing dated provider and release claims remain dated evidence; this audit
+  did not refresh provider availability or certify another release.
+- Translated model/general preview notices in place. Three capture-pinned originals
+  remain byte-identical, with [complete English companions](asset-notices/README.md).
+  Original license text, attribution names, source quotations and receipt hashes
+  are retained; no regeneration was performed.
 - English AGENTS and documentation-index directive, pinned canonical policy,
   Conventional Commit subjects/bodies and human-review limits.
 - Bounded standard-library structural checker without new hooks, CI workflows or
@@ -59,7 +67,9 @@ settings are not claimed verified. No subordinate tasks were spawned per PR.
   Later PR appendices clearly distinguish language SHAs from original QA results.
 
 No runtime code, test logic, API/schema contracts, configuration, localized UI,
-fixture values, assets, preview manifests/receipts or raw QA outputs were changed.
+fixture values, model geometry/images, preview manifests/receipts or raw QA outputs
+were changed. Two NOTICE files contain translated authored prose; three pinned
+NOTICE originals remain unchanged.
 No published Git history rewrite, force push, merge, deployment, credential/security
 change, browser bypass or certificate trust change. Shared translations are byte-
 identical across applicable source branches and the language branch; source-only
@@ -69,13 +79,13 @@ English audit notes describe each branch's own evidence.
 
 | PR | Exact source branch | Original QA head | English update | Audit state |
 | --- | --- | --- | --- | --- |
-| [2](https://github.com/pablitxn/klisteniapp/pull/2) | `codex/qa-b2c-selfservice-20261013` | `640ec502` | `9463dedb` | Corrected; legacy guides pending |
-| [3](https://github.com/pablitxn/klisteniapp/pull/3) | `qa/b2c-admin-20261013-sol` | `478bcfb2` | `98e93357` | Corrected; legacy guides pending |
-| [4](https://github.com/pablitxn/klisteniapp/pull/4) | `qa/b2b-trainer-20261013-cloud` | `ed53bbc4` | `724ebde7` | Corrected; legacy guides pending |
-| [5](https://github.com/pablitxn/klisteniapp/pull/5) | `qa/b2b-member-20261013-session-b752` | `bafb7bf6` | `fb7cec40` | Corrected; legacy guides pending |
-| [6](https://github.com/pablitxn/klisteniapp/pull/6) | `qa/b2b-anonymous-20261013-publicable` | `32a80111` | `b6458172` | Corrected; legacy guides pending |
-| [7](https://github.com/pablitxn/klisteniapp/pull/7) | `qa/b2c-visitor-local-20261013` | `d35365c6` | `89cad957` | Corrected; legacy guides pending |
-| [8](https://github.com/pablitxn/klisteniapp/pull/8) | `qa/b2b-brand-admin-20261013` | `a959fceb` | `6a5257ea` | Corrected; legacy guides pending |
+| [2](https://github.com/pablitxn/klisteniapp/pull/2) | `codex/qa-b2c-selfservice-20261013` | `640ec502` | `30b7f0a8` | Corrected; classified exceptions |
+| [3](https://github.com/pablitxn/klisteniapp/pull/3) | `qa/b2c-admin-20261013-sol` | `478bcfb2` | `89b2812f` | Corrected; classified exceptions |
+| [4](https://github.com/pablitxn/klisteniapp/pull/4) | `qa/b2b-trainer-20261013-cloud` | `ed53bbc4` | `18d0e14c` | Corrected; classified exceptions |
+| [5](https://github.com/pablitxn/klisteniapp/pull/5) | `qa/b2b-member-20261013-session-b752` | `bafb7bf6` | `6d61ac4f` | Corrected; classified exceptions |
+| [6](https://github.com/pablitxn/klisteniapp/pull/6) | `qa/b2b-anonymous-20261013-publicable` | `32a80111` | `269d793e` | Corrected; classified exceptions |
+| [7](https://github.com/pablitxn/klisteniapp/pull/7) | `qa/b2c-visitor-local-20261013` | `d35365c6` | `cead0fe8` | Corrected; classified exceptions |
+| [8](https://github.com/pablitxn/klisteniapp/pull/8) | `qa/b2b-brand-admin-20261013` | `a959fceb` | `6b16a17c` | Corrected; classified exceptions |
 
 [Machine-readable matrix](english-branch-matrix-2026-10-13.json) contains full SHAs,
 remote verification, exceptions, local checks, remaining gaps and CI query limits.
@@ -96,10 +106,28 @@ A later integrator can take the documentation commits without losing original QA
 - `git diff --check`: PASS for each source update and language changes.
 - Source remote SHA checked immediately before push and after ordinary fast-forward
   push. No source head changed unexpectedly. Original and new runtime trees verified
-  by changed-path checks; raw evidence/data/assets absent from diffs.
-- [Inventory](english-audit-inventory-2026-10-13.json): 719 tracked UTF-8
-  files inspected mechanically; binary files excluded from language detection and
-  preserved. Language hints/provisional classes are review aids, not English certification.
+  by changed-path checks; raw evidence/data/model geometry/image files absent from diffs; notice prose changes
+  are explicitly classified.
+- TypeScript scanner/AST audit of 465 source files: 574 comment tokens and 869
+  literal test/describe/it descriptions; no Spanish hints. Shell/Python comments
+  were also inspected. Dynamic/generated text and heuristic false negatives remain
+  human-review limits; existing localization, selectors and fixtures are preserved.
+- Continuation comparison retained prior source-link targets, uppercase API/env
+  identifiers, historical 40-character SHAs and fenced executable commands. Only
+  authored command comments were translated. All repository relative Markdown
+  links/fragments pass a local target/heading/explicit-anchor check (zero invalid).
+- [Inventory](english-audit-inventory-2026-10-13.json) records final UTF-8 file
+  classifications and all 29 dispositions. Binary assets are excluded from language
+  detection and preserved. Hints/classes assist review; they do not certify English.
+
+The continuation first rerun lacked `typescript` in the isolated worktree and
+reported 18 PASS/one module-loading failure. Temporary links to the original
+checkout's existing dependencies resolved that setup failure; the complete rerun
+passed all 26 tests with zero skips. Links were removed before publication.
+Exercise preview verification passes 74/74 and body previews 24/24. The original
+three NOTICE SHA-256 values match both baseline and final bytes. Logs are retained
+in `/workspace/shared/klisteni-english-validation/`; these are local evidence,
+not remote CI or a fresh physical-device matrix.
 
 An initial pnpm command used an unsupported option and did not run tests; the
 existing root Node test command above executed successfully. The available pinned
@@ -130,55 +158,35 @@ external final publication receipt after creation, avoiding self-referential SHA
 
 ## Exceptions and ambiguous review items
 
-| Material | Treatment / review needed |
+| Material | Disposition |
 | --- | --- |
-| `apps/b2c-web/src/i18n/**`, B2B UI strings/localized selectors | Preserve intended locale and matching tests; surrounding technical explanation English |
-| `packages/catalog-base/src/**`, B2C educational data | Preserve user-facing Spanish exercise/yoga guidance; mixed editorial `review`/`adaptationNote` content needs owner review to distinguish product copy from technical prose |
-| QA `.json`, `.txt`, archives, hashes, captures and fixture data | Preserve immutable output/data byte-for-byte; directory location does not exempt authored Markdown summaries |
-| Sanskrit asanas, external attribution names, licenses/source titles/quotations | Preserve exact original spelling/content; e.g. Lluís Vinent Juanico |
-| Paths, IDs, enums, serialized fields, URL fragments such as the B2B API README's Spanish heading link | Preserve contracts; no identifier/file renaming. Heading aliases preserve old fragments |
-| Historical certificate exceptions and reproduction commands | Retain documented evidence; clearly distinguish from current no-bypass/no-trust-change rule. No new browser test used those exceptions |
-| Preview/model NOTICE documents | Mixed attribution/legal provenance and authored explanation; do not translate wholesale. Section-level review pending; preview-hashed inputs unchanged |
-| PR metadata snapshot | Original descriptions explicitly preserved as historical quotations; active PR text English |
-| Existing stale product-plan wording in older guides | Separate factual reconciliation required. This language audit does not silently turn proposed features into newly verified releases |
+| `apps/b2c-web/src/i18n/**`, B2B UI strings and matching selectors | Intended localization preserved; technical explanation is English |
+| Spanish exercise/yoga educational content and `planning.relations[].rationale` | Product catalog data; rationale is rendered by `ExercisePlanningDetails.tsx`; retained unchanged |
+| `packages/catalog-base/src/exercise-planning.ts`: `planning.review.adaptationNote` | Serialized editorial evidence values are mixed product data/technical rationale. Narrow owner question submitted; preserved pending classification to avoid silent data changes. No clear guide/comment/test-description translation is blocked by this item |
+| QA `.json`, `.txt`, archives, hashes, captures and fixture values | Immutable output/data retained byte-for-byte; authored Markdown summaries translated |
+| Sanskrit asanas, external attribution names, license/source titles and original quotations | Exact originals retained, including Lluís Vinent Juanico, quoted user acceptance and original attribution text |
+| Paths, IDs, enum/serialized fields, source URLs and old heading fragments | Contracts and names retained; explicit heading aliases preserve navigation |
+| Historical certificate exceptions and reproduction commands | Existing evidence retained and marked historical; current rule prohibits new bypasses/trust changes. No new browser run used those exceptions |
+| Three capture-pinned NOTICE originals | Specific historical-byte exception; English companions cover all technical prose and identify original path/SHA-256. No receipt/hash adjustment or blanket NOTICE exemption |
+| `english-pr-metadata-2026-10-13.json` and published Git history | Original Spanish PR descriptions/commit messages remain historical quotations; active PR metadata and new commits are English |
+| Older product plans and dated provider claims | Translated with original proposed/implemented/tested boundaries; later linked evidence remains separate. No newly verified provider/product claims |
 
-## Remaining authored-content gap
+## All 29 older candidates resolved
 
-These candidates remain pending; several contain mixed provenance and need review
-before translation. They are not automatically exempt or considered compliant:
+The inventory records each path separately. The 24 guides were translated in place:
+architecture and anatomy sources; B2B product/release/browser/runtime guides;
+white-label decisions/plan/runtime/validation/deployment; macOS/VPS/unified
+development; exercise planning/previews/sources; health import/sync; public demo;
+roadmap; subscriptions; Yoga/sources. The general model and preview notices were
+also translated in place. The three body/female-body/Yoga capture notices have
+complete [English companions](asset-notices/README.md), with their original bytes
+preserved by the documented provenance exception.
 
-- `docs/anatomy-model-sources.md`
-- `docs/architecture.md`
-- `docs/b2b-browser-validation.md`
-- `docs/b2b-release.md`
-- `docs/b2b-runtime-validation.md`
-- `docs/b2b-white-label-decisions.md`
-- `docs/b2b-white-label-deployment.md`
-- `docs/b2b-white-label-runtime.md`
-- `docs/b2b-white-label-validation.md`
-- `docs/b2b-white-label.md`
-- `docs/b2b.md`
-- `docs/development-macos.md`
-- `docs/development-vps.md`
-- `docs/development.md`
-- `docs/exercise-planning.md`
-- `docs/exercise-previews.md`
-- `docs/exercise-sources.md`
-- `docs/health-import.md`
-- `docs/health-sync.md`
-- `docs/public-demo.md`
-- `docs/roadmap-implementacion.md`
-- `docs/subscriptions.md`
-- `docs/yoga-sources.md`
-- `docs/yoga.md`
-- `packages/model-assets/public/models/NOTICE.md`
-- `packages/model-assets/public/previews/NOTICE.md`
-- `packages/model-assets/public/previews/body/NOTICE.md`
-- `packages/model-assets/public/previews/female/body/NOTICE.md`
-- `packages/model-assets/public/previews/yoga/NOTICE.md`
-
-Further prose review also remains for UTF-8 files with no detected Spanish hint,
-inline code comments/docstrings and mixed structured records. No heuristic proves
-exhaustive compliance. Broad content gaps, canonical-policy merge/adoption and
-human translation/anchor acceptance remain separate from the preserved Yoga/TLS/
-physical-test limits. Publication of the language draft does not close those gaps.
+No clearly in-scope older guide, authored code comment or literal test description
+remains on the previous pending list. This is a reviewed-scope conclusion, not a
+claim that a detector proves every sentence English. Human translation/anchor
+acceptance, the concrete `adaptationNote` classification question and canonical
+Atlas-policy merge/adoption remain. Yoga's stale receipt and original physical,
+valid-trust HTTPS, provider and production verification limits remain unchanged.
+The language draft neither merges nor deploys and does not unblock the separate
+integration PR against main.
