@@ -1,0 +1,50 @@
+
+Running 1 test using 1 worker
+
+(node:16695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium-narrow] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (13.1s)
+
+
+  1) [chromium-narrow] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Copia importada. Tu progreso ya está disponible.')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Copia importada. Tu progreso ya está disponible.') with timeout 10000ms
+      - waiting for getByText('Copia importada. Tu progreso ya está disponible.')
+
+
+      509 |   await upload(page, 'dialog input[type=file]', visitorData())
+      510 |   await page.getByRole('button', { name: 'Reemplazar historial', exact: true }).click()
+    > 511 |   await expect(page.getByText('Copia importada. Tu progreso ya está disponible.')).toBeVisible()
+          |                                                                                    ^
+      512 |   await page.reload(); await health(page, 'Cuerpo')
+      513 |   await expect(page.getByRole('button', { name: 'Agregar registro', exact: true })).toBeEnabled()
+      514 |   expect((await readPersonal(page)).settings.health.profile.heightCm).toBe(178)
+        at /workspace/klisteniapp/apps/b2c-web/e2e/visitor-local.spec.ts:511:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/corrupt-repro-2/visitor-local-V17-corrupt--a97f6-pts-an-explicit-replacement-chromium-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../artifacts/visitor-qa/corrupt-repro-2/visitor-local-V17-corrupt--a97f6-pts-an-explicit-replacement-chromium-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/corrupt-repro-2/visitor-local-V17-corrupt--a97f6-pts-an-explicit-replacement-chromium-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../artifacts/visitor-qa/corrupt-repro-2/visitor-local-V17-corrupt--a97f6-pts-an-explicit-replacement-chromium-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-narrow] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement
+undefined
+/workspace/klisteniapp/apps/b2c-web:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test --config playwright.visitor.config.ts --project chromium-narrow -g V17

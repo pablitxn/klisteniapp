@@ -193,8 +193,10 @@ export const useAppStore = create<AppStore>((set, get) => {
     set({ syncStatus: 'idle', accountError: null, storageError: rejected.length ? get().storageError : null })
     return null
   }
-  function saveLocal(progress: ProgressData) {
-    set({ progress })
+  function saveLocal(progress: ProgressData, retainPending = true) {
+    // Additions remain exportable if storage fails. Deletions must retain
+    // the saved row until durable success so the visitor can retry.
+    if (retainPending) set({ progress })
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw && parseProgress(raw).error) {
@@ -204,7 +206,7 @@ export const useAppStore = create<AppStore>((set, get) => {
         set({ recoveryRaw: raw })
       }
       localStorage.setItem(STORAGE_KEY, serializeProgress(progress))
-      set({ storageError: null, localDataAvailable: localSummary() })
+      set({ progress, storageError: null, localDataAvailable: localSummary() })
       return null
     } catch {
       const error = 'No pudimos guardar los cambios en este navegador. Exportá tus datos antes de cerrar.'
@@ -217,11 +219,20 @@ export const useAppStore = create<AppStore>((set, get) => {
     const settings = { ...data.settings, routines: data.settings.routines.map(routine => routine.id === data.settings.activeRoutineId ? { ...routine, sets: preferences.sets, exerciseIds: preferences.exerciseIds as typeof routine.exerciseIds } : routine) }
     return { ...data, settings, progress: get().progress }
   }
-  function saveLocalPersonal(data: PersonalData, expectedRevision: number): string | null {
+  function saveLocalPersonal(data: PersonalData, expectedRevision: number, replaceUnreadable = false): string | null {
     if (get().localRevision !== expectedRevision) return 'Tus datos locales cambiaron. Revisá la versión actual antes de guardar.'
-    if (!get().localPersonalData) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+    if (!get().localPersonalData && !replaceUnreadable) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
     try {
       const encoded = JSON.stringify(PersonalDataSchema.parse(data))
+      if (!get().localPersonalData) {
+        const original = localStorage.getItem(LOCAL_PERSONAL_KEY)
+        if (original) {
+          const older = localStorage.getItem(RECOVERY_KEY)
+          if (older && older !== original) localStorage.setItem(`${RECOVERY_KEY}.${Date.now()}`, older)
+          localStorage.setItem(RECOVERY_KEY, original)
+          set({ recoveryRaw: original })
+        }
+      }
       localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
       if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
       set({ localPersonalData: data, ...yogaState(data), localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: data.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
@@ -397,7 +408,7 @@ export const useAppStore = create<AppStore>((set, get) => {
     },
     removeLog: async (id) => {
       if (get().authStatus === 'loading') return 'Esperá mientras verificamos tu sesión.'
-      return get().user ? enqueue({ kind: 'delete', id }) : saveLocal({ ...get().progress, workouts: get().progress.workouts.filter((log) => log.id !== id), cardio: get().progress.cardio.filter((log) => log.id !== id) })
+      return get().user ? enqueue({ kind: 'delete', id }) : saveLocal({ ...get().progress, workouts: get().progress.workouts.filter((log) => log.id !== id), cardio: get().progress.cardio.filter((log) => log.id !== id) }, false)
     },
     saveSettings: (settings) => {
       if (get().user && !cloudWriteAllowed(get().access)) return Promise.resolve('El guardado en la nube está pausado. Revisá el acceso desde tu cuenta o seguí en modo local.')
@@ -512,7 +523,7 @@ export const useAppStore = create<AppStore>((set, get) => {
         if (data.settings.anatomicalModel === undefined && previousModel !== undefined) data.settings.anatomicalModel = previousModel
         const previousYoga = get().localPersonalData?.settings.yoga
         if (data.settings.yoga === undefined && previousYoga !== undefined) data.settings.yoga = previousYoga
-        const failure = saveLocalPersonal(data, get().localRevision)
+        const failure = saveLocalPersonal(data, get().localRevision, true)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
         try {
@@ -552,9 +563,13 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (get().user && get().personalData) return JSON.stringify(PersonalDataSchema.parse(get().personalData))
       const data = get().localPersonalData
       let hasPersonal = false
-      try { hasPersonal = localStorage.getItem(LOCAL_PERSONAL_KEY) !== null } catch { /* export in-memory data below */ }
+      let hasPreferences = false
+      try {
+        hasPersonal = localStorage.getItem(LOCAL_PERSONAL_KEY) !== null
+        hasPreferences = localStorage.getItem(PREF_KEY) !== null
+      } catch { /* export in-memory data below */ }
       if (hasPersonal && !data) return localStorage.getItem(LOCAL_PERSONAL_KEY) ?? ''
-      return hasPersonal && data ? JSON.stringify(PersonalDataSchema.parse(localPersonalSnapshot(data))) : serializeProgress(get().progress)
+      return (hasPersonal || hasPreferences) && data ? JSON.stringify(PersonalDataSchema.parse(localPersonalSnapshot(data))) : serializeProgress(get().progress)
     },
     exportRejectedData: () => {
       if (get().user) readRejected(get().user!.id)

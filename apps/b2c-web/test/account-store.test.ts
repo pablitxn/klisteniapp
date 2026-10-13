@@ -34,6 +34,49 @@ async function setup() {
   mock.method(accountApi, 'state', async () => state())
 }
 
+test('an anonymous instance exports routine-only settings and restores them locally', async () => {
+  await setup()
+  assert.equal(await useAppStore.getState().updatePreferences({ exerciseIds: ['squat', 'pushup'], sets: 3 }), null)
+  assert.equal(storage.getItem('klisteniapp.personal.v2'), null)
+  const exported = useAppStore.getState().exportData()
+  const backup = JSON.parse(exported)
+  assert.equal(backup.version, 2)
+  assert.deepEqual(backup.settings.routines[0].exerciseIds, ['squat', 'pushup'])
+  storage.clear()
+  await useAppStore.getState().signOut()
+  assert.equal(await useAppStore.getState().importProgress(exported), null)
+  await useAppStore.getState().signOut()
+  assert.deepEqual(useAppStore.getState().preferences.exerciseIds, ['squat', 'pushup'])
+  assert.equal(useAppStore.getState().preferences.sets, 3)
+})
+
+test('anonymous instance deletion failures retain the persisted row for retry', async () => {
+  await setup()
+  const log = cardio('visitor-delete-retry')
+  assert.equal(await useAppStore.getState().addCardio(log), null)
+  const original = storage.setItem
+  storage.setItem = () => { throw new Error('Quota') }
+  try {
+    assert.notEqual(await useAppStore.getState().removeLog(log.id), null)
+    assert.deepEqual(useAppStore.getState().progress.cardio, [log])
+    assert.deepEqual(JSON.parse(storage.getItem(STORAGE_KEY)!).cardio, [log])
+  } finally { storage.setItem = original }
+  assert.equal(await useAppStore.getState().removeLog(log.id), null)
+  assert.deepEqual(useAppStore.getState().progress.cardio, [])
+})
+
+test('anonymous replacement of unreadable personal data preserves its recoverable original', async () => {
+  await setup()
+  storage.setItem('klisteniapp.personal.v2', '{broken-personal')
+  await useAppStore.getState().signOut()
+  const replacement = createDefaultPersonalData('Repaired visitor', 'UTC')
+  assert.notEqual(await useAppStore.getState().saveHealth(replacement.settings.health!, 0), null)
+  assert.equal(await useAppStore.getState().importProgress(JSON.stringify(replacement)), null)
+  assert.equal(storage.getItem('klisteniapp.progress.recovery'), '{broken-personal')
+  await useAppStore.getState().signOut()
+  assert.equal(useAppStore.getState().localPersonalData?.settings.profile.displayName, 'Repaired visitor')
+})
+
 test('private account data never replaces demo storage, and logout restores the demo', async () => {
   await setup()
   storage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, workouts: [], cardio: [cardio('demo')] }))

@@ -1,0 +1,46 @@
+✔ an anonymous instance exports routine-only settings and restores them locally (25.895228ms)
+✔ anonymous instance deletion failures retain the persisted row for retry (3.596476ms)
+✔ anonymous replacement of unreadable personal data preserves its recoverable original (5.256063ms)
+✔ private account data never replaces demo storage, and logout restores the demo (6.482575ms)
+✔ durable pending mutation survives logout and only replays for its owner (23.24084ms)
+✔ an old in-flight response cannot populate another account after logout (18.586652ms)
+✔ private loads fail closed and keep local demo history out of the account (3.151358ms)
+✔ a settings conflict refreshes the canonical state without overwriting it (4.329078ms)
+✔ signed-in display updates preserve personal state and use its captured revision (4.142811ms)
+✔ a display conflict reports failure and accepts the refreshed server preferences (3.166912ms)
+✔ same stable log ID retries without creating another pending record (3.432175ms)
+✔ an account-cookie mismatch preserves its queue and closes private state (3.197477ms)
+✔ full account imports default to logs only and require explicit settings flag (5.998106ms)
+✔ account restore synchronizes the saved palette and keeps it available after logout (4.025516ms)
+✔ local-to-account import keeps an explicitly saved palette (3.242669ms)
+✔ a rejected operation remains downloadable without blocking later valid writes (7.272954ms)
+✔ failed logout hides private state and cannot silently log back in on focus (2.792239ms)
+✔ expiration preserves pending cloud changes and lets deletions bypass the paused writes (7.473745ms)
+✔ a server 402 keeps the original queued operation recoverable instead of rejecting it (2.267566ms)
+✔ health saves require its captured revision and exports include confirmed server data (63.500204ms)
+✔ failed health saves never pretend to be saved or spill into local demo/pending storage (4.209516ms)
+✔ health conflict refreshes current state while rejecting the stale write (4.378897ms)
+✔ an in-flight health response cannot restore private data after logout (38.251003ms)
+✔ anonymous and invalid health changes do not reach the API (11.128651ms)
+✔ a local routine import omits health so legacy preferences cannot erase it (41.300231ms)
+✔ free local health persists separately and restores after account logout without uploading it (8.394271ms)
+✔ an exported account including health and plans can be imported and exported in free local mode (7.161328ms)
+✔ unreadable local personal copies are preserved and can be downloaded for recovery (6.31808ms)
+✔ expired cloud access blocks health edits but permits explicit deletion requests for server validation (1.65844ms)
+✔ a routine-only backup restores order and sets without needing health or yoga first (38.688572ms)
+✔ failed deletion keeps the durable record and retry removes it (3.752518ms)
+✔ local mode starts ready, reads legacy keys, and never calls a transport (4.052474ms)
+✔ local health and goals retain revision checks, persist, export and restore complete version 2 copies (11.353684ms)
+✔ corrupt originals remain recoverable and invalid imports cannot overwrite local data (5.166058ms)
+✔ expanded and equipped local routines survive reload without admitting obsolete IDs (2.966377ms)
+✔ local language, theme and palette persist across reloads without resetting health or training (10.557895ms)
+✔ a complete imported backup restores its explicit display preferences after reload (5.577374ms)
+✔ palette-only changes retain light or dark mode and survive legacy backup imports (12.261593ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 819.712472

@@ -1,7 +1,17 @@
 import { expect, test } from '@playwright/test'
 import { exercises } from '../src/data/exercises'
 
-test.use({ launchOptions: { args: ['--disable-webgl'] } })
+test.beforeEach(async ({ page }) => {
+  // Exercise the same unavailable-WebGL boundary on both browser engines,
+  // without overriding their executable or relying on Chromium-only flags.
+  await page.addInitScript(() => {
+    const getContext = HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...args: unknown[]) {
+      if (type === 'webgl' || type === 'webgl2' || type === 'experimental-webgl') return null
+      return Reflect.apply(getContext, this, [type, ...args])
+    } as typeof getContext
+  })
+})
 
 test('device without WebGL keeps education and muscle information usable', async ({ page }) => {
   await page.goto('/')
