@@ -649,6 +649,19 @@ export class B2BService {
       const url = `/api/b2b/media/${id}`;
       const publicContext = await this.whiteLabel.context(domain);
       if (referencesMedia(publicContext.theme, url)) return row;
+      if (publicContext.websitePublished) {
+        try {
+          if (
+            referencesMedia(
+              await this.publicSite(publicContext.organization.slug, undefined, domain),
+              url,
+            )
+          )
+            return row;
+        } catch (error) {
+          if (!(error instanceof HttpError) || error.status !== 404) throw error;
+        }
+      }
       for (const branch of publicContext.branches) {
         try {
           if (
@@ -1104,8 +1117,12 @@ export class B2BService {
             )
           ).rows[0]?.branch_id;
         const branch = (
-          await db.query<{ id: string; published: WebsiteInput }>(
-            `SELECT id,published FROM b2b_branch WHERE organization_id=$1 AND status='active' AND public AND published IS NOT NULL
+          await db.query<{
+            id: string;
+            published: WebsiteInput;
+            published_profile: { address: string; contact: string };
+          }>(
+            `SELECT id,published,published_profile FROM b2b_branch WHERE organization_id=$1 AND status='active' AND public AND published IS NOT NULL AND published_profile IS NOT NULL
           AND (($2::text IS NOT NULL AND id=$2) OR ($2::text IS NULL AND published_profile->>'slug'=$3))`,
             [org.id, branchId ?? null, branchSlug ?? 'principal'],
           )
@@ -1119,7 +1136,15 @@ export class B2BService {
             [org.id],
           )
         ).rows[0];
-        const organization = { id: org.id, slug: org.slug, brand: theme.published.brand };
+        const organization = {
+          id: org.id,
+          slug: org.slug,
+          brand: {
+            ...theme.published.brand,
+            address: branch.published_profile.address,
+            contact: branch.published_profile.contact,
+          },
+        };
         const { machines, exercises } = await this.catalog.publishedCatalog(db, org.id, branch.id);
         const units = modules.equipment
           ? await this.equipment.publicUnits(db, org, new Set(machines.map((m) => m.id)), branch.id)
