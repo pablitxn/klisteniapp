@@ -30,7 +30,7 @@ async function accountPanel(page: Page) {
   return openAccountSettings(page)
 }
 async function progress(page: Page) {
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi progreso', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Mi progreso', exact: true }).click()
 }
 async function readState(page: Page): Promise<ServerState> {
   return page.evaluate(async () => {
@@ -55,7 +55,7 @@ test('public exploration, explicit local migration, two devices and isolated acc
   await open(page)
   await expect(page.locator('.account-status')).toHaveCount(0)
   await expect(page.locator('.local-badge')).toContainText('Guardado en este dispositivo')
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Ejercicios', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Ejercicios', exact: true }).click()
   await expect(page.locator('.library-card')).toHaveCount(exercises.length)
   await login(page, 'Alice')
   expect((await readState(page)).data.progress.cardio).toEqual([])
@@ -339,7 +339,7 @@ test('health records persist in the real account, survive reload and stay out of
   await prepare(context, 91)
   await open(page)
   await login(page, 'Alice')
-  const healthNav = () => page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi salud', exact: true }).click()
+  const healthNav = () => page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Mi salud', exact: true }).click()
   await healthNav()
   await page.getByRole('navigation', { name: 'Secciones de mi salud' }).getByRole('button', { name: 'Cuerpo', exact: true }).click()
   await page.getByRole('button', { name: 'Agregar registro', exact: true }).click()

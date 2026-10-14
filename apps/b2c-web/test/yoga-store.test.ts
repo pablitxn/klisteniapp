@@ -196,3 +196,28 @@ test('yoga transport uses the dedicated owner-pinned endpoint and ordinary setti
   await settingsTransport(state.data.settings, 1, a.id)
   assert.deepEqual(state.data.settings.yoga, yoga)
 })
+
+test('a lost yoga response reconciles only the exact committed snapshot on retry', async () => {
+  await accountStore.getState().signIn(a.email, 'x')
+  let committed = false
+  mock.method(accountApi, 'yoga', async () => {
+    if (!committed) { committed = true; throw new AccountApiError('Lost response') }
+    throw new AccountApiError('Conflict', 409, 'REVISION_CONFLICT')
+  })
+  mock.method(accountApi, 'state', async () => serverState(committed ? { practices: [practice], logs: [] } : undefined, committed ? 1 : 0))
+  assert.equal(await accountStore.getState().saveYogaPractice(practice), false)
+  assert.equal(await accountStore.getState().saveYogaPractice(practice), true)
+  assert.deepEqual(accountStore.getState().yogaPractices, [practice])
+  assert.equal(accountStore.getState().revision, 1)
+  assert.equal(accountStore.getState().accountError, null)
+  assert.equal(accountStore.getState().pendingCount, 0)
+})
+
+test('an unconfirmable yoga conflict cannot claim a lost response succeeded', async () => {
+  await accountStore.getState().signIn(a.email, 'x')
+  mock.method(accountApi, 'yoga', async () => { throw new AccountApiError('Conflict', 409, 'REVISION_CONFLICT') })
+  mock.method(accountApi, 'state', async () => { throw new AccountApiError('Offline') })
+  assert.equal(await accountStore.getState().saveYogaPractice(practice), false)
+  assert.deepEqual(accountStore.getState().yogaPractices, [])
+  assert.equal(accountStore.getState().revision, 0)
+})
