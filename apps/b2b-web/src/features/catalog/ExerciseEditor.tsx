@@ -89,7 +89,7 @@ export function ExerciseEditor({
         title={editing ? 'Refiná el movimiento.' : 'Un nuevo movimiento.'}
         description="Guardá el borrador, revisá sus instrucciones y publicalo para incorporarlo a las rutinas."
       >
-        <button className="button" onClick={onClose}>
+        <button className="button" disabled={action.busy} onClick={onClose}>
           Volver al catálogo
         </button>
       </Heading>

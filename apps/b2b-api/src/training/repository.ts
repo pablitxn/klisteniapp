@@ -73,13 +73,25 @@ export class TrainingRepository {
     return found.rows[0] ? programDTO(found.rows[0]) : undefined;
   }
 
-  async createProgram(id: string, input: ProgramInput): Promise<Program> {
+  async createProgram(id: string, input: ProgramInput): Promise<Program | undefined> {
     const { db, org, branchId } = this.context;
     const found = await db.query<ProgramRow>(
-      'INSERT INTO b2b_program(id,organization_id,data,branch_id) VALUES($1,$2,$3,$4) RETURNING *',
+      'INSERT INTO b2b_program(id,organization_id,data,branch_id) VALUES($1,$2,$3,$4) ON CONFLICT(id) DO NOTHING RETURNING *',
       [id, org.id, input, branchId ?? null],
     );
-    return programDTO(found.rows[0]);
+    return found.rows[0] ? programDTO(found.rows[0]) : undefined;
+  }
+
+  async createdByActor(action: string, id: string): Promise<boolean> {
+    const { db, org, actorId } = this.context;
+    return Boolean(
+      (
+        await db.query(
+          'SELECT 1 FROM b2b_audit WHERE organization_id=$1 AND actor_id=$2 AND action=$3 AND resource_id=$4',
+          [org.id, actorId, action, id],
+        )
+      ).rowCount,
+    );
   }
 
   async updateProgram(
@@ -145,12 +157,13 @@ export class TrainingRepository {
   async assignProgram(
     id: string,
     input: { memberId: string; programId: string; version: number },
-  ): Promise<void> {
+  ): Promise<boolean> {
     const { db, org, actorId, branchId } = this.context;
-    await db.query(
-      'INSERT INTO b2b_program_assignment(id,organization_id,member_id,program_id,version,assigned_by,branch_id) VALUES($1,$2,$3,$4,$5,$6,$7)',
+    const result = await db.query(
+      'INSERT INTO b2b_program_assignment(id,organization_id,member_id,program_id,version,assigned_by,branch_id) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(id) DO NOTHING RETURNING id',
       [id, org.id, input.memberId, input.programId, input.version, actorId, branchId ?? null],
     );
+    return Boolean(result.rowCount);
   }
 
   async executions(memberId?: string): Promise<Execution[]> {

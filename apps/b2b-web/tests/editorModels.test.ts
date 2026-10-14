@@ -52,6 +52,25 @@ function memoryStorage() {
   }
 }
 
+test('new routine retry identity survives local recovery and stays outside persisted program content', () => {
+  const creationId = '763753ea-c66d-49ba-8a8e-50471ae7895e'
+  const draft = {
+    ...programDraft(),
+    name: 'Recoverable retry',
+    creationId,
+    steps: [newProgramStep('squat')],
+  }
+  assert.equal(isProgramDraft(draft), true)
+  assert.equal(isProgramDraft({ ...draft, creationId: 17 }), false)
+  const storage = memoryStorage()
+  writeEditorDraft(storage, 'new-routine', draft, null)
+  assert.equal(
+    readEditorDraft(storage, 'new-routine', isProgramDraft)?.value.creationId,
+    creationId,
+  )
+  assert.equal('creationId' in programInput(draft), false)
+})
+
 test('exercise recovery accepts unfinished content but saving requires complete instructions', () => {
   const unfinished = exerciseDraft()
   assert.equal(isExerciseDraft(unfinished), true)

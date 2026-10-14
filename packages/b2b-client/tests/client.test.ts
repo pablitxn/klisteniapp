@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { ApiError, createB2BClient, watchSessionChange } from '@klisteniapp/b2b-client'
-import { ExerciseInputSchema } from '@klisteniapp/b2b-contracts'
+import { ExerciseInputSchema, ProgramInputSchema } from '@klisteniapp/b2b-contracts'
 
 const json = (value: unknown, status = 200) =>
   new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json' } })
@@ -15,6 +15,45 @@ const exercise = {
 }
 const apiError = (status: number, code: string) => (error: unknown) =>
   error instanceof ApiError && error.status === status && error.code === code
+
+test('routine retry keys are per request headers and never change content or account/context guards', async () => {
+  const requests: RequestInit[] = []
+  const input = ProgramInputSchema.parse({
+    name: 'Retry',
+    steps: [{ id: 'step', exerciseId: 'squat', sets: 1, reps: 8 }],
+  })
+  const client = createB2BClient('coach', {
+    branchId: 'center',
+    role: 'coach',
+    fetch: async (_url, init) => {
+      requests.push(init!)
+      return json({
+        program: {
+          ...input,
+          id: 'program',
+          branchId: 'center',
+          publishedVersion: null,
+          revision: 0,
+        },
+      })
+    },
+  })
+  const requestId = '763753ea-c66d-49ba-8a8e-50471ae7895e'
+  await client.programs.create('gym', input, requestId)
+  await client.programs.create('gym', input, requestId)
+  await client.programs.create('gym', input)
+  for (const init of requests) {
+    assert.deepEqual(JSON.parse(String(init.body)), input)
+    const headers = new Headers(init.headers)
+    assert.equal(headers.get('X-Klisteni-B2B-Account'), 'coach')
+    assert.equal(headers.get('X-Klisteni-B2B-Branch'), 'center')
+    assert.equal(headers.get('X-Klisteni-B2B-Role'), 'coach')
+  }
+  assert.deepEqual(
+    requests.map((init) => new Headers(init.headers).get('Idempotency-Key')),
+    [requestId, requestId, null],
+  )
+})
 
 test('the public client API works without a browser or cross-tab notification support', async () => {
   assert.equal(typeof window, 'undefined')

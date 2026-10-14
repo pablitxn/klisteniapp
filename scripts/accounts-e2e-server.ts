@@ -18,8 +18,8 @@ scopedUrl.searchParams.set('options', `-c search_path=${schema}`);
 const config = readConfig({
   DATABASE_URL: scopedUrl.toString(),
   BETTER_AUTH_SECRET: 'accounts-browser-tests-only-secret-do-not-use-in-production',
-  APP_ORIGIN: 'http://127.0.0.1:4181',
-  HOST: '127.0.0.1', PORT: '4182', NODE_ENV: 'test',
+  APP_ORIGIN: process.env.B2C_QA_WEB_ORIGIN ?? 'http://127.0.0.1:4181',
+  HOST: '127.0.0.1', PORT: process.env.B2C_QA_API_PORT ?? '4182', NODE_ENV: 'test',
   // Each browser uses a documentation-range IP to retain the real per-IP limiter
   // without unrelated tests consuming one localhost login allowance.
   TRUSTED_CLIENT_IP_HEADER: 'x-klisteniapp-test-client-ip',
@@ -48,12 +48,17 @@ try {
   await admin.query(`CREATE SCHEMA "${schema}"`);
   created = true;
   await migrate(pool, auth);
-  for (const name of ['Alice', 'Bob', 'Offline', 'Planner', 'Restore', 'Expired', 'Lifetime']) {
+  for (const name of ['Alice', 'Bob', 'Offline', 'Planner', 'Restore', 'Expired', 'Lifetime', ...(process.env.B2C_QA_FIXTURES === '1' ? ['QARoutine', 'QAYoga', 'QAYogaLoss', 'QALoss', 'QASession', 'QAPassword', 'QAHealth', 'QAPlan', 'QAImport', 'QAIsolation', 'QAActive'] : [])]) {
     const user = await createProvisionedUser(pool, config, { email: `${name.toLowerCase()}@accounts.test`, name, password: 'Only-for-browser-tests-2026!' });
     if (name === 'Expired') {
       await new StateRepository(pool).addLog(user, { kind: 'cardio', log: { id: 'expired-cloud-history', date: '2026-10-01', activity: 'walk', minutes: 26 } });
       await pool.query("UPDATE account_access SET trial_ends_at = now() - interval '1 day' WHERE user_id = $1", [user.id]);
     }
+    if (name === 'QAYogaLoss') {
+      const practice = { id: 'qa-yoga-response-loss', name: 'Pausa QA', intention: '', steps: [{ id: 'qa-tadasana', asanaId: 'tadasana' as const, durationSeconds: 5, side: 'both' as const }] };
+      await new StateRepository(pool).yoga(user, { expectedRevision: 0, yoga: { practices: [practice], logs: [{ id: 'qa-yoga-prior-log', date: '2026-10-07', completedAt: '2026-10-07T10:00:00Z', timeZone: 'Etc/UTC', practiceSnapshot: practice, durationSeconds: 5, completedSteps: [{ stepId: 'qa-tadasana', asanaId: 'tadasana', durationSeconds: 5, side: 'both' }] }] } });
+    }
+    if (name === 'QAActive') await pool.query("UPDATE account_access SET paid_through = now() + interval '30 days', trial_ends_at = now() - interval '1 day' WHERE user_id = $1", [user.id]);
     if (name === 'Lifetime') await pool.query("UPDATE account_access SET lifetime = true, trial_ends_at = now() - interval '1 day' WHERE user_id = $1", [user.id]);
   }
   const accounts = new AccountAdministration(pool, auth, config, null);
@@ -65,7 +70,7 @@ try {
     server.once('error', reject);
     server.listen(config.port, config.host, resolve);
   });
-  console.info('Accounts browser fixture ready on 127.0.0.1:4182 with an isolated database schema');
+  console.info(`Accounts browser fixture ready on 127.0.0.1:${config.port} with an isolated database schema`);
 } catch (error) {
   console.error('Accounts browser fixture failed:', error instanceof Error ? error.message : 'unknown error');
   process.exitCode = 1;
