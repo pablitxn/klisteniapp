@@ -1,0 +1,4579 @@
+{
+  "initialSha": "7172041102a8a7029af5fb3e2527a1fa51611a86",
+  "implementationSha": "5ab2729b2e0097bb1be63b3f317003c974545bfb",
+  "qaSha": "87ae036bd92e228370094e5ec072b0b1442f7481",
+  "atlasSha": "27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f",
+  "engines": {
+    "chromium": "154.0.8037.57 system Debian 13",
+    "webkit": "26.6 Playwright build 2359"
+  },
+  "playwright": "1.63.0",
+  "node": "24.19.0",
+  "postgresql": "17.11",
+  "projects": [
+    {
+      "name": "chromium-narrow",
+      "initialViewportCss": {
+        "width": 360,
+        "height": 800
+      },
+      "hasTouch": true,
+      "isMobile": true,
+      "deviceScaleFactor": 2,
+      "passed": 48,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "account-access.spec.ts",
+          "line": 8,
+          "title": "activation verifies its in-memory token, clears the address bar and returns to login",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1501,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-activation--bd75c-ss-bar-and-returns-to-login-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 40,
+          "title": "recovery requires matching passwords, submits the fragment token and cannot reuse it after reload",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1460,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-recovery-re-180f5-annot-reuse-it-after-reload-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 64,
+          "title": "invalid and wrong-purpose invitation links never offer account mutation",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 808,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-invalid-and-00266-ever-offer-account-mutation-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 76,
+          "title": "admin creates an invitation, revokes its link and controls access without showing passwords",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1905,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-admin-creat-1b340-s-without-showing-passwords-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 122,
+          "title": "return from checkout opens the authenticated subscription panel without granting access",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 926,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-return-from-d0040-nel-without-granting-access-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 51,
+          "title": "public exploration, explicit local migration, two devices and isolated accounts",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 5820,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-public-exploratio-f701e-vices-and-isolated-accounts-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 111,
+          "title": "a failed network save survives reload and retries exactly once",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2460,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-failed-network--00986-ad-and-retries-exactly-once-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 138,
+          "title": "profile, routines and training days follow the account across device timezones",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 5306,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-profile-routines--01708-unt-across-device-timezones-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 196,
+          "title": "a full v2 copy restores historical plans into a pristine account and exports faithfully",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1825,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-full-v2-copy-re-3899a-ount-and-exports-faithfully-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 219,
+          "title": "account planning drafts survive appearance and health saves and require review after a planning conflict",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3290,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-account-planning--dc4e5-w-after-a-planning-conflict-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 275,
+          "title": "an administrator invites a member, the member activates and recovers without losing personal history",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 5960,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-an-administrator--cd512-out-losing-personal-history-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 338,
+          "title": "health records persist in the real account, survive reload and stay out of browser storage",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3926,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-health-records-pe-8ee65-stay-out-of-browser-storage-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 34,
+          "title": "real training: edit, cancel, complete, double submit and persistent exact sets",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3074,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-train-449ab-t-and-persistent-exact-sets-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 67,
+          "title": "real cardio loses committed response, reloads and retries without duplicate",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2060,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-cardi-25e3b-d-retries-without-duplicate-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 91,
+          "title": "real planning validates timezone, empty days and whitespace; named copy persists once",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3308,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-plann-9aa4c-ce-named-copy-persists-once-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 121,
+          "title": "real yoga saves practice, times one segment, preserves snapshot and reloads",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 8852,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--96aef-serves-snapshot-and-reloads-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 148,
+          "title": "real session expiry hides private health and isolates the next login",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3516,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-sessi-55945-and-isolates-the-next-login-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 4710,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 183,
+          "title": "real health imports preview, deduplicate, reject future records and export faithfully",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3094,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-healt-7a6b9-cords-and-export-faithfully-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 220,
+          "title": "real data invalid import, cancellation and privacy back-forward retain account",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2155,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-data--ba51a-back-forward-retain-account-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 246,
+          "title": "real password changes revoke other sessions, preserve data and reject old password",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 4890,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-passw-6070a-ata-and-reject-old-password-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 279,
+          "title": "real yoga lost edit response retries the committed version without forcing a duplicate copy",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2532,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--66840-ut-forcing-a-duplicate-copy-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 299,
+          "title": "billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2170,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-billing-sa-d23fb-h-and-explicit-cancellation-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 3,
+          "title": "login opens recovery request, one busy submission confirms generically and email stays out of storage",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1871,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-login-open-63a4e--email-stays-out-of-storage-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 40,
+          "title": "network failure and rate limit stay accessible and retryable without claiming delivery",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 932,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-network-fa-2681f-e-without-claiming-delivery-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 64,
+          "title": "expired and incomplete recovery links offer a new email request while activation stays invitation-only",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2572,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-expired-an-815b4-ation-stays-invitation-only-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 40,
+          "title": "health starts empty, saves body profile and measures, and supports correction and deletion on mobile",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2215,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-starts-empty-4ab3a-tion-and-deletion-on-mobile-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 75,
+          "title": "initial setup keeps its profile draft after a conflicting account update and requires review",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1475,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-initial-setup-keeps-4b5f0--update-and-requires-review-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 91,
+          "title": "health revision conflicts retain the filled draft and never fall back to local storage",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1463,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-revision-con-31567--fall-back-to-local-storage-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 110,
+          "title": "health file imports preview before sending, deduplicate repeated records and reject future dates",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1871,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-file-imports-19ca4-rds-and-reject-future-dates-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 135,
+          "title": "sleep, exercise response, meals, supplements and dated goals are editable account records",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2135,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-sleep-exercise-resp-a3507-re-editable-account-records-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 178,
+          "title": "overlapping sleep never completes a goal and corrections retain source identity and exact original times",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1911,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-overlapping-sleep-n-ffbb4-ty-and-exact-original-times-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 206,
+          "title": "personal dashboard filters periods and body sources without inventing sleep or meal coverage",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1980,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-personal-dashboard--0662c-ting-sleep-or-meal-coverage-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 263,
+          "title": "free local health, goals and manual imports persist without an account or cloud writes",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2629,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-free-local-health-g-11317--an-account-or-cloud-writes-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 49,
+          "title": "a public campaign creates a real trial; its limit and independent lifetime grant are visible",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 6479,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-public-cam-f0fec--lifetime-grant-are-visible-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 105,
+          "title": "a named lifetime invitation activates without requiring a subscription",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 4788,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-named-life-33b93-ut-requiring-a-subscription-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 134,
+          "title": "expired cloud access preserves history and export; free local activity still works",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 2489,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-expired-clou-80bf9--local-activity-still-works-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 72,
+          "title": "refreshed remote edits preserve the open draft and require saving a separate copy",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1989,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-refreshed-rem-52c6b-uire-saving-a-separate-copy-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 103,
+          "title": "a revision conflict during save retains the draft and offers a copy of the updated canonical state",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1934,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-revision-co-b685e-the-updated-canonical-state-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 122,
+          "title": "expired accounts keep the library readable and can delete without enabling additions",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1499,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-expired-accou-60db9--without-enabling-additions-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 142,
+          "title": "a remote write failure keeps the unsaved draft for retry and never falls back to browser storage",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1562,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-remote-writ-f3a32-lls-back-to-browser-storage-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 37,
+          "title": "real read-only exploration searches, filters and empty views never award or write progress",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3451,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-d96d3-ver-award-or-write-progress-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 77,
+          "title": "real routine editing cancels, reorders and persists; active and abandoned sessions never award history",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3195,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-9a933-essions-never-award-history-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 4346,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "health-recheck/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 171,
+          "title": "real expired account denies direct writes, cancels deletion and persists allowed removal",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3018,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-36134-nd-persists-allowed-removal-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 197,
+          "title": "real appearance preferences persist across reload",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 1863,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-299b2-ences-persist-across-reload-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 209,
+          "title": "real account import limits and malformed health files fail before any persistent mutation",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3621,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-98586-ore-any-persistent-mutation-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 228,
+          "title": "real yoga editor cancellation, reorder, pause, partial save and lost committed log response",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 3658,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-00811-lost-committed-log-response-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-narrow"
+        }
+      ],
+      "rechecks": [
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 4710,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/chromium-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "chromium-narrow",
+          "status": "passed",
+          "durationMs": 4346,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-chromium-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "health-recheck/chromium-narrow"
+        }
+      ]
+    },
+    {
+      "name": "chromium-wide",
+      "initialViewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "hasTouch": true,
+      "isMobile": true,
+      "deviceScaleFactor": 2,
+      "passed": 48,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "account-access.spec.ts",
+          "line": 8,
+          "title": "activation verifies its in-memory token, clears the address bar and returns to login",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1462,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-activation--bd75c-ss-bar-and-returns-to-login-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 40,
+          "title": "recovery requires matching passwords, submits the fragment token and cannot reuse it after reload",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1824,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-recovery-re-180f5-annot-reuse-it-after-reload-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 64,
+          "title": "invalid and wrong-purpose invitation links never offer account mutation",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 844,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-invalid-and-00266-ever-offer-account-mutation-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 76,
+          "title": "admin creates an invitation, revokes its link and controls access without showing passwords",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1933,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-admin-creat-1b340-s-without-showing-passwords-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 122,
+          "title": "return from checkout opens the authenticated subscription panel without granting access",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 891,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-return-from-d0040-nel-without-granting-access-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 51,
+          "title": "public exploration, explicit local migration, two devices and isolated accounts",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 5738,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-public-exploratio-f701e-vices-and-isolated-accounts-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 111,
+          "title": "a failed network save survives reload and retries exactly once",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 6805,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-failed-network--00986-ad-and-retries-exactly-once-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 138,
+          "title": "profile, routines and training days follow the account across device timezones",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 22257,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-profile-routines--01708-unt-across-device-timezones-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 196,
+          "title": "a full v2 copy restores historical plans into a pristine account and exports faithfully",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 6813,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-full-v2-copy-re-3899a-ount-and-exports-faithfully-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 219,
+          "title": "account planning drafts survive appearance and health saves and require review after a planning conflict",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 10678,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-account-planning--dc4e5-w-after-a-planning-conflict-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 275,
+          "title": "an administrator invites a member, the member activates and recovers without losing personal history",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 14353,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-an-administrator--cd512-out-losing-personal-history-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 338,
+          "title": "health records persist in the real account, survive reload and stay out of browser storage",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 6247,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-health-records-pe-8ee65-stay-out-of-browser-storage-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 34,
+          "title": "real training: edit, cancel, complete, double submit and persistent exact sets",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 5063,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-train-449ab-t-and-persistent-exact-sets-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 67,
+          "title": "real cardio loses committed response, reloads and retries without duplicate",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3020,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-cardi-25e3b-d-retries-without-duplicate-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 91,
+          "title": "real planning validates timezone, empty days and whitespace; named copy persists once",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 4357,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-plann-9aa4c-ce-named-copy-persists-once-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 121,
+          "title": "real yoga saves practice, times one segment, preserves snapshot and reloads",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 9147,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--96aef-serves-snapshot-and-reloads-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 148,
+          "title": "real session expiry hides private health and isolates the next login",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3699,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-sessi-55945-and-isolates-the-next-login-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3647,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 183,
+          "title": "real health imports preview, deduplicate, reject future records and export faithfully",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2652,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-healt-7a6b9-cords-and-export-faithfully-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 220,
+          "title": "real data invalid import, cancellation and privacy back-forward retain account",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2164,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-data--ba51a-back-forward-retain-account-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 246,
+          "title": "real password changes revoke other sessions, preserve data and reject old password",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 4982,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-passw-6070a-ata-and-reject-old-password-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 279,
+          "title": "real yoga lost edit response retries the committed version without forcing a duplicate copy",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2644,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--66840-ut-forcing-a-duplicate-copy-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 299,
+          "title": "billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2317,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-billing-sa-d23fb-h-and-explicit-cancellation-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 3,
+          "title": "login opens recovery request, one busy submission confirms generically and email stays out of storage",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1768,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-login-open-63a4e--email-stays-out-of-storage-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 40,
+          "title": "network failure and rate limit stay accessible and retryable without claiming delivery",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1040,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-network-fa-2681f-e-without-claiming-delivery-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 64,
+          "title": "expired and incomplete recovery links offer a new email request while activation stays invitation-only",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2619,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-expired-an-815b4-ation-stays-invitation-only-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 40,
+          "title": "health starts empty, saves body profile and measures, and supports correction and deletion on mobile",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2404,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-starts-empty-4ab3a-tion-and-deletion-on-mobile-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 75,
+          "title": "initial setup keeps its profile draft after a conflicting account update and requires review",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2021,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-initial-setup-keeps-4b5f0--update-and-requires-review-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 91,
+          "title": "health revision conflicts retain the filled draft and never fall back to local storage",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1899,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-revision-con-31567--fall-back-to-local-storage-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 110,
+          "title": "health file imports preview before sending, deduplicate repeated records and reject future dates",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1725,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-file-imports-19ca4-rds-and-reject-future-dates-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 135,
+          "title": "sleep, exercise response, meals, supplements and dated goals are editable account records",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2527,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-sleep-exercise-resp-a3507-re-editable-account-records-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 178,
+          "title": "overlapping sleep never completes a goal and corrections retain source identity and exact original times",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1829,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-overlapping-sleep-n-ffbb4-ty-and-exact-original-times-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 206,
+          "title": "personal dashboard filters periods and body sources without inventing sleep or meal coverage",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2060,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-personal-dashboard--0662c-ting-sleep-or-meal-coverage-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 263,
+          "title": "free local health, goals and manual imports persist without an account or cloud writes",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2651,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-free-local-health-g-11317--an-account-or-cloud-writes-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 49,
+          "title": "a public campaign creates a real trial; its limit and independent lifetime grant are visible",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 6610,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-public-cam-f0fec--lifetime-grant-are-visible-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 105,
+          "title": "a named lifetime invitation activates without requiring a subscription",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 4708,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-named-life-33b93-ut-requiring-a-subscription-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 134,
+          "title": "expired cloud access preserves history and export; free local activity still works",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2563,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-expired-clou-80bf9--local-activity-still-works-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 72,
+          "title": "refreshed remote edits preserve the open draft and require saving a separate copy",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2011,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-refreshed-rem-52c6b-uire-saving-a-separate-copy-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 103,
+          "title": "a revision conflict during save retains the draft and offers a copy of the updated canonical state",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1559,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-revision-co-b685e-the-updated-canonical-state-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 122,
+          "title": "expired accounts keep the library readable and can delete without enabling additions",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1672,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-expired-accou-60db9--without-enabling-additions-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 142,
+          "title": "a remote write failure keeps the unsaved draft for retry and never falls back to browser storage",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 1520,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-remote-writ-f3a32-lls-back-to-browser-storage-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 37,
+          "title": "real read-only exploration searches, filters and empty views never award or write progress",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3767,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-d96d3-ver-award-or-write-progress-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 77,
+          "title": "real routine editing cancels, reorders and persists; active and abandoned sessions never award history",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2753,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-9a933-essions-never-award-history-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3900,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "health-recheck/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 171,
+          "title": "real expired account denies direct writes, cancels deletion and persists allowed removal",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2407,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-36134-nd-persists-allowed-removal-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 197,
+          "title": "real appearance preferences persist across reload",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 2000,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-299b2-ences-persist-across-reload-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 209,
+          "title": "real account import limits and malformed health files fail before any persistent mutation",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3762,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-98586-ore-any-persistent-mutation-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 228,
+          "title": "real yoga editor cancellation, reorder, pause, partial save and lost committed log response",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3463,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-00811-lost-committed-log-response-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-wide"
+        }
+      ],
+      "rechecks": [
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3647,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/chromium-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "chromium-wide",
+          "status": "passed",
+          "durationMs": 3900,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-chromium-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "health-recheck/chromium-wide"
+        }
+      ]
+    },
+    {
+      "name": "chromium-desktop",
+      "initialViewportCss": {
+        "width": 1440,
+        "height": 1000
+      },
+      "hasTouch": false,
+      "isMobile": false,
+      "deviceScaleFactor": 1,
+      "passed": 48,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "account-access.spec.ts",
+          "line": 8,
+          "title": "activation verifies its in-memory token, clears the address bar and returns to login",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1810,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-activation--bd75c-ss-bar-and-returns-to-login-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 40,
+          "title": "recovery requires matching passwords, submits the fragment token and cannot reuse it after reload",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1880,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-recovery-re-180f5-annot-reuse-it-after-reload-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 64,
+          "title": "invalid and wrong-purpose invitation links never offer account mutation",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 842,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-invalid-and-00266-ever-offer-account-mutation-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 76,
+          "title": "admin creates an invitation, revokes its link and controls access without showing passwords",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2281,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-admin-creat-1b340-s-without-showing-passwords-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 122,
+          "title": "return from checkout opens the authenticated subscription panel without granting access",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1053,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-return-from-d0040-nel-without-granting-access-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 51,
+          "title": "public exploration, explicit local migration, two devices and isolated accounts",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 5872,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-public-exploratio-f701e-vices-and-isolated-accounts-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 111,
+          "title": "a failed network save survives reload and retries exactly once",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2467,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-failed-network--00986-ad-and-retries-exactly-once-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 138,
+          "title": "profile, routines and training days follow the account across device timezones",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 4880,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-profile-routines--01708-unt-across-device-timezones-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 196,
+          "title": "a full v2 copy restores historical plans into a pristine account and exports faithfully",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1859,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-full-v2-copy-re-3899a-ount-and-exports-faithfully-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 219,
+          "title": "account planning drafts survive appearance and health saves and require review after a planning conflict",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3448,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-account-planning--dc4e5-w-after-a-planning-conflict-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 275,
+          "title": "an administrator invites a member, the member activates and recovers without losing personal history",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 6659,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-an-administrator--cd512-out-losing-personal-history-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 338,
+          "title": "health records persist in the real account, survive reload and stay out of browser storage",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3478,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-health-records-pe-8ee65-stay-out-of-browser-storage-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 34,
+          "title": "real training: edit, cancel, complete, double submit and persistent exact sets",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3127,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-train-449ab-t-and-persistent-exact-sets-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 67,
+          "title": "real cardio loses committed response, reloads and retries without duplicate",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2090,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-cardi-25e3b-d-retries-without-duplicate-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 91,
+          "title": "real planning validates timezone, empty days and whitespace; named copy persists once",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3565,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-plann-9aa4c-ce-named-copy-persists-once-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 121,
+          "title": "real yoga saves practice, times one segment, preserves snapshot and reloads",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 8247,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--96aef-serves-snapshot-and-reloads-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 148,
+          "title": "real session expiry hides private health and isolates the next login",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3114,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-sessi-55945-and-isolates-the-next-login-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 6450,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 183,
+          "title": "real health imports preview, deduplicate, reject future records and export faithfully",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3151,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-healt-7a6b9-cords-and-export-faithfully-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 220,
+          "title": "real data invalid import, cancellation and privacy back-forward retain account",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2169,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-data--ba51a-back-forward-retain-account-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 246,
+          "title": "real password changes revoke other sessions, preserve data and reject old password",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 5013,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-passw-6070a-ata-and-reject-old-password-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 279,
+          "title": "real yoga lost edit response retries the committed version without forcing a duplicate copy",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2761,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--66840-ut-forcing-a-duplicate-copy-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 299,
+          "title": "billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2823,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-billing-sa-d23fb-h-and-explicit-cancellation-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 3,
+          "title": "login opens recovery request, one busy submission confirms generically and email stays out of storage",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1825,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-login-open-63a4e--email-stays-out-of-storage-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 40,
+          "title": "network failure and rate limit stay accessible and retryable without claiming delivery",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1033,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-network-fa-2681f-e-without-claiming-delivery-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 64,
+          "title": "expired and incomplete recovery links offer a new email request while activation stays invitation-only",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2630,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-expired-an-815b4-ation-stays-invitation-only-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 40,
+          "title": "health starts empty, saves body profile and measures, and supports correction and deletion on mobile",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1939,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-starts-empty-4ab3a-tion-and-deletion-on-mobile-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 75,
+          "title": "initial setup keeps its profile draft after a conflicting account update and requires review",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1931,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-initial-setup-keeps-4b5f0--update-and-requires-review-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 91,
+          "title": "health revision conflicts retain the filled draft and never fall back to local storage",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1835,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-revision-con-31567--fall-back-to-local-storage-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 110,
+          "title": "health file imports preview before sending, deduplicate repeated records and reject future dates",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1281,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-file-imports-19ca4-rds-and-reject-future-dates-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 135,
+          "title": "sleep, exercise response, meals, supplements and dated goals are editable account records",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2355,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-sleep-exercise-resp-a3507-re-editable-account-records-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 178,
+          "title": "overlapping sleep never completes a goal and corrections retain source identity and exact original times",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1288,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-overlapping-sleep-n-ffbb4-ty-and-exact-original-times-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 206,
+          "title": "personal dashboard filters periods and body sources without inventing sleep or meal coverage",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1636,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-personal-dashboard--0662c-ting-sleep-or-meal-coverage-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 263,
+          "title": "free local health, goals and manual imports persist without an account or cloud writes",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2428,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-free-local-health-g-11317--an-account-or-cloud-writes-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 49,
+          "title": "a public campaign creates a real trial; its limit and independent lifetime grant are visible",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 6324,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-public-cam-f0fec--lifetime-grant-are-visible-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 105,
+          "title": "a named lifetime invitation activates without requiring a subscription",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 4754,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-named-life-33b93-ut-requiring-a-subscription-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 134,
+          "title": "expired cloud access preserves history and export; free local activity still works",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2617,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-expired-clou-80bf9--local-activity-still-works-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 72,
+          "title": "refreshed remote edits preserve the open draft and require saving a separate copy",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1956,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-refreshed-rem-52c6b-uire-saving-a-separate-copy-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 103,
+          "title": "a revision conflict during save retains the draft and offers a copy of the updated canonical state",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1700,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-revision-co-b685e-the-updated-canonical-state-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 122,
+          "title": "expired accounts keep the library readable and can delete without enabling additions",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1688,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-expired-accou-60db9--without-enabling-additions-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 142,
+          "title": "a remote write failure keeps the unsaved draft for retry and never falls back to browser storage",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2013,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-remote-writ-f3a32-lls-back-to-browser-storage-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 37,
+          "title": "real read-only exploration searches, filters and empty views never award or write progress",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3329,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-d96d3-ver-award-or-write-progress-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 77,
+          "title": "real routine editing cancels, reorders and persists; active and abandoned sessions never award history",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 2341,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-9a933-essions-never-award-history-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3957,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "health-recheck/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 171,
+          "title": "real expired account denies direct writes, cancels deletion and persists allowed removal",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1998,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-36134-nd-persists-allowed-removal-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 197,
+          "title": "real appearance preferences persist across reload",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 1811,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-299b2-ences-persist-across-reload-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 209,
+          "title": "real account import limits and malformed health files fail before any persistent mutation",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3024,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-98586-ore-any-persistent-mutation-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 228,
+          "title": "real yoga editor cancellation, reorder, pause, partial save and lost committed log response",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3208,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-00811-lost-committed-log-response-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/chromium-desktop"
+        }
+      ],
+      "rechecks": [
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 6450,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/chromium-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "durationMs": 3957,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-chromium-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "health-recheck/chromium-desktop"
+        }
+      ]
+    },
+    {
+      "name": "webkit-narrow",
+      "initialViewportCss": {
+        "width": 360,
+        "height": 800
+      },
+      "hasTouch": true,
+      "isMobile": true,
+      "deviceScaleFactor": 2,
+      "passed": 48,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "account-access.spec.ts",
+          "line": 8,
+          "title": "activation verifies its in-memory token, clears the address bar and returns to login",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 2193,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-activation--bd75c-ss-bar-and-returns-to-login-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 40,
+          "title": "recovery requires matching passwords, submits the fragment token and cannot reuse it after reload",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 2341,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-recovery-re-180f5-annot-reuse-it-after-reload-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 64,
+          "title": "invalid and wrong-purpose invitation links never offer account mutation",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 1293,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-invalid-and-00266-ever-offer-account-mutation-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 76,
+          "title": "admin creates an invitation, revokes its link and controls access without showing passwords",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5148,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-admin-creat-1b340-s-without-showing-passwords-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 122,
+          "title": "return from checkout opens the authenticated subscription panel without granting access",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 1029,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-return-from-d0040-nel-without-granting-access-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 51,
+          "title": "public exploration, explicit local migration, two devices and isolated accounts",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 15987,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-public-exploratio-f701e-vices-and-isolated-accounts-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 111,
+          "title": "a failed network save survives reload and retries exactly once",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4680,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-failed-network--00986-ad-and-retries-exactly-once-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 138,
+          "title": "profile, routines and training days follow the account across device timezones",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 14536,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-profile-routines--01708-unt-across-device-timezones-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 196,
+          "title": "a full v2 copy restores historical plans into a pristine account and exports faithfully",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4586,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-full-v2-copy-re-3899a-ount-and-exports-faithfully-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 219,
+          "title": "account planning drafts survive appearance and health saves and require review after a planning conflict",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 7264,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-account-planning--dc4e5-w-after-a-planning-conflict-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 275,
+          "title": "an administrator invites a member, the member activates and recovers without losing personal history",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 11975,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-an-administrator--cd512-out-losing-personal-history-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 338,
+          "title": "health records persist in the real account, survive reload and stay out of browser storage",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6808,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-health-records-pe-8ee65-stay-out-of-browser-storage-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 34,
+          "title": "real training: edit, cancel, complete, double submit and persistent exact sets",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5489,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-train-449ab-t-and-persistent-exact-sets-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 67,
+          "title": "real cardio loses committed response, reloads and retries without duplicate",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4398,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-cardi-25e3b-d-retries-without-duplicate-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 91,
+          "title": "real planning validates timezone, empty days and whitespace; named copy persists once",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6689,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-plann-9aa4c-ce-named-copy-persists-once-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 121,
+          "title": "real yoga saves practice, times one segment, preserves snapshot and reloads",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 11624,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--96aef-serves-snapshot-and-reloads-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 148,
+          "title": "real session expiry hides private health and isolates the next login",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6019,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-sessi-55945-and-isolates-the-next-login-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 12724,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 183,
+          "title": "real health imports preview, deduplicate, reject future records and export faithfully",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5400,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-healt-7a6b9-cords-and-export-faithfully-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 220,
+          "title": "real data invalid import, cancellation and privacy back-forward retain account",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6002,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-data--ba51a-back-forward-retain-account-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 246,
+          "title": "real password changes revoke other sessions, preserve data and reject old password",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 10240,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-passw-6070a-ata-and-reject-old-password-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 279,
+          "title": "real yoga lost edit response retries the committed version without forcing a duplicate copy",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4516,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--66840-ut-forcing-a-duplicate-copy-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 299,
+          "title": "billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4980,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-billing-sa-d23fb-h-and-explicit-cancellation-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 3,
+          "title": "login opens recovery request, one busy submission confirms generically and email stays out of storage",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 3913,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-login-open-63a4e--email-stays-out-of-storage-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 40,
+          "title": "network failure and rate limit stay accessible and retryable without claiming delivery",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 1974,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-network-fa-2681f-e-without-claiming-delivery-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 64,
+          "title": "expired and incomplete recovery links offer a new email request while activation stays invitation-only",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 3717,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-expired-an-815b4-ation-stays-invitation-only-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 40,
+          "title": "health starts empty, saves body profile and measures, and supports correction and deletion on mobile",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4238,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-starts-empty-4ab3a-tion-and-deletion-on-mobile-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 75,
+          "title": "initial setup keeps its profile draft after a conflicting account update and requires review",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4198,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-initial-setup-keeps-4b5f0--update-and-requires-review-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 91,
+          "title": "health revision conflicts retain the filled draft and never fall back to local storage",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 3437,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-revision-con-31567--fall-back-to-local-storage-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 110,
+          "title": "health file imports preview before sending, deduplicate repeated records and reject future dates",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 2918,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-file-imports-19ca4-rds-and-reject-future-dates-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 135,
+          "title": "sleep, exercise response, meals, supplements and dated goals are editable account records",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4307,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-sleep-exercise-resp-a3507-re-editable-account-records-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 178,
+          "title": "overlapping sleep never completes a goal and corrections retain source identity and exact original times",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 3686,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-overlapping-sleep-n-ffbb4-ty-and-exact-original-times-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 206,
+          "title": "personal dashboard filters periods and body sources without inventing sleep or meal coverage",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 3274,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-personal-dashboard--0662c-ting-sleep-or-meal-coverage-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 263,
+          "title": "free local health, goals and manual imports persist without an account or cloud writes",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5948,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-free-local-health-g-11317--an-account-or-cloud-writes-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 49,
+          "title": "a public campaign creates a real trial; its limit and independent lifetime grant are visible",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 13538,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-public-cam-f0fec--lifetime-grant-are-visible-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 105,
+          "title": "a named lifetime invitation activates without requiring a subscription",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 9978,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-named-life-33b93-ut-requiring-a-subscription-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 134,
+          "title": "expired cloud access preserves history and export; free local activity still works",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6953,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-expired-clou-80bf9--local-activity-still-works-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 72,
+          "title": "refreshed remote edits preserve the open draft and require saving a separate copy",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4127,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-refreshed-rem-52c6b-uire-saving-a-separate-copy-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 103,
+          "title": "a revision conflict during save retains the draft and offers a copy of the updated canonical state",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4686,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-revision-co-b685e-the-updated-canonical-state-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 122,
+          "title": "expired accounts keep the library readable and can delete without enabling additions",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4832,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-expired-accou-60db9--without-enabling-additions-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 142,
+          "title": "a remote write failure keeps the unsaved draft for retry and never falls back to browser storage",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5136,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-remote-writ-f3a32-lls-back-to-browser-storage-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 37,
+          "title": "real read-only exploration searches, filters and empty views never award or write progress",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6578,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-d96d3-ver-award-or-write-progress-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 77,
+          "title": "real routine editing cancels, reorders and persists; active and abandoned sessions never award history",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5884,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-9a933-essions-never-award-history-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 6503,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 172,
+          "title": "real expired account denies direct writes, cancels deletion and persists allowed removal",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4251,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-36134-nd-persists-allowed-removal-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 198,
+          "title": "real appearance preferences persist across reload",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 4080,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-299b2-ences-persist-across-reload-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 210,
+          "title": "real account import limits and malformed health files fail before any persistent mutation",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 5169,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-98586-ore-any-persistent-mutation-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 229,
+          "title": "real yoga editor cancellation, reorder, pause, partial save and lost committed log response",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 8006,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-00811-lost-committed-log-response-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-narrow"
+        }
+      ],
+      "rechecks": [
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "webkit-narrow",
+          "status": "passed",
+          "durationMs": 12724,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-webkit-narrow/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/webkit-narrow"
+        }
+      ]
+    },
+    {
+      "name": "webkit-wide",
+      "initialViewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "hasTouch": true,
+      "isMobile": true,
+      "deviceScaleFactor": 2,
+      "passed": 48,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "account-access.spec.ts",
+          "line": 8,
+          "title": "activation verifies its in-memory token, clears the address bar and returns to login",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 2266,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-activation--bd75c-ss-bar-and-returns-to-login-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 40,
+          "title": "recovery requires matching passwords, submits the fragment token and cannot reuse it after reload",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 2388,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-recovery-re-180f5-annot-reuse-it-after-reload-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 64,
+          "title": "invalid and wrong-purpose invitation links never offer account mutation",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 1281,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-invalid-and-00266-ever-offer-account-mutation-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 76,
+          "title": "admin creates an invitation, revokes its link and controls access without showing passwords",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4680,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-admin-creat-1b340-s-without-showing-passwords-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 122,
+          "title": "return from checkout opens the authenticated subscription panel without granting access",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 993,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-return-from-d0040-nel-without-granting-access-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 51,
+          "title": "public exploration, explicit local migration, two devices and isolated accounts",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 15705,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-public-exploratio-f701e-vices-and-isolated-accounts-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 111,
+          "title": "a failed network save survives reload and retries exactly once",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5293,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-failed-network--00986-ad-and-retries-exactly-once-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 138,
+          "title": "profile, routines and training days follow the account across device timezones",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 15338,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-profile-routines--01708-unt-across-device-timezones-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 196,
+          "title": "a full v2 copy restores historical plans into a pristine account and exports faithfully",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4770,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-full-v2-copy-re-3899a-ount-and-exports-faithfully-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 219,
+          "title": "account planning drafts survive appearance and health saves and require review after a planning conflict",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 7645,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-account-planning--dc4e5-w-after-a-planning-conflict-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 275,
+          "title": "an administrator invites a member, the member activates and recovers without losing personal history",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 12106,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-an-administrator--cd512-out-losing-personal-history-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 338,
+          "title": "health records persist in the real account, survive reload and stay out of browser storage",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 6983,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-health-records-pe-8ee65-stay-out-of-browser-storage-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 34,
+          "title": "real training: edit, cancel, complete, double submit and persistent exact sets",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5813,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-train-449ab-t-and-persistent-exact-sets-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 67,
+          "title": "real cardio loses committed response, reloads and retries without duplicate",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4056,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-cardi-25e3b-d-retries-without-duplicate-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 91,
+          "title": "real planning validates timezone, empty days and whitespace; named copy persists once",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 6926,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-plann-9aa4c-ce-named-copy-persists-once-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 121,
+          "title": "real yoga saves practice, times one segment, preserves snapshot and reloads",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 12011,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--96aef-serves-snapshot-and-reloads-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 148,
+          "title": "real session expiry hides private health and isolates the next login",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5631,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-sessi-55945-and-isolates-the-next-login-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 6277,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 183,
+          "title": "real health imports preview, deduplicate, reject future records and export faithfully",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5455,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-healt-7a6b9-cords-and-export-faithfully-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 220,
+          "title": "real data invalid import, cancellation and privacy back-forward retain account",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4889,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-data--ba51a-back-forward-retain-account-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 246,
+          "title": "real password changes revoke other sessions, preserve data and reject old password",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 10408,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-passw-6070a-ata-and-reject-old-password-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 279,
+          "title": "real yoga lost edit response retries the committed version without forcing a duplicate copy",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5213,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--66840-ut-forcing-a-duplicate-copy-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 299,
+          "title": "billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5115,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-billing-sa-d23fb-h-and-explicit-cancellation-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 3,
+          "title": "login opens recovery request, one busy submission confirms generically and email stays out of storage",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 3595,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-login-open-63a4e--email-stays-out-of-storage-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 40,
+          "title": "network failure and rate limit stay accessible and retryable without claiming delivery",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 2054,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-network-fa-2681f-e-without-claiming-delivery-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 64,
+          "title": "expired and incomplete recovery links offer a new email request while activation stays invitation-only",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 3284,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-expired-an-815b4-ation-stays-invitation-only-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 40,
+          "title": "health starts empty, saves body profile and measures, and supports correction and deletion on mobile",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4070,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-starts-empty-4ab3a-tion-and-deletion-on-mobile-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 75,
+          "title": "initial setup keeps its profile draft after a conflicting account update and requires review",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4399,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-initial-setup-keeps-4b5f0--update-and-requires-review-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 91,
+          "title": "health revision conflicts retain the filled draft and never fall back to local storage",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 3467,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-revision-con-31567--fall-back-to-local-storage-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 110,
+          "title": "health file imports preview before sending, deduplicate repeated records and reject future dates",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 2361,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-file-imports-19ca4-rds-and-reject-future-dates-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 135,
+          "title": "sleep, exercise response, meals, supplements and dated goals are editable account records",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4178,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-sleep-exercise-resp-a3507-re-editable-account-records-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 178,
+          "title": "overlapping sleep never completes a goal and corrections retain source identity and exact original times",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 2906,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-overlapping-sleep-n-ffbb4-ty-and-exact-original-times-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 206,
+          "title": "personal dashboard filters periods and body sources without inventing sleep or meal coverage",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 3295,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-personal-dashboard--0662c-ting-sleep-or-meal-coverage-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 263,
+          "title": "free local health, goals and manual imports persist without an account or cloud writes",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5408,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-free-local-health-g-11317--an-account-or-cloud-writes-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 49,
+          "title": "a public campaign creates a real trial; its limit and independent lifetime grant are visible",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 13032,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-public-cam-f0fec--lifetime-grant-are-visible-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 105,
+          "title": "a named lifetime invitation activates without requiring a subscription",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 10324,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-named-life-33b93-ut-requiring-a-subscription-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 134,
+          "title": "expired cloud access preserves history and export; free local activity still works",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 7712,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-expired-clou-80bf9--local-activity-still-works-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 72,
+          "title": "refreshed remote edits preserve the open draft and require saving a separate copy",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4556,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-refreshed-rem-52c6b-uire-saving-a-separate-copy-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 103,
+          "title": "a revision conflict during save retains the draft and offers a copy of the updated canonical state",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 3894,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-revision-co-b685e-the-updated-canonical-state-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 122,
+          "title": "expired accounts keep the library readable and can delete without enabling additions",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 3632,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-expired-accou-60db9--without-enabling-additions-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 142,
+          "title": "a remote write failure keeps the unsaved draft for retry and never falls back to browser storage",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4833,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-remote-writ-f3a32-lls-back-to-browser-storage-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 37,
+          "title": "real read-only exploration searches, filters and empty views never award or write progress",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 6171,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-d96d3-ver-award-or-write-progress-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 77,
+          "title": "real routine editing cancels, reorders and persists; active and abandoned sessions never award history",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 7287,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-9a933-essions-never-award-history-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 8116,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 172,
+          "title": "real expired account denies direct writes, cancels deletion and persists allowed removal",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 5247,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-36134-nd-persists-allowed-removal-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 198,
+          "title": "real appearance preferences persist across reload",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4709,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-299b2-ences-persist-across-reload-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 210,
+          "title": "real account import limits and malformed health files fail before any persistent mutation",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 4690,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-98586-ore-any-persistent-mutation-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 229,
+          "title": "real yoga editor cancellation, reorder, pause, partial save and lost committed log response",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 8777,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-00811-lost-committed-log-response-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-wide"
+        }
+      ],
+      "rechecks": [
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "webkit-wide",
+          "status": "passed",
+          "durationMs": 6277,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-webkit-wide/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/webkit-wide"
+        }
+      ]
+    },
+    {
+      "name": "webkit-desktop",
+      "initialViewportCss": {
+        "width": 1440,
+        "height": 1000
+      },
+      "hasTouch": false,
+      "isMobile": false,
+      "deviceScaleFactor": 1,
+      "passed": 48,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "account-access.spec.ts",
+          "line": 8,
+          "title": "activation verifies its in-memory token, clears the address bar and returns to login",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 2282,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-activation--bd75c-ss-bar-and-returns-to-login-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 40,
+          "title": "recovery requires matching passwords, submits the fragment token and cannot reuse it after reload",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 2657,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-recovery-re-180f5-annot-reuse-it-after-reload-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 64,
+          "title": "invalid and wrong-purpose invitation links never offer account mutation",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 1485,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-invalid-and-00266-ever-offer-account-mutation-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 76,
+          "title": "admin creates an invitation, revokes its link and controls access without showing passwords",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6204,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-admin-creat-1b340-s-without-showing-passwords-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "account-access.spec.ts",
+          "line": 122,
+          "title": "return from checkout opens the authenticated subscription panel without granting access",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 1130,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "account-access-return-from-d0040-nel-without-granting-access-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 51,
+          "title": "public exploration, explicit local migration, two devices and isolated accounts",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 15095,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-public-exploratio-f701e-vices-and-isolated-accounts-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 111,
+          "title": "a failed network save survives reload and retries exactly once",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5719,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-failed-network--00986-ad-and-retries-exactly-once-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 138,
+          "title": "profile, routines and training days follow the account across device timezones",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 13488,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-profile-routines--01708-unt-across-device-timezones-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 196,
+          "title": "a full v2 copy restores historical plans into a pristine account and exports faithfully",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5638,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-a-full-v2-copy-re-3899a-ount-and-exports-faithfully-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 219,
+          "title": "account planning drafts survive appearance and health saves and require review after a planning conflict",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 7787,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-account-planning--dc4e5-w-after-a-planning-conflict-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 275,
+          "title": "an administrator invites a member, the member activates and recovers without losing personal history",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 12712,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-an-administrator--cd512-out-losing-personal-history-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "accounts.spec.ts",
+          "line": 338,
+          "title": "health records persist in the real account, survive reload and stay out of browser storage",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 7556,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "accounts-health-records-pe-8ee65-stay-out-of-browser-storage-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 34,
+          "title": "real training: edit, cancel, complete, double submit and persistent exact sets",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6437,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-train-449ab-t-and-persistent-exact-sets-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 67,
+          "title": "real cardio loses committed response, reloads and retries without duplicate",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 4570,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-cardi-25e3b-d-retries-without-duplicate-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 91,
+          "title": "real planning validates timezone, empty days and whitespace; named copy persists once",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 7439,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-plann-9aa4c-ce-named-copy-persists-once-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 121,
+          "title": "real yoga saves practice, times one segment, preserves snapshot and reloads",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 12843,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--96aef-serves-snapshot-and-reloads-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 148,
+          "title": "real session expiry hides private health and isolates the next login",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 7542,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-sessi-55945-and-isolates-the-next-login-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6744,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 183,
+          "title": "real health imports preview, deduplicate, reject future records and export faithfully",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6352,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-healt-7a6b9-cords-and-export-faithfully-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 220,
+          "title": "real data invalid import, cancellation and privacy back-forward retain account",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5599,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-data--ba51a-back-forward-retain-account-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 246,
+          "title": "real password changes revoke other sessions, preserve data and reject old password",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 13170,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-passw-6070a-ata-and-reject-old-password-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 279,
+          "title": "real yoga lost edit response retries the committed version without forcing a duplicate copy",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6164,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-real-yoga--66840-ut-forcing-a-duplicate-copy-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 299,
+          "title": "billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6795,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-billing-sa-d23fb-h-and-explicit-cancellation-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 3,
+          "title": "login opens recovery request, one busy submission confirms generically and email stays out of storage",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5159,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-login-open-63a4e--email-stays-out-of-storage-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 40,
+          "title": "network failure and rate limit stay accessible and retryable without claiming delivery",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 2205,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-network-fa-2681f-e-without-claiming-delivery-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "forgot-password.spec.ts",
+          "line": 64,
+          "title": "expired and incomplete recovery links offer a new email request while activation stays invitation-only",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 3607,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "forgot-password-expired-an-815b4-ation-stays-invitation-only-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 40,
+          "title": "health starts empty, saves body profile and measures, and supports correction and deletion on mobile",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 4693,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-starts-empty-4ab3a-tion-and-deletion-on-mobile-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 75,
+          "title": "initial setup keeps its profile draft after a conflicting account update and requires review",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5843,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-initial-setup-keeps-4b5f0--update-and-requires-review-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 91,
+          "title": "health revision conflicts retain the filled draft and never fall back to local storage",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 4108,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-revision-con-31567--fall-back-to-local-storage-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 110,
+          "title": "health file imports preview before sending, deduplicate repeated records and reject future dates",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 3398,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-health-file-imports-19ca4-rds-and-reject-future-dates-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 135,
+          "title": "sleep, exercise response, meals, supplements and dated goals are editable account records",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 4870,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-sleep-exercise-resp-a3507-re-editable-account-records-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 178,
+          "title": "overlapping sleep never completes a goal and corrections retain source identity and exact original times",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 3964,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-overlapping-sleep-n-ffbb4-ty-and-exact-original-times-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 206,
+          "title": "personal dashboard filters periods and body sources without inventing sleep or meal coverage",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 3483,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-personal-dashboard--0662c-ting-sleep-or-meal-coverage-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "health.spec.ts",
+          "line": 263,
+          "title": "free local health, goals and manual imports persist without an account or cloud writes",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5709,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "health-free-local-health-g-11317--an-account-or-cloud-writes-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 49,
+          "title": "a public campaign creates a real trial; its limit and independent lifetime grant are visible",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 13814,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-public-cam-f0fec--lifetime-grant-are-visible-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 105,
+          "title": "a named lifetime invitation activates without requiring a subscription",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 15529,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-a-named-life-33b93-ut-requiring-a-subscription-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "subscriptions.spec.ts",
+          "line": 134,
+          "title": "expired cloud access preserves history and export; free local activity still works",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 7736,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "subscriptions-expired-clou-80bf9--local-activity-still-works-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 72,
+          "title": "refreshed remote edits preserve the open draft and require saving a separate copy",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5174,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-refreshed-rem-52c6b-uire-saving-a-separate-copy-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 103,
+          "title": "a revision conflict during save retains the draft and offers a copy of the updated canonical state",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5794,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-revision-co-b685e-the-updated-canonical-state-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 122,
+          "title": "expired accounts keep the library readable and can delete without enabling additions",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5752,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-expired-accou-60db9--without-enabling-additions-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "yoga-account.spec.ts",
+          "line": 142,
+          "title": "a remote write failure keeps the unsaved draft for retry and never falls back to browser storage",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6167,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "yoga-account-a-remote-writ-f3a32-lls-back-to-browser-storage-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "core/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 37,
+          "title": "real read-only exploration searches, filters and empty views never award or write progress",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6782,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-d96d3-ver-award-or-write-progress-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 77,
+          "title": "real routine editing cancels, reorders and persists; active and abandoned sessions never award history",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6429,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-9a933-essions-never-award-history-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 110,
+          "title": "real manual health collections save, cancel and delete without losing unrelated records",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 7402,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-fea85-ut-losing-unrelated-records-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 172,
+          "title": "real expired account denies direct writes, cancels deletion and persists allowed removal",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5226,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-36134-nd-persists-allowed-removal-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 198,
+          "title": "real appearance preferences persist across reload",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5152,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-299b2-ences-persist-across-reload-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 210,
+          "title": "real account import limits and malformed health files fail before any persistent mutation",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 5722,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-98586-ore-any-persistent-mutation-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        },
+        {
+          "file": "b2c-selfservice-extra.spec.ts",
+          "line": 229,
+          "title": "real yoga editor cancellation, reorder, pause, partial save and lost committed log response",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 8923,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-extra-real-00811-lost-committed-log-response-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "extra/webkit-desktop"
+        }
+      ],
+      "rechecks": [
+        {
+          "file": "b2c-selfservice.spec.ts",
+          "line": 169,
+          "title": "paid fixture can write, browser billing return cannot change its entitlement",
+          "project": "webkit-desktop",
+          "status": "passed",
+          "durationMs": 6744,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "b2c-selfservice-paid-fixtu-cd5ad-nnot-change-its-entitlement-webkit-desktop/trace.zip"
+            }
+          ],
+          "artifactRoot": "active-recheck/webkit-desktop"
+        }
+      ]
+    }
+  ],
+  "uniqueCases": 288,
+  "expectedPassed": 288,
+  "unexpected": 0,
+  "notRun": [
+    "Physical iPhone/Android/Safari",
+    "Models/previews/Blender",
+    "SMTP delivery",
+    "External payment provider",
+    "Production/CI/merge/deploy",
+    "All language/palette/side combinations",
+    "Unfinished session restoration on reload",
+    "Dedicated revoke-other-sessions button"
+  ]
+}

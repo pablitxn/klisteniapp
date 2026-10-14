@@ -168,7 +168,7 @@ test('expired cloud access preserves history and export; free local activity sti
   await expect(page.locator('.account-status')).toHaveCount(0)
   await expect(page.locator('.local-badge')).toContainText('Guardado en este dispositivo')
   await page.setViewportSize({ width: 1440, height: 1000 })
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Mi progreso', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Mi progreso', exact: true }).click()
   await expect(page.locator('.activity-history')).toContainText('7 min')
   await expect(page.locator('.activity-history')).not.toContainText('26 min')
   const cloudWrites: string[] = []
