@@ -60,6 +60,9 @@ export default function App() {
     return (
       <Shell eyebrow="ACCESO">
         <Notice error>{brand.error}</Notice>
+        <button className="button" onClick={brand.refresh}>
+          Reintentar
+        </button>
       </Shell>
     )
   const content = (
@@ -76,6 +79,7 @@ export default function App() {
             slug={route.slug}
             unitId={route.unitId}
             themeColor={context?.theme.palette.primary}
+            branches={context?.branches}
           />
         ) : route.kind === 'branch' && context ? (
           <PublicGym
@@ -83,6 +87,7 @@ export default function App() {
             themeColor={context.theme.palette.primary}
             branchSlug={route.slug}
             branchId={context.branches.find((branch) => branch.slug === route.slug)?.id}
+            branches={context.branches}
           />
         ) : route.kind === 'invitation' ? (
           <Invitation whiteLabel={Boolean(context)} context={context ?? undefined} />
