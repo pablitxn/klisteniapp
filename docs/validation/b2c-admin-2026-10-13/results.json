@@ -1,0 +1,2278 @@
+{
+  "date": "2026-10-13",
+  "scope": "B2C administrator; local disposable fixtures only",
+  "branch": "qa/b2c-admin-20261013-sol",
+  "baseSha": "7172041102a8a7029af5fb3e2527a1fa51611a86",
+  "productFixSha": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+  "harnessFinalSha": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+  "atlasSha": "27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f",
+  "atlasFilesChanged": false,
+  "environment": {
+    "node": "24.19.0",
+    "pnpm": "11.25.0",
+    "playwright": "1.63.0",
+    "postgresql": "18.4",
+    "postgresPackage": "@embedded-postgres/linux-x64@18.4.0-beta.17",
+    "productComposePostgresMajor": 17,
+    "chromium": "154.0.8037.57",
+    "webkit": "26.6 WPE (build 2359)",
+    "physicalDevice": false,
+    "viewports": [
+      {
+        "project": "chromium-narrow",
+        "width": 360,
+        "height": 780,
+        "isMobile": true,
+        "hasTouch": true,
+        "deviceScaleFactor": 1
+      },
+      {
+        "project": "chromium-wide",
+        "width": 430,
+        "height": 932,
+        "isMobile": true,
+        "hasTouch": true,
+        "deviceScaleFactor": 1
+      },
+      {
+        "project": "chromium-desktop",
+        "width": 1440,
+        "height": 1000,
+        "isMobile": false,
+        "hasTouch": false,
+        "deviceScaleFactor": 1
+      },
+      {
+        "project": "webkit-narrow",
+        "width": 360,
+        "height": 780,
+        "isMobile": true,
+        "hasTouch": true,
+        "deviceScaleFactor": 1
+      },
+      {
+        "project": "webkit-wide",
+        "width": 430,
+        "height": 932,
+        "isMobile": true,
+        "hasTouch": true,
+        "deviceScaleFactor": 1
+      },
+      {
+        "project": "webkit-desktop",
+        "width": 1440,
+        "height": 1000,
+        "isMobile": false,
+        "hasTouch": false,
+        "deviceScaleFactor": 1
+      }
+    ]
+  },
+  "latestCaseTotals": {
+    "PASS": 84,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT RUN": 0
+  },
+  "runs": {
+    "baseline-2": {
+      "startTime": "2026-10-13T10:26:25.326Z",
+      "duration": 64360.204,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 4,
+      "flaky": 0
+    },
+    "collapse-before": {
+      "startTime": "2026-10-13T10:31:31.961Z",
+      "duration": 12779.523,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "final-ui": {
+      "startTime": "2026-10-13T10:32:49.041Z",
+      "duration": 514440.914,
+      "expected": 83,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "affected-ui": {
+      "startTime": "2026-10-13T10:46:17.469Z",
+      "duration": 81001.389,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 5,
+      "flaky": 0
+    },
+    "affected-final": {
+      "startTime": "2026-10-13T10:49:02.631Z",
+      "duration": 131120.812,
+      "expected": 18,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "runInterpretation": {
+    "final-ui": "83 passed / 1 failure in premature SQL assertion after click; product revision cf73bbc",
+    "affected-ui": "7 passed / 5 failures because independent browser recipients reused one test IP and correctly hit real login rate limits",
+    "affected-final": "18 passed; UI acknowledgement awaited and per-project recipient fixture IPs; no limiter disabled",
+    "combined": "Latest completed results for each of 14 flows x 6 profiles. This is not a claim that one full run returned zero."
+  },
+  "rootUnitResults": {
+    "root": {
+      "tests": 25,
+      "pass": 25,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/model-assets": {
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/scene-schema": {
+      "tests": 46,
+      "pass": 46,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-contracts": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/catalog-base": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-client": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-domain": {
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/geometry": {
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-react": {
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/anatomy-viewer": {
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-ui": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-web": {
+      "tests": 53,
+      "pass": 53,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2b-api": {
+      "tests": 34,
+      "pass": 24,
+      "fail": 0,
+      "skipped": 10
+    },
+    "@klisteniapp/b2c-api": {
+      "tests": 97,
+      "pass": 97,
+      "fail": 0,
+      "skipped": 0
+    },
+    "@klisteniapp/b2c-web": {
+      "tests": 196,
+      "pass": 196,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "commands": [
+    {
+      "command": "pnpm lint",
+      "status": "PASS",
+      "log": "artifacts/b2c-admin/final-lint.log",
+      "tasks": 14,
+      "cached": 13
+    },
+    {
+      "command": "pnpm typecheck",
+      "status": "PASS",
+      "log": "artifacts/b2c-admin/final-types.log",
+      "tasks": 14,
+      "cached": 13
+    },
+    {
+      "command": "pnpm test",
+      "status": "PASS",
+      "log": "artifacts/b2c-admin/final-root-tests.log",
+      "tests": 542,
+      "passed": 532,
+      "skipped": 10,
+      "skips": "Unrelated B2B PostgreSQL integration; B2B_TEST_DATABASE_URL intentionally absent"
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2c-web test",
+      "status": "PASS",
+      "log": "artifacts/b2c-admin/latest-web-tests.log",
+      "tests": 196,
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "pnpm build",
+      "status": "PASS",
+      "log": "artifacts/b2c-admin/final-build.log",
+      "tasks": 16,
+      "cached": 14
+    },
+    {
+      "command": "pnpm previews:check",
+      "status": "FAIL",
+      "classification": "pre-existing deferred Yoga receipt",
+      "log": "artifacts/b2c-admin/previews-check.log",
+      "baseReproductionLog": "artifacts/b2c-admin/previews-base-check.log"
+    },
+    {
+      "command": "pnpm test:admin",
+      "status": "FAIL",
+      "log": "artifacts/b2c-admin/final-ui.log",
+      "passed": 83,
+      "failed": 1,
+      "classification": "harness async assertion subsequently corrected"
+    },
+    {
+      "command": "pnpm test:admin --grep 'inventory:|user enable|shared quota'",
+      "status": "PASS",
+      "log": "artifacts/b2c-admin/affected-final.log",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2c-web lint && pnpm --filter @klisteniapp/b2c-web typecheck",
+      "status": "PASS",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "logs": [
+        "artifacts/b2c-admin/recipient-web-lint.log",
+        "artifacts/b2c-admin/recipient-web-types.log"
+      ]
+    }
+  ],
+  "fixes": [
+    "ADM-01 maxUses UI agrees with API limit 10000",
+    "ADM-02 synchronous admin operation guard prevents duplicate issuance",
+    "ADM-03 disclosure generation hides links returned after closing administration"
+  ],
+  "curatedScreenshots": [
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-narrow-account-states.png",
+      "sha256": "669a6954b79faf7a542ee34a2cc294370f3bf8c68ac6fa89f49fe4fa99955170"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-narrow-invitation-forms.png",
+      "sha256": "f05e8dbc6f61333005de506e890c7150d8359e3970dd7fab1353b256ede7917b"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-narrow-managed-user.png",
+      "sha256": "44f1bd7c5dd523bd3b4a365909fe6d270f4934c6961063d25c34315692ee386c"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-wide-account-states.png",
+      "sha256": "d9d16096c0f7a49770973e8384c6edf186409284a89d6f2807c6ebbb1d43230c"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-wide-invitation-forms.png",
+      "sha256": "08fd77343ff5c65f4f2fd78271b370c1dcc5f2ec21036d3894a6dcd26bc75bdb"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-wide-managed-user.png",
+      "sha256": "542d1ee7ac6139ad8a6a0f6ca03efd365844e4af715f170dc52e7d53dec260f7"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-desktop-account-states.png",
+      "sha256": "f18c03ac5c8ca5799bdcf7352e9e053c9d20e80e5ed5a8deec154a9500c06b44"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-desktop-invitation-forms.png",
+      "sha256": "050bc628043074e270ec56086c26994173e6ad3c8b083bb1a27520db457c7e3b"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/chromium-desktop-managed-user.png",
+      "sha256": "6e8f4731050b5a91691ec82dfa57717856cd8652467850027526bf6e35c04203"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-narrow-account-states.png",
+      "sha256": "90afecb3c4890a0367b7d937084cad9f1fce0614e0a00deb94cdb5f14a4dc993"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-narrow-invitation-forms.png",
+      "sha256": "8164d900ecdc75ff522e81ed42734c5fe4417475e073123c0deb5c4bcb9bd548"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-narrow-managed-user.png",
+      "sha256": "a19b5bccec8e3463db193107ac89867216ca657be05ad5157d1ce3ac5d831609"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-wide-account-states.png",
+      "sha256": "95c352557b6d467f82cd56ff6cf0a1328fb482e9a1e8b85448914a46366aef59"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-wide-invitation-forms.png",
+      "sha256": "9dba50754f2d22eb16a5dc54b57a6f1674504af0257817a5562c7cefe1c6c2e7"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-wide-managed-user.png",
+      "sha256": "4e167bc7d530479fefc9fefa48583da20232bb9a5ebd2fd327eaad952bbab464"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-desktop-account-states.png",
+      "sha256": "a77ddb90473a8681206b05664c9376719d62b729232a4f41cab4cc496d9bca97"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-desktop-invitation-forms.png",
+      "sha256": "660f1076a02345d068f0d66cb5c268b9db09a029f1a304681ef5700159367699"
+    },
+    {
+      "path": "docs/validation/b2c-admin-2026-10-13/webkit-desktop-managed-user.png",
+      "sha256": "d3aa9bea7db816d5ec915b502771af8ed27f569763aa5881a39926cc95730d8a"
+    }
+  ],
+  "cases": [
+    {
+      "flow": "inventory: account states, empty shared list, self protection and mobile layout",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 2748,
+      "line": 95,
+      "attachments": [
+        {
+          "name": "account-states",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-narrow/attachments/account-states-e26acd38e3390a925914e28e9f5a1df82d85484c.png",
+          "sha256": "669a6954b79faf7a542ee34a2cc294370f3bf8c68ac6fa89f49fe4fa99955170",
+          "bytes": 47280
+        },
+        {
+          "name": "invitation-forms",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-narrow/attachments/invitation-forms-035652912959ac7696bccf9644b36e445e55c3b4.png",
+          "sha256": "f05e8dbc6f61333005de506e890c7150d8359e3970dd7fab1353b256ede7917b",
+          "bytes": 43620
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-narrow/trace.zip",
+          "sha256": "ecbb5c6d6e0183edc36deebaa0c7d24940ccb0e4a500c83f8de71aff5dfc2c30",
+          "bytes": 194990
+        }
+      ]
+    },
+    {
+      "flow": "personal trial and lifetime: validation, activation, consumed link, refresh and persisted roles",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5177,
+      "line": 114,
+      "attachments": [
+        {
+          "name": "personal-invitations",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-chromium-narrow/attachments/personal-invitations-44bf5fd91d8425e475270b81f7599001f2c31c35.png",
+          "sha256": "bc7760c0be9c48243d939958229bb1e8efec7818fab7e6cbd690049f93669114",
+          "bytes": 47295
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-chromium-narrow/trace.zip",
+          "sha256": "fd4db19559d8023a766d67ebc8d54f7c91240db60dd6916c974aa692cdfd5cc6",
+          "bytes": 194652
+        }
+      ]
+    },
+    {
+      "flow": "personal reissue, copy fallback, revocation and exact expiry do not create users",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 6665,
+      "line": 158,
+      "attachments": [
+        {
+          "name": "revoked-expired-personal",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-chromium-narrow/attachments/revoked-expired-personal-089cf7f7e8b9319ccaaf6e3886d55c16996f9c8c.png",
+          "sha256": "3bee1a9269194578915eb4bac006484234d3fd0e495b6380de3f3e9719db9a38",
+          "bytes": 47210
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-chromium-narrow/trace.zip",
+          "sha256": "73ce84ef9289e7813e2c9e56ceddcfe8d6663a9cf8f3f918094fa9970d1ae70b",
+          "bytes": 173569
+        }
+      ]
+    },
+    {
+      "flow": "shared link boundaries, validation, cancellation and reload preserve issued metadata",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4042,
+      "line": 187,
+      "attachments": [
+        {
+          "name": "shared-boundary",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-chromium-narrow/attachments/shared-boundary-7f4fa7035f42cd63eabd8f1a2d0b3fb0b5f460b1.png",
+          "sha256": "8ef47ee4be6e8a23f21ac11786f55c5116136118b15396430b870e6e18acc331",
+          "bytes": 52162
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-chromium-narrow/trace.zip",
+          "sha256": "688d02a4237f0ac3ae50b32b575e5b0c297668ef823807a9f23f2cf069ec0d08",
+          "bytes": 186998
+        }
+      ]
+    },
+    {
+      "flow": "shared quota is atomic across recipients; duplicate email, expiry and revocation block without consuming",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 4645,
+      "line": 221,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-shared-quot-f1227-ion-block-without-consuming-chromium-narrow/trace.zip",
+          "sha256": "6ac6eb6c9340084772360fc4dc30f8441cef5df4b5db1025b768a387fbdbdf00",
+          "bytes": 148389
+        }
+      ]
+    },
+    {
+      "flow": "user enable, suspend, revoke sessions and recover preserve history and account access",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 11058,
+      "line": 258,
+      "attachments": [
+        {
+          "name": "managed-user",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-chromium-narrow/attachments/managed-user-15be2ff3fc2039a2c8418a9573cb90633585c6d6.png",
+          "sha256": "44f1bd7c5dd523bd3b4a365909fe6d270f4934c6961063d25c34315692ee386c",
+          "bytes": 57043
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-chromium-narrow/trace.zip",
+          "sha256": "d9c5954c0e9dd186b2bd9ceca0c6ad4b5e328c2eae3e69149a7d17ce2de3b851",
+          "bytes": 305708
+        }
+      ]
+    },
+    {
+      "flow": "lifetime grant/removal respects original trial and paid deadlines and never promotes roles",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3774,
+      "line": 299,
+      "attachments": [
+        {
+          "name": "lifetime-access",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-chromium-narrow/attachments/lifetime-access-10c884b7ccd0cb84d1e19ab42e9add86511e1cc0.png",
+          "sha256": "34feb2298ff155f362f9cee562c34314d65097f864eadadda1736d642bc58877",
+          "bytes": 58986
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-chromium-narrow/trace.zip",
+          "sha256": "a1fbb8716e7f0ccc0847d094d608135e343b8bcbe1a0c57839736868f2b8cfb9",
+          "bytes": 181348
+        }
+      ]
+    },
+    {
+      "flow": "load errors retry; mutation errors keep drafts; two synchronous submits issue only one link",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2681,
+      "line": 319,
+      "attachments": [
+        {
+          "name": "retry-double-submit",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-chromium-narrow/attachments/retry-double-submit-0f51fdaec3057ff78ef248515e30761f84cdd725.png",
+          "sha256": "2b2645d3fb4c202f4882a3fbc649652ff9b23319a179629765b42d8dfcea1cad",
+          "bytes": 53957
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-chromium-narrow/trace.zip",
+          "sha256": "76bcb36984716bd83e406813d13d7a44a5d9e8b9a89d4bfdab7b8b4cb780703c",
+          "bytes": 161396
+        }
+      ]
+    },
+    {
+      "flow": "lost issuance response is visible, refresh reveals committed link and reissue recovers it",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3284,
+      "line": 347,
+      "attachments": [
+        {
+          "name": "lost-response-recovery",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-chromium-narrow/attachments/lost-response-recovery-577a013fa478a09f2cea7afee56e70c5f7301308.png",
+          "sha256": "b44d69fa2263f3d141bfeaf4f027a275323eb17853f41088832ceb7d7fea6b0a",
+          "bytes": 63220
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-chromium-narrow/trace.zip",
+          "sha256": "1a66390cfa04b9ebf3dc6bf2a410c0ab61544bbdfbc2dc4e85ff3f9b885b8be1",
+          "bytes": 178645
+        }
+      ]
+    },
+    {
+      "flow": "common user denied every admin endpoint and mismatched account headers cannot act",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3799,
+      "line": 371,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-common-user-9a38e--account-headers-cannot-act-chromium-narrow/trace.zip",
+          "sha256": "00c6bc8bcd4f9fa90f3194ac15b8bc4f1998c3ad379e17c1ded7d082dfd85bdb",
+          "bytes": 143761
+        }
+      ]
+    },
+    {
+      "flow": "expired admin session and same-browser account switch remove administration and block stale writes",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 33348,
+      "line": 389,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-expired-adm-2aa2e-tion-and-block-stale-writes-chromium-narrow/trace.zip",
+          "sha256": "afc19eba3d25da18e6e1263584efcc109773faf1dee4bbe9d38713607fa56c53",
+          "bytes": 227269
+        }
+      ]
+    },
+    {
+      "flow": "admin with expired cloud retains management rights; own lifetime grant resumes cloud writes",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2344,
+      "line": 405,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-admin-with--d987d--grant-resumes-cloud-writes-chromium-narrow/trace.zip",
+          "sha256": "a50cdb7eaff7ba58cb2d8f0874e425666c55b11c716e26bd9268e1bfa2048c9c",
+          "bytes": 116006
+        }
+      ]
+    },
+    {
+      "flow": "closing the dialog during a delayed issuance hides its link; token-info outage can retry",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3325,
+      "line": 427,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-closing-the-15c54-token-info-outage-can-retry-chromium-narrow/trace.zip",
+          "sha256": "2faf92a367363854cfc7a600581df95ff799625c26fbec1a51033339871f5bb9",
+          "bytes": 126841
+        }
+      ]
+    },
+    {
+      "flow": "collapsing administration during issuance keeps late personal and shared links hidden",
+      "project": "chromium-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2401,
+      "line": 466,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-collapsing--ecd1d-nal-and-shared-links-hidden-chromium-narrow/trace.zip",
+          "sha256": "6db34ad9c50f236b597ef202673d925bd86d5a48bf9cb87c249db0d7b4b8c02e",
+          "bytes": 115505
+        }
+      ]
+    },
+    {
+      "flow": "inventory: account states, empty shared list, self protection and mobile layout",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 2545,
+      "line": 95,
+      "attachments": [
+        {
+          "name": "account-states",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-wide/attachments/account-states-e6e7ba65d33caf2cd7fd0e873df72a30d7fefc8b.png",
+          "sha256": "d9d16096c0f7a49770973e8384c6edf186409284a89d6f2807c6ebbb1d43230c",
+          "bytes": 55048
+        },
+        {
+          "name": "invitation-forms",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-wide/attachments/invitation-forms-422de12b6ae088cb1ea3f1ecfc71078de133def2.png",
+          "sha256": "08fd77343ff5c65f4f2fd78271b370c1dcc5f2ec21036d3894a6dcd26bc75bdb",
+          "bytes": 49042
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-wide/trace.zip",
+          "sha256": "925f26b65433d76b23efd9f04f5db09f7f2a50c00cc2b35402472c5bcf2512b5",
+          "bytes": 207481
+        }
+      ]
+    },
+    {
+      "flow": "personal trial and lifetime: validation, activation, consumed link, refresh and persisted roles",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 6680,
+      "line": 114,
+      "attachments": [
+        {
+          "name": "personal-invitations",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-chromium-wide/attachments/personal-invitations-ddb300397d82c09d0283caf09499680f785651c7.png",
+          "sha256": "8e3664eb981b83b1986572df2a55fcdfe255b98d181849305544cc1c9ed948ba",
+          "bytes": 55042
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-chromium-wide/trace.zip",
+          "sha256": "eb274c990f748b568f2b30424c930d3c0571b23937bb91471a92cc4faa7d9233",
+          "bytes": 206254
+        }
+      ]
+    },
+    {
+      "flow": "personal reissue, copy fallback, revocation and exact expiry do not create users",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5934,
+      "line": 158,
+      "attachments": [
+        {
+          "name": "revoked-expired-personal",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-chromium-wide/attachments/revoked-expired-personal-598c020e50451eb0decc34f7ddcdffce642569dd.png",
+          "sha256": "c6e3515a9be54c0a21e51baa0dec933e0754b91e6f4a6dc60883ca640d859a4a",
+          "bytes": 54942
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-chromium-wide/trace.zip",
+          "sha256": "6fbc6432c4482dad5c3cf394b202abfc5130f07e871af1b2195339b63deeb064",
+          "bytes": 183709
+        }
+      ]
+    },
+    {
+      "flow": "shared link boundaries, validation, cancellation and reload preserve issued metadata",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3258,
+      "line": 187,
+      "attachments": [
+        {
+          "name": "shared-boundary",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-chromium-wide/attachments/shared-boundary-46eed188ac3c85afb20c17cd6ea7367282b55c63.png",
+          "sha256": "c509051b037c9e9e45c4e3bca9fd59dcdc4191984ffd03d9f5b6d0c2e332db08",
+          "bytes": 60907
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-chromium-wide/trace.zip",
+          "sha256": "88ebc4038cde23618636c4f38f4c0e915fe05c1465ad49bc19fe4749c9d2c6e4",
+          "bytes": 197324
+        }
+      ]
+    },
+    {
+      "flow": "shared quota is atomic across recipients; duplicate email, expiry and revocation block without consuming",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 4107,
+      "line": 221,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-shared-quot-f1227-ion-block-without-consuming-chromium-wide/trace.zip",
+          "sha256": "9b89f884c20ef835499b49c3dc0d680dde2620759dbd0bf265bf9b162d62048e",
+          "bytes": 148262
+        }
+      ]
+    },
+    {
+      "flow": "user enable, suspend, revoke sessions and recover preserve history and account access",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 9857,
+      "line": 258,
+      "attachments": [
+        {
+          "name": "managed-user",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-chromium-wide/attachments/managed-user-5019f317fa803d2f506dd3a014f1a42ab1e1bc5e.png",
+          "sha256": "542d1ee7ac6139ad8a6a0f6ca03efd365844e4af715f170dc52e7d53dec260f7",
+          "bytes": 70448
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-chromium-wide/trace.zip",
+          "sha256": "81d924abd2d01c1b1dc715f57d93e6bbe3dad9c8412a08eca034a7c3a3bbae31",
+          "bytes": 322387
+        }
+      ]
+    },
+    {
+      "flow": "lifetime grant/removal respects original trial and paid deadlines and never promotes roles",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2937,
+      "line": 299,
+      "attachments": [
+        {
+          "name": "lifetime-access",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-chromium-wide/attachments/lifetime-access-695888ab24731c55b19b8fa0877402665cbc8247.png",
+          "sha256": "b65845adfda7a2f31976f2ab482a71c3bae35512253d7409e817f62b31c2fc7c",
+          "bytes": 71427
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-chromium-wide/trace.zip",
+          "sha256": "024af6cc6754d4d260c3ac35c29a98302117aa1d442c55a5c60004b6d0222e95",
+          "bytes": 201389
+        }
+      ]
+    },
+    {
+      "flow": "load errors retry; mutation errors keep drafts; two synchronous submits issue only one link",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2093,
+      "line": 319,
+      "attachments": [
+        {
+          "name": "retry-double-submit",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-chromium-wide/attachments/retry-double-submit-cf2a538b477e16d0c9341e483eeb31a8d5fd47cf.png",
+          "sha256": "5e910f20b71674b866971e2b3014ebcf8e47baf9f3cb836620d1ad2707a875e0",
+          "bytes": 60960
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-chromium-wide/trace.zip",
+          "sha256": "252ca8e287b1dabf24a884e697296dc3ece79d7f08ed25e4af7e4dd8d2304ee0",
+          "bytes": 168633
+        }
+      ]
+    },
+    {
+      "flow": "lost issuance response is visible, refresh reveals committed link and reissue recovers it",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3200,
+      "line": 347,
+      "attachments": [
+        {
+          "name": "lost-response-recovery",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-chromium-wide/attachments/lost-response-recovery-456832eeb777cbe09ae85156063b9a35d9cfec81.png",
+          "sha256": "17c6dd97eb41ac20d054b209627084799bce8a8c2d764c05df561b915acd1e5f",
+          "bytes": 79912
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-chromium-wide/trace.zip",
+          "sha256": "721962e1b08fe2d186184219cb1e7add01fb12ffe49b698f35c37fcf14a3f21f",
+          "bytes": 197923
+        }
+      ]
+    },
+    {
+      "flow": "common user denied every admin endpoint and mismatched account headers cannot act",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3128,
+      "line": 371,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-common-user-9a38e--account-headers-cannot-act-chromium-wide/trace.zip",
+          "sha256": "9610b09c589c0eba83ba52099ad4d8d3368a0813de93c0a05a8529c28a36ad10",
+          "bytes": 142524
+        }
+      ]
+    },
+    {
+      "flow": "expired admin session and same-browser account switch remove administration and block stale writes",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 32183,
+      "line": 389,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-expired-adm-2aa2e-tion-and-block-stale-writes-chromium-wide/trace.zip",
+          "sha256": "c097a9e2558f6358506af1d7e415f6b6362ab059bd73124c2fd0121f5ec6f465",
+          "bytes": 229359
+        }
+      ]
+    },
+    {
+      "flow": "admin with expired cloud retains management rights; own lifetime grant resumes cloud writes",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5101,
+      "line": 405,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-admin-with--d987d--grant-resumes-cloud-writes-chromium-wide/trace.zip",
+          "sha256": "6aba40234e4b3792430afc71668e44f681031b3520b45fb4354877dc5fe6f8ee",
+          "bytes": 119485
+        }
+      ]
+    },
+    {
+      "flow": "closing the dialog during a delayed issuance hides its link; token-info outage can retry",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5349,
+      "line": 427,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-closing-the-15c54-token-info-outage-can-retry-chromium-wide/trace.zip",
+          "sha256": "ed2dd497e7367d2f0a78bcb22bd2bb0198f89df01acbaa2ef44c07f6765d14dc",
+          "bytes": 128989
+        }
+      ]
+    },
+    {
+      "flow": "collapsing administration during issuance keeps late personal and shared links hidden",
+      "project": "chromium-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4736,
+      "line": 466,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-collapsing--ecd1d-nal-and-shared-links-hidden-chromium-wide/trace.zip",
+          "sha256": "aed69a72092bd3d858650b9408bce47c99ac73ea59424e0473f099275c2a0039",
+          "bytes": 118256
+        }
+      ]
+    },
+    {
+      "flow": "inventory: account states, empty shared list, self protection and mobile layout",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 2607,
+      "line": 95,
+      "attachments": [
+        {
+          "name": "account-states",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-desktop/attachments/account-states-8d726776f62f5077501228cb608859d9bdb489ca.png",
+          "sha256": "f18c03ac5c8ca5799bdcf7352e9e053c9d20e80e5ed5a8deec154a9500c06b44",
+          "bytes": 145836
+        },
+        {
+          "name": "invitation-forms",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-desktop/attachments/invitation-forms-c67edaee517e3086be0f57e3a08127a8055d74df.png",
+          "sha256": "050bc628043074e270ec56086c26994173e6ad3c8b083bb1a27520db457c7e3b",
+          "bytes": 144051
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-chromium-desktop/trace.zip",
+          "sha256": "1d78bee42a61f5734e943ba14d7b3e68be1bff6ddcae11d8130415fa8477ea29",
+          "bytes": 393520
+        }
+      ]
+    },
+    {
+      "flow": "personal trial and lifetime: validation, activation, consumed link, refresh and persisted roles",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 10407,
+      "line": 114,
+      "attachments": [
+        {
+          "name": "personal-invitations",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-chromium-desktop/attachments/personal-invitations-7620bffb2554ba2f32a7351632db2ae6a7992a5e.png",
+          "sha256": "c84e015de6fac3a577b61b81dceb5145cecebb4f552baf8a91fbe9201a9f9d9c",
+          "bytes": 145858
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-chromium-desktop/trace.zip",
+          "sha256": "03b028827c0abf12a988141edf33ba4796f482d51844a94309f7b0ea90cead88",
+          "bytes": 304462
+        }
+      ]
+    },
+    {
+      "flow": "personal reissue, copy fallback, revocation and exact expiry do not create users",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 6881,
+      "line": 158,
+      "attachments": [
+        {
+          "name": "revoked-expired-personal",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-chromium-desktop/attachments/revoked-expired-personal-29b296907654ccaac912dd2aa756b7e9091370cb.png",
+          "sha256": "63903190d4e482cd7c26d5dbeadcdc636169e9b94507950c5ba9ba69e9edcfa4",
+          "bytes": 145854
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-chromium-desktop/trace.zip",
+          "sha256": "f61110a76d3249bc281e62a42cda780de3a53126624c6cfe1955ddd7a77b6c77",
+          "bytes": 279835
+        }
+      ]
+    },
+    {
+      "flow": "shared link boundaries, validation, cancellation and reload preserve issued metadata",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4410,
+      "line": 187,
+      "attachments": [
+        {
+          "name": "shared-boundary",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-chromium-desktop/attachments/shared-boundary-a091a9c67b3763a2797b540a20a5abb8c3f5e9c3.png",
+          "sha256": "3c598f94aaf0afbfeeaec30a8b9cbfbcf89e1cbd2f86818e68349497b0193b73",
+          "bytes": 150093
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-chromium-desktop/trace.zip",
+          "sha256": "5e8ef7e309102b1f74141f25cbc4c5cebf1fbf6371c735d447ec6fe3ffef65f4",
+          "bytes": 289885
+        }
+      ]
+    },
+    {
+      "flow": "shared quota is atomic across recipients; duplicate email, expiry and revocation block without consuming",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 4583,
+      "line": 221,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-shared-quot-f1227-ion-block-without-consuming-chromium-desktop/trace.zip",
+          "sha256": "a8d12c07e2363a5ac9874daae5f302beddce20c8e95fc74e5cb122b4c5f92560",
+          "bytes": 154256
+        }
+      ]
+    },
+    {
+      "flow": "user enable, suspend, revoke sessions and recover preserve history and account access",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 11330,
+      "line": 258,
+      "attachments": [
+        {
+          "name": "managed-user",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-chromium-desktop/attachments/managed-user-bf7fbc153aef56a5044fd95680744d05c51e9ec0.png",
+          "sha256": "6e8f4731050b5a91691ec82dfa57717856cd8652467850027526bf6e35c04203",
+          "bytes": 171487
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-chromium-desktop/trace.zip",
+          "sha256": "710635801ec403e68b6f2b3bdc21aecca67c30fc551260f7f19444bc90b4b140",
+          "bytes": 430497
+        }
+      ]
+    },
+    {
+      "flow": "lifetime grant/removal respects original trial and paid deadlines and never promotes roles",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3597,
+      "line": 299,
+      "attachments": [
+        {
+          "name": "lifetime-access",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-chromium-desktop/attachments/lifetime-access-d65332ec8f221780813437c1f71805b2d51a511a.png",
+          "sha256": "55ccdf3f13dd210c9b222116333d6622a8a2c062d3f74543c26c35829a56a890",
+          "bytes": 178160
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-chromium-desktop/trace.zip",
+          "sha256": "d7241e5c110465312279033a88ab005dc1d7756ff907152badff77ff6a472ad4",
+          "bytes": 313974
+        }
+      ]
+    },
+    {
+      "flow": "load errors retry; mutation errors keep drafts; two synchronous submits issue only one link",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2705,
+      "line": 319,
+      "attachments": [
+        {
+          "name": "retry-double-submit",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-chromium-desktop/attachments/retry-double-submit-05f887c8338f6ae07c2770a28194971b288ef6bb.png",
+          "sha256": "28496a5bdf05a9280ba2b4f0cd246910a153a799ec54ace841dd0b0d21d46fea",
+          "bytes": 151728
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-chromium-desktop/trace.zip",
+          "sha256": "e02539326fe2e1a11469c8bf9aa4d83a493e18c4432384c10d7d4077ca523cd1",
+          "bytes": 265038
+        }
+      ]
+    },
+    {
+      "flow": "lost issuance response is visible, refresh reveals committed link and reissue recovers it",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3575,
+      "line": 347,
+      "attachments": [
+        {
+          "name": "lost-response-recovery",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-chromium-desktop/attachments/lost-response-recovery-1d227d6155c60e7d8a7093023cced777b27b057d.png",
+          "sha256": "3a2fe6049e52bba66c9d1478608eadb8c648d4402e1274843672d2f86bb6be8a",
+          "bytes": 179172
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-chromium-desktop/trace.zip",
+          "sha256": "c09a95bc346608c6d58f0ca46eaa867c7c3ab11947b097c9b1e578d0ef57f6c6",
+          "bytes": 301069
+        }
+      ]
+    },
+    {
+      "flow": "common user denied every admin endpoint and mismatched account headers cannot act",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3591,
+      "line": 371,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-common-user-9a38e--account-headers-cannot-act-chromium-desktop/trace.zip",
+          "sha256": "89c82821b13fed3ee323d79c2a817626b20ff37fcafc861f29058ede4e601cf4",
+          "bytes": 148512
+        }
+      ]
+    },
+    {
+      "flow": "expired admin session and same-browser account switch remove administration and block stale writes",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 32593,
+      "line": 389,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-expired-adm-2aa2e-tion-and-block-stale-writes-chromium-desktop/trace.zip",
+          "sha256": "de723b56541004c6964ae3f426308a4bc949bfe095691d1af970412ac4a25a62",
+          "bytes": 235860
+        }
+      ]
+    },
+    {
+      "flow": "admin with expired cloud retains management rights; own lifetime grant resumes cloud writes",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2684,
+      "line": 405,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-admin-with--d987d--grant-resumes-cloud-writes-chromium-desktop/trace.zip",
+          "sha256": "292da517592ffa090128e3fb743f9721340bb3b36d71305e6c3f19f50b3f93f0",
+          "bytes": 125504
+        }
+      ]
+    },
+    {
+      "flow": "closing the dialog during a delayed issuance hides its link; token-info outage can retry",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3745,
+      "line": 427,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-closing-the-15c54-token-info-outage-can-retry-chromium-desktop/trace.zip",
+          "sha256": "cfd96c19c04cc2dc8446bf2f0817542a28bc8920b9ba80d20beea4c9ba092218",
+          "bytes": 133778
+        }
+      ]
+    },
+    {
+      "flow": "collapsing administration during issuance keeps late personal and shared links hidden",
+      "project": "chromium-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2717,
+      "line": 466,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-collapsing--ecd1d-nal-and-shared-links-hidden-chromium-desktop/trace.zip",
+          "sha256": "7daa4678c19d456aef40b9f761ec17a794ced3c4b5d3db3e357c0e05c6811749",
+          "bytes": 123032
+        }
+      ]
+    },
+    {
+      "flow": "inventory: account states, empty shared list, self protection and mobile layout",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 2865,
+      "line": 95,
+      "attachments": [
+        {
+          "name": "account-states",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-narrow/attachments/account-states-62c9188352de7d38a28bdd482e36bbbb7c09788e.png",
+          "sha256": "90afecb3c4890a0367b7d937084cad9f1fce0614e0a00deb94cdb5f14a4dc993",
+          "bytes": 50289
+        },
+        {
+          "name": "invitation-forms",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-narrow/attachments/invitation-forms-1eae94243d99a82a1298ac5ecac43acef2ba7feb.png",
+          "sha256": "8164d900ecdc75ff522e81ed42734c5fe4417475e073123c0deb5c4bcb9bd548",
+          "bytes": 47701
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-narrow/trace.zip",
+          "sha256": "15327e38aed4e8b0670d29423c6ca435c3de4d4e4a603e931d546dd2c9b2fc0c",
+          "bytes": 196924
+        }
+      ]
+    },
+    {
+      "flow": "personal trial and lifetime: validation, activation, consumed link, refresh and persisted roles",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 7432,
+      "line": 114,
+      "attachments": [
+        {
+          "name": "personal-invitations",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-webkit-narrow/attachments/personal-invitations-b91cb10d4af5d57836e016d37e9c7683f5259bdc.png",
+          "sha256": "4a4fa80a981f29bc54f9b1859050b069eede1f83a421ddfb0a270bbd3e592bd4",
+          "bytes": 50661
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-webkit-narrow/trace.zip",
+          "sha256": "0350512b5e81b1d4cd3cd7d769651de4ce0bd5c7c0dd26f455765d83a72d64b3",
+          "bytes": 202773
+        }
+      ]
+    },
+    {
+      "flow": "personal reissue, copy fallback, revocation and exact expiry do not create users",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4422,
+      "line": 158,
+      "attachments": [
+        {
+          "name": "revoked-expired-personal",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-webkit-narrow/attachments/revoked-expired-personal-162f2a19cc5697106f67424207b71cf6cfc5d3bb.png",
+          "sha256": "4a4fa80a981f29bc54f9b1859050b069eede1f83a421ddfb0a270bbd3e592bd4",
+          "bytes": 50661
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-webkit-narrow/trace.zip",
+          "sha256": "f8de3856b34f45fdd75b04dae9085cdf9e4c8c78b7609f42acb672bdc23466f5",
+          "bytes": 178898
+        }
+      ]
+    },
+    {
+      "flow": "shared link boundaries, validation, cancellation and reload preserve issued metadata",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4053,
+      "line": 187,
+      "attachments": [
+        {
+          "name": "shared-boundary",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-webkit-narrow/attachments/shared-boundary-1bc442713ee8a78f3e92f050d94153941c785959.png",
+          "sha256": "03e3c79bd77a7919caa98aa6a93d3ad045d377b699b84ebc193c7cbc5be64ea1",
+          "bytes": 57079
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-webkit-narrow/trace.zip",
+          "sha256": "2ed122c966184f28e23563cd72c862b28a4b076e553b0770d6ba27654ce2bedb",
+          "bytes": 192553
+        }
+      ]
+    },
+    {
+      "flow": "shared quota is atomic across recipients; duplicate email, expiry and revocation block without consuming",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 4949,
+      "line": 221,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-shared-quot-f1227-ion-block-without-consuming-webkit-narrow/trace.zip",
+          "sha256": "346b93b6e7a5bca58697abfa073e715361a791f390851f09affbd43d8ff4bb7d",
+          "bytes": 143501
+        }
+      ]
+    },
+    {
+      "flow": "user enable, suspend, revoke sessions and recover preserve history and account access",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 12950,
+      "line": 258,
+      "attachments": [
+        {
+          "name": "managed-user",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-webkit-narrow/attachments/managed-user-8de66658565a1a38d0893f67914a5c42b7b6ef7b.png",
+          "sha256": "a19b5bccec8e3463db193107ac89867216ca657be05ad5157d1ce3ac5d831609",
+          "bytes": 58625
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-webkit-narrow/trace.zip",
+          "sha256": "c56d226c70cb170b84178a260ca2caeb1dcd61bde9391a793fc9e426d6e12bfd",
+          "bytes": 306026
+        }
+      ]
+    },
+    {
+      "flow": "lifetime grant/removal respects original trial and paid deadlines and never promotes roles",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4082,
+      "line": 299,
+      "attachments": [
+        {
+          "name": "lifetime-access",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-webkit-narrow/attachments/lifetime-access-9dd26e58d38a39eb803369b4db0e2c1ee9c0f938.png",
+          "sha256": "d68784ab4bc52d4b02e23e5cd2d4619f5d83ce5645aae8ab7c4d24ed74e58b54",
+          "bytes": 62616
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-webkit-narrow/trace.zip",
+          "sha256": "e762a744eb24049dea1feb72c9adedbbe024e76252ae602af89682dd2ea3f5fd",
+          "bytes": 201323
+        }
+      ]
+    },
+    {
+      "flow": "load errors retry; mutation errors keep drafts; two synchronous submits issue only one link",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2591,
+      "line": 319,
+      "attachments": [
+        {
+          "name": "retry-double-submit",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-webkit-narrow/attachments/retry-double-submit-9704b42bc55ac13911bb922afeb88314577a45b5.png",
+          "sha256": "9dc0cd1d3091120537367a28e84f6931e2f2ec92b62e2bae7f3ad80a49772f39",
+          "bytes": 60969
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-webkit-narrow/trace.zip",
+          "sha256": "3eb393d6bbad5f1feb91d2b7582a9aea25673046c5481ed3e377de3da747a193",
+          "bytes": 167422
+        }
+      ]
+    },
+    {
+      "flow": "lost issuance response is visible, refresh reveals committed link and reissue recovers it",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3743,
+      "line": 347,
+      "attachments": [
+        {
+          "name": "lost-response-recovery",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-webkit-narrow/attachments/lost-response-recovery-ab275ca86fb41bd2d03fff190fee0339ea65b20d.png",
+          "sha256": "b23e3dde03fc19b49236f296eddf0a627d1e0f5722ccef034015508154ac2ec3",
+          "bytes": 62015
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-webkit-narrow/trace.zip",
+          "sha256": "c9f29d3d85119cb56382e194618bfaaa55cc26dc9fc55d21e24276e2ec02b295",
+          "bytes": 178702
+        }
+      ]
+    },
+    {
+      "flow": "common user denied every admin endpoint and mismatched account headers cannot act",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3645,
+      "line": 371,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-common-user-9a38e--account-headers-cannot-act-webkit-narrow/trace.zip",
+          "sha256": "be98c478cd2f1f1e0132b2b6c5aafcfcca9a58e1066ce588cd7e5ce44256ea92",
+          "bytes": 136247
+        }
+      ]
+    },
+    {
+      "flow": "expired admin session and same-browser account switch remove administration and block stale writes",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 6430,
+      "line": 389,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-expired-adm-2aa2e-tion-and-block-stale-writes-webkit-narrow/trace.zip",
+          "sha256": "f03a0b57e2386b998d30282b0ac23207186e1e4e78d6038fe31123e28febd16f",
+          "bytes": 232157
+        }
+      ]
+    },
+    {
+      "flow": "admin with expired cloud retains management rights; own lifetime grant resumes cloud writes",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2940,
+      "line": 405,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-admin-with--d987d--grant-resumes-cloud-writes-webkit-narrow/trace.zip",
+          "sha256": "026bbd0a60d4a249c8a0d8071176ab85266b31a17a1205110a6a3ec9d691e284",
+          "bytes": 117177
+        }
+      ]
+    },
+    {
+      "flow": "closing the dialog during a delayed issuance hides its link; token-info outage can retry",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4301,
+      "line": 427,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-closing-the-15c54-token-info-outage-can-retry-webkit-narrow/trace.zip",
+          "sha256": "dd1a1c400bad5ae260933465cfe5cd73cf4828118ba284c8a3905e6c61289aed",
+          "bytes": 124670
+        }
+      ]
+    },
+    {
+      "flow": "collapsing administration during issuance keeps late personal and shared links hidden",
+      "project": "webkit-narrow",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3112,
+      "line": 466,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-collapsing--ecd1d-nal-and-shared-links-hidden-webkit-narrow/trace.zip",
+          "sha256": "26934a0e948a193dd0ba702c6caaec2541cdd90a53fdb366601aa03dea567648",
+          "bytes": 114275
+        }
+      ]
+    },
+    {
+      "flow": "inventory: account states, empty shared list, self protection and mobile layout",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 3058,
+      "line": 95,
+      "attachments": [
+        {
+          "name": "account-states",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-wide/attachments/account-states-a8b47267e8db7ba2128d2ec5cdc03c9c429a9973.png",
+          "sha256": "95c352557b6d467f82cd56ff6cf0a1328fb482e9a1e8b85448914a46366aef59",
+          "bytes": 62786
+        },
+        {
+          "name": "invitation-forms",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-wide/attachments/invitation-forms-f125b843848bae246ac1d4c21f9399ba51647c05.png",
+          "sha256": "9dba50754f2d22eb16a5dc54b57a6f1674504af0257817a5562c7cefe1c6c2e7",
+          "bytes": 55739
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-wide/trace.zip",
+          "sha256": "0842ce75a1ab6249874e965c02b4fee4af6bf02a91e50666b410da3cca0dd5de",
+          "bytes": 215956
+        }
+      ]
+    },
+    {
+      "flow": "personal trial and lifetime: validation, activation, consumed link, refresh and persisted roles",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 7237,
+      "line": 114,
+      "attachments": [
+        {
+          "name": "personal-invitations",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-webkit-wide/attachments/personal-invitations-86af9a530ecbab30c4d3afd5282253d31475094f.png",
+          "sha256": "95c352557b6d467f82cd56ff6cf0a1328fb482e9a1e8b85448914a46366aef59",
+          "bytes": 62786
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-webkit-wide/trace.zip",
+          "sha256": "c683aa1e2c39b5b7fe481fa9217f9ce7de56d720af41cfca954c82f9af91b835",
+          "bytes": 217278
+        }
+      ]
+    },
+    {
+      "flow": "personal reissue, copy fallback, revocation and exact expiry do not create users",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4556,
+      "line": 158,
+      "attachments": [
+        {
+          "name": "revoked-expired-personal",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-webkit-wide/attachments/revoked-expired-personal-aabeac0fabfb94a00a22aa62a11edefd1a9c27d7.png",
+          "sha256": "95c352557b6d467f82cd56ff6cf0a1328fb482e9a1e8b85448914a46366aef59",
+          "bytes": 62786
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-webkit-wide/trace.zip",
+          "sha256": "e822130b2453be685f15a7aa5f6c5d669dcebc65cf042726606fd47c114019c4",
+          "bytes": 192014
+        }
+      ]
+    },
+    {
+      "flow": "shared link boundaries, validation, cancellation and reload preserve issued metadata",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4158,
+      "line": 187,
+      "attachments": [
+        {
+          "name": "shared-boundary",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-webkit-wide/attachments/shared-boundary-3cde4e06f6c845206d6fdd56ede72c5aed9c2407.png",
+          "sha256": "acd721d33b382b5b4706c9c1498d244e10dfd62e826a8b6793a7a1eb98152a0b",
+          "bytes": 68764
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-webkit-wide/trace.zip",
+          "sha256": "5dce27be1981ae7fca4d80f08761f7edf4bc9c8df4c752c90a957c6de608f5e9",
+          "bytes": 203256
+        }
+      ]
+    },
+    {
+      "flow": "shared quota is atomic across recipients; duplicate email, expiry and revocation block without consuming",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 5184,
+      "line": 221,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-shared-quot-f1227-ion-block-without-consuming-webkit-wide/trace.zip",
+          "sha256": "2dbf041f908da012b9116888ab5fad03a45e8950677e64293dafcb8b314f3b3c",
+          "bytes": 144287
+        }
+      ]
+    },
+    {
+      "flow": "user enable, suspend, revoke sessions and recover preserve history and account access",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 12034,
+      "line": 258,
+      "attachments": [
+        {
+          "name": "managed-user",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-webkit-wide/attachments/managed-user-6ba00dd026779db51ce5cf0f683bb9e09627a4f4.png",
+          "sha256": "4e167bc7d530479fefc9fefa48583da20232bb9a5ebd2fd327eaad952bbab464",
+          "bytes": 76186
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-webkit-wide/trace.zip",
+          "sha256": "237127f374aca48804980d14b5035d9aff463c4a6b847d125d562b5ef95d2b7f",
+          "bytes": 326602
+        }
+      ]
+    },
+    {
+      "flow": "lifetime grant/removal respects original trial and paid deadlines and never promotes roles",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4428,
+      "line": 299,
+      "attachments": [
+        {
+          "name": "lifetime-access",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-webkit-wide/attachments/lifetime-access-7e28f7e3b515baa575f021693b692beff7c44a6e.png",
+          "sha256": "fc4ed10fa9c675f3e93a67fad3f4319f25c0849bfd90b93c1f039dbb38039fe6",
+          "bytes": 81217
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-webkit-wide/trace.zip",
+          "sha256": "f9887a8830c0c09bd23f325944104f6e1158b4e7bda1b777cc1bc28687b7183f",
+          "bytes": 225882
+        }
+      ]
+    },
+    {
+      "flow": "load errors retry; mutation errors keep drafts; two synchronous submits issue only one link",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 2824,
+      "line": 319,
+      "attachments": [
+        {
+          "name": "retry-double-submit",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-webkit-wide/attachments/retry-double-submit-14647a67045d5c0cd0f2eab08f9f00cad1bc602c.png",
+          "sha256": "a41d30ff627b5a2531876e79cb842d604ff7134a6ec852c24d574c2e414f11fd",
+          "bytes": 70251
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-webkit-wide/trace.zip",
+          "sha256": "692cd61b507b6626612108c223541ff62ebf7521f80dd7fe4b6cb90a3ed70626",
+          "bytes": 175367
+        }
+      ]
+    },
+    {
+      "flow": "lost issuance response is visible, refresh reveals committed link and reissue recovers it",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4033,
+      "line": 347,
+      "attachments": [
+        {
+          "name": "lost-response-recovery",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-webkit-wide/attachments/lost-response-recovery-7fb1dc00af1e0913ef5c004ecf5cd44c10c976c7.png",
+          "sha256": "bb839fd078afa521660e8d12635a9d4212ec19d966351b6b017881928f98e795",
+          "bytes": 84513
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-webkit-wide/trace.zip",
+          "sha256": "0d3c9c5809d8f910f0e5a21cfddfb550e5496994b8337ef888b6cac782177aaa",
+          "bytes": 201786
+        }
+      ]
+    },
+    {
+      "flow": "common user denied every admin endpoint and mismatched account headers cannot act",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3912,
+      "line": 371,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-common-user-9a38e--account-headers-cannot-act-webkit-wide/trace.zip",
+          "sha256": "56f019c93c822ee6e245dceddb4c867e95f0847b2722039e800935b542fe7380",
+          "bytes": 138443
+        }
+      ]
+    },
+    {
+      "flow": "expired admin session and same-browser account switch remove administration and block stale writes",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 6863,
+      "line": 389,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-expired-adm-2aa2e-tion-and-block-stale-writes-webkit-wide/trace.zip",
+          "sha256": "8d987be5ef9dcdf603d6d5e3cbbdb7ed09a2602bc713978aa29afa0da98d6246",
+          "bytes": 233625
+        }
+      ]
+    },
+    {
+      "flow": "admin with expired cloud retains management rights; own lifetime grant resumes cloud writes",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3016,
+      "line": 405,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-admin-with--d987d--grant-resumes-cloud-writes-webkit-wide/trace.zip",
+          "sha256": "01473754deed663fed0f22b8d08b23582e80bb019907684c95208ed2b5bbb803",
+          "bytes": 120824
+        }
+      ]
+    },
+    {
+      "flow": "closing the dialog during a delayed issuance hides its link; token-info outage can retry",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4363,
+      "line": 427,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-closing-the-15c54-token-info-outage-can-retry-webkit-wide/trace.zip",
+          "sha256": "0c5bdbffd5e2fbac70be5f764ed99823c2b127d9e2c58ecf9a2b2d0db0745133",
+          "bytes": 127579
+        }
+      ]
+    },
+    {
+      "flow": "collapsing administration during issuance keeps late personal and shared links hidden",
+      "project": "webkit-wide",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3405,
+      "line": 466,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-collapsing--ecd1d-nal-and-shared-links-hidden-webkit-wide/trace.zip",
+          "sha256": "0ca5a1867781546c144a5a4ce5ccd2069e6295c2a4b4fff8c3f4066d98006de6",
+          "bytes": 116960
+        }
+      ]
+    },
+    {
+      "flow": "inventory: account states, empty shared list, self protection and mobile layout",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 3703,
+      "line": 95,
+      "attachments": [
+        {
+          "name": "account-states",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-desktop/attachments/account-states-09e758cb1447aba8ad44b07a8b3f229ffe1ee268.png",
+          "sha256": "a77ddb90473a8681206b05664c9376719d62b729232a4f41cab4cc496d9bca97",
+          "bytes": 147570
+        },
+        {
+          "name": "invitation-forms",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-desktop/attachments/invitation-forms-b9d4cf1c841fd773b72e261a7ec9f55f6b868b36.png",
+          "sha256": "660f1076a02345d068f0d66cb5c268b9db09a029f1a304681ef5700159367699",
+          "bytes": 145753
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-inventory-a-19c90-rotection-and-mobile-layout-webkit-desktop/trace.zip",
+          "sha256": "a8f1a2b699d83e3ce6e135ef0b6025bf8f06264386e7a966325ea633aa3a40dc",
+          "bytes": 392188
+        }
+      ]
+    },
+    {
+      "flow": "personal trial and lifetime: validation, activation, consumed link, refresh and persisted roles",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 8365,
+      "line": 114,
+      "attachments": [
+        {
+          "name": "personal-invitations",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-webkit-desktop/attachments/personal-invitations-c0e4f94ea7b0381f3e1689a3d097a1e85ff3f264.png",
+          "sha256": "14f5d408ac6e6b08ce34f1639576b1360f25814900e247f23894446fb411a6b4",
+          "bytes": 147346
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-tr-496be-refresh-and-persisted-roles-webkit-desktop/trace.zip",
+          "sha256": "4e2db9b1d7952f1943fde5a90ba680a87459426384a99160e61fdbd8d05608e7",
+          "bytes": 311416
+        }
+      ]
+    },
+    {
+      "flow": "personal reissue, copy fallback, revocation and exact expiry do not create users",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5698,
+      "line": 158,
+      "attachments": [
+        {
+          "name": "revoked-expired-personal",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-webkit-desktop/attachments/revoked-expired-personal-228cd0996b05d1e8f1114290bf2fbfc22021a8be.png",
+          "sha256": "7ca0fc3ece1fda02c15fd830525fcc7cbef27317f81905ea7dce92ae87d0ce65",
+          "bytes": 147475
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-personal-re-159e5--expiry-do-not-create-users-webkit-desktop/trace.zip",
+          "sha256": "b3c0d75c79c8ccc48c1e4b8a3d2ff76a70a91a464bc4888d2621752f20ab0dfb",
+          "bytes": 284231
+        }
+      ]
+    },
+    {
+      "flow": "shared link boundaries, validation, cancellation and reload preserve issued metadata",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5497,
+      "line": 187,
+      "attachments": [
+        {
+          "name": "shared-boundary",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-webkit-desktop/attachments/shared-boundary-13b6ed98e66f0345c0c8048cd6a26b71255c9cf3.png",
+          "sha256": "3ff75b2f2c39e191b1bb24a29374377a88b73e55b9551d276c4038c9eedd84a4",
+          "bytes": 153417
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-shared-link-ade42-ad-preserve-issued-metadata-webkit-desktop/trace.zip",
+          "sha256": "9cd31999d9f7d5356d570db799591bf4ef20fa46beb721de5960fd772711e242",
+          "bytes": 298649
+        }
+      ]
+    },
+    {
+      "flow": "shared quota is atomic across recipients; duplicate email, expiry and revocation block without consuming",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 6139,
+      "line": 221,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-shared-quot-f1227-ion-block-without-consuming-webkit-desktop/trace.zip",
+          "sha256": "d6b4489ed9b02b7c1dd141506e26845e6474d242be5ef79b494ffa8d36107dfa",
+          "bytes": 154120
+        }
+      ]
+    },
+    {
+      "flow": "user enable, suspend, revoke sessions and recover preserve history and account access",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "affected-final",
+      "revision": "004808d349f3864974e6bf4d246a82a9c93e38b4",
+      "durationMs": 14806,
+      "line": 258,
+      "attachments": [
+        {
+          "name": "managed-user",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-webkit-desktop/attachments/managed-user-75c034006d0b1df3d82c23b6c0f1c54a322d79f7.png",
+          "sha256": "d3aa9bea7db816d5ec915b502771af8ed27f569763aa5881a39926cc95730d8a",
+          "bytes": 172742
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/affected-final/admin-accounts-user-enable-7b53a--history-and-account-access-webkit-desktop/trace.zip",
+          "sha256": "3fb37823a7a30af6ed81c428f48ae95ef3079647359df4473e557d8dbf6aa5d3",
+          "bytes": 431323
+        }
+      ]
+    },
+    {
+      "flow": "lifetime grant/removal respects original trial and paid deadlines and never promotes roles",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5434,
+      "line": 299,
+      "attachments": [
+        {
+          "name": "lifetime-access",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-webkit-desktop/attachments/lifetime-access-9abe2f1e4e27b336e6cf1443a9da2cb415f936df.png",
+          "sha256": "9482ba56d31e3e0355ba4ec3c590a23e477ee048e629951b2deb47b44b281b9e",
+          "bytes": 181348
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lifetime-gr-b323c-es-and-never-promotes-roles-webkit-desktop/trace.zip",
+          "sha256": "4d167fcc1d485eed38dfa131e227c243ffe1ad7b55b004bb12639643c4c076e1",
+          "bytes": 341066
+        }
+      ]
+    },
+    {
+      "flow": "load errors retry; mutation errors keep drafts; two synchronous submits issue only one link",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 3672,
+      "line": 319,
+      "attachments": [
+        {
+          "name": "retry-double-submit",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-webkit-desktop/attachments/retry-double-submit-637b1418114e3f9cd1a8e4c36b31f53d0cfb4ac9.png",
+          "sha256": "fdf241efd14d73dbdfbc81016e89d3bfe116fcb25a663c75d544a12ad1e8ec34",
+          "bytes": 157566
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-load-errors-444b5-submits-issue-only-one-link-webkit-desktop/trace.zip",
+          "sha256": "e4bf3064a50d59e75deb98cde2231ed83f7c7c64483b6e7ea1c97c4a755340dd",
+          "bytes": 270437
+        }
+      ]
+    },
+    {
+      "flow": "lost issuance response is visible, refresh reveals committed link and reissue recovers it",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4863,
+      "line": 347,
+      "attachments": [
+        {
+          "name": "lost-response-recovery",
+          "contentType": "image/png",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-webkit-desktop/attachments/lost-response-recovery-4ee29d51e4bf0420e749ef4fa9cc98ea59602a8a.png",
+          "sha256": "e600834a6bed5ae0f12f1c94a3d77962b67029ca1b94fb149a4093f9691e1462",
+          "bytes": 176642
+        },
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-lost-issuan-47382-ink-and-reissue-recovers-it-webkit-desktop/trace.zip",
+          "sha256": "5af4dcd31278f1d14b18b6fd5fc23c8cb2c6f2d5cecf4bf51bae0f8683f73e07",
+          "bytes": 300486
+        }
+      ]
+    },
+    {
+      "flow": "common user denied every admin endpoint and mismatched account headers cannot act",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4677,
+      "line": 371,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-common-user-9a38e--account-headers-cannot-act-webkit-desktop/trace.zip",
+          "sha256": "428126ec95119e316e1824b3f8598bf2bdb3fe45d94af4f247676819bf875c2f",
+          "bytes": 147434
+        }
+      ]
+    },
+    {
+      "flow": "expired admin session and same-browser account switch remove administration and block stale writes",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 8924,
+      "line": 389,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-expired-adm-2aa2e-tion-and-block-stale-writes-webkit-desktop/trace.zip",
+          "sha256": "35efd1cf1a28679d3b2611bd62ebd3e5c283544fd5772ecd823ada8b48379eb4",
+          "bytes": 247576
+        }
+      ]
+    },
+    {
+      "flow": "admin with expired cloud retains management rights; own lifetime grant resumes cloud writes",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4026,
+      "line": 405,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-admin-with--d987d--grant-resumes-cloud-writes-webkit-desktop/trace.zip",
+          "sha256": "efb38794b550d6394e8d4676219df137569e8e0423d0f57884445fdd90ec6f52",
+          "bytes": 133094
+        }
+      ]
+    },
+    {
+      "flow": "closing the dialog during a delayed issuance hides its link; token-info outage can retry",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 5470,
+      "line": 427,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-closing-the-15c54-token-info-outage-can-retry-webkit-desktop/trace.zip",
+          "sha256": "31f4a64f9ab92d465c7889a358f0a38d56df4c9d8318b3d4bcd15002cd70706a",
+          "bytes": 139437
+        }
+      ]
+    },
+    {
+      "flow": "collapsing administration during issuance keeps late personal and shared links hidden",
+      "project": "webkit-desktop",
+      "status": "PASS",
+      "run": "full",
+      "revision": "cf73bbc607f1439f31f125f02c54e320a7a29bb8",
+      "durationMs": 4586,
+      "line": 466,
+      "attachments": [
+        {
+          "name": "trace",
+          "contentType": "application/zip",
+          "path": "artifacts/b2c-admin/final-ui/admin-accounts-collapsing--ecd1d-nal-and-shared-links-hidden-webkit-desktop/trace.zip",
+          "sha256": "e310efcde1faaba392e41f3efe3f3ad1a62d073df66e622e9ef2f75783577c3b",
+          "bytes": 128605
+        }
+      ]
+    }
+  ],
+  "remainingBlockers": [
+    "Full preview/release gate remains non-green due pre-existing deferred Yoga receipt"
+  ],
+  "remainingProductDefectsInExecutedAdminFlows": [],
+  "notRun": [
+    "Real SMTP/inbox",
+    "External Mercado Pago payments/subscriptions",
+    "Physical phones / iOS Safari",
+    "B2B UI",
+    "3D models/previews/Blender",
+    "Other B2C pages and localization completeness",
+    "Production, remote CI, deploy",
+    "List scale above server limits: users 1000, invitations/share links 200"
+  ],
+  "cleanup": {
+    "remainingAdminFixtureSchemas": 0,
+    "log": "artifacts/b2c-admin/cleanup.log"
+  }
+}

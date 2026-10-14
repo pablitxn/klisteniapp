@@ -1,7 +1,15 @@
 import { b2bClient, createB2BClient, errorMessage } from '@klisteniapp/b2b-client'
 import type { BrandContext } from '@klisteniapp/b2b-contracts'
 import { Field, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+
+function invitationToken() {
+  return (
+    new URLSearchParams(location.search).get('token') ??
+    new URLSearchParams(location.hash.slice(1)).get('token') ??
+    ''
+  )
+}
 
 export function Invitation({
   whiteLabel = false,
@@ -10,19 +18,36 @@ export function Invitation({
   whiteLabel?: boolean
   context?: BrandContext
 }) {
-  const token =
-    new URLSearchParams(location.search).get('token') ??
-    new URLSearchParams(location.hash.slice(1)).get('token') ??
-    ''
+  const [token, setToken] = useState(invitationToken)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [done, setDone] = useState(false)
   const [existing, setExisting] = useState(false)
   const [signedIn, setSignedIn] = useState('')
 
+  useEffect(() => {
+    // Opening another fragment link can keep this document and component alive.
+    const changed = () => {
+      const next = invitationToken()
+      if (next === token) return
+      setToken(next)
+      setDone(false)
+      setExisting(false)
+      setSignedIn('')
+      setError('')
+    }
+    window.addEventListener('hashchange', changed)
+    window.addEventListener('popstate', changed)
+    return () => {
+      window.removeEventListener('hashchange', changed)
+      window.removeEventListener('popstate', changed)
+    }
+  }, [token])
+
   function accepted() {
     setDone(true)
     history.replaceState(null, '', '/app/invite')
+    setToken('')
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -120,7 +145,7 @@ export function Invitation({
     )
   }
 
-  if (existing && !signedIn) {
+  if (existing && !signedIn && !done) {
     return (
       <Shell
         name={context?.theme.brand.name}

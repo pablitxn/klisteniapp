@@ -63,11 +63,30 @@ export class TrainingModule {
     return exercises;
   }
 
-  async createProgram(context: Context, input: ProgramInput): Promise<Program> {
+  async createProgram(context: Context, input: ProgramInput, requestId?: string): Promise<Program> {
     staff(context);
+    const repository = new TrainingRepository(context);
+    if (requestId) {
+      const prior = await repository.program(requestId);
+      if (prior) {
+        const content = { name: prior.name, description: prior.description, steps: prior.steps };
+        if (
+          !isDeepStrictEqual(content, input) ||
+          !(await repository.createdByActor('program.create', requestId))
+        )
+          throw new HttpError(
+            409,
+            'PROGRAM_CREATE_CONFLICT',
+            'Ese envío ya creó una rutina con otros datos. Revisá la lista antes de volver a guardar.',
+          );
+        return prior;
+      }
+    }
     await this.validateProgram(context, input, false);
-    const id = randomUUID();
-    const program = await new TrainingRepository(context).createProgram(id, input);
+    const id = requestId ?? randomUUID();
+    const program = await repository.createProgram(id, input);
+    if (!program)
+      throw new HttpError(409, 'PROGRAM_CREATE_CONFLICT', 'Ese envío ya pertenece a otra rutina.');
     await audit(context, 'program.create', id);
     return program;
   }
@@ -143,10 +162,29 @@ export class TrainingModule {
   async assignProgram(
     context: Context,
     input: { memberId: string; programId: string; version: number },
+    requestId?: string,
   ): Promise<Assignment> {
     staff(context);
     await this.dependencies.memberAccess(context, input.memberId);
     const repository = new TrainingRepository(context);
+    if (requestId) {
+      const prior = (await this.assignments(context, input.memberId)).find(
+        (item) => item.id === requestId,
+      );
+      if (prior) {
+        if (
+          prior.assignedBy !== context.actorId ||
+          prior.program.programId !== input.programId ||
+          prior.program.version !== input.version
+        )
+          throw new HttpError(
+            409,
+            'ASSIGNMENT_CONFLICT',
+            'Ese envío ya pertenece a otra asignación.',
+          );
+        return prior;
+      }
+    }
     const snapshot = await repository.programVersion(input.programId, input.version);
     if (!snapshot) throw missing();
     // Availability changes affect new prescriptions, never the immutable version.
@@ -154,8 +192,9 @@ export class TrainingModule {
     const models = await this.dependencies.equipment.activeModels(context);
     requireAssignableEquipment(snapshot, this.availability(snapshot, models));
 
-    const id = randomUUID();
-    await repository.assignProgram(id, input);
+    const id = requestId ?? randomUUID();
+    if (!(await repository.assignProgram(id, input)))
+      throw new HttpError(409, 'ASSIGNMENT_CONFLICT', 'Ese envío ya pertenece a otra asignación.');
     await audit(context, 'program.assign', id);
     const assignment = (await this.assignments(context, input.memberId)).find(
       (item) => item.id === id,

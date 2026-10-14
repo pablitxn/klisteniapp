@@ -1,0 +1,3448 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-13T11:10:03.456521+00:00",
+  "repository": "pablitxn/klisteniapp",
+  "branch": "qa/b2b-member-20261013-session-b752",
+  "initialSha": "7172041102a8a7029af5fb3e2527a1fa51611a86",
+  "implementationSha": "14fd1b4287c4f209466d5519528b7a5201cc9f8e",
+  "finalHarnessSha": "4856be577b0374a643d93dec52ee204f9c8c9228",
+  "atlasSha": "27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f",
+  "atlasWritten": false,
+  "totals": {
+    "distinctFlowViewportCombinations": 96,
+    "latestPassed": 96,
+    "latestFailed": 0,
+    "blockedProductUiCases": 0,
+    "firstRun": {
+      "startTime": "2026-10-13T10:32:46.482Z",
+      "duration": 1358929.561,
+      "expected": 85,
+      "skipped": 0,
+      "unexpected": 11,
+      "flaky": 0
+    },
+    "affectedFlowsRerun": {
+      "startTime": "2026-10-13T10:57:00.522Z",
+      "duration": 400457.805,
+      "expected": 24,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "additionalFourBranchGroups": {
+      "startTime": "2026-10-13T10:46:49.654Z",
+      "duration": 24270.807,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "methodology": "96-case first run, followed by an explicit 24-case rerun of all four affected flows in all six projects. No automatic retries. Earlier failures retained.",
+  "browserLimits": {
+    "physicalDevices": false,
+    "actualSafari": false,
+    "webkitSelfSignedCertificateAcceptedInTestContext": true,
+    "nativeVoiceAudioVerified": false,
+    "chromiumDownload": "403, used system executable",
+    "webkitDependencies": "Extracted into workspace browser bundle; no system install",
+    "webkitInspectorNetworkDiagnosticsRetained": true
+  },
+  "negativeMonitorControls": [
+    {
+      "case": "monitor negative control error",
+      "project": "member-chromium-narrow",
+      "detectedFaults": [
+        "error: Uncaught Error: QA intentional script fault"
+      ]
+    },
+    {
+      "case": "monitor negative control rejection",
+      "project": "member-chromium-narrow",
+      "detectedFaults": [
+        "unhandledrejection: Error: QA intentional rejection"
+      ]
+    },
+    {
+      "case": "monitor negative control error",
+      "project": "member-webkit-narrow",
+      "detectedFaults": [
+        "error: Error: QA intentional script fault"
+      ]
+    },
+    {
+      "case": "monitor negative control rejection",
+      "project": "member-webkit-narrow",
+      "detectedFaults": [
+        "unhandledrejection: Error: QA intentional rejection"
+      ]
+    }
+  ],
+  "checks": {
+    "lint": "PASS 14/14, format and boundaries PASS",
+    "typecheck": "PASS 14/14 including new QA config",
+    "rootTests": "PASS 23/23",
+    "workspaceTests": "PASS 14/14 tasks; B2C integration group skipped (no B2C DB)",
+    "b2bApi": "PASS 76/76 without skips",
+    "b2bFrontendUnit": "PASS 53/53",
+    "b2bBuild": "PASS",
+    "aggregateCheck": "FAIL at Yoga Extraction receipt is stale; same failure reproduced on initial SHA",
+    "buildAll": "PASS 16/16 tasks, after browser execution finished"
+  },
+  "manualFixture": {
+    "helper": "scripts/b2b-member-review-fixture.mjs",
+    "executedTwice": true,
+    "syntheticOnly": true,
+    "proxyPort": 4344
+  },
+  "cleanup": {
+    "wlSchemasRemaining": 0,
+    "baselineWorktreeRemoved": true
+  },
+  "flows": [
+    {
+      "id": "S01",
+      "flow": "Sedes, borradores, progreso y exportación",
+      "testTitle": "branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 9653,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 9171,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 8863,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 9850,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 8632,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 9228,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S02",
+      "flow": "Invitación nueva, validación, vacíos y rechazo",
+      "testTitle": "invitation validates locally, activates only the invited branch, and rejects reused or wrong-brand links",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 7812,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-invitation-valid-05b02-reused-or-wrong-brand-links-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 66166,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-invitation-valid-05b02-reused-or-wrong-brand-links-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 66148,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-invitation-valid-05b02-reused-or-wrong-brand-links-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 8188,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-invitation-valid-05b02-reused-or-wrong-brand-links-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 67110,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-invitation-valid-05b02-reused-or-wrong-brand-links-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 67650,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-invitation-valid-05b02-reused-or-wrong-brand-links-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S03",
+      "flow": "QR → login contextual y filtro sin actividad",
+      "testTitle": "QR keeps the equipment and branch through contextual login and never records a series",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 3412,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-QR-keeps-the-equ-d7c04--and-never-records-a-series-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 4308,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-QR-keeps-the-equ-d7c04--and-never-records-a-series-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 3740,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-QR-keeps-the-equ-d7c04--and-never-records-a-series-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 4115,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-QR-keeps-the-equ-d7c04--and-never-records-a-series-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 3747,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-QR-keeps-the-equ-d7c04--and-never-records-a-series-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 4064,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-QR-keeps-the-equ-d7c04--and-never-records-a-series-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S04",
+      "flow": "Series, sustitución, validación, volver/recarga/back-forward y parcial",
+      "testTitle": "series, authorized substitution, validation, return, reload and browser history preserve a draft",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 4669,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-series-authorize-07d66-er-history-preserve-a-draft-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 65306,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-series-authorize-07d66-er-history-preserve-a-draft-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 5376,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-series-authorize-07d66-er-history-preserve-a-draft-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 4667,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-series-authorize-07d66-er-history-preserve-a-draft-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 64498,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-series-authorize-07d66-er-history-preserve-a-draft-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 5176,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-series-authorize-07d66-er-history-preserve-a-draft-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S05",
+      "flow": "Segundos/RPE, completa y doble clic",
+      "testTitle": "timed session recovers duration/RPE, rejects incomplete completion and saves once on double click",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 8876,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-timed-session-re-9d61a--saves-once-on-double-click-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 8412,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-timed-session-re-9d61a--saves-once-on-double-click-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 8937,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-timed-session-re-9d61a--saves-once-on-double-click-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 7992,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-timed-session-re-9d61a--saves-once-on-double-click-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 9284,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-timed-session-re-9d61a--saves-once-on-double-click-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 8461,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-timed-session-re-9d61a--saves-once-on-double-click-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S06",
+      "flow": "Respuesta perdida tras commit, recarga y reintento exacto",
+      "testTitle": "committed but lost response retries the identical payload after reload without duplicate history",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 4167,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-committed-but-lo-af040-d-without-duplicate-history-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 3662,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-committed-but-lo-af040-d-without-duplicate-history-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 3730,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-committed-but-lo-af040-d-without-duplicate-history-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 3708,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-committed-but-lo-af040-d-without-duplicate-history-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 3852,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-committed-but-lo-af040-d-without-duplicate-history-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 3740,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-committed-but-lo-af040-d-without-duplicate-history-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S07",
+      "flow": "Offline y 503 sin commit; confirmar envío",
+      "testTitle": "offline editing and uncommitted server failure retain a retryable draft",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 4382,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-offline-editing--99bb8-re-retain-a-retryable-draft-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 2857,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-offline-editing--99bb8-re-retain-a-retryable-draft-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 61823,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-offline-editing--99bb8-re-retain-a-retryable-draft-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 2870,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-offline-editing--99bb8-re-retain-a-retryable-draft-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 3507,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-offline-editing--99bb8-re-retain-a-retryable-draft-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 62163,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-offline-editing--99bb8-re-retain-a-retryable-draft-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S08",
+      "flow": "Sesión expirada, reingreso y otra cuenta",
+      "testTitle": "expired session requires login and the same account recovers its draft while another account cannot see it",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 6269,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 5669,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 5127,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 5199,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-expired-session--f5941-other-account-cannot-see-it-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 5171,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-expired-session--f5941-other-account-cannot-see-it-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 4565,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-expired-session--f5941-other-account-cannot-see-it-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S09",
+      "flow": "Catálogo, búsqueda vacía, carga fallida, rutas y permisos",
+      "testTitle": "movement search, failed initial load, direct routes, back/forward and denied management remain recoverable",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 7106,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-movement-search--45fbd-nagement-remain-recoverable-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 6666,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-movement-search--45fbd-nagement-remain-recoverable-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 5975,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-movement-search--45fbd-nagement-remain-recoverable-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 5940,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-movement-search--45fbd-nagement-remain-recoverable-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 6025,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-movement-search--45fbd-nagement-remain-recoverable-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 5961,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-movement-search--45fbd-nagement-remain-recoverable-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S10",
+      "flow": "QR de sede sin acceso y recuperación",
+      "testTitle": "a QR from an unauthorized branch cannot present another branch routine as using that physical equipment",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 3603,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-QR-from-an-una-fe1b8-ing-that-physical-equipment-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 3923,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-QR-from-an-una-fe1b8-ing-that-physical-equipment-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 2800,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-QR-from-an-una-fe1b8-ing-that-physical-equipment-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 3838,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-QR-from-an-una-fe1b8-ing-that-physical-equipment-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 3725,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-QR-from-an-una-fe1b8-ing-that-physical-equipment-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 3848,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-QR-from-an-una-fe1b8-ing-that-physical-equipment-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S11",
+      "flow": "Voz opcional simulada y texto sin speech API",
+      "testTitle": "optional voice starts only on request, pauses/resumes/stops, and unavailable speech keeps written instructions",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 5035,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": false,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-optional-voice-s-42d89--keeps-written-instructions-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 64633,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": false,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-optional-voice-s-42d89--keeps-written-instructions-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 4936,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": false,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-optional-voice-s-42d89--keeps-written-instructions-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 4463,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": false,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-optional-voice-s-42d89--keeps-written-instructions-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 63847,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": false,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-optional-voice-s-42d89--keeps-written-instructions-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 3876,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": false,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-optional-voice-s-42d89--keeps-written-instructions-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S12",
+      "flow": "Descanso/pausa/reanudar sin registrar series",
+      "testTitle": "rest timer uses elapsed time across pause/resume and completion without checking or persisting sets",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 2450,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-rest-timer-uses--23b4a-checking-or-persisting-sets-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 2584,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-rest-timer-uses--23b4a-checking-or-persisting-sets-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 2462,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-rest-timer-uses--23b4a-checking-or-persisting-sets-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 2585,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-rest-timer-uses--23b4a-checking-or-persisting-sets-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 2485,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-rest-timer-uses--23b4a-checking-or-persisting-sets-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 2455,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-rest-timer-uses--23b4a-checking-or-persisting-sets-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S13",
+      "flow": "Dos marcas, cierre entre pestañas y respuesta privada tardía",
+      "testTitle": "another brand login is rejected; same-brand logout clears other tabs and stale protected responses stay cancelled",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 7181,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-another-brand-lo-4a1a4-ed-responses-stay-cancelled-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 7513,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-another-brand-lo-4a1a4-ed-responses-stay-cancelled-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 65333,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-another-brand-lo-4a1a4-ed-responses-stay-cancelled-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 6748,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-another-brand-lo-4a1a4-ed-responses-stay-cancelled-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 6410,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-another-brand-lo-4a1a4-ed-responses-stay-cancelled-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 65978,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-another-brand-lo-4a1a4-ed-responses-stay-cancelled-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S14",
+      "flow": "Sin almacenamiento local; guardado real",
+      "testTitle": "unavailable local storage warns honestly while a live session still saves to the backend",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 61456,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-unavailable-loca-b44b2--still-saves-to-the-backend-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 2474,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-unavailable-loca-b44b2--still-saves-to-the-backend-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 2555,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-unavailable-loca-b44b2--still-saves-to-the-backend-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 61833,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-unavailable-loca-b44b2--still-saves-to-the-backend-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 2473,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-unavailable-loca-b44b2--still-saves-to-the-backend-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 2318,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-unavailable-loca-b44b2--still-saves-to-the-backend-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S15",
+      "flow": "Guardado tardío después de navegar/reabrir; reintento",
+      "testTitle": "a delayed committed save cannot close a reopened session, and its exact retry remains idempotent",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 2842,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-delayed-commit-6f36d-ct-retry-remains-idempotent-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 2761,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-delayed-commit-6f36d-ct-retry-remains-idempotent-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 2491,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-delayed-commit-6f36d-ct-retry-remains-idempotent-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 2812,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-delayed-commit-6f36d-ct-retry-remains-idempotent-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 2764,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-delayed-commit-6f36d-ct-retry-remains-idempotent-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 3033,
+          "evidenceRun": "full-first-pass",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": null,
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/full-first-pass/results/member-qa-a-delayed-commit-6f36d-ct-retry-remains-idempotent-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "S16",
+      "flow": "Invitación de identidad existente y consentimiento",
+      "testTitle": "an existing B2B identity joins a new brand only through explicit invitation consent",
+      "projects": {
+        "member-chromium-narrow": {
+          "status": "passed",
+          "durationMs": 7234,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-an-existing-B2B--5aacd-explicit-invitation-consent-member-chromium-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-wide": {
+          "status": "passed",
+          "durationMs": 8185,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 1,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-an-existing-B2B--5aacd-explicit-invitation-consent-member-chromium-wide/trace.zip"
+            }
+          ]
+        },
+        "member-chromium-desktop": {
+          "status": "passed",
+          "durationMs": 8621,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "chromium",
+            "version": "154.0.8037.57",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+              "speechApi": true,
+              "speechVoices": 0
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-an-existing-B2B--5aacd-explicit-invitation-consent-member-chromium-desktop/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-narrow": {
+          "status": "passed",
+          "durationMs": 8050,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 320,
+              "height": 740
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 320,
+              "scrollWidth": 320,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-an-existing-B2B--5aacd-explicit-invitation-consent-member-webkit-narrow/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-wide": {
+          "status": "passed",
+          "durationMs": 8379,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "touch": true,
+            "mobileEmulation": true,
+            "state": {
+              "width": 430,
+              "scrollWidth": 430,
+              "deviceScale": 2,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-an-existing-B2B--5aacd-explicit-invitation-consent-member-webkit-wide/trace.zip"
+            }
+          ]
+        },
+        "member-webkit-desktop": {
+          "status": "passed",
+          "durationMs": 8348,
+          "evidenceRun": "rerun",
+          "runtime": {
+            "engine": "webkit",
+            "version": "26.6",
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "touch": false,
+            "mobileEmulation": false,
+            "state": {
+              "width": 1440,
+              "scrollWidth": 1440,
+              "deviceScale": 1,
+              "touchPoints": 0,
+              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+              "speechApi": true,
+              "speechVoices": 4
+            }
+          },
+          "browserDiagnostics": {
+            "inspector": [
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/modules due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/assignments due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/executions due to access control checks."
+              },
+              {
+                "name": "Fetch API cannot load https",
+                "message": "/atlas.b2b.test/api/b2b/orgs/atlas-demo/exercises due to access control checks."
+              }
+            ],
+            "uncaughtScriptFaults": []
+          },
+          "attachments": [
+            {
+              "name": "trace",
+              "path": "/workspace/klisteniapp/.cache/member-qa/results/member-qa-an-existing-B2B--5aacd-explicit-invitation-consent-member-webkit-desktop/trace.zip"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "evidenceArchive": "/workspace/shared/klisteni-b2b-member-qa-2026-10-13.zip",
+  "commandLogs": [
+    "check.log",
+    "baseline-previews.log",
+    "lint-final.log",
+    "typecheck-final.log",
+    "build-all.log",
+    "final-ui.log",
+    "api.log",
+    "four-branches.log",
+    "manual-fixture.log",
+    "manual-fixture-repeat.log",
+    "runtime-probe.log",
+    "monitor-negative.log",
+    "install-pinned.log",
+    "config-types.log",
+    "fixture-lint.log"
+  ],
+  "commands": [
+    "git fetch origin && git merge --ff-only origin/main (both repos)",
+    "pnpm install --frozen-lockfile --ignore-scripts (pnpm 12.7.0)",
+    "pnpm check (FAIL after lint/types/tests, Yoga stale receipt)",
+    "pnpm lint (PASS final)",
+    "pnpm typecheck (PASS final)",
+    "pnpm build (PASS 16/16)",
+    "pnpm test:b2b:api (PASS 76/76)",
+    "playwright test --config playwright.member-qa.config.ts (85/96 first pass)",
+    "playwright test --config playwright.member-qa.config.ts --grep \"invitation validates|QR keeps|expired session|existing B2B identity\" (24/24 rerun)",
+    "node scripts/b2b-member-review-fixture.mjs (PASS twice)",
+    "Initial SHA: node scripts/generate-yoga-previews.mjs --check (FAIL same stale receipt)"
+  ]
+}

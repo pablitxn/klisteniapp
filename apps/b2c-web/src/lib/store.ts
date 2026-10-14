@@ -329,7 +329,22 @@ export const useAppStore = create<AppStore>((set, get) => {
         publish(state)
         set({ syncStatus: 'idle' })
         return null
-      } catch (failure) { return handleConflict(failure, operationToken, userId) }
+      } catch (failure) {
+        // A response may be lost after the server committed this exact snapshot.
+        // Confirm it under the same owner before asking for another copy.
+        if (failure instanceof AccountApiError && failure.status === 409 && current(operationToken, userId)) {
+          try {
+            const confirmed = await accountApi.state(userId)
+            if (!current(operationToken, userId)) return CHANGED_ACCOUNT
+            if (JSON.stringify(confirmed.data.settings.yoga) === JSON.stringify(yoga)) {
+              publish(confirmed)
+              set({ syncStatus: 'idle', accountError: null })
+              return null
+            }
+          } catch { /* Keep the conflict when confirmation is unavailable. */ }
+        }
+        return handleConflict(failure, operationToken, userId)
+      }
     })
     if (error && current(token, owner)) set({ accountError: error })
     return error === null

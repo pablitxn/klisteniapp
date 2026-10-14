@@ -8,12 +8,14 @@ import { useAction } from '../../shared/useAction'
 export function People({
   orgId,
   members,
+  brandMembers,
   admin,
   active,
   reload,
 }: {
   orgId: string
   members: Member[]
+  brandMembers?: Member[]
   admin: boolean
   active: boolean
   reload: () => void
@@ -23,6 +25,8 @@ export function People({
     [inviteUrl, setInviteUrl] = useState(''),
     [query, setQuery] = useState('')
   const action = useAction()
+  const brandWide = Boolean(brandMembers)
+  const roster = brandMembers ?? members
   async function invite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -71,6 +75,12 @@ export function People({
         )}
       </Heading>
       {action.notices}
+      {brandWide && (
+        <p className="small muted">
+          Los roles y las pausas de esta tabla se aplican a toda la marca. Administrá las funciones
+          por sede desde Marca y sedes. El acompañamiento se asigna en la sede actual.
+        </p>
+      )}
       {showInvite && (
         <form className="card form-stack" style={{ marginBottom: 22 }} onSubmit={invite}>
           <h2>Una invitación al movimiento</h2>
@@ -127,14 +137,14 @@ export function People({
             <thead>
               <tr>
                 <th>Persona</th>
-                <th>Rol</th>
+                <th>{brandWide ? 'Rol en la marca' : 'Rol'}</th>
                 <th>Equipo</th>
                 <th>Estado</th>
                 {admin && <th>Acciones</th>}
               </tr>
             </thead>
             <tbody>
-              {members
+              {roster
                 .filter((member) =>
                   `${member.name} ${member.email}`
                     .toLocaleLowerCase()
@@ -151,6 +161,7 @@ export function People({
                       {admin ? (
                         <select
                           aria-label={`Rol de ${member.name}`}
+                          style={{ minWidth: brandWide ? 230 : 170 }}
                           value={member.role}
                           disabled={action.busy || !active}
                           onChange={(event) =>
@@ -162,8 +173,10 @@ export function People({
                             }, 'Rol actualizado.')
                           }
                         >
-                          <option value="member">Socio</option>
-                          <option value="coach">Entrenador</option>
+                          <option value="member">{brandWide ? 'Persona' : 'Socio'}</option>
+                          <option value="coach">
+                            {brandWide ? 'Persona (rol heredado)' : 'Entrenador'}
+                          </option>
                           <option value="admin">Administrador</option>
                         </select>
                       ) : (
@@ -176,7 +189,7 @@ export function People({
                       {member.coachIds
                         .map(
                           (id) =>
-                            members.find((item) => item.userId === id)?.name ??
+                            roster.find((item) => item.userId === id)?.name ??
                             'Profesional asignado',
                         )
                         .join(', ') || '—'}
@@ -200,12 +213,17 @@ export function People({
                                 reload()
                               },
                               member.active
-                                ? 'Acceso al gimnasio pausado.'
-                                : 'Acceso al gimnasio habilitado.',
+                                ? brandWide
+                                  ? 'Acceso a la marca pausado.'
+                                  : 'Acceso al gimnasio pausado.'
+                                : brandWide
+                                  ? 'Acceso a la marca habilitado.'
+                                  : 'Acceso al gimnasio habilitado.',
                             )
                           }
                         >
                           {member.active ? 'Pausar acceso' : 'Habilitar acceso'}
+                          {brandWide ? ' a la marca' : ''}
                         </button>
                       </td>
                     )}

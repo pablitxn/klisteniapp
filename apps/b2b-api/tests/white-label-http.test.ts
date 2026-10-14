@@ -620,4 +620,25 @@ describe('WL domain and branch HTTP authorization', { skip: !databaseUrl }, () =
     assert.equal(history.executions.length, 1);
     assert.equal(history.executions[0].branchId, admin.branch);
   });
+  test('duplicate branch slug is a recoverable conflict and never inserts a second branch', async () => {
+    const admin = await login(
+      'atlas.b2b.test',
+      'admin@atlas.example.test',
+      'atlas-demo-principal',
+      'admin',
+    );
+    const input = { slug: 'qa-duplicate', name: 'QA branch', timezone: 'UTC' };
+    await result(await admin.request('POST', path('/branches'), input), 201);
+    const response = await admin.request('POST', path('/branches'), {
+      ...input,
+      name: 'Other name',
+    });
+    const error = await result<{ code: string }>(response, 409);
+    assert.equal(error.code, 'BRANCH_SLUG_TAKEN');
+    const rows = await pool.query(
+      'SELECT name FROM b2b_branch WHERE organization_id=$1 AND slug=$2',
+      ['atlas-demo', input.slug],
+    );
+    assert.deepEqual(rows.rows, [{ name: input.name }]);
+  });
 });
