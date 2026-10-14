@@ -29,6 +29,8 @@ export default function AdminAccounts({ userId }: { userId: string }) {
   const [campaignUrl, setCampaignUrl] = useState('')
   const [copied, setCopied] = useState(false)
   const loading = useRef(false)
+  const operating = useRef(false)
+  const linkGeneration = useRef(0)
   const linkInput = useRef<HTMLInputElement>(null)
   async function reportError(reason: unknown) {
     setError(reason instanceof Error ? reason.message : "No pudimos completar la operación.")
@@ -50,8 +52,12 @@ export default function AdminAccounts({ userId }: { userId: string }) {
     } catch (reason) { await reportError(reason) }
     finally { loading.current = false; setBusy(false) }
   }
-  async function operate(action: () => Promise<unknown>, success: string) {
-    if (busy) return
+  async function operate(action: (generation: number) => Promise<unknown>, success: string) {
+    // React state updates take effect on the next render. Claim the operation
+    // immediately so two submit events cannot issue and invalidate two links.
+    if (busy || loading.current || operating.current) return
+    operating.current = true
+    const generation = linkGeneration.current
     setBusy(true)
     setError('')
     setMessage('')
@@ -59,33 +65,33 @@ export default function AdminAccounts({ userId }: { userId: string }) {
     setCampaignUrl('')
     setCopied(false)
     try {
-      await action()
+      await action(generation)
       if (useAppStore.getState().user?.id !== userId) return
       setMessage(success)
       await load()
     } catch (reason) { await reportError(reason) }
-    finally { setBusy(false) }
+    finally { operating.current = false; setBusy(false) }
   }
-  function showIssued(result: IssuedInvitation) {
+  function showIssued(result: IssuedInvitation, generation: number) {
     const url = new URL(result.url, window.location.origin)
     const route = result.invitation.kind === 'activation' ? '/account/activate' : '/account/recover'
     if (url.origin !== window.location.origin || url.pathname !== route || !new URLSearchParams(url.hash.slice(1)).get('token')) throw new Error(t("El servidor generó un enlace que no corresponde a esta aplicación."))
-    if (useAppStore.getState().user?.id === userId) setIssued(result)
+    if (useAppStore.getState().user?.id === userId && generation === linkGeneration.current) setIssued(result)
   }
   async function invite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     const data = new FormData(form)
-    await operate(async () => {
+    await operate(async generation => {
       const name = String(data.get('name')).trim()
       const result = await accountApi.invite({ email: String(data.get('email')).trim(), ...(name ? { name } : {}), sendEmail, access: data.get('access') === 'lifetime' ? 'lifetime' : 'trial' }, userId)
-      showIssued(result)
+      showIssued(result, generation)
       form.reset()
     }, "Invitación creada. La persona elegirá su propia contraseña al activar la cuenta.")
   }
   return <details className="account-section admin-accounts" onToggle={event => {
     if (event.currentTarget.open && users === null) void load()
-    if (!event.currentTarget.open) { setIssued(null); setCampaignUrl(''); setCopied(false) }
+    if (!event.currentTarget.open) { linkGeneration.current++; setIssued(null); setCampaignUrl(''); setCopied(false) }
   }}>
     <summary>{t("Usuarios e invitaciones")}</summary>
     <p className="fine-print">{t("Administrá quién puede entrar. Cada persona tiene su propio historial privado.")}</p>
@@ -113,17 +119,18 @@ export default function AdminAccounts({ userId }: { userId: string }) {
         event.preventDefault()
         const form = event.currentTarget
         const values = new FormData(form)
-        await operate(async () => {
+        await operate(async generation => {
           const result = await accountApi.createShareInvitation({ label: String(values.get('label')).trim(), maxUses: Number(values.get('maxUses')), expiresInDays: Number(values.get('expiresInDays')) }, userId)
           const url = new URL(result.url, window.location.origin)
           if (url.origin !== window.location.origin || url.pathname !== '/account/join' || !new URLSearchParams(url.hash.slice(1)).get('token')) throw new Error("El servidor generó un enlace que no corresponde a esta aplicación.")
-          setCampaignUrl(result.url); form.reset()
+          if (useAppStore.getState().user?.id === userId && generation === linkGeneration.current) setCampaignUrl(result.url)
+          form.reset()
         }, "Enlace compartible creado. Cada persona recibe 15 días desde que activa su cuenta.")
       }}>
         <h3>{t("Un enlace para compartir")}</h3>
         <p className="fine-print">{t("Para amigos o una publicación. Cada uso crea una cuenta personal con 15 días gratis; nunca concede acceso vitalicio.")}</p>
         <label>{t("Nombre del enlace")}<input name="label" required maxLength={100} placeholder={t("Amigos o LinkedIn")} disabled={busy} /></label>
-        <div className="form-grid"><label>{t("Cantidad máxima de personas")}<input name="maxUses" type="number" defaultValue={20} min={1} max={1000} required disabled={busy} /></label><label>{t("Vigencia del enlace (días)")}<input name="expiresInDays" type="number" defaultValue={30} min={1} max={90} required disabled={busy} /></label></div>
+        <div className="form-grid"><label>{t("Cantidad máxima de personas")}<input name="maxUses" type="number" defaultValue={20} min={1} max={10000} required disabled={busy} /></label><label>{t("Vigencia del enlace (días)")}<input name="expiresInDays" type="number" defaultValue={30} min={1} max={90} required disabled={busy} /></label></div>
         <button className="secondary-button" disabled={busy}>{t("Crear enlace compartible")}</button>
       </form>
       {campaignUrl && <section className="admin-issued" aria-label={t("Nuevo enlace compartible")}><label>{t("Enlace compartible")}<input readOnly value={campaignUrl} onFocus={event => event.target.select()} /></label><button className="secondary-button" onClick={async () => { try { await navigator.clipboard.writeText(campaignUrl); setCopied(true) } catch { setMessage('Seleccioná el enlace para copiarlo manualmente.') } }}>{copied ? t("Enlace copiado") : t("Copiar enlace compartible")}</button><p className="fine-print">{t("El enlace se muestra una sola vez. Podés revocarlo sin afectar las cuentas ya creadas.")}</p></section>}
@@ -133,13 +140,13 @@ export default function AdminAccounts({ userId }: { userId: string }) {
         <div><strong>{user.name}</strong><p>{user.email}</p><span className={`admin-state ${user.disabled ? 'is-muted' : ''}`}>{user.disabled ? t("Deshabilitado") : user.role === 'admin' ? t("Administrador") : t("Activo")}{user.id === userId ? t(" · tu cuenta") : ''}</span><small>{user.access ? accountAccessLabel(user.access) : t("Acceso pendiente de consulta")}</small></div><div className="admin-actions"><button className="text-button" disabled={busy} onClick={() => void operate(async () => { await accountApi.setLifetime(user.id, user.access?.status !== 'lifetime', userId); if (user.id === userId) await useAppStore.getState().refreshState() }, user.access?.status === 'lifetime' ? "Acceso vitalicio quitado. El acceso depende de su prueba o suscripción vigente." : "Acceso vitalicio otorgado sin cambiar el rol de la persona.")}>{user.access?.status === 'lifetime' ? t("Quitar acceso vitalicio") : t("Otorgar acceso vitalicio")}</button></div>
         {user.id !== userId && <div className="admin-actions">
           <button className="text-button" disabled={busy} onClick={() => void operate(() => accountApi.manageUser(user.id, user.disabled ? 'enable' : 'disable', userId), user.disabled ? "Acceso habilitado. La persona puede iniciar una nueva sesión." : "Acceso deshabilitado y sesiones revocadas.")}>{user.disabled ? t("Habilitar acceso") : t("Deshabilitar acceso")}</button>
-          {!user.disabled && <><button className="text-button" disabled={busy} onClick={() => void operate(() => accountApi.manageUser(user.id, 'revoke-sessions', userId), "Sesiones revocadas. La persona deberá volver a entrar.")}>{t("Cerrar sus sesiones")}</button><button className="text-button" disabled={busy} onClick={() => void operate(async () => showIssued(await accountApi.createRecovery(user.id, sendEmail, userId)), "Enlace de recuperación creado. Los enlaces de recuperación anteriores ya no sirven.")}>{t("Crear recuperación")}</button></>}
+          {!user.disabled && <><button className="text-button" disabled={busy} onClick={() => void operate(() => accountApi.manageUser(user.id, 'revoke-sessions', userId), "Sesiones revocadas. La persona deberá volver a entrar.")}>{t("Cerrar sus sesiones")}</button><button className="text-button" disabled={busy} onClick={() => void operate(async generation => showIssued(await accountApi.createRecovery(user.id, sendEmail, userId), generation), "Enlace de recuperación creado. Los enlaces de recuperación anteriores ya no sirven.")}>{t("Crear recuperación")}</button></>}
         </div>}
       </article>)}</div>
       <h3 className="admin-invitations-heading">{t("Enlaces de acceso")}</h3>
       {invitations.length === 0 ? <p className="fine-print">{t("Todavía no hay invitaciones ni enlaces de recuperación.")}</p> : <div className="admin-list">{invitations.map(invitation => <article className="admin-row" key={invitation.id}>
         <div><strong>{invitation.email}</strong><p>{invitation.kind === 'activation' ? t("Activación") : t("Recuperación")} · {t(invitationStatus[invitation.status])}</p><small>{t("Vence el")} {dateLabel(invitation.expiresAt)}{invitation.deliveryStatus && deliveryStatus[invitation.deliveryStatus] ? ` · ${t(deliveryStatus[invitation.deliveryStatus]!)}` : ''}</small></div>
-        {invitation.status !== 'used' && <div className="admin-actions"><button className="text-button" disabled={busy} onClick={() => void operate(async () => showIssued(await accountApi.reissueInvitation(invitation.id, sendEmail, userId)), "Enlace reemitido. El enlace anterior ya no sirve.")}>{sendEmail ? t("Reemitir y enviar") : t("Reemitir enlace")}</button>{invitation.status === 'pending' && <button className="text-button" disabled={busy} onClick={() => void operate(() => accountApi.revokeInvitation(invitation.id, userId), "Enlace revocado. Ya no se puede utilizar.")}>{t("Revocar enlace")}</button>}</div>}
+        {invitation.status !== 'used' && <div className="admin-actions"><button className="text-button" disabled={busy} onClick={() => void operate(async generation => showIssued(await accountApi.reissueInvitation(invitation.id, sendEmail, userId), generation), "Enlace reemitido. El enlace anterior ya no sirve.")}>{sendEmail ? t("Reemitir y enviar") : t("Reemitir enlace")}</button>{invitation.status === 'pending' && <button className="text-button" disabled={busy} onClick={() => void operate(() => accountApi.revokeInvitation(invitation.id, userId), "Enlace revocado. Ya no se puede utilizar.")}>{t("Revocar enlace")}</button>}</div>}
       </article>)}</div>}
     </>}
     {error && <p role="alert" className="form-error">{t(error)}</p>}
