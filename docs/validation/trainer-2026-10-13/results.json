@@ -1,0 +1,377 @@
+{
+  "baseline": "7172041102a8a7029af5fb3e2527a1fa51611a86",
+  "branch": "qa/b2b-trainer-20261013-cloud",
+  "implementation_commit": "077f60790994b510fe0caa89e1c856dbaa793b77",
+  "atlas_read_only": "27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f",
+  "engines": {
+    "chromium": "154.0.8037.57",
+    "webkit": "26.6 (build2359)",
+    "playwright": "1.63.0"
+  },
+  "viewports": {
+    "C360": [
+      360,
+      800
+    ],
+    "C430": [
+      430,
+      932
+    ],
+    "C1440": [
+      1440,
+      1000
+    ],
+    "W390": [
+      390,
+      844
+    ]
+  },
+  "runs": [
+    {
+      "run": "chromium",
+      "stats": {
+        "startTime": "2026-10-13T10:32:58.267Z",
+        "duration": 666344.3979999999,
+        "expected": 54,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "result_path": ".cache/trainer/chromium/results.json",
+      "result_sha256": "db33d1eed7d75a1dd676b55c73f6a0a3014d3759682806988b8027b54e35530f",
+      "protocol": "https",
+      "runtime": "Cloud host"
+    },
+    {
+      "run": "final-chromium",
+      "stats": {
+        "startTime": "2026-10-13T10:49:46.665Z",
+        "duration": 74446.301,
+        "expected": 12,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "result_path": ".cache/trainer/final-chromium/results.json",
+      "result_sha256": "87a016242d9c94f9defd5867af8707f516eb3999db5d3e47a5916db40e3f6a60",
+      "protocol": "https",
+      "runtime": "Cloud host"
+    },
+    {
+      "run": "final-webkit-http",
+      "stats": {
+        "startTime": "2026-10-13T10:56:37.726Z",
+        "duration": 240166.66,
+        "expected": 20,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "result_path": ".cache/trainer/final-webkit-http/results.json",
+      "result_sha256": "575bb9f11919e5f2a236fb145541b1152d1ab7c37fe2c7b760997ef01d2c1194",
+      "protocol": "http-loopback",
+      "runtime": "Cloud host"
+    },
+    {
+      "run": "webkit",
+      "stats": {
+        "startTime": "2026-10-13T10:34:47.274Z",
+        "duration": 214789.25699999998,
+        "expected": 18,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "result_path": ".cache/trainer/webkit/results.json",
+      "result_sha256": "36d556438713c9cf04d8142b2d913c5830b060f4ad46c1b5a4a6e5acd150d550",
+      "protocol": "https",
+      "runtime": "disposable container, removed"
+    }
+  ],
+  "final_unique_cases": 80,
+  "final_executions": 86,
+  "matrix": [
+    {
+      "case": "T01",
+      "flow": "Navegación, seis secciones, rutas protegidas, reload/back/forward",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T02",
+      "flow": "Dosis por reps/tiempo/RPE, alternativas, orden, v1/v2, historial parcial/completo",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T03",
+      "flow": "Recuperación y cancelación; aislamiento cuenta/sede/función",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T04",
+      "flow": "Edición simultánea en dos pestañas y conflicto real 409",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T05",
+      "flow": "Carga 503/reintento y escritura rechazada sin perder borrador",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T06",
+      "flow": "Seguimiento/socios vacíos y cancelación de asignación",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T07",
+      "flow": "Recursos ajenos, socio no asignado y mutaciones prohibidas",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T08",
+      "flow": "Asignación: respuesta perdida, reload y doble clic sin duplicación",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T09",
+      "flow": "Rutina nueva: respuesta perdida, reload y replay único",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T10",
+      "flow": "Sesión expirada, limpieza de datos y recuperación de copia",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T11",
+      "flow": "Revocación de permiso de sede bloquea guardado y cambia contexto",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T12",
+      "flow": "Revisar/publicar ejercicio; retiro bloquea nueva asignación y preserva snapshot",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T13",
+      "flow": "Revocar acompañamiento oculta datos sin borrar versiones",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T14",
+      "flow": "Servicio pausado conserva lectura y bloquea mutaciones",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T15",
+      "flow": "Respuesta tardía no lleva copia ni notice a otra sede",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T16",
+      "flow": "Autoría/publicación/asignación en dos marcas y cuatro sedes",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T17",
+      "flow": "Imagen: formato inválido, upload persistido, búsqueda y aislamiento",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T18",
+      "flow": "Límites numéricos y doble clic de guardado/publicación",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T19",
+      "flow": "Publicación con respuesta perdida: 409 y v1 sin v2",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    },
+    {
+      "case": "T20",
+      "flow": "Edición con respuesta perdida: recuperación explícita de revisión aceptada",
+      "projects": {
+        "trainer-chromium-narrow": "PASS",
+        "trainer-chromium-wide": "PASS",
+        "trainer-chromium-desktop": "PASS",
+        "trainer-webkit-narrow": "PASS"
+      }
+    }
+  ],
+  "screenshots_sha256": {
+    "docs/validation/trainer-2026-10-13/chromium-wide-alternatives.png": "d4d3905be9e5b109768c8107d156e300245e3e04d9bab0e0ce7ea484347e04fe",
+    "docs/validation/trainer-2026-10-13/chromium-narrow-follow-up.png": "ffa14269606f892cb837353b1a70527b20d6f555c39f75eeef7349781ac1e78a",
+    "docs/validation/trainer-2026-10-13/program-response-loss-before.png": "efefd99294ab1b99767ae8565ba301afb0a062d88b713dc9ec9ab32367057133",
+    "docs/validation/trainer-2026-10-13/chromium-narrow-sur-oeste.png": "cb21d378fd4e4eb3d7f2f7397c1bcf55b7c201d95136facb4338c4161cefe8e6",
+    "docs/validation/trainer-2026-10-13/chromium-narrow-alternatives.png": "ed1e931d0f77b06fa9e1b1b5da1294c30aad3f9039336bef333f3abe7eb4f581",
+    "docs/validation/trainer-2026-10-13/chromium-desktop-follow-up.png": "228efaaa0b1b4a2b2f00b68c86c655b709a9dae69840536265b2b083e91da936",
+    "docs/validation/trainer-2026-10-13/chromium-wide-follow-up.png": "5ce1f9c0571ab579b9b4a767230e172be232b238521f2ff4f97ae5d688deaecd",
+    "docs/validation/trainer-2026-10-13/chromium-desktop-alternatives.png": "5012e868aa99cc5ae468ee1fd7d2f5a9f71d1ddf98981a488165a94c57fb85d1",
+    "docs/validation/trainer-2026-10-13/chromium-wide-sur-oeste.png": "1d413467f764d7129a4b419652cafe305230ccddca141a5dcf759093bdab285b",
+    "docs/validation/trainer-2026-10-13/webkit-narrow-alternatives.png": "0335adeae6891dbe7516126ffacfb8c3edd67b9a39044663c451485cf8a28eff",
+    "docs/validation/trainer-2026-10-13/webkit-narrow-follow-up.png": "d4df05ded76fab66c4e2de082d1d09faecf6c8d654011f2105feb9dab40ea8b4",
+    "docs/validation/trainer-2026-10-13/program-response-loss-after.png": "d0b52f965dbab31bcab15440a04c7dd92d8401787eaa9e68261098c11e2733d3",
+    "docs/validation/trainer-2026-10-13/assignment-response-loss-after.png": "8a1fd6471948aa0ee4dadf78942bdaccc616952d0592f8424132f01a85e07530",
+    "docs/validation/trainer-2026-10-13/manual-demo.png": "65554cf80864d12fa1aa088cdd4fb70f8177a3f6ec37d8d23d04e49871f4d14d",
+    "docs/validation/trainer-2026-10-13/webkit-narrow-sur-oeste.png": "282d56e53d07a3ee19cc22445151cdfd8da121a5009af61c33af929d07d4a74e",
+    "docs/validation/trainer-2026-10-13/chromium-desktop-sur-oeste.png": "48b36bec1dc3dc86c73faf897e8cb9613bff2ce5cdd26bef87f2f8ae84b7e008",
+    "docs/validation/trainer-2026-10-13/assignment-response-loss-before.png": "27616cf97b0cfa44beedcf7c26cf72f5b38a1d677dfe2d5a1d070022a5bb7d31"
+  },
+  "harness_sha256": {
+    "apps/b2c-web/e2e/b2b-trainer.spec.ts": "4a4f7c124610bfe5a6c318b69b3b4fbfbe59ce4e9a2cf8c528b00560afa3bb4a",
+    "apps/b2c-web/playwright.trainer.config.ts": "18a222869ce6cdb8ec41399864194ba8056d05c9895b1815288b6c443be2663e",
+    "scripts/b2b-trainer-e2e-server.mjs": "50990ee53e41d21c5a759525a0a963957b46312e2cf54005a49f3d07420a8905",
+    "scripts/b2b-trainer-demo.mjs": "c258322b122399af44bc85cd3ae82cbc3a0b436df942062a8d59a2142c0cd80a"
+  },
+  "limits": {
+    "webkit_host_tls": "BLOCKED - synthetic CA untrusted; no host trust installation; final UI runs HTTP loopback",
+    "physical_devices": "NOT RUN",
+    "webkit_wide_and_desktop": "NOT RUN",
+    "previews_and_complete_release_gate": "NOT RUN - explicitly deferred"
+  },
+  "trace_integrity": "All trace ZIPs in the four successful runs checked; no corrupted archive.",
+  "checks": {
+    "lint": {
+      "command": "pnpm lint",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/last-lint.log",
+      "sha256": "f5cc92f4013f5c3495e6596a2080e69b400a98ca9e941e844dd85da37ffb35d9"
+    },
+    "types": {
+      "command": "pnpm typecheck",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/closing-types.log",
+      "sha256": "6c35166c3c3409868201be4370636fded440d9ebc73e0c96aa10607badc04eb6"
+    },
+    "qa-types": {
+      "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/qa-final-types.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "config-types": {
+      "command": "tsc --noEmit --strict --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2022 --types node apps/b2c-web/playwright.trainer.config.ts",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/config-types-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests": {
+      "command": "B2B_TEST_DATABASE_URL=[disposable] pnpm test",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/final-tests-with-db.log",
+      "sha256": "eb2e70090cf36c1872383fdd8e17d54f1962cebbf7370899e2bd692bfd9468f6"
+    },
+    "api": {
+      "command": "B2B_TEST_DATABASE_URL=[disposable] pnpm test:b2b:api",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/fix-api.log",
+      "sha256": "29880355f8be1461b7d10230ffa43215efba50f90644e6eff3e706e96d3bed59"
+    },
+    "build": {
+      "command": "pnpm build",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/final-build.log",
+      "sha256": "1b37a36e7fc3fdf257ab3c38c1e6013cbf21e0f03557dc3269ce1b0b7c0f1e66"
+    },
+    "manual-demo": {
+      "command": "TRAINER_CHROMIUM_EXECUTABLE=/usr/bin/chromium node scripts/b2b-trainer-demo.mjs --smoke",
+      "status": "PASS",
+      "path": ".cache/trainer/command-logs/demo-final-smoke.log",
+      "sha256": "7b50fd80fd10fc3823a8f4b43ee3129d1d0d471e9e5a6d25d566e7469eeaff3d"
+    }
+  }
+}

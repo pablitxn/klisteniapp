@@ -57,7 +57,7 @@ async function mockAccount(page: Page, expired = false) {
 async function openYoga(page: Page) {
   await page.goto('/')
   await expect(page.locator('.local-badge')).toContainText(/Sincronizado con tu cuenta|Nube pausada/)
-  await page.getByRole('navigation', { name: 'Navegación principal', exact: true }).getByRole('button', { name: 'Yoga', exact: true }).click()
+  await page.getByRole('navigation', { name: /Navegación (principal|móvil)/ }).getByRole('button', { name: 'Yoga', exact: true }).click()
   await page.getByRole('navigation', { name: 'Secciones de yoga' }).getByRole('button', { name: 'Mis prácticas' }).click()
   await expect(page.getByRole('heading', { name: practice.name, exact: true })).toBeVisible()
 }

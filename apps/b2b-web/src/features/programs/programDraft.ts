@@ -1,6 +1,11 @@
 import { ProgramInputSchema, type Program, type ProgramStep } from '@klisteniapp/b2b-contracts'
 
-export type ProgramDraft = { name: string; description: string; steps: ProgramStep[] }
+export type ProgramDraft = {
+  name: string
+  description: string
+  steps: ProgramStep[]
+  creationId?: string
+}
 
 export function programDraft(program?: Program): ProgramDraft {
   return {
@@ -46,6 +51,8 @@ function isDraftStep(value: unknown): value is ProgramStep {
 export function isProgramDraft(value: unknown): value is ProgramDraft {
   if (!value || typeof value !== 'object') return false
   return (
+    (!('creationId' in value) ||
+      (typeof value.creationId === 'string' && /^[0-9a-f-]{36}$/i.test(value.creationId))) &&
     'name' in value &&
     typeof value.name === 'string' &&
     'description' in value &&
@@ -59,7 +66,11 @@ export function isProgramDraft(value: unknown): value is ProgramDraft {
 }
 
 export function programInput(draft: ProgramDraft) {
-  return ProgramInputSchema.parse(draft)
+  return ProgramInputSchema.parse({
+    name: draft.name,
+    description: draft.description,
+    steps: draft.steps,
+  })
 }
 
 export function newProgramStep(exerciseId: string): ProgramStep {

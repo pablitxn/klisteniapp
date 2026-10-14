@@ -2,7 +2,7 @@ import { ApiError } from '@klisteniapp/b2b-client'
 import type { Exercise, Program, ProgramStep } from '@klisteniapp/b2b-contracts'
 import { useAccountClient } from '@klisteniapp/b2b-react'
 import { Field, prescriptionStepLabel } from '@klisteniapp/b2b-ui'
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Heading } from '../../shared/Heading'
 import { DraftConflict, DraftRecovery, useEditorDraft } from '../../shared/editor/useEditorDraft'
 import { useAction } from '../../shared/useAction'
@@ -35,11 +35,12 @@ export function ProgramEditor({
   const client = useAccountClient()
   const [latest, setLatest] = useState(program)
   const [conflict, setConflict] = useState(false)
+  const creationId = useRef(crypto.randomUUID())
   const local = useEditorDraft(
     orgId,
     'program',
     program?.id ?? 'new',
-    programDraft(program),
+    { ...programDraft(program), ...(!program ? { creationId: creationId.current } : {}) },
     program?.revision ?? null,
     isProgramDraft,
   )
@@ -75,13 +76,15 @@ export function ProgramEditor({
     if (blocked) return
     await action.run(async () => {
       const body = programInput(draft)
+      const requestId = draft.creationId ?? creationId.current
+      if (!program && !draft.creationId) local.change({ ...draft, creationId: requestId })
       try {
         const result = program
           ? await client.programs.update(orgId, program.id, {
               ...body,
               expectedRevision: local.savedRevision(),
             })
-          : await client.programs.create(orgId, body)
+          : await client.programs.create(orgId, body, requestId)
         if (!local.isCurrent()) return
         local.reset(programDraft(result.program), result.program.revision)
         setLatest(result.program)
@@ -104,7 +107,7 @@ export function ProgramEditor({
         title={program ? 'Ajustá el próximo paso.' : 'Una rutina a medida.'}
         description="Definí dosis, descansos y alternativas permitidas para cada movimiento."
       >
-        <button className="button" onClick={onClose}>
+        <button className="button" disabled={action.busy} onClick={onClose}>
           Volver a rutinas
         </button>
       </Heading>

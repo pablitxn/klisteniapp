@@ -33,7 +33,10 @@ export default function Workspace() {
   const selected = access?.branches.find(
     (item) => item.branch.id === branchId && item.roles.includes(workRole as Role),
   )
-  const requestedGym = new URL(href, location.origin).searchParams.get('gym')
+  const requestedUrl = new URL(href, location.origin)
+  const requestedGym = requestedUrl.searchParams.get('gym')
+  const requestedBranch = requestedUrl.searchParams.get('branch')
+  const equipmentContext = requestedUrl.searchParams.get('machine')
   const membership = context
     ? me?.memberships.find((item) => item.organization.id === context.organization.id)
     : orgId
@@ -58,7 +61,11 @@ export default function Workspace() {
 
   function selectContext(id: string, nextRole: Role) {
     if (session.setWorkContext(id, nextRole))
-      navigate(nextRole === 'member' ? '/app' : managementPath())
+      navigate(
+        nextRole === 'member'
+          ? `/app${id === requestedBranch ? requestedUrl.search : ''}`
+          : managementPath(),
+      )
   }
   function selectOrganization(id: string) {
     session.setOrgId(id)
@@ -143,6 +150,44 @@ export default function Workspace() {
     ? workContextKey
     : `${me.user.id}/${membership.organization.id}/${role}`
   const content = () => {
+    if (
+      context &&
+      access &&
+      route.kind === 'member' &&
+      equipmentContext &&
+      requestedBranch &&
+      (requestedBranch !== branchId || role !== 'member')
+    ) {
+      const equipmentBranch = access.branches.find(
+        ({ branch, roles }) =>
+          branch.id === requestedBranch && branch.status === 'active' && roles.includes('member'),
+      )
+      return (
+        <Shell name={name} eyebrow="EL EQUIPO Y TU SEDE" actions={exit}>
+          <Empty
+            title={
+              equipmentBranch
+                ? 'Elegí la sede de este equipo'
+                : 'Tu cuenta no tiene acceso a la sede de este equipo'
+            }
+          >
+            {equipmentBranch ? (
+              <button
+                className="button primary"
+                onClick={() => selectContext(requestedBranch, 'member')}
+              >
+                Abrir mi rutina en {equipmentBranch.branch.name}
+              </button>
+            ) : (
+              <span>Consultá al equipo del gimnasio antes de entrenar en esta sede. </span>
+            )}
+            <a className="button" href="/app">
+              Ver todas mis rutinas
+            </a>
+          </Empty>
+        </Shell>
+      )
+    }
     if (context && access && !selected) {
       if (management && access.brandAdmin)
         return (

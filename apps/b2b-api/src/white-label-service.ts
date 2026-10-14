@@ -89,8 +89,7 @@ export class WhiteLabelService {
         published_version: number;
         website: boolean;
       }>(
-        `SELECT o.id,o.slug,t.published,t.published_version,EXISTS(SELECT 1 FROM b2b_branch b WHERE b.organization_id=o.id AND b.status='active' AND b.public AND b.published IS NOT NULL AND b.published_profile IS NOT NULL
-        AND NOT EXISTS(SELECT 1 FROM b2b_branch_module bm WHERE bm.organization_id=b.organization_id AND bm.branch_id=b.id AND bm.module='website' AND NOT bm.enabled)) website
+        `SELECT o.id,o.slug,t.published,t.published_version,EXISTS(SELECT 1 FROM b2b_website w WHERE w.organization_id=o.id AND w.published IS NOT NULL) website
        FROM b2b_organization o JOIN b2b_theme t ON t.organization_id=o.id WHERE o.id=$1`,
         [domain.organizationId],
       )
@@ -148,7 +147,8 @@ export class WhiteLabelService {
     const row = (
       await c.db.query<BranchRow>(
         `INSERT INTO b2b_branch(id,organization_id,slug,name,address,contact,timezone,opening_hours,status,public,draft)
-       VALUES($1,$2,$3,$4,$5,$6,$7,$8,'active',false,$9) RETURNING *`,
+       VALUES($1,$2,$3,$4,$5,$6,$7,$8,'active',false,$9)
+       ON CONFLICT(organization_id,slug) DO NOTHING RETURNING *`,
         [
           id,
           c.org.id,
@@ -162,6 +162,12 @@ export class WhiteLabelService {
         ],
       )
     ).rows[0];
+    if (!row)
+      throw new HttpError(
+        409,
+        'BRANCH_SLUG_TAKEN',
+        'Ya existe una sede con esa dirección del enlace. Elegí otra.',
+      );
     await audit(c, 'branch.create', id);
     return { branch: branchDTO(row) };
   }
