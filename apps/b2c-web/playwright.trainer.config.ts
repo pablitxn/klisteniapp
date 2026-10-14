@@ -1,18 +1,11 @@
 import { defineConfig } from '@playwright/test'
 import { fileURLToPath } from 'node:url'
-import { readFileSync } from 'node:fs'
-import { createHash, createPublicKey } from 'node:crypto'
 
 const root = fileURLToPath(new URL('../..', import.meta.url))
-const cert = readFileSync(`${root}/.cache/wl/tls/server.crt`)
-const spki = createHash('sha256')
-  .update(createPublicKey(cert).export({ type: 'spki', format: 'der' }))
-  .digest('base64')
 const chromium = {
   ...(process.env.TRAINER_CHROMIUM_EXECUTABLE
     ? { executablePath: process.env.TRAINER_CHROMIUM_EXECUTABLE }
     : {}),
-  args: [`--ignore-certificate-errors-spki-list=${spki}`],
 }
 const results = process.env.TRAINER_RESULTS_ROOT ?? '../../.cache/trainer'
 

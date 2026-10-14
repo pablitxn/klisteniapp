@@ -78,3 +78,30 @@ test('document entry checks the registry before serving HTML and preserves safe 
     }
   } finally { await Promise.all([gateway, upstream].map(server => new Promise(resolve => server.close(resolve)))); }
 });
+
+test('built fixture serves its fixed snapshot after the shared build is replaced', async t => {
+  const { mkdtemp, mkdir, writeFile, cp, rm } = await import('node:fs/promises');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const directory = await mkdtemp(join(tmpdir(), 'klisteni-gateway-snapshot-'));
+  const shared = join(directory, 'shared'), snapshot = join(directory, 'snapshot');
+  await mkdir(join(shared, 'assets'), { recursive: true });
+  await writeFile(join(shared, 'index.html'), '<script src="/assets/old.js"></script>');
+  await writeFile(join(shared, 'assets/old.js'), 'old fixture chunk');
+  await cp(shared, snapshot, { recursive: true });
+  const gateway = createGateway({ built: true, builtDirectory: snapshot, whiteLabel: false });
+  await new Promise(resolve => gateway.listen(0, '127.0.0.1', resolve));
+  t.after(async () => {
+    gateway.closeAllConnections();
+    await new Promise(resolve => gateway.close(resolve));
+    await rm(directory, { recursive: true, force: true });
+  });
+  await rm(shared, { recursive: true });
+  await mkdir(shared);
+  await writeFile(join(shared, 'index.html'), 'new build');
+  const origin = `http://127.0.0.1:${gateway.address().port}`;
+  assert.equal(await (await fetch(`${origin}/manage/people`)).text(), '<script src="/assets/old.js"></script>');
+  const chunk = await fetch(`${origin}/assets/old.js`);
+  assert.equal(chunk.status, 200);
+  assert.equal(await chunk.text(), 'old fixture chunk');
+});
