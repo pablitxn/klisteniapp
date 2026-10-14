@@ -1,7 +1,7 @@
-# English audit: source PR #2 — 2026-10-13
+# English audit: source PR #8 — 2026-10-13
 
-Source branch: `codex/qa-b2c-selfservice-20261013`. Original published QA head:
-`640ec502b0eb09b0675defe910492980afd00709`. This documentation-only update preserves every runtime/test/configuration,
+Source branch: `qa/b2b-brand-admin-20261013`. Original published QA head:
+`a959fceb19a231e121a6355072dc3d0b0bc0505b`. This documentation-only update preserves every runtime/test/configuration,
 model geometry, localization, fixture and raw-evidence file from that source revision.
 The role report retains its exact tested revisions, results, failures/reruns,
 local/HTTPS/physical limits and historical source references. Functional suites
@@ -24,7 +24,7 @@ Repository-authored technical prose is corrected within the reviewed scope and
 classified exceptions below; organization-wide compliance is not claimed.
 
 Executable checks: `git diff --check`, `node --check scripts/check-technical-content.mjs`,
-`node scripts/check-technical-content.mjs --base 640ec502b0eb09b0675defe910492980afd00709` and new commit syntax checks.
+`node scripts/check-technical-content.mjs --base a959fceb19a231e121a6355072dc3d0b0bc0505b` and new commit syntax checks.
 Checks protect changed-path scope/historical 40-character SHAs; they do not prove
 translation accuracy, fluency, numerical meaning, fixture classification or anchor
 rendering. Those need human review. The language worktree's 26 existing root tests
