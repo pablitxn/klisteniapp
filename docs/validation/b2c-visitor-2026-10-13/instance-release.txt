@@ -1,0 +1,164 @@
+
+Running 102 tests using 1 worker
+
+(node:19683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [chromium-narrow] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (10.0s)
+  ✓    2 [chromium-narrow] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (7.8s)
+  ✓    3 [chromium-narrow] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (4.6s)
+  ✓    4 [chromium-narrow] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (5.1s)
+  ✓    5 [chromium-narrow] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (3.3s)
+  ✓    6 [chromium-narrow] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (4.7s)
+  ✓    7 [chromium-narrow] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (2.5s)
+  ✓    8 [chromium-narrow] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (11.0s)
+  ✓    9 [chromium-narrow] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (3.2s)
+  ✓   10 [chromium-narrow] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (3.3s)
+  ✓   11 [chromium-narrow] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (5.3s)
+  ✓   12 [chromium-narrow] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (3.9s)
+  ✓   13 [chromium-narrow] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (2.6s)
+  ✓   14 [chromium-narrow] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (3.3s)
+  ✓   15 [chromium-narrow] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (2.4s)
+  ✘   16 [chromium-narrow] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (12.3s)
+(node:21860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   17 [chromium-narrow] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (3.4s)
+(node:22276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   18 [chromium-mobile] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (5.1s)
+  ✓   19 [chromium-mobile] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (4.5s)
+  ✓   20 [chromium-mobile] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (3.3s)
+  ✓   21 [chromium-mobile] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (2.2s)
+  ✓   22 [chromium-mobile] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (1.9s)
+  ✓   23 [chromium-mobile] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (3.1s)
+  ✓   24 [chromium-mobile] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (2.3s)
+  ✓   25 [chromium-mobile] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (4.9s)
+  ✓   26 [chromium-mobile] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (2.6s)
+  ✓   27 [chromium-mobile] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (2.2s)
+  ✓   28 [chromium-mobile] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (3.7s)
+  ✓   29 [chromium-mobile] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (2.8s)
+  ✓   30 [chromium-mobile] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (2.3s)
+  ✓   31 [chromium-mobile] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (3.0s)
+  ✓   32 [chromium-mobile] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (1.7s)
+  ✓   33 [chromium-mobile] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (3.3s)
+  ✓   34 [chromium-mobile] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (2.4s)
+(node:24124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   35 [chromium-desktop] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (3.7s)
+  ✓   36 [chromium-desktop] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (4.1s)
+  ✓   37 [chromium-desktop] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (2.7s)
+  ✓   38 [chromium-desktop] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (1.8s)
+  ✓   39 [chromium-desktop] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (1.4s)
+  ✓   40 [chromium-desktop] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (2.6s)
+  ✓   41 [chromium-desktop] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (1.7s)
+  ✓   42 [chromium-desktop] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (4.7s)
+  ✓   43 [chromium-desktop] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (2.1s)
+  ✓   44 [chromium-desktop] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (2.1s)
+  ✓   45 [chromium-desktop] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (3.9s)
+  ✓   46 [chromium-desktop] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (3.7s)
+  ✓   47 [chromium-desktop] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (2.4s)
+  ✓   48 [chromium-desktop] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (3.3s)
+  ✓   49 [chromium-desktop] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (2.3s)
+  ✓   50 [chromium-desktop] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (3.5s)
+  ✓   51 [chromium-desktop] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (3.0s)
+(node:25738) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   52 [webkit-narrow] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (5.1s)
+  ✓   53 [webkit-narrow] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (9.5s)
+  ✓   54 [webkit-narrow] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (10.7s)
+  ✓   55 [webkit-narrow] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (9.4s)
+  ✓   56 [webkit-narrow] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (6.8s)
+  ✓   57 [webkit-narrow] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (24.7s)
+  ✓   58 [webkit-narrow] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (16.0s)
+  ✓   59 [webkit-narrow] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (26.5s)
+  ✓   60 [webkit-narrow] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (19.2s)
+  ✓   61 [webkit-narrow] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (13.1s)
+  ✓   62 [webkit-narrow] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (23.1s)
+  ✓   63 [webkit-narrow] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (15.2s)
+  ✓   64 [webkit-narrow] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (10.8s)
+  ✓   65 [webkit-narrow] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (9.5s)
+  ✓   66 [webkit-narrow] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (4.7s)
+  ✓   67 [webkit-narrow] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (8.6s)
+  ✓   68 [webkit-narrow] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (7.0s)
+(node:30493) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   69 [webkit-mobile] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (6.3s)
+  ✓   70 [webkit-mobile] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (11.3s)
+  ✓   71 [webkit-mobile] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (6.1s)
+  ✓   72 [webkit-mobile] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (6.0s)
+  ✓   73 [webkit-mobile] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (4.7s)
+  ✓   74 [webkit-mobile] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (8.2s)
+  ✓   75 [webkit-mobile] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (5.1s)
+  ✓   76 [webkit-mobile] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (8.5s)
+  ✓   77 [webkit-mobile] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (7.5s)
+  ✓   78 [webkit-mobile] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (3.8s)
+  ✓   79 [webkit-mobile] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (8.7s)
+  ✓   80 [webkit-mobile] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (11.7s)
+  ✓   81 [webkit-mobile] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (7.0s)
+  ✓   82 [webkit-mobile] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (7.1s)
+  ✓   83 [webkit-mobile] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (4.7s)
+  ✓   84 [webkit-mobile] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (8.5s)
+  ✓   85 [webkit-mobile] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (7.5s)
+(node:33312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   86 [webkit-desktop] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (7.0s)
+  ✓   87 [webkit-desktop] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (17.5s)
+  ✓   88 [webkit-desktop] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (9.2s)
+  ✓   89 [webkit-desktop] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (8.2s)
+  ✓   90 [webkit-desktop] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (6.9s)
+  ✓   91 [webkit-desktop] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (11.5s)
+  ✓   92 [webkit-desktop] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (9.0s)
+  ✓   93 [webkit-desktop] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (12.4s)
+  ✓   94 [webkit-desktop] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (6.6s)
+  ✓   95 [webkit-desktop] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (5.8s)
+  ✓   96 [webkit-desktop] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (8.7s)
+  ✓   97 [webkit-desktop] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (9.4s)
+  ✓   98 [webkit-desktop] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (9.0s)
+  ✓   99 [webkit-desktop] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (12.4s)
+  ✓  100 [webkit-desktop] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (13.0s)
+  ✓  101 [webkit-desktop] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (23.8s)
+  ✓  102 [webkit-desktop] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (19.5s)
+
+
+  1) [chromium-narrow] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('dialog').getByLabel('¿Cómo te sentís? (opcional)', { exact: true })
+    Expected: "Guardado ficticio con reintento"
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('dialog').getByLabel('¿Cómo te sentís? (opcional)', { exact: true }) with timeout 10000ms
+      - waiting for getByRole('dialog').getByLabel('¿Cómo te sentís? (opcional)', { exact: true })
+
+
+      482 |   await dialog.getByRole('button', { name: 'Guardar registro', exact: true }).click()
+      483 |   await expect(dialog.getByRole('alert')).toBeVisible()
+    > 484 |   await expect(dialog.getByLabel('¿Cómo te sentís? (opcional)', { exact: true })).toHaveValue('Guardado ficticio con reintento')
+          |                                                                                   ^
+      485 |   expect((await readPersonal(page)).settings.yoga.logs).toHaveLength(0)
+      486 |   await page.evaluate(() => (window as unknown as { restoreStorage: () => void }).restoreStorage())
+      487 |   await dialog.getByRole('button', { name: 'Guardar registro', exact: true }).click()
+        at /workspace/klisteniapp/apps/b2c-web/e2e/visitor-local.spec.ts:484:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/instance-release/visitor-local-V16-yoga-bac-4f054-failure-without-duplication-chromium-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../artifacts/visitor-qa/instance-release/visitor-local-V16-yoga-bac-4f054-failure-without-duplication-chromium-narrow/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../artifacts/visitor-qa/instance-release/visitor-local-V16-yoga-bac-4f054-failure-without-duplication-chromium-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../artifacts/visitor-qa/instance-release/visitor-local-V16-yoga-bac-4f054-failure-without-duplication-chromium-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-narrow] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication
+  101 passed (12.3m)
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /workspace/klisteniapp/apps/b2c-web

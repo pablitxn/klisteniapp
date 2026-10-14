@@ -1,0 +1,605 @@
+• turbo 2.11.3
+
+   • Packages in scope: @klisteniapp/anatomy-viewer, @klisteniapp/b2b-api, @klisteniapp/b2b-client, @klisteniapp/b2b-contracts, @klisteniapp/b2b-domain, @klisteniapp/b2b-react, @klisteniapp/b2b-ui, @klisteniapp/b2b-web, @klisteniapp/b2c-api, @klisteniapp/b2c-web, @klisteniapp/catalog-base, @klisteniapp/geometry, @klisteniapp/model-assets, @klisteniapp/scene-schema
+   • Running test in 14 packages
+   • Remote caching disabled
+
+@klisteniapp/b2c-api:test: cache bypass, force executing 1146bd9587e07e79
+@klisteniapp/b2c-api:test: $ node --test --test-concurrency=1 tests/*.test.ts
+@klisteniapp/b2c-api:test: ✔ entitlements expire at the exact boundary and missing rows fail closed (2.14278ms)
+@klisteniapp/b2c-api:test: ﹣ cloud entitlements and campaign invitations with PostgreSQL (0.347995ms) # SKIP
+@klisteniapp/b2c-api:test: ﹣ account invitations, administration and recovery with PostgreSQL (0.802549ms) # SKIP
+@klisteniapp/b2c-api:test: ✔ billing configuration defaults off and cannot enable live payments (5.919226ms)
+@klisteniapp/b2c-api:test: ✔ monthly and yearly paid periods preserve UTC time and clamp calendar boundaries (0.694624ms)
+@klisteniapp/b2c-api:test: ✔ webhook signatures reject tampering, missing secrets, duplicates and stale timestamps (1.492538ms)
+@klisteniapp/b2c-api:test: ﹣ PostgreSQL subscription billing (0.136651ms) # SKIP
+@klisteniapp/b2c-api:test: ✔ configuration requires explicit credentials, exact origin, and production HTTPS (7.207534ms)
+@klisteniapp/b2c-api:test: ✔ configuration errors never echo secrets (1.033536ms)
+@klisteniapp/b2c-api:test: ✔ SMTP configuration is optional, requires paired secrets and never permits insecure certificate flags (2.315935ms)
+@klisteniapp/b2c-api:test: ✔ subscriptions default off and cannot enable live mode or partially configured sandbox (2.052138ms)
+@klisteniapp/b2c-api:test: ﹣ PostgreSQL account API (0.451318ms) # SKIP
+@klisteniapp/b2c-api:test: ﹣ public password recovery with PostgreSQL and an injected mail transport (0.708318ms) # SKIP
+@klisteniapp/b2c-api:test: ﹣ readiness includes cached auth schema failures after an external migration (3.954241ms) # SKIP
+@klisteniapp/b2c-api:test: ✔ server saves model preferences independently of health and rejects stale replacements (36.813918ms)
+@klisteniapp/b2c-api:test: ✔ server legacy settings updates preserve health, language, theme and palette (36.513047ms)
+@klisteniapp/b2c-api:test: ✔ server display saves reject stale revisions before changing any personal settings (1.868362ms)
+@klisteniapp/b2c-api:test: ✔ yoga request requires bounded valid data and an explicit revision (6.645556ms)
+@klisteniapp/b2c-api:test: ✔ settings preserve omitted yoga and reject stale revisions or rewritten snapshots (23.18651ms)
+@klisteniapp/b2c-api:test: ✔ observation imports merge logs idempotently and restore practices only on explicit settings imports (0.859156ms)
+@klisteniapp/b2c-api:test: ✔ the unpaid deletion exception admits only subsets of unchanged yoga data (0.631884ms)
+@klisteniapp/b2c-api:test: ✔ repository yoga writes permit expired deletion and report stale retries before checking access (2.856351ms)
+@klisteniapp/b2c-api:test: ✔ repository imports merge yoga observations without settings and legacy restores preserve the existing library (3.301113ms)
+@klisteniapp/b2c-api:test: ℹ tests 18
+@klisteniapp/b2c-api:test: ℹ suites 5
+@klisteniapp/b2c-api:test: ℹ pass 17
+@klisteniapp/b2c-api:test: ℹ fail 0
+@klisteniapp/b2c-api:test: ℹ cancelled 0
+@klisteniapp/b2c-api:test: ℹ skipped 1
+@klisteniapp/b2c-api:test: ℹ todo 0
+@klisteniapp/b2c-api:test: ℹ duration_ms 9598.131227
+@klisteniapp/model-assets:test: cache hit, replaying logs 2f7df1d113fdb5e7
+@klisteniapp/model-assets:test: $ node --test tests/*.test.ts
+@klisteniapp/model-assets:test: ✔ resource manifest points to distributable files and preserves anatomy provenance (55.396525ms)
+@klisteniapp/model-assets:test: ✔ each application can use local assets or explicitly resolve a deployment base (2.693851ms)
+@klisteniapp/model-assets:test: ✔ dev serving never exposes neighboring package files or path traversal (1.862401ms)
+@klisteniapp/model-assets:test: ℹ tests 3
+@klisteniapp/model-assets:test: ℹ suites 0
+@klisteniapp/model-assets:test: ℹ pass 3
+@klisteniapp/model-assets:test: ℹ fail 0
+@klisteniapp/model-assets:test: ℹ cancelled 0
+@klisteniapp/model-assets:test: ℹ skipped 0
+@klisteniapp/model-assets:test: ℹ todo 0
+@klisteniapp/model-assets:test: ℹ duration_ms 610.09338
+@klisteniapp/b2b-api:test: cache bypass, force executing 96dbf219346823c7
+@klisteniapp/b2b-api:test: $ node --test --test-concurrency=1 tests/*.test.ts
+@klisteniapp/b2b-api:test: ✔ extracted catalogue and equipment modules reject unauthorized writes before touching dependencies (12.364661ms)
+@klisteniapp/b2b-api:test: ✔ B2B requires dedicated configuration and cannot inherit consumer credentials (14.139243ms)
+@klisteniapp/b2b-api:test: ✔ white-label mode requires its own proxy boundary and HTTPS in production (1.918844ms)
+@klisteniapp/b2b-api:test: ✔ strict host normalization rejects ambiguous authority syntax (1.758315ms)
+@klisteniapp/b2b-api:test: ✔ only the authenticated peer can provide a host; ordinary proxy headers cannot override it (1.486368ms)
+@klisteniapp/b2b-api:test: ✔ origins compare exactly with the resolved brand, including duplicate rejection (0.809742ms)
+@klisteniapp/b2b-api:test: ✔ domain registry is consulted for every request and has no default organization (2.340816ms)
+@klisteniapp/b2b-api:test: ✔ canonical URLs come from the verified registry; alias redirects cannot transfer secrets (0.749799ms)
+@klisteniapp/b2b-api:test: ✔ activation evidence requires ownership, exclusive correct DNS and an unexpired certificate (0.265043ms)
+@klisteniapp/b2b-api:test: ﹣ domain lifecycle verifies every stage, revokes immediately and prevents automatic reassignment (0.899405ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ B2B independent PostgreSQL API (0.457591ms) # SKIP
+@klisteniapp/b2b-api:test: ✔ binary media profile rejects type spoofing, corrupt PNG, SVG, oversized dimensions and incomplete containers (5.660805ms)
+@klisteniapp/b2b-api:test: ✔ MP4 and WebM require video container structure and reject external MP4 data references (9.181205ms)
+@klisteniapp/b2b-api:test: ✔ static GLB accepts an embedded triangle and rejects external/data resources, extensions, animation and cyclic nodes (3.074248ms)
+@klisteniapp/b2b-api:test: ✔ uploaded object is immutable, persists across store instances and supports bounded byte ranges (67.861449ms)
+@klisteniapp/b2b-api:test: ✔ failed, interrupted and oversized uploads leave no object or temporary file; symlinks cannot be served (77.238137ms)
+@klisteniapp/b2b-api:test: ﹣ readiness includes cached auth schema failures after an external migration (0.890008ms) # SKIP
+@klisteniapp/b2b-api:test: ✔ routine references are deduplicated across steps without allowing repeated alternatives within one step (17.366047ms)
+@klisteniapp/b2b-api:test: ✔ execution validation accepts complete prescribed and substituted sets without mutating their snapshot (5.773498ms)
+@klisteniapp/b2b-api:test: ✔ execution clock tolerance accepts five minutes but rejects later completion timestamps (1.800676ms)
+@klisteniapp/b2b-api:test: ✔ execution sets must belong to the assigned step and stay inside its prescribed series count (1.000315ms)
+@klisteniapp/b2b-api:test: ✔ substitutions need both snapshot permission and a nonblank reason (0.949062ms)
+@klisteniapp/b2b-api:test: ✔ complete sessions require positive repetitions for every prescribed series in every step (2.499155ms)
+@klisteniapp/b2b-api:test: ✔ assignments accept available alternatives and textual equipment requirements but reject entirely unavailable steps (4.939114ms)
+@klisteniapp/b2b-api:test: ✔ new executions check the equipment of the selected exercise, independently of permitted alternatives (0.732242ms)
+@klisteniapp/b2b-api:test: ✔ training reports aggregate only active member summaries while preserving authorized execution history and member order (1.847681ms)
+@klisteniapp/b2b-api:test: ✔ training authorization rejects members and staff before touching forbidden dependencies (4.974313ms)
+@klisteniapp/b2b-api:test: ﹣ WL revocation, branch publication and capabilities (0.72417ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL domain and branch HTTP authorization (0.56508ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL-1 profile migration freezes existing public metadata without changing historical JSON (1.004381ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL-1 migration preserves legacy IDs, immutable JSON, invitation expiry and Principal-only grants (0.17823ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL-1 composite constraints reject cross-brand branches and cross-branch prescriptions and executions (0.222637ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL-1 empty migration supports legacy writes and explicit scoped membership without privilege expansion (0.085877ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL-1 anomalous execution ownership aborts atomically instead of relabeling history (0.148037ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits (1.264561ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL physical inventory and idempotent batches remain scoped even with identical labels and batch IDs (0.185342ms) # SKIP
+@klisteniapp/b2b-api:test: ﹣ WL prescriptions, coach relations, execution retries and own history preserve branch isolation (0.197651ms) # SKIP
+@klisteniapp/b2b-api:test: ℹ tests 34
+@klisteniapp/b2b-api:test: ℹ suites 3
+@klisteniapp/b2b-api:test: ℹ pass 24
+@klisteniapp/b2b-api:test: ℹ fail 0
+@klisteniapp/b2b-api:test: ℹ cancelled 0
+@klisteniapp/b2b-api:test: ℹ skipped 10
+@klisteniapp/b2b-api:test: ℹ todo 0
+@klisteniapp/b2b-api:test: ℹ duration_ms 9633.783244
+@klisteniapp/scene-schema:test: cache hit, replaying logs 314ac2b966c4aa5f
+@klisteniapp/scene-schema:test: $ node --test tests/*.test.ts
+@klisteniapp/scene-schema:test: ✔ model variants are explicit visual settings and legacy omission stays distinguishable (145.452182ms)
+@klisteniapp/scene-schema:test: ✔ older clients preserve a selected model while explicit selections can replace it (2.073976ms)
+@klisteniapp/scene-schema:test: ✔ planning requires an explicit editorial review without claiming effect equivalence (25.376095ms)
+@klisteniapp/scene-schema:test: ✔ a relation cannot silently carry over dosage or skip target requirements and demand (1.377132ms)
+@klisteniapp/scene-schema:test: ✔ relations resolve only canonical exercise IDs and are unambiguous per destination (0.756717ms)
+@klisteniapp/scene-schema:test: ✔ planning rejects incompatible roles and ambiguous requirement lists (1.401879ms)
+@klisteniapp/scene-schema:test: ✔ laterality distinguishes alternating repetitions from one side per series (0.542418ms)
+@klisteniapp/scene-schema:test: ✔ different balance demand needs explicit acceptance even when position and support names match (14.913227ms)
+@klisteniapp/scene-schema:test: ✔ alternating and unilateral doses need per-side counting and a swap cannot hide that change (41.99093ms)
+@klisteniapp/scene-schema:test: ✔ legacy account documents remain valid without silently inventing stored health (67.178839ms)
+@klisteniapp/scene-schema:test: ✔ all observations require provenance, actual values and finite bounded units (12.004797ms)
+@klisteniapp/scene-schema:test: ✔ sleep intervals require offsets, paired timestamps and plausible consistent duration (2.383432ms)
+@klisteniapp/scene-schema:test: ✔ supplement logs record user-selected doses with explicit units, not prescriptions (1.344802ms)
+@klisteniapp/scene-schema:test: ✔ duplicate IDs across categories and repeated provider identities are rejected (3.783446ms)
+@klisteniapp/scene-schema:test: ✔ future observations use server instant and recorded source timezone (6.964865ms)
+@klisteniapp/scene-schema:test: ✔ goal targets validate their metric and never infer a target from a profile (3.777221ms)
+@klisteniapp/scene-schema:test: ✔ metric progress sorts observation dates and excludes earlier baselines and future data (1.822683ms)
+@klisteniapp/scene-schema:test: ✔ sleep goals aggregate night and nap duration by observation date (3.97021ms)
+@klisteniapp/scene-schema:test: ✔ overlapping or untimed sleep sources cannot inflate daily summaries or earn a goal (4.482ms)
+@klisteniapp/scene-schema:test: ✔ weekly training goals count distinct days of this calendar week only (0.568695ms)
+@klisteniapp/scene-schema:test: ✔ the cumulative health limit counts UTF-8 bytes and leaves room below the request limit (365.419765ms)
+@klisteniapp/scene-schema:test: ✔ legacy personal backups remain valid and optional display choices are validated (36.806709ms)
+@klisteniapp/scene-schema:test: ✔ older clients cannot erase health or display choices by omitting optional settings (0.983951ms)
+@klisteniapp/scene-schema:test: ✔ new accounts have empty history and six no-equipment exercises without an invented plan (4.331304ms)
+@klisteniapp/scene-schema:test: ✔ account settings reject unsupported zones, missing references and duplicate identifiers (13.975424ms)
+@klisteniapp/scene-schema:test: ✔ week plans require valid Monday dates and unique weekdays (1.050092ms)
+@klisteniapp/scene-schema:test: ✔ new logs preserve the routine snapshot and tracking zone while accepting old v1 logs (37.608264ms)
+@klisteniapp/scene-schema:test: ✔ tracking dates are independent of the device zone and stable across DST transitions (9.296906ms)
+@klisteniapp/scene-schema:test: ✔ calendar weeks cross DST, month and year boundaries without 24-hour arithmetic (1.229828ms)
+@klisteniapp/scene-schema:test: ✔ later edits cannot erase or rewrite begun plan weeks or backdate a revision (3.078045ms)
+@klisteniapp/scene-schema:test: ✔ a not-yet-effective plan can be corrected without rewriting history (0.440652ms)
+@klisteniapp/scene-schema:test: ✔ rest days and an unfinished current week preserve fulfilled prior weeks (6.810986ms)
+@klisteniapp/scene-schema:test: ✔ plan revisions only affect their effective week and future revisions do not change this week (1.508969ms)
+@klisteniapp/scene-schema:test: ✔ sessions may move within a week but duplicate IDs/days and future logs cannot inflate compliance (5.996871ms)
+@klisteniapp/scene-schema:test: ✔ there is no invented goal or streak before the first plan (0.234875ms)
+@klisteniapp/scene-schema:test: ✔ a saved workout must contain actual completed exercise work (10.8418ms)
+@klisteniapp/scene-schema:test: ✔ unknown exercise ids cannot enter the renderer through an import (0.740624ms)
+@klisteniapp/scene-schema:test: ✔ duplicate ids are rejected across workout and cardio collections (2.723417ms)
+@klisteniapp/scene-schema:test: ✔ cardio accepts omitted distance and rejects invalid duration or distance (1.852082ms)
+@klisteniapp/scene-schema:test: ✔ import rejects unsupported versions and invalid completion timestamps (0.334165ms)
+@klisteniapp/scene-schema:test: ✔ a sequence allows repeated asanas with unique occurrence IDs (8.326641ms)
+@klisteniapp/scene-schema:test: ✔ a partial log counts only completed time, with skipped steps absent and an independent snapshot (33.871344ms)
+@klisteniapp/scene-schema:test: ✔ logs reject unknown, duplicated, reordered, wrong-side and overlong steps (1.047511ms)
+@klisteniapp/scene-schema:test: ✔ yoga rejects impossible dates, invalid zones, unbounded content and duplicate records (14.126744ms)
+@klisteniapp/scene-schema:test: ✔ legacy settings retain absence and cannot erase yoga, while explicit empty data can delete it (10.94621ms)
+@klisteniapp/scene-schema:test: ✔ the cumulative yoga limit counts UTF-8 bytes below the dedicated request body limit (345.64345ms)
+@klisteniapp/scene-schema:test: ℹ tests 46
+@klisteniapp/scene-schema:test: ℹ suites 0
+@klisteniapp/scene-schema:test: ℹ pass 46
+@klisteniapp/scene-schema:test: ℹ fail 0
+@klisteniapp/scene-schema:test: ℹ cancelled 0
+@klisteniapp/scene-schema:test: ℹ skipped 0
+@klisteniapp/scene-schema:test: ℹ todo 0
+@klisteniapp/scene-schema:test: ℹ duration_ms 2239.279144
+@klisteniapp/b2b-contracts:test: cache hit, replaying logs 3a01e477502132b8
+@klisteniapp/b2b-contracts:test: $ node --test tests/*.test.ts
+@klisteniapp/b2b-contracts:test: ✔ untrusted catalog media cannot supply script or protocol-relative URLs (14.664086ms)
+@klisteniapp/b2b-contracts:test: ✔ program steps and executed sets cannot duplicate their identifiers (13.692455ms)
+@klisteniapp/b2b-contracts:test: ✔ request defaults stay optional while current responses require complete nested content (8.867581ms)
+@klisteniapp/b2b-contracts:test: ✔ immutable machine snapshots from before catalog migrations remain readable without weakening current responses (31.983138ms)
+@klisteniapp/b2b-contracts:test: ✔ floor plans require bounded unique unit points and an image, and decode old websites (7.807001ms)
+@klisteniapp/b2b-contracts:test: ✔ prescriptions distinguish timed and repetition sets and keep historical snapshots readable (7.417328ms)
+@klisteniapp/b2b-contracts:test: ✔ actual duration and RPE remain explicit observations and old retries normalize identically (4.207376ms)
+@klisteniapp/b2b-contracts:test: ✔ WL branch grants have an explicit scope and never accept brand administration (14.627465ms)
+@klisteniapp/b2b-contracts:test: ✔ WL theme and branch input allow only supported values and safe media (90.375146ms)
+@klisteniapp/b2b-contracts:test: ✔ WL historical branch adapter copies relational context without modifying original JSON (1.760113ms)
+@klisteniapp/b2b-contracts:test: ℹ tests 10
+@klisteniapp/b2b-contracts:test: ℹ suites 0
+@klisteniapp/b2b-contracts:test: ℹ pass 10
+@klisteniapp/b2b-contracts:test: ℹ fail 0
+@klisteniapp/b2b-contracts:test: ℹ cancelled 0
+@klisteniapp/b2b-contracts:test: ℹ skipped 0
+@klisteniapp/b2b-contracts:test: ℹ todo 0
+@klisteniapp/b2b-contracts:test: ℹ duration_ms 1323.119848
+@klisteniapp/catalog-base:test: cache hit, replaying logs 6a347d3a31f47d81
+@klisteniapp/catalog-base:test: $ node --test tests/*.test.ts
+@klisteniapp/catalog-base:test: ✔ the extracted catalog retains every existing exercise identifier and reviewed planning relation (22.726543ms)
+@klisteniapp/catalog-base:test: ✔ unknown gym or imported IDs do not resolve to a personal catalog exercise (0.30825ms)
+@klisteniapp/catalog-base:test: ℹ tests 2
+@klisteniapp/catalog-base:test: ℹ suites 0
+@klisteniapp/catalog-base:test: ℹ pass 2
+@klisteniapp/catalog-base:test: ℹ fail 0
+@klisteniapp/catalog-base:test: ℹ cancelled 0
+@klisteniapp/catalog-base:test: ℹ skipped 0
+@klisteniapp/catalog-base:test: ℹ todo 0
+@klisteniapp/catalog-base:test: ℹ duration_ms 616.000731
+@klisteniapp/geometry:test: cache hit, replaying logs 3bdf2a48112901fd
+@klisteniapp/geometry:test: $ node --test tests/*.test.ts
+@klisteniapp/geometry:test: ✔ every animation preserves upper/lower limb lengths throughout its cycle (213.31531ms)
+@klisteniapp/geometry:test: ✔ knee push-ups keep the knees supported and head/hip/knee aligned (10.676676ms)
+@klisteniapp/geometry:test: ✔ bridge keeps shoulders and feet supported as the pelvis rises (1.268417ms)
+@klisteniapp/geometry:test: ✔ the full head volume remains above the mat throughout every exercise (59.353863ms)
+@klisteniapp/geometry:test: ✔ dead bug extends opposite arm and leg, and alternates sides (0.465544ms)
+@klisteniapp/geometry:test: ✔ prone W raises the arms a small amount without lifting the torso (0.22592ms)
+@klisteniapp/geometry:test: ✔ calf raises elevate the body without bending the knees further (1.040823ms)
+@klisteniapp/geometry:test: ✔ all cycles close without pose discontinuities (3.122788ms)
+@klisteniapp/geometry:test: ✔ full push-ups pivot a straight body around planted toes with both hands on the mat (0.803851ms)
+@klisteniapp/geometry:test: ✔ pike push-ups descend between fixed hands and toes while retaining high hips and straight legs (1.128419ms)
+@klisteniapp/geometry:test: ✔ reverse lunges plant before lowering, lift the returning foot, and complete both sides (0.418162ms)
+@klisteniapp/geometry:test: ✔ lateral lunges keep a wide planted stance and alternate the bent knee (1.272399ms)
+@klisteniapp/geometry:test: ✔ good mornings hinge backward with a fixed knee bend and planted feet (1.074662ms)
+@klisteniapp/geometry:test: ✔ bird dog alternates opposite limbs while the other hand and knee support the torso (0.250534ms)
+@klisteniapp/geometry:test: ✔ mountain climbers plant both hands and the opposite toes while each knee clears the floor (2.63862ms)
+@klisteniapp/geometry:test: ✔ crunch raises the shoulders without moving the pelvis or feet (0.200287ms)
+@klisteniapp/geometry:test: ✔ alternating movements remain continuous at both side switches (0.490881ms)
+@klisteniapp/geometry:test: ✔ IK handles unreachable targets and collinear bend hints without stretching (0.320727ms)
+@klisteniapp/geometry:test: ✔ short squats reduce depth and paused squats keep an actual still bottom interval (0.260174ms)
+@klisteniapp/geometry:test: ✔ narrow push-up variants keep palms inside shoulder width and retain their support type (12.766893ms)
+@klisteniapp/geometry:test: ✔ heel taps and leg-only quadruped extensions alternate legs without moving either hand (4.957917ms)
+@klisteniapp/geometry:test: ✔ T and Y raises extend the arms in distinct directions with the trunk still (0.234466ms)
+@klisteniapp/geometry:test: ✔ unilateral exercises retain the same supporting leg throughout a set (1.656867ms)
+@klisteniapp/geometry:test: ✔ bridge march keeps the hips elevated and alternates a free foot with a planted foot (0.222547ms)
+@klisteniapp/geometry:test: ✔ expanded movements have coaching phases and visibly distinct paths (0.478626ms)
+@klisteniapp/geometry:test: ✔ bent-knee rows keep both hands on the bar and flat feet planted with flexed knees (3.701683ms)
+@klisteniapp/geometry:test: ✔ sumo squats keep wide feet planted and the knees tracking outward (0.690215ms)
+@klisteniapp/geometry:test: ✔ single-leg deadlifts keep the left foot planted while the right leg counterbalances the hinge (2.893523ms)
+@klisteniapp/geometry:test: ✔ forward lunges plant the advancing foot before lowering and lift it again to return (0.254312ms)
+@klisteniapp/geometry:test: ✔ arm-only supine and quadruped reaches alternate arms with legs and torso still (7.700437ms)
+@klisteniapp/geometry:test: ✔ prone hip extensions lift only the right leg a small amount with the pelvis and arms still (4.844083ms)
+@klisteniapp/geometry:test: ✔ supine marches lift one foot while heel slides keep both heels on the mat (2.772204ms)
+@klisteniapp/geometry:test: ✔ shoulder taps keep wide toes and the other hand planted while reaching the opposite shoulder (1.413656ms)
+@klisteniapp/geometry:test: ℹ tests 33
+@klisteniapp/geometry:test: ℹ suites 0
+@klisteniapp/geometry:test: ℹ pass 33
+@klisteniapp/geometry:test: ℹ fail 0
+@klisteniapp/geometry:test: ℹ cancelled 0
+@klisteniapp/geometry:test: ℹ skipped 0
+@klisteniapp/geometry:test: ℹ todo 0
+@klisteniapp/geometry:test: ℹ duration_ms 688.903946
+@klisteniapp/b2b-client:test: cache hit, replaying logs 01f574600e6961f2
+@klisteniapp/b2b-client:test: $ node --test tests/*.test.ts
+@klisteniapp/b2b-client:test: ✔ the public client API works without a browser or cross-tab notification support (37.769765ms)
+@klisteniapp/b2b-client:test: ✔ named reads validate responses and keep each originating account bound to the request (2.849572ms)
+@klisteniapp/b2b-client:test: ✔ catalog response validation rejects nested invalid media and missing required response fields (11.446566ms)
+@klisteniapp/b2b-client:test: ✔ invalid JSON and unexpected empty successful responses are contract errors, not network errors (2.066493ms)
+@klisteniapp/b2b-client:test: ✔ server conflict and session errors preserve status, code and safe message (9.894156ms)
+@klisteniapp/b2b-client:test: ✔ writes use named route, validated input and the account guard (34.958423ms)
+@klisteniapp/b2b-client:test: ✔ media sends raw bytes with encoded metadata and validates the stored asset (13.547344ms)
+@klisteniapp/b2b-client:test: ✔ transport distinguishes failed connections from aborted deadlines (6.582156ms)
+@klisteniapp/b2b-client:test: ✔ authentication notifies other tabs only when the server changed the session (1.497122ms)
+@klisteniapp/b2b-client:test: ✔ an interrupted response body preserves timeout and connection errors after headers arrive (6.01144ms)
+@klisteniapp/b2b-client:test: ✔ 401 and 403 still revoke protected views when their response body is interrupted (14.170329ms)
+@klisteniapp/b2b-client:test: ✔ cancelling a scoped read preserves sibling requests and account binding (3.506922ms)
+@klisteniapp/b2b-client:test: ✔ an already cancelled scope never sends a request (0.26797ms)
+@klisteniapp/b2b-client:test: ✔ WL client scopes branch and role immutably through account and abort binding (2.914095ms)
+@klisteniapp/b2b-client:test: ✔ WL departed context drops even a successful late response and refuses queued writes (0.640583ms)
+@klisteniapp/b2b-client:test: ✔ WL accepting an invitation through credentials announces the changed session (1.574888ms)
+@klisteniapp/b2b-client:test: ℹ tests 16
+@klisteniapp/b2b-client:test: ℹ suites 0
+@klisteniapp/b2b-client:test: ℹ pass 16
+@klisteniapp/b2b-client:test: ℹ fail 0
+@klisteniapp/b2b-client:test: ℹ cancelled 0
+@klisteniapp/b2b-client:test: ℹ skipped 0
+@klisteniapp/b2b-client:test: ℹ todo 0
+@klisteniapp/b2b-client:test: ℹ duration_ms 930.016723
+@klisteniapp/b2b-domain:test: cache hit, replaying logs 85ccdc069cab2258
+@klisteniapp/b2b-domain:test: $ node --test tests/*.test.ts
+@klisteniapp/b2b-domain:test: ✔ model compatibility includes explicit alternatives, without inferring it from equipment labels (10.12283ms)
+@klisteniapp/b2b-domain:test: ✔ availability distinguishes compatible inventory, textual requirements and bodyweight exercises (0.6379ms)
+@klisteniapp/b2b-domain:test: ✔ assigned snapshot availability follows current inventory while preserving each permitted alternative and historical content (10.68742ms)
+@klisteniapp/b2b-domain:test: ✔ catalog references retain stable order and alternatives must be distinct within their step (6.84971ms)
+@klisteniapp/b2b-domain:test: ✔ editable set references accept permitted alternatives without requiring a reason yet (0.3838ms)
+@klisteniapp/b2b-domain:test: ✔ submitted substitutions require both permission and a reason with stable error categories (0.383119ms)
+@klisteniapp/b2b-domain:test: ✔ completion checks prescribed identities and positive repetitions, not just row counts (3.09593ms)
+@klisteniapp/b2b-domain:test: ✔ valid execution checks preserve both the historical snapshot and the recorded payload (0.392455ms)
+@klisteniapp/b2b-domain:test: ✔ timed completion uses actual positive seconds and cannot change the prescribed unit (1.037982ms)
+@klisteniapp/b2b-domain:test: ℹ tests 9
+@klisteniapp/b2b-domain:test: ℹ suites 0
+@klisteniapp/b2b-domain:test: ℹ pass 9
+@klisteniapp/b2b-domain:test: ℹ fail 0
+@klisteniapp/b2b-domain:test: ℹ cancelled 0
+@klisteniapp/b2b-domain:test: ℹ skipped 0
+@klisteniapp/b2b-domain:test: ℹ todo 0
+@klisteniapp/b2b-domain:test: ℹ duration_ms 641.052615
+@klisteniapp/anatomy-viewer:test: cache hit, replaying logs 81d0c8f15c93cdcc
+@klisteniapp/anatomy-viewer:test: $ node --test tests/*.test.ts
+@klisteniapp/anatomy-viewer:test: ✔ optional equipment accepts local or hosted GLBs without pretending other media are models (9.520655ms)
+@klisteniapp/anatomy-viewer:test: ✔ explicit GLB metadata permits extensionless media without accepting unsafe URL schemes (0.461869ms)
+@klisteniapp/anatomy-viewer:test: ✔ all preserved catalog movements have authored cameras and finite poses (37.606586ms)
+@klisteniapp/anatomy-viewer:test: ✔ unrecognized and equipment-only IDs cannot silently use a fallback animation (0.248732ms)
+@klisteniapp/anatomy-viewer:test: ℹ tests 4
+@klisteniapp/anatomy-viewer:test: ℹ suites 0
+@klisteniapp/anatomy-viewer:test: ℹ pass 4
+@klisteniapp/anatomy-viewer:test: ℹ fail 0
+@klisteniapp/anatomy-viewer:test: ℹ cancelled 0
+@klisteniapp/anatomy-viewer:test: ℹ skipped 0
+@klisteniapp/anatomy-viewer:test: ℹ todo 0
+@klisteniapp/anatomy-viewer:test: ℹ duration_ms 913.496552
+@klisteniapp/b2b-react:test: cache hit, replaying logs 89b4db45214b7615
+@klisteniapp/b2b-react:test: $ node --test tests/*.test.ts
+@klisteniapp/b2b-react:test: ✔ changing data owner clears old data while same-owner refresh preserves the editor (1.240515ms)
+@klisteniapp/b2b-react:test: ✔ late success and rejection cannot replace the latest request or another owner (0.278442ms)
+@klisteniapp/b2b-react:test: ✔ temporary failures retain existing data; authorization loss clears it (0.194487ms)
+@klisteniapp/b2b-react:test: ✔ latest session refresh wins and aborts the superseded probe (1.47216ms)
+@klisteniapp/b2b-react:test: ✔ signout suppresses refresh and a delayed session probe cannot restore identity (0.447891ms)
+@klisteniapp/b2b-react:test: ✔ focus revalidation preserves organization selection, while authentication loss clears it (0.606733ms)
+@klisteniapp/b2b-react:test: ✔ stopping cancels in-flight reads and ignores all subsequent state updates from them (0.320602ms)
+@klisteniapp/b2b-react:test: ✔ failed signout preserves identity and a restart is independent of the old logout (0.435346ms)
+@klisteniapp/b2b-react:test: ✔ WL multiple branch-role contexts require explicit choice and never inherit another role (54.964705ms)
+@klisteniapp/b2b-react:test: ✔ WL revoked and archived branches invalidate selection while a single valid pair opens automatically (1.421985ms)
+@klisteniapp/b2b-react:test: ✔ WL a late session probe cannot undo an explicit context switch (0.874598ms)
+@klisteniapp/b2b-react:test: ✔ WL explicit selection survives navigation only while the new session still authorizes the exact pair (6.768976ms)
+@klisteniapp/b2b-react:test: ℹ tests 12
+@klisteniapp/b2b-react:test: ℹ suites 0
+@klisteniapp/b2b-react:test: ℹ pass 12
+@klisteniapp/b2b-react:test: ℹ fail 0
+@klisteniapp/b2b-react:test: ℹ cancelled 0
+@klisteniapp/b2b-react:test: ℹ skipped 0
+@klisteniapp/b2b-react:test: ℹ todo 0
+@klisteniapp/b2b-react:test: ℹ duration_ms 651.334917
+@klisteniapp/b2c-web:test: cache miss, executing b8f69e4f04e411e5
+@klisteniapp/b2c-web:test: $ node --test test/*.test.ts
+@klisteniapp/b2c-web:test: ✔ account writes send cookie and captured account guard without credentials in local state (135.712196ms)
+@klisteniapp/b2c-web:test: ✔ malformed JSON cannot masquerade as a logged-out session (1.142384ms)
+@klisteniapp/b2c-web:test: ✔ only a valid null JSON session represents anonymous state (0.656618ms)
+@klisteniapp/b2c-web:test: ✔ API preserves authorization failure codes and does not accept invalid personal state (1.251402ms)
+@klisteniapp/b2c-web:test: ✔ public recovery sends only email and accepts the generic response without account data (29.751541ms)
+@klisteniapp/b2c-web:test: ✔ health writes use private account guard and explicit revision, without health in the URL (2.219808ms)
+@klisteniapp/b2c-web:test: ✔ ordinary account settings never resend or replace sensitive health history (4.546611ms)
+@klisteniapp/b2c-web:test: ✔ billing requests pin the account and disabled plans do not imply a payment (2.102291ms)
+@klisteniapp/b2c-web:test: ✔ an anonymous instance exports routine-only settings and restores them locally (74.27337ms)
+@klisteniapp/b2c-web:test: ✔ anonymous instance deletion failures retain the persisted row for retry (3.277264ms)
+@klisteniapp/b2c-web:test: ✔ anonymous replacement of unreadable personal data preserves its recoverable original (4.620867ms)
+@klisteniapp/b2c-web:test: ✔ private account data never replaces demo storage, and logout restores the demo (15.098619ms)
+@klisteniapp/b2c-web:test: ✔ durable pending mutation survives logout and only replays for its owner (47.481605ms)
+@klisteniapp/b2c-web:test: ✔ an old in-flight response cannot populate another account after logout (69.853481ms)
+@klisteniapp/b2c-web:test: ✔ private loads fail closed and keep local demo history out of the account (8.906961ms)
+@klisteniapp/b2c-web:test: ✔ a settings conflict refreshes the canonical state without overwriting it (100.784993ms)
+@klisteniapp/b2c-web:test: ✔ signed-in display updates preserve personal state and use its captured revision (14.425234ms)
+@klisteniapp/b2c-web:test: ✔ a display conflict reports failure and accepts the refreshed server preferences (9.420941ms)
+@klisteniapp/b2c-web:test: ✔ same stable log ID retries without creating another pending record (5.311711ms)
+@klisteniapp/b2c-web:test: ✔ an account-cookie mismatch preserves its queue and closes private state (8.558045ms)
+@klisteniapp/b2c-web:test: ✔ full account imports default to logs only and require explicit settings flag (26.449996ms)
+@klisteniapp/b2c-web:test: ✔ account restore synchronizes the saved palette and keeps it available after logout (37.008684ms)
+@klisteniapp/b2c-web:test: ✔ local-to-account import keeps an explicitly saved palette (98.48722ms)
+@klisteniapp/b2c-web:test: ✔ a rejected operation remains downloadable without blocking later valid writes (16.027717ms)
+@klisteniapp/b2c-web:test: ✔ failed logout hides private state and cannot silently log back in on focus (8.671893ms)
+@klisteniapp/b2c-web:test: ✔ expiration preserves pending cloud changes and lets deletions bypass the paused writes (17.679709ms)
+@klisteniapp/b2c-web:test: ✔ a server 402 keeps the original queued operation recoverable instead of rejecting it (3.705106ms)
+@klisteniapp/b2c-web:test: ✔ only explicit production configuration on the exact hostname enables analytics (1.084523ms)
+@klisteniapp/b2c-web:test: ✔ a visit is reconstructed exclusively from public constants (13.24425ms)
+@klisteniapp/b2c-web:test: ✔ expired, malformed and different-policy choices require a new decision (0.428385ms)
+@klisteniapp/b2c-web:test: ✔ six calendar months clamp month ends instead of extending permission (0.406464ms)
+@klisteniapp/b2c-web:test: ✔ legacy local and account settings default to male without inferring from health sex or shared appearance (118.701041ms)
+@klisteniapp/b2c-web:test: ✔ local model selection survives reload and portable backup restore without changing health or training (44.43974ms)
+@klisteniapp/b2c-web:test: ✔ legacy settings and backups cannot erase the local model while an explicit backup can replace it (24.75632ms)
+@klisteniapp/b2c-web:test: ✔ a failed local model save does not advertise an unpersisted selection (3.860232ms)
+@klisteniapp/b2c-web:test: ✔ the instance local fallback persists the model and local-to-account import carries it explicitly (28.078122ms)
+@klisteniapp/b2c-web:test: ✔ account model saves are revision checked and remain isolated across users and logout (114.023954ms)
+@klisteniapp/b2c-web:test: ✔ a model save conflict adopts the canonical server choice and reports the rejected write (3.006582ms)
+@klisteniapp/b2c-web:test: ✔ the complete anatomy rest pose is an identity deformation for every source vertex (8.131399ms)
+@klisteniapp/b2c-web:test: ✔ all catalog movements retain source shoulder/hip width and every measured limb length (166.601342ms)
+@klisteniapp/b2c-web:test: ✔ every animated bone is rigid: unit scale, no reflection, and finite transforms (102.19869ms)
+@klisteniapp/b2c-web:test: ✔ floor supports do not drift: knee-pushup knees, bridge shoulders and resting feet (3.550445ms)
+@klisteniapp/b2c-web:test: ✔ new floor movements keep their supporting hands, knees and ankles fixed (49.911622ms)
+@klisteniapp/b2c-web:test: ✔ new cycles close and remain continuous between support changes (1214.152144ms)
+@klisteniapp/b2c-web:test: ✔ additional variants preserve fixed supports and unilateral sets never switch their supporting leg (48.185004ms)
+@klisteniapp/b2c-web:test: ✔ expanded movements retain planted supports, fixed tabletop legs and unilateral balance (22.347028ms)
+@klisteniapp/b2c-web:test: ✔ expanded preview cameras frame complete movement cycles with room for source surfaces (98.172875ms)
+@klisteniapp/b2c-web:test: ✔ all skin weights are finite, positive, normalized and point to real bones (8.410487ms)
+@klisteniapp/b2c-web:test: ✔ batching retains source transforms, tendon colors and exact structure picking ranges (5.780996ms)
+@klisteniapp/b2c-web:test: ✔ coincident boundaries of skin territories deform together without changing source surfaces (4.724349ms)
+@klisteniapp/b2c-web:test: ✔ the W moves each source scapula medially with attached humeral heads and returns to rest (38.784785ms)
+@klisteniapp/b2c-web:test: ✔ verified skin T-junctions subdivide existing faces and retain source structure picking (1.553618ms)
+@klisteniapp/b2c-web:test: ✔ small source axillary gaps retain one local deformation without welding or filling geometry (1.914412ms)
+@klisteniapp/b2c-web:test: ✔ male: the actual atlas head surfaces clear the mat and supported head/hands stay at calibrated contact through full cycles (67512.949164ms)
+@klisteniapp/b2c-web:test: ℹ Actual skin minimum head Y in metres across 41–101 phases; mat top Y = -0.002: {"pushup":0.122169,"glute-bridge":0.002,"dead-bug":0.002,"prone-w":0.045418,"row":0.663347,"full-pushup":0.138434,"pike-pushup":0.030733,"bird-dog":0.425084,"mountain-climber":0.527191,"crunch":0.04196,"quarter-squat":1.385228,"paused-squat":1.128935,"knee-narrow-pushup":0.098469,"narrow-pushup":0.138434,"dead-bug-heel-tap":0.002,"quadruped-leg-extension":0.425084,"prone-t-raise":0.045418,"prone-y-raise":0.045418,"split-squat":1.155519,"single-leg-calf-raise":1.554801,"bridge-march":0.002,"single-leg-glute-bridge":0.002,"bent-knee-row":0.403466,"dead-bug-arm-only":0.002,"sumo-squat":1.121956,"single-leg-deadlift":0.894497,"forward-lunge":1.155519,"quadruped-arm-raise":0.425084,"prone-hip-extension":0.029034,"supine-march":0.002,"supine-heel-slide":0.002,"plank-shoulder-tap":0.510161}
+@klisteniapp/b2c-web:test: ℹ Additional support surface ranges in metres: {"quarter-squat foot":[2.7273106325970744e-9,1.596549218356453e-8],"paused-squat foot":[2.727310521574772e-9,1.596549218356453e-8],"knee-narrow-pushup knee":[0.0020259851928938182,0.0025419961358807033],"narrow-pushup foot":[0.0006420244564522837,0.0006421351650063578],"dead-bug-heel-tap heel":[2.7273105354525598e-9,1.5965491975397712e-8],"split-squat foot":[1.5965491971791995e-8,0.0006420244564522837],"single-leg-calf-raise foot":[2.727310531846847e-9,0.0033875503953573888],"bridge-march foot":[2.7273105770859232e-9,1.5965492017031075e-8],"single-leg-glute-bridge foot":[2.727310521574772e-9,2.72731066035265e-9],"bent-knee-row foot":[2.727310590963711e-9,1.5965492030908863e-8],"sumo-squat foot":[2.7273104105524695e-9,1.5965492072542227e-8],"single-leg-deadlift foot":[2.7273104105524695e-9,2.7273106325970744e-9],"forward-lunge foot":[2.7273104105524695e-9,0.0033655086587243014],"prone-hip-extension foot":[0.00003309913010984822,0.00003309913010984822],"prone-hip-extension chest":[0.00199999999999996,0.00199999999999996],"supine-march foot":[2.727310590963711e-9,1.5965492030908863e-8],"supine-heel-slide foot":[2.7273105770859232e-9,0.0020276394969331365],"plank-shoulder-tap foot":[0.0006337328504750356,0.0006338436729109997]}
+@klisteniapp/b2c-web:test: ✔ female: the actual atlas head surfaces clear the mat and supported head/hands stay at calibrated contact through full cycles (65817.078593ms)
+@klisteniapp/b2c-web:test: ℹ Actual skin minimum head Y in metres across 41–101 phases; mat top Y = -0.002: {"pushup":0.12216,"glute-bridge":0.002,"dead-bug":0.002,"prone-w":0.092246,"row":0.663347,"full-pushup":0.138429,"pike-pushup":0.030684,"bird-dog":0.425012,"mountain-climber":0.52716,"crunch":0.04196,"quarter-squat":1.385228,"paused-squat":1.128935,"knee-narrow-pushup":0.106749,"narrow-pushup":0.138429,"dead-bug-heel-tap":0.002,"quadruped-leg-extension":0.425012,"prone-t-raise":0.092246,"prone-y-raise":0.092246,"split-squat":1.155519,"single-leg-calf-raise":1.552954,"bridge-march":0.002,"single-leg-glute-bridge":0.002,"bent-knee-row":0.384044,"dead-bug-arm-only":0.002,"sumo-squat":1.121956,"single-leg-deadlift":0.894497,"forward-lunge":1.155519,"quadruped-arm-raise":0.425012,"prone-hip-extension":0.075866,"supine-march":0.002,"supine-heel-slide":0.002,"plank-shoulder-tap":0.510139}
+@klisteniapp/b2c-web:test: ℹ Additional support surface ranges in metres: {"quarter-squat foot":[2.727310521574772e-9,1.5965492072542227e-8],"paused-squat foot":[2.727310521574772e-9,1.5965492072542227e-8],"knee-narrow-pushup knee":[0.0022441543137064835,0.0027153668422408585],"narrow-pushup foot":[0.0006420244564522837,0.0006421351650063578],"dead-bug-heel-tap heel":[2.7273105354525598e-9,1.5965491975397712e-8],"split-squat foot":[1.5965491971791995e-8,0.0006420244564522837],"single-leg-calf-raise foot":[2.727310609634884e-9,0.003387550395357382],"bridge-march foot":[2.7273105770859232e-9,1.5965492017031075e-8],"single-leg-glute-bridge foot":[2.7273105770859232e-9,2.72731066035265e-9],"bent-knee-row foot":[2.727310590963711e-9,1.5965492030908863e-8],"sumo-squat foot":[2.7273104105524695e-9,1.5965492072542227e-8],"single-leg-deadlift foot":[2.727310299530167e-9,2.7273106325970744e-9],"forward-lunge foot":[2.7273104105524695e-9,0.0033655086587243066],"prone-hip-extension foot":[0.00003309913010983434,0.00003309913010983434],"prone-hip-extension chest":[0.0019999999999999463,0.0019999999999999463],"supine-march foot":[2.727310590963711e-9,1.5965492030908863e-8],"supine-heel-slide foot":[2.7273105770859232e-9,0.00203645518887143],"plank-shoulder-tap foot":[0.0006337156782362519,0.0006338265009087768]}
+@klisteniapp/b2c-web:test: ✔ neutral pelvic caps preserve the actual atlas perimeter while removing the male protrusion (792.668711ms)
+@klisteniapp/b2c-web:test: ✔ synthetic scenes without the original territories need no replacement (0.320086ms)
+@klisteniapp/b2c-web:test: ✔ body presets keep floor/height, symmetric joints and legacy coordinates (9.375246ms)
+@klisteniapp/b2c-web:test: ✔ female atlas retains selectable regions and finite poses, leaving the shared GLTF untouched (23557.144ms)
+@klisteniapp/b2c-web:test: ✔ all six color families define both complete appearances and accurate picker previews (59.989489ms)
+@klisteniapp/b2c-web:test: ✔ Salvia/light keeps text and keyboard focus readable (5.479068ms)
+@klisteniapp/b2c-web:test: ✔ Salvia/dark keeps text and keyboard focus readable (0.713018ms)
+@klisteniapp/b2c-web:test: ✔ Océano/light keeps text and keyboard focus readable (0.205764ms)
+@klisteniapp/b2c-web:test: ✔ Océano/dark keeps text and keyboard focus readable (0.178166ms)
+@klisteniapp/b2c-web:test: ✔ Atardecer/light keeps text and keyboard focus readable (0.244774ms)
+@klisteniapp/b2c-web:test: ✔ Atardecer/dark keeps text and keyboard focus readable (0.205529ms)
+@klisteniapp/b2c-web:test: ✔ Lavanda/light keeps text and keyboard focus readable (2.86766ms)
+@klisteniapp/b2c-web:test: ✔ Lavanda/dark keeps text and keyboard focus readable (1.014316ms)
+@klisteniapp/b2c-web:test: ✔ Rosa/light keeps text and keyboard focus readable (0.855443ms)
+@klisteniapp/b2c-web:test: ✔ Rosa/dark keeps text and keyboard focus readable (0.344875ms)
+@klisteniapp/b2c-web:test: ✔ Grafito/light keeps text and keyboard focus readable (4.333163ms)
+@klisteniapp/b2c-web:test: ✔ Grafito/dark keeps text and keyboard focus readable (0.418287ms)
+@klisteniapp/b2c-web:test: ✔ demo is default and does not read an instance profile or analytics environment (7.06673ms)
+@klisteniapp/b2c-web:test: ✔ instance fails closed without a readable, complete public profile (1.959131ms)
+@klisteniapp/b2c-web:test: ✔ instance embeds only the validated external JSON fields at build time (7.485045ms)
+@klisteniapp/b2c-web:test: ✔ old preferences keep Spanish and system defaults while retaining reduced motion (73.314575ms)
+@klisteniapp/b2c-web:test: ✔ invalid or unreadable display preferences safely fall back without discarding legacy values (8.293881ms)
+@klisteniapp/b2c-web:test: ✔ account appearance follows explicit server values and older accounts keep browser choices (9.840009ms)
+@klisteniapp/b2c-web:test: ✔ system appearance resolves OS changes while explicit light and dark stay fixed (0.492211ms)
+@klisteniapp/b2c-web:test: ✔ the expanded catalog keeps stable legacy identities and fills every supported exercise (2.262089ms)
+@klisteniapp/b2c-web:test: ✔ every gallery entry has a moving demonstration, instructional phases and a usable capture camera (64.604476ms)
+@klisteniapp/b2c-web:test: ✔ the next expansion adds twelve repetition-based exercises without required equipment (0.327922ms)
+@klisteniapp/b2c-web:test: ✔ legacy progress and new exercise logs round-trip together without changing IDs or repetitions (12.337201ms)
+@klisteniapp/b2c-web:test: ✔ the third expansion includes an equipped pull and preserves the side-counting contract (0.2945ms)
+@klisteniapp/b2c-web:test: ✔ account routines and historical snapshots preserve all new IDs through export and import (106.170713ms)
+@klisteniapp/b2c-web:test: ✔ a full expanded routine retains different repetitions for every completed set (12.691424ms)
+@klisteniapp/b2c-web:test: ✔ every available exercise has complete reviewed planning metadata and resolvable relations (79.433896ms)
+@klisteniapp/b2c-web:test: ✔ similar muscles and broad patterns do not imply interchangeable exercises (196.45357ms)
+@klisteniapp/b2c-web:test: ✔ available support requirements describe the demonstrated body position and equipment (0.729905ms)
+@klisteniapp/b2c-web:test: ✔ a push-up progression cannot hide the support change or point outside the available catalog (98.138483ms)
+@klisteniapp/b2c-web:test: ✔ catalog validation detects changed per-side dosage and invalid metadata without throwing (10.441569ms)
+@klisteniapp/b2c-web:test: ✔ planning provenance stays visible in the exercise sources and documents adapted demonstrations (17.008512ms)
+@klisteniapp/b2c-web:test: ✔ editorial metadata neither becomes mandatory in old workout exports nor changes saved IDs or doses (33.441911ms)
+@klisteniapp/b2c-web:test: ✔ all anatomical representations have complete, isolated preview paths in every format (13.013089ms)
+@klisteniapp/b2c-web:test: ✔ legacy preview URLs remain masculine and optional GIFs use the same selected model (17.554932ms)
+@klisteniapp/b2c-web:test: ✔ empty dashboard preserves unknown values and contains no invented observations (13.082741ms)
+@klisteniapp/b2c-web:test: ✔ calendar window includes both boundaries across DST and counts distinct training dates only (1.340278ms)
+@klisteniapp/b2c-web:test: ✔ sleep excludes ambiguous cross-boundary overlaps before computing observed-day average (15.359993ms)
+@klisteniapp/b2c-web:test: ✔ nutrition keeps separate field denominators, accepts recorded zero, and does not fill missing days (0.455135ms)
+@klisteniapp/b2c-web:test: ✔ supplement summary describes logged takes and skips, with distinct dates instead of an adherence target (0.542089ms)
+@klisteniapp/b2c-web:test: ✔ body trends keep sources and devices separate and respect chronological timestamp offsets (1.052301ms)
+@klisteniapp/b2c-web:test: ✔ body series with one day has no change estimate and same-time ties resolve independently of input order (0.486794ms)
+@klisteniapp/b2c-web:test: ✔ empty template downloads without fabricated personal data and requires real records (31.184264ms)
+@klisteniapp/b2c-web:test: ✔ preview preserves all categories, provenance and explicit units without mutating existing data (54.891994ms)
+@klisteniapp/b2c-web:test: ✔ reimport and duplicates within one file are idempotent even when local ID and timestamp offset differ (5.973176ms)
+@klisteniapp/b2c-web:test: ✔ changed source payload rejects the entire file and leaves current data untouched (3.749703ms)
+@klisteniapp/b2c-web:test: ✔ two origins cannot reuse a local ID in a file or collide with a saved record (6.006514ms)
+@klisteniapp/b2c-web:test: ✔ the same external ID can exist in distinct sources without being collapsed (2.525725ms)
+@klisteniapp/b2c-web:test: ✔ unknown fields, wrong units, impossible dates and missing source identity are rejected (5.040429ms)
+@klisteniapp/b2c-web:test: ✔ future export, observation and record timestamps reject the entire import (5.208206ms)
+@klisteniapp/b2c-web:test: ✔ manual correction timestamps are preserved and normalized for comparison without overwriting corrections (4.478594ms)
+@klisteniapp/b2c-web:test: ✔ explicit record timezone wins over file timezone and is persisted (4.168138ms)
+@klisteniapp/b2c-web:test: ✔ invalid sleep windows and stages do not become apparently valid summaries (1.686112ms)
+@klisteniapp/b2c-web:test: ✔ raw Samsung/Health Connect exports are not accepted as normalized records (0.725473ms)
+@klisteniapp/b2c-web:test: ✔ UTF-8 byte bound and total-record bound fail before processing records (767.83355ms)
+@klisteniapp/b2c-web:test: ✔ health saves require its captured revision and exports include confirmed server data (87.688005ms)
+@klisteniapp/b2c-web:test: ✔ failed health saves never pretend to be saved or spill into local demo/pending storage (3.964852ms)
+@klisteniapp/b2c-web:test: ✔ health conflict refreshes current state while rejecting the stale write (3.580029ms)
+@klisteniapp/b2c-web:test: ✔ an in-flight health response cannot restore private data after logout (42.151939ms)
+@klisteniapp/b2c-web:test: ✔ anonymous and invalid health changes do not reach the API (44.336533ms)
+@klisteniapp/b2c-web:test: ✔ a local routine import omits health so legacy preferences cannot erase it (4.871742ms)
+@klisteniapp/b2c-web:test: ✔ free local health persists separately and restores after account logout without uploading it (6.215036ms)
+@klisteniapp/b2c-web:test: ✔ an exported account including health and plans can be imported and exported in free local mode (9.387807ms)
+@klisteniapp/b2c-web:test: ✔ unreadable local personal copies are preserved and can be downloaded for recovery (12.222354ms)
+@klisteniapp/b2c-web:test: ✔ expired cloud access blocks health edits but permits explicit deletion requests for server validation (3.48022ms)
+@klisteniapp/b2c-web:test: ✔ encyclopedia search finds muscle function, accents and translated region names (16.08137ms)
+@klisteniapp/b2c-web:test: ✔ yoga encyclopedia retains Sanskrit, English and common Spanish entry points (9.513984ms)
+@klisteniapp/b2c-web:test: ✔ contextual links resolve to canonical sourced entries without inferring a dose or fabricating content (2.102685ms)
+@klisteniapp/b2c-web:test: ✔ a routine-only backup restores order and sets without needing health or yoga first (389.063598ms)
+@klisteniapp/b2c-web:test: ✔ failed deletion keeps the durable record and retry removes it (10.299651ms)
+@klisteniapp/b2c-web:test: ✔ local mode starts ready, reads legacy keys, and never calls a transport (26.811041ms)
+@klisteniapp/b2c-web:test: ✔ local health and goals retain revision checks, persist, export and restore complete version 2 copies (91.171766ms)
+@klisteniapp/b2c-web:test: ✔ corrupt originals remain recoverable and invalid imports cannot overwrite local data (9.504343ms)
+@klisteniapp/b2c-web:test: ✔ expanded and equipped local routines survive reload without admitting obsolete IDs (3.58309ms)
+@klisteniapp/b2c-web:test: ✔ local language, theme and palette persist across reloads without resetting health or training (11.630069ms)
+@klisteniapp/b2c-web:test: ✔ a complete imported backup restores its explicit display preferences after reload (2.958769ms)
+@klisteniapp/b2c-web:test: ✔ palette-only changes retain light or dark mode and survive legacy backup imports (3.336542ms)
+@klisteniapp/b2c-web:test: ✔ a demonstration keeps its duration at low frame rates and across complete cycles (1.245957ms)
+@klisteniapp/b2c-web:test: ✔ pause, resume and speed changes exclude paused time and preserve a sought phase (1.239093ms)
+@klisteniapp/b2c-web:test: ✔ resetting the frame baseline drops hidden time without modifying the pose (0.252354ms)
+@klisteniapp/b2c-web:test: ✔ restarting between slow frames only advances by time since the restart action (0.219575ms)
+@klisteniapp/b2c-web:test: ✔ yoga contributes actual practice minutes and active days without filling strength goals (2.051756ms)
+@klisteniapp/b2c-web:test: ✔ first visit has no synthetic history, streak or XP (5.190153ms)
+@klisteniapp/b2c-web:test: ✔ streak spans month boundary and counts an active day once (0.842611ms)
+@klisteniapp/b2c-web:test: ✔ yesterday remains an active streak; missing yesterday breaks it (0.318195ms)
+@klisteniapp/b2c-web:test: ✔ week resets on local Monday and excludes future logs from all rewards (0.366374ms)
+@klisteniapp/b2c-web:test: ✔ duplicate record ids cannot multiply XP or sessions (3.697598ms)
+@klisteniapp/b2c-web:test: ✔ local dates preserve the user calendar date around midnight (0.176939ms)
+@klisteniapp/b2c-web:test: ✔ streak uses calendar arithmetic over daylight saving transitions (0.693953ms)
+@klisteniapp/b2c-web:test: ✔ malformed JSON and old or invalid schemas return an explicit recoverable error (0.922323ms)
+@klisteniapp/b2c-web:test: ✔ schema rejects impossible dates and empty, negative or non-finite activity (1.558506ms)
+@klisteniapp/b2c-web:test: ✔ valid progress round-trips without rewriting dates or creating logs (0.484017ms)
+@klisteniapp/b2c-web:test: ✔ starter routine remains equipment-free with the pulling gap explicit (0.332344ms)
+@klisteniapp/b2c-web:test: ✔ Yoga axial controls are opt-in and keep the default exercise rig unchanged (9.64276ms)
+@klisteniapp/b2c-web:test: ✔ the Yoga spine rounds and extends visibly, keeps supported endpoints, and never scales its frames (203.549144ms)
+@klisteniapp/b2c-web:test: ✔ soft tissue weights remain continuous; every rigid bone structure shares one axial transform (85.199098ms)
+@klisteniapp/b2c-web:test: ✔ shoulder corrections retain outward skin faces in deep folds and overhead elevation (19366.665175ms)
+@klisteniapp/b2c-web:test: ✔ actual 28-bone Yoga surfaces retain floor contact through every motion, side, transition and peak breath (106817.346308ms)
+@klisteniapp/b2c-web:test: ✔ the yoga catalog resolves every persisted asana and keeps useful instruction and context (29.591468ms)
+@klisteniapp/b2c-web:test: ✔ editable starter practices are valid, have balanced sides and reserve time for rest (53.566831ms)
+@klisteniapp/b2c-web:test: ✔ the introduction distinguishes cultural context, personal choice and practice guidance (10.58758ms)
+@klisteniapp/b2c-web:test: ✔ all 24 motion demonstrations articulate real joints, close their loop and preserve both source morphologies (1674.093694ms)
+@klisteniapp/b2c-web:test: ✔ motion uses rigid GPU bones and converges to the static asana at the poster phase (87.524944ms)
+@klisteniapp/b2c-web:test: ✔ every hold breathes gently while the exact teaching pose and supported contacts remain stable (11.579227ms)
+@klisteniapp/b2c-web:test: ✔ the standing base settles before the arms reach, and seated folds lengthen the arms before the torso (1.493229ms)
+@klisteniapp/b2c-web:test: ✔ standing, tabletop and supine motions keep their relevant supports and lift the selected anatomical side (239.37027ms)
+@klisteniapp/b2c-web:test: ✔ chair and lunges actually lower the pelvis from a less flexed preparation (0.911357ms)
+@klisteniapp/b2c-web:test: ✔ palms, soles and all other bones rotate continuously without terminal-frame flips (2840.433194ms)
+@klisteniapp/b2c-web:test: ✔ Downward Dog keeps its arms extended while the supported knees lift and lower (13.006223ms)
+@klisteniapp/b2c-web:test: ✔ supine leg raising keeps the anatomical knee bend plane instead of rolling the knee inward (11.305644ms)
+@klisteniapp/b2c-web:test: ✔ prone knees bend away from the mat and never turn the calf surface underneath the leg (20.745215ms)
+@klisteniapp/b2c-web:test: ✔ standing folds retain the posterior thigh and calf surface behind the legs (2.402522ms)
+@klisteniapp/b2c-web:test: ✔ unilateral entrances preserve anatomical laterality throughout the whole cycle (137.536791ms)
+@klisteniapp/b2c-web:test: ✔ representative movement samples keep the actual male and female external surface above the mat (43026.385632ms)
+@klisteniapp/b2c-web:test: ✔ adding a unilateral asana creates independently timed left and right steps (22.54863ms)
+@klisteniapp/b2c-web:test: ✔ imported both-side practice uses full per-side duration and gets an immutable execution snapshot (4.085912ms)
+@klisteniapp/b2c-web:test: ✔ completion records only whole seconds actually practiced, capped to the planned duration (0.467448ms)
+@klisteniapp/b2c-web:test: ✔ an imported practice that exceeds the expanded limits cannot start silently (7.886831ms)
+@klisteniapp/b2c-web:test: ✔ search ignores accents and durations remain precise below and above a minute (0.918024ms)
+@klisteniapp/b2c-web:test: ✔ every yoga camera retains complete off-centre movement bounds in narrow and wide viewers (112.662972ms)
+@klisteniapp/b2c-web:test: ✔ quadruped cameras reveal the spinal silhouette and unilateral cameras follow the active side (0.816208ms)
+@klisteniapp/b2c-web:test: ✔ all 24 yoga poses preserve the actual male and female limb lengths and shoulder/hip widths (155.018114ms)
+@klisteniapp/b2c-web:test: ✔ all 17 GPU bones remain finite, orthogonal and unit scale without reflections or source mutations (221.344187ms)
+@klisteniapp/b2c-web:test: ✔ choosing a unilateral side changes the anatomical side and mirrors positions without scaling the atlas (5.238512ms)
+@klisteniapp/b2c-web:test: ✔ standing bases and kneeling poses have explicit stationary floor supports on both variants (5.763572ms)
+@klisteniapp/b2c-web:test: ✔ bridge keeps shoulders and head supported while its pelvis rises (0.55548ms)
+@klisteniapp/b2c-web:test: ✔ props support elevated palms and each terminal bone retains its measured source length (82.170882ms)
+@klisteniapp/b2c-web:test: ✔ lateral bends, twists and the two quadruped forms have genuinely distinct torso and head orientation (0.713928ms)
+@klisteniapp/b2c-web:test: ✔ Mountain restores the unmodified source atlas after any other yoga pose (1.088415ms)
+@klisteniapp/b2c-web:test: ✔ Warriors extend the rear leg while quadruped arms reach toward the floor without push-up elbows (25.009131ms)
+@klisteniapp/b2c-web:test: ✔ Dog and Triangle retain their characteristic long support lines in both morphologies and sides (0.901142ms)
+@klisteniapp/b2c-web:test: ✔ actual male and female skin clears the floor; reclined head and back retain calibrated surface contact (53628.37958ms)
+@klisteniapp/b2c-web:test: ✔ both guest builds persist practices and partial logs, roundtrip backups, and preserve yoga through legacy imports (36.844811ms)
+@klisteniapp/b2c-web:test: ✔ quota errors never claim a yoga write succeeded or replace the durable snapshot (10.82976ms)
+@klisteniapp/b2c-web:test: ✔ confirmed account yoga uses the captured owner/revision without leaking into local or pending storage (24.796588ms)
+@klisteniapp/b2c-web:test: ✔ network errors retain the unsaved caller draft and conflict refreshes canonical yoga while returning false (3.7007ms)
+@klisteniapp/b2c-web:test: ✔ an in-flight yoga response cannot repopulate another owner or local data after logout (7.797323ms)
+@klisteniapp/b2c-web:test: ✔ expired accounts can request removals, but additions and edits never reach the transport (4.250196ms)
+@klisteniapp/b2c-web:test: ✔ local observation imports carry yoga logs even without restoring account settings (4.794684ms)
+@klisteniapp/b2c-web:test: ✔ invalid logs and historical rewrites are rejected before persistence (8.705745ms)
+@klisteniapp/b2c-web:test: ✔ yoga transport uses the dedicated owner-pinned endpoint and ordinary settings omit growing history (63.457933ms)
+@klisteniapp/b2c-web:test: ℹ tests 201
+@klisteniapp/b2c-web:test: ℹ suites 0
+@klisteniapp/b2c-web:test: ℹ pass 201
+@klisteniapp/b2c-web:test: ℹ fail 0
+@klisteniapp/b2c-web:test: ℹ cancelled 0
+@klisteniapp/b2c-web:test: ℹ skipped 0
+@klisteniapp/b2c-web:test: ℹ todo 0
+@klisteniapp/b2c-web:test: ℹ duration_ms 150733.572819
+@klisteniapp/b2b-ui:test: cache hit, replaying logs e203e933a1ede46f
+@klisteniapp/b2b-ui:test: $ node --test tests/*.test.ts
+@klisteniapp/b2b-ui:test: ✔ prescribed and recorded effort stay separate from repetitions and duration (13.622362ms)
+@klisteniapp/b2b-ui:test: ✔ a real zero performance or zero load is retained in the actual record (0.316466ms)
+@klisteniapp/b2b-ui:test: ℹ tests 2
+@klisteniapp/b2b-ui:test: ℹ suites 0
+@klisteniapp/b2b-ui:test: ℹ pass 2
+@klisteniapp/b2b-ui:test: ℹ fail 0
+@klisteniapp/b2b-ui:test: ℹ cancelled 0
+@klisteniapp/b2b-ui:test: ℹ skipped 0
+@klisteniapp/b2b-ui:test: ℹ todo 0
+@klisteniapp/b2b-ui:test: ℹ duration_ms 1041.923831
+@klisteniapp/b2b-web:test: cache hit, replaying logs 2fec711d609890b2
+@klisteniapp/b2b-web:test: $ node --test tests/*.test.ts
+@klisteniapp/b2b-web:test: ✔ a branch clip comparison is never recovered in another branch or working role (8.704165ms)
+@klisteniapp/b2b-web:test: ✔ clip comparisons select distinct authorized videos, never missing or foreign library assets (0.713549ms)
+@klisteniapp/b2b-web:test: ✔ review export requires documented rights, human evidence and conclusion; it never changes publication (0.662714ms)
+@klisteniapp/b2b-web:test: ✔ clip review drafts isolate accounts and gyms and reject malformed or oversized local data (14.187437ms)
+@klisteniapp/b2b-web:test: ✔ changing a clip preserves observations but invalidates prior judgments and permission claims (0.502968ms)
+@klisteniapp/b2b-web:test: ✔ unfinished content keeps its exact source revision and remains isolated by account, gym, editor and entity (8.927355ms)
+@klisteniapp/b2b-web:test: ✔ corrupt, incompatible or unversioned drafts cannot be recovered (0.785713ms)
+@klisteniapp/b2b-web:test: ✔ storage read failures are recoverable while failed writes are surfaced to the editor (4.448906ms)
+@klisteniapp/b2b-web:test: ✔ white-label drafts preserve recovery separately for each branch and working role (0.475044ms)
+@klisteniapp/b2b-web:test: ✔ exercise recovery accepts unfinished content but saving requires complete instructions (77.935936ms)
+@klisteniapp/b2b-web:test: ✔ exercise save normalizes editable lists while preserving base provenance across variants (6.407579ms)
+@klisteniapp/b2b-web:test: ✔ editing source exercises or programs cannot mutate the fetched catalog or assigned data (13.900819ms)
+@klisteniapp/b2b-web:test: ✔ program recovery preserves intermediate dosing but rejects ambiguous or malformed steps (34.143022ms)
+@klisteniapp/b2b-web:test: ✔ step reordering preserves identity, dose and alternatives and ignores invalid positions (0.700444ms)
+@klisteniapp/b2b-web:test: ✔ an older list response cannot replace a just-saved editor revision (0.617937ms)
+@klisteniapp/b2b-web:test: ✔ timed prescriptions and target effort survive drafts while historical copies remain readable (1.400401ms)
+@klisteniapp/b2b-web:test: ✔ an incomplete equipment form survives storage without becoming a valid publishable model (10.144134ms)
+@klisteniapp/b2b-web:test: ✔ machine adaptations retain canonical provenance and cannot mutate fetched media (5.973667ms)
+@klisteniapp/b2b-web:test: ✔ batch recovery preserves numbering, unit publication and machine identity (28.513739ms)
+@klisteniapp/b2b-web:test: ✔ public QR eligibility accounts for the unit, model and published website independently (1.722234ms)
+@klisteniapp/b2b-web:test: ✔ local and insecure QR origins stay explicitly labeled as test labels (0.440192ms)
+@klisteniapp/b2b-web:test: ✔ voice reads only requested text in order, can pause/resume, and finishes (1.508925ms)
+@klisteniapp/b2b-web:test: ✔ cancelled callbacks cannot resume speech, and disposing an old guide cannot stop the new one (0.287962ms)
+@klisteniapp/b2b-web:test: ✔ voice failures return a recoverable error without advancing instructions (0.229041ms)
+@klisteniapp/b2b-web:test: ✔ side cues repeat explicit authored instructions without inventing technique (1.87915ms)
+@klisteniapp/b2b-web:test: ✔ rest deadlines track real elapsed time after background throttling without ticks (1.176572ms)
+@klisteniapp/b2b-web:test: ✔ pausing retains the actual remaining duration and excludes paused time on resume (0.446588ms)
+@klisteniapp/b2b-web:test: ✔ gym management URLs migrate without claiming the owner console name (2.46937ms)
+@klisteniapp/b2b-web:test: ✔ direct section routes distinguish public, member and professional views (0.516315ms)
+@klisteniapp/b2b-web:test: ✔ direct URLs cannot grant professional or administrator capabilities (0.209963ms)
+@klisteniapp/b2b-web:test: ✔ new drafts retain the assigned prescription and isolate recovery by gym, account and assignment (6.161423ms)
+@klisteniapp/b2b-web:test: ✔ recovery validates all prescribed sets and authorized alternatives instead of trusting JSON casts (7.162488ms)
+@klisteniapp/b2b-web:test: ✔ recovery preserves malformed original bytes and reports recovered only for valid drafts (3.838519ms)
+@klisteniapp/b2b-web:test: ✔ disabled local storage does not prevent starting a session (0.245733ms)
+@klisteniapp/b2b-web:test: ✔ substitution clears load, completion and the previous reason without changing prescription reps (0.220162ms)
+@klisteniapp/b2b-web:test: ✔ partial sessions include only performed sets; completed sessions require every set (10.623063ms)
+@klisteniapp/b2b-web:test: ✔ substitutions require a reason and invalid numeric input is rejected before sending (2.709881ms)
+@klisteniapp/b2b-web:test: ✔ submission applies the same prescribed set and repetition rules as the API (0.9049ms)
+@klisteniapp/b2b-web:test: ✔ recovery rejects pending executions that cannot satisfy the assigned snapshot rules (2.418643ms)
+@klisteniapp/b2b-web:test: ✔ availability blocks performed unavailable exercises while allowing a partial session using available ones (0.832294ms)
+@klisteniapp/b2b-web:test: ✔ lost-response retries preserve payload identity, timestamp and status despite later inventory changes (1.550519ms)
+@klisteniapp/b2b-web:test: ✔ partial retry recovery retains unfinished numeric edits in unperformed sets (1.850761ms)
+@klisteniapp/b2b-web:test: ✔ recovery refuses mismatched pending identity, payload and assignment contents (23.962255ms)
+@klisteniapp/b2b-web:test: ✔ only definitive client rejections unlock editing; uncertain deliveries retain their pending payload (0.722334ms)
+@klisteniapp/b2b-web:test: ✔ confirmed requests clear their own draft without removing a replacement session (2.767157ms)
+@klisteniapp/b2b-web:test: ✔ timed sessions keep performed duration and effort distinct from prescription and retry exactly (5.971971ms)
+@klisteniapp/b2b-web:test: ✔ fractional RPE survives device recovery without rounding or losing the pending execution (3.067761ms)
+@klisteniapp/b2b-web:test: ✔ old local drafts and pending retries decode without added duration or RPE fields (2.837407ms)
+@klisteniapp/b2b-web:test: ✔ white-label training draft keys isolate branch context while retaining the legacy key adapter (1.536922ms)
+@klisteniapp/b2b-web:test: ✔ website recovery keeps unfinished activity, hour and floor-plan labels without allowing publication (9.097282ms)
+@klisteniapp/b2b-web:test: ✔ website copies retain their original revision across reloads and isolate account/gym identities (0.954875ms)
+@klisteniapp/b2b-web:test: ✔ a saved website removes only its exact copy, never newer local edits or a new source revision (0.331188ms)
+@klisteniapp/b2b-web:test: ✔ branch website recovery cannot import a legacy unscoped copy or another branch draft (0.433764ms)
+@klisteniapp/b2b-web:test: ℹ tests 53
+@klisteniapp/b2b-web:test: ℹ suites 0
+@klisteniapp/b2b-web:test: ℹ pass 53
+@klisteniapp/b2b-web:test: ℹ fail 0
+@klisteniapp/b2b-web:test: ℹ cancelled 0
+@klisteniapp/b2b-web:test: ℹ skipped 0
+@klisteniapp/b2b-web:test: ℹ todo 0
+@klisteniapp/b2b-web:test: ℹ duration_ms 3407.806681
+
+ Tasks:    14 successful, 14 total
+Cached:    11 cached, 14 total
+  Time:    2m53.924s

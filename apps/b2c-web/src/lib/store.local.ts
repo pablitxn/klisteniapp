@@ -11,8 +11,10 @@ export type { Preferences } from './store.persistence.ts'
 
 // This entry point has no transport dependency. Vite selects it for the demo.
 export const useAppStore = create<AppStore>((set, get) => {
-  function saveProgress(progress: ProgressData) {
-    set({ progress })
+  function saveProgress(progress: ProgressData, retainPending = true) {
+    // Keep new activity exportable on failure, but never hide a saved record
+    // until its deletion is durable: the user still needs a retry target.
+    if (retainPending) set({ progress })
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw && parseProgress(raw).error) {
@@ -22,7 +24,7 @@ export const useAppStore = create<AppStore>((set, get) => {
         set({ recoveryRaw: raw })
       }
       localStorage.setItem(STORAGE_KEY, serializeProgress(progress))
-      set({ storageError: null, localDataAvailable: localSummary() })
+      set({ progress, storageError: null, localDataAvailable: localSummary() })
       return null
     } catch {
       const error = 'No pudimos guardar los cambios en este navegador. Exportá tus datos antes de cerrar.'
@@ -34,12 +36,21 @@ export const useAppStore = create<AppStore>((set, get) => {
     const preferences = get().preferences
     return { ...data, progress: get().progress, settings: { ...data.settings, routines: data.settings.routines.map(routine => routine.id === data.settings.activeRoutineId ? { ...routine, sets: preferences.sets, exerciseIds: preferences.exerciseIds as typeof routine.exerciseIds } : routine) } }
   }
-  function savePersonal(data: PersonalData, expectedRevision: number) {
+  function savePersonal(data: PersonalData, expectedRevision: number, replaceUnreadable = false) {
     if (get().localRevision !== expectedRevision) return 'Tus datos locales cambiaron. Revisá la versión actual antes de guardar.'
-    if (!get().localPersonalData) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
+    if (!get().localPersonalData && !replaceUnreadable) return 'La copia local no se puede leer. Exportala antes de reemplazarla.'
     try {
       const parsed = PersonalDataSchema.parse(data)
       const encoded = JSON.stringify(parsed)
+      if (!get().localPersonalData) {
+        const original = localStorage.getItem(LOCAL_PERSONAL_KEY)
+        if (original) {
+          const older = localStorage.getItem(RECOVERY_KEY)
+          if (older && older !== original) localStorage.setItem(`${RECOVERY_KEY}.${Date.now()}`, older)
+          localStorage.setItem(RECOVERY_KEY, original)
+          set({ recoveryRaw: original })
+        }
+      }
       localStorage.setItem(LOCAL_PERSONAL_KEY, encoded)
       if (localStorage.getItem(LOCAL_PERSONAL_KEY) !== encoded) throw new Error('Storage unavailable')
       set({ localPersonalData: parsed, ...yogaState(parsed), localRevision: expectedRevision + 1, preferences: { ...get().preferences, anatomicalModel: parsed.settings.anatomicalModel ?? 'male' }, localDataAvailable: localSummary() })
@@ -71,7 +82,7 @@ export const useAppStore = create<AppStore>((set, get) => {
       if (!parsed.success) return 'La actividad tiene datos inválidos.'
       return saveProgress({ ...get().progress, cardio: [...get().progress.cardio.filter(log => log.id !== parsed.data.id), parsed.data] })
     },
-    removeLog: async id => saveProgress({ ...get().progress, workouts: get().progress.workouts.filter(log => log.id !== id), cardio: get().progress.cardio.filter(log => log.id !== id) }),
+    removeLog: async id => saveProgress({ ...get().progress, workouts: get().progress.workouts.filter(log => log.id !== id), cardio: get().progress.cardio.filter(log => log.id !== id) }, false),
     saveSettings: async settings => {
       const parsed = PersonalSettingsSchema.safeParse(settings)
       if (!parsed.success) return 'Revisá el perfil, la rutina y los días elegidos.'
@@ -128,7 +139,7 @@ export const useAppStore = create<AppStore>((set, get) => {
         if (data.settings.anatomicalModel === undefined && previousModel !== undefined) data.settings.anatomicalModel = previousModel
         const previousYoga = get().localPersonalData?.settings.yoga
         if (data.settings.yoga === undefined && previousYoga !== undefined) data.settings.yoga = previousYoga
-        const failure = savePersonal(data, get().localRevision)
+        const failure = savePersonal(data, get().localRevision, true)
         if (failure) return failure
         const preferences = { ...accountPreferences(data.settings), reducedMotion: get().preferences.reducedMotion }
         try {
@@ -145,9 +156,13 @@ export const useAppStore = create<AppStore>((set, get) => {
     exportData: () => {
       const data = get().localPersonalData
       let hasPersonal = false
-      try { hasPersonal = localStorage.getItem(LOCAL_PERSONAL_KEY) !== null } catch { /* Export in-memory data below. */ }
+      let hasPreferences = false
+      try {
+        hasPersonal = localStorage.getItem(LOCAL_PERSONAL_KEY) !== null
+        hasPreferences = localStorage.getItem(PREF_KEY) !== null
+      } catch { /* Export in-memory data below. */ }
       if (hasPersonal && !data) return localStorage.getItem(LOCAL_PERSONAL_KEY) ?? ''
-      return hasPersonal && data ? JSON.stringify(PersonalDataSchema.parse(snapshot(data))) : serializeProgress(get().progress)
+      return (hasPersonal || hasPreferences) && data ? JSON.stringify(PersonalDataSchema.parse(snapshot(data))) : serializeProgress(get().progress)
     },
   }
 })
