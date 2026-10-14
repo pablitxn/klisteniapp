@@ -145,7 +145,7 @@ export function Invitation({
     )
   }
 
-  if (existing && !signedIn) {
+  if (existing && !signedIn && !done) {
     return (
       <Shell
         name={context?.theme.brand.name}
