@@ -53,7 +53,10 @@ async function close() {
 for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => { void close().catch(() => { process.exitCode = 1; }); });
 async function listen(server, port) { await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, '127.0.0.1', resolve); }); }
 try {
-  for (const [index, proxyPort] of [4342, 4344, 4346].entries()) {
+  const proxyPorts = [4342, 4344, 4346];
+  // Optional fourth independent fixture for the administrator QA viewport matrix.
+  if (process.env.B2B_QA_EXTRA_PROXY === 'true') proxyPorts.push(4350);
+  for (const [index, proxyPort] of proxyPorts.entries()) {
     const gatewayPort = 4442 + index * 2, apiPort = gatewayPort + 1;
     const environment = { schema: `b2b_wl_browser_${randomUUID().replaceAll('-', '')}`,
       mediaRoot: mkdtempSync(join(tmpdir(), 'klisteni-wl-browser-')), created: false };

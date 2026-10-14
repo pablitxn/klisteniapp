@@ -1,248 +1,234 @@
 # Yoga
 
-Yoga tiene un espacio propio en la navegación: biblioteca de asanas, prácticas
-personales e historial. El catálogo educativo está en español y conserva los
-nombres sánscritos y equivalentes ingleses para buscar. Cada ficha reúne entrada,
-ejecución, salida, respiración, sensaciones, adaptaciones, cuidados y contexto
-histórico y cultural. Los [criterios y fuentes](yoga-sources.md) documentan el
-alcance editorial. Las 24 asanas tienen una representación del mismo atlas
-anatómico que usa la biblioteca de ejercicios.
+Yoga has its own navigation area with an asana library, personal practices and
+history. The educational catalog is in Spanish and retains Sanskrit names and
+English equivalents for search. Each entry covers preparation, movement, exit,
+breathing, sensations, adaptations, precautions, and historical and cultural
+context. [Editorial criteria and sources](yoga-sources.md) define its scope. All
+24 asanas use a representation of the same anatomical atlas as the exercise library.
 
-## Representación 3D
+<a id="representación-3d"></a>
 
-La preferencia global **Modelo corporal: Hombre / Mujer** se aplica a las tarjetas,
-la ficha y la práctica guiada. Es una elección visual: no modifica tiempos,
-indicaciones ni registros. Las dos representaciones usan el atlas existente y la
-misma transformación paramétrica del resto de Klisteni.
+## 3D representation
 
-Las tarjetas parten de una imagen estática y muestran una secuencia animada al
-explorarlas, sin crear un canvas por postura. La ficha y la sesión permiten abrir
-un visor 3D, elegir el ángulo y explorar las capas del modelo. Si el dispositivo
-no puede usar WebGL, conservan la imagen renderizada y las instrucciones. La
-representación acompaña la explicación y sus adaptaciones; no mide la movilidad
-ni las proporciones de la persona que está practicando.
+The global body-model preference (localized labels `Modelo corporal: Hombre / Mujer`)
+applies to cards, details and guided practice. This visual choice changes neither
+timing nor instructions nor records. Both representations use the existing atlas
+and the same parametric transformation as the rest of Klisteni.
 
-Cada demostración recorre preparación, entrada, permanencia y salida en un ciclo
-ilustrativo de 12 segundos. El cuerpo se mueve dentro de un encuadre fijo; la
-cámara solo cambia al usar sus controles. Se puede pausar, recorrer la secuencia,
-reiniciar y elegir velocidad normal o media. El ciclo no prescribe la duración
-de una asana ni una cadencia respiratoria, y verlo no pone en marcha el reloj de
-la práctica ni crea un registro.
+Cards start with a static image and show an animated sequence when explored,
+without creating a canvas for every posture. Details and sessions offer an
+optional 3D viewer with camera angles and model layers. When WebGL is unavailable,
+the rendered image and instructions remain. The representation illustrates the
+explanation and adaptations; it does not measure the practitioner's mobility or proportions.
 
-La preferencia de movimiento reducido, tanto del sistema como de la aplicación,
-evita la reproducción automática. El visor se puede reproducir expresamente y
-se pausa al ocultarse o suspenderse. Las miniaturas conservan su poster cuando
-no están a la vista o no corresponde reproducir movimiento.
+Each demonstration cycles through preparation, entry, hold and exit in an
+illustrative 12-second loop. The body moves within fixed framing; the camera
+changes only through its controls. Users can pause, scrub, restart, and choose
+normal or half speed. The cycle prescribes neither an asana duration nor breathing
+cadence. Watching it starts neither the practice clock nor a record.
 
-Las posturas asimétricas tienen poses y renders independientes para izquierda y
-derecha. En una práctica guiada el modelo sigue el lado del tramo actual. Cambiar
-la cámara no cambia el lado anatómico, y la interfaz no espeja una imagen para
-simular el otro lado.
+System and application reduced-motion preferences prevent autoplay. The viewer
+can be played explicitly and pauses when hidden or suspended. Thumbnails retain
+their posters when offscreen or when motion should not play.
 
-Yoga conserva los 17 segmentos originales y las longitudes de las extremidades,
-y añade nueve controles axiales y dos controles intermedios de hombro:
-**28 huesos en el rig de Yoga**. La
-influencia del torso se reparte a lo largo de esos controles para representar la
-curva de Gato/Vaca, flexiones y extensiones sin mover los anclajes de hombros y
-pelvis. Los controles de hombro reparten el giro entre torso y húmero para
-conservar la superficie al elevar o plegar los brazos. Cada estructura ósea usa
-un control rígido; la piel y los músculos interpolan sus influencias.
-El atlas fuente y el rig de los ejercicios conservan
-su geometría y comportamiento. La curva de la columna es una aproximación
-educativa, no una simulación vértebra por vértebra ni de tejidos blandos.
+Asymmetric postures have independent left and right poses and renders. During
+guided practice the model follows the side of the current segment. Changing the
+camera does not change the anatomical side, and images are not mirrored to simulate it.
 
-La entrada y la salida coordinan base, torso, cabeza y extremidades con tiempos
-propios; las manos libres siguen arcos y los apoyos se resuelven de nuevo en cada
-cuadro. Una pequeña variación del tórax durante la permanencia evita un cuerpo
-inmóvil, sin prescribir un patrón respiratorio. El encuadre mide todo el ciclo,
-incluidos la salida y esos pequeños cambios. El estudio de Yoga emplea luz suave,
-sombras cortas, una colchoneta con espesor y bloques de bordes redondeados. Los
-ángulos predeterminados muestran el perfil de la columna y los apoyos.
+Yoga retains the original 17 segments and limb lengths, adding nine axial controls
+and two intermediate shoulder controls: **28 bones in the Yoga rig**. Torso influence
+is distributed along those controls to represent Cat/Cow curves, flexion and
+extension while retaining shoulder and pelvis anchors. Shoulder controls distribute
+rotation between torso and humerus to retain the surface as arms lift or fold.
+Each bone structure uses a rigid control; skin and muscles interpolate influences.
+The source atlas and exercise rig retain their geometry and behavior. The spinal
+curve is an educational approximation, not a simulation of individual vertebrae or soft tissue.
 
-Algunos tendones largos ligados a la tibia pueden intersectar el piso
-en la capa muscular al flexionar mucho el tobillo; los apoyos se verifican sobre
-la superficie de piel. Yoga calibra rodillas y apoyo anterior de pelvis usando
-la superficie deformada de cada modelo, para evitar que queden suspendidos sobre
-la colchoneta. Las pruebas del GLB comprueban esa superficie para ambos modelos
-y el apoyo de cabeza y espalda en las posturas supinas.
+Entry and exit coordinate the base, torso, head and limbs with their own timing.
+Free hands follow arcs, and supports are resolved again each frame. A small chest
+variation during the hold avoids an immobile body without prescribing a breathing
+pattern. Framing measures the whole cycle, including exit and small variations.
+The Yoga studio uses soft lighting, short shadows, a thick mat and rounded blocks.
+Default angles show the spinal profile and supports.
 
-## Prácticas y registro
+Some long tibial tendons can intersect the floor in the muscle layer during deep
+ankle flexion; supports are checked on the skin surface. Yoga calibrates knees
+and anterior pelvic support against each model's deformed surface to prevent
+floating above the mat. GLB tests check that surface for both models and check
+head and back support in supine postures.
 
-Una práctica guarda nombre, intención y una secuencia ordenada. Cada aparición de
-una asana tiene su propio identificador, tiempo y lado; repetir una postura es
-válido. Las posturas asimétricas se practican por lado, con temporizadores
-separados. Las propuestas iniciales se pueden adaptar antes de guardar.
+<a id="prácticas-y-registro"></a>
 
-La práctica guiada permite pausar, continuar, omitir posturas y terminar antes.
-El registro conserva una copia de la secuencia y solo los tramos realizados:
-editar o borrar una práctica no cambia su historial. El tiempo pausado y los
-tramos omitidos no generan minutos registrados. La pantalla de revisión permite
-añadir notas antes de guardar.
+## Practices and recording
 
-Yoga aparece también en **Mi progreso**. Cuenta para los días activos y suma un
-XP por minuto acumulado de práctica registrada. No completa objetivos de fuerza
-ni genera repeticiones, series o minutos de cardio.
+A practice stores its name, intention and ordered sequence. Each asana occurrence
+has its own identifier, duration and side; repeated postures are valid. Asymmetric
+postures use separate timers for each side. Initial suggestions can be adapted before saving.
 
-## Persistencia
+Guided practice supports pause, resume, skipping postures and finishing early.
+Records retain a sequence snapshot and only completed segments; editing or
+deleting a practice does not rewrite history. Paused time and skipped segments
+produce no recorded minutes. Users can add notes on the review screen before saving.
 
-Los esquemas compartidos están en `packages/scene-schema/src/yoga.ts`.
-`PersonalSettings.yoga` es opcional para mantener compatibles las copias v2 y
-los clientes antiguos: omitir este campo no borra datos existentes. Contiene
-`practices` y `logs`; los registros validan que sus pasos, lados y duraciones
-correspondan a la secuencia guardada y que la duración total sea su suma.
+Yoga also appears in progress (localized label `Mi progreso`). It counts toward
+active days and adds one XP per accumulated minute of recorded practice. It does
+not complete strength goals or generate repetitions, sets or cardio minutes.
 
-La demo guarda estos datos en la copia personal local. Una instancia usa la
-cuenta activa y revisiones del servidor; los datos de otra cuenta no se mezclan
-con la biblioteca pública ni con la copia local. Un fallo de guardado conserva
-el formulario para reintentar. La exportación personal incluye yoga. Al importar
-en una cuenta, los registros se combinan por identificador; restaurar ajustes
-incluye también las prácticas. Conflictos con el mismo identificador y otro
-contenido se rechazan.
+<a id="persistencia"></a>
 
-## Archivos principales
+## Persistence
 
-- `apps/b2c-web/src/data/yoga.ts`: contenido y secuencias iniciales.
-- `apps/b2c-web/src/components/YogaPage.tsx`: biblioteca y prácticas.
-- `apps/b2c-web/src/components/YogaPracticeEditor.tsx`: editor de secuencias.
-- `apps/b2c-web/src/components/YogaSession.tsx`: guía, tiempos y revisión.
-- `apps/b2c-web/src/components/YogaAsanaArt.tsx`: posters del atlas para cada modelo y lado.
-- `apps/b2c-web/src/components/YogaViewer.tsx`: visor interactivo y alternativa estática.
-- `apps/b2c-web/src/components/YogaStage.tsx`: atlas, pose y cámara compartidos con la captura.
-- `apps/b2c-web/src/lib/yoga-rig.ts`: poses de las 24 asanas sobre el rig anatómico.
-- `apps/b2c-web/src/lib/yoga-anatomy.ts`: preparación del atlas y controles axiales exclusivos de Yoga.
-- `apps/b2c-web/src/lib/yoga-motion.ts`: ciclo, fases e interpolación del movimiento.
-- `apps/b2c-web/src/lib/yoga-rendering.ts`: encuadre de la pose y vistas del modelo.
-- `apps/b2c-web/src/lib/yoga-preview-assets.ts`: rutas de las imágenes por asana, modelo y lado.
-- `apps/b2c-web/src/lib/store.yoga.ts`: operaciones compartidas de persistencia.
-- `apps/b2c-web/src/lib/yoga-practice.ts`: búsqueda, lados y tiempos.
-- `scripts/export-yoga-blender.mjs`: exportación del rig y sus ciclos a GLB con animaciones.
-- `scripts/blender/build_yoga.py`: preparación de la escena editable de Blender.
+Shared schemas are in `packages/scene-schema/src/yoga.ts`. `PersonalSettings.yoga`
+is optional for compatibility with v2 backups and older clients: omitting the
+field does not delete existing data. It contains `practices` and `logs`. Records
+validate that steps, sides and durations match the saved sequence and that total
+duration equals their sum.
 
-Las validaciones de yoga se ejecutan con las pruebas de schema, web y API.
-La aceptación del flujo de usuario está en `apps/b2c-web/e2e/yoga.spec.ts`.
-`apps/b2c-web/e2e/yoga-3d.spec.ts` cubre los posters realmente cargados, la preferencia
-global, los lados de la práctica, la alternativa sin WebGL y el visor interactivo.
-Los casos estáticos simulan la falta de un contexto WebGL en una página aislada.
-La comprobación interactiva exige que llegue el GLB real, que el atlas esté listo
-y que los controles de cámara cambien la imagen del canvas. Guarda capturas de
-ambos modelos para revisión visual.
-Los casos de movimiento comparan el raster durante reproducción, pausa y cambio
-de fase. Además, observan las matrices que llegan a WebGL para comprobar que el
-cuerpo cambia sin mover la cámara. Cubren ambas representaciones y lados,
-velocidad, movimiento reducido, ocultación y suspensión, y comprueban que mirar
-la demostración no inicia el temporizador ni añade tiempo al historial.
+The demo stores these values in the local personal copy. An instance uses the
+active account and server revisions; another account's data is not mixed with
+the public library or local copy. Save failures retain the form for retry.
+Personal export includes yoga. Account import combines records by identifier;
+restoring settings also includes practices. The same identifier with different
+content is rejected as a conflict.
+
+<a id="archivos-principales"></a>
+
+## Main files
+
+- `apps/b2c-web/src/data/yoga.ts`: content and initial sequences.
+- `apps/b2c-web/src/components/YogaPage.tsx`: library and practices.
+- `apps/b2c-web/src/components/YogaPracticeEditor.tsx`: sequence editor.
+- `apps/b2c-web/src/components/YogaSession.tsx`: guide, timers and review.
+- `apps/b2c-web/src/components/YogaAsanaArt.tsx`: atlas posters by model and side.
+- `apps/b2c-web/src/components/YogaViewer.tsx`: interactive viewer and static alternative.
+- `apps/b2c-web/src/components/YogaStage.tsx`: atlas, pose and camera shared with capture.
+- `apps/b2c-web/src/lib/yoga-rig.ts`: poses for all 24 asanas on the anatomical rig.
+- `apps/b2c-web/src/lib/yoga-anatomy.ts`: atlas preparation and Yoga-specific axial controls.
+- `apps/b2c-web/src/lib/yoga-motion.ts`: cycle, phases and movement interpolation.
+- `apps/b2c-web/src/lib/yoga-rendering.ts`: pose framing and model views.
+- `apps/b2c-web/src/lib/yoga-preview-assets.ts`: image paths by asana, model and side.
+- `apps/b2c-web/src/lib/store.yoga.ts`: shared persistence operations.
+- `apps/b2c-web/src/lib/yoga-practice.ts`: search, sides and durations.
+- `scripts/export-yoga-blender.mjs`: rig and cycle export to animated GLB.
+- `scripts/blender/build_yoga.py`: editable Blender scene preparation.
+
+Yoga validation runs with schema, web and API tests. User-flow acceptance is in
+`apps/b2c-web/e2e/yoga.spec.ts`. `apps/b2c-web/e2e/yoga-3d.spec.ts` covers actually
+loaded posters, the global preference, practice sides, the no-WebGL alternative
+and the interactive viewer. Static cases simulate an unavailable WebGL context
+on an isolated page. The interactive check requires the real GLB to arrive, the
+atlas to become ready and camera controls to change the canvas image. It saves
+screenshots of both models for visual review.
+
+Movement cases compare raster output during playback, pause and phase changes.
+They also observe matrices reaching WebGL to verify that the body changes while
+the camera stays fixed. They cover both representations and sides, speed,
+reduced motion, hiding and suspension, and verify that watching a demonstration
+starts neither the timer nor recorded history time.
 
 ```sh
 pnpm --filter @klisteniapp/b2c-web exec playwright test e2e/yoga-3d.spec.ts e2e/yoga.spec.ts e2e/model-variant.spec.ts
 ```
 
-El flujo de instancia se comprueba con `apps/b2c-web/e2e/yoga-account.spec.ts`:
-conflictos de revisión, recuperación como copia, borrado con acceso vencido y
-reintento de un fallo de red. Su configuración autónoma usa un bundle de
-instancia y una API simulada:
+The instance flow in `apps/b2c-web/e2e/yoga-account.spec.ts` covers revision
+conflicts, recovery as a copy, deletion with expired access and network-failure
+retry. Its standalone configuration uses an instance bundle and simulated API:
 
 ```sh
 pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.yoga-account.config.ts
 ```
 
-Estas pruebas no sustituyen la integración PostgreSQL de `apps/b2c-api/tests`:
-esa integración requiere una base desechable y no debe usar cuentas reales.
+These tests do not replace PostgreSQL integration in `apps/b2c-api/tests`, which
+requires a disposable database and must never use real accounts.
 
-## Generar posters y animaciones
+<a id="generar-posters-y-animaciones"></a>
 
-Desde la raíz del repositorio:
+## Generate posters and animations
+
+From the repository root, for later content work; full regeneration remains deferred:
 
 ```sh
 pnpm yoga-previews:generate
 pnpm yoga-previews:check
 
-# Iterar una asana y una representación
+# Iterate on one asana and one representation
 pnpm yoga-previews:generate --asana vrksasana --model female
 
-# Exportar hojas de contacto para comparar todas las poses
+# Export contact sheets to compare all poses
 pnpm yoga-previews:generate --contact-sheets /tmp/klisteni-yoga-review
 ```
 
-El generador `scripts/generate-yoga-previews.mjs` renderiza las poses en Chromium
-con WebGL y codifica un poster y una animación WebP por variante. Requiere las
-dependencias del repositorio, Chromium de Playwright, `cwebp` e `img2webp`, igual
-que las miniaturas anatómicas de ejercicios. No requiere una cuenta ni datos
-personales.
+`scripts/generate-yoga-previews.mjs` renders poses in Chromium with WebGL and encodes
+one poster and one animated WebP per variant. It requires repository dependencies,
+Playwright Chromium, `cwebp` and `img2webp`, like anatomical exercise thumbnails.
+No account or personal data is required.
 
-Las imágenes se guardan en
-`packages/model-assets/public/previews/yoga/{male|female}/{asanaId}-{both|left|right}.webp` y la
-animación añade el sufijo `-motion.webp`. Cada modelo tiene una pareja para cada
-postura bilateral y dos parejas para cada postura asimétrica: **64 posters y 64
-animaciones para las 24 asanas y los dos modelos**. El manifiesto
-registra las fuentes y los hashes de las imágenes. `yoga-previews:check` detecta
-archivos ausentes o desactualizados sin volver a renderizar y forma parte de
-`pnpm previews:check`.
+Images are saved in
+`packages/model-assets/public/previews/yoga/{male|female}/{asanaId}-{both|left|right}.webp`;
+animations add `-motion.webp`. Each model has one pair per bilateral posture and
+two pairs per asymmetric posture: **64 posters and 64 animations for 24 asanas
+and two models**. The manifest records sources and image hashes.
+`yoga-previews:check` detects missing or stale files without rendering and forms
+part of `pnpm previews:check`.
 
-El generador y el visor comparten la pose y el modelo. Al cambiar una pose, su
-encuadre o las fuentes del atlas, regenerá las imágenes y revisá visualmente ambas
-representaciones y los dos lados. Los hashes prueban la procedencia de los
-archivos; no sustituyen esa revisión visual.
+The generator and viewer share poses and models. Changes to poses, framing or
+atlas sources require regenerated images and visual review of both representations
+and sides. Hashes establish file provenance; they do not replace visual review.
 
-La entrada de captura es `apps/b2c-web/yoga-preview-capture.html`, servida por un Vite
-aislado durante la generación. Usa `YogaStage` con la capa muscular y una cámara
-ortográfica que encuadra el ciclo completo una sola vez, incluida la morfología
-elegida. Los posters predeterminados miden **512 × 384 píxeles** y las animaciones
-**384 × 288**, con 240 muestras a 20 cuadros por segundo para el ciclo de 12
-segundos. `--size` cambia el ancho del poster entre 128 y 1024; la altura conserva
-la relación 4:3 y la animación limita su ancho a 384. `--fps` admite 4, 5, 8, 10,
-20 o 25. Las capturas de desarrollo no se incorporan al build público.
+The capture entry `apps/b2c-web/yoga-preview-capture.html` is served by an isolated
+Vite during generation. It uses `YogaStage`, the muscle layer and an orthographic
+camera that frames the whole cycle once, including selected morphology. Default
+posters are **512 × 384 pixels** and animations **384 × 288**, with 240 samples at
+20 fps for the 12-second cycle. `--size` changes poster width from 128 to 1024;
+height retains 4:3, and animation width is limited to 384. `--fps` accepts 4, 5,
+8, 10, 20 or 25. Development captures are excluded from public builds.
 
-Para revisar otras capas sin cambiar los posters, esa entrada admite
-`?asana=marjaryasana&model=female&layer=skin&view=side`. `layer` acepta `muscles`,
-`skin`, `skeleton` o `combined`; `view` acepta `perspective`, `front`, `side` o
-`back`. Los valores predeterminados siguen siendo `muscles` y `perspective`.
-La API de captura `window.__yogaCapture.frame(fase)` permite inspeccionar de
-forma determinista cualquier punto del ciclo entre 0 y 1.
+To review other layers without changing posters, the entry accepts
+`?asana=marjaryasana&model=female&layer=skin&view=side`. `layer` accepts `muscles`,
+`skin`, `skeleton` or `combined`; `view` accepts `perspective`, `front`, `side` or
+`back`. Defaults remain `muscles` and `perspective`. The capture API
+`window.__yogaCapture.frame(fase)` deterministically inspects any cycle point from 0 to 1.
 
-`--contact-sheets` exporta tanto las posturas de permanencia como comparaciones
-de preparación, entrada y permanencia, para revisar las trayectorias de ambos
-modelos y cada lado.
+`--contact-sheets` exports hold postures and preparation-entry-hold comparisons
+to review trajectories for both models and every side.
 
-El manifiesto incluye variante, lado, límites geométricos, cámara, versión de las
-herramientas, procedencia del atlas, duración, cuadros distintos y hashes de
-fuentes y WebP. El chequeo también valida la duración y el bucle del archivo
-animado a través de sus bloques ANIM/ANMF. El manifiesto usa la versión 2 y el
-generador exige que el cuerpo produzca cuadros distintos manteniendo la cámara
-y los límites del encuadre constantes en cada cuadro. Las imágenes son
-renders derivados del atlas y conservan sus [créditos y licencia](../packages/model-assets/public/previews/yoga/NOTICE.md).
-No se promete igualdad de píxeles entre GPU o versiones de Chromium distintas.
+The manifest includes variant, side, geometric bounds, camera, tool versions,
+atlas provenance, duration, distinct frames, and source/WebP hashes. Checks also
+validate animation duration and looping through ANIM/ANMF blocks. Manifest v2
+requires distinct body frames while camera and framing bounds remain constant
+for every frame. Derived atlas renders retain [credits and license](../packages/model-assets/public/previews/yoga/NOTICE.md).
+Identical pixels across GPUs or Chromium versions are not guaranteed.
 
-## Taller de Blender
+<a id="taller-de-blender"></a>
 
-`node scripts/export-yoga-blender.mjs` exporta a
-`artifacts/yoga-quality/blender/` el atlas preparado, los pesos y los mismos
-movimientos que utiliza el visor. Produce un GLB por modelo, con 32 clips cada
-uno: **64 clips** para las 24 asanas y sus lados.
-Los clips se muestrean a 24 cuadros por segundo e incluyen preparación, entrada,
-permanencia y salida. Un manifiesto enumera modelos, huesos y acciones.
+## Blender workshop
 
-`scripts/blender/build_yoga.py` prepara esos archivos como un taller editable y
-guarda `assets/blender/yoga-quality.blend`, con una escena por modelo y acciones
-que se pueden elegir en el editor de acciones. Ese archivo se genera desde las
-fuentes; el atlas original permanece en su propio archivo.
+`node scripts/export-yoga-blender.mjs` exports the prepared atlas, weights and
+viewer movements to `artifacts/yoga-quality/blender/`. It creates one GLB per
+model, each with 32 clips: **64 clips** for 24 asanas and their sides. Clips sample
+at 24 fps and include preparation, entry, hold and exit. A manifest lists models,
+bones and actions.
 
-El constructor verifica los hashes de fuentes y GLB, los huesos, las acciones y
-sus tiempos antes de guardar. La reproducción cubre los cuadros 1–288 a 24 fps;
-el cuadro 289 conserva la clave de cierre, igual al primero.
-Elimina sólo claves interiores redundantes de tramos constantes con interpolación
-lineal, conservando ambos extremos y cada muestra que cambia. También limpia los
-buffers del explorador de archivos antes de guardar el archivo público.
-La cámara fija mide la geometría deformada en 33 fases de cada acción, incluye
-los bloques y ambas orientaciones de colchoneta, y conserva margen en los bordes.
-El archivo incluye los créditos del atlas y el texto completo de su licencia.
+`scripts/blender/build_yoga.py` prepares an editable workshop and saves
+`assets/blender/yoga-quality.blend`, with one scene per model and actions selectable
+in the action editor. It is generated from sources; the original atlas retains
+its own file.
 
-Los bloques se organizan en colecciones por acción bajo **Pose supports**,
-excluidas por defecto. Activá la colección correspondiente cuando una asana usa
-bloques y desactivala al cambiar de postura. La colchoneta se puede girar 90°
-alrededor de Z para Guerrero II y Triángulo. No requiere ejecutar scripts al
-abrir el archivo para reproducir las acciones o mostrar los apoyos.
+Before saving, the builder verifies source and GLB hashes, bones, actions and
+timing. Playback covers frames 1–288 at 24 fps; frame 289 retains the closing key,
+identical to the first. It removes only redundant interior keys in constant
+linear-interpolation spans, retaining both endpoints and every changing sample.
+It also clears file-browser buffers before saving the public file. The fixed
+camera measures deformed geometry at 33 phases per action, includes blocks and
+both mat orientations, and retains edge margins. The file includes atlas credits
+and its complete license text.
 
-Las exportaciones son artefactos de trabajo derivados del atlas; los ajustes
-permanentes de la aplicación siguen viviendo en las fuentes de Yoga. Después de
-cambiar esos ajustes, regenerá el taller y las miniaturas para mantenerlos de
-acuerdo con el visor, y conservá los créditos y la licencia del atlas.
+Blocks are organized in per-action collections under **Pose supports**, excluded
+by default. Enable the corresponding collection for asanas using blocks and
+disable it when changing posture. The mat can rotate 90° around Z for Warrior II
+and Triangle. No scripts need to run on file opening for playback or supports.
+
+Exports are working artifacts derived from the atlas. Permanent application
+adjustments remain in Yoga sources. After those adjustments change, regenerate
+the workshop and thumbnails to match the viewer, retaining atlas credits and license.

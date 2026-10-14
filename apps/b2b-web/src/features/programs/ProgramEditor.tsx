@@ -104,7 +104,7 @@ export function ProgramEditor({
         title={program ? 'Ajustá el próximo paso.' : 'Una rutina a medida.'}
         description="Definí dosis, descansos y alternativas permitidas para cada movimiento."
       >
-        <button className="button" onClick={onClose}>
+        <button className="button" disabled={action.busy} onClick={onClose}>
           Volver a rutinas
         </button>
       </Heading>
