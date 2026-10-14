@@ -1,121 +1,145 @@
-# QA B2C visitante / modo local — 13 de octubre de 2026
+<a id="qa-b2c-visitante--modo-local--13-de-octubre-de-2026"></a>
+# B2C visitor / local-mode QA — October 13, 2026
 
-Rama: `qa/b2c-visitor-local-20261013`. Base limpia: `7172041102a8a7029af5fb3e2527a1fa51611a86`.
-`git fetch origin main` confirmó HEAD = origin/main, sin necesidad de fast-forward.
-Atlas: `/workspace/sysadmin-workspace`, limpio, `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`, también actualizado mediante fetch y sin cambios de contenido.
+Branch: `qa/b2c-visitor-local-20261013`. Clean base: `7172041102a8a7029af5fb3e2527a1fa51611a86`.
+`git fetch origin main` confirmed HEAD = origin/main; no fast-forward needed.
+Atlas: `/workspace/sysadmin-workspace`, clean, `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`, also fetched without content changes.
 
-Esta copia para publicación conserva el código probado y la documentación textual. No incluye merge ni deploy. Los commits originales y los binarios de evidencia permanecen en el checkout original y su bundle verificado.
-Modelos, capturas fuente y previews se conservaron. La [matriz con estados por motor/ancho/modo](validation/b2c-visitor-2026-10-13/matrix.md) y el [resultado JSON](validation/b2c-visitor-2026-10-13/results.json) conservan cifras, corridas originales y evidencia.
+This publication copy preserves tested code/textual documentation. No merge or
+deployment. Original commits/binary evidence remain in original checkout/verified
+bundle. Models, source captures and previews preserved. [Engine/width/mode matrix](validation/b2c-visitor-2026-10-13/matrix.md)
+and [JSON results](validation/b2c-visitor-2026-10-13/results.json) retain counts,
+original runs/evidence.
 
-## Inventario previo a los casos
+<a id="inventario-previo-a-los-casos"></a>
+## Inventory before cases
 
-Leídos `AGENTS.md`, la skill Atlas local `atlas-navigate`, la política source-of-truth,
-el catálogo/relaciones/wiki de Klisteniapp, `docs/roadmap-implementacion.md`, arquitectura,
-demo pública, desarrollo, salud e importación, yoga, y los componentes/acciones del store.
-Atlas aporta contexto histórico; el código y esta ejecución local determinan lo probado.
+Read `AGENTS.md`, local Atlas `atlas-navigate`, source-of-truth policy,
+Klisteniapp catalog/relations/wiki, `docs/roadmap-implementacion.md`, architecture,
+public demo, development, health/import, yoga and store components/actions. Atlas
+provides historical context; code/local execution determine tested behavior.
 
-Las seis secciones principales son estado interno de `/`, no seis rutas del navegador.
-`AppRoot.tsx` administra `/privacy`, historial del navegador y rutas públicas de cuenta.
+Six main sections are internal `/` state, not six browser routes. `AppRoot.tsx`
+manages `/privacy`, browser history and public account routes. Localized section
+names below identify actual UI.
 
-| Superficie | Acciones del visitante inventariadas | Casos / evidencia |
+| Surface | Inventoried visitor actions | Cases / evidence |
 | --- | --- | --- |
-| `/` · Mi rutina | Seleccionar ejercicio; técnica/pasos/variantes; músculos; progresiones/alternativas; movilidad; fuentes; consejos; personalizar orden/agregar/quitar/series; comenzar fuerza; cardio | V01–V07, tests app, catálogo, planificación, biblioteca |
-| Biblioteca | Búsqueda bilingüe/sin acentos; patrón, dificultad y equipo combinados; vacíos/reset; abrir movimiento sin cambiar rutina | V01, catálogo y planificación existentes |
-| Mi cuerpo | Doce regiones; filtros; búsqueda anatomía/yoga; expandir anatomía; roles de la rutina; abrir ejercicio/asana; visor optativo y fallback | V01, biblioteca, body-guide y anatomía existentes |
-| Visor compartido | Piel/músculo/hueso; seleccionar estructura; play/pause/velocidad/fase; reiniciar/orbitar/cámara; ampliación; anotaciones; alternativa sin WebGL | Pruebas existentes de renderer y fallback; límites separados debajo |
-| Yoga | 24 fichas, sánscrito/inglés, nivel/familia, fuentes/cuidados; crear desde cero/plantilla/asana; reordenar/repetir/lado/duración; cancelar/descartar; editar/eliminar práctica; guía, pausa/salto/resumen/notas; historial y eliminación | V12/V16, suite yoga existente |
-| Mi progreso | Vacío, calendario/XP, fuerza/cardio/yoga; detalle; agregar cardio; confirmar/cancelar eliminación | V03–V07, V12, V18 |
-| Mi salud · Resumen | Período, medida/fuente, registros/fechas visibles, evolución, sueño, entrenamiento, alimentación y suplementos, objetivos, enlaces hacia formularios | V08, auditoría y capturas |
-| Mi salud · Cuerpo | Perfil opcional, registros, editar/eliminar, fecha/origen/notas, filtros de fecha y paginación | V08/V09; filtros/paginación pendientes según matriz |
-| Sueño y actividad | Sueño, fases/horarios/puntuación; pasos/pulso/energía/actividad y asociación opcional de entrenamiento; CRUD | V08/V09; campos adicionales pendientes según matriz |
-| Alimentación | Comidas/macronutrientes; suplementos/dosis/unidad; CRUD | V08; cada variante de edición pendiente según matriz |
-| Objetivos | Métrica/valor/inicio/plazo/notas; progreso, editar/eliminar | V08; todos los plazos y métricas pendientes según matriz |
-| Salud · Importar | Plantilla vacía; JSON normalizado; vista previa, reanálisis/descartar/confirmar; deduplicación, errores, límites 2 MiB | V10 |
-| Ajustes | ES/EN/FR; claro/oscuro/sistema; seis paletas; modelo corporal; objetivo semanal; movimiento reducido; configuración inicial; privacidad; exportar/importar v1/v2; recuperación, límite 9 MiB | V02/V11/V13/V14/V17, settings/themes/model-variant existentes |
-| `/privacy` | Entrada directa, volver, back/forward, mantener borrador durante ida/vuelta, foco | V13 y demo/settings existentes |
-| Instancia sin cuenta | Descubrimiento de sesión; cookie inválida; API sin respuesta; conservar local; botón de cuenta/planificación y acceso público | V15; ciclo de cuenta pertenece a la sesión B2C con cuenta |
-| `/account/join`, recuperación/restablecimiento y `?account=login` | En demo se ignoran las intenciones de cuenta; en instancia abren UI pública de cuenta | Ignorar rutas en demo: suite existente. Alta/login/recuperación: NOT RUN en este rol |
+| `/` · Mi rutina | Select exercise; technique/steps/variants/muscles/progressions/alternatives/mobility/sources/tips; customize order/add/remove/sets; start strength/cardio | V01–V07, app/catalog/planning/library tests |
+| Biblioteca | Bilingual/accent-insensitive search; combined pattern/difficulty/equipment; empty/reset; open without routine change | V01, existing catalog/planning |
+| Mi cuerpo | Twelve regions/filters, anatomy/yoga search, expand anatomy, routine roles, open exercise/asana, optional viewer/fallback | V01, existing library/body-guide/anatomy |
+| Shared viewer | Skin/muscle/bone, select structure, play/pause/speed/phase, reset/orbit/camera, expansion/annotations/no-WebGL fallback | Existing renderer/fallback tests; separate limits below |
+| Yoga | 24 cards, Sanskrit/English, level/family/sources/cautions; create from scratch/template/asana; order/repeat/side/duration; cancel/discard/edit/delete; guide/pause/skip/summary/notes/history/delete | V12/V16, existing yoga suite |
+| Mi progreso | Empty/calendar/XP, strength/cardio/yoga/details, add cardio, confirm/cancel deletion | V03–V07, V12, V18 |
+| Mi salud · Resumen | Period/measurement/source, visible records/dates, trends/sleep/training/nutrition/supplements/goals/form links | V08, audit/captures |
+| Mi salud · Cuerpo | Optional profile, records/edit/delete/date/source/notes/date filters/pagination | V08/V09; filters/pagination pending per matrix |
+| Sleep/activity | Sleep/phases/times/score; steps/pulse/energy/activity/optional training association; CRUD | V08/V09; extra fields pending per matrix |
+| Nutrition | Meals/macronutrients, supplements/dose/unit, CRUD | V08; every editing variant pending per matrix |
+| Goals | Metric/value/start/deadline/notes/progress/edit/delete | V08; all deadlines/metrics pending per matrix |
+| Salud · Importar | Empty template, normalized JSON, preview/reanalyze/discard/confirm/deduplicate/errors/2 MiB limit | V10 |
+| Ajustes | ES/EN/FR; light/dark/system; six palettes/body model/weekly goal/reduced motion/initial setup/privacy/v1-v2 export-import/recovery/9 MiB limit | V02/V11/V13/V14/V17, existing settings/themes/model-variant |
+| `/privacy` | Direct entry/return/back-forward, retain draft/focus | V13 and existing demo/settings |
+| Instance without account | Session discovery/invalid cookie/unresponsive API/retain local/account-planning button/public access | V15; account lifecycle belongs to signed-in B2C session |
+| `/account/join`, recovery/reset, `?account=login` | Demo ignores account intent; instance opens public account UI | Demo route ignoring: existing suite. Registration/login/recovery: role NOT RUN |
 
-## Escenario y motores
+<a id="escenario-y-motores"></a>
+## Scenario and engines
 
-- Node `24.19.0`; dependencias del checkout ya disponibles. pnpm nativo inicial `11.25.0`; pnpm `12.7.0` instalado en caché del workspace para validación final.
-- Demo compilada, sin transportes de cuenta ni analytics. Instancia compilada con perfil público de ejemplo y proxy a API B2C real.
-- PostgreSQL `17.11` en contenedor desechable `klisteni-visitor-qa-pg-20261013`, puerto loopback `54339`, DB/usuario ficticios `visitor_qa`; schema aleatorio creado y retirado por `accounts-e2e-server.ts`.
-- API `127.0.0.1:4182`, instancia `127.0.0.1:4181`, demo final `127.0.0.1:4177` (4176 conserva el build anterior al ajuste de overflow). Billing y correo deshabilitados en el fixture. No hubo login ni escrituras de usuario del visitante en API.
-- Chromium del sistema `154.0.8037.57`, Debian 13. Descarga del Chromium incluido por Playwright bloqueada por HTTP 403; se usó `/usr/bin/chromium`.
-- Playwright `1.63.0`, WebKit `26.6` / build `2359`, WPE Linux. Sus dependencias se descargaron y extrajeron sólo en `/workspace/.cache`, con enlaces a `minibrowser-{gtk,wpe}/sys/lib`; no se instalaron paquetes del sistema.
-- Proyectos: `chromium-narrow`, `webkit-narrow`: **320×740**, touch + isMobile; `*-mobile`: **430×932**, touch + isMobile; `*-desktop`: **1440×1000**, sin touch. Tests existentes también usan **390×844**, **320×740** y **320×926 / 486×926** para thumbnails. Estos cambios de viewport dentro de tests existentes mantienen los flags desktop del proyecto; los proyectos propios sí activan touch/isMobile.
-- V18 genera eventos `pointerType=touch` mediante `tap()` y verifica el dato persistido. Son simulaciones de navegador, no pruebas físicas de iPhone/Android, ni Safari de un teléfono.
+- Node `24.19.0`; checkout dependencies available. Initial native pnpm `11.25.0`;
+  pnpm `12.7.0` installed in workspace cache for final validation.
+- Built demo without account transports/analytics. Built instance with example
+  public profile/proxy to real B2C API.
+- PostgreSQL `17.11`, disposable `klisteni-visitor-qa-pg-20261013` container,
+  loopback `54339`, fictional DB/user `visitor_qa`; random schema created/removed
+  by `accounts-e2e-server.ts`.
+- API `127.0.0.1:4182`, instance `127.0.0.1:4181`, final demo `127.0.0.1:4177`
+  (4176 retains pre-overflow-adjustment build). Fixture billing/mail disabled.
+  Visitor performed no login/API user writes.
+- System Chromium `154.0.8037.57`, Debian 13. Bundled download blocked by HTTP 403;
+  `/usr/bin/chromium` used.
+- Playwright `1.63.0`, WebKit `26.6` / build `2359`, WPE Linux. Dependencies
+  downloaded/extracted only in `/workspace/.cache`, linked to
+  `minibrowser-{gtk,wpe}/sys/lib`; no system packages installed.
+- `chromium-narrow`, `webkit-narrow`: **320×740**, touch + isMobile; `*-mobile`:
+  **430×932**, touch + isMobile; `*-desktop`: **1440×1000**, no touch. Existing
+  tests also use **390×844**, **320×740**, **320×926 / 486×926** for thumbnails;
+  internal viewport changes retain desktop flags, while role projects enable touch/isMobile.
+- V18 generates `pointerType=touch` through `tap()` and checks persisted data.
+  Browser simulation, not physical iPhone/Android or phone Safari testing.
 
-Las pruebas de datos abortan GLB deliberadamente para ejercitar la alternativa textual del producto.
-El renderer real se prueba aparte; no se mezcla ese resultado con la disponibilidad de contenido/fallback.
-Las trazas conservan DOM/red/código, y las capturas se toman explícitamente; no se actualizaron snapshots de aceptación para obtener verde.
+Data tests deliberately abort GLB for textual fallback; real renderer tested
+separately without conflating content/fallback availability. Traces retain DOM/
+network/code, captures taken explicitly; acceptance snapshots not updated to pass.
 
-## Bugs corregidos
+<a id="bugs-corregidos"></a>
+## Corrected bugs
 
-| ID | Reproducción anterior | Corrección / regresión |
+| ID | Prior reproduction | Correction / regression |
 | --- | --- | --- |
-| B01 | Personalizar orden/series sin guardar antes salud/yoga → exportación v1 omite la rutina | Exportar copia v2 cuando hay preferencias locales; V02 restaura en otro contexto y recarga; tests de ambos stores |
-| B02 | Registrar cardio → simular cuota al borrar → desaparece la fila aunque sigue en disco y no se puede reintentar | Mantener fila hasta eliminación durable; V05 conserva, reintenta y verifica disco; ambos stores |
-| B03 | Copia personal corrupta → exportar original → confirmar importación v2 válida → rechazo permanente | Sólo la importación confirmada permite reemplazar copia ilegible; conserva original recuperable y anteriores recuperaciones; V17 y tests de stores |
-| B04 | Resumen de salud: `small` fuera de `dt/dd` dentro del agrupador de `dl` | Cobertura de registros dentro de `dd`, aspecto conservado; axe definition-list |
-| B05 | Fichas de yoga: nombre accesible del botón omite la familia visible | Nombre incluye nombre de asana y familia traducida; axe label-content-name-mismatch |
-| B06 | WebKit a 320 px: la anchura intrínseca de selects de apariencia crea 15 px de scroll horizontal en Ajustes | Tracks y labels encogen dentro del contenido; sin ocultar overflow. Suite themes/settings y medición clientWidth = scrollWidth |
+| B01 | Customize order/sets without prior health/yoga save → v1 export omits routine | Export v2 when local preferences exist; V02 restores in another context/reloads; both stores tested |
+| B02 | Record cardio → simulate deletion quota → row disappears although on disk and retry unavailable | Retain row until durable deletion; V05 retains/retries/checks disk; both stores |
+| B03 | Corrupt personal copy → export original → confirm valid v2 import → permanent rejection | Only confirmed import replaces unreadable copy; recoverable original/prior recoveries retained; V17/store tests |
+| B04 | Health summary: `small` outside `dt/dd` in `dl` group | Record coverage inside `dd`, appearance retained; axe definition-list |
+| B05 | Yoga button accessible name omits visible family | Name includes asana/translated family; axe label-content-name-mismatch |
+| B06 | WebKit 320 px: intrinsic appearance-select width creates 15 px Settings horizontal scroll | Tracks/labels shrink within content without hiding overflow; themes/settings and clientWidth = scrollWidth |
 
-Archivos compartidos con el rol B2C con cuenta que requieren integrar con cuidado:
-`src/lib/store.ts`, `store.local.ts`, `components/HealthDashboard.tsx`, `health-dashboard.css`,
-`YogaPage.tsx`, `components/settings.css`, tests `account-store.test.ts`, `local-store.test.ts`, `tsconfig.json`.
-El camino autenticado no se cambió; la suite de stores incluye sus regresiones de cuenta.
-No se modificó ningún paquete de anatomía, catálogo, geometría o API.
+Files shared with signed-in B2C role requiring careful integration:
+`src/lib/store.ts`, `store.local.ts`, `components/HealthDashboard.tsx`,
+`health-dashboard.css`, `YogaPage.tsx`, `components/settings.css`,
+`account-store.test.ts`, `local-store.test.ts`, `tsconfig.json`. Authenticated path
+unchanged; store suite retains account regressions. No anatomy/catalog/geometry/API package changes.
 
-## Matriz de flujos
+<a id="matriz-de-flujos"></a>
+## Flow matrix
 
-La matriz por motor/ancho/modo, duración, estado y ruta de traza está en `results.json`.
-Cada fila V01–V18 se ejecuta en contextos nuevos y fixtures separados. PASS requiere
-aserciones de UI y, para mutaciones, inspección del almacenamiento y/o recarga.
+Per-engine/width/mode duration/status/trace path: `results.json`. V01–V18 each use
+fresh contexts/separate fixtures. PASS requires UI assertions and, for mutations,
+storage inspection and/or reload.
 
-| Caso | Alcance |
+| Case | Scope |
 | --- | --- |
-| V01 | Vacíos de seis secciones, capturas, sin overflow, filtros/reset, anatomía y cero historial inventado |
-| V02 | Rutina personalizada sola → exportación → contexto independiente → importación → recarga |
-| V03 | Cardio inválido/futuro, cancelar, doble envío, exactitud de minutos/distancia, recarga, borrar/cancelar |
-| V04 | Cuota en cardio: conservar formulario y reintentar sin duplicar |
-| V05 | Cuota al borrar: conservar fila y disco, reintentar |
-| V06 | Fuerza: repeticiones inválidas, bloqueo de edición/reinicio, seis series distintas, doble guardado, recarga |
-| V07 | Fuerza: seguir entrenando, salir sin guardar, recarga descarta borrador, cero XP |
-| V08 | Perfil corporal, medición/edición, sueño, pulso, comida, suplemento, objetivo; recarga y eliminación sin perder otra colección |
-| V09 | Salud vacía, fuera de rango, fases imposibles, cuota, conservar formulario y reintentar |
-| V10 | Salud JSON: plantilla vacía, preview, descartar, confirmar, duplicado, corrupto/futuro/>2 MiB |
-| V11 | v1/v2: confirmar/cancelar, corrupto/>9 MiB, conservar otras colecciones, exportar, recargar |
-| V12 | Yoga parcial: pausa no suma, salto no suma, notas, doble guardado; borrar secuencia preserva historial |
-| V13 | Privacidad: back/forward/volver conservan borrador, Escape y restauración de foco |
-| V14 | ES → EN → FR, dark, reload, lang de documento, controles y capturas |
-| V15 | Cookie ficticia caducada, respuesta de API perdida, cardio local sin PUT/POST y recarga |
-| V16 | Yoga completo: evento de visibilidad simulado, pausa, cuota, notas, reintento exacto, recarga |
-| V17 | Original personal corrupto descargable; importación confirmada; recuperación descargable tras recarga |
-| V18 | Tap real sintético / mouse según proyecto, navegación/cardio, foco atrapado en diálogo nativo |
+| V01 | Six empty sections, captures, no overflow, filters/reset, anatomy/no invented history |
+| V02 | Custom routine only → export → independent context → import → reload |
+| V03 | Invalid/future cardio, cancel, double submit, exact minutes/distance, reload/delete/cancel |
+| V04 | Cardio quota: retain form/retry without duplicate |
+| V05 | Delete quota: retain row/disk/retry |
+| V06 | Strength: invalid reps, edit/reset blocking, six different sets, double save/reload |
+| V07 | Strength: continue, leave without saving, reload discards draft, zero XP |
+| V08 | Body profile/measurement/edit/sleep/pulse/meal/supplement/goal; reload/delete retain other collection |
+| V09 | Empty/out-of-range health, impossible phases/quota; retain form/retry |
+| V10 | Health JSON: empty template, preview/discard/confirm/duplicate/corrupt/future/>2 MiB |
+| V11 | v1/v2: confirm/cancel/corrupt/>9 MiB/retain other collections/export/reload |
+| V12 | Partial yoga: pause/skip excluded, notes/double save; deleting sequence retains history |
+| V13 | Privacy: back-forward/return retain draft, Escape/focus restoration |
+| V14 | ES → EN → FR, dark/reload/document lang/controls/captures |
+| V15 | Expired fictional cookie/lost API response/local cardio without PUT/POST/reload |
+| V16 | Complete yoga: simulated visibility/pause/quota/notes/exact retry/reload |
+| V17 | Downloadable corrupt personal original; confirmed import; recovery downloadable after reload |
+| V18 | Synthetic tap / mouse by project, navigation/cardio/native-dialog focus trap |
 
-## Límites y pendientes explícitos
+<a id="límites-y-pendientes-explícitos"></a>
+## Explicit limits and pending work
 
-| Estado | Área | Motivo / seguimiento |
+| Status | Area | Reason / follow-up |
 | --- | --- | --- |
-| FAIL previo | Gate `previews:check` de yoga | `Extraction receipt is stale`; documentado en roadmap/Atlas. Ejercicio 74/74 y cuerpo 24/24 pasan. No se regeneró nada ni se alteró el gate |
-| NOT RUN | Teléfonos físicos, lector de pantalla, voz/Safari iOS y teclado virtual | Navegadores Linux disponibles; revisión física a cargo del usuario |
-| NOT RUN | Todos los campos/variantes CRUD de salud, cada métrica/plazo de objetivo, filtros/paginación con cientos de filas | Casos representativos de cada colección; no afirmar combinatoria completa |
-| NOT RUN | Dos pestañas escribiendo simultáneamente en las mismas claves locales | Contextos aislados y recarga sí se probaron; escritores concurrentes del mismo origen no |
-| NOT RUN | Reloj real, OAuth/Health Connect/Samsung nativo | Importación normalizada con fuente ficticia; integración nativa diferida por el producto |
-| NOT RUN | Aislamiento entre cuentas autenticadas, administración, billing y recuperación por correo | Roles en sesiones independientes; visitante no autentica ni envía correo |
-| NOT RUN | Reinicio offline antes de descargar archivos | No existe service worker; modo local no garantiza disponibilidad offline de la app |
-| NOT RUN | Portabilidad de objetivo semanal/reducir movimiento | Son preferencias del dispositivo fuera del schema personal; V02 prueba orden/series de rutina, no todas las preferencias |
+| Pre-existing FAIL | Yoga `previews:check` gate | `Extraction receipt is stale`; roadmap/Atlas documented. Exercise 74/74, body 24/24 pass. No regeneration/gate change |
+| NOT RUN | Physical phones/screen reader/voice/iOS Safari/virtual keyboard | Available Linux browsers; user physical review |
+| NOT RUN | Every health CRUD field/variant, goal metric/deadline, filters/pagination with hundreds of rows | Representative collection cases, not full combinations |
+| NOT RUN | Two simultaneous writers to same local keys | Isolated contexts/reload tested; same-origin concurrent writers not |
+| NOT RUN | Real clock/OAuth/Health Connect/native Samsung | Normalized import with fictional source; native integration product-deferred |
+| NOT RUN | Authenticated account isolation/administration/billing/mail recovery | Independent role sessions; visitor neither authenticates nor sends mail |
+| NOT RUN | Offline restart before files downloaded | No service worker; local mode does not guarantee offline app availability |
+| NOT RUN | Weekly goal/reduced-motion portability | Device preferences outside personal schema; V02 tests routine order/sets, not every preference |
 
-La sesión empezó dos corridas amplias con exceso de carga de software WebGL: se interrumpieron y
-no se cuentan como aprobadas. Se preservaron sus logs y las regresiones se ejecutaron después.
-Los fallos de selectores durante preparación del harness y del ejecutable pnpm sin postinstall
-están separados de defectos del producto. La validación final usa el binario pnpm instalado.
+Two broad initial runs overloaded software WebGL and were interrupted, not counted
+as passing. Logs retained; regressions run later. Preparation selector failures and
+pnpm executable without postinstall separate from product defects. Final validation
+uses installed pnpm binary.
 
-## Reproducción automática
+<a id="reproducción-automática"></a>
+## Automated reproduction
 
-Desde el root, dependencias y navegadores habituales:
+From root with normal dependencies/browsers:
 
 ```sh
 pnpm install --frozen-lockfile
@@ -123,7 +147,7 @@ pnpm --filter @klisteniapp/b2c-web exec playwright install chromium webkit
 pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.visitor.config.ts
 ```
 
-Para visitante de instancia con DB desechable (sin credenciales reales):
+Instance visitor with disposable DB, no real credentials:
 
 ```sh
 docker run --rm -d --name klisteni-visitor-review-pg \
@@ -136,17 +160,17 @@ TEST_DATABASE_URL=postgresql://visitor_qa@127.0.0.1:54339/visitor_qa \
 docker stop klisteni-visitor-review-pg
 ```
 
-El fixture crea schema aleatorio y lo retira al salir; sólo necesita esa DB aislada.
-No iniciar sesión: se prueba la experiencia local del visitante. El código de fixture genera
-cuentas de prueba internamente; no hace falta copiar credenciales ni activar conexiones.
+Fixture creates/removes random schema; only needs isolated DB. Do not log in:
+local visitor experience is tested. Internal test accounts generated by fixture;
+no credential copying/connection activation required.
 
-Opciones de harness: `VISITOR_BROWSERS=chromium,webkit`, `VISITOR_CHROMIUM_PATH`,
-`VISITOR_WEBKIT_PATH`, `VISITOR_RUN` para nombres inmutables de evidencia, `VISITOR_EXTERNAL_SERVER=1`
-y `VISITOR_URL` para un servidor ya preparado. `VISITOR_EXISTING=1` selecciona suites educativas existentes.
-En este Cloud se usó el Chromium del sistema y el launcher WebKit con librerías locales; los
-resultados finales no requieren omitir validaciones del producto.
+Harness options: `VISITOR_BROWSERS=chromium,webkit`, `VISITOR_CHROMIUM_PATH`,
+`VISITOR_WEBKIT_PATH`, `VISITOR_RUN` for immutable evidence names,
+`VISITOR_EXTERNAL_SERVER=1`, `VISITOR_URL` for prepared server.
+`VISITOR_EXISTING=1` selects existing educational suites. Cloud used system Chromium/
+local-library WebKit launcher; final results need no product-validation bypass.
 
-Auditoría accesible sin cambiar dependencias de la app:
+Accessibility audit without changing application dependencies:
 
 ```sh
 npm install --prefix /tmp/klisteni-visitor-axe axe-core@4.14.0
@@ -154,55 +178,65 @@ VISITOR_AXE_PATH=/tmp/klisteni-visitor-axe/node_modules/axe-core/axe.min.js \
   VISITOR_URL=http://127.0.0.1:4177 node scripts/visitor-accessibility.mjs
 ```
 
-## Checklist manual breve
+<a id="checklist-manual-breve"></a>
+## Brief manual checklist
 
-1. Levantar `pnpm dev:demo`, abrir `http://127.0.0.1:5173` en un perfil nuevo y comprobar las seis secciones vacías.
-2. Ajustes → Datos → importar [demo-personal.json](validation/b2c-visitor-2026-10-13/demo-personal.json), confirmar reemplazo. Incluye perfil ficticio y práctica de tres tramos de cinco segundos, sin historial inventado.
-3. Personalizar rutina: subir Sentadilla y elegir una serie. Exportar; importar en otro perfil y recargar: mismo orden/series.
-4. Registrar Bici 25 minutos/4,5 km; completar una fuerza con seis series; revisar detalles/XP, recargar, cancelar una eliminación y luego confirmarla.
-5. Yoga → Mis prácticas → Pausa ficticia QA: comenzar, pausar, saltar un tramo, terminar ahora, revisar y guardar una nota. Ver historial; eliminar secuencia y comprobar que conserva el registro.
-6. Salud → Importar → [demo-health.json](validation/b2c-visitor-2026-10-13/demo-health.json), revisar/confirmar y repetir: un registro, sin duplicado. Editar cintura, agregar sueño/comida/objetivo y recargar.
-7. Abrir configuración inicial, llenar un borrador, visitar Privacidad y usar back/forward. Cambiar idioma y modo oscuro; recorrer teclado y comprobar foco del diálogo.
-8. Repetir a 320/430 px y desktop. Una prueba física del dispositivo complementa esta emulación.
+1. Run `pnpm dev:demo`, open `http://127.0.0.1:5173` in new profile, check six empty sections.
+2. Ajustes → Datos → import [demo-personal.json](validation/b2c-visitor-2026-10-13/demo-personal.json), confirm replacement. Fictional profile/three five-second segments, no invented history.
+3. Customize: move Sentadilla up/select one set. Export/import another profile/reload: same order/sets.
+4. Record Bici 25 minutes/4.5 km; complete six-set strength; review details/XP/reload/cancel deletion/confirm.
+5. Yoga → Mis prácticas → Pausa ficticia QA: start/pause/skip segment/finish now/review/save note. Delete sequence; history record retained.
+6. Salud → Importar → [demo-health.json](validation/b2c-visitor-2026-10-13/demo-health.json), review/confirm/repeat: one record, no duplicate. Edit waist/add sleep/meal/goal/reload.
+7. Open initial setup/fill draft/visit Privacy/back-forward. Change language/dark mode; keyboard navigation/dialog focus.
+8. Repeat at 320/430 px/desktop. Physical-device test complements emulation.
 
-## Retorno para Atlas, sin escrituras allí
+<a id="retorno-para-atlas-sin-escrituras-allí"></a>
+## Atlas handoff, without writes there
 
-Integrar después de revisar/merge esta rama: lectura de `main@7172041` y Atlas `27ae86c`;
-seis correcciones focalizadas del visitante local, matriz de navegador y escenarios ficticios,
-commits/resultado de este documento. Esto acredita implementación y QA local de esta rama,
-no CI remota, despliegue ni dispositivos físicos. Se conserva la decisión de diferir Blender/previews
-y el gate yoga fallido, así como las tareas posteriores de backups e integraciones.
+After review/merge: reading of `main@7172041` and Atlas `27ae86c`, six focused local
+visitor corrections, browser matrix/fictional scenarios, document commits/results.
+Establishes implementation/local QA, not remote CI/deployment/physical devices.
+Retain deferred Blender/previews, failed yoga gate, later backups/integrations.
 
-## Resultado final y comandos
+<a id="resultado-final-y-comandos"></a>
+## Final result and commands
 
-Código final probado: `fa6f7b185ce2e506d175be1d8bac659fe462cc0b`; los dos primeros fixes
-están en `ae60efa`, recuperación/accesibilidad en `8d35f3e`, harness en `316d14d` y
-layout WebKit en `fa6f7b1`. El commit de este informe sólo agrega documentación/evidencia.
+Final tested code: `fa6f7b185ce2e506d175be1d8bac659fe462cc0b`; first two fixes in
+`ae60efa`, recovery/accessibility `8d35f3e`, harness `316d14d`, WebKit layout
+`fa6f7b1`. Report commit only adds documentation/evidence.
 
-- **216/216 escenarios propios**, únicos por caso/modo/motor/ancho, PASS en su última ejecución.
-- **74/74 recorridos educativos adicionales**, PASS después de las correcciones/reintentos.
-- **Renderer real 2/2**, Chromium y WebKit desktop: capas, selección, ampliación/teclado y cero errores JS en esos casos. Chromium también validó viewport 390×844 durante el baseline; no implica touch o teléfono físico.
-- **Axe 48/48 superficies**, cero infracciones automáticas; la auditoría final también se repitió después del arreglo de overflow.
-- `pnpm lint`: PASS, 14 tareas + boundaries + formato B2B.
-- `pnpm typecheck`: PASS, 14 tareas; el nuevo config visitor está incluido en tsconfig.
-- `pnpm exec turbo run test --concurrency=1`: PASS, 14 tareas, frontend B2C **201/201**; las suites genéricas omiten un grupo DB de B2C y diez de B2B sin sus variables de test. La API B2C se volvió a ejecutar con DB real aislada: **97/97**, cero omitidos.
-- Tests raíz con `node --test scripts/{preview-provenance,preview-workspace-relocation,b2b-boundaries,dev-environment,b2b-gateway}.test.mjs`: **25/25 PASS**.
-- `pnpm build`: PASS, 16 tareas. Aviso habitual de chunks grandes, sin error de build.
-- `pnpm previews:check`: FAIL previo, yoga receipt stale; ejercicios y cuerpo sí aprobaron. `check`/`check:all` no se declaran verdes.
-- `git diff --check`: PASS. Atlas quedó sin cambios.
+- **216/216 role scenarios**, unique case/mode/engine/width, PASS on latest execution.
+- **74/74 additional educational journeys**, PASS after corrections/reruns.
+- **Real renderer 2/2**, desktop Chromium/WebKit: layers/selection/expansion/keyboard,
+  zero JS errors there. Chromium also checked 390×844 baseline, not touch/physical phone.
+- **Axe 48/48 surfaces**, zero automatic violations; final audit repeated after overflow fix.
+- `pnpm lint`: PASS, 14 tasks + boundaries/B2B format.
+- `pnpm typecheck`: PASS, 14 tasks; visitor config in tsconfig.
+- `pnpm exec turbo run test --concurrency=1`: PASS, 14 tasks, B2C frontend **201/201**;
+  generic suites skip one B2C DB group/ten B2B groups without test variables.
+  B2C API rerun on real isolated DB: **97/97**, zero skips.
+- Root `node --test scripts/{preview-provenance,preview-workspace-relocation,b2b-boundaries,dev-environment,b2b-gateway}.test.mjs`: **25/25 PASS**.
+- `pnpm build`: PASS, 16 tasks; usual large-chunk warning, no build error.
+- `pnpm previews:check`: pre-existing FAIL, stale yoga receipt; exercise/body passed.
+  `check`/`check:all` not claimed passing.
+- `git diff --check`: PASS; Atlas unchanged.
 
-Las corridas originales permanecen en el JSON: instancia principal **101 PASS / 1 FAIL** por
-un selector exacto sobre un textarea lleno en V16; corregido a nombre accesible y reejecutado
-**6/6**. Educativa original **72 PASS / 2 FAIL**: fixture de fallback incompatible con WebKit
-(reparado) y overflow real de Ajustes (B06). Settings/themes/fallback reejecutados **16/16**;
-flujos propios afectados por CSS, demo **30/30** e instancia **30/30**. Estos resultados reemplazan
-los estados correspondientes en la matriz; no ocultan los códigos de salida originales.
+Original runs retained in JSON: main instance **101 PASS / 1 FAIL**, exact-selector
+failure on filled V16 textarea; corrected to accessible name/rerun **6/6**.
+Original educational **72 PASS / 2 FAIL**: WebKit-incompatible fallback fixture
+(repaired), actual Settings overflow (B06). Settings/themes/fallback rerun **16/16**;
+CSS-affected role flows demo **30/30**, instance **30/30**. Results replace their
+matrix statuses without hiding original exit codes.
 
-El schema de la API conservó **1 fila / suma de revisiones 1** antes y después de las pruebas del
-visitante; los datos locales se verifican por claves y recargas. Se retiran schema/contenedor de QA
-al finalizar. Las pruebas de API usan schemas propios, distintos de ese fixture.
+API schema retained **1 row / revision sum 1** before/after visitor tests; local
+data checked by keys/reloads. QA schema/container removed at completion. API tests
+use their own schemas, distinct from fixture.
 
-Capturas y trazas seleccionadas están conservadas en el checkout original; se excluyeron de esta rama de publicación, incluido su historial. Los resultados textuales y fixtures ficticios se publican en `docs/validation/b2c-visitor-2026-10-13`.
-Abrir un ZIP de traza con `pnpm --filter @klisteniapp/b2c-web exec playwright show-trace <ruta.zip>`.
-Los logs versionados conservan resultados y mensajes; sólo se normalizaron espacios finales y líneas vacías al final. Los originales sin normalizar permanecen en `artifacts/visitor-qa`. La evidencia completa de trabajo queda en `artifacts/visitor-qa`; el bundle Git local, en
-`artifacts/visitor-qa/visitor-local.bundle`, transporta estos commits sin publicar la rama.
+Selected screenshots/traces preserved in original checkout, excluded from this
+publication branch/history. Textual results/fictional fixtures published in
+`docs/validation/b2c-visitor-2026-10-13`. Open trace ZIP with
+`pnpm --filter @klisteniapp/b2c-web exec playwright show-trace <ruta.zip>`.
+Versioned logs retain results/messages; only trailing spaces/final blank lines
+normalized. Unnormalized originals remain in `artifacts/visitor-qa`. Complete working
+evidence there; local `artifacts/visitor-qa/visitor-local.bundle` transports commits
+without publishing the branch in the recorded handoff.

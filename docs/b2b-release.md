@@ -1,115 +1,185 @@
-# Entrega del roadmap y validación de release
+<a id="entrega-del-roadmap-y-validación-de-release"></a>
 
-Implementación del 11 de octubre de 2026, commit `508e9e1`, sobre `d70b2cb`. El modelado y la autoría de recursos 3D quedan a cargo del usuario en Blender. Esta entrega distingue código comprobado, contenido por producir y aceptación en dispositivos reales.
+# Roadmap delivery and release validation
 
-La continuación está descrita en el relevo a [macOS](development-macos.md) o al [VPS](development-vps.md); el [roadmap](roadmap-implementacion.md) separa trabajo terminado y aceptación pendiente. El informe de runtime se incorporó en `5187b27` y mantiene `508e9e1` como revisión del código realmente ejecutado.
+October 11, 2026 implementation `508e9e1` on `d70b2cb`. User owns Blender 3D authoring;
+separate verified code/new content/physical-device acceptance. [Mac](development-macos.md)/
+[VPS](development-vps.md) continuation, [roadmap](roadmap-implementacion.md). Runtime
+report added `5187b27`, keeps actual tested code `508e9e1`.
 
-La nueva línea [WL-0 a WL-8](b2b-white-label.md), acordada después de esta entrega, agrega dominios de marca, varias sedes desde el inicio, permisos contextuales, temas y módulos. Está pendiente de implementación. Los resultados que siguen conservan su alcance histórico y no acreditan esa arquitectura futura.
+Later-agreed [WL-0–WL-8](b2b-white-label.md) brand domains/multi-branch/contextual
+permissions/themes/modules were pending at this release checkpoint; later
+[WL validation](b2b-white-label-validation.md) records implementation. Below historical
+results do not establish that later architecture.
 
-**Alcance actualizado por decisión del usuario:** se difieren la regeneración de miniaturas/previews y su validación completa hasta terminar los modelos 3D y los cambios relacionados. Se conservan los derivados existentes. Este trabajo de contenido no bloquea el cierre de código, builds, auditoría de publicación y runtime; tampoco se afirma que el catálogo completo de previews esté regenerado o validado.
+**User-updated scope:** full thumbnail/preview regeneration-validation deferred
+until 3D models/related changes finished. Existing derivatives retained. Content work
+not blocker for code/build/publication/runtime closeout; no complete preview
+regeneration/validation claim. GitLab quality retains `pnpm previews:check`;
+complete CI/check/check:all/check:release not passing claims. Main integration
+retains pending item, no automatic deploy.
 
-El job GitLab `quality` mantiene `pnpm previews:check` como requisito; no se lo ha desactivado ni se declara CI completamente verde. Lo mismo aplica a `check`, `check:all` y `check:release`. La integración en `main` conserva este pendiente explícito y no activa un despliegue automático.
+<a id="recorrido-de-referencia"></a>
 
-## Recorrido de referencia
+## Reference journey
 
-Atlas y Sur mantienen bases lógicas de organización aisladas dentro de la DB B2B. Cada demo tiene administrador, profesor asignado, profesor sin socios y socio; dos unidades de polea (una con nombre largo), un ejercicio propio sin animación, una alternativa autorizada y un borrador privado. Las pruebas recorren preparación, publicación, QR, prescripción, ejecución y seguimiento.
+Atlas/Sur organization isolation inside B2B DB; admin/assigned trainer/unassigned
+trainer/member, two cable units (long name), own unanimated exercise/authorized
+alternative/private draft. Readiness/publication/QR/prescription/execution/monitoring.
 
-| Entrega | Implementación | Aceptación externa |
+| Delivery | Implementation | External acceptance |
 | --- | --- | --- |
-| E1 | Fixtures reiniciables y regresiones de los tres roles, aislamiento y profesor sin asignación | Confirmar que el gimnasio piloto representa el uso real |
-| E2 | Recuperación y conflictos de equipamiento/website; motivos de bloqueo de QR; sesión accesible en móvil; estados de borrador, parcial definitivo y reintento exacto | Completar las tareas con una persona usuaria |
-| E3 / B2 | GLB estático protegido, apertura voluntaria, recuperación de error, alternativa sin WebGL y validador local con hashes | Crear y revisar máquina, poster, procedencia y medidas en Blender |
-| E4 | Matriz automatizada Chromium escritorio, Chromium táctil y WebKit táctil, con PostgreSQL independiente por proyecto | Instancia HTTPS accesible, teléfono real y escaneo de las etiquetas impresas |
-| E5 | Se conserva el registro explícito de movimientos soportados y su renderer compartido; las fichas sin animación siguen funcionando | Autoría y revisión de un movimiento con máquina; la carga estática no importa clips de Blender |
-| E6 | Segundo caso cubierto mediante equipos propios, adaptaciones y planes por tiempo; paquetes sin dependencia de datos B2C | Producir y revisar el segundo recurso/ejercicio de máquina para demostrar reutilización visual |
+| E1 | Resettable fixtures/three-role regressions/isolation/unassigned trainer | Pilot reflects actual use |
+| E2 | Equipment-website recovery/conflicts/QR block reasons/mobile session/draft/definitive partial/exact retry | Human completion |
+| E3 / B2 | Protected static GLB/voluntary open/error recovery/no-WebGL/local hash validator | Blender machine/poster/provenance/measurements |
+| E4 | Desktop-touch Chromium/touch WebKit/per-project PostgreSQL | Accessible HTTPS/physical phone/printed QR |
+| E5 | Explicit supported movement registry/shared renderer; unanimated cards work | Machine movement authoring/review; static upload imports no Blender clips |
+| E6 | Own equipment/adaptations/time plans/packages without B2C-data dependency | Second machine asset/exercise proving visual reuse |
 
-No se certifica técnica, biomecánica, voz del sistema operativo ni rendimiento de teléfonos reales mediante estas pruebas. La aceptación humana de E3/E4/E5 no se reemplaza marcando casillas en el roadmap.
+No technique/biomechanics/OS voice/physical-phone performance certification. Human
+E3/E4/E5 not replaced by roadmap checkboxes.
 
-## Capacidades adicionales
+<a id="capacidades-adicionales"></a>
 
-- **Prescripción por tiempo y esfuerzo:** cada movimiento elige repeticiones o segundos. El RPE objetivo es opcional (1–10). La ejecución conserva sus segundos/repeticiones y RPE declarado por separado. Un registro completo exige todas las series con una cantidad positiva, no alcanzar exactamente la dosis prescrita. Las series deben conservar la unidad de la versión asignada. Los snapshots anteriores se decodifican con observaciones nuevas en `null`, sin reescribirlos; los reintentos anteriores se normalizan antes de compararlos.
-- **Entrada pública:** `/` y `/gimnasios` presentan B2B y permiten abrir el código del gimnasio; `/g/:slug` sigue siendo su website, `/app` el espacio del socio y `/manage` el equipo. No se consulta la sesión desde la entrada pública ni se expone un directorio de organizaciones. B2C sigue siendo su propio build/origen.
-- **Orientación:** galería, plano con coordenadas porcentuales y enlaces a unidades. Los puntos privados o retirados no aparecen en el plano público, aunque estuvieran en una publicación anterior. La lista textual funciona con teclado y si falla la imagen. Se puede asociar un GLB estático opcional de un sector; su autoría queda fuera del código.
-- **Voz y descanso:** lectura voluntaria de las instrucciones existentes, pausa, reanudación y detención. El cambio de lado sólo aparece cuando el contenido lo indica. Los descansos usan tiempo transcurrido, toleran pestañas en segundo plano y nunca marcan series. Las voces dependen del navegador/dispositivo; siempre quedan las instrucciones escritas. [Interfaz SpeechSynthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis).
-- **B2C educativo:** búsqueda conjunta de anatomía y yoga y enlaces contextuales de movilidad a fichas existentes. Conserva fuentes e instrucciones; consultar una ficha no guarda práctica ni cambia rutinas. El reloj visual de yoga conserva la velocidad elegida con frames lentos, excluye las pausas y vuelve a contar desde el reinicio o cambio de postura; sigue separado del tiempo de práctica registrado.
-- **Comparación audiovisual:** selección de dos videos de la biblioteca autorizada, procedencia y permisos declarados, evaluación humana y exportación JSON con identificadores y hashes. El borrador se aísla por cuenta y gimnasio en la pestaña. La evaluación no publica contenido; cambiar un clip invalida la aprobación. La comparación real requiere aportar los dos clips y un revisor.
+## Additional capabilities
 
-Los archivos, sesiones, esquemas y acceso B2B siguen separados de B2C. No se amplía el acceso después de revocar una membresía: la política de conservación y exportación al abandonar el gimnasio sigue requiriendo una decisión explícita. Reservas, ERP, cobro automático y app nativa permanecen fuera del alcance definido por el roadmap.
+- **Time/effort:** reps or seconds per movement, optional RPE 1–10. Actual quantity/
+  RPE separate. Complete requires all sets/positive quantity, not exact target;
+  assigned-version units retained. Old snapshots new observations `null`, no rewrite;
+  old retries normalized before compare.
+- **Public entry:** `/`/`/gimnasios` B2B/gym code, `/g/:slug` website, `/app` member,
+  `/manage` staff. No public-entry session query/organization directory; B2C separate build/origin.
+- **Orientation:** gallery/percentage-coordinate plan/unit links; private-retired
+  points absent even from older publication. Keyboard/text list survives image failure;
+  optional sector static GLB authoring separate.
+- **Voice/rest:** voluntary instructions/read-pause-resume-stop; side change only
+  when content specifies. Elapsed rest/background tabs/no automatic sets. Browser-
+  device voices, always text. [SpeechSynthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis).
+- **Educational B2C:** combined anatomy-yoga search/contextual mobility links;
+  sources retained, reading creates no practice/routine change. Visual yoga clock
+  respects chosen speed/slow frames/excludes pauses/resets pose-restart, separate
+  recorded practice time.
+- **Clip comparison:** two authorized videos/provenance-permission/human assessment/
+  JSON IDs-hashes. Draft per account-gym/tab. Assessment no publication; changed
+  clip invalidates approval. Real comparison needs two clips/reviewer.
 
-## Verificación reproducible
+B2B files/sessions/schemas/access separate. Revoked membership grants no new access;
+leaving-gym retention/export needs explicit decision. Reservations/ERP/automatic
+billing/native app outside roadmap scope.
 
-Instalar dependencias con el lockfile, Chromium y WebKit, y las dependencias de WebKit de la plataforma. Los proyectos del navegador usan dispositivos configurados, eventos táctiles, teclado y movimiento reducido. Esa emulación no equivale a Safari instalado en un iPhone. [Emulación en Playwright](https://playwright.dev/docs/emulation), [comparaciones visuales](https://playwright.dev/docs/test-snapshots).
+<a id="verificación-reproducible"></a>
+
+## Reproducible verification
+
+Lockfile dependencies/Chromium-WebKit/platform libs. Configured devices/touch/
+keyboard/reduced motion emulate, not physical iPhone Safari.
+[Emulation](https://playwright.dev/docs/emulation), [visual comparisons](https://playwright.dev/docs/test-snapshots).
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm --filter @klisteniapp/b2c-web exec playwright install --with-deps chromium webkit
 
-# URLs distintas de PostgreSQL desechable en un env privado:
-# TEST_DATABASE_URL y B2B_TEST_DATABASE_URL
+# Distinct disposable PostgreSQL URLs in a private environment file:
+# TEST_DATABASE_URL and B2B_TEST_DATABASE_URL
 node --env-file=/ruta/privada/verification.env --run check:release
 ```
 
-`check:release` detiene la ejecución si faltan las bases de prueba o si ambas apuntan a la misma base. Ejecuta en serie lint, tipos, tests, procedencia, builds, integración B2C/B2B y sus recorridos de navegador, incluidas preferencias de privacidad. Deshabilita los reintentos automáticos de navegador también en CI. La primera fase no usa bases; las fases posteriores exigen y usan PostgreSQL. No despliega ni cambia bases reales. `pnpm check:release --list` muestra los comandos.
+`check:release` rejects missing/same test DBs. Serial lint/types/tests/provenance/
+builds/B2C-B2B integration/browser including privacy; browser retries off even CI.
+Initial stage no DB, later PostgreSQL required. No deployment/real DB changes.
+`pnpm check:release --list` commands. Full preview gate retained for resumed content.
+Current closeout ran code/runtime separately, only deferred preview work omitted;
+not full check/release execution.
 
-Ese comando conserva el control completo de previews para cuando se retome el contenido. En el cierre actual se ejecutan por separado las comprobaciones de código y runtime, omitiendo únicamente la regeneración y validación diferidas de previews. Sus resultados no se presentan como una ejecución completa de `pnpm check` o `pnpm check:release`.
+B2B-only build:b2b/test:b2b:api/test:b2b:e2e with test env. `.cache/b2b/` results/
+traces; six stable images in `apps/b2c-web/e2e/snapshots/b2b/`. Baselines only after
+visual review. Heavy CI opt-in/reports on execution.
 
-Para trabajar sólo B2B: `pnpm build:b2b`, `pnpm test:b2b:api` y `pnpm test:b2b:e2e` con la variable de test preparada. Los resultados y trazas locales quedan en `.cache/b2b/`; las seis imágenes estables de comparación se versionan bajo `apps/b2c-web/e2e/snapshots/b2b/`. Regenerar baselines sólo después de revisar visualmente los cambios. La CI mantiene su ejecución pesada optativa y publica el reporte cuando se ejecuta la matriz.
+[Production-image smoke](b2b-runtime-validation.md): actual images/HTTPS/nonroot/
+limited DB/publication/restart/independent restore; [October11 evidence](validation/b2b-runtime-2026-10-11.json).
+readyz auth check: pre-migration API remains unavailable until restart. Migrate then start/recreate.
 
-El [smoke de producción](b2b-runtime-validation.md) construye las imágenes reales y comprueba sesiones HTTPS, procesos sin root, base con permisos limitados, publicación, reinicio y restauración en una instancia desechable independiente. Su [evidencia del 11 de octubre](validation/b2b-runtime-2026-10-11.json) registra imágenes, resultados y limpieza. `/readyz` verifica también el estado de autenticación: si la API arrancó antes de migrar, conserva el estado no disponible hasta reiniciarla. El orden operativo es migrar y después arrancar/recrear la API.
+<a id="estado-de-verificación-al-11-de-octubre-de-2026"></a>
 
-## Estado de verificación al 11 de octubre de 2026
+## Verification status on October 11, 2026
 
-Resultados contrastados con los cierres de los logs locales y el índice `.cache/roadmap-verification-progress.json`. Las comprobaciones finales de código, builds y publicación aprobaron; las ejecuciones de API y navegador indicadas conservan su evidencia independiente. El smoke final aprobó los ocho grupos sobre el commit `508e9e1`, con el árbol de trabajo limpio. Los logs permanecen locales bajo `.cache/`.
+Local logs/`.cache/roadmap-verification-progress.json` checked. Final code/build/
+publication passed; independent API/browser evidence. Final eight-group smoke
+clean `508e9e1`; logs local `.cache/`.
 
-| Comprobación | Resultado confirmado | Log local |
+| Check | Confirmed result | Local log |
 | --- | --- | --- |
-| Lint, tipos y tests por paquete | 45/45 tareas aprobadas; 26 reutilizadas desde caché | `roadmap-final-code.log` |
-| Tests de las aplicaciones | Web 196/196, backoffice 22/22 y socio 24/24 aprobados | `roadmap-final-code.log` |
-| Límites entre paquetes B2B y formato | Ambos aprobados | `roadmap-final-boundaries.log`, `roadmap-final-format.log` |
-| Builds y sus dependencias de tipos | 18/18 tareas aprobadas; 15 desde caché y los tres frontends construidos nuevamente | `roadmap-final-build.log` |
-| Auditoría de publicación, incluido el build demo | `ok: true`, sin hallazgos | `roadmap-final-publication-fixed.log` |
-| Matriz B2B: Chromium escritorio/táctil y WebKit táctil | 84/84 aprobados | `roadmap-b2b-matrix-verified.log` |
-| Regresiones posteriores de visores B2B: dos casos en tres proyectos | 6/6 aprobados | `roadmap-b2b-viewer-final.log` |
-| API B2C con PostgreSQL | 97/97 aprobados; ninguno omitido | `roadmap-b2c-api-final.log` |
-| API B2B con PostgreSQL | 41/41 aprobados; ninguno omitido | `roadmap-b2b-api-final.log` |
-| Navegador: cuentas B2C | 31/31 aprobados | `roadmap-accounts-browser-final.log` |
-| Navegador: analytics y privacidad | 16/16 aprobados | `roadmap-analytics-browser-final.log` |
-| Navegador B2C: corrida inicial | 79 aprobados y 4 fallidos, de 83 | `roadmap-b2c-browser-final.log` |
-| Retest de yoga después de las correcciones | 11/11 aprobados | `roadmap-yoga-browser-final.log` |
-| Retest del atlas móvil: los 37 ejercicios en un recorrido | 1/1 aprobado | `roadmap-anatomy-catalog-final.log` |
-| Tests de scripts de raíz | 17/17 aprobados; ninguno omitido | `roadmap-final-scripts.log` |
-| Runtime de producción sobre `508e9e1` | 8/8 grupos aprobados; reinicio, restauración independiente y limpieza completos | [Reporte sanitizado](validation/b2b-runtime-2026-10-11.json) |
+| Package lint/types/tests | 45/45 tasks;26 cached | `roadmap-final-code.log` |
+| App tests | Web196/196, backoffice22/22, member24/24 | `roadmap-final-code.log` |
+| B2B boundaries/format | Both PASS | `roadmap-final-boundaries.log`, `roadmap-final-format.log` |
+| Builds/type dependencies | 18/18;15 cached/three frontends rebuilt | `roadmap-final-build.log` |
+| Publication/demo audit | `ok: true`, no findings | `roadmap-final-publication-fixed.log` |
+| Desktop-touch Chromium/touch WebKit B2B | 84/84 | `roadmap-b2b-matrix-verified.log` |
+| Later viewer regressions/two cases×three | 6/6 | `roadmap-b2b-viewer-final.log` |
+| B2C API/PostgreSQL | 97/97, no skips | `roadmap-b2c-api-final.log` |
+| B2B API/PostgreSQL | 41/41, no skips | `roadmap-b2b-api-final.log` |
+| B2C account browser | 31/31 | `roadmap-accounts-browser-final.log` |
+| Analytics/privacy browser | 16/16 | `roadmap-analytics-browser-final.log` |
+| Initial B2C browser | 79 PASS/4 FAIL of83 | `roadmap-b2c-browser-final.log` |
+| Yoga retest | 11/11 | `roadmap-yoga-browser-final.log` |
+| Mobile atlas/37 exercises in one journey | 1/1 | `roadmap-anatomy-catalog-final.log` |
+| Root scripts | 17/17, no skips | `roadmap-final-scripts.log` |
+| Runtime `508e9e1` | 8/8/restart-independent restore-cleanup | [Sanitized report](validation/b2b-runtime-2026-10-11.json) |
 
-La fase unitaria se ejecutó sin `TEST_DATABASE_URL` ni `B2B_TEST_DATABASE_URL`; las suites de integración omitidas en esa fase no cuentan como cobertura API. La evidencia de integración es la ejecución independiente con PostgreSQL de 97 casos B2C y 41 B2B indicada en la tabla. El build B2C usó `VITE_APP_MODE=demo`.
+Unit phase without TEST_DATABASE_URL/B2B_TEST_DATABASE_URL; skipped integration
+not API coverage. Independent PostgreSQL97 B2C/41 B2B above. B2C build used `VITE_APP_MODE=demo`.
+Publication audit570 text/two blend/two glb/nine PNG/603 WebP/152 GIF. Three synthetic
+fixture credentials allowed only exact hashes/locations; tests unauthorized
+values/locations. Self-test**66/66**, nine new/lint PASS. Text/metadata review not
+visual/preview validation.
 
-La auditoría final inspeccionó 570 archivos de texto, 2 `.blend`, 2 `.glb`, 9 PNG, 603 WebP y 152 GIF. Tres credenciales sintéticas de fixtures se permiten exclusivamente mediante hashes exactos y ubicaciones previstas; los tests del auditor cubren también valores y ubicaciones no autorizados. Su `--self-test` aprobó **66/66 casos**, incluidos nueve nuevos, y su lint aprobó. Esta revisión de texto y metadatos no certifica el contenido visual ni reemplaza la validación de previews diferida.
+Four initial B2C failures: mobile atlas and yoga playback-pause-seek/speed-suspension/
+reduced motion without log alteration. Correct visual clock/test synchronization-
+slow-render waits then yoga/atlas retests. **No new monolithic83/83**, retests not
+extra independent cases. Smoke**10:45:59–10:47:39 UTC**, workingTreeChanges false,
+independent restore/cleanupComplete true; full check/release not run due preview gate.
 
-Los cuatro fallos de la corrida B2C inicial corresponden al recorrido móvil del atlas y a tres casos de yoga: reproducción/pausa/seek, velocidad y suspensión, y movimiento reducido sin alterar el registro de práctica. Tras corregir el reloj visual y ajustar la sincronización y los límites de espera de las pruebas con render lento, esos casos quedaron cubiertos por los retestes de yoga y atlas indicados. **No hubo una nueva corrida monolítica de 83 casos aprobados**, ni deben sumarse los retestes como si fueran casos independientes.
+**162 preview variants** (74 exercise/24 anatomy/64 yoga) regeneration/visual/
+provenance/regressions deferred. Resume definitive models/renderer, retain GIF/
+canonical params/check previews. Partial batch proves neither162 nor code blocker.
+Stopped**10:36 UTC**:74 exercise/24 anatomy/17 yoga=**115** new. Other47 yoga earlier;
+new yoga visual review16. Exercise74/body24 checks had passed. Interrupted item old
+files/entry retained, no partial publication. `.cache/preview-review/stopped-state.json`
+not global previews PASS.
 
-Las comprobaciones de código, publicación y runtime de la tabla finalizaron. El smoke ejecutó los artefactos de `508e9e1` entre las **10:45:59 y 10:47:39 UTC**, con `workingTreeChanges: false`, restauración independiente y `cleanupComplete: true`; no se ejecutaron `pnpm check` ni `pnpm check:release` completos porque incluyen la validación de previews diferida.
+Linked runtime uses clean508e9e1/latest code/preserved assets. Blender/human content-
+clips/physical phone-QR/public deployment retain own external acceptance.
 
-La generación completa, revisión visual, procedencia y regresiones específicas de las **162 variantes de previews** (74 de ejercicios, 24 de anatomía y 64 de yoga) quedan diferidas por decisión del usuario. Al retomar, generar los derivados afectados desde los modelos y renderer definitivos, conservar GIF y parámetros canónicos y ejecutar `pnpm previews:check`. El lote parcial existente no acredita las 162 variantes ni bloquea las comprobaciones de código actuales.
+<a id="entrega-desde-blender"></a>
 
-La generación se detuvo a las **10:36 UTC**: se conservan 74 variantes nuevas de ejercicios, 24 de anatomía y 17 de yoga, **115 en total**. Las otras 47 de yoga mantienen sus recursos anteriores; la revisión visual nueva de yoga llegó a 16 variantes. Los checks de ejercicios y anatomía habían aprobado sus 74 y 24 variantes, respectivamente. El ítem interrumpido conservó sus archivos y entrada anteriores, sin publicación parcial. El estado local de la detención está en `.cache/preview-review/stopped-state.json`; no equivale a un `pnpm previews:check` global aprobado.
-
-La evidencia de runtime enlazada arriba corresponde a las imágenes construidas desde la revisión limpia `508e9e1`, con los últimos cambios de código y los recursos conservados. El modelado Blender, la revisión humana del contenido y clips, el teléfono/QR físico y el despliegue público conservan la aceptación externa descrita en esta guía.
-
-## Entrega desde Blender
+## Blender delivery
 
 ```sh
 pnpm equipment:check /ruta/polea-v1.glb --poster /ruta/polea-v1.png
 ```
 
-El comando usa el mismo validador binario que producción y devuelve tamaño y SHA-256. Acepta GLB 2.0 autocontenido, sin animaciones, skins, extensiones ni recursos externos, hasta 24 MiB; no modifica archivos ni certifica el modelo. Para un recurso compartido, conservar fuente editable en `assets/blender/equipment/<id>.blend`, exportación versionada en `packages/model-assets/public/models/equipment/` y licencia/procedencia junto al recurso. Para un recurso local del gimnasio, subir modelo e imagen a su biblioteca y publicarlos desde la ficha revisada.
+Same production binary validator/size-SHA256; self-contained GLB 2.0≤24 MiB, no
+animation/skin/extensions/external resources. No file mutation/model certification.
+Shared editable `assets/blender/equipment/<id>.blend`, versioned export
+`packages/model-assets/public/models/equipment/`, license/provenance alongside.
+Local gym model/image uploaded library/published reviewed card.
 
-Antes de publicar contenido: revisar escala/orientación, encuadre, vistas, instrucciones, licencia y tamaño/fluidez en el teléfono elegido. El poster y el texto deben explicar el equipo sin 3D. Una máquina estática no implica una animación educativa; los clips futuros necesitan su contrato de carga y reproducción propio.
+Before publication scale/orientation/framing/views/instructions/license/phone
+size-fluency review. Poster/text explain without 3D. Static machine no educational
+animation; future clips need own upload/playback contract.
 
-## Paso a un entorno público
+<a id="paso-a-un-entorno-público"></a>
 
-Usar la [instancia independiente](b2b.md#instancia-independiente), con DB y volumen de medios dedicados, secretos propios, origen HTTPS exacto y los contenedores ejecutados sin root. Crear primero el administrador mediante `bootstrap`; no cargar cuentas de prueba en producción. Respaldar DB y medios como un conjunto y probar su restauración.
+## Public environment transition
 
-Esta actualización requiere desplegar API, app del socio y backoffice de la misma revisión durante una ventana coordinada: los clientes anteriores usan contratos estrictos y rechazan los campos nuevos incluso cuando son `null`. Seguir la [secuencia de actualización y recuperación](b2b.md#compatibilidad-y-despliegue-de-esta-actualización), incluyendo recarga de pestañas y conservación de borradores. El código nuevo lee los snapshots anteriores; volver a las imágenes anteriores no garantiza que puedan leer los datos escritos después de actualizar. Preferir una corrección sobre la versión actual y validar cualquier recuperación con una copia independiente, conservando también los cambios posteriores al respaldo.
+[Independent instance](b2b.md#instancia-independiente), dedicated DB-media/secrets/
+exact HTTPS/nonroot. Bootstrap administrator first, no production test accounts.
+Consistent joint backup/restore test. Coordinated same-revision API/member/backoffice
+update: old strict clients reject new fields even null. [Upgrade/recovery](b2b.md#compatibilidad-y-despliegue-de-esta-actualización),
+reload tabs/retain drafts. New reads old snapshots; old images may not read new
+writes. Prefer current-version fix/independent restore preserving post-backup changes.
 
-Imprimir etiquetas solamente después de comprobar que su origen HTTPS es accesible desde el teléfono. La UI marca las etiquetas de loopback como pruebas. Recorrer administrador → profesor → socio → seguimiento; escanear ambas unidades, comprobar permisos y retirar una ficha publicada. Registrar dispositivo, sistema/navegador, fecha, resultado y capturas sin credenciales.
-
-La aprobación de contenido, el escaneo físico, la política de baja y una publicación externa no se afirman completados desde un entorno de desarrollo.
+Print labels after phone-reachable HTTPS; loopback labels marked test. Admin→trainer→
+member→monitoring, both units scan/permissions/public withdrawal. Record device/
+OS-browser/date/results/sanitized captures. Development alone establishes no
+content acceptance/physical scanning/offboarding policy/external publication.

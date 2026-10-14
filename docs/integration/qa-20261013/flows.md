@@ -1,8 +1,9 @@
-# Matriz completa de flujos de integración
+<a id="matriz-completa-de-flujos-de-integración"></a>
+# Complete integration flow matrix
 
-Cada fila agrupa un caso por rol y variante. El JSON contiene resultados por motor/viewport, intentos y rutas de captura/traza. PASS es el último resultado efectivo; los intentos anteriores se conservan. HTTP no verifica TLS, cookies Secure ni dispositivos físicos.
+Each row groups a case by role/variant. JSON contains engine/viewport results, attempts and capture/trace paths. PASS is the latest effective result; previous attempts are retained. HTTP verifies neither TLS, Secure cookies nor physical devices.
 
-| Rol / variante | Flujo | Resultados por perfil |
+| Role / variant | Flow | Results by profile |
 | --- | --- | --- |
 | anonymous  | A01 Atlas and Sur show distinct brands and every public branch | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-desktop: PASS; webkit-narrow: PASS; webkit-wide: PASS |
 | anonymous  | A02 all four branch pages load with their published catalog and schedules | chromium-desktop: PASS; chromium-narrow: PASS; chromium-wide: PASS; webkit-desktop: PASS; webkit-narrow: PASS; webkit-wide: PASS |

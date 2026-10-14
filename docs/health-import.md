@@ -1,42 +1,69 @@
-# Perfil de salud e importación de registros
+<a id="perfil-de-salud-e-importación-de-registros"></a>
 
-La sección **Salud** permite registrar medidas corporales, sueño, actividad, comidas y suplementos, y compararlos con objetivos personales. En la demo gratuita se guardan en el navegador; en una instancia con cuenta se guardan en el servidor cuando el acceso a la nube está vigente. La vista previa de un archivo se procesa localmente; recién al confirmar se escribe en el destino activo. Los datos no se envían a analítica y la demo no consulta una API.
+# Health profile and record import
 
-## Qué funciona en esta versión
+**Salud** records body/sleep/activity/meals/supplements/personal goals. Free demo
+browser storage; instance account server while cloud access current. Preview local;
+confirmation writes active destination. No analytics data/demo API queries.
 
-- Registro manual de observaciones y objetivos, con fecha y origen.
-- Importación explícita de JSON en el formato `klisteniapp.health`, versión 1, descrito abajo.
-- Vista previa de cantidad de registros nuevos, duplicados, categorías, orígenes y rango de fechas.
-- Detección de duplicados y conflictos antes de guardar. Una importación inválida no guarda ninguna de sus filas.
-- Exportación de los datos de salud dentro de la copia personal completa v2. Esa copia se restaura desde Ajustes, en modo local o en la cuenta activa; no es el JSON de intercambio de esta página.
+<a id="qué-funciona-en-esta-versión"></a>
 
-**No hay sincronización automática con Samsung Health ni Health Connect en esta versión.** El archivo JSON normalizado es un contrato de intercambio de Klisteniapp. No es el formato que Samsung o Android exportan directamente. Tampoco hay un conversor de CSV de Samsung ni un lector de `Health Connect.zip`. La plantilla descargable está vacía y nunca agrega medidas de ejemplo a tu perfil.
+## Available in this version
 
-## Qué permite cada plataforma
+- Manual observations/goals with date/source.
+- Explicit `klisteniapp.health` v1 JSON import below.
+- Preview new/duplicate counts/categories/sources/date range.
+- Detect duplicates/conflicts before save; invalid import writes no rows.
+- Health in full personal v2 backup, restored through Ajustes/local-active account;
+  distinct from exchange JSON here.
 
-La información se verificó en documentación oficial el 4 de octubre de 2026. La disponibilidad concreta depende del teléfono, versión de las aplicaciones, permisos y datos realmente medidos.
+**No automatic Samsung Health/Health Connect synchronization.** Normalized Klisteni
+contract, not native Samsung/Android export. No Samsung CSV/Health Connect.zip
+converter. Downloadable empty template seeds no example profile data.
 
-| Origen | Alcance documentado | Consecuencia para Klisteniapp |
+<a id="qué-permite-cada-plataforma"></a>
+
+## Platform capabilities
+
+Official-doc review October 4, 2026; actual phone/app versions/permissions/measurements determine availability.
+
+| Source | Documented scope | Klisteni consequence |
 | --- | --- | --- |
-| Galaxy Watch → Samsung Health → Health Connect | El reloj entrega datos a Samsung Health en el teléfono; Health Connect funciona en Android móvil, no en Wear OS. | La futura conexión necesita un componente Android en el teléfono. El navegador actual no implementa ese puente. |
-| Samsung Health → Health Connect | Samsung documenta peso, grasa corporal, altura, metabolismo basal, sueño, nutrición, ejercicio y frecuencia cardíaca, entre otros tipos. El alcance puede cambiar entre versiones. | No asumir que todo lo visible en el reloj está disponible en Health Connect. |
-| Samsung Health Data SDK | `BodyCompositionType` distingue peso, grasa, masa libre de grasa, masa muscular esquelética, agua corporal y otras propiedades. | La masa muscular esquelética podría requerir este SDK o una exportación verificada. No convertir masa magra en músculo. |
+| Watch→Samsung Health→Health Connect | Watch to phone; Health Connect Android phone, not Wear OS | Future phone Android bridge; current browser lacks it |
+| Samsung→Health Connect | Weight/fat/height/basal metabolism/sleep/nutrition/exercise/pulse among types, version-dependent | Not everything on watch necessarily available |
+| Samsung Health Data SDK | `BodyCompositionType` distinguishes weight/fat/fat-free/skeletal muscle/water/etc. | Muscle may need SDK/verified export; never lean→muscle conversion |
 
-Fuentes: [FAQ de Samsung sobre Health Connect](https://developer.samsung.com/health/health-connect-faq.html), [tabla de sincronización Samsung](https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect), [inicio de Health Connect y SDK Android](https://developer.android.com/health-and-fitness/health-connect/get-started), [BodyCompositionType de Samsung](https://developer.samsung.com/health/data/api-reference/-shd/com.samsung.android.sdk.health.data.request/-data-type/-body-composition-type/index.html).
+[Samsung FAQ](https://developer.samsung.com/health/health-connect-faq.html),
+[sync table](https://developer.samsung.com/health/blog/en/accessing-samsung-health-data-through-health-connect),
+[Android SDK](https://developer.android.com/health-and-fitness/health-connect/get-started),
+[BodyCompositionType](https://developer.samsung.com/health/data/api-reference/-shd/com.samsung.android.sdk.health.data.request/-data-type/-body-composition-type/index.html).
+`LeanBodyMassRecord` **not skeletal muscle mass**. Samsung table does not list
+latter; no promised route coverage, inspect actual arrival. [Types](https://developer.android.com/health-and-fitness/health-connect/data-types).
 
-Health Connect contempla `LeanBodyMassRecord`, pero esa medida **no equivale a masa muscular esquelética**. La tabla de sincronización publicada por Samsung no enumera esta última; no se promete su disponibilidad a través de ese recorrido. El adaptador deberá inspeccionar qué registros llegan realmente. [Tipos de Health Connect](https://developer.android.com/health-and-fitness/health-connect/data-types).
+<a id="obtener-una-copia-de-origen"></a>
 
-## Obtener una copia de origen
+## Obtain source copy
 
-Samsung indica este recorrido en el teléfono: Samsung Health → menú de opciones → Ajustes → Descargar datos personales → Descargar. Los archivos se pueden consultar en Mis archivos → Descargas → Samsung Health. Esta operación descarga una copia; no usar «Borrar datos personales». La página de soporte no define un contrato CSV/JSON estable suficiente para implementar un adaptador sin examinar una muestra. [Instrucciones oficiales de descarga](https://www.samsung.com/us/support/answer/ANS10001379/).
+Samsung phone menu→Ajustes→Descargar datos personales→Descargar; Mis archivos→
+Descargas→Samsung Health. Download, never Borrar datos personales. Support page
+provides no stable CSV/JSON contract sufficient without sample inspection.
+[Official download](https://www.samsung.com/us/support/answer/ANS10001379/).
 
-Android 14 o posterior permite configurar una copia de Health Connect desde Ajustes → Health Connect → Gestionar datos → Copia de seguridad y restauración. La copia es un ZIP, normalmente `Health Connect.zip`, orientado a restaurarse en Health Connect. **No se puede subir ese ZIP al importador actual.** [Copia y restauración de Health Connect](https://support.google.com/android/answer/15323271?hl=en).
+Android 14+ Settings→Health Connect→Manage data→Backup and restore
+(localized Spanish labels: `Ajustes`, `Gestionar datos`, `Copia de seguridad y restauración`),
+usually Health Connect.zip for native restore. **Current importer cannot accept ZIP.**
+[Backup/restore](https://support.google.com/android/answer/15323271?hl=en).
 
-Para un futuro adaptador de Samsung se necesita una muestra reducida y anonimizada del formato real: encabezados, unidades, identificadores y uno o dos registros por tipo, manteniendo zona horaria y estructura. Nunca reemplazar nombres de campos, inventar IDs por posición de fila ni adivinar si un valor es porcentaje, kilogramos o calorías. Una conversión debe informar qué tipos no admite, conservar el archivo original y rechazar los ambiguos.
+Future Samsung adapter needs small anonymized actual sample: headers/units/IDs/one-two
+records/type, timezone/structure retained. No renamed fields/row-position IDs/guessed
+percent-kg-calorie units. Declare unsupported types/keep original/reject ambiguity.
 
-## Formato normalizado soportado
+<a id="formato-normalizado-soportado"></a>
 
-La implementación es [health-import.ts](../apps/b2c-web/src/lib/health-import.ts); los rangos y tipos compartidos están en [health.ts](../packages/scene-schema/src/health.ts). El formato requiere todos estos campos:
+## Supported normalized format
+
+[health-import.ts](../apps/b2c-web/src/lib/health-import.ts), [shared health.ts](../packages/scene-schema/src/health.ts).
+All following fields required:
 
 ```json
 {
@@ -54,37 +81,40 @@ La implementación es [health-import.ts](../apps/b2c-web/src/lib/health-import.t
 }
 ```
 
-El archivo debe contener al menos una observación real. `exportedAt` es la fecha de generación del archivo. `timeZone` es una zona IANA explícita, aplicada a cada registro que no declare su propia zona. El importador conserva esa zona en los registros guardados.
+At least one actual observation. exportedAt file creation; explicit IANA timeZone
+fallback per record, retained on save.
 
-Cada observación necesita:
-
-| Campo | Significado |
+| Field | Meaning |
 | --- | --- |
-| `id` | Identificador local estable, hasta 200 caracteres, único entre todos los registros y objetivos de salud. No usar el número de fila. |
-| `date` | Fecha local de la observación, `YYYY-MM-DD`. Se conserva sin reinterpretarla a UTC. |
-| `recordedAt` | Momento en que se capturó o creó el registro, en ISO 8601 con `Z` u offset. Puede diferir de la fecha observada si se cargó retrospectivamente. Debe mantenerse estable entre exportaciones del mismo registro. |
-| `modifiedAt` | Momento opcional de una corrección manual, en ISO 8601 con `Z` u offset. No sustituye el instante original ni el origen del registro. No puede estar en el futuro. |
-| `source.kind` | `manual`, `samsung-health` o `health-connect`. Es metadato declarado por el archivo, no una certificación de que el dispositivo haya medido el valor. |
-| `source.externalId` | Obligatorio para importar: ID estable del registro en el origen, hasta 200 caracteres. Debe estar correctamente separado por aplicación y tipo de registro si el proveedor reutiliza IDs. |
-| `source.device` | Etiqueta opcional del dispositivo, hasta 200 caracteres. |
-| `timeZone` | Zona IANA opcional por registro; tiene prioridad sobre la del archivo. |
-| `notes` | Notas opcionales, hasta 2.000 caracteres. |
+| `id` | Stable local≤200 characters/unique across observations-goals; not row number |
+| `date` | Observed local YYYY-MM-DD, never UTC reinterpretation |
+| `recordedAt` | Original capture/create ISO8601 Z/offset; may differ for retrospective entry; stable across exports |
+| `modifiedAt` | Optional manual-correction ISO Z/offset, not original/source replacement, not future |
+| `source.kind` | manual/samsung-health/health-connect, declared metadata, not device-measurement certification |
+| `source.externalId` | Required stable source ID≤200, distinguish source app/type if IDs reused |
+| `source.device` | Optional label≤200 |
+| `timeZone` | Optional record IANA, overrides file |
+| `notes` | Optional≤2,000 |
 
-### Unidades y campos por categoría
+<a id="unidades-y-campos-por-categoría"></a>
 
-Los nombres de campo fijan las unidades. Los valores numéricos deben ser números JSON, no textos como `"81 kg"`. El importador no convierte unidades ni estima valores faltantes. Las claves desconocidas se rechazan para evitar descartarlas silenciosamente.
+### Category units and fields
 
-| Categoría | Campos |
+Field names define units. JSON numbers, not strings such as "81 kg"; no conversion/
+missing estimates. Unknown keys rejected, not silently discarded.
+
+| Category | Fields |
 | --- | --- |
-| `measurements` | `weightKg`, `bodyFatPercent`, `skeletalMuscleKg`, `fatMassKg`, `bodyWaterPercent`; perímetros en centímetros: `waistCm`, `hipsCm`, `chestCm`, `neckCm`, `leftArmCm`, `rightArmCm`, `leftThighCm`, `rightThighCm`, `leftCalfCm`, `rightCalfCm`. Al menos una medida. |
-| `sleep` | `durationMinutes` obligatorio: minutos efectivamente dormidos. Opcionales `startAt` y `endAt` juntos, `deepMinutes`, `remMinutes`, `awakeMinutes`, `score` de 0 a 100. Sueño más vigilia no puede exceder el intervalo; profundo más REM no puede exceder el tiempo dormido. |
-| `activity` | Al menos uno: `steps`, `activeMinutes`, `activeEnergyKcal`, `restingHeartRateBpm`, `averageHeartRateBpm`, `maxHeartRateBpm`. `activityLabel` y `workoutId` permiten identificar o asociar una observación a un entrenamiento real de Klisteniapp cuando corresponde. |
-| `nutrition` | `meal` y/o datos observados: `energyKcal`, `proteinG`, `carbsG`, `fatG`, `fiberG`. Una comida sin calorías conocidas conserva esos campos ausentes. |
-| `supplements` | `name` y `taken` obligatorios. `dose` y `unit` son opcionales, pero se completan juntos. Son un registro de lo que se tomó o no se tomó, no una dosis recomendada. |
+| `measurements` | weightKg/bodyFatPercent/skeletalMuscleKg/fatMassKg/bodyWaterPercent; cm waistCm/hipsCm/chestCm/neckCm/leftArmCm/rightArmCm/leftThighCm/rightThighCm/leftCalfCm/rightCalfCm;≥one |
+| `sleep` | Required actual durationMinutes; paired optional startAt-endAt/deepMinutes/remMinutes/awakeMinutes/score0–100. Sleep+awake≤interval, deep+REM≤asleep |
+| `activity` | ≥one steps/activeMinutes/activeEnergyKcal/restingHeartRateBpm/averageHeartRateBpm/maxHeartRateBpm; activityLabel/workoutId identify/associate actual Klisteni training |
+| `nutrition` | meal and/or observed energyKcal/proteinG/carbsG/fatG/fiberG; unknown calories absent |
+| `supplements` | Required name/taken; paired optional dose/unit; recorded intake, not recommendation |
 
-No colocar calorías totales del día en `activeEnergyKcal`: la energía activa y el gasto total son medidas distintas. El contrato actual tampoco admite masa magra, agua en litros, todas las fases individuales de sueño, series de pulsaciones crudas ni todos los micronutrientes. Un exportador debe reconocer estas limitaciones antes de convertir, conservar el original y describir las omisiones. No sustituirlos por una medida parecida.
-
-Ejemplo **sintético y exclusivamente explicativo**, para colocar en `records.measurements` después de reemplazarlo por un registro real:
+Total daily calories not activeEnergyKcal. No lean mass/liters-water/all sleep phases/
+raw pulse series/all micronutrients. Exporter declares omissions/retains originals,
+never substitutes similar metric. **Synthetic explanatory** measurements example;
+replace with actual record. Original placeholder retained as fixture value:
 
 ```json
 {
@@ -103,70 +133,99 @@ Ejemplo **sintético y exclusivamente explicativo**, para colocar en `records.me
 }
 ```
 
-### Duplicados, conflictos y límites
+<a id="duplicados-conflictos-y-límites"></a>
 
-La identidad de origen es la terna **categoría + `source.kind` + `source.externalId`**. Reimportar esa identidad con el mismo contenido no agrega un registro. El orden de las claves JSON, el ID local y distintas representaciones del mismo instante con offset no cambian esa comparación. La primera identidad local guardada se conserva. Los demás datos —incluidas notas, dispositivo y zona horaria— deben coincidir.
+### Duplicates, conflicts and limits
 
-Una misma identidad con valores diferentes es un conflicto: se rechaza el archivo completo y no se reemplaza el registro anterior. El usuario debe revisar qué versión conservar. Tampoco se admite reutilizar un ID local para otro origen o categoría. Orígenes distintos permanecen separados aunque sus valores coincidan; el importador no puede inferir que representan la misma medición.
+Source identity **category+source.kind+source.externalId**. Identical reimport adds
+nothing. JSON key order/local ID/same instant offset representation not differences;
+first local ID retained. Other data incl notes/device/timezone must match. Different
+values same identity reject whole file/no overwrite; user reviews version. Local
+ID cannot switch source/category. Different origins stay separate even equal values,
+no inferred same measurement. Manual correction keeps source/original instant/adds
+modifiedAt; old reimport conflicts, never reverses notes/device/correction.
 
-Las correcciones manuales conservan la identidad de origen y el momento original, y agregan `modifiedAt`. Volver a importar una versión anterior debe provocar un conflicto, no deshacer la corrección. Las notas o la etiqueta del dispositivo también forman parte del contenido protegido por esta comparación.
+**2 MiB UTF-8/10,000 total records/import**, personal max10,000/category. Future
+observations/instants, impossible dates/inconsistent intervals/out-of-range/unknown
+fields reject. API revalidates instance saves.
 
-El límite de archivo es **2 MiB en UTF-8** y **10.000 registros totales por importación**. El modelo personal admite como máximo 10.000 observaciones por categoría. Las fechas de observación futuras, instantes futuros, fechas de calendario inexistentes, intervalos inconsistentes, valores fuera de rango y campos desconocidos rechazan la importación. En una instancia, la API vuelve a validar al guardar.
+<a id="procedimiento-de-importación-y-recuperación"></a>
 
-## Procedimiento de importación y recuperación
+## Import and recovery
 
-1. Exportar una copia personal desde Ajustes antes de modificar un historial que ya contiene datos importantes.
-2. Preparar el JSON con registros reales y conservar el archivo de origen. La plantilla muestra la estructura; no realiza la conversión.
-3. En Salud, elegir el JSON. Comprobar el rango, las categorías y los conteos de la vista previa.
-4. Confirmar la importación. En modo local se actualiza la copia del navegador. En una cuenta, el guardado usa la revisión que se revisó; si la cuenta cambia mientras tanto, volver a generar la vista previa.
-5. Comprobar la confirmación de guardado y el historial. Una vista previa correcta no implica que el almacenamiento local o la API hayan confirmado la escritura.
-6. Ante un error, conservar el archivo y corregir el campo o conflicto señalado. No reducir todos los valores a cero ni eliminar filas a ciegas. Una importación rechazada no reemplaza los registros previos.
+1. Personal export before important-history mutation.
+2. Actual normalized records/original retained; template structure, no conversion.
+3. Select JSON in Salud/review dates/categories/counts.
+4. Confirm: local browser or account reviewed revision. Account change requires new preview.
+5. Verify save/history; valid preview alone not storage/API acknowledgment.
+6. Retain file/correct indicated field-conflict; no zeroing/blind deletion. Rejection preserves old records.
 
-Los suplementos no se traducen a recomendaciones automáticas y los objetivos no prescriben un déficit calórico. Las mediciones de composición corporal y los resúmenes sirven para seguir tendencias declaradas, sin establecer diagnósticos ni atribuir un cambio corporal a un ejercicio específico. Samsung también limita el propósito del Data SDK a bienestar y fitness. [Alcance del SDK](https://developer.samsung.com/health/data/overview.html).
+No automatic supplement recommendation/calorie deficit. Declared trend observations,
+not diagnosis/exercise-causality. Samsung SDK wellness/fitness scope.
+[SDK scope](https://developer.samsung.com/health/data/overview.html).
 
-## Trabajo pendiente para sincronización Android real
+<a id="trabajo-pendiente-para-sincronización-android-real"></a>
 
-El puente deberá usar el SDK Android y solicitar únicamente los tipos de datos que el usuario elija. También deberá comprobar disponibilidad, permisos revocados y qué historial está realmente accesible. Por defecto, Health Connect limita la lectura de otros orígenes a los 30 días anteriores al primer permiso; la lectura de historial anterior requiere un permiso adicional disponible según la versión. No prometer «todo el historial» antes de verificarlo. [Lectura e historial en Android](https://developer.android.com/health-and-fitness/health-connect/read-data).
+## Pending actual Android synchronization
 
-La lectura en segundo plano tiene permisos adicionales y compatibilidad que deben verificarse; no se debe extrapolar la restricción histórica de primer plano que aparece en publicaciones antiguas. [Permisos y tipos actuales](https://developer.android.com/health-and-fitness/health-connect/data-types).
+Chosen-data Android SDK bridge, availability/revocation/actual history. Default
+other-source reads30 days before first permission; older history extra/version-dependent
+permission, no all-history promise. [Android read/history](https://developer.android.com/health-and-fitness/health-connect/read-data).
+Background permission/compatibility checked, no extrapolated obsolete foreground
+restriction. [Permissions/types](https://developer.android.com/health-and-fitness/health-connect/data-types).
 
-El puente debe conservar IDs y origen de aplicación, paginar lecturas, convertir unidades explícitamente, separar energía activa de total y tratar correcciones o eliminaciones como cambios revisables. Su primera versión puede producir este JSON y usar la vista previa existente. Una sincronización posterior deberá agregar consentimiento, estados de última lectura y último guardado, control de revisión y manejo de cambios de cuenta; los datos de salud no deben incorporarse a eventos de analítica.
-
-Para validar un adaptador hace falta probarlo con un teléfono y datos autorizados reales. Los tests actuales prueban el contrato normalizado, sus límites, el rechazo atómico y la deduplicación; no acreditan conexión a un reloj, exactitud de sus sensores ni fidelidad de un formato de Samsung aún no inspeccionado.
+Keep IDs/source app/page reads/explicit units/active-vs-total energy/reviewable
+corrections-deletions. First version can emit JSON/use current preview; later sync
+needs consent/last-read-last-save/revision/account-change handling, no analytics payload.
+Actual authorized phone tests needed. Current contract tests boundaries/atomic
+rejection/dedup, not watch connection/sensor accuracy/uninspected Samsung fidelity.
 
 ```sh
 node --test apps/b2c-web/test/health-import.test.ts
 ```
 
-## Verificación reproducible
+<a id="verificación-reproducible"></a>
+
+## Reproducible verification
 
 ```sh
-# Validación del dominio y el contrato de intercambio
+# Validate the domain and exchange contract
 pnpm --filter @klisteniapp/scene-schema test
 pnpm --filter @klisteniapp/b2c-web exec node --test test/health-store.test.ts test/health-import.test.ts test/account-api.test.ts
 
-# Formularios, objetivos, importación, conflictos y vista móvil en puerto 43174
+# Forms, goals, import, conflicts and mobile view on port 43174
 pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.health.config.ts
 
-# Aislamiento de cuentas y persistencia real; requiere PostgreSQL descartable
-# TEST_DATABASE_URL debe estar configurado en el entorno, nunca apuntar a producción.
+# Account isolation and actual persistence; requires disposable PostgreSQL
+# TEST_DATABASE_URL must be configured in the environment and never point to production.
 pnpm --filter @klisteniapp/b2c-api exec node --test --test-concurrency=1 tests/*.test.ts
 pnpm test:accounts
 
-# Comprueba además que los datos de salud no llegan a la visita de analytics
+# Also check that health data does not reach the analytics visit
 pnpm test:analytics
 ```
 
-La suite específica de salud usa una compilación temporal y el puerto 43174 para no interferir con el visor anatómico. Sus datos son ficticios y sus respuestas de cuenta están interceptadas; la persistencia real se verifica por separado en la suite de cuentas y las pruebas de API. Las pruebas no acreditan una sincronización con Samsung ni un despliegue en producción.
+Health suite temporary build/43174 avoids anatomy viewer; fictional data/intercepted
+account responses. Actual persistence separately API/account suite. No Samsung sync/
+production claim. [Sync architecture](health-sync.md), [personal dashboard](health-dashboard.md)
+use local/active account records.
 
-La arquitectura actualizada, los permisos y las diferencias entre Health Connect y las APIs cloud están detallados en [Sincronización continua](health-sync.md). El [dashboard personal](health-dashboard.md) utiliza los registros guardados en el modo local o en la cuenta activa.
+<a id="capacidad-del-historial"></a>
 
-## Capacidad del historial
+## History capacity
 
-El estado completo de salud tiene un máximo acumulado de 4 MiB de JSON UTF-8, además del límite de 2 MiB por archivo normalizado. Se valida el resultado de cada fusión: repartir un historial entre varios archivos no evita este máximo. Si una importación lo supera, no se guarda ningún registro ni se cambia la revisión. El límite deja margen bajo los 5 MiB de la petición de guardado para seguir corrigiendo o eliminando registros.
+Cumulative health JSON UTF-8 max4 MiB plus2 MiB/import. Validate merged result;
+split files cannot bypass. Overflow no rows/revision changes, margin below5 MiB
+save request for correction/deletion.
 
-Al restaurar una copia completa desde Ajustes, una observación vinculada a un entrenamiento ausente se conserva sin esa asociación. Los entrenamientos ya eliminados no se recrean y los vínculos históricos existentes en la cuenta se mantienen. Esta normalización no permite crear vínculos nuevos inválidos desde los formularios de salud.
+Ajustes restore preserves observation linked to absent workout without association;
+never restores deleted workouts, existing account historical links retained.
+Normalization does not permit new invalid form links.
 
-## Disponibilidad de conexiones externas
+<a id="disponibilidad-de-conexiones-externas"></a>
 
-La importación manual y el dashboard están disponibles en la demo local gratuita. No hay conexión automática activa con Google Health: ver [estado actual y requisitos de integración](health-integrations.md). El acceso a la nube de una instancia se explica en [Suscripciones](subscriptions.md).
+## External connection availability
+
+Manual import/dashboard available free local demo. No active Google Health auto
+connection: [status/requirements](health-integrations.md). Instance cloud
+[subscriptions](subscriptions.md).

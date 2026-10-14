@@ -1,10 +1,11 @@
-# Evidencia QA visitante
+<a id="evidencia-qa-visitante"></a>
+# Visitor QA evidence
 
-Esta rama publica únicamente código, documentación textual, resultados y fixtures ficticios.
-Las capturas PNG y trazas ZIP se mantienen localmente en la rama original
-`qa/b2c-visitor-local-20261013` (`f85ed410d53ba0373dcc566d97abb59ec5bca15e`) y en
-`artifacts/visitor-qa/visitor-local.bundle`; no se subieron a GitHub.
+This branch publishes only code, textual documentation, results and fictional fixtures.
+PNG captures/ZIP traces remain local in the original branch
+`qa/b2c-visitor-local-20261013` (`f85ed410d53ba0373dcc566d97abb59ec5bca15e`) and in
+`artifacts/visitor-qa/visitor-local.bundle`; not uploaded to GitHub.
 
-La matriz conserva los estados finales y results.json las corridas originales,
-los fallos del harness y las reejecuciones ya realizadas. No se repitieron suites
-para esta publicación. No hubo merge ni deploy.
+The matrix retains final states and results.json retains original runs,
+harness failures and reruns already performed. Suites were not repeated
+for this publication. No merge or deployment.

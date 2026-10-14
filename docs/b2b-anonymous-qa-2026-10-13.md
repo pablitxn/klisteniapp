@@ -1,159 +1,163 @@
-# QA B2B visitante anonimo — 2026-10-13
+<a id="qa-b2b-visitante-anonimo--2026-10-13"></a>
+# Anonymous B2B visitor QA — 2026-10-13
 
-Resultado final: **252/252 casos UI PASS**, cero fallos, omitidos, retries o flaky
-en la corrida final de 11 minutos. API **80/80 PASS**. No acredita produccion
-ni telefonos fisicos. WebKit HTTPS permanece BLOCKED; su matriz funcional es HTTP.
+Final: **252/252 UI cases PASS**, zero failures/skips/retries/flakes in the final
+11-minute run. API **80/80 PASS**. Establishes neither production nor physical
+phones. WebKit HTTPS remains BLOCKED; functional matrix uses HTTP.
 
-## Revision y alcance
+<a id="revision-y-alcance"></a>
+## Revision and scope
 
-- Repo owner: `pablitxn/klisteniapp`, checkout `/workspace/klisteniapp`.
-- Inicial: rama `work`, arbol limpio, `7172041102a8a7029af5fb3e2527a1fa51611a86`.
-  Fetch a origin comprobo `HEAD...origin/main = 0 0`: no hizo falta fast-forward.
-- Rama original local: `qa/b2b-anonymous-20261013`.
-- Variante publicable: `qa/b2b-anonymous-20261013-publicable`; conserva los cuatro commits de codigo/QA y omite el commit de binarios.
-- Correcciones: `7542001dba4bacb512b58c6ad1f3a7bb89ba4797`.
-- Matriz/fixtures: `0aa942e`; ampliacion/launcher `435ef3a`; correccion de tipado QA final `128d332b11822b4df4aedae0f3d55bc8cf357441`.
-- Atlas: `/workspace/sysadmin-workspace`, rama `work`, limpio,
-  `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`. Fetch comprobo paridad
-  con origin/main. Solo se leyo contenido; no se actualizo Atlas.
-- Rol: visitante sin sesion en Atlas Centro/Norte y Sur Centro/Oeste.
-  Websites, catalogo/equipos publicados, imagenes/video/plano, QR por unidad,
-  entrada al login, alias, URL invalida, privacidad y recuperacion de lecturas.
-- No se operaron datos reales, produccion, DNS, pagos, SMTP ni infraestructura.
-  Esta variante se prepara para push y PR draft autorizados; no hay merge o deploy. Modelos y previews conservaron sus archivos.
+- Owner repo: `pablitxn/klisteniapp`, checkout `/workspace/klisteniapp`.
+- Initial: branch `work`, clean tree, `7172041102a8a7029af5fb3e2527a1fa51611a86`.
+  Fetch confirmed `HEAD...origin/main = 0 0`; no fast-forward required.
+- Original local branch: `qa/b2b-anonymous-20261013`.
+- Publishable variant: `qa/b2b-anonymous-20261013-publicable`; retains four code/QA
+  commits, omits binary commit.
+- Fixes: `7542001dba4bacb512b58c6ad1f3a7bb89ba4797`.
+- Matrix/fixtures: `0aa942e`; expansion/launcher `435ef3a`; final QA typing fix
+  `128d332b11822b4df4aedae0f3d55bc8cf357441`.
+- Atlas: `/workspace/sysadmin-workspace`, branch `work`, clean,
+  `27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f`. Fetch confirmed origin/main parity;
+  content read only, no Atlas update.
+- Role: unsigned visitor in Atlas Centro/Norte and Sur Centro/Oeste. Websites,
+  published catalog/equipment, images/video/plan, per-unit QR, login entry, aliases,
+  invalid URL/privacy/read recovery.
+- No real data, production, DNS, payments, SMTP or infrastructure operated.
+  Variant prepared for authorized push/draft PR; no merge/deploy. Model/preview files retained.
 
-Fuentes leidas: `AGENTS.md`, skill local `atlas-navigate`, politica de autoridad,
-`atlas/wiki/klisteniapp.md`, retrospectiva KLI-01; `docs/roadmap-implementacion.md`,
-`docs/b2b.md`, `docs/b2b-white-label.md`, `docs/b2b-white-label-runtime.md` y
-`docs/development.md`. Atlas documenta marca blanca ya implementada y previews,
-Blender, backups recurrentes y aceptacion fisica pendientes. Sus pruebas de
-release conservan SHA/fecha; no se reutilizan como resultado de esta tanda.
+Read `AGENTS.md`, local `atlas-navigate`, authority policy, `atlas/wiki/klisteniapp.md`,
+KLI-01 retrospective, `docs/roadmap-implementacion.md`, `docs/b2b.md`,
+`docs/b2b-white-label.md`, `docs/b2b-white-label-runtime.md`, `docs/development.md`.
+Atlas documents implemented white-label and pending previews/Blender/recurring
+backups/physical acceptance. Release tests retain SHA/date, not reused as this run's result.
 
-## Inventario anterior a elegir casos
+<a id="inventario-anterior-a-elegir-casos"></a>
+## Inventory before case selection
 
-Derivado de `apps/b2b-web/src/routes.ts`, `App.tsx`, `ApplicationProvider.tsx`,
+Derived from `apps/b2b-web/src/routes.ts`, `App.tsx`, `ApplicationProvider.tsx`,
 `features/public/*`, `ExerciseDetails.tsx`, `VoiceGuide.tsx`, `Invitation.tsx`,
-`packages/b2b-ui/src/{components,login}.tsx`, `content/*`, y API `http.ts`,
-`service.ts`, `white-label-service.ts`, `equipment/index.ts` y `catalog/index.ts`.
+`packages/b2b-ui/src/{components,login}.tsx`, `content/*`, API `http.ts`,
+`service.ts`, `white-label-service.ts`, `equipment/index.ts`, `catalog/index.ts`.
 
-| Ruta / superficie | Acciones accesibles sin cuenta | Cobertura |
+| Route / surface | Actions without account | Coverage |
 | --- | --- | --- |
-| `/`, `/gimnasios` | Marca, sedes, Ingresar, Entrar a mi espacio, logo a `/app`, skip link | A01, A14, A20, A21, A26, A30, A33, A36 |
-| `/sedes/:slug` | Actividades, horarios, contacto, galeria, controles video, plano/lista y links a equipos, login de sede | A02-A05, A08-A12, A18-A19, A29 |
-| `/g/:slug` | Website de marca, horarios, galeria, login; rechazar slug de otra marca | A07, A13, A16, A30 |
-| `/g/:slug/units/:unitId` | Ficha QR, ajustes, medios, instrucciones expandibles, regreso al gimnasio y entrada a rutina/login | A03, A05-A06, A10-A12, A27-A28 |
-| `/login` | Email/password, validacion, envio, error, estado ocupado | A05, A14, A22-A23, A31 |
-| `/app` y `/app/{routines,catalog,history,history/all}` | Login, sin contenido privado; QR mantiene unit/machine/branch | A06, A24 |
-| `/manage` y `/manage/{reports,people,programs,catalog,equipment,brand,preparation,website,media,qr,whiteLabel}` | Login, sin contenido administrativo | A24 |
-| `/backoffice` y aliases de gestion | Canonicalizacion a `/manage`; guardia anonima | A24, tests de rutas existentes |
-| `/app/invite` | Activacion, entrada con cuenta existente; invitacion invalida no crea cuenta | A25, A36; flujo valido pertenece al rol con invitacion |
-| URL sin ruta, slug/unit inexistentes y encoding mal formado | Pantalla inexistente/error recuperable o rechazo 400 en gateway | A15, A32 |
-| Host alias/desconocido | Redirect canonico sin fragmento; queries sensibles y host desconocido rechazados | A17 |
-| Medios `/api/b2b/media/:id` | Solo referencias actualmente publicadas; GET/HEAD/Range | A07-A09, A16, A34, regresiones API |
-| Guion de voz y visor de movimiento opcionales | Texto, voz del navegador, animacion solicitada explicitamente | A35 fallback sin speech; animacion/modelos NOT RUN por alcance; audio fisico NOT RUN |
-| Entrada legacy `GymEntry` | Codigo de gimnasio y validacion | NOT RUN: estos seis fixtures usan dominios marca blanca; no directory publico |
+| `/`, `/gimnasios` | Brand/branches, Ingresar, Entrar a mi espacio, logo to `/app`, skip link | A01, A14, A20, A21, A26, A30, A33, A36 |
+| `/sedes/:slug` | Activities/schedules/contact/gallery/video controls/plan-list/equipment links/branch login | A02-A05, A08-A12, A18-A19, A29 |
+| `/g/:slug` | Brand website/schedules/gallery/login; reject other-brand slug | A07, A13, A16, A30 |
+| `/g/:slug/units/:unitId` | QR/settings/media/expandable instructions/return to gym/routine-login entry | A03, A05-A06, A10-A12, A27-A28 |
+| `/login` | Email/password/validation/submission/error/busy state | A05, A14, A22-A23, A31 |
+| `/app`, `/app/{routines,catalog,history,history/all}` | Login, no private content; QR retains unit/machine/branch | A06, A24 |
+| `/manage`, `/manage/{reports,people,programs,catalog,equipment,brand,preparation,website,media,qr,whiteLabel}` | Login, no administrative content | A24 |
+| `/backoffice`, management aliases | Canonicalize to `/manage`; anonymous guard | A24, existing route tests |
+| `/app/invite` | Activation/existing-account entry; invalid invitation creates no account | A25, A36; valid flow belongs to invited role |
+| Missing route/slug/unit, malformed encoding | Missing page/recoverable error or gateway 400 rejection | A15, A32 |
+| Alias/unknown host | Canonical redirect without fragment; reject sensitive queries/unknown host | A17 |
+| `/api/b2b/media/:id` | Currently published references only; GET/HEAD/Range | A07-A09, A16, A34, API regressions |
+| Optional voice script/movement viewer | Text/browser voice/explicitly requested animation | A35 no-speech fallback; animation/models and physical audio NOT RUN |
+| Legacy `GymEntry` | Gym code/validation | NOT RUN: six fixtures use white-label domains; no public directory |
 
-## Defectos corregidos
+<a id="defectos-corregidos"></a>
+## Corrected defects
 
-| ID | Reproduccion / resultado anterior | Correccion y regresion |
+| ID | Previous reproduction/result | Correction/regression |
 | --- | --- | --- |
-| PUB-01 | Norte mostraba direccion/contacto general de Atlas aunque tenia perfil publicado propio | API usa `published_profile` de la sede para el contacto de website/QR; nunca el perfil borrador. A04 + API |
-| PUB-02 | Encabezado QR de Norte enlazaba a login sin `branch`; regreso llevaba a portada general | Se deriva la sede de `unit.branchId`; login y regreso conservan la sede publica. A05, A27 |
-| PUB-03 | Imagen publicada solamente en galeria de marca devolvia 404 | `mediaAccess` comprueba referencias de la portada publicada ademas de tema/sedes. A07 + GET/HEAD/Range/revocacion y aislamiento API |
-| PUB-04 | Con sedes publicas y portada sin publicar, la portada intentaba leer un recurso 404 y mostraba error | `context.websitePublished` refleja la publicacion de la portada; las sedes conservan independencia. A13 + API |
-| PUB-05 | Fallo de contexto dejaba solo un error y obligaba a recargar | Boton Reintentar llama a `brand.refresh`. A20 |
-| PUB-06 | Fallo de lectura de portada no tenia accion para recuperar | Boton Reintentar llama a `website.reload`. A21 |
+| PUB-01 | Norte showed general Atlas address/contact despite its own published profile | API uses branch `published_profile` for website/QR contact, never draft. A04 + API |
+| PUB-02 | Norte QR header login lacked `branch`; return opened general landing page | Derive branch from `unit.branchId`; login/return retain public branch. A05, A27 |
+| PUB-03 | Image published only in brand gallery returned 404 | `mediaAccess` checks published landing references plus theme/branches. A07 + GET/HEAD/Range/revocation/API isolation |
+| PUB-04 | Public branches/unpublished landing caused 404 read/error on landing | `context.websitePublished` reflects landing publication; branches remain independent. A13 + API |
+| PUB-05 | Context failure required reload with only error | Reintentar calls `brand.refresh`. A20 |
+| PUB-06 | Landing-read failure had no recovery action | Reintentar calls `website.reload`. A21 |
 
-En la API tambien se exige `published_profile` para resolver directamente un QR:
-una sede incompletamente publicada no se vuelve visible por conocer una unidad.
-Regresion nueva especifica, ademas de casos UI de sedes sin publicar.
+API also requires `published_profile` for direct QR resolution: knowing a unit
+cannot expose incompletely published branch. Dedicated new regression plus UI
+unpublished-branch cases.
 
-## Setup real y limites de herramientas
+<a id="setup-real-y-limites-de-herramientas"></a>
+## Actual setup and tool limits
 
-Node `24.19.0`, pnpm `12.7.0` preinstalado en `.onboarding/tools`, Playwright
-`1.63.0`, PostgreSQL `17.11` en contenedor propio con DB `b2b_anonymous_test` y
-puerto `127.0.0.1:55439`. Cada proyecto tiene schema aleatorio, API, gateway,
-proxy restringido y directorio de medios separado. No se usan las DB de desarrollo.
-El teardown elimina solo schemas/directorios creados por este harness.
+Node `24.19.0`, pnpm `12.7.0` preinstalled in `.onboarding/tools`, Playwright
+`1.63.0`, PostgreSQL `17.11` in owned container, DB `b2b_anonymous_test`,
+`127.0.0.1:55439`. Per-project random schema/API/gateway/restricted proxy/separate
+media directory. No development DBs. Teardown removes only owned schemas/directories.
 
-Chromium del sistema `154.0.8037.57`, HTTPS con CA efimera y excepcion limitada
-al SPKI del certificado; `ignoreHTTPSErrors=false`. WebKit `26.6`, revision
-Playwright `2359`: pruebas funcionales HTTP en dos hosts locales distintos.
-La validacion HTTPS WebKit esta **BLOCKED**: rechaza la CA; `SSL_CERT_FILE` no
-modifica su trust store. No se deshabilito TLS ni se instalo CA en el sistema.
+System Chromium `154.0.8037.57`, HTTPS with ephemeral CA/exact-certificate SPKI
+exception; `ignoreHTTPSErrors=false`. WebKit `26.6`, Playwright `2359`: functional
+HTTP tests on two distinct local hosts. HTTPS WebKit **BLOCKED** by rejected CA;
+`SSL_CERT_FILE` does not change trust store. TLS not disabled/system CA not installed.
+These are historical settings; future tests must not reuse certificate bypasses
+or change trust under the subsequent user instruction.
 
-Se descargaron WebKit y FFmpeg por el mirror alternativo que admitio el CDN;
-los primeros mirrors devolvieron 403 Domain forbidden. Chromium bundled no se
-pudo descargar; se uso el Chromium instalado. Las bibliotecas WebKit faltantes
-se descargaron de Debian trixie y extrajeron en `.cache/qa-anonymous/libroot`:
-`libgtk-4-1`, `libgraphene-1.0-0`, `libharfbuzz-icu0`, `libmanette-0.2-0`,
-`libhyphen0`, `libgles2`, `libcairo-script-interpreter2`, `libhidapi-hidraw0`,
-`libglvnd0`, `libopengl0`, `liblzo2-2`; tambien `gstreamer1.0-libav`,
-`gstreamer1.0-plugins-good` y `gstreamer1.0-tools` para H.264/MP4. El launcher
-versionado `scripts/qa-b2b-anonymous-webkit.sh` corrige la perdida de
-`LD_LIBRARY_PATH` del launcher del bundle y ejecuta el mismo MiniBrowser.
-El cache de medios de WPE usa `WPE_SHELL_MEDIA_DISK_CACHE_PATH` dentro del
-workspace, evitando su default `/var/tmp` no escribible. TMP/XDG/GStreamer
-tambien usan directorios propios. No se modificaron permisos, paquetes ni trust
-store del host. Se comprobaron el plugin H.264 y playback real con avance de
-`currentTime`, no solo `canPlayType`. El intento de
-namespace aislado fallo con `setting up uid map: Read-only file system`; no se
-escalo ni se cambio de entorno.
+WebKit/FFmpeg downloaded through accepted alternate mirror; initial mirrors
+returned 403 Domain forbidden. Bundled Chromium unavailable; installed Chromium
+used. Missing WebKit libs downloaded from Debian trixie/extracted into
+`.cache/qa-anonymous/libroot`: `libgtk-4-1`, `libgraphene-1.0-0`,
+`libharfbuzz-icu0`, `libmanette-0.2-0`, `libhyphen0`, `libgles2`,
+`libcairo-script-interpreter2`, `libhidapi-hidraw0`, `libglvnd0`, `libopengl0`,
+`liblzo2-2`; also `gstreamer1.0-libav`, `gstreamer1.0-plugins-good`,
+`gstreamer1.0-tools` for H.264/MP4. Versioned
+`scripts/qa-b2b-anonymous-webkit.sh` restores bundle-launcher `LD_LIBRARY_PATH`
+and runs same MiniBrowser. WPE media cache uses workspace
+`WPE_SHELL_MEDIA_DISK_CACHE_PATH` instead of unwritable `/var/tmp`; TMP/XDG/
+GStreamer use owned directories. Host permissions/packages/trust store unchanged.
+H.264 plugin/actual playback advancing `currentTime` verified, not only
+`canPlayType`. Isolated-namespace attempt failed with `setting up uid map:
+Read-only file system`; no escalation/environment change.
 
-Los ensayos preliminares tambien corrigieron supuestos del harness: `/media`
-no es `/me`, un redirect que elimina el fragmento puede terminar en `#`, y
-`/g/%ZZ` se rechaza 400 antes de renderizar SPA. La perdida de respuesta usa
-`route.fetch()` contra el backend real y `NODE_EXTRA_CA_CERTS` para que Node
-valide esa misma CA local, sin desactivar verificaciones.
+Preliminary tests corrected harness assumptions: `/media` is not `/me`, a fragment-
+removing redirect may end in `#`, `/g/%ZZ` returns 400 before SPA render.
+Lost-response test uses real-backend `route.fetch()` and `NODE_EXTRA_CA_CERTS`
+so Node validates same local CA without disabling checks.
 
-## Reproducir el escenario y revisar manualmente
+<a id="reproducir-el-escenario-y-revisar-manualmente"></a>
+## Reproduce scenario and manual review
 
-En este Cloud, las dependencias y herramientas ya estan disponibles. Desde el
-root, `source /workspace/.onboarding/activate.sh` selecciona pnpm 12.7.0.
-En otro checkout usar Node 24+, pnpm 12.7.0, FFmpeg, Docker y dependencias del
-lockfile: `pnpm install --frozen-lockfile`. No copiar `.env` ni cuentas reales.
+Recorded Cloud had tools/dependencies; root
+`source /workspace/.onboarding/activate.sh` selects pnpm 12.7.0. Other checkout:
+Node 24+, pnpm 12.7.0, FFmpeg, Docker/lockfile dependencies:
+`pnpm install --frozen-lockfile`. Do not copy `.env` or real accounts.
+Historical commands below preserve recorded setup; future runs require isolated
+HTTP loopback or valid HTTPS with existing trust, without new bypass/trust changes.
 
 ```sh
-# Un contenedor NUEVO exclusivo; elegir otro nombre/puerto si ya estan ocupados.
+# NEW owned container; choose another name/port if occupied.
 docker run -d --name klisteni-qa-anonymous-demo \
   -p 127.0.0.1:55439:5432 \
   -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=b2b_anonymous_test postgres:17
-# Esperar a que pg_isready confirme disponibilidad.
+# Wait for pg_isready to confirm availability.
 docker exec klisteni-qa-anonymous-demo pg_isready -U postgres
 pnpm --filter @klisteniapp/b2b-web build
 node scripts/b2b-wl-tls.mjs
 ```
 
-La DB no tiene credenciales reales y solo se publica en loopback. El escenario
-manual no requiere login. El harness genera secretos efimeros internos, no los
-imprime y siembra unicamente personas y actividad ficticias.
+DB has no real credentials, loopback only. Manual scenario needs no login.
+Harness generates internal ephemeral secrets without printing them; seeds only
+fictional people/activity.
 
 ```sh
-# Terminal 1: scenario manual; dejar este proceso ejecutandose.
+# Terminal 1: manual scenario; leave this process running.
 B2B_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55439/b2b_anonymous_test \
 QA_WEBKIT_HTTP=true node scripts/qa-b2b-anonymous-server.mjs
 
-# Terminal 2: restaurar normal u otro caso prefijado del proyecto 0 (Chromium 360).
+# Terminal 2: restore normal/another preset for project 0 (Chromium 360).
 curl -fsS -X POST 'http://127.0.0.1:4348/fixture?project=0&case=normal' -o /dev/null
 ```
 
-Casos prefijados: `normal`, `hiddenBranch`, `archivedBranch`,
-`unpublishedBranch`, `empty`, `hiddenUnit`, `archivedUnit`,
-`unpublishedMachine`, `unpublishedRoot`, `noBranches`, `websiteOff`,
-`equipmentOff`, `mediaOff`, `noExercises`. `mediaOff` esta disponible para demo,
-pero no forma parte de la matriz ejecutada. Cada cambio restaura el fixture base
-antes de aplicar el caso; no usar controles de fixture durante una suite activa.
+Preset cases: `normal`, `hiddenBranch`, `archivedBranch`, `unpublishedBranch`,
+`empty`, `hiddenUnit`, `archivedUnit`, `unpublishedMachine`, `unpublishedRoot`,
+`noBranches`, `websiteOff`, `equipmentOff`, `mediaOff`, `noExercises`. `mediaOff`
+available for demo but absent from executed matrix. Each change restores base
+before applying case; never use fixture controls during active suite.
 
-Hosts `atlas.b2b.test`, `sur.b2b.test`, `alias.b2b.test` y `unknown.b2b.test` se
-resuelven por proxies loopback, sin editar hosts/DNS. Proyecto 0/1/2 Chromium
-usa proxy 4342/4344/4346; proyecto 3/4/5 WebKit usa 4350/4352/4354.
-Para abrir una ventana Chromium ya configurada (necesita sesion grafica):
-`node scripts/qa-b2b-anonymous-open.mjs --touch`, o sin `--touch` para desktop.
-`--headless --touch` verifica la apertura y guarda `manual-open.png` en `.cache`.
-El helper usa proxy/SPKI exactos; no instala confianza global ni publica un link.
+`atlas.b2b.test`, `sur.b2b.test`, `alias.b2b.test`, `unknown.b2b.test` resolve through
+loopback proxies without hosts/DNS edits. Chromium projects 0/1/2: proxy
+4342/4344/4346; WebKit 3/4/5: 4350/4352/4354. Historical GUI helper:
+`node scripts/qa-b2b-anonymous-open.mjs --touch`, omit `--touch` for desktop.
+`--headless --touch` verifies launch/saves `.cache/manual-open.png`. Helper uses
+exact proxy/SPKI, no global trust/public link; adapt before new runs.
 
 ```sh
-# Terminal 2: matriz automatizada en este Cloud, con scenario de terminal 1.
+# Terminal 2: automated Cloud matrix, with terminal 1 scenario.
 NODE_EXTRA_CA_CERTS="$PWD/.cache/wl/tls/ca.crt" \
 QA_WEBKIT_HTTP=true \
 QA_WEBKIT_EXECUTABLE="$PWD/scripts/qa-b2b-anonymous-webkit.sh" \
@@ -161,74 +165,66 @@ QA_REUSE_SERVER=true \
 pnpm --filter @klisteniapp/b2c-web exec playwright test \
   --config playwright.anonymous.config.ts
 
-# Reporte y una traza elegida; usar el path exacto listado en resultados.
+# Report/selected trace; use exact results-listed path.
 pnpm --filter @klisteniapp/b2c-web exec playwright show-report \
   ../../.cache/qa-anonymous/report
 pnpm --filter @klisteniapp/b2c-web exec playwright show-trace /ruta/a/trace.zip
 ```
 
-En una maquina con WebKit/CA disponibles, omitir `QA_WEBKIT_HTTP` y
-`QA_WEBKIT_EXECUTABLE` para probar HTTPS tambien alli. Para Chromium solo,
-seleccionar `--project=anonymous-chromium-narrow` (o `wide`/`desktop`).
-Sin `QA_REUSE_SERVER=true`, Playwright construye la app y crea/elimina su propio
-scenario; pasar la variable de DB al comando. La confianza CA de otra maquina
-requiere su setup de pruebas autorizado, no un cambio de dominios publicos.
+Historical guide allowed omitting `QA_WEBKIT_HTTP`/`QA_WEBKIT_EXECUTABLE` on a
+machine with WebKit/CA. Current instruction requires existing valid trust without
+new trust changes. Chromium-only: `--project=anonymous-chromium-narrow` (or
+`wide`/`desktop`). Without `QA_REUSE_SERVER=true`, Playwright builds/creates/removes
+its own scenario; pass DB variable. No public-domain changes authorized.
 
-Checklist manual breve (fixture normal, navegador sin sesion):
+Brief manual checklist (normal fixture, unsigned browser):
 
-1. Abrir Atlas y Sur, contrastar marcas y visitar Centro/Norte/Oeste; repetir
-   a 360, 430 y 1440 CSS px (el helper tactil abre 360; la matriz cubre los tres). Leer horarios y contacto publicado de cada sede.
-2. Entrar a Norte, abrir Polea 01 desde tarjeta y desde lista del plano. Recargar,
-   volver y avanzar; verificar unidad y sede. Expandir/cerrar texto de instrucciones.
-3. Usar "Ver el gimnasio", "Mi espacio" y "Ver este equipo en mi rutina";
-   comprobar sede Norte y, para rutina, unit/machine en URL. El visitante ve login.
-4. Revisar galeria de portada y sede, reproducir/pausar el clip sintetico,
-   abrir la unidad de titulo largo. No pedir un visor/modelo/animacion.
-5. Aplicar hidden/archived/unpublished branch o unit; confirmar ausencia de tarjeta,
-   marcador y QR. Con `empty`/`noBranches` comprobar mensajes y acceso al login.
-6. Cortar una lectura en DevTools y reintentar; probar validacion vacia/email
-   invalido y credenciales inventadas. Ninguna visita debe registrar entrenamiento.
-7. Abrir ambas marcas en pestañas y URLs ajenas/inexistentes; confirmar ausencia
-   de contenido privado. Restaurar `normal` al terminar.
+1. Open Atlas/Sur, compare brands, visit Centro/Norte/Oeste at 360/430/1440 CSS px
+   (touch helper opens 360; matrix covers three). Read schedules/published contacts.
+2. Norte → Polea 01 from card/plan list. Reload/back/forward, verify unit/branch,
+   expand/collapse written instructions.
+3. Use "Ver el gimnasio", "Mi espacio", "Ver este equipo en mi rutina"; check
+   Norte and unit/machine URL parameters for routine. Visitor sees login.
+4. Review landing/branch galleries, play/pause synthetic clip, open long-title
+   unit. Do not request viewer/model/animation.
+5. Apply hidden/archived/unpublished branch/unit; card/marker/QR absent.
+   `empty`/`noBranches`: messages/login access.
+6. Cut a DevTools read/retry; empty/invalid-email validation/invented credentials.
+   No visit records training.
+7. Both-brand tabs/foreign/missing URLs: no private content. Restore `normal`.
 
-Detener el harness con SIGTERM/Ctrl-C y comprobar cleanup. Detener solamente
-el contenedor ficticio creado para esta tanda; no tocar contenedores o volumenes
-ajenos. El contenedor de QA no usa volumen persistente.
+SIGTERM/Ctrl-C harness, check cleanup. Stop only owned fictional container;
+leave others' containers/volumes untouched. QA container uses no persistent volume.
 
-## Integracion entre roles y retorno para Atlas
+<a id="integracion-entre-roles-y-retorno-para-atlas"></a>
+## Role integration and Atlas handoff
 
-Archivos compartidos que requieren revisar cherry-picks: API `service.ts` y
-`white-label-service.ts`, web `App.tsx`, `BrandEntry.tsx`, `PublicGym.tsx`.
-Las regresiones, config y helpers de esta tanda tienen nombres propios; no se
-modificaron contratos, paquetes compartidos, CSS, modelos ni previews. Cambia
-el contacto devuelto por un website/QR de sede: usa su perfil publico congelado;
-la portada conserva el contacto general de marca.
+Shared cherry-pick review: API `service.ts`, `white-label-service.ts`; web
+`App.tsx`, `BrandEntry.tsx`, `PublicGym.tsx`. Regressions/config/helpers have distinct
+names; contracts/shared packages/CSS/models/previews unchanged. Branch website/QR
+contact uses frozen public branch profile; landing retains general brand contact.
 
-Retorno para integrar despues en Atlas: registrar esta revision local y evidencia
-como QA de visitante anonimo; seis defectos corregidos, suite API 80/80,
-matriz de navegadores con protocolos explicitados y limites fisicos/TLS.
-No sustituir snapshots de deploy del 11/10, ni declarar desplegados estos commits.
-Conservar previews/Blender y backups recurrentes diferidos. Revisar en la sesion
-de miembro la prevalencia de sede autorizada tras login desde QR: esta tanda
-comprueba parametros/entrada anonima, no certifica la seleccion posterior al login.
+Later Atlas intake: local anonymous QA revision/evidence, six fixes, API 80/80,
+browser protocols and physical/TLS limits. Do not replace October 11 deployment
+snapshots or claim these commits deployed. Previews/Blender/recurring backups
+remain deferred. Member session must review authorized branch precedence after
+QR login: this task checks anonymous parameters/entry, not post-login selection.
 
+<a id="resultados-y-evidencia-final"></a>
+## Final results and evidence
 
-## Resultados y evidencia final
+Final run: `2026-10-13T10:51:54.398Z`, 662.871 seconds, 3 workers, 42 cases/project,
+no retries. Full-run revision `435ef3a`. Final check found TS2352 in test A33's
+injected-property annotation; corrected in `128d332` without product/assertion
+changes. Final types/lint/format PASS; A33 rerun **6/6 PASS**. JSON retains both
+cuts. Every test checks no horizontal overflow/private markers and compares
+11-table counts/hashes before/after. Executions/audits remain zero; 13 accounts,
+four branches, six units, four assignments/five media fictional. Zero unexpected
+JS errors in final run. Fixture controls mutate only owned schema before baseline.
+A24 uses expired fictional cookie/checks unsigned visitor; not UI expiration of
+an actual authenticated session.
 
-Corrida final: `2026-10-13T10:51:54.398Z`, 662.871 segundos, 3 workers,
-42 casos por proyecto, sin retries. Revision de corrida completa `435ef3a`. Check final detecto TS2352 en la
-anotacion de una propiedad inyectada del test A33. Se corrigio en `128d332`
-sin cambiar producto ni las comprobaciones: types/lint/formato finales PASS
-y A33 repetido **6/6 PASS**. El JSON conserva ambos cortes de evidencia.
-Cada prueba comprueba ausencia de desbordamiento horizontal y marcadores privados;
-compara conteos/hashes de 11 tablas antes/despues. Ejecuciones y auditorias
-permanecen en cero; 13 cuentas, cuatro sedes, seis unidades, cuatro asignaciones y
-cinco medios son ficticios. Cero errores JS inesperados en la corrida final.
-Los controles de fixture cambian solo su schema antes de establecer el baseline.
-A24 usa una cookie ficticia vencida y verifica el visitante sin sesion; no
-acredita expiracion de una sesion autenticada real mediante UI.
-
-| Proyecto | Motor comprobado | CSS viewport | Touch / mobile | Transporte | Resultado |
+| Project | Verified engine | CSS viewport | Touch / mobile | Transport | Result |
 | --- | --- | --- | --- | --- | --- |
 | anonymous-chromium-narrow | 154.0.8037.57 | 360x800 | true / true | HTTPS | 42/42 PASS |
 | anonymous-chromium-wide | 154.0.8037.57 | 430x932 | true / true | HTTPS | 42/42 PASS |
@@ -237,70 +233,65 @@ acredita expiracion de una sesion autenticada real mediante UI.
 | anonymous-webkit-wide | 26.6 | 430x932 | true / true | HTTP | 42/42 PASS |
 | anonymous-webkit-desktop | 26.6 | 1440x1000 | false / false | HTTP | 42/42 PASS |
 
-Device scale factor por defecto 1, locale es-AR, timezone UTC, color claro,
-reduced motion. A33 verifica pointerType touch mediante tap() en los cuatro
-proyectos moviles y mouse en desktop. Otros casos usan clicks/teclado/history;
-son contextos emulados sin identidad UA ni hardware de un telefono fisico.
+Default device scale 1, es-AR, UTC, light, reduced motion. A33 checks touch
+pointerType via tap() in four mobile projects, mouse desktop. Others use click/
+keyboard/history; emulated contexts without physical-phone UA/hardware identity.
 
-| Check ejecutado | Resultado |
+| Executed check | Result |
 | --- | --- |
-| Fetch en ambos repos | Limpios, paridad con origin/main, sin descartar trabajo |
-| `pnpm lint` | PASS, boundaries + 14 tareas + formato B2B |
-| `pnpm typecheck --concurrency=2` | PASS, 14 tareas |
-| `B2B_TEST_DATABASE_URL=... pnpm test --concurrency=2` | PASS, 25 tests raiz + 14 tareas; API existente 76/76 |
-| `pnpm --filter @klisteniapp/b2b-api test` con DB aislada | PASS 80/80 final, cuatro regresiones nuevas; cero omitidos |
-| `pnpm build --concurrency=2` | PASS 16 tareas, warning de chunk grande preexistente |
-| Types de config Playwright con tsconfig dedicado | PASS |
-| Sintaxis Node/bash y formato helpers | PASS |
-| Lint/types/formato de QA sobre `128d332` | PASS, tras corregir TS2352 del test |
-| Reejecucion final A33 en seis proyectos | PASS 6/6 |
-| Matriz Playwright final | PASS 252/252, 3 workers, sin retries/omitidos/flaky |
-| Apertura helper `--headless --touch` | PASS, manual-open.png local; GUI manual NOT RUN |
-| `pnpm previews:check` | FAIL PREVIO: yoga Extraction receipt is stale; receipt intacto |
-| `pnpm check`, `check:all`, `check:release` completos | NOT RUN completos; no se declara verde el gate de previews |
+| Fetch both repos | Clean, origin/main parity, no discarded work |
+| `pnpm lint` | PASS, boundaries + 14 tasks + B2B format |
+| `pnpm typecheck --concurrency=2` | PASS, 14 tasks |
+| `B2B_TEST_DATABASE_URL=... pnpm test --concurrency=2` | PASS, 25 root tests + 14 tasks; existing API 76/76 |
+| `pnpm --filter @klisteniapp/b2b-api test` with isolated DB | Final PASS 80/80, four new regressions, zero skips |
+| `pnpm build --concurrency=2` | PASS 16 tasks; existing large-chunk warning |
+| Playwright config types with dedicated tsconfig | PASS |
+| Node/bash syntax, helper formatting | PASS |
+| QA lint/types/format on `128d332` | PASS after test TS2352 fix |
+| Final A33 rerun in six projects | PASS 6/6 |
+| Final Playwright matrix | PASS 252/252, 3 workers, no retries/skips/flakes |
+| Helper `--headless --touch` | PASS, local manual-open.png; manual GUI NOT RUN |
+| `pnpm previews:check` | PRE-EXISTING FAIL: yoga Extraction receipt is stale; receipt intact |
+| Complete `pnpm check`, `check:all`, `check:release` | NOT RUN complete; preview gate not claimed passing |
 
-La primera matriz completa previa al arreglo del setup obtuvo 221/228:
-tres fallos de video por codecs/cache, tres esperas agotadas y un diagnostico
-WPE de fetch cancelado. Preservada en `.cache/qa-anonymous/matrix-initial-results`
-y `matrix-initial-results.json`. La siguiente se interrumpio para reparar
-cache/temporales y esperar realmente la portada antes de afirmar ausencias en
-casos negativos. No se agregaron retries ni se aflojaron asserts. La corrida
-final repitio TODOS los casos en seis proyectos; video verifica avance de
-currentTime. No se declara SLA de carga a partir de estos tiempos.
+First full pre-setup-fix matrix: 221/228; three codec/cache video failures, three
+timeouts, one WPE canceled-fetch diagnostic. Retained in
+`.cache/qa-anonymous/matrix-initial-results`, `matrix-initial-results.json`.
+Next interrupted for cache/temp repairs and waiting for actual landing load before
+negative absence assertions. No retries/weakened assertions added. Final reran
+ALL cases in six projects; video checks advancing currentTime. Timings establish no load SLA.
 
-No quedan defectos reproducibles pendientes del rol en los casos ejecutados.
+No pending reproducible role defects in executed cases.
 
-| Limite / pendiente | Estado | Motivo |
+| Limit / pending | Status | Reason |
 | --- | --- | --- |
-| WebKit HTTPS con CA local | BLOCKED | Unacceptable TLS certificate; SSL_CERT_FILE no cambia el store; confianza global intacta |
-| Telefonos / Safari real / QR impreso / camara | NOT RUN | Sin hardware; checklist manual posterior |
-| Sonido y voces nativas reales | NOT RUN | Texto y fallback sin speech probados; audio audible no probado |
-| Modelos/visores/previews | NOT RUN UI | Diferidos por alcance; archivos originales intactos |
-| Login valido y seleccion posterior al QR | NOT RUN UI | Sesiones separadas por rol; entrada/parametros anonimos comprobados |
-| Legacy GymEntry y fixture mediaOff | NOT RUN | Fuera de matriz marca blanca ejecutada |
-| CI completo / merge / deploy | NOT RUN | Commits locales, gate de previews previo pendiente |
+| WebKit HTTPS with local CA | BLOCKED | Unacceptable TLS certificate; SSL_CERT_FILE changes no store; global trust intact |
+| Phones/real Safari/printed QR/camera | NOT RUN | No hardware; later manual checklist |
+| Real sound/native voice | NOT RUN | Text/no-speech fallback tested; audible audio not |
+| Models/viewers/previews | UI NOT RUN | Scope-deferred; originals intact |
+| Valid login/post-QR selection | UI NOT RUN | Separate role sessions; anonymous entry/parameters verified |
+| Legacy GymEntry/mediaOff fixture | NOT RUN | Outside executed white-label matrix |
+| Complete CI/merge/deploy | NOT RUN | Recorded local commits; previous preview gate pending |
 
-[Resumen textual de 252 casos](validation/b2b-anonymous-2026-10-13/summary.json)
-conserva motores, viewports, protocolos, estados por flujo y recheck tactil final.
-Las capturas, trazas, hashes por tabla y logs completos quedan locales en la rama
-original y el paquete Git verificado del rol. Esta variante no agrega capturas,
-trazas, datos reales, secretos ni blobs grandes de evidencia al remoto.
-Se revisaron visualmente capturas representativas de ambos motores; las demas
-pantallas se inspeccionaron por snapshots, asserts y trazas. No es revision humana
-pixel por pixel ni comparacion visual de snapshots modificados.
+[252-case textual summary](validation/b2b-anonymous-2026-10-13/summary.json)
+retains engines/viewports/protocols/flow states/final touch recheck. Full captures,
+traces/table hashes/logs remain local in original branch/verified role Git package.
+Variant adds no captures/traces/real data/secrets/large evidence blobs remotely.
+Representative screenshots from both engines visually reviewed; others inspected
+through snapshots/assertions/traces, not human pixel-by-pixel review or modified
+visual-snapshot comparisons.
 
-Cleanup comprobado al cierre: **0 schemas b2b restantes** en la DB desechable,
-proceso del harness detenido y contenedor propio `klisteni-qa-anonymous-20261013`
-detenido. Evidencia/cache y checkout conservados. Para revisar, usar el escenario
-y nuevo contenedor indicados arriba; no depende de un proceso dejado en segundo plano.
+Final cleanup verified: **0 remaining b2b schemas** in disposable DB, harness stopped,
+owned `klisteni-qa-anonymous-20261013` container stopped. Evidence/cache/checkout
+retained. Review requires above scenario/new container, no background process dependency.
 
-## Matriz completa de flujos
+<a id="matriz-completa-de-flujos"></a>
+## Complete flow matrix
 
-C = Chromium HTTPS; W = WebKit HTTP. Columnas por ancho CSS; capturas y trace.zip
-por cada caso en la carpeta registrada en JSON. A10/A11 tienen cada fixture
-como caso independiente.
+C = Chromium HTTPS; W = WebKit HTTP. CSS-width columns; per-case captures/trace.zip
+in JSON-recorded directory. A10/A11 fixtures are independent cases.
 
-| Flujo / fixture | C360 | C430 | C1440 | W360 | W430 | W1440 |
+| Flow / fixture | C360 | C430 | C1440 | W360 | W430 | W1440 |
 | --- | --- | --- | --- | --- | --- | --- |
 | A01 Atlas and Sur show distinct brands and every public branch | PASS | PASS | PASS | PASS | PASS | PASS |
 | A02 all four branch pages load with their published catalog and schedules | PASS | PASS | PASS | PASS | PASS | PASS |

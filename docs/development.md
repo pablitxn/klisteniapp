@@ -1,110 +1,103 @@
-# Desarrollo local: todas las apps
+<a id="desarrollo-local-todas-las-apps"></a>
 
-Desde el root del repositorio, con Node 24+, pnpm 12.7.0 y Docker iniciado.
+# Local development: all applications
 
-La configuración de formato compartida vive en `.prettierrc.json`, reconocida
-automáticamente por Prettier y sus integraciones de editor. `pnpm format:b2b` y
-`pnpm format:b2b:check` conservan el alcance B2B actual; adoptar el formateador
-para el resto del código es una tarea separada. El override de la API B2B conserva
-sus puntos y coma.
-En un checkout nuevo, preparar una sola vez:
+From repository root, with Node 24+, pnpm 12.7.0 and Docker running.
+
+Shared formatting configuration is `.prettierrc.json`, automatically recognized by
+Prettier/editor integrations. `pnpm format:b2b` and `pnpm format:b2b:check` retain
+current B2B scope; adopting formatting elsewhere is separate work. B2B API override
+retains semicolons. Prepare a new checkout once:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm setup:dev
 ```
 
-Después, usar dos terminales en el root:
+Then use two root terminals:
 
 ```sh
-# Terminal 1: PostgreSQL B2C y B2B
+# Terminal 1: B2C and B2B PostgreSQL
 docker compose up
 ```
 
 ```sh
-# Terminal 2: las cuatro apps y el gateway B2B
+# Terminal 2: all four apps and the B2B gateway
 pnpm exec turbo run dev
-# También: turbo run dev si Turbo está disponible en PATH, o pnpm dev.
+# Also: turbo run dev if Turbo is available in PATH, or pnpm dev.
 ```
 
-No hacen falta `-f`, perfiles, exportar variables ni ejecutar migraciones a mano.
-Turbo prepara el entorno, espera hasta 60 segundos por cada base, migra y crea
-las cuentas ficticias antes de arrancar las APIs. Los siguientes arranques
-conservan credenciales, registros y medios. Puede iniciarse Turbo mientras
-Compose termina de levantar las bases.
+No `-f`, profiles, exported variables or manual migrations required. Turbo prepares
+environment, waits up to 60 seconds per DB, migrates/seeds fictional accounts before
+APIs start. Later starts retain credentials/records/media. Turbo may start while
+Compose finishes DB startup.
 
-| App o servicio | Dirección |
+| Application/service | Address |
 | --- | --- |
-| B2C con cuentas y administrador local | http://127.0.0.1:5173/ |
-| Entrada B2B | http://127.0.0.1:4200/ |
-| Gestión del gimnasio B2B | http://127.0.0.1:4200/manage |
-| Socio B2B | http://127.0.0.1:4200/app |
-| Website Atlas / Sur | http://127.0.0.1:4200/g/atlas-demo · http://127.0.0.1:4200/g/sur-demo |
-| API B2C / readiness | http://127.0.0.1:3001/api/readyz |
-| API B2B / readiness | http://127.0.0.1:4201/api/b2b/readyz |
-| Vite B2B (socio y gestión del gimnasio) | `4210` (usar el gateway para navegar y login) |
-| PostgreSQL B2C / B2B | `127.0.0.1:54331` / `127.0.0.1:54332` |
+| B2C accounts/local administrator | http://127.0.0.1:5173/ |
+| B2B entry | http://127.0.0.1:4200/ |
+| B2B gym management | http://127.0.0.1:4200/manage |
+| B2B member | http://127.0.0.1:4200/app |
+| Atlas / Sur website | http://127.0.0.1:4200/g/atlas-demo · http://127.0.0.1:4200/g/sur-demo |
+| B2C API / readiness | http://127.0.0.1:3001/api/readyz |
+| B2B API / readiness | http://127.0.0.1:4201/api/b2b/readyz |
+| B2B Vite (member/management) | `4210` (navigate/login through gateway) |
+| B2C / B2B PostgreSQL | `127.0.0.1:54331` / `127.0.0.1:54332` |
 
-Usar los orígenes `127.0.0.1` indicados para mantener consistencia de sesiones y
-validación del origen. Todos los servicios escuchan en loopback.
+Use listed `127.0.0.1` origins for consistent sessions/origin validation. All services
+listen on loopback.
 
-## Configuración y cuentas
+<a id="configuración-y-cuentas"></a>
 
-`pnpm setup:dev` genera secretos aleatorios con permisos privados y conserva
-los archivos existentes. Turbo también ejecuta este paso automáticamente.
-Los archivos generados están ignorados por Git:
+## Configuration and accounts
 
-- `.env`: credenciales del Compose raíz; mantenerlo junto a sus volúmenes.
-- `apps/{b2c-api,b2b-api,b2c-web}/.env.development.local`: configuración del entorno local.
-- `.cache/dev/b2c-login.private.json`: email y contraseña del administrador B2C,
-  con acceso cloud local vitalicio.
-- `.cache/dev/b2b-demo.private.json`: cuentas de Atlas y Sur, generado después de
-  preparar la base B2B.
-- `.cache/dev/b2b-password.env`: contraseña compartida de las cuentas ficticias B2B.
-- `.cache/dev/media`: subidas locales B2B.
+`pnpm setup:dev` generates random secrets with private permissions, retaining
+existing files. Turbo also runs this automatically. Generated Git-ignored files:
 
-La API de desarrollo carga únicamente esta configuración local. Las variables
-de credenciales, proveedores y destinos heredadas de la terminal no cambian sus
-bases. Billing y SMTP están desactivados. B2C usa el perfil público de ejemplo;
-la configuración de desarrollo de Vite no habilita cuentas en builds de producción.
-Los comandos `start`, `migrate` y de operador mantienen su configuración explícita
-habitual; este entorno automático corresponde al comando `dev`.
-Para desarrollar una API con un `.env` propio, usar su comando `dev:configured`.
+- `.env`: root Compose credentials; retain alongside its volumes.
+- `apps/{b2c-api,b2b-api,b2c-web}/.env.development.local`: local configuration.
+- `.cache/dev/b2c-login.private.json`: B2C administrator email/password, local lifetime cloud access.
+- `.cache/dev/b2b-demo.private.json`: Atlas/Sur accounts, generated after B2B DB setup.
+- `.cache/dev/b2b-password.env`: shared fictional B2B account password.
+- `.cache/dev/media`: local B2B uploads.
 
-Si un archivo generado entra en conflicto, el setup falla indicando el nombre
-de la variable, sin imprimir su valor ni reemplazar el archivo. No regenerar
-credenciales conservando una base inicializada con otras contraseñas. Las dos
-bases usan volúmenes propios del proyecto Compose `klisteni-dev`; los helpers
-anteriores de `deploy/` conservan sus entornos separados. No ejecutar a la vez
-helpers que usan los mismos puertos de API o Vite.
+Development API loads only this local configuration. Inherited terminal credentials,
+providers/destinations do not change DBs. Billing/SMTP disabled. B2C uses example
+public profile; Vite development settings do not enable accounts in production
+builds. `start`, `migrate` and operator commands retain usual explicit configuration;
+automatic environment belongs to `dev`. To develop API with own `.env`, use
+`dev:configured`.
 
-## Detener y volver a arrancar
+Conflicting generated file makes setup fail with variable name, without printing
+value/replacing file. Do not regenerate credentials while retaining a DB initialized
+with other passwords. DBs own volumes in `klisteni-dev` Compose project; earlier
+`deploy/` helpers retain separate environments. Do not run helpers sharing API/Vite ports simultaneously.
 
-Ctrl-C en la terminal de Turbo detiene las apps; Ctrl-C en Compose detiene las
-bases. Los datos se conservan. Para dejar las bases en segundo plano:
+<a id="detener-y-volver-a-arrancar"></a>
+
+## Stop and restart
+
+Ctrl-C in Turbo stops apps; Ctrl-C in Compose stops DBs. Data retained. Background DBs:
 
 ```sh
 docker compose up -d --wait
 pnpm dev
 ```
 
-Para detenerlas después: `docker compose stop`. `docker compose down` retira
-contenedores y red, conservando volúmenes. **`docker compose down -v` borra las
-bases de este entorno**; no es necesario para reiniciar.
-
-Para trabajar sólo con la demo B2C sin cuentas ni Docker:
+Later stop: `docker compose stop`. `docker compose down` removes containers/network,
+retains volumes. **`docker compose down -v` deletes environment DBs**; unnecessary
+for restart. B2C demo without accounts/Docker:
 
 ```sh
 pnpm dev:demo
 ```
 
-Los helpers especializados `pnpm dev:b2b` y `node scripts/dev-ui-instance.mjs`
-siguen disponibles para sus entornos aislados.
+Specialized `pnpm dev:b2b` and `node scripts/dev-ui-instance.mjs` helpers remain
+available for isolated environments.
 
-Para ejecutar este entorno desde otro dispositivo con la Mac apagada, seguir
-[el relevo al VPS y los túneles privados](development-vps.md). Las URLs de esta guía
-describen el setup actual de un origen. Los dominios por marca, temas y varias
-sedes desde la primera entrega están implementados en [marca blanca B2B](b2b-white-label.md).
-Su suite HTTPS usa entornos desechables propios; consultar [preparación y confianza
-TLS](b2b-white-label-runtime.md) antes de ejecutarla. No activar el modo anterior
-contra una base que ya tenga dominios o múltiples sedes.
+For another device while Mac is off, follow [VPS handoff/private tunnels](development-vps.md).
+Listed URLs describe current single-origin setup. Brand domains/themes/multiple
+branches from first delivery are implemented in [white-label B2B](b2b-white-label.md).
+Its HTTPS suite owns disposable environments; read [setup/TLS trust](b2b-white-label-runtime.md)
+and current no-bypass guidance before execution. Do not activate earlier mode
+against a DB already containing domains/multiple branches.
