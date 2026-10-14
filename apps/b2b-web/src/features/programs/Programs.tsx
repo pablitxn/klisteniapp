@@ -5,10 +5,11 @@ import type {
   Program,
   ProgramVersion,
 } from '@klisteniapp/b2b-contracts'
-import { useAccountClient } from '@klisteniapp/b2b-react'
+import { useAccountClient, useAccountScope } from '@klisteniapp/b2b-react'
 import { Empty } from '@klisteniapp/b2b-ui'
 import { useState } from 'react'
 import { latestEditorEntity } from '../../shared/editor/editorEntity'
+import { editorDraftKey } from '../../shared/editor/editorDraftStorage'
 import { Heading } from '../../shared/Heading'
 import { useAction } from '../../shared/useAction'
 import { ProgramAssignmentForm } from './ProgramAssignmentForm'
@@ -34,6 +35,7 @@ export function Programs({
   reload: (resource?: 'programs' | 'assignments') => void
 }) {
   const client = useAccountClient()
+  const scope = useAccountScope()
   const [editing, setEditing] = useState<Program | 'new' | null>(null)
   const [assigning, setAssigning] = useState<{ program: Program; version: ProgramVersion } | null>(
     null,
@@ -56,11 +58,29 @@ export function Programs({
   async function assign(memberId: string) {
     if (!assigning) return
     const ok = await action.run(async () => {
-      await client.assignments.create(orgId, {
-        memberId,
-        programId: assigning.program.id,
-        version: assigning.version.version,
-      })
+      const key = editorDraftKey(
+        scope.userId,
+        orgId,
+        'program',
+        `assignment/${assigning.program.id}/${assigning.version.version}/${memberId}`,
+        scope.branchId,
+        scope.role,
+      )
+      let requestId = sessionStorage.getItem(key)
+      if (!requestId || !/^[0-9a-f-]{36}$/i.test(requestId)) {
+        requestId = crypto.randomUUID()
+        sessionStorage.setItem(key, requestId)
+      }
+      await client.assignments.create(
+        orgId,
+        {
+          memberId,
+          programId: assigning.program.id,
+          version: assigning.version.version,
+        },
+        requestId,
+      )
+      sessionStorage.removeItem(key)
       reload('assignments')
     }, 'Rutina asignada. El socio ya la puede ver en su espacio.')
     if (ok) setAssigning(null)

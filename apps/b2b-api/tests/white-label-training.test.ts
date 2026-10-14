@@ -102,6 +102,107 @@ const training = new TrainingModule({
 });
 
 test(
+  'routine creation and prescription retries keep one row and reject changed actors, content and contexts',
+  { skip: !databaseUrl },
+  async () => {
+    await fixture(async (db) => {
+      const own = context(db, center, 'coach');
+      let exercise = await catalog.createExercise(
+        own,
+        ExerciseInputSchema.parse({ name: 'Retry movement', instructions: ['Stable instruction'] }),
+      );
+      exercise = await catalog.reviewExercise(own, exercise.id, exercise.revision);
+      exercise = await catalog.publishExercise(own, exercise.id, exercise.revision);
+      const input = ProgramInputSchema.parse({
+        name: 'Retry routine',
+        steps: [{ id: 'retry-step', exerciseId: exercise.id, sets: 1, reps: 8 }],
+      });
+      const requestId = randomUUID();
+      const program = await training.createProgram(own, input, requestId);
+      assert.deepEqual(await training.createProgram(own, input, requestId), program);
+      await assert.rejects(
+        training.createProgram(own, { ...input, name: 'Changed request' }, requestId),
+        code('PROGRAM_CREATE_CONFLICT'),
+      );
+      await assert.rejects(
+        training.createProgram(context(db, center), input, requestId),
+        code('PROGRAM_CREATE_CONFLICT'),
+      );
+      await assert.rejects(
+        training.createProgram(context(db, north, 'coach'), input, requestId),
+        (error) => error instanceof HttpError,
+      );
+      const version = await training.publishProgram(own, program.id, program.revision);
+      const assignmentInput = {
+        memberId: 'member',
+        programId: program.id,
+        version: version.version,
+      };
+      const assignmentId = randomUUID();
+      const assignment = await training.assignProgram(own, assignmentInput, assignmentId);
+      assert.equal(
+        (await training.assignProgram(own, assignmentInput, assignmentId)).id,
+        assignment.id,
+      );
+      await assert.rejects(
+        training.assignProgram(context(db, center), assignmentInput, assignmentId),
+        code('ASSIGNMENT_CONFLICT'),
+      );
+      await assert.rejects(
+        training.assignProgram(
+          context(db, center),
+          { ...assignmentInput, memberId: 'other' },
+          assignmentId,
+        ),
+        code('ASSIGNMENT_CONFLICT'),
+      );
+      // Changes in availability cannot turn an accepted replay into a second prescription.
+      await catalog.updateExercise(
+        own,
+        exercise.id,
+        ExerciseInputSchema.parse({ name: 'Unreviewed replacement', instructions: ['Changed'] }),
+        exercise.revision,
+      );
+      assert.equal(
+        (await training.assignProgram(own, assignmentInput, assignmentId)).id,
+        assignment.id,
+      );
+      await assert.rejects(
+        training.assignProgram(own, assignmentInput, randomUUID()),
+        code('EXERCISE_UNAVAILABLE'),
+      );
+      assert.equal(
+        (await db.query('SELECT id FROM b2b_program WHERE id=$1', [requestId])).rowCount,
+        1,
+      );
+      assert.equal(
+        (await db.query('SELECT id FROM b2b_program_assignment WHERE program_id=$1', [program.id]))
+          .rowCount,
+        1,
+      );
+      assert.equal(
+        (
+          await db.query(
+            "SELECT id FROM b2b_audit WHERE action='program.create' AND resource_id=$1",
+            [requestId],
+          )
+        ).rowCount,
+        1,
+      );
+      assert.equal(
+        (
+          await db.query(
+            "SELECT id FROM b2b_audit WHERE action='program.assign' AND resource_id=$1",
+            [assignmentId],
+          )
+        ).rowCount,
+        1,
+      );
+    });
+  },
+);
+
+test(
   'WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits',
   { skip: !databaseUrl },
   async () => {
