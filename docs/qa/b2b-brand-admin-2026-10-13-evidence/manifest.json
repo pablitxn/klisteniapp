@@ -1,0 +1,3228 @@
+{
+  "created_utc": "2026-10-13T11:26:13.994178+00:00",
+  "initial_sha": "7172041102a8a7029af5fb3e2527a1fa51611a86",
+  "code_revision": "a87daf4f8460e6dd710defca8bea57b0f8bf9414",
+  "branch": "qa/b2b-brand-admin-20261013",
+  "atlas_read_revision": "27ae86c83cd4822e6f7c23c70a1b9397ffd39d9f",
+  "aggregate": {
+    "PASS": 108,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": "See explicit rows in the report; 108 covers executed unique browser groups only"
+  },
+  "projects": {
+    "admin-chromium-narrow": {
+      "unique_flows": 27,
+      "passed": 27
+    },
+    "admin-chromium-wide": {
+      "unique_flows": 27,
+      "passed": 27
+    },
+    "admin-chromium-desktop": {
+      "unique_flows": 27,
+      "passed": 27
+    },
+    "admin-webkit-touch": {
+      "unique_flows": 27,
+      "passed": 27
+    }
+  },
+  "browser_runs": [
+    {
+      "phase": "final-chromium-initial",
+      "stats": {
+        "startTime": "2026-10-13T10:39:34.754Z",
+        "duration": 927926.4090000001,
+        "expected": 68,
+        "skipped": 0,
+        "unexpected": 4,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/final-chromium-initial/results.json",
+      "sha256": "1fc5d35b6aaf35cea5edd44e075c3af6ee45bc0539d2243101d7146bd72e3d51"
+    },
+    {
+      "phase": "final-chromium-recheck",
+      "stats": {
+        "startTime": "2026-10-13T10:56:30.076Z",
+        "duration": 95148.817,
+        "expected": 9,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/final-chromium-recheck/results.json",
+      "sha256": "452ee63d32e89000e67e3ad02541b135bb036676886e17f8fe947fb24bfd648c"
+    },
+    {
+      "phase": "final-chromium-program",
+      "stats": {
+        "startTime": "2026-10-13T10:59:29.169Z",
+        "duration": 25278.111,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/final-chromium-program/results.json",
+      "sha256": "040a973cfb0d75c4de0a7e03d440b48c1c71a3af878087dde03f5fe25165f46a"
+    },
+    {
+      "phase": "final-webkit",
+      "stats": {
+        "startTime": "2026-10-13T11:01:07.213Z",
+        "duration": 329577.924,
+        "expected": 23,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/final-webkit/results.json",
+      "sha256": "dc093b6b1cf21c625f23c23f3b3bbeacffe4cd60b7af59113807c2e39923f05d"
+    },
+    {
+      "phase": "webkit-overflow-diagnostic",
+      "stats": {
+        "startTime": "2026-10-13T11:08:05.166Z",
+        "duration": 22203.567,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/webkit-overflow-diagnostic/results.json",
+      "sha256": "fcd2466754d454ec7cdac5866c8bc72014578fa72ed9981c9cf2585e389b10ad"
+    },
+    {
+      "phase": "editor-pending-baseline",
+      "stats": {
+        "startTime": "2026-10-13T11:11:48.990Z",
+        "duration": 28884.05,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/editor-pending-baseline/results.json",
+      "sha256": "47e678c941f84aa27e7c14b53c6c11e14a13079ed3ed0a4b37f34be7aa0c7934"
+    },
+    {
+      "phase": "final-webkit-recheck",
+      "stats": {
+        "startTime": "2026-10-13T11:13:13.020Z",
+        "duration": 31765.104,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/final-webkit-recheck/results.json",
+      "sha256": "afe20e91a2f91025ea4dab90683907330b44ea90384ccaad560e9ce3af3b55ef"
+    },
+    {
+      "phase": "closeout-affected",
+      "stats": {
+        "startTime": "2026-10-13T11:19:35.140Z",
+        "duration": 98172.497,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "results_file": ".cache/brand-admin/closeout-affected/results.json",
+      "sha256": "67e99610163380bc5889169ca32bac284a1069a7583d78d3f7ac7802b6cb1b52"
+    }
+  ],
+  "latest_flow_results": [
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "branch editor retains unsaved address through reload and resolves a concurrent revision explicitly",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4451
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "theme fields cannot change during a delayed save and a response to a closed editor preserves newer local work",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 8036
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "branch editor retains unsaved address through reload and resolves a concurrent revision explicitly",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4915
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "theme fields cannot change during a delayed save and a response to a closed editor preserves newer local work",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5273
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "branch editor retains unsaved address through reload and resolves a concurrent revision explicitly",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4763
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "theme fields cannot change during a delayed save and a response to a closed editor preserves newer local work",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4861
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "atlas: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 39347
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "sur: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 29931
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "people administer brand membership, protect the last admin and keep branch coaching scoped",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 5481
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "branch validation, duplicate slug, grant and removal, archive guard and empty branch",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 5331
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "unit batch recovers after response loss and double submit without duplicate records; cancellation keeps draft",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 3920
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "unit concurrency is recoverable, requires review, publishes correct QR and archive/restores",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4744
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "theme draft survives navigation and concurrent publication, then requires explicit comparison",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5381
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "website validation, reload, concurrency, review/publication and withdrawal preserve pending edits",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6867
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "library validates file formats, renders uploaded image, retries failed load and isolates branches/brands",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 16657
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "atlas/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5265
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "atlas/norte: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5191
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "sur/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5899
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "sur/oeste: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5443
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "modules deny direct routes, stay branch scoped, retain data and recover after reenabling",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6218
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "catalog availability, assignment retirement and equipment transfer use the chosen branch",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 12185
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "expired session rejects an editor write, retains draft for same account and never offers it to another account",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 66534
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "logout propagates to open tabs; another brand cannot reuse the admin session or operate foreign IDs",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5038
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "invitations validate inputs, activate synthetic member and grant only the originating branch",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5089
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "exercise editor validates, recovers a draft and requires review before publication without new models",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 5874
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "brand image upload is private until publishing and contrast validation preserves the existing public theme",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5402
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "a branch without activity archives and restores through UI without deleting its saved metadata",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 3861
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "administrator filters a persisted partial training fixture and exports brand history with exact branch identity",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 3424
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "atlas: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 28020
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "sur: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 25827
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "people administer brand membership, protect the last admin and keep branch coaching scoped",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 7882
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "branch validation, duplicate slug, grant and removal, archive guard and empty branch",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 5644
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "unit batch recovers after response loss and double submit without duplicate records; cancellation keeps draft",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4007
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "unit concurrency is recoverable, requires review, publishes correct QR and archive/restores",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4451
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "theme draft survives navigation and concurrent publication, then requires explicit comparison",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5220
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "website validation, reload, concurrency, review/publication and withdrawal preserve pending edits",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6741
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "library validates file formats, renders uploaded image, retries failed load and isolates branches/brands",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 10489
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "atlas/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5380
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "atlas/norte: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5150
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "sur/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5224
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "sur/oeste: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5119
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "modules deny direct routes, stay branch scoped, retain data and recover after reenabling",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5873
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "catalog availability, assignment retirement and equipment transfer use the chosen branch",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 7134
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "expired session rejects an editor write, retains draft for same account and never offers it to another account",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 65942
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "logout propagates to open tabs; another brand cannot reuse the admin session or operate foreign IDs",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5509
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "invitations validate inputs, activate synthetic member and grant only the originating branch",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5035
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "exercise editor validates, recovers a draft and requires review before publication without new models",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 6028
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "brand image upload is private until publishing and contrast validation preserves the existing public theme",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4285
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "a branch without activity archives and restores through UI without deleting its saved metadata",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4322
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "administrator filters a persisted partial training fixture and exports brand history with exact branch identity",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 3909
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "atlas: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 28258
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "sur: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 28079
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "people administer brand membership, protect the last admin and keep branch coaching scoped",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 7697
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "branch validation, duplicate slug, grant and removal, archive guard and empty branch",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 6448
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "unit batch recovers after response loss and double submit without duplicate records; cancellation keeps draft",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5014
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "unit concurrency is recoverable, requires review, publishes correct QR and archive/restores",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5527
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "theme draft survives navigation and concurrent publication, then requires explicit comparison",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5444
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "website validation, reload, concurrency, review/publication and withdrawal preserve pending edits",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 8509
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "library validates file formats, renders uploaded image, retries failed load and isolates branches/brands",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 8780
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "atlas/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6223
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "atlas/norte: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6312
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "sur/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5840
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "sur/oeste: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6274
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "modules deny direct routes, stay branch scoped, retain data and recover after reenabling",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 6971
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "catalog availability, assignment retirement and equipment transfer use the chosen branch",
+      "status": "PASS",
+      "phase": "final-chromium-recheck",
+      "duration_ms": 5299
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "expired session rejects an editor write, retains draft for same account and never offers it to another account",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5471
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "logout propagates to open tabs; another brand cannot reuse the admin session or operate foreign IDs",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 66717
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "invitations validate inputs, activate synthetic member and grant only the originating branch",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 5920
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "exercise editor validates, recovers a draft and requires review before publication without new models",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 6310
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "brand image upload is private until publishing and contrast validation preserves the existing public theme",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4954
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "a branch without activity archives and restores through UI without deleting its saved metadata",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 4226
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "administrator filters a persisted partial training fixture and exports brand history with exact branch identity",
+      "status": "PASS",
+      "phase": "final-chromium-initial",
+      "duration_ms": 3438
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "routine conflict survives reload and preserves local prescription until an explicit comparison/rebase",
+      "status": "PASS",
+      "phase": "final-chromium-program",
+      "duration_ms": 5173
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "routine conflict survives reload and preserves local prescription until an explicit comparison/rebase",
+      "status": "PASS",
+      "phase": "final-chromium-program",
+      "duration_ms": 5239
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "routine conflict survives reload and preserves local prescription until an explicit comparison/rebase",
+      "status": "PASS",
+      "phase": "final-chromium-program",
+      "duration_ms": 5429
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "branch editor retains unsaved address through reload and resolves a concurrent revision explicitly",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 4973
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "theme fields cannot change during a delayed save and a response to a closed editor preserves newer local work",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5601
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "atlas: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 28165
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "sur: every administrator route in both branches renders, reloads and navigates back/forward",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 27493
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "people administer brand membership, protect the last admin and keep branch coaching scoped",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5286
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "branch validation, duplicate slug, grant and removal, archive guard and empty branch",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 6527
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "unit batch recovers after response loss and double submit without duplicate records; cancellation keeps draft",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 4439
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "unit concurrency is recoverable, requires review, publishes correct QR and archive/restores",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5058
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "theme draft survives navigation and concurrent publication, then requires explicit comparison",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5623
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "website validation, reload, concurrency, review/publication and withdrawal preserve pending edits",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 7906
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "library validates file formats, renders uploaded image, retries failed load and isolates branches/brands",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 68640
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "atlas/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 6826
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "atlas/norte: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 6150
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "sur/principal: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 6150
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "sur/oeste: administrator authors, publishes and assigns a version without crossing branch recipients",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 6425
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "modules deny direct routes, stay branch scoped, retain data and recover after reenabling",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 6793
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "catalog availability, assignment retirement and equipment transfer use the chosen branch",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5852
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "expired session rejects an editor write, retains draft for same account and never offers it to another account",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 67355
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "logout propagates to open tabs; another brand cannot reuse the admin session or operate foreign IDs",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5848
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "invitations validate inputs, activate synthetic member and grant only the originating branch",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 6133
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "exercise editor validates, recovers a draft and requires review before publication without new models",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 6399
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "brand image upload is private until publishing and contrast validation preserves the existing public theme",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 4959
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "a branch without activity archives and restores through UI without deleting its saved metadata",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 3979
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "administrator filters a persisted partial training fixture and exports brand history with exact branch identity",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 4025
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "routine conflict survives reload and preserves local prescription until an explicit comparison/rebase",
+      "status": "PASS",
+      "phase": "final-webkit",
+      "duration_ms": 5426
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "exercise editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 5096
+    },
+    {
+      "project": "admin-webkit-touch",
+      "flow": "program editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 4672
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "exercise editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 5060
+    },
+    {
+      "project": "admin-chromium-narrow",
+      "flow": "program editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 4736
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "exercise editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 4741
+    },
+    {
+      "project": "admin-chromium-wide",
+      "flow": "program editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 3615
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "exercise editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 5500
+    },
+    {
+      "project": "admin-chromium-desktop",
+      "flow": "program editor keeps its return action blocked until the pending save is acknowledged",
+      "status": "PASS",
+      "phase": "closeout-affected",
+      "duration_ms": 3788
+    }
+  ],
+  "quality": {
+    "lint": {
+      "log": ".cache/brand-admin-release-lint.log",
+      "sha256": "e499534b7e0ba4c2ab4a93e06e0a9121e0cc6d47481a30889d5b2e711bc9dd77",
+      "status": "PASS"
+    },
+    "types": {
+      "log": ".cache/brand-admin-release-types.log",
+      "sha256": "2fd58591d41004ccff5beafbb01e9fa9257a8a91211bf98fd7f2d69ffc95f209",
+      "status": "PASS"
+    },
+    "tests": {
+      "log": ".cache/brand-admin-release-test.log",
+      "sha256": "5e21a3b70ea9ccfe3ad62b434e8e1366e7637a3bd41b91be0333c5a3ba9243af",
+      "status": "PASS",
+      "count": 587
+    },
+    "build": {
+      "log": ".cache/brand-admin-closeout-build.log",
+      "sha256": "d1448f5a8667476300e85a2771bf859ba84592947543a566951736db0ab78ff9",
+      "status": "PASS"
+    }
+  },
+  "artifacts": [
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/.last-run.json",
+      "bytes": 243,
+      "sha256": "9a990aaeac9b7a01d3309e9220bc93f905332d4821cc615cc86bb5375f29d16b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-chromium-wide/trace.zip",
+      "bytes": 825573,
+      "sha256": "4640430ed0b9d99a471f0dc482a5ff529254d889eb45441e119c590f51a7cf53"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-chromium-wide/invited-person-in-brand-roster.png",
+      "bytes": 119447,
+      "sha256": "df61006cf59bf979eedf7d9b315cc00893caddec2c95d5dcb6b29136364c57b0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-chromium-narrow/trace.zip",
+      "bytes": 569826,
+      "sha256": "dd97ff2c41e52baa47107d835b06bf42d0876ff4d8fd0a5b3d3537ce5dec5901"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-chromium-narrow/restored-empty-branch.png",
+      "bytes": 254429,
+      "sha256": "cf3ad2bdc3c5f202a367712d03ee7ea9bd56689bc514c5b5a421474610cc8d0e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-chromium-desktop/trace.zip",
+      "bytes": 454730,
+      "sha256": "dc3565c6728ed0c443edacb778683c9a6dc3b95ac0a94435919b3f3ff13312c2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-chromium-desktop/restored-empty-branch.png",
+      "bytes": 264404,
+      "sha256": "6fe09f58f81a53fe266f34da884871d745973456d100c6f8f9334a8e8f26ba39"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-desktop/trace.zip",
+      "bytes": 1371922,
+      "sha256": "f71d24a4ab3e7c6a4d7dcb11d4c09b1b941e9c18c1e533e13ddd0aa4a6357041"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-desktop/people-brand-and-scoped-coaching.png",
+      "bytes": 172842,
+      "sha256": "464a932a17b4c7353ecccf2880e34b22eb4728f344ac73caf18babfccb6cef53"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-chromium-desktop/trace.zip",
+      "bytes": 1231220,
+      "sha256": "60994cc6aaf5f81c87dd80c0f80415878b03422336f3ab0d37821f54653cd1c3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-chromium-desktop/theme-conflict.png",
+      "bytes": 174766,
+      "sha256": "dd6880ad6e593bfe3c7714809464b39ea0a7718e2ba43c1c099a583e8cef2804"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-chromium-desktop/trace.zip",
+      "bytes": 1514453,
+      "sha256": "9e06f41b11787d431f3654bb944bf5b55b01f91e825b5473b5b11c162666bea0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-chromium-desktop/sur-oeste-admin-prescription.png",
+      "bytes": 124750,
+      "sha256": "adcd6827001426545e068a037aefb47df33c2b99670e27172a4a338106577464"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-desktop/trace.zip",
+      "bytes": 1314056,
+      "sha256": "1ba19bf4e99755d0ade9567166f24fd57a61407457c43a3d972350c93c2d0490"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-desktop/empty-branch.png",
+      "bytes": 86005,
+      "sha256": "7cba68273988c88764cc1d1f3dbbe989eb03a036e6a97a36eb5694318d6b3a4a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-chromium-narrow/trace.zip",
+      "bytes": 1415286,
+      "sha256": "79b8de1b22ed00bcdec81e2ea711bb299dcd70021f70ce35cd4f02dc0372e7a7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-chromium-narrow/sur-oeste-published-website.png",
+      "bytes": 90406,
+      "sha256": "05f4ee524ca530f58e761cbedc63cd936ea60c3d97dd6de2e2d8ef72d0293b6f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-wide/trace.zip",
+      "bytes": 1865190,
+      "sha256": "e637636c43378a4ccb4d110dc76262f152976fe9bc9c82f3fb9551a5a0281db1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-wide/uploaded-library-photo.png",
+      "bytes": 80912,
+      "sha256": "abef08bb53fb35f7f4cc325d276e31eb063dc390fc1e5291d3fb0c8fae7a90e2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-chromium-desktop/trace.zip",
+      "bytes": 826559,
+      "sha256": "667398744fac6e440085e0b6530a2035165ef0b3f239f677177cc22eb3a0a624"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-chromium-desktop/invited-person-in-brand-roster.png",
+      "bytes": 158717,
+      "sha256": "e42eac9fe171e03175bbb4317357080880c600aeb80ea7edf3fb8279a27f608f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-desktop/trace.zip",
+      "bytes": 1205351,
+      "sha256": "eb2211e2757ed152f407b2794132da63beb634769cb9e45ab0dabe035a760b75"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-desktop/test-failed-1.png",
+      "bytes": 107918,
+      "sha256": "9283fbd8e9d3caf64a759b05f8dc89cac27008e75e22df0f668e0daffbc832cf"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-narrow/trace.zip",
+      "bytes": 1045594,
+      "sha256": "47a39b6fb42fa4774774a15d551b44396a097e824176b0e2f2c8dfd5e2322de3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-narrow/test-failed-1.png",
+      "bytes": 36917,
+      "sha256": "115f24767a3949cfbbd7edb598ca4f9a4431163ca14b8530abf79cc6f09f1bdf"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-th-0a6b2--preserves-newer-local-work-admin-chromium-wide/trace.zip",
+      "bytes": 1107375,
+      "sha256": "11e9e2c2e2d33b97fcfe12907f542ffb023e6d82e554d7b09236ffd33ea910ad"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-th-0a6b2--preserves-newer-local-work-admin-chromium-desktop/trace.zip",
+      "bytes": 1094676,
+      "sha256": "6e148aada9d103ff7b2d7e83021b5f25e8c3c529b7fb94ec57e7b32c622c25ef"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-narrow/trace.zip",
+      "bytes": 944033,
+      "sha256": "400f32a6a39e0086b40a24fb22be5fe2e2c1621f93d1d45df5e35e91825b3f60"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-narrow/people-brand-and-scoped-coaching.png",
+      "bytes": 100000,
+      "sha256": "1e8d3acae0bc9ac8100665067e5f7b99402dbf3f11f7113aed48e320d399b6f2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-chromium-desktop/trace.zip",
+      "bytes": 575350,
+      "sha256": "f8fa973506261bff92dc6a944d93f8eb326d7eef1172b97adf435e4949594559"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-chromium-desktop/partial-record-admin-followup.png",
+      "bytes": 133532,
+      "sha256": "41d1ed376a720a22bdc22100a7fe1b31a19cdbc50096a70d2c562e01ba88c4aa"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-chromium-narrow/trace.zip",
+      "bytes": 921453,
+      "sha256": "aab5e5e2fba82fb0afd71ba81c15928bf9093f9d99cc319b741c265be49e138b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-chromium-narrow/signed-out-second-tab.png",
+      "bytes": 33984,
+      "sha256": "e00f0eaddc863cf975e1205e8c54a849099f36bf96b82d6b8005bd5aedd50d20"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-wide/trace.zip",
+      "bytes": 1152860,
+      "sha256": "6d134d7c0ce9fb1e819f018253d49399a74497faeb7db55f0c92d67908850a4a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-wide/empty-branch.png",
+      "bytes": 61601,
+      "sha256": "5fcb49a5b53e63042e144483c5525b7006251f83fe49b6c0f16b2f3952cc51a5"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-wide/trace.zip",
+      "bytes": 1126386,
+      "sha256": "47401af5660fcf3a4a38bedbc3bdeb510a04b544fcc0f67b65d5af43425946de"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-wide/test-failed-1.png",
+      "bytes": 54383,
+      "sha256": "b09f03e055f3b35452bbeb9644a12477bf8111afe34131f70de631d71a391872"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-chromium-wide/trace.zip",
+      "bytes": 1530269,
+      "sha256": "fa74d75100040a24981279342ea65cdbb292f339ef0244371580c846408eadeb"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-chromium-wide/sur-oeste-admin-prescription.png",
+      "bytes": 111635,
+      "sha256": "479b2c3cf36a571c0097897707a03611a729df329d30ecddfa6d81822f721c05"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-chromium-desktop/trace.zip",
+      "bytes": 1422606,
+      "sha256": "09610f9d13acf3827603f98056cf1eb37e7c10837916107830fcbedaa7b1f78e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-chromium-desktop/sur-principal-admin-prescription.png",
+      "bytes": 126663,
+      "sha256": "5caa6e486344344bce5a31ebad3bb2ddcf3207394cbdc6eb44e7b42f093097ee"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-chromium-wide/trace.zip",
+      "bytes": 1367551,
+      "sha256": "4bed65d440d8fdaaf466ea4c4cfab78b25d346b99f33587e1b2c6598a16dc0f3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-chromium-wide/sur-oeste-published-website.png",
+      "bytes": 96772,
+      "sha256": "44114776295fed949621c2f4e27c449df9e4472cc25d16d7905c5d0351dd2e27"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-chromium-wide/trace.zip",
+      "bytes": 716123,
+      "sha256": "a7be078f133c122bdbc7d8df76eeb96b8a54d4cd0fb55533561df8707fe6e902"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-chromium-wide/signed-out-second-tab.png",
+      "bytes": 34712,
+      "sha256": "f350ab483801caf88419f6e776625bc718942b3596eac7c89f821092ca2ef2d0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-chromium-narrow/trace.zip",
+      "bytes": 1551161,
+      "sha256": "c2fb46dae45e541b9012a1fc77ee67058be106f833302b89392c189b71922ed4"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-chromium-narrow/atlas-principal-admin-prescription.png",
+      "bytes": 114837,
+      "sha256": "2eb931394fc268357ea0a97f80927664e422ecbb7845af20925c7ca059acf66b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-wide/trace.zip",
+      "bytes": 920808,
+      "sha256": "0342e066e1befea1749cd0c1ffdfe6d260c5df7af2c86073d521961492c45fc1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-wide/people-brand-and-scoped-coaching.png",
+      "bytes": 122212,
+      "sha256": "9bace387eed4b0335d4ec8c8174ae1b94e07e3f34cda2906df07346861abea43"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-th-0a6b2--preserves-newer-local-work-admin-chromium-narrow/trace.zip",
+      "bytes": 1047458,
+      "sha256": "0d7e6ae16da5ce16e97ea7fec1c1fc6cec9315000eeadc2d2a1ce83701318191"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-chromium-narrow/trace.zip",
+      "bytes": 699808,
+      "sha256": "f79144d9f453ca7a6aa04ea2ab9e33c0d7c0a6b44478f07217b6621653568673"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-chromium-narrow/branch-conflict.png",
+      "bytes": 235885,
+      "sha256": "35d2301e6039c18517a31f8c525c2b941b31c6ae5c8076bed29b0240346f8b94"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-chromium-wide/trace.zip",
+      "bytes": 1506403,
+      "sha256": "46be34fce7b714fa40ed505812f59b1a84b9b4ab54ca5190b83ae5f3a8ad987b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-chromium-wide/sur-principal-admin-prescription.png",
+      "bytes": 112537,
+      "sha256": "4b0b571243800b7d29714c2824c1a6ae06b4ca88cc92b3358c96c6ba06b2280e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-wide/trace.zip",
+      "bytes": 1668110,
+      "sha256": "e78a20ee3c25d67986ec43bef00bbff9510382e9c9ca60fd13cc5d2cc958a96d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-wide/unit-conflict.png",
+      "bytes": 254987,
+      "sha256": "2321dda2b2d7d1aef4e908e5076b845716facbcdc025fa28049e376fea8f5602"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-wide/qr-label.png",
+      "bytes": 136650,
+      "sha256": "899dc8d2ce98a2ffb4f68d4ee2fd718527c47bafa54f41081eee02dcaaa54cf3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-chromium-wide/trace.zip",
+      "bytes": 523489,
+      "sha256": "226a18aa8cc1da327800271644ae982a747ba32da4edeb3ff2657c116b9fedf6"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-chromium-wide/restored-empty-branch.png",
+      "bytes": 251217,
+      "sha256": "552d5b80b55cf59bd6bdca723967b2136b458f922ef351dcde6605cbc540273a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-chromium-wide/trace.zip",
+      "bytes": 896987,
+      "sha256": "059a5e30299b1fe9882b3eb40287f1dcba955a95ec4cecbadba6caff7e4e38b2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-chromium-wide/published-brand-logo.png",
+      "bytes": 125140,
+      "sha256": "cc3f5214f3806e41a15d202994a735056be45a5a7e3a9aa35f03fcbd38c6562d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-narrow/trace.zip",
+      "bytes": 1767579,
+      "sha256": "e8db5e845f1b9e83a3c4f31c02ddbd92cb0526f679d55588757ae9186c7c46b5"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-narrow/uploaded-library-photo.png",
+      "bytes": 81816,
+      "sha256": "8835cf35861857780f288755b536a7443157cd24d382a333bfd911ccba30780d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-equipment.png",
+      "bytes": 140657,
+      "sha256": "d91ad42435c2099b90cd3a2ee3f9c1b918c7105a2cb0515a43a98b399c382e30"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/trace.zip",
+      "bytes": 3609536,
+      "sha256": "c7877a1a09d8b5a571acafdab8ccce6765d41213db439b482c677c96ac0cf0d9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-preparation.png",
+      "bytes": 157740,
+      "sha256": "baee42c4a74fbd20b6c98afd745175421f46bd7989a90d3d7701b0451f4918dc"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-whiteLabel.png",
+      "bytes": 192703,
+      "sha256": "98c67567f565ba5e2ae7d25fe852022ee84f866bd58f500f45d3823b6f635f75"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-preparation.png",
+      "bytes": 157945,
+      "sha256": "cea1e7a0f1bc78003ba660c94e7eae472d2b1cb44be6c5de2288bcb7bd4a2c29"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-qr.png",
+      "bytes": 76723,
+      "sha256": "1491e2afdd55cf212ca3b3a3a281b18d360277a0f73bfc54db2a5b388f8874df"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-whiteLabel.png",
+      "bytes": 198179,
+      "sha256": "fdfd540fb416221c604e74e932533c4627c710aab3021fa897738bab41c9dce0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-people.png",
+      "bytes": 108183,
+      "sha256": "9545ae58f723dec2f73284809e1e013439c95dc540ada5eb8aa53fa59efa1fcf"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-equipment.png",
+      "bytes": 85127,
+      "sha256": "d0f724884dc2ec24df5fa853782ebf044f7a974f10e54ba86591ac384e476870"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-catalog.png",
+      "bytes": 1468401,
+      "sha256": "e773091d2844a78b49ae05589717ceed10d5f12701541b2d46a826a691dc4886"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-media.png",
+      "bytes": 83481,
+      "sha256": "482cbc5d4be25a323d4d07667a3671c1750abb9a212408f115081d6b8a1d3735"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-brand.png",
+      "bytes": 79613,
+      "sha256": "9e916c073e45053573a25b65bf03d8a2ce15a06735e9ed043dd7cea4289aabe1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-reports.png",
+      "bytes": 88603,
+      "sha256": "8ad8627e2adc509b8b123f7439205dd0fde39574f0b3df1eaab69e2378909184"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-brand.png",
+      "bytes": 79631,
+      "sha256": "761589374ac9f817d7d0b70cdabaa1e0337e63facabcb405c94a436a48769e28"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-programs.png",
+      "bytes": 80616,
+      "sha256": "a66919dcf3b246d9d0b5426aa4fb8d45d0621b96b1ab5eac1f5cf9fa1818c75e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-qr.png",
+      "bytes": 86038,
+      "sha256": "63de1657a3811b054268518d15ac6c85e2b20a96b05181996e3dd095049c5eac"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-programs.png",
+      "bytes": 80624,
+      "sha256": "bedde6914454e17e35eb12fa969cdaadbcba5f02129e3c208ea5381d52011c4b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-reports.png",
+      "bytes": 85821,
+      "sha256": "c9d54fedcfa5895e0d1d94dda913ca52e2ed03531dc987474058f7e03fb13287"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-people.png",
+      "bytes": 108204,
+      "sha256": "7dd6c99c458de508f95a10132f46b02b5b3b18a1b715d9ddf6fb4708a265e3c9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-media.png",
+      "bytes": 83461,
+      "sha256": "fd95c21c49654535893a478d03d34cbeee6de0dd633a41d596acba909d50fa07"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-norte-website.png",
+      "bytes": 125690,
+      "sha256": "01840793822e2944ab259a385eaf582832363ba50e0c31d3a4a754b1c71c0521"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-website.png",
+      "bytes": 123218,
+      "sha256": "fa789b76a8c2e1b997a6b6f6eb672561a3f8c2b29c1d5f3b2c647c2dd623022a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-narrow/atlas-principal-catalog.png",
+      "bytes": 1499709,
+      "sha256": "8e9a75643ab97d574fabf2dc8d44e58de1a9d3b11f5ccf33b6def730eda3be3f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-chromium-desktop/trace.zip",
+      "bytes": 1528799,
+      "sha256": "cc4c27201f645b88e52dd5f7e482506415fca5d9a66a4fb9184943acdcf34f68"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-chromium-desktop/module-controls.png",
+      "bytes": 110205,
+      "sha256": "edbda20b082fc55ecbbc77c8f70f310460745f1dc161458c6e4ac842b58c050d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-chromium-wide/trace.zip",
+      "bytes": 1058337,
+      "sha256": "27845f340b775ec8c14bd107137ee060740a2b54e396ef470bf3c2d6bb117fe0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-chromium-wide/theme-conflict.png",
+      "bytes": 154487,
+      "sha256": "b90941b2454e41d3b5c7dff43949a38205aafc3b3264df95b14d39cd5f30d7ec"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-chromium-wide/recovered-unit-batch.png",
+      "bytes": 178300,
+      "sha256": "cc407510463ce8655683f7974d049bf868588fe674e6ff9d0b60f7b9fa2592ce"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-chromium-wide/trace.zip",
+      "bytes": 1102542,
+      "sha256": "81d3ec8f5e7151d7525b0397668a8c7067aedc901bb19733c5df1fc97d514a64"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-chromium-narrow/trace.zip",
+      "bytes": 1463295,
+      "sha256": "65847d638f6e90a7f2139c94a8287c4a6cd3292ac9928b32a5c3d8d536afb0de"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-chromium-narrow/sur-oeste-admin-prescription.png",
+      "bytes": 109863,
+      "sha256": "603ca9b03819fd0b862177d8b2d7f80cb148fb2213359a010a811ccf22e724af"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-chromium-narrow/trace.zip",
+      "bytes": 1525150,
+      "sha256": "464461634812aebae4eb7881505722db572f4b057ee8de3ac00c1433be7c7936"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-chromium-narrow/sur-principal-admin-prescription.png",
+      "bytes": 110564,
+      "sha256": "fa1d3b087e9ecccc18ce882d288fb6ad388d157c3225f6172601a52f9d857dff"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-desktop/trace.zip",
+      "bytes": 1412929,
+      "sha256": "3e9147b8cf7f49a290704b870286bdc8b54b5290207a07174f75199756ae6f33"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-desktop/published-text-exercise.png",
+      "bytes": 1471493,
+      "sha256": "db991733bc40f764acd682c8025fc0cec7e0b4406c292b952f96d32ebd97a05c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-chromium-narrow/trace.zip",
+      "bytes": 1484939,
+      "sha256": "bbfe8cec0419183441c5f2d56423ea8763095351e62016fdd147a16b1e33b668"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-chromium-narrow/atlas-norte-admin-prescription.png",
+      "bytes": 114227,
+      "sha256": "b0a95879fd4c07671744910e07ce1ac849094435c5b7a569c56c7d17af2a98eb"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-wide/trace.zip",
+      "bytes": 1374346,
+      "sha256": "e417f87eb364df4e376d8b5511d176b31e02f42dceeae80a86846cf2f3ce669a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-wide/published-text-exercise.png",
+      "bytes": 1746198,
+      "sha256": "1fcc18dfa4661397ac009cd7886e9ad78887096c95695770d60edbb26de54aad"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-narrow/trace.zip",
+      "bytes": 1474063,
+      "sha256": "a79c8840a6112a4c02bf5fe9b0df9d0ca3b5f2cda89f759e9b8e371d3fb967c6"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-narrow/published-text-exercise.png",
+      "bytes": 1518620,
+      "sha256": "0c2dd3b20945f5ffe859c1e6c09761e862cc47d0ceeeb9d5c325cd22ccb86234"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-chromium-desktop/trace.zip",
+      "bytes": 595705,
+      "sha256": "fe9dbe1791c08d97a7f2fd427501b97cce5fae802342602922bc640e7533337a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-chromium-desktop/branch-conflict.png",
+      "bytes": 260885,
+      "sha256": "1504a0ba198f6252f3f1906c4b593f795495fa20449af66daa8a4949c330b72f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-chromium-desktop/trace.zip",
+      "bytes": 1243836,
+      "sha256": "1a2e99dfacedc1eac86f4c3d82fe034e1aab704fc4be134be4fe53c3c3ec36ee"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-chromium-desktop/isolated-account-editor.png",
+      "bytes": 83048,
+      "sha256": "fbb2bcea351b80e080145f0a59cedceb02f5b92f38cdffac3f0b5bdc7f7201da"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-chromium-wide/trace.zip",
+      "bytes": 1575775,
+      "sha256": "884f62443186b9bfc0410864e354aed3159002bf74decba4ddd1005f32657186"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-chromium-wide/atlas-norte-admin-prescription.png",
+      "bytes": 115458,
+      "sha256": "fa5d07840cf255406d5bc3c2f05c9989ee5bb66034b3bbec4d2c672a6f55ad5c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-narrow/trace.zip",
+      "bytes": 1179561,
+      "sha256": "71a00fcf23a379576a1e48e245d3e77b3c4ff7895149fa83287b2ef4fa0be178"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-narrow/empty-branch.png",
+      "bytes": 61117,
+      "sha256": "be7a7c8075e39eea4cc83abcafad2251d0b1a31ca322136b557cf989cc30463d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-desktop/trace.zip",
+      "bytes": 1154485,
+      "sha256": "e0b18b4d50858d93777e8498fb4f3e396101ce0155e97ffc5fa9fbad4ee7f50d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-desktop/test-failed-1.png",
+      "bytes": 98721,
+      "sha256": "a223af43e94da578380c79ebaa55865a8a7e050e63de574f530b848c6be9362f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-chromium-desktop/trace.zip",
+      "bytes": 1722956,
+      "sha256": "088bd200ee29892d17aedf04ace39d787fb7c7b69cc07d0d8eefdb61c94ca11e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-chromium-desktop/atlas-principal-admin-prescription.png",
+      "bytes": 133188,
+      "sha256": "5d124e52ed5f2166a387f2e4428fb2b79a85818d931572db3c99419d35ef1319"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-chromium-wide/trace.zip",
+      "bytes": 744220,
+      "sha256": "d5ed7b8d3fe31d194123e90dd3b3879dcf8256c5c5948a8ba193b4a44cd2e63b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-chromium-wide/branch-conflict.png",
+      "bytes": 231653,
+      "sha256": "e4135d26f6157bac09848ff66d71e4e177d30948ba57336921bbbfdfad78c785"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-chromium-desktop/recovered-unit-batch.png",
+      "bytes": 192133,
+      "sha256": "c735f5f4e90a46531a85f8fe787343660ad2e4fbdd456dd71a9967dc002da744"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-chromium-desktop/trace.zip",
+      "bytes": 1194893,
+      "sha256": "38d08669b5d9b6db017a275acb3587bb7d43febd8b85a66c264a42c323133dd5"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-chromium-narrow/trace.zip",
+      "bytes": 824432,
+      "sha256": "42a5761dde208f52e9f6f00bf00ff0814b2604d7cbcfff14ac7e59799593902c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-chromium-narrow/invited-person-in-brand-roster.png",
+      "bytes": 110952,
+      "sha256": "6cd412f64f40859fdd01cf9b1be9805984284c08dc9662dd49ea2463eef146b7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-chromium-wide/trace.zip",
+      "bytes": 1289525,
+      "sha256": "5b2d141276adc63d04fe4b84ddb8f31ab393ce60d4f987ffa8b88db64cfe42a7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-chromium-wide/isolated-account-editor.png",
+      "bytes": 62970,
+      "sha256": "28e34acaec55e691fdee941a7ad99e8d943bd9165d5e085b0c56f91ee8c09f4b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/trace.zip",
+      "bytes": 3537664,
+      "sha256": "ca8702810b8ef526dd90f9a266c1a700938ea77cde85ec392dad8588606a007b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-equipment.png",
+      "bytes": 78035,
+      "sha256": "89f2acd298024b2094dbb6c2c2c27b02c84207e9903acba473743b1ecbd67a6f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-brand.png",
+      "bytes": 81697,
+      "sha256": "70930f0bb4c6fdb48c1f281a17be714786515fcc718b2f526633c6cbefa3a2c1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-brand.png",
+      "bytes": 81806,
+      "sha256": "219f2eee360f4ab1cf8158f1aa27a45f4461133b6b7b552b154aafacd5528a09"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-programs.png",
+      "bytes": 77700,
+      "sha256": "72c7ffd8ae8fda8ea790d7e489a167d28bc142a813ee83c66dc0d94944d39546"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-preparation.png",
+      "bytes": 147572,
+      "sha256": "a64a4900a6695d745820422be6caae7354f4ac1a8e8fa6bba677d2fbcc4799e1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-qr.png",
+      "bytes": 80542,
+      "sha256": "af486ec0a2a1ec0d4502ca76a289299eb08393d235d434423523be01306eece2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-preparation.png",
+      "bytes": 147452,
+      "sha256": "8fda4ae4004d874a634a23b0b426d45325a676713a409d738f5b4b4c019956b4"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-whiteLabel.png",
+      "bytes": 192691,
+      "sha256": "43c4d201a09987ac169567e8f91e9cb3ea73beea3e2973e09836055789faf7d2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-people.png",
+      "bytes": 109629,
+      "sha256": "d3af81836b3c4eeb9721bb468ee57b90332bbca5acddd28b638cfbc460a19f1c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-reports.png",
+      "bytes": 82446,
+      "sha256": "6dec9f08602bfd8d3363a60d37f37c866440d0823e1f347f3696ecc92ab76f46"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-website.png",
+      "bytes": 120526,
+      "sha256": "68843af5e47fac9164bc9bbb678bfb5d98279ff80f0185c3fffd26c088e037c7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-programs.png",
+      "bytes": 77676,
+      "sha256": "a04c6849a865abd5d570a4c0d64298e254026412e408072ff8b053552fb6313a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-catalog.png",
+      "bytes": 1432727,
+      "sha256": "1318f21d939ee88403b9086abad73374c3df71aaa95d2de371b9b5c29dba363b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-website.png",
+      "bytes": 120592,
+      "sha256": "1085afdb451bef9b9b25cf7abaade5b394c92a40b81dbaf56b6fc536b75845eb"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-media.png",
+      "bytes": 78342,
+      "sha256": "2d2fc95b2535fb63f265003bfe5a8c7e9fe3fe70f1d94feec91da11162967c2a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-whiteLabel.png",
+      "bytes": 192586,
+      "sha256": "8297174f5e1f794073caa302c835ade83e3790eea50a20259452463bd7005691"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-reports.png",
+      "bytes": 82522,
+      "sha256": "ca525c7251104f8b49a9c698806d683fda7ef539bcf9c184cf0257c8a2e8ca93"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-media.png",
+      "bytes": 78451,
+      "sha256": "7af3ccdd9fde91dabfa03d9beae9cdd0055a98188f3e29d789d2f3e48c3bed62"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-qr.png",
+      "bytes": 72694,
+      "sha256": "274b8a3722966861773e2fc36985911e971c7e89bccfc00235157b035d4fcd34"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-oeste-people.png",
+      "bytes": 109755,
+      "sha256": "19f9834525f4f04ffa977d95edfc423c0df088367bc7bc5c5e92d36e506d5d6a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-catalog.png",
+      "bytes": 1463063,
+      "sha256": "cffa75619d88cb67cfbdcaadb7127ac4596a5fc0b8a5dac0559ba54629d16ad7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-narrow/sur-principal-equipment.png",
+      "bytes": 129498,
+      "sha256": "258136223c621f99b74937bcd2d4f4a2de35d99957f8d886770107408d7b75fa"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-chromium-wide/trace.zip",
+      "bytes": 1517537,
+      "sha256": "d144e11362c5e6af5cba797499d10bcf539790682eb6ffb225672b14b21f4e88"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-chromium-wide/atlas-principal-admin-prescription.png",
+      "bytes": 115983,
+      "sha256": "eb4227be7a685a4b57b732b1e611b0e0708a4dcd52df38b033a6c824fdbc3388"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/trace.zip",
+      "bytes": 3136933,
+      "sha256": "1ec45fb92e6736039041d8bc03dc69e78c531c4dfc4e27b307c78dbaea30f035"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-equipment.png",
+      "bytes": 99499,
+      "sha256": "24a74c31bb7d3ce135248324272c9042436c9f36901f6d4fb297e16d463bd283"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-brand.png",
+      "bytes": 101480,
+      "sha256": "3d2146db568c5a1a110bee61a76b03f80a76b00e013c1a7b3d5a3ab3831cda9d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-brand.png",
+      "bytes": 101515,
+      "sha256": "c6da2ec893f00b2600874c5fdf0c6d19414fff20d5fbcb78f7361c899599f440"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-programs.png",
+      "bytes": 97562,
+      "sha256": "bb13754b69fda024b859cdc644c31475982c5063f9c699324c42ffdbb13fbf4a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-preparation.png",
+      "bytes": 159718,
+      "sha256": "bee3075f6db4407bf0cc6e80e9c9557c8f69d69c70b71db8fce103c005282470"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-qr.png",
+      "bytes": 99313,
+      "sha256": "21a5cb26d76c449ed21a8533c75009c93e60dccee7e1932d08edff41c80b22a9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-preparation.png",
+      "bytes": 159476,
+      "sha256": "30d1578bcd42b5e8367749059a7707029bd7174bf1974410bd1c1182b0e0f51c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-whiteLabel.png",
+      "bytes": 203042,
+      "sha256": "9622080f1717ac1ed40da62f7415239017f41e2534c7d228a326785f2e23210f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-people.png",
+      "bytes": 157407,
+      "sha256": "2fd785dc3b76d86c13a88cc5b5c4b5892fb10cfad0229d58218fa264377a5b98"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-reports.png",
+      "bytes": 103252,
+      "sha256": "e9c43bef592da64b14a301e221e529e5f68f53bbbdde23c7b4ea3df76db40b2b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-website.png",
+      "bytes": 144912,
+      "sha256": "5f03abe91e8f943510c8331df6f2335d4c2c7f9f46870020eeb07749ead08d3f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-programs.png",
+      "bytes": 97887,
+      "sha256": "fb17ba0aca7eb90874526317d5db0ccb94f8de46a05b917d1c5355765086e2d1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-catalog.png",
+      "bytes": 1392118,
+      "sha256": "19ff128253d49bda1f503a7d5a23d92ab2fb5a249455bd9768effdc8466d91f9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-website.png",
+      "bytes": 144957,
+      "sha256": "6c0d069ce39ccc7acf327e045709e737eb0ea98f3de3d71f1f8aa4e8d6090a4b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-media.png",
+      "bytes": 100228,
+      "sha256": "d90ba8e078403fc41f8c4072ed3e3747a6969bd18999a20737c305b768f53f94"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-whiteLabel.png",
+      "bytes": 203004,
+      "sha256": "c2f02a7f5750c56794513617c8bb02232b98db2917a6dec4f93e3161db750776"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-reports.png",
+      "bytes": 103124,
+      "sha256": "a0387cf38fcd6137b1a2c124f8990469e19028c0dd966bae4fd124723e410747"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-media.png",
+      "bytes": 100263,
+      "sha256": "cc3a5373a28a46fbf9fc12081d48e600034a5e5d54907dedf0017c352a02ab4f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-qr.png",
+      "bytes": 93416,
+      "sha256": "5a6e53cd46d8e71f1736a5e56eb11af9eaa2977a22ad10549dade52191ed012f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-oeste-people.png",
+      "bytes": 157244,
+      "sha256": "850d1d7c772edfc95921034341632a1df775b393a27fede7eb4c4ab5622307d4"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-catalog.png",
+      "bytes": 1415962,
+      "sha256": "957445ad9c3f07d028fbb87fa5009b6017285cdbe8d1e5a8abb24192fbc8cdb3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-desktop/sur-principal-equipment.png",
+      "bytes": 148745,
+      "sha256": "5610bd58a2f4b288b37c093ea8d3def7ebd591217826c258646890a1e1af1201"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-desktop/trace.zip",
+      "bytes": 1578475,
+      "sha256": "7cd97551d704363b0977c919548b612caab8e1d0bdfb9393fce80652b059ccc7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-desktop/unit-conflict.png",
+      "bytes": 276162,
+      "sha256": "fe70efd182ddc6fcdead1de384452ba80cedc591f1447f7db91a2e5d4904c1d1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-desktop/qr-label.png",
+      "bytes": 164520,
+      "sha256": "b76b98bf5d56fcd572df78d55dbf96ebbeb1a57c7e9fd90498f01dc5f3ca7aae"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-chromium-desktop/trace.zip",
+      "bytes": 1373945,
+      "sha256": "a69bce4fdcd63ad8e33eb14ba29709e6a45b2ccfd5a528bf5c0c617af5253db9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-chromium-desktop/sur-oeste-published-website.png",
+      "bytes": 118969,
+      "sha256": "adf08e1b23e9a5ffeb765fe684da8fc66337ab61b791a35916bb921d0de40828"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-equipment.png",
+      "bytes": 141413,
+      "sha256": "a63035df2f2f22962c050600df7c9a7e9cb3a11104943352b4eed00886a54e8d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/trace.zip",
+      "bytes": 3753288,
+      "sha256": "1200a860cb26827361bf07fba56ba9093840d911de2da4aa43699a0548125847"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-preparation.png",
+      "bytes": 157875,
+      "sha256": "51e703b7abbfa76fc1a5c2878c4c38fefd42c1eddc2dcd98bcb33d08c1653d6e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-whiteLabel.png",
+      "bytes": 195744,
+      "sha256": "e1405c494e5b4664644c84fbd829aeb93297707b31a50e724e22a716596a257e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-preparation.png",
+      "bytes": 158082,
+      "sha256": "684b0192603154b61744f85a2c40d1d2055a674f049bce06622719bf2623c5f4"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-qr.png",
+      "bytes": 75798,
+      "sha256": "233c496a75328cdf19e88c3c22c6f8788d6e3d03a6bbb9e6b25b5acedfe88745"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-whiteLabel.png",
+      "bytes": 195763,
+      "sha256": "22cdbffd2875bf012105c385ab7c7b510b6b17e006c72b259d5d15b4227edd78"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-people.png",
+      "bytes": 115415,
+      "sha256": "d0c0f25fe173487c519d3b97a0fb39f98a9ce8b02a7fbcae4e6e58f0f0b3b2c0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-equipment.png",
+      "bytes": 85819,
+      "sha256": "f6c5b643f3d50b52e5c9e2bea9f95076ee7e63d2ef60dc0211f466ee0e996154"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-catalog.png",
+      "bytes": 1698776,
+      "sha256": "15e139f8613bd7f7db6e55b4cf5db808a53e9cc8b68dbc731e2479ca85894751"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-media.png",
+      "bytes": 83478,
+      "sha256": "5b0fdcbe64ff002d9e7b03f89dccab809f87c70562374c2401180fea8aaf789e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-brand.png",
+      "bytes": 81323,
+      "sha256": "94f463b6a1ac5a190f7614caab02cb9071383a1a670a57f9c5e8a5e679da8bfd"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-reports.png",
+      "bytes": 90036,
+      "sha256": "c1da592240c0342395d8fa52cc9b031b7c1d0a934d5d2570c15316941121c1a3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-brand.png",
+      "bytes": 81343,
+      "sha256": "a12cdc1624de3e02b1fd1c78cb144fc9bbabdc128a7a3fb046823b3c48660790"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-programs.png",
+      "bytes": 80547,
+      "sha256": "cb7891aa609004a7e7f04a7eb3fd76cc0701e1b3c46e9851e0fb2d5d85da67cf"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-qr.png",
+      "bytes": 84625,
+      "sha256": "4f7e1e0493676bc9e8b18bb86236c1c010fc67994f5559cbc0f8a723d5c2fd20"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-programs.png",
+      "bytes": 80211,
+      "sha256": "e5085ef112507a902fd4995720bae49617246f1d0e32bc5e75bafd5bb799b9fb"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-reports.png",
+      "bytes": 87606,
+      "sha256": "e93cd1819bad50a85496e42ad783394dd31f8be1655c70457ba3b49c7d690a05"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-people.png",
+      "bytes": 115002,
+      "sha256": "748e808b32bf3738823fa218dd4d2af234c8b91c34dd88ef82a72613c413c4f6"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-media.png",
+      "bytes": 83455,
+      "sha256": "a2d8ded42c8e50318dc9491f0f535ef56d948ec7615a16665eb7e857d428c0c6"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-norte-website.png",
+      "bytes": 126886,
+      "sha256": "eb523147bd0c8b2d30bf94b8eadd221c18777fd3fb01fd9a45c1afb2a9334071"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-website.png",
+      "bytes": 124301,
+      "sha256": "3ee32c176cb56aa279c7bb4f1ce3f643d25ffc556360e8a58f9149fb8eb86c0f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-wide/atlas-principal-catalog.png",
+      "bytes": 1731615,
+      "sha256": "3e6c2d6c109f1e06a7f063b43c436b128f242c75a63a76eca6b7a81ad7619057"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-narrow/trace.zip",
+      "bytes": 1670679,
+      "sha256": "02eadd02a57003574b50240ef646c6dbc1967d55d24a1c50ae27edbb123f9e7a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-narrow/unit-conflict.png",
+      "bytes": 254992,
+      "sha256": "21e8de0e240ab585b9489479f5a6de419700362e37c935271ed6ddbb60654039"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-chromium-narrow/qr-label.png",
+      "bytes": 137263,
+      "sha256": "9a9cdfc28968bfcf7c20dbde9ccff224be7f98bb60549c60971e870b940c594d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-chromium-narrow/trace.zip",
+      "bytes": 1053587,
+      "sha256": "66bbbaac7773f327504bf09e6492c1ed9993d560831c186bf6ccea3cce172b57"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-chromium-narrow/published-brand-logo.png",
+      "bytes": 122634,
+      "sha256": "a2ee47f087d2c24bd5093250aed6131b47d2a852aafeb9ba7429a4614a5bcbf6"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-chromium-narrow/trace.zip",
+      "bytes": 1203140,
+      "sha256": "098be65b05dea9223ff26499bc80da8dcc3bc50299e4a9ecdead07c34caea82a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-chromium-narrow/theme-conflict.png",
+      "bytes": 157599,
+      "sha256": "77a0c66ddc6e2e3c29a5e359ecbe359fc0f10a8a8badee37fa4f361da635af92"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-chromium-narrow/trace.zip",
+      "bytes": 1635467,
+      "sha256": "3386c7e1fba9914ad504ef7434e3129bef457531ff6e2ad3a156946b503a05b9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-chromium-narrow/module-controls.png",
+      "bytes": 91977,
+      "sha256": "add92bf94773ca326b1cfd1efc12256d8e579c9fb9b72270d6265a014587e65f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/trace.zip",
+      "bytes": 3150777,
+      "sha256": "88f5be69e9cb9d337a22e005df878fe6aaaf4b030b283f174fc594a091e6eefa"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-equipment.png",
+      "bytes": 79024,
+      "sha256": "d720086ff1c745c706dcf07e3d9c72d6da07757db541a6bc1d62442078a02458"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-brand.png",
+      "bytes": 83232,
+      "sha256": "60ff192878f2c6665190a47211ae9886dbef51bbc2e93d1126d501eb0d218681"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-brand.png",
+      "bytes": 83164,
+      "sha256": "c656b4dbb2be24a699056a6dcb4f7ffe81ef2a9e2b3b92488003a146b1bd84dc"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-programs.png",
+      "bytes": 77750,
+      "sha256": "9f16eaf4af3bc279cfb68464d1b5f6b2fdcd650079c2cb1613b244efcd31fc75"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-preparation.png",
+      "bytes": 147880,
+      "sha256": "7adebfc59b39707ddab68a38add5e42c08f262ff2c0b5ea9928c70ef01466164"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-qr.png",
+      "bytes": 80424,
+      "sha256": "56940530f288539321fc19f90c671db8f236beab524909294c99903ad5a734ff"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-preparation.png",
+      "bytes": 147656,
+      "sha256": "48008c08daffaa302ce43e30b8eac06b291c459f24c9e2a561c6900bed9595e7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-whiteLabel.png",
+      "bytes": 191922,
+      "sha256": "c3f81f6334965b70295e23c74d88de72e30bda48891808ba297f32d6baf685cc"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-people.png",
+      "bytes": 117428,
+      "sha256": "5b4c8a9a6c0f1630dfac7b75e2aeb43b259cb1ba061a8ccd06aecf43d6317988"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-reports.png",
+      "bytes": 85005,
+      "sha256": "36bafbcbd7ae9640eff9d30e8c665161ad23bed8fd63f63116969be8ee5d8a79"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-website.png",
+      "bytes": 122696,
+      "sha256": "f4ac11ca8014556804bfbf150562319edfd90dbc5b55f3bf06ab998bb83ef950"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-programs.png",
+      "bytes": 77660,
+      "sha256": "64c1570b69ab7a6dc89d20ac5603fb1809c11aff069e558fcbbf3f197585257a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-catalog.png",
+      "bytes": 1697500,
+      "sha256": "d1b151d0e75a39e9d366d92643b0f075004fabb0549ee3256ba42a77c46c247d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-website.png",
+      "bytes": 122693,
+      "sha256": "7ef9c87ccfdb30631fb29cbc0304c2359a709c2cb9bddfcfae5ecb878adf64b2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-media.png",
+      "bytes": 77468,
+      "sha256": "2176942660e8bee1f3c310e825f7556a7d19fc37a56760814c76945cf2adc20c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-whiteLabel.png",
+      "bytes": 191982,
+      "sha256": "ab7611a3fe8a307a9c3e6eb09abf35e48f243e9c7e7e70592588761ed8220c31"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-reports.png",
+      "bytes": 84906,
+      "sha256": "d6f2eff072ae73e84678859aa149a9d7e858723a1e20f9c8f15edacb8352200a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-media.png",
+      "bytes": 77404,
+      "sha256": "a0baa03de72d1e762719b89f2c5980f0c5e2fe24149814ade4c6c22d38ea82cd"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-qr.png",
+      "bytes": 72664,
+      "sha256": "f55ac731b2f546aba434ba26ed01eb5c596f4ba3ff81f3f67c49d6e160ef663d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-oeste-people.png",
+      "bytes": 117193,
+      "sha256": "baeaaae67a5608000cdbee98924e593ff15943e414f4312e5a54c68611d2da5b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-catalog.png",
+      "bytes": 1731915,
+      "sha256": "dcb06f288d2eb2098a1b897afe5ce9fa67307e805aee221e33ebf216aa2dc894"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-chromium-wide/sur-principal-equipment.png",
+      "bytes": 132262,
+      "sha256": "8325d3c2db7647184e31b9f47bbd7db11512321bafe225168aa0428d3f69da85"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-chromium-wide/trace.zip",
+      "bytes": 1812237,
+      "sha256": "8551c1f944aa07b777d9d62159a2ed31be1c02bdf1f8029919e009149f8a2fbe"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-chromium-wide/module-controls.png",
+      "bytes": 91203,
+      "sha256": "a611dbef360ad952a38956ca8f4628ae8b81ad98d10c515f642974d458c43dfc"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-chromium-desktop/trace.zip",
+      "bytes": 1707665,
+      "sha256": "2f3262dc8fc347b6906a6fe71565d0c851bd2678ff7cf8de19d50ee6eb728b49"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-chromium-desktop/atlas-norte-admin-prescription.png",
+      "bytes": 132725,
+      "sha256": "fa5adafa470cb91ade3039b7308575696bc19bf51a823561628263f48ef896a2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-equipment.png",
+      "bytes": 162606,
+      "sha256": "e70e74ae4a306f889b4c67645927c090159f4520ef3ada1768cccf021d497764"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/trace.zip",
+      "bytes": 3478424,
+      "sha256": "891d473d17732b9ab7b2063548d1a59936c7c51017b7eee930c9b459c13c146d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-preparation.png",
+      "bytes": 171406,
+      "sha256": "91c9cc3058028c723e3df3597ba87b03dc6084e696e9b62663e8edeffbc863b7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-whiteLabel.png",
+      "bytes": 209309,
+      "sha256": "ce04c1c3d2cf7d91748ea1cc6dfd324898f34538f1fa704a1886473cb4041c88"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-preparation.png",
+      "bytes": 171736,
+      "sha256": "554bf43ca837b8bb551c3656dca4658a7e6b96c692144c62d9a454cd4d1ac5e1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-qr.png",
+      "bytes": 96583,
+      "sha256": "157d918863cd57eb91c550873379afaca5533dff84774ee81209fb52a3a840c5"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-whiteLabel.png",
+      "bytes": 209429,
+      "sha256": "2abd7ed09affaa4b18fdbc52cde4c98cc05fcd3d8f0a487c21618e15124859be"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-people.png",
+      "bytes": 166542,
+      "sha256": "5291c74f5c4d2c8ef4ef6fd8f03b9ebfafac04710e9935c59c79773703dc271d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-equipment.png",
+      "bytes": 109028,
+      "sha256": "9c446b1b2ccd10cc334c786a52c92ea1561b7c6fe6fb2b407772b547c9c46266"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-catalog.png",
+      "bytes": 1425056,
+      "sha256": "d3b4ddb0cfa2549de20956ec7ce9878d3d0b8d9e81686757c3655ff547fb813c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-media.png",
+      "bytes": 104847,
+      "sha256": "e7be32ad905b07d4d935aa68029310aeee2180fb03520d40d536589c266bbf79"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-brand.png",
+      "bytes": 101057,
+      "sha256": "94b5d3181d92b4b7df03378cfcdcf0172d260a13f3cf59c9ad73d8e36f17c796"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-reports.png",
+      "bytes": 111036,
+      "sha256": "427f4d8c12dd3b094c2ece4ed9ebecd390e421cf378ca2fb415512e2f0a39790"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-brand.png",
+      "bytes": 101185,
+      "sha256": "2b4b94e968d1dd9b178949da2ecfa70e6a113fed1823be0be2bac03b28e51f65"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-programs.png",
+      "bytes": 101372,
+      "sha256": "b9d57ed9b03cbf70d315944c925722df8e1bbf98362eb66a02098506060fe4d0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-qr.png",
+      "bytes": 105804,
+      "sha256": "7ce9c29538016e42e9a6910140a7a3b3181857b5d82b73186f0f5a00cbcb99f7"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-programs.png",
+      "bytes": 101470,
+      "sha256": "0ba7fe082043a0aa75b0b5d0b80488097a63fce84d7107247057e9bfc49cc2b9"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-reports.png",
+      "bytes": 107197,
+      "sha256": "9b72e04a37d17225bb2ef5df4f8a43d3d72fdf6cba2e456a77ee1456ca6092bf"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-people.png",
+      "bytes": 167148,
+      "sha256": "fe0de0030a44a00f9977da9ac0979b0fa880560844934ad3ed8ebc7dd8683370"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-media.png",
+      "bytes": 104723,
+      "sha256": "6825deadc19db65ecd3b583ba32f66a9e6952226bb56619790d74dba9244f9e3"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-norte-website.png",
+      "bytes": 149367,
+      "sha256": "891c0fc50953954d6e97c521e5c5ee8746daeb55295a77c975ce283865373be1"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-website.png",
+      "bytes": 147014,
+      "sha256": "2cb9c3dfd71c3800684fbf93566d8885e926c315cc87e074df410d10d9a43f5b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-chromium-desktop/atlas-principal-catalog.png",
+      "bytes": 1440406,
+      "sha256": "433796ab2cd7965e6ef74e6840942380bedda09784f7b07a6c1d164b770b9e1b"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-chromium-narrow/trace.zip",
+      "bytes": 1310674,
+      "sha256": "7065e32a4d328ff97329a9b65fe3db8618dbb45bcd765321ef1afc6eeb135fe5"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-chromium-narrow/isolated-account-editor.png",
+      "bytes": 63710,
+      "sha256": "d045d2e0cf686c7084cd3167efa4f516bf53b7e1c0889ad798f06aeb91c12655"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-chromium-narrow/recovered-unit-batch.png",
+      "bytes": 173972,
+      "sha256": "972b26d8ed1fc05fefaf5f738f06482992d6a2fe95721b4a6edfb3eeee55ca6c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-chromium-narrow/trace.zip",
+      "bytes": 1047309,
+      "sha256": "9e44dd46db05d328694986b338d03d923f277e66b7f5517508560c1cde8ec915"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-chromium-desktop/trace.zip",
+      "bytes": 978167,
+      "sha256": "aaa0c6d4ca1ea3a9fc2c3f651b7e3da89d470f37449a0a9d3c3451abac2e687f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-chromium-desktop/published-brand-logo.png",
+      "bytes": 142526,
+      "sha256": "9793bfcb47c3beb0720ac62537d231985f097622b212e80975ecec15973cc29e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-chromium-narrow/trace.zip",
+      "bytes": 648121,
+      "sha256": "5873189e412bb098eaa34894a424a9ca3d71e384be662ebae25d040b29431004"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-chromium-narrow/partial-record-admin-followup.png",
+      "bytes": 106092,
+      "sha256": "05e79d482bbdf2e5bd2215aad1cf10571f5cc0438571c83e28ef84837739d5bd"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-chromium-wide/trace.zip",
+      "bytes": 481098,
+      "sha256": "f5b962c32ef6334d4eda998dd84c48dd6409cd5b23d2271e6b0088bfb78c2345"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-chromium-wide/partial-record-admin-followup.png",
+      "bytes": 111646,
+      "sha256": "a86931de47fa80d5a2bcd6fd99cad4dbb910e6faa45d47aa2da2e2d60e60632c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-chromium-desktop/trace.zip",
+      "bytes": 568589,
+      "sha256": "b60dbebd224dcfe63f2d4c35011b577107ad2d00b2734779761fb1199f1cff7d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-initial/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-chromium-desktop/signed-out-second-tab.png",
+      "bytes": 42971,
+      "sha256": "3aafa5f1f0e703fdf2ba863ed0fda9cd0dd35900d4a88d0da3f7d6d9d32a6855"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-desktop/trace.zip",
+      "bytes": 1034661,
+      "sha256": "fe6a661abcaae526af11f44ab325b8fd4cb96579c4dc746e5d8613586249e49c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-desktop/people-brand-and-scoped-coaching.png",
+      "bytes": 172413,
+      "sha256": "cd3abeee54871bd0f5b53dff02f83189c98c6438fcd9affd38c0e929ad0e7d5a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-wide/trace.zip",
+      "bytes": 1544668,
+      "sha256": "49a27d0cc5c55e474758cba5c271604a0bd5fbf7bb6313f33223274d19f2060d"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-wide/uploaded-library-photo.png",
+      "bytes": 80912,
+      "sha256": "abef08bb53fb35f7f4cc325d276e31eb063dc390fc1e5291d3fb0c8fae7a90e2"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-desktop/trace.zip",
+      "bytes": 1237544,
+      "sha256": "e3841b3ccc2dcd7a8cccd0f08f32a46fa238b92d477eaab56ee5c2382768109e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-desktop/transferred-equipment.png",
+      "bytes": 110550,
+      "sha256": "a0cbc4a3da95311c7fcc5376b52a68d1b8bf190393e56d2d13da858d887c1268"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-narrow/trace.zip",
+      "bytes": 1084248,
+      "sha256": "743e7f26d69ec118fffcfd51dc6c8e5d44b7bbfb23f8e052fb8ed41353571512"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-narrow/transferred-equipment.png",
+      "bytes": 92667,
+      "sha256": "053127beb611a0bebdc7b0e7fba812acb4866ba0972a670d8486b743e4a0db75"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-narrow/trace.zip",
+      "bytes": 910993,
+      "sha256": "6ce7494f8222c7f0b36c215e61687d56d8ba2209f47809d91ae74d1b362957fe"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-narrow/people-brand-and-scoped-coaching.png",
+      "bytes": 101159,
+      "sha256": "dca173bad18a8b3b16d750351b52f4500da3f6070a7f6460ba5cd701e27750d6"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-wide/trace.zip",
+      "bytes": 1232002,
+      "sha256": "4824f5a9eb2cadaf4c3b1667981a0cc029614639a9cc76b91c1e93463a943f3c"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-chromium-wide/transferred-equipment.png",
+      "bytes": 93892,
+      "sha256": "53a7b18d312d4dca09e6db465ba26d74cacc6d9bf2203f6038939b1aec07bd7a"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-wide/trace.zip",
+      "bytes": 786739,
+      "sha256": "4723387bcae89b662ba0f7bd6d801c385d7b4a9c2bbfdd9f0a220cf57cc87772"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-chromium-wide/people-brand-and-scoped-coaching.png",
+      "bytes": 123202,
+      "sha256": "cda98336c1e8c613b4f4cbf1656a170b5225cbf53464cdc9f7aef1d27c5a330e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-narrow/trace.zip",
+      "bytes": 1360826,
+      "sha256": "cb3a621291a65d64cb334ecc5c9cd9cee954001dc45beaccdb94a6158cbdf07f"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-narrow/uploaded-library-photo.png",
+      "bytes": 81008,
+      "sha256": "d36756d2c2c2b14dbf766213fd08c79282b622cb5efdad026917fe193218a673"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-desktop/trace.zip",
+      "bytes": 1604042,
+      "sha256": "d093543041429f4ca716db4e765458b5d0e988976a8e4e470213ac942361d3b0"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-recheck/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-chromium-desktop/uploaded-library-photo.png",
+      "bytes": 103838,
+      "sha256": "3e287247a5cd81a621f761e367eb4792125810b45c7ffff548447ccd79d3a33e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-chromium-narrow/trace.zip",
+      "bytes": 930711,
+      "sha256": "28cf3d7a189239bdf6af5b3469095950f761692afa53b0741a7854ab0b3bd26e"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-chromium-narrow/recovered-routine-conflict.png",
+      "bytes": 121073,
+      "sha256": "30293a7698c85d6ffe3cee1432279c42fb9534f32cf90e090dd4fb6417a1fbea"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-chromium-wide/trace.zip",
+      "bytes": 963877,
+      "sha256": "0c216ff5d483c44b93021e3b973ef5ef47b59ef49e0eef36932ef525db7626e4"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-chromium-wide/recovered-routine-conflict.png",
+      "bytes": 124939,
+      "sha256": "5bc63bc919c8958d576a3f2639ca6f97229fd0d893541d281e02b82d8b775fef"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-chromium-desktop/trace.zip",
+      "bytes": 907755,
+      "sha256": "1eedea47f48d7a536885920941d7a68341e5c9450ee93bdbd3687fcf90422158"
+    },
+    {
+      "path": ".cache/brand-admin/final-chromium-program/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-chromium-desktop/recovered-routine-conflict.png",
+      "bytes": 147229,
+      "sha256": "7dba0249bca24df3f341302dac676a10d586c0239ed80b0e02430287c511d4c4"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/.last-run.json",
+      "bytes": 145,
+      "sha256": "c625e9a62f73fd5dd2dec63db4ac0a0930df2bec55413cdd31243d0302ba2349"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-webkit-touch/trace.zip",
+      "bytes": 1748368,
+      "sha256": "5946f8799e6499cc11975dee2d9243af63cdab4ebb2bb5bdc7042a9c5df15bb1"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-modules-deny-d-18e01-nd-recover-after-reenabling-admin-webkit-touch/module-controls.png",
+      "bytes": 113129,
+      "sha256": "392d36b4350b47fedba64675b9e263e70e838ec65e940f593836fbc322d72c49"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-webkit-touch/trace.zip",
+      "bytes": 976562,
+      "sha256": "8ef5e58a16ea1c532af45ef48be9d6d2178bcd17e8f44b7a144b261f37a0d3f4"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-people-adminis-5e36a-keep-branch-coaching-scoped-admin-webkit-touch/people-brand-and-scoped-coaching.png",
+      "bytes": 137663,
+      "sha256": "84874400342d3cb66e41153ca9555b8e8a853f483cffdfd1759d9a98ab0ee7b3"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-webkit-touch/trace.zip",
+      "bytes": 1222025,
+      "sha256": "1c6cb5c607c100dd40db9faaf84b5115d10a3bc03975dd781cbde2090e7f6139"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-website-valida-ac5ca-awal-preserve-pending-edits-admin-webkit-touch/sur-oeste-published-website.png",
+      "bytes": 94542,
+      "sha256": "8e1c4a9d3a56a350cad71093fa323975fb5e68de99964cdc89f098141508dcf9"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-webkit-touch/trace.zip",
+      "bytes": 1650229,
+      "sha256": "8942ea7c64dfcb64e05d5aa882b2504c00c6b20e7c502285896c7b2c6dd45066"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-library-valida-dd394-nd-isolates-branches-brands-admin-webkit-touch/uploaded-library-photo.png",
+      "bytes": 99358,
+      "sha256": "65e27836613addc996ea225741abe17de803b309f37a232a66e21177daa42161"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-webkit-touch/trace.zip",
+      "bytes": 476687,
+      "sha256": "4ecdafdebbf7f14493457f83b66a0b591879960a718a2c7adc37d1dd0fe22878"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-administrator--17fa1--with-exact-branch-identity-admin-webkit-touch/partial-record-admin-followup.png",
+      "bytes": 125844,
+      "sha256": "873a5650affbccb5f3623bddd90c4d2a881e9e197d320003244ea42f1e056c65"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-webkit-touch/trace.zip",
+      "bytes": 1466049,
+      "sha256": "bceb4fb9fd7b17e48436b3024afcb3a3641ffa017ecc1a632cf783883ea7e79a"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-catalog-availa-be5ce-nsfer-use-the-chosen-branch-admin-webkit-touch/transferred-equipment.png",
+      "bytes": 102942,
+      "sha256": "6314755b896c5c3b025012672b22e8b9d1cbd08c19152ee143579d09efdc8de2"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-regressions-th-0a6b2--preserves-newer-local-work-admin-webkit-touch/trace.zip",
+      "bytes": 999618,
+      "sha256": "19777818e4bbbc909a14773f90ae1c22b1c59bdbfa56dda39c4c5a81dc27a671"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-webkit-touch/trace.zip",
+      "bytes": 1025648,
+      "sha256": "36f8f8170f8e385b27d59fd6cdebaa56940290c8d941a9d1ffaeece4592a9670"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-theme-draft-su-b5b63-equires-explicit-comparison-admin-webkit-touch/theme-conflict.png",
+      "bytes": 194365,
+      "sha256": "8a2b392ee65a3f2adda17d28c517054ae56246a49d0fd3fda3e913c5591e1db2"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-webkit-touch/trace.zip",
+      "bytes": 1242263,
+      "sha256": "22c46fa54b3f09e905d3e7970ea725da897ac8f656e20f35409536d72bba737e"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-oeste-admi-d9920--crossing-branch-recipients-admin-webkit-touch/sur-oeste-admin-prescription.png",
+      "bytes": 140447,
+      "sha256": "4097dc49db65b604010d141b979f8cc5b92373d46d410aed362427510ecb2779"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-webkit-touch/trace.zip",
+      "bytes": 1399808,
+      "sha256": "661f60d6644ff0c200748be82c318db6d2eae95a348249c349224312c4f3ad17"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-expired-sessio-538e0-ffers-it-to-another-account-admin-webkit-touch/isolated-account-editor.png",
+      "bytes": 75333,
+      "sha256": "a7d2ec677014f0e416529ec8f35df1cc5555a26a5d490e6210b57bbf34360a6f"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-equipment.png",
+      "bytes": 146541,
+      "sha256": "2a122ea78f370ee443bad1ffad226583d2ba0513a367c0b8f66d9c463fa719f5"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/trace.zip",
+      "bytes": 2380980,
+      "sha256": "3f8e2ed0964d14d1c3ae28563facf881c93e51febdc22ed96a6e0565d7289c07"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-preparation.png",
+      "bytes": 190751,
+      "sha256": "cc99526051d67368b0cae0462d5da55f22f7c4a601e488eb08425e48aa8cfef6"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-whiteLabel.png",
+      "bytes": 238068,
+      "sha256": "1f7f8e97d9503b4d57544ca1bd1fe3c0328815d8c2d75b536740e92ed71b4ddb"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-preparation.png",
+      "bytes": 192346,
+      "sha256": "d0bdff843c51112ea4ce6bdd0573cac9d9b1e792c7638cc8e081d9eb129c274d"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-qr.png",
+      "bytes": 90863,
+      "sha256": "321cb44e0a1b6a2ccb69cb9c548e77f3916cd32277420ab8d3af5fbed4271663"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-whiteLabel.png",
+      "bytes": 238301,
+      "sha256": "053260bd054534aa976e4f161ec9eef1c45e10f2aea45c6f07c66388616d6696"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-people.png",
+      "bytes": 134547,
+      "sha256": "8c141de9c8bb088a0a6778373f0b09540e8279875ca045b39a180dcac3edaaad"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-equipment.png",
+      "bytes": 89110,
+      "sha256": "c1de543f65ac7e90aba84a9a4111c3afd81c35e8f6aa40e1be233c21aae7c5b1"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-catalog.png",
+      "bytes": 1028663,
+      "sha256": "87cf1b77abe97245b5e81236ff2f4a8ba615cf740a93bee327716c3a89dd719d"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-media.png",
+      "bytes": 101863,
+      "sha256": "b3d70443c43bb18afc36044a4a5a54c157ee1e7d1ef62ce98a54f5056ed07d52"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-brand.png",
+      "bytes": 96497,
+      "sha256": "80c724e8307189773ff8552d9ec69cd7aae0e8ddcfe7b87080fa4eb6874369f4"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-reports.png",
+      "bytes": 103726,
+      "sha256": "4204414c5ce06b90d41f5d55a002538f416d49a3d865f8b24c0c55c148bc8bd3"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-brand.png",
+      "bytes": 96738,
+      "sha256": "06c15b52b478cd38978d88141fc9a31fe15ef21402369058ae5368cbc7874d37"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-programs.png",
+      "bytes": 95368,
+      "sha256": "457a6b4b934bda4b7f232848a5cc187513359caa250f5a0d77da146f9e8c85da"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-qr.png",
+      "bytes": 103458,
+      "sha256": "526899cfa6e36a7fe3dfed2951128faa58501a843234dac2b805a460355bc2e1"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-programs.png",
+      "bytes": 94453,
+      "sha256": "d201002b411d1051add00ee4603d12e85b24f1d15250ccb293cb964f46ba65e3"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-reports.png",
+      "bytes": 100374,
+      "sha256": "84e359becc04e90a74e5f5b9aab22329455c9a84cd7571faa92a424095ab4be0"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-people.png",
+      "bytes": 134314,
+      "sha256": "506837a0f570eeeaed81f4a25271bb87680a187647c2ae2e1028c3c0bfcc1532"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-media.png",
+      "bytes": 101552,
+      "sha256": "5293cc64963294558660d77d03a26af2cf463692b216afb89929fddf71bacf19"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-norte-website.png",
+      "bytes": 151579,
+      "sha256": "7caa96c304995167f20aa4c92fdd4321e8003dbe1394862d0c20fd380e686fc6"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-website.png",
+      "bytes": 148840,
+      "sha256": "72cd23431778963275eaf20ddee5798323d49db6d0941e5134fac991550a5eb6"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-every-ad-2b2de--and-navigates-back-forward-admin-webkit-touch/atlas-principal-catalog.png",
+      "bytes": 1035783,
+      "sha256": "286b2ea81f55da45d1234dbe18378c504dcf035618b3649482b650a265918925"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-webkit-touch/trace.zip",
+      "bytes": 666226,
+      "sha256": "f0ae99fe615e5dccc5e846312d28d320e6f094205b3cabde4b5bd61e279a3b36"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-logout-propaga-67eae-sion-or-operate-foreign-IDs-admin-webkit-touch/signed-out-second-tab.png",
+      "bytes": 41433,
+      "sha256": "f8b4802c8589799d77197d94f53cd60122405b0d6338f599943d1aa89ec7dfec"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-webkit-touch/trace.zip",
+      "bytes": 870167,
+      "sha256": "74b0425e6bc4443b750a103ee2b28284d758bb878545dcc439666008d91ef1af"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-brand-image-up-92107-s-the-existing-public-theme-admin-webkit-touch/published-brand-logo.png",
+      "bytes": 153514,
+      "sha256": "34027666147f7155141109573e7f9680fb9c925d823a9da23a83d3d547a3e9db"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/trace.zip",
+      "bytes": 2102657,
+      "sha256": "b42ad9cf719db5a2788a5ffb90831f5d1a2a49a8697ce45342b4c3fad3041ed6"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-equipment.png",
+      "bytes": 84528,
+      "sha256": "fa2ebca2e844d2149dbb01bab2e1a0a114f67fdf02fb126ca580264bcc987174"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-brand.png",
+      "bytes": 102031,
+      "sha256": "f07f4e092bed6ae47b5e435414220e1a8a3e713e5bcb689ca17e6dccb1d955de"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-brand.png",
+      "bytes": 101970,
+      "sha256": "eab708021b2b29be4b2e9cf1b80657ea50a6a2e81ac6a675107fc7352c3d63a5"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-programs.png",
+      "bytes": 96854,
+      "sha256": "bca5eb1414437453d8a3390ea462f7f2838a1de16dc432ae1b58f3298c9094be"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-preparation.png",
+      "bytes": 188306,
+      "sha256": "5008eaa8469bab3e9af612e2fdea1d231c3b5e0177a95c9739ff2374e5532081"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-qr.png",
+      "bytes": 101049,
+      "sha256": "838a460592260b226eb4975502e122d4df9f42ad8423b7106ffa45748ec7b50d"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-preparation.png",
+      "bytes": 187922,
+      "sha256": "3b709c5ae743dd23da6835438c27f8afae0b3e8b89c4d1d4166bf4887c79ccb4"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-whiteLabel.png",
+      "bytes": 244673,
+      "sha256": "855a89a6a0738edf7d277652a7b213c7137df492c6a1acddc51234085e01353d"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-people.png",
+      "bytes": 136269,
+      "sha256": "73b4c420f3cefc9124839f571724295227ff0fb3bf7c4d64f7cf532e6e88956f"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-reports.png",
+      "bytes": 104771,
+      "sha256": "28e5547f2b8d9625c59357698c524f8b955efeff85e8252f0c1d218f2633c866"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-website.png",
+      "bytes": 152974,
+      "sha256": "2eacd8e31bced927593b4959675d458ca5c485a0f6f072d5536b4283cd90f12b"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-programs.png",
+      "bytes": 97136,
+      "sha256": "52316a05e5e2736204f0d9cd4fb7d68d6f46c9af7f9f115d8324612af8636391"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-catalog.png",
+      "bytes": 1067414,
+      "sha256": "1f605bcdac26d88143a445454b2bef554be1d15f399a9910e5681cd3ef348a87"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-website.png",
+      "bytes": 153023,
+      "sha256": "3167109fab4a30e0201116da5d2bc02f7f6c39e4263acc78d9981502e520cd8a"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-media.png",
+      "bytes": 98601,
+      "sha256": "267e2aba4165b78542a1d3840396112141a5d1cb4e18237e2993d4072c377bf0"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-whiteLabel.png",
+      "bytes": 244736,
+      "sha256": "13adde773a220c966fac0599a26cdf09426201f6d12b9ef2f0aacd6454810c58"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-reports.png",
+      "bytes": 104673,
+      "sha256": "8523be1b36c4bd01e654264eee3775a1fa9885b916f6275c39eb8d5bb6644f80"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-media.png",
+      "bytes": 98535,
+      "sha256": "c96ad2c678d5f3415956f5d0ed8a3b06c054ec73da0f209c90071829352ab900"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-qr.png",
+      "bytes": 91112,
+      "sha256": "1d2cd8f26da742383d0986f8a5aa8c5087eb0adfbea44b5a9d5c88595be6d9f9"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-oeste-people.png",
+      "bytes": 136207,
+      "sha256": "40eafbdf9b4df45fce740ec46a053fdab4e06b58b0b423b4bdfa94eb3e3cac94"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-catalog.png",
+      "bytes": 1089662,
+      "sha256": "bb689d1ff1290b2548ad832ee3571906c30893847ab4bcbba673710ed932eb49"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-every-admi-57696--and-navigates-back-forward-admin-webkit-touch/sur-principal-equipment.png",
+      "bytes": 139130,
+      "sha256": "dfc0389220c8f7cc24966f44334d9ee08d38bc32ace5b721dcd030bbfc01b90f"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-webkit-touch/trace.zip",
+      "bytes": 1503381,
+      "sha256": "e42c7514e3e31776cd41551dee522a9353174119523fd9e2d70743008fbf017a"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-webkit-touch/unit-conflict.png",
+      "bytes": 287414,
+      "sha256": "69d6b8f757c31a2977066df1000b515bbef040d7d2e255314b5d5e7604ce0e93"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-unit-concurren-ccc42-ect-QR-and-archive-restores-admin-webkit-touch/qr-label.png",
+      "bytes": 165649,
+      "sha256": "c497fdb55ec728aedae8e038db7a80a38b244abf27af13627820ec1677574e52"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/trace.zip",
+      "bytes": 1156979,
+      "sha256": "4708a523de28431c7b36caa85d7467520b087713a9360dc6d3cd8e3e8e829c9b"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/empty-branch.png",
+      "bytes": 78779,
+      "sha256": "db169150f497606232b0f4c85eee21e86cbbca7aa332a3a786223668547cd1ce"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/test-failed-1.png",
+      "bytes": 50290,
+      "sha256": "f5bf49b32271e37a8288d922193427d8eecc15c23301c28d46c05ecc7273ae77"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-webkit-touch/trace.zip",
+      "bytes": 899904,
+      "sha256": "6a96e2843ee13dd92431b5ea1339ec9fdadd0fb0b5466a5592d35d332e6ba687"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-invitations-va-d9417-only-the-originating-branch-admin-webkit-touch/invited-person-in-brand-roster.png",
+      "bytes": 138792,
+      "sha256": "939c99ba47f2d030c793d4489d725a1a09c02a0c3a7aa89c04a034e6fedd9d90"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-webkit-touch/trace.zip",
+      "bytes": 663951,
+      "sha256": "f69ff69667f3651a42e5d27e1f04074eb9cea10b58d187e61be3390e4de80a8e"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-regressions-br-0d96a-current-revision-explicitly-admin-webkit-touch/branch-conflict.png",
+      "bytes": 284038,
+      "sha256": "1cdc71ae3dbcf9e4ac5c3f9e7b584b29939972471ad1473d58e965ca6381d087"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-webkit-touch/trace.zip",
+      "bytes": 444794,
+      "sha256": "0ad6c9478a5896d888ac2bce951f9b009a4511f42bf52680f2f4ed6c7ecd1a58"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-a-branch-witho-16dc2-deleting-its-saved-metadata-admin-webkit-touch/restored-empty-branch.png",
+      "bytes": 302141,
+      "sha256": "2e0cbf34c6bc78c143d0d70ef6cb15b18bfb47507ad97bde005e2421daf23cbf"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-webkit-touch/recovered-unit-batch.png",
+      "bytes": 193564,
+      "sha256": "5b6636d423c65e6a20699bde399fad0a2a3bf7d1bd7b63f4f13a08291432b205"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-unit-batch-rec-3ebcf-ds-cancellation-keeps-draft-admin-webkit-touch/trace.zip",
+      "bytes": 817718,
+      "sha256": "5d027a18b908720cc5a9b47d02adb2abe0f613c7db15eaaa382075c6ef94e1e1"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-webkit-touch/trace.zip",
+      "bytes": 923703,
+      "sha256": "37244a6b64bccfcbc9eef5d7344bb0139c80f4390ad12b488ad6da4511df1546"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-routine-confli-842f7--explicit-comparison-rebase-admin-webkit-touch/recovered-routine-conflict.png",
+      "bytes": 145880,
+      "sha256": "f6ee958b8160bf4e50e324b73bf844745013cd8b632a4ed0b617c3f77a0a565c"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-webkit-touch/trace.zip",
+      "bytes": 1282920,
+      "sha256": "33bfdb7261ed1741532323c89911d4857066f30d432088783b9ec3491b87ac69"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-sur-principal--d2510--crossing-branch-recipients-admin-webkit-touch/sur-principal-admin-prescription.png",
+      "bytes": 141389,
+      "sha256": "9b627b10ef6229a3a05b37f84ce711e07223122b3186145e42d78f4c53ae3025"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-webkit-touch/trace.zip",
+      "bytes": 1367304,
+      "sha256": "1bcd8071673471fc06d00864ec1ae57f6cd7895c3f1076354af983593e50430a"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-norte-ad-5fe90--crossing-branch-recipients-admin-webkit-touch/atlas-norte-admin-prescription.png",
+      "bytes": 139022,
+      "sha256": "8766c17f70dbea88d7a543178ce3e5eb348ca55bd09f02dc14b6b387f52eb2a7"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/trace.zip",
+      "bytes": 1574831,
+      "sha256": "1dfce6794b01836c5f514475c66cd2722efe1a61a0ac094ed505ba3483c3ba7a"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/published-text-exercise.png",
+      "bytes": 1145580,
+      "sha256": "4254e25df38a091ae21cd57e1d30d84bc64dede2fce2206ffba864583b333f11"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/test-failed-1.png",
+      "bytes": 59304,
+      "sha256": "690718f19a818a94500de606a1d5d757ca0fbf1dbdc91089a8c6dc56b8235111"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-webkit-touch/trace.zip",
+      "bytes": 1509360,
+      "sha256": "1145ef62ab4b8395c54ae9a228ca7b2e9d11730eb1f43e846921a3143fe0f99e"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit/results/brand-admin-atlas-principa-96836--crossing-branch-recipients-admin-webkit-touch/atlas-principal-admin-prescription.png",
+      "bytes": 138128,
+      "sha256": "674f020bd362906c4f0c40bd0063b01ad594b74aaa249522ae079fe6eac15a8f"
+    },
+    {
+      "path": ".cache/brand-admin/webkit-overflow-diagnostic/results/.last-run.json",
+      "bytes": 96,
+      "sha256": "1169ecc4e79966d9c2dc2f629b4eff3efa13e22e3d2ad55c49a027a6036d9c91"
+    },
+    {
+      "path": ".cache/brand-admin/webkit-overflow-diagnostic/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/trace.zip",
+      "bytes": 1157332,
+      "sha256": "f903dee4866dfc35f6ae4ab757229b590ebe672d2712e2650dc1a430f55c332c"
+    },
+    {
+      "path": ".cache/brand-admin/webkit-overflow-diagnostic/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/empty-branch.png",
+      "bytes": 78779,
+      "sha256": "db169150f497606232b0f4c85eee21e86cbbca7aa332a3a786223668547cd1ce"
+    },
+    {
+      "path": ".cache/brand-admin/webkit-overflow-diagnostic/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/test-failed-1.png",
+      "bytes": 50290,
+      "sha256": "f5bf49b32271e37a8288d922193427d8eecc15c23301c28d46c05ecc7273ae77"
+    },
+    {
+      "path": ".cache/brand-admin/webkit-overflow-diagnostic/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/trace.zip",
+      "bytes": 1283788,
+      "sha256": "6dd24d1a788597a3a2214f68f422b534d8ca616408ec92159c298609aaa974a6"
+    },
+    {
+      "path": ".cache/brand-admin/webkit-overflow-diagnostic/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/published-text-exercise.png",
+      "bytes": 1088098,
+      "sha256": "954a8d903e950aa5c65984c8d4fbfebb2d2204d187f865b9e70d4e49351f83df"
+    },
+    {
+      "path": ".cache/brand-admin/editor-pending-baseline/results/.last-run.json",
+      "bytes": 145,
+      "sha256": "f2bfddbd6d8ef03e3c296bab8dcbdc119cc65a0442fb20e676e1fb0ea2e091f7"
+    },
+    {
+      "path": ".cache/brand-admin/editor-pending-baseline/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-webkit-touch/trace.zip",
+      "bytes": 516862,
+      "sha256": "50889dbee384ab07459543cca7038410b0a465f5cba7f679aabfb33f1cd2490a"
+    },
+    {
+      "path": ".cache/brand-admin/editor-pending-baseline/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-webkit-touch/test-failed-1.png",
+      "bytes": 43630,
+      "sha256": "4f93e095e3a3e7434aa6bcc162c20643e27de3702250233dd37c71511b1e18be"
+    },
+    {
+      "path": ".cache/brand-admin/editor-pending-baseline/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-webkit-touch/trace.zip",
+      "bytes": 736839,
+      "sha256": "59eaf499669e24ab9da8df20701607245bc1946356dd98c2f244c681dfb3d20d"
+    },
+    {
+      "path": ".cache/brand-admin/editor-pending-baseline/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-webkit-touch/test-failed-1.png",
+      "bytes": 66498,
+      "sha256": "4164752227c5475e1afe0d9bcbb59a96f7cee1720f74fa2fd68fa36e3d9ff844"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/.last-run.json",
+      "bytes": 145,
+      "sha256": "103e52c8d0577cdd6972bdbee6337730c245e0a0cd8223d2cfab04caceb3b2d4"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-webkit-touch/trace.zip",
+      "bytes": 469177,
+      "sha256": "cffacd354b81fe7dd509985aeef596bb16f6f399a1ee1cc47191041b1cd07338"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-webkit-touch/program-acknowledged-save.png",
+      "bytes": 97001,
+      "sha256": "8413855fbaa49c849ccd9a03df05ecb5616df5a45bac5724c68d3eae01679710"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/trace.zip",
+      "bytes": 1103665,
+      "sha256": "693ebd97caab4797e061dacd88c9c9f5e2e86e7ecc4d4b9ef08847232aa60ba1"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/empty-branch.png",
+      "bytes": 78779,
+      "sha256": "db169150f497606232b0f4c85eee21e86cbbca7aa332a3a786223668547cd1ce"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/test-failed-1.png",
+      "bytes": 50290,
+      "sha256": "f5bf49b32271e37a8288d922193427d8eecc15c23301c28d46c05ecc7273ae77"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/trace.zip",
+      "bytes": 1502568,
+      "sha256": "cf88ed6ee416bab9b29bc0faf285e64037d9693e71eaede164dd8eb9ab2f5bf0"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/published-text-exercise.png",
+      "bytes": 1141004,
+      "sha256": "496931861fd05826a303367faba259a8547bdf0bed9bca56b5fe0c3375ec005b"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-webkit-touch/trace.zip",
+      "bytes": 704855,
+      "sha256": "5abcad72988c81fc6eb4749aa7c52e3a749960e63f753f13048b77a9e09c0640"
+    },
+    {
+      "path": ".cache/brand-admin/final-webkit-recheck/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-webkit-touch/test-failed-1.png",
+      "bytes": 54738,
+      "sha256": "2ef46e5738deffede46d2c059962a6cfae28b49f18940e342dd87d85a5a1e4c6"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-webkit-touch/trace.zip",
+      "bytes": 540907,
+      "sha256": "ac9060933b9880da6c2c26c2b7d59a408f7a88b6a36f92971a00159ff43f0884"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-webkit-touch/program-acknowledged-save.png",
+      "bytes": 97001,
+      "sha256": "8413855fbaa49c849ccd9a03df05ecb5616df5a45bac5724c68d3eae01679710"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-chromium-narrow/trace.zip",
+      "bytes": 639463,
+      "sha256": "a8e7c2737cac7e43f3f93c8eccf6cb04f678770e7eb74092559e9492d8b3ed47"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-chromium-narrow/program-acknowledged-save.png",
+      "bytes": 81716,
+      "sha256": "ec9c58635f71c254c2e854f128d998921ccf420995e36645d58a8d9b597f9cb2"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-desktop/trace.zip",
+      "bytes": 1334406,
+      "sha256": "a413f2b4aa68a20d49be09aad79fc255f066d9716bb36ddd41102683c071cbcb"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-desktop/empty-branch.png",
+      "bytes": 86005,
+      "sha256": "7cba68273988c88764cc1d1f3dbbe989eb03a036e6a97a36eb5694318d6b3a4a"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-wide/trace.zip",
+      "bytes": 1144593,
+      "sha256": "9b13eb51e308926fc3c6abb3572b2de8527db6ba7dac90f4f37a00c87de2c90b"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-wide/empty-branch.png",
+      "bytes": 61601,
+      "sha256": "5fcb49a5b53e63042e144483c5525b7006251f83fe49b6c0f16b2f3952cc51a5"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-chromium-narrow/trace.zip",
+      "bytes": 597998,
+      "sha256": "74edbcda36ff225d7fb9ec5fd2affb4980e4db46dd88aabab85facdbf9e9fcbf"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-chromium-narrow/exercise-acknowledged-save.png",
+      "bytes": 1501914,
+      "sha256": "14f80551edc9fb02d84414c3c0f860b280043cff907535e368873bc9256b6da8"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-chromium-wide/trace.zip",
+      "bytes": 683168,
+      "sha256": "73a909ebd4b074d1d832f29eefb63a0dd166d9d51bd56dd2247353398eaffdc2"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-chromium-wide/exercise-acknowledged-save.png",
+      "bytes": 1745658,
+      "sha256": "d6d83ed0c26ff6f75447fb38d7ff10372a1645b2a1fe1234b9fd61782e638a98"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-chromium-desktop/trace.zip",
+      "bytes": 649497,
+      "sha256": "40afbb23fe9175495f6f7ddbe2c4f03006c5c59b0160702bc382e6062d4ad920"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-chromium-desktop/exercise-acknowledged-save.png",
+      "bytes": 1441271,
+      "sha256": "ccba907a633504357f0a8f091bf8be67d46215b29fac6c303a7d129912a9a7e5"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-chromium-wide/trace.zip",
+      "bytes": 530877,
+      "sha256": "54ea3a7455ffcba151de8cc1e7052fc335b98caf74df38f680e9d850e56509ef"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-chromium-wide/program-acknowledged-save.png",
+      "bytes": 81943,
+      "sha256": "343e61a72a48702f69a2ebf78725e1b95be041fa81655fb0093333a218d01e38"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/trace.zip",
+      "bytes": 1101802,
+      "sha256": "a80db8c27a45f0162b6bfe94048eb8131c1771dd7730c0ac6c2cca4a849ae7a2"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-webkit-touch/empty-branch.png",
+      "bytes": 77380,
+      "sha256": "124a72652d249455a5075bedea218e3a5f6f7b123d29d386623206c3ec18f6fe"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-chromium-desktop/trace.zip",
+      "bytes": 593291,
+      "sha256": "1f18fa16a3282715b2dd543ff783194068c07cfe7a62fc1994c9beb25457a202"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-pr-75892-ending-save-is-acknowledged-admin-chromium-desktop/program-acknowledged-save.png",
+      "bytes": 103325,
+      "sha256": "1270ca328fce2004c29838e6dfb7da1d83d29fd44c34ca85d36d0cd76a50dc74"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-desktop/trace.zip",
+      "bytes": 1590260,
+      "sha256": "4f8f0046cf457cd7d583f4fb13c7bc07700d56bac94051f619d55c2a105d5ab1"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-desktop/published-text-exercise.png",
+      "bytes": 1485260,
+      "sha256": "d0f553a89647b0748880d255b61843b2e683f0bbf7da914e58362d568695c1ce"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-wide/trace.zip",
+      "bytes": 1390924,
+      "sha256": "35d569527d5898b3b168554e1c2ee5cc3745c4ccf3ac3ab7872430dced3a1a15"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-wide/published-text-exercise.png",
+      "bytes": 1713503,
+      "sha256": "70f532fdad1c7cc4d6ffb20e6b9d3f74932f004d16cf9b0ac95a59a98b11eaf2"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-narrow/trace.zip",
+      "bytes": 1455423,
+      "sha256": "ea7163f870cf248d9c0ed4fce876cd3c4b00f63eee1bcbf2eb62498a9e29a9d1"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-chromium-narrow/published-text-exercise.png",
+      "bytes": 1496894,
+      "sha256": "f04d4ff5df44697121a909b64802550afcb6e57ea4b2a7f8ae0be393b51c15f3"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-narrow/trace.zip",
+      "bytes": 1265233,
+      "sha256": "d1729bdc66f630f2b202bab6354378ecb7e314b97ced0969b04cb988d92da068"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-branch-validat-489be-hive-guard-and-empty-branch-admin-chromium-narrow/empty-branch.png",
+      "bytes": 61117,
+      "sha256": "be7a7c8075e39eea4cc83abcafad2251d0b1a31ca322136b557cf989cc30463d"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/trace.zip",
+      "bytes": 1315352,
+      "sha256": "90ad31b8ec89f23404af2f64f5ba3af6cf72e645e1224ff933e598f2f9902a37"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-exercise-edito-71974-lication-without-new-models-admin-webkit-touch/published-text-exercise.png",
+      "bytes": 1084019,
+      "sha256": "2a98b3cc35706f7ba6ea96ee512b3938f23a80c4619d1deb37d2863d8781119e"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-webkit-touch/trace.zip",
+      "bytes": 625402,
+      "sha256": "9df06c8752c3c16f4f40b5cb5d8a75bf7ef1a8dbac539b42f039a51317d31c0c"
+    },
+    {
+      "path": ".cache/brand-admin/closeout-affected/results/brand-admin-regressions-ex-62a2a-ending-save-is-acknowledged-admin-webkit-touch/exercise-acknowledged-save.png",
+      "bytes": 1065291,
+      "sha256": "965ded3ad1130595a4c779032e32412b5560980e94febc0226dd83da69e803f5"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-320-qr.png",
+      "bytes": 137263,
+      "sha256": "9a9cdfc28968bfcf7c20dbde9ccff224be7f98bb60549c60971e870b940c594d"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-412-routine-conflict.png",
+      "bytes": 124939,
+      "sha256": "5bc63bc919c8958d576a3f2639ca6f97229fd0d893541d281e02b82d8b775fef"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/webkit-390-brand-settings.png",
+      "bytes": 238301,
+      "sha256": "053260bd054534aa976e4f161ec9eef1c45e10f2aea45c6f07c66388616d6696"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-desktop-admin-followup.png",
+      "bytes": 133532,
+      "sha256": "41d1ed376a720a22bdc22100a7fe1b31a19cdbc50096a70d2c562e01ba88c4aa"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-320-people.png",
+      "bytes": 101159,
+      "sha256": "dca173bad18a8b3b16d750351b52f4500da3f6070a7f6460ba5cd701e27750d6"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/webkit-390-long-branch.png",
+      "bytes": 77380,
+      "sha256": "124a72652d249455a5075bedea218e3a5f6f7b123d29d386623206c3ec18f6fe"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-412-people.png",
+      "bytes": 123202,
+      "sha256": "cda98336c1e8c613b4f4cbf1656a170b5225cbf53464cdc9f7aef1d27c5a330e"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/webkit-390-exercise-save.png",
+      "bytes": 1065291,
+      "sha256": "965ded3ad1130595a4c779032e32412b5560980e94febc0226dd83da69e803f5"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-320-transfer.png",
+      "bytes": 92667,
+      "sha256": "053127beb611a0bebdc7b0e7fba812acb4866ba0972a670d8486b743e4a0db75"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-412-theme-conflict.png",
+      "bytes": 154487,
+      "sha256": "b90941b2454e41d3b5c7dff43949a38205aafc3b3264df95b14d39cd5f30d7ec"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/webkit-390-followup.png",
+      "bytes": 125844,
+      "sha256": "873a5650affbccb5f3623bddd90c4d2a881e9e197d320003244ea42f1e056c65"
+    },
+    {
+      "path": "docs/qa/b2b-brand-admin-2026-10-13-evidence/chromium-desktop-people.png",
+      "bytes": 172413,
+      "sha256": "cd3abeee54871bd0f5b53dff02f83189c98c6438fcd9affd38c0e929ad0e7d5a"
+    }
+  ],
+  "limits": [
+    "Emulated mobile Chromium and Linux WPE WebKit; no physical iOS/Android",
+    "Local synthetic schemas and media; no production, DNS or emails",
+    "Local TLS validation exception; does not certify public TLS or trust store",
+    "Previews, model authorship and full release gate intentionally deferred",
+    "Report lists unexecuted variants; coverage is not absolute"
+  ],
+  "fixture_cleanup": {
+    "remaining_browser_schemas": 0,
+    "verified_in": "local disposable klisteni_b2b_test",
+    "operation": "read-only pg_namespace count"
+  },
+  "source_files": {
+    "apps/b2c-web/playwright.brand-admin.config.ts": "595654557aa4f70c2365899658867f2325d9b2a4ccd8af644f62bbabab530bf1",
+    "apps/b2c-web/e2e/brand-admin.spec.ts": "5c9d9622b81de159d686a3ae7d1b7b91f43230c3803dbc38c7c57cb7e16c778e",
+    "apps/b2c-web/e2e/brand-admin-regressions.spec.ts": "eee10f8028ce02962f03111467c4de2e8bcbf7087c2081ebdb68c45ad4f57d47",
+    "scripts/b2b-wl-e2e-server.mjs": "d303129ea712c8766fa696d19f44dbe5fe1e0e9b44ec97f0e4287b790635305b"
+  }
+}

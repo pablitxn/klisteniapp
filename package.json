@@ -28,6 +28,7 @@
     "test:analytics": "pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.analytics.config.ts",
     "test:api": "pnpm --filter @klisteniapp/b2c-api test",
     "test:accounts": "pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.accounts.config.ts",
+    "test:admin": "pnpm --filter @klisteniapp/b2c-web exec playwright test --config playwright.admin.config.ts",
     "build:demo": "VITE_APP_MODE=demo turbo run build --filter=@klisteniapp/b2c-web",
     "build:instance": "VITE_APP_MODE=instance turbo run build --filter=@klisteniapp/b2c-web",
     "dev:instance": "VITE_APP_MODE=instance pnpm --filter @klisteniapp/b2c-web dev",

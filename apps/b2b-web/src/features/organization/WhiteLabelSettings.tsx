@@ -1,4 +1,4 @@
-import { createB2BClient } from '@klisteniapp/b2b-client'
+import { ApiError, createB2BClient } from '@klisteniapp/b2b-client'
 import {
   MODULE_IDS,
   type Branch,
@@ -8,7 +8,10 @@ import {
 } from '@klisteniapp/b2b-contracts'
 import { useAccountClient, useAccountId, useLoad } from '@klisteniapp/b2b-react'
 import { BrandThemeProvider, Field, Notice } from '@klisteniapp/b2b-ui'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+import { DraftConflict, DraftRecovery, useEditorDraft } from '../../shared/editor/useEditorDraft'
+import { branchDraft, isBranchDraft, type BranchDraft } from './branchDraft'
+import { isThemeDraft } from './themeDraft'
 import { Heading } from '../../shared/Heading'
 import { useAction } from '../../shared/useAction'
 
@@ -185,12 +188,7 @@ function Branches({ orgId, onRefresh }: { orgId: string; onRefresh: () => void }
       </form>
       <div className="grid two" style={{ marginTop: 24 }}>
         {resource.data?.branches.map((branch) => (
-          <BranchEditor
-            key={`${branch.id}:${branch.revision}`}
-            branch={branch}
-            orgId={orgId}
-            onSaved={changed}
-          />
+          <BranchEditor key={branch.id} branch={branch} orgId={orgId} onSaved={changed} />
         ))}
       </div>
       {resource.data && (
@@ -280,53 +278,156 @@ function BranchEditor({
 }) {
   const client = useAccountClient(),
     action = useAction()
+  const [latest, setLatest] = useState(branch)
+  const [conflict, setConflict] = useState(false)
+  const local = useEditorDraft(
+    orgId,
+    'branch',
+    branch.id,
+    branchDraft(branch),
+    branch.revision,
+    isBranchDraft,
+  )
+  const draft = local.value
+  useEffect(() => {
+    if (branch.revision > latest.revision) setLatest(branch)
+  }, [branch, latest.revision])
+  const stale = latest.revision !== local.revision
+  const blocked = Boolean(local.pending) || stale || conflict
+  function change(patch: Partial<BranchDraft>) {
+    local.change({ ...draft, ...patch })
+  }
+  async function readLatest() {
+    const result = await client.branches.list(orgId)
+    const current = result.branches.find((item) => item.id === branch.id)
+    if (!current)
+      throw new Error('Esta sede ya no está disponible. Tu copia local sigue conservada.')
+    if (local.isCurrent()) setLatest(current)
+  }
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const values = new FormData(event.currentTarget)
+    if (blocked) return
     await action.run(async () => {
-      const { revision } = branch
-      const input = { slug: branch.slug, openingHours: branch.openingHours, public: branch.public }
-      await client.branches.update(orgId, branch.id, {
-        ...input,
-        name: text(values, 'name'),
-        address: text(values, 'address'),
-        contact: text(values, 'contact'),
-        timezone: text(values, 'timezone'),
-        status: text(values, 'status') as Branch['status'],
-        expectedRevision: revision,
-      })
-      onSaved()
+      try {
+        const result = await client.branches.update(orgId, branch.id, {
+          slug: latest.slug,
+          openingHours: latest.openingHours,
+          public: latest.public,
+          ...draft,
+          expectedRevision: local.savedRevision(),
+        })
+        if (!local.isCurrent()) return
+        local.reset(branchDraft(result.branch), result.branch.revision)
+        setLatest(result.branch)
+        setConflict(false)
+        onSaved()
+      } catch (error) {
+        if (!local.isCurrent()) return
+        if (
+          error instanceof ApiError &&
+          error.status === 409 &&
+          error.code === 'REVISION_CONFLICT'
+        ) {
+          setConflict(true)
+          await readLatest()
+        }
+        throw error
+      }
     })
   }
   return (
     <form className="card form-stack" onSubmit={save}>
       <h2>{branch.name}</h2>
-      <Field label="Nombre">
-        <input name="name" defaultValue={branch.name} required />
-      </Field>
-      <Field label="Dirección">
-        <input name="address" defaultValue={branch.address} />
-      </Field>
-      <Field label="Contacto">
-        <input name="contact" defaultValue={branch.contact} />
-      </Field>
-      <Field label="Zona horaria">
-        <input name="timezone" defaultValue={branch.timezone} required />
-      </Field>
-      <Field label="Estado">
-        <select name="status" defaultValue={branch.status}>
-          <option value="active">Activa</option>
-          <option value="archived">Archivada</option>
-        </select>
-      </Field>
-      <p className="small muted">
-        Archivar conserva el historial e impide nuevas actividades. Finalizá las asignaciones
-        activas antes de archivar.
-      </p>
-      {action.notices}
-      <button className="button" disabled={action.busy}>
-        Guardar sede
-      </button>
+      <DraftRecovery
+        pending={Boolean(local.pending)}
+        error={local.storageError}
+        disabled={action.busy}
+        onRecover={local.recover}
+        onDiscard={() => local.reset(branchDraft(latest), latest.revision)}
+      />
+      {!local.pending && (stale || conflict) && (
+        <DraftConflict
+          key={latest.revision}
+          busy={action.busy}
+          currentAvailable={stale}
+          onRefresh={() => void action.run(readLatest, '')}
+          onKeep={() => {
+            local.rebase(latest.revision)
+            setConflict(false)
+            action.clear()
+          }}
+          onDiscard={() => {
+            local.reset(branchDraft(latest), latest.revision)
+            setConflict(false)
+            action.clear()
+          }}
+        >
+          <h3>{latest.name}</h3>
+          <p>{latest.address}</p>
+          <p>{latest.contact}</p>
+          <p>
+            {latest.timezone} · {latest.status === 'active' ? 'Activa' : 'Archivada'}
+          </p>
+        </DraftConflict>
+      )}
+      <fieldset
+        disabled={action.busy || Boolean(local.pending)}
+        style={{ border: 0, padding: 0, minWidth: 0 }}
+        className="form-stack"
+      >
+        <Field label="Nombre">
+          <input
+            name="name"
+            value={draft.name}
+            onChange={(event) => change({ name: event.target.value })}
+            maxLength={100}
+            required
+          />
+        </Field>
+        <Field label="Dirección">
+          <input
+            name="address"
+            value={draft.address}
+            onChange={(event) => change({ address: event.target.value })}
+            maxLength={300}
+          />
+        </Field>
+        <Field label="Contacto">
+          <input
+            name="contact"
+            value={draft.contact}
+            onChange={(event) => change({ contact: event.target.value })}
+            maxLength={200}
+          />
+        </Field>
+        <Field label="Zona horaria">
+          <input
+            name="timezone"
+            value={draft.timezone}
+            onChange={(event) => change({ timezone: event.target.value })}
+            maxLength={100}
+            required
+          />
+        </Field>
+        <Field label="Estado">
+          <select
+            name="status"
+            value={draft.status}
+            onChange={(event) => change({ status: event.target.value as Branch['status'] })}
+          >
+            <option value="active">Activa</option>
+            <option value="archived">Archivada</option>
+          </select>
+        </Field>
+        <p className="small muted">
+          Archivar conserva el historial e impide nuevas actividades. Finalizá las asignaciones
+          activas antes de archivar.
+        </p>
+        {action.notices}
+        <button className="button" disabled={blocked || action.busy}>
+          Guardar sede
+        </button>
+      </fieldset>
     </form>
   )
 }
@@ -350,7 +451,6 @@ function Themes({
       <Notice error>{resource.error}</Notice>
       {resource.data && (
         <ThemeEditor
-          key={resource.data.theme.revision}
           state={resource.data.theme}
           context={context}
           orgId={orgId}
@@ -380,11 +480,55 @@ function ThemeEditor({
 }) {
   const client = useAccountClient(),
     action = useAction()
-  const [draft, setDraft] = useState(state.draft),
-    [preview, setPreview] = useState(false),
+  const local = useEditorDraft(orgId, 'theme', 'brand', state.draft, state.revision, isThemeDraft)
+  const draft = local.value
+  const [latest, setLatest] = useState(state)
+  const [conflict, setConflict] = useState(false)
+  const [preview, setPreview] = useState(false),
     [restoreVersion, setRestoreVersion] = useState('')
+  useEffect(() => {
+    if (state.revision > latest.revision) setLatest(state)
+  }, [state, latest.revision])
+  const stale = latest.revision !== local.revision
+  const blocked = Boolean(local.pending) || stale || conflict
   function update<K extends keyof Theme>(key: K, value: Theme[K]) {
-    setDraft((previous) => ({ ...previous, [key]: value }))
+    local.change({ ...draft, [key]: value })
+  }
+  async function readLatest() {
+    const result = await client.theme.get(orgId)
+    if (local.isCurrent()) setLatest(result.theme)
+  }
+  function acceptState(next: typeof state) {
+    if (!local.isCurrent()) return
+    local.reset(next.draft, next.revision)
+    setLatest(next)
+    setConflict(false)
+    onSaved()
+  }
+  async function save(publish: boolean) {
+    if (blocked) return
+    await action.run(
+      async () => {
+        try {
+          const result = await client.theme.update(orgId, {
+            ...draft,
+            expectedRevision: local.savedRevision(),
+          })
+          const next = publish
+            ? await client.theme.publish(orgId, { expectedRevision: result.theme.revision })
+            : result
+          acceptState(next.theme)
+        } catch (error) {
+          if (!local.isCurrent()) return
+          if (error instanceof ApiError && error.status === 409) {
+            setConflict(true)
+            await readLatest()
+          }
+          throw error
+        }
+      },
+      publish ? 'Diseño publicado.' : 'Borrador guardado. Todavía no se publicó.',
+    )
   }
   async function uploadImage(file: File, kind: 'logo' | 'hero') {
     await action.run(async () => {
@@ -393,12 +537,9 @@ function ThemeEditor({
         { kind: 'image', label: file.name, attribution: '' },
         file,
       )
-      if (kind === 'logo')
-        setDraft((previous) => ({
-          ...previous,
-          brand: { ...previous.brand, logoUrl: result.media.url },
-        }))
-      else setDraft((previous) => ({ ...previous, heroImageUrl: result.media.url }))
+      if (!local.isCurrent()) return
+      if (kind === 'logo') update('brand', { ...draft.brand, logoUrl: result.media.url })
+      else update('heroImageUrl', result.media.url)
     }, 'Imagen cargada en el borrador. Guardá o publicá para aplicarla.')
   }
 
@@ -406,191 +547,222 @@ function ThemeEditor({
     <section className="card form-stack" style={{ marginTop: 24 }}>
       <h2>Identidad y diseño</h2>
       <p>
-        Versión publicada {state.publishedVersion}. Guardar conserva un borrador privado; publicar
+        Versión publicada {latest.publishedVersion}. Guardar conserva un borrador privado; publicar
         aplica el diseño a toda la marca.
       </p>
-      <div className="form-grid">
-        <Field label="Subir logo de la marca">
-          <input
-            type="file"
-            accept="image/png,image/jpeg,image/webp"
-            disabled={action.busy}
-            onChange={(event) => {
-              const file = event.target.files?.[0]
-              if (file) void uploadImage(file, 'logo')
-            }}
-          />
-        </Field>
-        <Field label="Subir imagen de bienvenida">
-          <input
-            type="file"
-            accept="image/png,image/jpeg,image/webp"
-            disabled={action.busy}
-            onChange={(event) => {
-              const file = event.target.files?.[0]
-              if (file) void uploadImage(file, 'hero')
-            }}
-          />
-        </Field>
-        <Field label="Nombre de marca">
-          <input
-            value={draft.brand.name}
-            onChange={(e) => update('brand', { ...draft.brand, name: e.target.value })}
-          />
-        </Field>
-        <Field label="Logo">
-          <input
-            value={draft.brand.logoUrl ?? ''}
-            onChange={(e) => update('brand', { ...draft.brand, logoUrl: e.target.value })}
-          />
-        </Field>
-        {(['primary', 'background', 'surface', 'text', 'accent'] as const).map((key) => (
-          <Field
-            key={key}
-            label={
-              {
-                primary: 'Color principal',
-                background: 'Fondo',
-                surface: 'Tarjetas',
-                text: 'Texto',
-                accent: 'Acento',
-              }[key]
-            }
-          >
+      <DraftRecovery
+        pending={Boolean(local.pending)}
+        error={local.storageError}
+        disabled={action.busy}
+        onRecover={local.recover}
+        onDiscard={() => local.reset(latest.draft, latest.revision)}
+      />
+      {!local.pending && (stale || conflict) && (
+        <DraftConflict
+          key={latest.revision}
+          busy={action.busy}
+          currentAvailable={stale}
+          onRefresh={() => void action.run(readLatest, '')}
+          onKeep={() => {
+            local.rebase(latest.revision)
+            setConflict(false)
+            action.clear()
+          }}
+          onDiscard={() => {
+            local.reset(latest.draft, latest.revision)
+            setConflict(false)
+            action.clear()
+          }}
+        >
+          <h3>{latest.draft.loginTitle || latest.draft.brand.name}</h3>
+          <p>{latest.draft.loginDescription}</p>
+          <p>
+            {latest.draft.brand.name} · {latest.draft.layout} · {latest.draft.font}
+          </p>
+        </DraftConflict>
+      )}
+      <fieldset
+        disabled={action.busy || Boolean(local.pending)}
+        style={{ border: 0, padding: 0, minWidth: 0 }}
+      >
+        <div className="form-grid">
+          <Field label="Subir logo de la marca">
             <input
-              type="color"
-              value={draft.palette[key]}
-              onChange={(e) => update('palette', { ...draft.palette, [key]: e.target.value })}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              disabled={action.busy}
+              onChange={(event) => {
+                const file = event.target.files?.[0]
+                if (file) void uploadImage(file, 'logo')
+              }}
             />
           </Field>
-        ))}
-        <Field label="Tipografía">
-          <select
-            value={draft.font}
-            onChange={(e) => update('font', e.target.value as Theme['font'])}
+          <Field label="Subir imagen de bienvenida">
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              disabled={action.busy}
+              onChange={(event) => {
+                const file = event.target.files?.[0]
+                if (file) void uploadImage(file, 'hero')
+              }}
+            />
+          </Field>
+          <Field label="Nombre de marca">
+            <input
+              value={draft.brand.name}
+              onChange={(e) => update('brand', { ...draft.brand, name: e.target.value })}
+            />
+          </Field>
+          <Field label="Logo">
+            <input
+              value={draft.brand.logoUrl ?? ''}
+              onChange={(e) => update('brand', { ...draft.brand, logoUrl: e.target.value })}
+            />
+          </Field>
+          {(['primary', 'background', 'surface', 'text', 'accent'] as const).map((key) => (
+            <Field
+              key={key}
+              label={
+                {
+                  primary: 'Color principal',
+                  background: 'Fondo',
+                  surface: 'Tarjetas',
+                  text: 'Texto',
+                  accent: 'Acento',
+                }[key]
+              }
+            >
+              <input
+                type="color"
+                value={draft.palette[key]}
+                onChange={(e) => update('palette', { ...draft.palette, [key]: e.target.value })}
+              />
+            </Field>
+          ))}
+          <Field label="Tipografía">
+            <select
+              value={draft.font}
+              onChange={(e) => update('font', e.target.value as Theme['font'])}
+            >
+              <option value="system">Sistema</option>
+              <option value="humanist">Humanista</option>
+              <option value="geometric">Geométrica</option>
+            </select>
+          </Field>
+          <Field label="Forma de componentes">
+            <select
+              value={draft.radius}
+              onChange={(e) => update('radius', e.target.value as Theme['radius'])}
+            >
+              <option value="square">Recta</option>
+              <option value="soft">Suave</option>
+              <option value="round">Redondeada</option>
+            </select>
+          </Field>
+          <Field label="Plantilla">
+            <select
+              value={draft.layout}
+              onChange={(e) => update('layout', e.target.value as Theme['layout'])}
+            >
+              <option value="editorial">Editorial</option>
+              <option value="energetic">Dinámica</option>
+            </select>
+          </Field>
+          <Field label="Título de bienvenida">
+            <input
+              value={draft.loginTitle}
+              onChange={(e) => update('loginTitle', e.target.value)}
+              maxLength={150}
+            />
+          </Field>
+          <Field label="Texto de bienvenida">
+            <textarea
+              value={draft.loginDescription}
+              onChange={(e) => update('loginDescription', e.target.value)}
+              maxLength={1000}
+            />
+          </Field>
+          <Field label="Imagen de bienvenida">
+            <input
+              value={draft.heroImageUrl}
+              onChange={(e) => update('heroImageUrl', e.target.value)}
+            />
+          </Field>
+        </div>
+        {action.notices}
+        <div className="row">
+          <button className="button" onClick={() => setPreview((value) => !value)}>
+            Vista previa privada
+          </button>
+          <button
+            className="button"
+            disabled={blocked || action.busy}
+            onClick={() => void save(false)}
           >
-            <option value="system">Sistema</option>
-            <option value="humanist">Humanista</option>
-            <option value="geometric">Geométrica</option>
+            Guardar borrador
+          </button>
+          <button
+            className="button primary"
+            disabled={blocked || action.busy}
+            onClick={() => void save(true)}
+          >
+            Publicar diseño
+          </button>
+        </div>
+        {preview && (
+          <BrandThemeProvider context={{ ...context, theme: draft }} metadata={false}>
+            <div className="card access-intro">
+              <p className="eyebrow">VISTA PREVIA PRIVADA</p>
+              <h2>{draft.loginTitle || draft.brand.name}</h2>
+              <p>{draft.loginDescription}</p>
+              <button type="button" className="button primary">
+                Ingresar
+              </button>
+            </div>
+          </BrandThemeProvider>
+        )}
+        <Field label="Volver a una versión publicada">
+          <select
+            value={restoreVersion}
+            disabled={action.busy}
+            onChange={(event) => setRestoreVersion(event.target.value)}
+          >
+            <option value="" disabled>
+              Elegir versión
+            </option>
+            {versions.map((version) => (
+              <option key={version} value={version}>
+                Versión {version}
+              </option>
+            ))}
           </select>
         </Field>
-        <Field label="Forma de componentes">
-          <select
-            value={draft.radius}
-            onChange={(e) => update('radius', e.target.value as Theme['radius'])}
-          >
-            <option value="square">Recta</option>
-            <option value="soft">Suave</option>
-            <option value="round">Redondeada</option>
-          </select>
-        </Field>
-        <Field label="Plantilla">
-          <select
-            value={draft.layout}
-            onChange={(e) => update('layout', e.target.value as Theme['layout'])}
-          >
-            <option value="editorial">Editorial</option>
-            <option value="energetic">Dinámica</option>
-          </select>
-        </Field>
-        <Field label="Título de bienvenida">
-          <input
-            value={draft.loginTitle}
-            onChange={(e) => update('loginTitle', e.target.value)}
-            maxLength={150}
-          />
-        </Field>
-        <Field label="Texto de bienvenida">
-          <textarea
-            value={draft.loginDescription}
-            onChange={(e) => update('loginDescription', e.target.value)}
-            maxLength={1000}
-          />
-        </Field>
-        <Field label="Imagen de bienvenida">
-          <input
-            value={draft.heroImageUrl}
-            onChange={(e) => update('heroImageUrl', e.target.value)}
-          />
-        </Field>
-      </div>
-      {action.notices}
-      <div className="row">
-        <button className="button" onClick={() => setPreview((value) => !value)}>
-          Vista previa privada
-        </button>
         <button
           className="button"
-          disabled={action.busy}
+          disabled={blocked || action.busy || !restoreVersion}
           onClick={() =>
             void action.run(async () => {
-              await client.theme.update(orgId, { ...draft, expectedRevision: state.revision })
-              onSaved()
-            }, 'Borrador guardado. Todavía no se publicó.')
+              try {
+                const result = await client.theme.restore(orgId, {
+                  expectedRevision: local.savedRevision(),
+                  version: Number(restoreVersion),
+                })
+                acceptState(result.theme)
+              } catch (error) {
+                if (!local.isCurrent()) return
+                if (error instanceof ApiError && error.status === 409) {
+                  setConflict(true)
+                  await readLatest()
+                }
+                throw error
+              }
+            }, 'Versión restaurada como nueva publicación.')
           }
         >
-          Guardar borrador
+          Restaurar diseño
         </button>
-        <button
-          className="button primary"
-          disabled={action.busy}
-          onClick={() =>
-            void action.run(async () => {
-              const saved = await client.theme.update(orgId, {
-                ...draft,
-                expectedRevision: state.revision,
-              })
-              await client.theme.publish(orgId, { expectedRevision: saved.theme.revision })
-              onSaved()
-            }, 'Diseño publicado.')
-          }
-        >
-          Publicar diseño
-        </button>
-      </div>
-      {preview && (
-        <BrandThemeProvider context={{ ...context, theme: draft }} metadata={false}>
-          <div className="card access-intro">
-            <p className="eyebrow">VISTA PREVIA PRIVADA</p>
-            <h2>{draft.loginTitle || draft.brand.name}</h2>
-            <p>{draft.loginDescription}</p>
-            <button type="button" className="button primary">
-              Ingresar
-            </button>
-          </div>
-        </BrandThemeProvider>
-      )}
-      <Field label="Volver a una versión publicada">
-        <select
-          value={restoreVersion}
-          disabled={action.busy}
-          onChange={(event) => setRestoreVersion(event.target.value)}
-        >
-          <option value="" disabled>
-            Elegir versión
-          </option>
-          {versions.map((version) => (
-            <option key={version} value={version}>
-              Versión {version}
-            </option>
-          ))}
-        </select>
-      </Field>
-      <button
-        className="button"
-        disabled={action.busy || !restoreVersion}
-        onClick={() =>
-          void action.run(async () => {
-            await client.theme.restore(orgId, {
-              expectedRevision: state.revision,
-              version: Number(restoreVersion),
-            })
-            onSaved()
-          }, 'Versión restaurada como nueva publicación.')
-        }
-      >
-        Restaurar diseño
-      </button>
+      </fieldset>
     </section>
   )
 }
