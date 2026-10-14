@@ -1,13 +1,7 @@
 import { defineConfig } from '@playwright/test'
-import { createHash, createPublicKey } from 'node:crypto'
-import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../..', import.meta.url))
-const cert = readFileSync(`${root}/.cache/wl/tls/server.crt`)
-const spki = createHash('sha256')
-  .update(createPublicKey(cert).export({ type: 'spki', format: 'der' }))
-  .digest('base64')
 const views = [
   { name: 'narrow', viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true },
   { name: 'wide', viewport: { width: 430, height: 932 }, isMobile: true, hasTouch: true },
@@ -55,7 +49,6 @@ export default defineConfig({
           browserName === 'chromium'
             ? {
                 executablePath: process.env.QA_CHROMIUM_EXECUTABLE || '/usr/bin/chromium',
-                args: [`--ignore-certificate-errors-spki-list=${spki}`],
               }
             : process.env.QA_WEBKIT_EXECUTABLE
               ? { executablePath: process.env.QA_WEBKIT_EXECUTABLE }

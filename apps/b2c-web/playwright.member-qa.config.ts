@@ -5,8 +5,8 @@ const server = whiteLabel.webServer
 if (!server || Array.isArray(server)) throw new Error('Member QA requires one WL harness')
 
 // Synthetic HTTPS origins and disposable per-engine schemas from the WL harness.
-// WebKit's context accepts only this harness's self-signed certificate; this
-// suite does not attest certificate trust or change the machine's CA store.
+// HTTPS requires a valid certificate. For isolated HTTP use the integration
+// config; historical omitted-TLS evidence does not attest certificate trust.
 export default defineConfig({
   ...whiteLabel,
   testMatch: 'member-qa.spec.ts',
@@ -17,7 +17,7 @@ export default defineConfig({
     ['json', { outputFile: '../../.cache/member-qa/results.json' }],
     ['html', { outputFolder: '../../.cache/member-qa/report', open: 'never' }],
   ],
-  use: { ...whiteLabel.use, trace: 'on', screenshot: 'only-on-failure' },
+  use: { ...whiteLabel.use, ignoreHTTPSErrors: false, trace: 'on', screenshot: 'only-on-failure' },
   projects: ['chromium', 'webkit'].flatMap((engine) =>
     [
       { name: 'narrow', viewport: { width: 320, height: 740 }, touch: true },
@@ -36,12 +36,15 @@ export default defineConfig({
           ? {
               launchOptions: {
                 ...whiteLabel.projects![0].use!.launchOptions,
+                args: (whiteLabel.projects![0].use!.launchOptions?.args ?? []).filter(
+                  (arg) => !arg.startsWith('--ignore-certificate-errors'),
+                ),
                 ...(process.env.B2B_QA_CHROMIUM_PATH
                   ? { executablePath: process.env.B2B_QA_CHROMIUM_PATH }
                   : {}),
               },
             }
-          : { ignoreHTTPSErrors: true }),
+          : { ignoreHTTPSErrors: false }),
       },
     })),
   ),

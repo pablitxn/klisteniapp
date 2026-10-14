@@ -1,4 +1,4 @@
-import { test, expect, type Page, type TestInfo } from '@playwright/test'
+import { test, expect, type Page, type TestInfo } from './fixtures/integration-test'
 
 let protocol = 'https',
   atlas = 'https://atlas.b2b.test',
@@ -8,7 +8,7 @@ const privateMarker = /BORRADOR PRIVADO|NO PUBLICAR|adaptación pendiente|Borrad
 let fixture: { media: Record<string, { url: string; label: string }>; state: unknown }
 let jsErrors: string[]
 const control = (info: TestInfo, path: string) =>
-  `http://127.0.0.1:4348/${path}${path.includes('?') ? '&' : '?'}project=${info.project.metadata.fixtureIndex}`
+  `http://127.0.0.1:${info.project.metadata.fixtureControlPort ?? 4348}/${path}${path.includes('?') ? '&' : '?'}project=${info.project.metadata.fixtureIndex}`
 async function apply(info: TestInfo, name = 'normal') {
   const response = await fetch(control(info, `fixture?case=${name}`), { method: 'POST' })
   expect(response.status).toBe(200)
