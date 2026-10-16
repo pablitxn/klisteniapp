@@ -8,10 +8,12 @@ import type {
   Branch,
   ThemeState,
   Assignment,
+  Execution,
 } from '../../../packages/b2b-contracts/src/index.ts'
 
 import { brandAdminSignIn } from './fixtures/brand-admin-sign-in'
 import { brandAdminImage } from './fixtures/brand-admin-image'
+import { json as readJson } from 'node:stream/consumers'
 
 const password = 'browser-tests-only-password-2026'
 const button = (page: Page, name: string) => page.getByRole('button', { name, exact: true })
@@ -1178,8 +1180,7 @@ test('administrator filters a persisted partial training fixture and exports bra
   const downloadEvent = page.waitForEvent('download')
   await button(page, 'Exportar historial de la marca').click()
   const download = await downloadEvent
-  const { readFile } = await import('node:fs/promises')
-  const result = JSON.parse(await readFile((await download.path())!, 'utf8'))
+  const result = (await readJson(await download.createReadStream())) as { executions: Execution[] }
   expect(
     result.executions.find((execution: { id: string }) => execution.id === fixtureId)?.branchId,
   ).toBe('atlas-demo-norte')
