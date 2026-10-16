@@ -5,7 +5,7 @@
     "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
     "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d"
   ],
-  "status": "in-progress",
+  "status": "pass",
   "browserRoles": {
     "selfservice": {
       "expected": 288,
@@ -58,22 +58,22 @@
     },
     "b2b-brand-admin": {
       "expected": 162,
-      "observed": 2,
+      "observed": 162,
       "outcomes": {
-        "passed": 2
+        "passed": 162
       }
     }
   },
-  "uniqueCases": 1058,
+  "uniqueCases": 1218,
   "latestOutcomes": {
-    "passed": 1058
+    "passed": 1218
   },
   "methods": {
     "local-storage": 216,
     "simulated-transport-ui-contract": 120,
-    "api-postgresql": 722
+    "api-postgresql": 882
   },
-  "attempts": 1415,
+  "attempts": 1577,
   "failedAttempts": 208,
   "interruptedAttempts": 1,
   "skippedAttempts": 106,
@@ -82,6 +82,7 @@
     {
       "run": "b2b-anonymous-final",
       "testedRevision": "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
+      "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "145e35251ddde37ac09c2aaf6c4beef233a2fdd0869bf2e52898b020cc216aff",
       "stats": {
@@ -110,6 +111,7 @@
     {
       "run": "b2b-brand-admin-download-fix",
       "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "efe0cab0d0ccd5171e674095fe92162eef23a8420db5518dd5d0d51dcbd56bba",
       "stats": {
@@ -135,8 +137,38 @@
       }
     },
     {
+      "run": "b2b-brand-admin-final",
+      "testedRevision": "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
+      "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "11a7a986721653a83790f61d031f684aa765b274287bd7d158333ae64d7f7486",
+      "stats": {
+        "startTime": "2026-10-16T16:34:05.208Z",
+        "duration": 2210138.043,
+        "expected": 162,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
+        "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "uncommittedSourceDelta": [],
+        "testFiles": {
+          "apps/b2c-web/e2e/member-qa.spec.ts": "9daab10c19ff57032193f9abc85f6d5372604d741b32027a3b3f6a74bb7b7ee4",
+          "apps/b2c-web/e2e/brand-admin.spec.ts": "1ed6b54ba3f606746af9693e063f52769d265807cd70b2e9d5090dc54dcf6f56"
+        },
+        "externalConfigSha256": "97eb0a9c1d3268e19c00f7c528390ad8cd403bf1987d1a0c06681bd93c3c45b3",
+        "relaySha256": "634bf5712e19bbeca73c60e99cabe4a8d861f1367fc187f197a935e741db2e20"
+      }
+    },
+    {
       "run": "b2b-member-download-fix",
       "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "844350fadc17e2d2d0650302e073984b60ffc9f95b14b32a160af7496b0e6856",
       "stats": {
@@ -164,6 +196,7 @@
     {
       "run": "b2b-member-final",
       "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "a1076ffeb5f33a39f4c4710dbee9e571b2e124588ce06bb15fde8664a3a55f2e",
       "stats": {
@@ -191,6 +224,7 @@
     {
       "run": "b2b-member-fixed",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "0e7390e574e1aaab79630d6fa36def846dd4f194a1a4ee204c8bf979297593dd",
       "stats": {
@@ -211,6 +245,7 @@
     {
       "run": "b2b-member-proxy-probe",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "76525efad6ba3f97f9161e6f05cd706baa1a7e7c3de20d584cd9b63d9da5800e",
       "stats": {
@@ -231,6 +266,7 @@
     {
       "run": "b2b-member-relay",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "ef66b09e83e71d18fecac07f3ea9e5fd9d5b3f0e14371b7bf097c2f1094ed288",
       "stats": {
@@ -251,6 +287,7 @@
     {
       "run": "b2b-trainer-final",
       "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "b42b2bb2c1e184e092f553f09938d3892f53510dc669f23f4bca316f8b7b45af",
       "stats": {
@@ -278,6 +315,7 @@
     {
       "run": "b2c-admin",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "e8173872fa71af74c51d3928aa64861cfffac58766df087a15e0fbf5cb951e75",
       "stats": {
@@ -298,6 +336,7 @@
     {
       "run": "extras-chromium-desktop",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "abd04d0c6c62c00fefc210365aa9c5a77eadd83fecec8a7fe0eecb7ca82ceda7",
       "stats": {
@@ -318,6 +357,7 @@
     {
       "run": "extras-chromium-narrow",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "3e91c2d8bc6268b61aefa72618a534de2112251ffc791f1437bddb64c69af301",
       "stats": {
@@ -338,6 +378,7 @@
     {
       "run": "extras-chromium-wide",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "2957844b0b6477dcfac3e89a9c6cd9ecb677b52fbbddd193fcbafcc913b902a8",
       "stats": {
@@ -358,6 +399,7 @@
     {
       "run": "extras-webkit-desktop",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "f9ebe38df70518851ea5cb7e2eff5004381bd840f4f5cda15c58065cf683c35a",
       "stats": {
@@ -378,6 +420,7 @@
     {
       "run": "extras-webkit-narrow",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "6b229a85a28d2104d55488349b97b1676506f3d49666cc97281e433542f3c745",
       "stats": {
@@ -398,6 +441,7 @@
     {
       "run": "extras-webkit-wide",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "406767c9461f25bcf92af573c1976a8d95553fbcb82d0596ae432407a0c12348",
       "stats": {
@@ -418,6 +462,7 @@
     {
       "run": "selfservice-chromium-desktop",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "66d4c10fcb981fab7273f067fac657a62c4311e193757ef4454765689cbe6f01",
       "stats": {
@@ -438,6 +483,7 @@
     {
       "run": "selfservice-chromium-narrow",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "2951a36f91d1a5f1dbdd2e6a38d0701c249532bee7f276ca7a0341900707bd16",
       "stats": {
@@ -458,6 +504,7 @@
     {
       "run": "selfservice-chromium-wide",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "a1dd923a226aa432aa36497973552a4804cf8344705c0256d6830ce4ceb4b1c8",
       "stats": {
@@ -478,6 +525,7 @@
     {
       "run": "selfservice-webkit-desktop",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "7d0d062e7a0fb6386101d636291d2c90621ad26bf2c6217e32340e8422502c64",
       "stats": {
@@ -498,6 +546,7 @@
     {
       "run": "selfservice-webkit-narrow",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "da1b78cd0e1788533eb38ca24d38839068109d30b18d280f0e92f21b26d70f01",
       "stats": {
@@ -518,6 +567,7 @@
     {
       "run": "selfservice-webkit-wide",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "798052b3f545d581bb44fcd45f988edf7dd662dc49baa79659936762d2b13550",
       "stats": {
@@ -538,6 +588,7 @@
     {
       "run": "visitor-demo",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "04fa7d199ad039a628f8b5dd4415118b8bc6b840a19d8b9021ea6dee870298d3",
       "stats": {
@@ -558,6 +609,7 @@
     {
       "run": "visitor-demo-webkit-final",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "69cc920165f131b5f8b73428c360d5b77c10d92cb95c1f60f38cd8cc6fddffbe",
       "stats": {
@@ -578,6 +630,7 @@
     {
       "run": "visitor-demo-webkit-fixed",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "5ca1f9f241d38504cc07183326ebe1b96230a78eaa82577d81b8d84fa85a9e43",
       "stats": {
@@ -598,6 +651,7 @@
     {
       "run": "visitor-instance",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "afc430c97c4db1e0546b77bed1f2af4f1dc2b904abafa29c799dcd8f9250b9c4",
       "stats": {
@@ -618,6 +672,7 @@
     {
       "run": "visitor-instance-webkit-fixed",
       "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "testSourceRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
       "reportSha256": "c00ec6fc2f6ab2b2ab965f7b4bab14a654f56f720c4f2a3f49a5df2a736600e6",
       "stats": {

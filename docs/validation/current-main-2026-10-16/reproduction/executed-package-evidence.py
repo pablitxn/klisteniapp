@@ -21,7 +21,7 @@ summary={'productBaseRevision':'1258642b4543b6acc598d6e72ccf1c50e75b7a67','teste
 (dst/'results.json').write_text(json.dumps(summary,indent=2)+'\n')
 with (dst/'case-attempts.jsonl').open('w') as out:
  for c in data['cases']:out.write(json.dumps(c,separators=(',',':'),ensure_ascii=False)+'\n')
-for name in ['checks.json','gaps.json','yoga-audit.json','inputs.json','database-receipt.json','browser-environment.json','setup-attempts.json','source-delta.json','ci-tested-head.json','ci-checkpoint-head.json','resume-health.json','completed-role-checkpoint.json','relay-ready.json','relay-controls.json']:
+for name in ['checks.json','gaps.json','yoga-audit.json','inputs.json','database-receipt.json','browser-environment.json','setup-attempts.json','source-delta.json','ci-tested-head.json','ci-checkpoint-head.json','ci-direct-tested-heads.json','resume-health.json','completed-role-checkpoint.json','relay-ready.json','relay-controls.json']:
  shutil.copyfile(root/name,dst/name)
 logs=dst/'logs';logs.mkdir(exist_ok=True)
 for path in sorted(root.glob('*.log')):

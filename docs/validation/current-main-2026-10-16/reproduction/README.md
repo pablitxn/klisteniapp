@@ -69,3 +69,47 @@ omits published ports for that internal network, so the host uses the private
 WebSocket address. An initial control request ran after the short probe fixture
 had shut down and got a connection reset; the recorded controls run against the
 live full-matrix fixture. These diagnostics establish no product failure or pass.
+
+
+## Final queue and evidence collectors
+
+The relay queue was stopped after member export assertions failed remotely;
+trainer, anonymous and full brand-admin did not execute in that attempt. After
+commit `c4fb918498d07b3d7bd43cf0adec8c65983ddb4d`,
+`executed-run-b2b-final.sh` verifies the targeted member export report, executes
+the two brand-admin export probes and runs all four complete roles serially.
+`executed-record-run.py` captures each actual checkout HEAD, the pinned test-source
+revision and test/config/relay hashes before execution. Later documentation
+checkpoints can advance HEAD without changing those inputs.
+
+`executed-summarize.py` preserves every case attempt and per-run report metadata.
+`executed-package-evidence.py --final` requires all expected unique cases to pass;
+latest cases are keyed by role, engine/viewport project, spec filename and title,
+not line numbers, which changed with the import fix. Serial run timestamps decide
+which repeated execution is latest. Setup reports that fail before discovery
+remain separate from case counts.
+
+`executed-archive-evidence.py` freezes new role-specific local archives only after
+that assertion. It refuses to overwrite its destination, records file and archive
+hashes and reads each gzip stream to verify integrity. Private environment files
+are excluded. These collectors are executed environment-specific records; inspect
+paths and output ownership before reproducing them elsewhere. Neither fresh local
+archives nor these scripts establish recovery of missing historical bundles or
+remote retention.
+
+
+## Final verification and shutdown
+
+After the final role report, `executed-cleanup-environment.py` queries only the
+two disposable DBs, then removes exact task-owned containers, their anonymous DB
+volume, relay and empty internal network. It checks pinned image IDs first and
+preserves existing development resources and browser caches.
+
+`executed-verify-final-evidence.py` verifies the 1218 latest passes, retained case
+records, fixture/provenance input hashes, log and capture hashes, all raw file and
+archive hashes, report hashes, authored relative links and the two-file source
+delta. `executed-validate-intake.rb` checks the nine required YAML fields and enum
+values against the mounted Atlas schema. These are targeted evidence/intake
+checks, not a substitute for the canonical Atlas consistency suite; no shared
+Atlas canonical content was edited. Their JSON results are linked from the QA
+receipt.

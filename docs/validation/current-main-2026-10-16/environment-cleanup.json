@@ -1,0 +1,56 @@
+{
+  "capturedAt": "2026-10-16T17:11:18.236913+00:00",
+  "scope": "Only disposable task-owned resources; existing development containers/volumes, browser caches and Atlas preserved.",
+  "finalDatabaseMetadata": [
+    {
+      "version": "PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+      "database": "klisteni_b2c_test",
+      "nonSystemSchemas": [
+        "public"
+      ],
+      "fixtureSchemaCount": 0
+    },
+    {
+      "version": "PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+      "database": "klisteni_b2b_test",
+      "nonSystemSchemas": [
+        "public"
+      ],
+      "fixtureSchemaCount": 0
+    }
+  ],
+  "containers": {
+    "klisteni-qa-20261016-db": {
+      "id": "c21dd359e99405b7c5069b9f79eb62d0dc12124beb297037163d9dbcbdaad4e3",
+      "image": "sha256:79bd7c99e923138f136f8009d6bffa66e21e9d4fda5c0c561b00fc9c90cfe537"
+    },
+    "klisteni-qa-20261016-browser": {
+      "id": "f45b5cd4d7d7ec93d329e3cc6015012c5c4b057e82fcf0010a5be5ae919d10cf",
+      "image": "sha256:fb70e03db1c00327d2a5626fa6eea50ef9adc333e90c415b104722bb53df58d5"
+    }
+  },
+  "databaseAnonymousVolumes": [
+    "0abda4bf92b31199e837024cfe88c915eaa8070497a1bdca87e409dd8bf5f120"
+  ],
+  "network": "klisteni-qa-20261016-net",
+  "actions": [
+    {
+      "relayPid": 65928,
+      "signal": "SIGTERM"
+    },
+    {
+      "container": "klisteni-qa-20261016-browser",
+      "removed": true
+    },
+    {
+      "container": "klisteni-qa-20261016-db",
+      "removed": true
+    },
+    {
+      "network": "klisteni-qa-20261016-net",
+      "removed": true
+    }
+  ],
+  "status": "complete",
+  "completedAt": "2026-10-16T17:11:20.251071+00:00"
+}

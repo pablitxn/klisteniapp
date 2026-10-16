@@ -1,14 +1,18 @@
 # Current-main role QA - 2026-10-16
 
 This is the follow-up to the seven [role intakes](../../integration/qa-20261013/fichas/)
-and the historical integration matrix. Final results are being collected on the
-exact main revision below; historical counts are not reused as new passes.
+and the historical integration matrix. Local functional validation is complete
+on the pinned product and test revisions below. Historical counts are not reused as new passes. The Yoga release gate,
+archive/CI gaps and untested acceptance remain explicit.
 
 - Application base/tested product revision: `1258642b4543b6acc598d6e72ccf1c50e75b7a67`.
 - Test portability fix: `c4fb918498d07b3d7bd43cf0adec8c65983ddb4d`. The final B2B
-  runs use this committed test revision; production app/package/asset inputs remain
+  runs use this committed test source; production app/package/asset inputs remain
   identical to main. Earlier B2C and 602-test DB/regression results remain attributed
-  to main. Per-run receipts distinguish both revisions.
+  to main. Final member/trainer checkout HEAD is the test-fix revision; anonymous
+  and brand-admin checkout HEAD is documentation checkpoint
+  `a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1`, with the same test source. Per-run
+  receipts retain those exact revisions.
 - Atlas read-only context: `d20e288168ee04177e8864a43c13bd05a864238a`.
 - Branch: `qa/current-main-flows-20261016`; both original checkouts were clean.
   Fetch confirmed application main unchanged. Atlas fast-forwarded from
@@ -21,25 +25,75 @@ exact main revision below; historical counts are not reused as new passes.
 See the [structured Atlas intake](../../integration/qa-20261016/intake.md) for the
 handoff to existing Atlas gates, including archive/CI and acceptance limits.
 
-## Checkpoint and process continuity
+Published as [draft PR #11](https://github.com/pablitxn/klisteniapp/pull/11). The
+coordinator owns merge, Atlas reconciliation and Notion synchronization.
+
+## Dated checkpoints and process continuity
 
 A platform disconnect was reported at 16:14 UTC. In-task execution at 16:21:57 UTC
 confirmed that the queue, browser, database and relay remained active and completed
-files persisted. No restart or repeat of completed suites was required. Completed
-B2C588 and member96 are verified; trainer and the remaining two B2B roles are still
-in progress at this documentation checkpoint. [Health receipt](resume-health.json).
+files persisted. No restart or repeat of completed suites was required. At that snapshot,
+B2C588 and member96 were verified; trainer and the remaining two B2B roles were
+still in progress. [Health receipt](resume-health.json).
 Exact role checkout heads are retained in receipts; documentation-only checkpoints
 can change HEAD while test source remains pinned to `c4fb918498d07b3d7bd43cf0adec8c65983ddb4d`.
 
 A later durability checkpoint records six completed roles / 1056 unique passes;
 full brand-administrator coverage is still pending at that dated snapshot. See
-[completed-role checkpoint](completed-role-checkpoint.json). This does not claim
-full B2B acceptance before the last role report exists.
+[completed-role checkpoint](completed-role-checkpoint.json). The completed
+results below supersede the progress status of this dated snapshot.
 
 At 16:50 UTC a second platform disconnect was reported. At 16:53 UTC the same
 executor and persistent queue remained available: six role reports were complete
 (1056 unique passes), brand-admin Chromium passed 81/81 and WebKit was running.
 No completed suite was repeated. This is a dated observation, not the final matrix.
+
+## Executed results
+
+**PASS: 1218 unique role/flow/engine/viewport combinations**, consolidated from the serial runs.
+
+| Role | Unique passes | Profiles |
+| --- | ---: | ---: |
+| B2C self-service | 288/288 | 6 |
+| B2C administrator | 84/84 | 6 |
+| B2C visitor: demo | 108/108 | 6 |
+| B2C visitor: instance | 108/108 | 6 |
+| B2B member | 96/96 | 6 |
+| B2B trainer | 120/120 | 6 |
+| B2B anonymous | 252/252 | 6 |
+| B2B brand administrator | 162/162 | 6 |
+
+Latest outcomes: all 1218 passed, zero failed/skipped. Method totals: 882 API/PostgreSQL-backed, 120 simulated-transport UI contracts and 216 local-storage combinations.
+
+These are selected flow combinations, not an exhaustive product certification or
+one monolithic all-green run. Per-case and per-run revisions, start times,
+durations, method, raw status, failure category and trace references are in
+[case-attempts.jsonl](case-attempts.jsonl) and [results.json](results.json).
+
+All retained attempt records: 1577; 208 failed, 1 deliberately interrupted and 106 unexecuted/skipped records. Earlier successful retries do not inflate unique coverage. Raw Playwright report counters are also retained; Playwright includes an interrupted case in its skipped aggregate, while this receipt separates that raw status.
+
+The 208 failed case attempts comprise 108 browser-launch failures, 96 proxy
+connection failures, two worker-configuration failures and two remote-download
+assertion failures. Four additional B2B setup reports failed before discovery and
+contain no executed cases. No new application behavior defect was confirmed.
+
+The two new administrator WebKit profiles pass; that specific historical profile
+gap is closed locally. Other acceptance gates below remain open.
+
+## Local checks
+
+| Check | Result / exact scope |
+| --- | --- |
+| Main regression/database run | PASS 602, zero failures/skips; B2C API97 and B2B API82, all 14 workspace test tasks uncached |
+| Test-fix revision lint / types / build | PASS: 14 lint tasks plus boundaries/format, 14 uncached type tasks, 16 build tasks (13 cached), existing chunk warning |
+| Portable export regressions | PASS 4/4 targeted Chromium/WebKit cases before full B2B reruns |
+| Internal relay admission/proxy controls | PASS 10/10 live controls; external hosts/HTTPS/other ports/URL credentials/unlisted source rejected |
+| Preview gate on main | Exercise74 PASS; body24 PASS; Yoga FAIL, pre-existing stale extraction receipt |
+| Complete check/check:all/check:release | Not run to completion; no full release-pass claim |
+
+[Checks, commands, tested revisions and log hashes](checks.json). These database
+results are new executions at the recorded revision; they do not reconstruct the
+earlier interim 97/82 receipt whose original tested SHA was not supplied.
 
 ## Environment and method
 
@@ -71,7 +125,7 @@ The external configuration wrappers preserve the existing server commands,
 fixture data and assertions. Two export checks receive the separately committed
 portable stream-read correction described below. They set absolute artifact/server paths,
 request sandboxed Chromium, select the matching WebKit executable and connect to
-a loopback browser server. Playwright's `<loopback>` tunnel reaches only local
+a task-owned browser server. Playwright's `<loopback>` tunnel reaches only local
 fixtures. B2B keeps the restricted fictional-origin proxies and existing UUID
 shim; HTTP does not become a secure context. Browser runs are serial. The first member run then records 96 proxy-routing
 failures: explicit proxy loopback addresses resolved inside the remote container.
@@ -176,11 +230,14 @@ counts and SHA-256 values are retained in the gap receipt, with `missing` status
 There is no verified retrieval, new hash match or durable archive receipt for those
 files. Fresh QA evidence cannot reconstruct the historical failed attempts.
 
-GitHub reads for tested main returned no combined statuses and no PR-triggered
-workflow runs on the connector's first page. This is absence of evidence, not
-passing CI or proof that all check-runs are absent. CLI `gh auth status` reported
-an invalid provisioned token; it was not replaced. Connected GitHub tools supply
-PR/status publication and reads. The repository has GitLab pipeline configuration,
+Initial GitHub reads returned no combined statuses and no PR-triggered workflow
+runs on the connector's first page. Follow-up [direct API reads](ci-direct-tested-heads.json)
+query check-runs and all-event workflow runs at all three tested checkout heads:
+main `1258642`, test fix `c4fb918` and documentation checkout `a98fdf6`. Each returns
+an explicit zero total count, so there is no additional page for those collections.
+This is observed absence, not passing CI. The earlier limited reads remain dated
+receipts. CLI `gh auth status` reported an invalid provisioned token; it was not
+replaced. Connected GitHub tools supply PR/status publication and reads. The repository has GitLab pipeline configuration,
 but current GitLab jobs were not queried or triggered. Historical pipeline 1252's
 Yoga failure remains historical. No CI, branch-protection or security setting was
 changed.
@@ -195,3 +252,50 @@ payment/subscription execution, production/infrastructure, scale beyond existing
 list limits and GPU/model/Blender/content acceptance. Role suites deliberately
 exercise fallbacks and may abort GLBs; visible loading/fallback captures do not
 prove 3D rendering. No production data, real messages or payments were used.
+
+## Evidence and retention
+
+Seven selected screenshots were visually inspected; their byte counts, hashes,
+source run paths and tested revisions are in [review-captures.json](review-captures.json);
+the [selected images](captures/) are committed. Reviewed narrow membership tables
+use horizontal scrolling.
+This is a visual sample, not manual review of every captured page. Role assertions
+and geometry checks retain their original scope; model/loading fallbacks remain
+outside 3D acceptance.
+
+[Fresh raw evidence manifest](raw-evidence-manifest.json) and [seven fresh archive
+receipts](archives.json) identify local files by bytes and SHA-256. Each archive
+passes gzip integrity validation. The fresh bundles are local to this task's
+workspace; no durable remote archive retrieval, Library upload or expiry receipt
+is claimed. Small text results, original log copies and selected captures are
+published through this repository PR. The seven missing historical bundles remain
+missing; these new bundles do not replace their provenance.
+
+The external [reproduction records](reproduction/README.md) preserve commands,
+configuration deltas, module/proxy corrections and trust/sandbox boundaries.
+[Source delta proof](source-delta.json) distinguishes the two E2E changes from
+unchanged production inputs. [CI tested-head receipt](ci-tested-head.json) retains
+the observed empty statuses and limited PR-workflow result without a green-CI claim.
+
+
+## Final environment receipt
+
+After all role runners exited, both disposable databases contained only `public`
+and zero fixture schemas. The [cleanup receipt](environment-cleanup.json) records
+PostgreSQL version and final metadata, removal of the two task containers, the
+DB's anonymous volume, relay PID and internal network. Existing development
+containers/volumes, browser caches, identity/credentials and Atlas remain intact.
+The [initial metadata snapshot](database-receipt.json) is earlier evidence, not
+the final fixture-teardown observation. Raw result files and fresh evidence
+archives remain local after runtime cleanup.
+
+
+[Evidence integrity/link/source checks](evidence-validation.json) and
+[Atlas intake schema check](intake-validation.json) pass. These checks do not
+turn the known Yoga failure, absent CI or untested acceptance into passes.
+
+
+The [checkpoint preservation check](evidence-preservation.json) compares all 1415
+previously published case records field by field: existing values are unchanged.
+The final collection adds 162 admin cases and explicit test-source/truncated-error
+metadata. This explains the broad NDJSON diff without replacing prior outcomes.
