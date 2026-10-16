@@ -2,6 +2,7 @@
   "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
   "testedRevisions": [
     "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
     "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d"
   ],
   "status": "in-progress",
@@ -43,13 +44,17 @@
     },
     "b2b-trainer": {
       "expected": 120,
-      "observed": 0,
-      "outcomes": {}
+      "observed": 120,
+      "outcomes": {
+        "passed": 120
+      }
     },
     "b2b-anonymous": {
       "expected": 252,
-      "observed": 0,
-      "outcomes": {}
+      "observed": 252,
+      "outcomes": {
+        "passed": 252
+      }
     },
     "b2b-brand-admin": {
       "expected": 162,
@@ -59,21 +64,49 @@
       }
     }
   },
-  "uniqueCases": 686,
+  "uniqueCases": 1058,
   "latestOutcomes": {
-    "passed": 686
+    "passed": 1058
   },
   "methods": {
     "local-storage": 216,
     "simulated-transport-ui-contract": 120,
-    "api-postgresql": 350
+    "api-postgresql": 722
   },
-  "attempts": 1043,
+  "attempts": 1415,
   "failedAttempts": 208,
   "interruptedAttempts": 1,
   "skippedAttempts": 106,
   "launchFailures": 108,
   "reports": [
+    {
+      "run": "b2b-anonymous-final",
+      "testedRevision": "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "145e35251ddde37ac09c2aaf6c4beef233a2fdd0869bf2e52898b020cc216aff",
+      "stats": {
+        "startTime": "2026-10-16T16:24:29.607Z",
+        "duration": 575022.797,
+        "expected": 252,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "a98fdf6fcfbbc75c6e7b1c305a28b2731e3781e1",
+        "testSourceRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "uncommittedSourceDelta": [],
+        "testFiles": {
+          "apps/b2c-web/e2e/member-qa.spec.ts": "9daab10c19ff57032193f9abc85f6d5372604d741b32027a3b3f6a74bb7b7ee4",
+          "apps/b2c-web/e2e/brand-admin.spec.ts": "1ed6b54ba3f606746af9693e063f52769d265807cd70b2e9d5090dc54dcf6f56"
+        },
+        "externalConfigSha256": "97eb0a9c1d3268e19c00f7c528390ad8cd403bf1987d1a0c06681bd93c3c45b3",
+        "relaySha256": "634bf5712e19bbeca73c60e99cabe4a8d861f1367fc187f197a935e741db2e20"
+      }
+    },
     {
       "run": "b2b-brand-admin-download-fix",
       "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
@@ -213,6 +246,33 @@
       "revisionMetadata": {
         "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
         "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "b2b-trainer-final",
+      "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "b42b2bb2c1e184e092f553f09938d3892f53510dc669f23f4bca316f8b7b45af",
+      "stats": {
+        "startTime": "2026-10-16T16:02:54.442Z",
+        "duration": 1294556.6539999999,
+        "expected": 120,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "uncommittedSourceDelta": [],
+        "testFiles": {
+          "apps/b2c-web/e2e/member-qa.spec.ts": "9daab10c19ff57032193f9abc85f6d5372604d741b32027a3b3f6a74bb7b7ee4",
+          "apps/b2c-web/e2e/brand-admin.spec.ts": "1ed6b54ba3f606746af9693e063f52769d265807cd70b2e9d5090dc54dcf6f56"
+        },
+        "externalConfigSha256": "97eb0a9c1d3268e19c00f7c528390ad8cd403bf1987d1a0c06681bd93c3c45b3",
+        "relaySha256": "634bf5712e19bbeca73c60e99cabe4a8d861f1367fc187f197a935e741db2e20"
       }
     },
     {

@@ -1,0 +1,17 @@
+[WebServer] (node:89516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 162 tests using 1 worker
+
+(node:89541) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [brand-admin-chromium-narrow] › e2e/brand-admin-regressions.spec.ts:27:1 › branch editor retains unsaved address through reload and resolves a concurrent revision explicitly (4.1s)
+  ✓    2 [brand-admin-chromium-narrow] › e2e/brand-admin-regressions.spec.ts:77:1 › theme fields cannot change during a delayed save and a response to a closed editor preserves newer local work (5.2s)
+  ✓    3 [brand-admin-chromium-narrow] › e2e/brand-admin-regressions.spec.ts:134:3 › exercise editor keeps its return action blocked until the pending save is acknowledged (4.5s)
+  ✓    4 [brand-admin-chromium-narrow] › e2e/brand-admin-regressions.spec.ts:134:3 › program editor keeps its return action blocked until the pending save is acknowledged (3.6s)
+  ✓    5 [brand-admin-chromium-narrow] › e2e/brand-admin.spec.ts:106:3 › atlas: every administrator route in both branches renders, reloads and navigates back/forward (31.5s)
+  ✓    6 [brand-admin-chromium-narrow] › e2e/brand-admin.spec.ts:106:3 › sur: every administrator route in both branches renders, reloads and navigates back/forward (28.2s)
+  ✓    7 [brand-admin-chromium-narrow] › e2e/brand-admin.spec.ts:183:1 › people administer brand membership, protect the last admin and keep branch coaching scoped (4.5s)
+  ✓    8 [brand-admin-chromium-narrow] › e2e/brand-admin.spec.ts:245:1 › branch validation, duplicate slug, grant and removal, archive guard and empty branch (4.7s)
+  ✓    9 [brand-admin-chromium-narrow] › e2e/brand-admin.spec.ts:311:1 › unit batch recovers after response loss and double submit without duplicate records; cancellation keeps draft (3.6s)
+  ✓   10 [brand-admin-chromium-narrow] › e2e/brand-admin.spec.ts:355:1 › unit concurrency is recoverable, requires review, publishes correct QR and archive/restores (3.9s)

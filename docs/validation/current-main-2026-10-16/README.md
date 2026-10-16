@@ -31,6 +31,11 @@ in progress at this documentation checkpoint. [Health receipt](resume-health.jso
 Exact role checkout heads are retained in receipts; documentation-only checkpoints
 can change HEAD while test source remains pinned to `c4fb918498d07b3d7bd43cf0adec8c65983ddb4d`.
 
+A later durability checkpoint records six completed roles / 1056 unique passes;
+full brand-administrator coverage is still pending at that dated snapshot. See
+[completed-role checkpoint](completed-role-checkpoint.json). This does not claim
+full B2B acceptance before the last role report exists.
+
 ## Environment and method
 
 Node 24.19.0, pnpm 12.7.0, app-locked Playwright 1.63.0. The browser server also
