@@ -36,9 +36,15 @@ full brand-administrator coverage is still pending at that dated snapshot. See
 [completed-role checkpoint](completed-role-checkpoint.json). This does not claim
 full B2B acceptance before the last role report exists.
 
+At 16:50 UTC a second platform disconnect was reported. At 16:53 UTC the same
+executor and persistent queue remained available: six role reports were complete
+(1056 unique passes), brand-admin Chromium passed 81/81 and WebKit was running.
+No completed suite was repeated. This is a dated observation, not the final matrix.
+
 ## Environment and method
 
-Node 24.19.0, pnpm 12.7.0, app-locked Playwright 1.63.0. The browser server also
+Host/backend/test runner: Node 24.19.0 and pnpm 12.7.0. Container browser server:
+Node 24.18.0. Client and server both use app-locked Playwright 1.63.0. The browser server also
 uses that exact locked package. The cached `klisteni-browser:1.62.0` image supplies
 Ubuntu 24.04 system libraries only; its separate Playwright 1.62 smoke harness is
 not used for this matrix. Exact browsers: Chromium 153.0.8010.12 (revision 1243)
