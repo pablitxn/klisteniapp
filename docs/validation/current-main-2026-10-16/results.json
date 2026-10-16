@@ -1,0 +1,581 @@
+{
+  "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+  "testedRevisions": [
+    "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d"
+  ],
+  "status": "in-progress",
+  "browserRoles": {
+    "selfservice": {
+      "expected": 288,
+      "observed": 288,
+      "outcomes": {
+        "passed": 288
+      }
+    },
+    "b2c-admin": {
+      "expected": 84,
+      "observed": 84,
+      "outcomes": {
+        "passed": 84
+      }
+    },
+    "visitor-demo": {
+      "expected": 108,
+      "observed": 108,
+      "outcomes": {
+        "passed": 108
+      }
+    },
+    "visitor-instance": {
+      "expected": 108,
+      "observed": 108,
+      "outcomes": {
+        "passed": 108
+      }
+    },
+    "b2b-member": {
+      "expected": 96,
+      "observed": 96,
+      "outcomes": {
+        "passed": 96
+      }
+    },
+    "b2b-trainer": {
+      "expected": 120,
+      "observed": 0,
+      "outcomes": {}
+    },
+    "b2b-anonymous": {
+      "expected": 252,
+      "observed": 0,
+      "outcomes": {}
+    },
+    "b2b-brand-admin": {
+      "expected": 162,
+      "observed": 2,
+      "outcomes": {
+        "passed": 2
+      }
+    }
+  },
+  "uniqueCases": 686,
+  "latestOutcomes": {
+    "passed": 686
+  },
+  "methods": {
+    "local-storage": 216,
+    "simulated-transport-ui-contract": 120,
+    "api-postgresql": 350
+  },
+  "attempts": 1043,
+  "failedAttempts": 208,
+  "interruptedAttempts": 1,
+  "skippedAttempts": 106,
+  "launchFailures": 108,
+  "reports": [
+    {
+      "run": "b2b-brand-admin-download-fix",
+      "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "efe0cab0d0ccd5171e674095fe92162eef23a8420db5518dd5d0d51dcbd56bba",
+      "stats": {
+        "startTime": "2026-10-16T15:43:10.975Z",
+        "duration": 20922.406,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "uncommittedSourceDelta": [],
+        "testFiles": {
+          "apps/b2c-web/e2e/member-qa.spec.ts": "9daab10c19ff57032193f9abc85f6d5372604d741b32027a3b3f6a74bb7b7ee4",
+          "apps/b2c-web/e2e/brand-admin.spec.ts": "1ed6b54ba3f606746af9693e063f52769d265807cd70b2e9d5090dc54dcf6f56"
+        },
+        "externalConfigSha256": "97eb0a9c1d3268e19c00f7c528390ad8cd403bf1987d1a0c06681bd93c3c45b3",
+        "relaySha256": "634bf5712e19bbeca73c60e99cabe4a8d861f1367fc187f197a935e741db2e20"
+      }
+    },
+    {
+      "run": "b2b-member-download-fix",
+      "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "844350fadc17e2d2d0650302e073984b60ffc9f95b14b32a160af7496b0e6856",
+      "stats": {
+        "startTime": "2026-10-16T15:42:34.544Z",
+        "duration": 28100.561,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "uncommittedSourceDelta": [],
+        "testFiles": {
+          "apps/b2c-web/e2e/member-qa.spec.ts": "9daab10c19ff57032193f9abc85f6d5372604d741b32027a3b3f6a74bb7b7ee4",
+          "apps/b2c-web/e2e/brand-admin.spec.ts": "1ed6b54ba3f606746af9693e063f52769d265807cd70b2e9d5090dc54dcf6f56"
+        },
+        "externalConfigSha256": "97eb0a9c1d3268e19c00f7c528390ad8cd403bf1987d1a0c06681bd93c3c45b3",
+        "relaySha256": "634bf5712e19bbeca73c60e99cabe4a8d861f1367fc187f197a935e741db2e20"
+      }
+    },
+    {
+      "run": "b2b-member-final",
+      "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "a1076ffeb5f33a39f4c4710dbee9e571b2e124588ce06bb15fde8664a3a55f2e",
+      "stats": {
+        "startTime": "2026-10-16T15:43:32.769Z",
+        "duration": 1161172.59,
+        "expected": 96,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "uncommittedSourceDelta": [],
+        "testFiles": {
+          "apps/b2c-web/e2e/member-qa.spec.ts": "9daab10c19ff57032193f9abc85f6d5372604d741b32027a3b3f6a74bb7b7ee4",
+          "apps/b2c-web/e2e/brand-admin.spec.ts": "1ed6b54ba3f606746af9693e063f52769d265807cd70b2e9d5090dc54dcf6f56"
+        },
+        "externalConfigSha256": "97eb0a9c1d3268e19c00f7c528390ad8cd403bf1987d1a0c06681bd93c3c45b3",
+        "relaySha256": "634bf5712e19bbeca73c60e99cabe4a8d861f1367fc187f197a935e741db2e20"
+      }
+    },
+    {
+      "run": "b2b-member-fixed",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "0e7390e574e1aaab79630d6fa36def846dd4f194a1a4ee204c8bf979297593dd",
+      "stats": {
+        "startTime": "2026-10-16T15:32:05.531Z",
+        "duration": 87115.15800000001,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 96,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "b2b-member-proxy-probe",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "76525efad6ba3f97f9161e6f05cd706baa1a7e7c3de20d584cd9b63d9da5800e",
+      "stats": {
+        "startTime": "2026-10-16T15:35:04.691Z",
+        "duration": 16717.654000000002,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "b2b-member-relay",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "ef66b09e83e71d18fecac07f3ea9e5fd9d5b3f0e14371b7bf097c2f1094ed288",
+      "stats": {
+        "startTime": "2026-10-16T15:36:14.254Z",
+        "duration": 282764.175,
+        "expected": 21,
+        "skipped": 73,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/integration-http.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "b2c-admin",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "e8173872fa71af74c51d3928aa64861cfffac58766df087a15e0fbf5cb951e75",
+      "stats": {
+        "startTime": "2026-10-16T15:18:58.935Z",
+        "duration": 439814.64400000003,
+        "expected": 84,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/admin.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "extras-chromium-desktop",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "abd04d0c6c62c00fefc210365aa9c5a77eadd83fecec8a7fe0eecb7ca82ceda7",
+      "stats": {
+        "startTime": "2026-10-16T15:07:33.081Z",
+        "duration": 27936.529000000002,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa-extra.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "extras-chromium-narrow",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "3e91c2d8bc6268b61aefa72618a534de2112251ffc791f1437bddb64c69af301",
+      "stats": {
+        "startTime": "2026-10-16T15:02:13.020Z",
+        "duration": 26767.559,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa-extra.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "extras-chromium-wide",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "2957844b0b6477dcfac3e89a9c6cd9ecb677b52fbbddd193fcbafcc913b902a8",
+      "stats": {
+        "startTime": "2026-10-16T15:04:56.207Z",
+        "duration": 26570.744,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa-extra.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "extras-webkit-desktop",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "f9ebe38df70518851ea5cb7e2eff5004381bd840f4f5cda15c58065cf683c35a",
+      "stats": {
+        "startTime": "2026-10-16T15:18:22.853Z",
+        "duration": 35510.95,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa-extra.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "extras-webkit-narrow",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "6b229a85a28d2104d55488349b97b1676506f3d49666cc97281e433542f3c745",
+      "stats": {
+        "startTime": "2026-10-16T15:11:07.369Z",
+        "duration": 34909.989,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa-extra.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "extras-webkit-wide",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "406767c9461f25bcf92af573c1976a8d95553fbcb82d0596ae432407a0c12348",
+      "stats": {
+        "startTime": "2026-10-16T15:14:50.982Z",
+        "duration": 37519.627,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa-extra.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "selfservice-chromium-desktop",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "66d4c10fcb981fab7273f067fac657a62c4311e193757ef4454765689cbe6f01",
+      "stats": {
+        "startTime": "2026-10-16T15:05:23.261Z",
+        "duration": 129333.313,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "selfservice-chromium-narrow",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "2951a36f91d1a5f1dbdd2e6a38d0701c249532bee7f276ca7a0341900707bd16",
+      "stats": {
+        "startTime": "2026-10-16T15:00:01.752Z",
+        "duration": 130540.405,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "selfservice-chromium-wide",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "a1dd923a226aa432aa36497973552a4804cf8344705c0256d6830ce4ceb4b1c8",
+      "stats": {
+        "startTime": "2026-10-16T15:02:40.279Z",
+        "duration": 135469.27000000002,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "selfservice-webkit-desktop",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "7d0d062e7a0fb6386101d636291d2c90621ad26bf2c6217e32340e8422502c64",
+      "stats": {
+        "startTime": "2026-10-16T15:15:28.973Z",
+        "duration": 173376.42899999997,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "selfservice-webkit-narrow",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "da1b78cd0e1788533eb38ca24d38839068109d30b18d280f0e92f21b26d70f01",
+      "stats": {
+        "startTime": "2026-10-16T15:08:01.585Z",
+        "duration": 185329.639,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "selfservice-webkit-wide",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "798052b3f545d581bb44fcd45f988edf7dd662dc49baa79659936762d2b13550",
+      "stats": {
+        "startTime": "2026-10-16T15:11:42.787Z",
+        "duration": 187701.386,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/b2c-qa.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "visitor-demo",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "04fa7d199ad039a628f8b5dd4415118b8bc6b840a19d8b9021ea6dee870298d3",
+      "stats": {
+        "startTime": "2026-10-16T14:54:29.945Z",
+        "duration": 150908.28100000002,
+        "expected": 54,
+        "skipped": 0,
+        "unexpected": 54,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/visitor.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "visitor-demo-webkit-final",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "69cc920165f131b5f8b73428c360d5b77c10d92cb95c1f60f38cd8cc6fddffbe",
+      "stats": {
+        "startTime": "2026-10-16T15:29:43.129Z",
+        "duration": 141914.56399999998,
+        "expected": 54,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/visitor.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "visitor-demo-webkit-fixed",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "5ca1f9f241d38504cc07183326ebe1b96230a78eaa82577d81b8d84fa85a9e43",
+      "stats": {
+        "startTime": "2026-10-16T15:26:22.437Z",
+        "duration": 45728.701,
+        "expected": 18,
+        "skipped": 34,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/visitor.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "visitor-instance",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "afc430c97c4db1e0546b77bed1f2af4f1dc2b904abafa29c799dcd8f9250b9c4",
+      "stats": {
+        "startTime": "2026-10-16T14:57:05.001Z",
+        "duration": 176078.847,
+        "expected": 54,
+        "skipped": 0,
+        "unexpected": 54,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/visitor.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    },
+    {
+      "run": "visitor-instance-webkit-fixed",
+      "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+      "reportSha256": "c00ec6fc2f6ab2b2ab965f7b4bab14a654f56f720c4f2a3f49a5df2a736600e6",
+      "stats": {
+        "startTime": "2026-10-16T15:27:08.722Z",
+        "duration": 151115.99300000002,
+        "expected": 54,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "command": "/workspace/qa-20261016/visitor.config.ts",
+      "revisionMetadata": {
+        "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+        "productBaseRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+      }
+    }
+  ],
+  "releaseGate": "fail: pre-existing Yoga extraction receipt",
+  "coverageNote": "Consolidated serial runs on the same product revision, including explicit manual environment retries; not one monolithic all-green execution."
+}

@@ -1,0 +1,60 @@
+[WebServer] (node:38385) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Authentication operation failed
+[WebServer] (node:38418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:38466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 41 tests using 1 worker
+
+(node:38497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [webkit-desktop] › e2e/account-access.spec.ts:8:1 › activation verifies its in-memory token, clears the address bar and returns to login (1.6s)
+  ✓   2 [webkit-desktop] › e2e/account-access.spec.ts:40:1 › recovery requires matching passwords, submits the fragment token and cannot reuse it after reload (1.9s)
+  ✓   3 [webkit-desktop] › e2e/account-access.spec.ts:64:1 › invalid and wrong-purpose invitation links never offer account mutation (1.4s)
+  ✓   4 [webkit-desktop] › e2e/account-access.spec.ts:76:1 › admin creates an invitation, revokes its link and controls access without showing passwords (3.2s)
+  ✓   5 [webkit-desktop] › e2e/account-access.spec.ts:122:1 › return from checkout opens the authenticated subscription panel without granting access (1.3s)
+  ✓   6 [webkit-desktop] › e2e/accounts.spec.ts:51:1 › public exploration, explicit local migration, two devices and isolated accounts (8.6s)
+  ✓   7 [webkit-desktop] › e2e/accounts.spec.ts:111:1 › a failed network save survives reload and retries exactly once (3.5s)
+  ✓   8 [webkit-desktop] › e2e/accounts.spec.ts:138:1 › profile, routines and training days follow the account across device timezones (7.4s)
+  ✓   9 [webkit-desktop] › e2e/accounts.spec.ts:196:1 › a full v2 copy restores historical plans into a pristine account and exports faithfully (3.0s)
+  ✓  10 [webkit-desktop] › e2e/accounts.spec.ts:219:1 › account planning drafts survive appearance and health saves and require review after a planning conflict (5.8s)
+  ✓  11 [webkit-desktop] › e2e/accounts.spec.ts:275:1 › an administrator invites a member, the member activates and recovers without losing personal history (11.1s)
+  ✓  12 [webkit-desktop] › e2e/accounts.spec.ts:338:1 › health records persist in the real account, survive reload and stay out of browser storage (5.5s)
+  ✓  13 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:34:1 › real training: edit, cancel, complete, double submit and persistent exact sets (4.7s)
+  ✓  14 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:67:1 › real cardio loses committed response, reloads and retries without duplicate (3.5s)
+  ✓  15 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:91:1 › real planning validates timezone, empty days and whitespace; named copy persists once (5.7s)
+  ✓  16 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:121:1 › real yoga saves practice, times one segment, preserves snapshot and reloads (9.6s)
+  ✓  17 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:148:1 › real session expiry hides private health and isolates the next login (4.2s)
+  ✓  18 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:169:1 › paid fixture can write, browser billing return cannot change its entitlement (3.2s)
+  ✓  19 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:188:1 › real health imports preview, deduplicate, reject future records and export faithfully (3.9s)
+  ✓  20 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:225:1 › real data invalid import, cancellation and privacy back-forward retain account (3.4s)
+  ✓  21 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:251:1 › real password changes revoke other sessions, preserve data and reject old password (7.6s)
+  ✓  22 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:284:1 › real yoga lost edit response retries the committed version without forcing a duplicate copy (3.3s)
+  ✓  23 [webkit-desktop] › e2e/b2c-selfservice.spec.ts:304:1 › billing sandbox fixture: uncertain checkout, unsafe destination, refresh and explicit cancellation (4.0s)
+  ✓  24 [webkit-desktop] › e2e/forgot-password.spec.ts:3:1 › login opens recovery request, one busy submission confirms generically and email stays out of storage (2.6s)
+  ✓  25 [webkit-desktop] › e2e/forgot-password.spec.ts:40:1 › network failure and rate limit stay accessible and retryable without claiming delivery (1.0s)
+  ✓  26 [webkit-desktop] › e2e/forgot-password.spec.ts:64:1 › expired and incomplete recovery links offer a new email request while activation stays invitation-only (3.3s)
+  ✓  27 [webkit-desktop] › e2e/health.spec.ts:40:1 › health starts empty, saves body profile and measures, and supports correction and deletion on mobile (3.2s)
+  ✓  28 [webkit-desktop] › e2e/health.spec.ts:75:1 › initial setup keeps its profile draft after a conflicting account update and requires review (2.5s)
+  ✓  29 [webkit-desktop] › e2e/health.spec.ts:91:1 › health revision conflicts retain the filled draft and never fall back to local storage (1.9s)
+  ✓  30 [webkit-desktop] › e2e/health.spec.ts:110:1 › health file imports preview before sending, deduplicate repeated records and reject future dates (2.1s)
+  ✓  31 [webkit-desktop] › e2e/health.spec.ts:135:1 › sleep, exercise response, meals, supplements and dated goals are editable account records (3.1s)
+  ✓  32 [webkit-desktop] › e2e/health.spec.ts:178:1 › overlapping sleep never completes a goal and corrections retain source identity and exact original times (2.0s)
+  ✓  33 [webkit-desktop] › e2e/health.spec.ts:206:1 › personal dashboard filters periods and body sources without inventing sleep or meal coverage (2.7s)
+  ✓  34 [webkit-desktop] › e2e/health.spec.ts:263:1 › free local health, goals and manual imports persist without an account or cloud writes (3.7s)
+  ✓  35 [webkit-desktop] › e2e/subscriptions.spec.ts:49:1 › a public campaign creates a real trial; its limit and independent lifetime grant are visible (9.6s)
+  ✓  36 [webkit-desktop] › e2e/subscriptions.spec.ts:105:1 › a named lifetime invitation activates without requiring a subscription (7.3s)
+  ✓  37 [webkit-desktop] › e2e/subscriptions.spec.ts:134:1 › expired cloud access preserves history and export; free local activity still works (3.7s)
+  ✓  38 [webkit-desktop] › e2e/yoga-account.spec.ts:72:1 › refreshed remote edits preserve the open draft and require saving a separate copy (2.1s)
+  ✓  39 [webkit-desktop] › e2e/yoga-account.spec.ts:103:1 › a revision conflict during save retains the draft and offers a copy of the updated canonical state (2.3s)
+  ✓  40 [webkit-desktop] › e2e/yoga-account.spec.ts:122:1 › expired accounts keep the library readable and can delete without enabling additions (2.9s)
+  ✓  41 [webkit-desktop] › e2e/yoga-account.spec.ts:142:1 › a remote write failure keeps the unsaved draft for retry and never falls back to browser storage (2.5s)
+
+  41 passed (2.9m)

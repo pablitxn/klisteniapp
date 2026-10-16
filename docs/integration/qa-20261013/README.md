@@ -1,6 +1,15 @@
 <a id="integración-de-las-siete-tandas-qa--klisteniapp"></a>
 # Integration of seven QA tasks — Klisteniapp
 
+> **Historical report; status updated on 2026-10-16.** PRs #2-10 are merged;
+> [PR #10](https://github.com/pablitxn/klisteniapp/pull/10) promoted the integration
+> to main `1258642b4543b6acc598d6e72ccf1c50e75b7a67` on October 14.
+> The blocked-publication/open-PR statements below describe the earlier task.
+> The 1164 combinations below belong to its recorded checkpoints, not final main.
+> See [the current-main QA receipt](../../validation/current-main-2026-10-16/README.md)
+> and [the follow-up Atlas intake](../qa-20261016/intake.md). The original evidence
+> and publication rejection remain preserved below.
+
 **Verified integration: 1164/1164 consolidated PASS combinations across seven roles.**
 Per-combination status/full history: [matrix.json](matrix.json); readable table:
 [flows.md](flows.md). 828 cases use API/PostgreSQL, 120 simulated UI contracts,

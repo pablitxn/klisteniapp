@@ -13,6 +13,7 @@ application content and original evidence retain their source language.
 | Follow the B2B roadmap, white-label refactor, 3D production and UI testing | [Implementation roadmap](roadmap-implementacion.md) |
 | Implement company domains, contextual login, multiple branches, themes and modules | [White-label B2B plan and E2E acceptance](b2b-white-label.md) |
 | See delivered features, verified results and outstanding acceptance | [Release evidence](b2b-release.md) |
+| Review current-main role QA, exact tested revisions and remaining gates | [October 16 QA receipt](validation/current-main-2026-10-16/README.md) |
 | Reproduce the B2B browser matrix | [Browser validation](b2b-browser-validation.md) |
 | Check production-mode containers, migrations and backup restoration | [Runtime validation](b2b-runtime-validation.md) |
 | Run the independent gym platform, member app and backoffice | [B2B product](b2b.md) |
@@ -39,13 +40,17 @@ An instance requires an operator's public profile and separately configured API.
 Automatic health-provider synchronization remains planned; the supported import
 path is the normalized Klisteni JSON format.
 
-The October 11 delivery includes the gym workflows and a verified local
-production-mode runtime. New Blender content, physical-phone acceptance and public
-deployment remain separate work. Preview generation and complete preview validation
-are deferred by the project owner; existing media remain in Git. The release guide
-records this limitation, including its effect on the full checks and default CI.
+The October 11 delivery includes gym workflows, local production-mode runtime
+checks and separately recorded public deployment evidence. New Blender content,
+physical-phone acceptance and current deployment health require their own evidence.
+Preview generation and complete preview validation remain deferred; existing media
+remain in Git. The release guide and current QA receipt record the outstanding Yoga
+provenance gate and its effect on full checks and default CI.
 
-The next agreed direction is one shared B2B deployment with company domains and
-multiple branches from the first delivery. Domain-bound sessions, branch permissions,
-themes and modules are planned in WL-0–WL-8; the existing release evidence does not
-validate them. Transfer a published Git checkpoint before continuing on the VPS.
+The shared B2B deployment, company domains, multiple branches, domain-bound sessions,
+branch permissions, themes and modules are implemented. See the dated
+[white-label deployment evidence](b2b-white-label-deployment.md) and the
+[current-main QA receipt](validation/current-main-2026-10-16/README.md) for their
+separate deployment and local-testing boundaries. Historical WL-0–WL-8 planning
+text does not reopen the delivered implementation. Transfer a published Git
+checkpoint before continuing on the VPS.
