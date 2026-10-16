@@ -1,0 +1,111 @@
+[WebServer] (node:48114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:48162) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 54 tests using 1 worker
+
+(node:48192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [webkit-narrow] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (2.5s)
+  ✓   2 [webkit-narrow] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context (3.1s)
+  ✓   3 [webkit-narrow] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation (2.7s)
+  ✓   4 [webkit-narrow] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity (1.5s)
+  ✓   5 [webkit-narrow] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry (1.2s)
+  ✓   6 [webkit-narrow] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload (2.2s)
+  ✓   7 [webkit-narrow] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP (1.5s)
+  ✓   8 [webkit-narrow] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss (4.2s)
+  ✓   9 [webkit-narrow] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure (1.9s)
+  ✓  10 [webkit-narrow] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template (2.2s)
+  ✓  11 [webkit-narrow] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload (2.7s)
+  ✓  12 [webkit-narrow] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice (2.7s)
+  ✓  13 [webkit-narrow] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus (2.1s)
+  ✓  14 [webkit-narrow] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls (2.4s)
+  ✓  15 [webkit-narrow] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls (1.6s)
+  ✓  16 [webkit-narrow] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication (3.5s)
+  ✓  17 [webkit-narrow] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement (2.2s)
+  ✓  18 [webkit-narrow] › e2e/visitor-local.spec.ts:524:1 › V18 real synthetic touch events navigate and save; native dialog traps keyboard focus (1.6s)
+(node:49459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 [webkit-mobile] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (0ms)
+  -  20 [webkit-mobile] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context
+  -  21 [webkit-mobile] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation
+  -  22 [webkit-mobile] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity
+  -  23 [webkit-mobile] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry
+  -  24 [webkit-mobile] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload
+  -  25 [webkit-mobile] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP
+  -  26 [webkit-mobile] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss
+  -  27 [webkit-mobile] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure
+  -  28 [webkit-mobile] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template
+  -  29 [webkit-mobile] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload
+  -  30 [webkit-mobile] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice
+  -  31 [webkit-mobile] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus
+  -  32 [webkit-mobile] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls
+  -  33 [webkit-mobile] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls
+  -  34 [webkit-mobile] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication
+  -  35 [webkit-mobile] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement
+  -  36 [webkit-mobile] › e2e/visitor-local.spec.ts:524:1 › V18 real synthetic touch events navigate and save; native dialog traps keyboard focus
+(node:49476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  37 [webkit-desktop] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history (0ms)
+  -  38 [webkit-desktop] › e2e/visitor-local.spec.ts:79:1 › V02 routine-only backup restores its order and sets in a separate browser context
+  -  39 [webkit-desktop] › e2e/visitor-local.spec.ts:110:1 › V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation
+  -  40 [webkit-desktop] › e2e/visitor-local.spec.ts:140:1 › V04 storage failure keeps cardio draft and retry persists one activity
+  -  41 [webkit-desktop] › e2e/visitor-local.spec.ts:162:1 › V05 failed deletion keeps the saved activity visible and allows retry
+  -  42 [webkit-desktop] › e2e/visitor-local.spec.ts:183:1 › V06 strength validates reps, protects active session, saves exact sets once and survives reload
+  -  43 [webkit-desktop] › e2e/visitor-local.spec.ts:209:1 › V07 strength cancel and reload discard the unsaved session without awarding XP
+  -  44 [webkit-desktop] › e2e/visitor-local.spec.ts:228:1 › V08 health profile and every manual record persist, edit and delete without other data loss
+  -  45 [webkit-desktop] › e2e/visitor-local.spec.ts:276:1 › V09 health validates empty, impossible and future input and preserves fields after quota failure
+  -  46 [webkit-desktop] › e2e/visitor-local.spec.ts:306:1 › V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template
+  -  47 [webkit-desktop] › e2e/visitor-local.spec.ts:334:1 › V11 personal and legacy import require confirmation, reject invalid copies and survive reload
+  -  48 [webkit-desktop] › e2e/visitor-local.spec.ts:359:1 › V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice
+  -  49 [webkit-desktop] › e2e/visitor-local.spec.ts:398:1 › V13 privacy back/forward preserves setup draft and Escape restores keyboard focus
+  -  50 [webkit-desktop] › e2e/visitor-local.spec.ts:419:1 › V14 languages and appearance persist through reload with translated navigation and controls
+  -  51 [webkit-desktop] › e2e/visitor-local.spec.ts:434:1 › V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls
+  -  52 [webkit-desktop] › e2e/visitor-local.spec.ts:455:1 › V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication
+  -  53 [webkit-desktop] › e2e/visitor-local.spec.ts:495:1 › V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement
+  -  54 [webkit-desktop] › e2e/visitor-local.spec.ts:524:1 › V18 real synthetic touch events navigate and save; native dialog traps keyboard focus
+
+
+  1) [webkit-mobile] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history 
+
+    ReferenceError: exports is not defined in ES module scope
+
+       at ../../../../qa-20261016/visitor.config.ts:3
+
+      1 | import base from '/workspace/klisteniapp/apps/b2c-web/playwright.visitor.config.ts'
+      2 | const projects = [...base.projects]
+    > 3 | if (process.env.QA_INTEGRATION_ROLE === 'brand-admin' && projects.length === 4) for (const [index, name, width, height, touch] of [[4, 'wide', 430, 932, true], [5, 'desktop', 1440, 1000, false]]) projects.push({...projects[3], name: 'brand-admin-webkit-' + name, metadata: {...projects[3].metadata, fixtureIndex: index}, use: {...projects[3].use, viewport: {width, height}, hasTouch: touch, isMobile: touch, proxy: {server: 'http://127.0.0.1:' + ([4342,4344,4346,4350,4352,4354][index] + Number(process.env.QA_INTEGRATION_PORT_OFFSET ?? 0))}}})
+        |                       ^
+      4 | export default { ...base, outputDir: process.env.QA_RUN_OUTPUT + '/traces', reporter: [['list'], ['json', { outputFile: process.env.QA_RUN_OUTPUT + '/report.json' }]], testDir: '/workspace/klisteniapp/apps/b2c-web/e2e', projects: projects.map(project => ({...project, use: {...project.use, launchOptions: {...project.use?.launchOptions, chromiumSandbox: true, ...(project.use?.browserName === 'webkit' ? {executablePath: '/workspace/.onboarding/browsers/ubuntu24/webkit-2359/pw_run.sh'} : {})}}})), webServer: (Array.isArray(base.webServer) ? base.webServer : [base.webServer]).filter(Boolean).map(server => ({cwd: '/workspace/klisteniapp/apps/b2c-web', ...server})) }
+      5 |
+        at /workspace/qa-20261016/visitor.config.ts:3:23
+
+  2) [webkit-desktop] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history 
+
+    ReferenceError: exports is not defined in ES module scope
+
+       at ../../../../qa-20261016/visitor.config.ts:3
+
+      1 | import base from '/workspace/klisteniapp/apps/b2c-web/playwright.visitor.config.ts'
+      2 | const projects = [...base.projects]
+    > 3 | if (process.env.QA_INTEGRATION_ROLE === 'brand-admin' && projects.length === 4) for (const [index, name, width, height, touch] of [[4, 'wide', 430, 932, true], [5, 'desktop', 1440, 1000, false]]) projects.push({...projects[3], name: 'brand-admin-webkit-' + name, metadata: {...projects[3].metadata, fixtureIndex: index}, use: {...projects[3].use, viewport: {width, height}, hasTouch: touch, isMobile: touch, proxy: {server: 'http://127.0.0.1:' + ([4342,4344,4346,4350,4352,4354][index] + Number(process.env.QA_INTEGRATION_PORT_OFFSET ?? 0))}}})
+        |                       ^
+      4 | export default { ...base, outputDir: process.env.QA_RUN_OUTPUT + '/traces', reporter: [['list'], ['json', { outputFile: process.env.QA_RUN_OUTPUT + '/report.json' }]], testDir: '/workspace/klisteniapp/apps/b2c-web/e2e', projects: projects.map(project => ({...project, use: {...project.use, launchOptions: {...project.use?.launchOptions, chromiumSandbox: true, ...(project.use?.browserName === 'webkit' ? {executablePath: '/workspace/.onboarding/browsers/ubuntu24/webkit-2359/pw_run.sh'} : {})}}})), webServer: (Array.isArray(base.webServer) ? base.webServer : [base.webServer]).filter(Boolean).map(server => ({cwd: '/workspace/klisteniapp/apps/b2c-web', ...server})) }
+      5 |
+        at /workspace/qa-20261016/visitor.config.ts:3:23
+
+  2 failed
+    [webkit-mobile] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history 
+    [webkit-desktop] › e2e/visitor-local.spec.ts:55:1 › V01 empty routes, library filters, anatomy links and progress never invent history 
+  34 did not run
+  18 passed (45.7s)
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /workspace/klisteniapp/apps/b2c-web
+

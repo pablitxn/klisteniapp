@@ -1,6 +1,7 @@
 const qaProtocol = process.env.QA_INTEGRATION_HTTP === '1' ? 'http' : 'https'
 import { expect, test, type Browser, type Page, type TestInfo } from './fixtures/integration-test'
 import type { Execution, Me, Program } from '../../../packages/b2b-contracts/src/index.ts'
+import { json as readJson } from 'node:stream/consumers'
 
 const password = 'browser-tests-only-password-2026'
 const atlas = `${qaProtocol}://atlas.b2b.test`
@@ -330,9 +331,9 @@ test('branch drafts stay isolated, current progress stays in the selected branch
     await page.getByRole('button', { name: 'Exportar mi historial', exact: true }).click()
     const exported = await download
     expect(exported.suggestedFilename()).toBe('mi-historial.json')
-    const path = await exported.path()
-    const { readFile } = await import('node:fs/promises')
-    const content = JSON.parse(await readFile(path!, 'utf8')) as { executions: Execution[] }
+    const content = (await readJson(await exported.createReadStream())) as {
+      executions: Execution[]
+    }
     expect(content.executions).toHaveLength(1)
     expect(content.executions[0].branchId).toBe(north)
     await evidence(page, info, 'all-history-export')

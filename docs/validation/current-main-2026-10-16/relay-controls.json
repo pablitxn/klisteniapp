@@ -1,0 +1,71 @@
+[
+  {
+    "method": "GET",
+    "target": "http://atlas.b2b.test/",
+    "expected": 200,
+    "actual": 200,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "target": "http://outside.invalid/",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "target": "https://atlas.b2b.test/",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "target": "http://atlas.b2b.test:81/",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "target": "http://fake:fake@atlas.b2b.test/",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "CONNECT",
+    "target": "atlas.b2b.test:80",
+    "expected": 200,
+    "actual": 200,
+    "passed": true
+  },
+  {
+    "method": "CONNECT",
+    "target": "atlas.b2b.test:443",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "CONNECT",
+    "target": "outside.invalid:80",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "CONNECT",
+    "target": "atlas.b2b.test:81",
+    "expected": 403,
+    "actual": 403,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "source": "unlisted local IP 127.0.0.1",
+    "expected": "connection rejected",
+    "passed": true
+  }
+]

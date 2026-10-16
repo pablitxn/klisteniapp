@@ -1,0 +1,117 @@
+[
+  {
+    "command": "pnpm lint",
+    "status": "pass",
+    "scope": "B2B boundaries, workspace lint, B2B formatting",
+    "log": "logs/lint.txt",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "logSha256": "7aac7cf978efef9bb73f8e7c436e580788f8d6dcd503440b1fca9b636a5e7570",
+    "originalLog": "lint.log"
+  },
+  {
+    "command": "pnpm exec turbo run lint --force --concurrency=2",
+    "status": "pass",
+    "scope": "14 tasks, zero cache hits",
+    "log": "logs/lint-fresh.txt",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "logSha256": "917934a1b44d8f58c8b4963c89d0db79e007501d65191014eec083221da2be04",
+    "originalLog": "lint-fresh.log"
+  },
+  {
+    "command": "pnpm exec turbo run typecheck --force --concurrency=2",
+    "status": "pass",
+    "scope": "14 tasks, zero cache hits",
+    "log": "logs/types-fresh.txt",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "logSha256": "68395aedf3f3e495df2a868e20ff0d61fa3f4502eba2ee1b1e7b4c589cd2379b",
+    "originalLog": "types-fresh.log"
+  },
+  {
+    "command": "TEST_DATABASE_URL=<local B2C test DB> B2B_TEST_DATABASE_URL=<local B2B test DB> pnpm test --concurrency=2 --force",
+    "status": "pass",
+    "counts": {
+      "@klisteniapp/b2b-contracts": 10,
+      "@klisteniapp/b2b-api": 82,
+      "@klisteniapp/model-assets": 3,
+      "@klisteniapp/b2c-api": 97,
+      "@klisteniapp/scene-schema": 46,
+      "@klisteniapp/b2b-domain": 9,
+      "@klisteniapp/b2b-client": 17,
+      "@klisteniapp/catalog-base": 2,
+      "@klisteniapp/geometry": 33,
+      "@klisteniapp/anatomy-viewer": 4,
+      "@klisteniapp/b2b-react": 12,
+      "@klisteniapp/b2b-ui": 2,
+      "@klisteniapp/b2b-web": 56,
+      "@klisteniapp/b2c-web": 203,
+      "root": 26
+    },
+    "total": 602,
+    "failed": 0,
+    "skipped": 0,
+    "log": "logs/tests-fresh.txt",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "logSha256": "bc1e3ea9d5487115b9bee5ba48bd16fed94c476eb4cbbeeef16a8cce3224bba2",
+    "originalLog": "tests-fresh.log"
+  },
+  {
+    "command": "VITE_APP_MODE=instance KLISTENI_PUBLIC_PROFILE_FILE=instance-profile.example.json pnpm exec turbo run build --concurrency=1",
+    "status": "pass",
+    "scope": "16 tasks; existing chunk-size warning",
+    "log": "logs/build.txt",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "logSha256": "13e366060cb0eaf6cee5c37cf7f36aff9d2b6b45d6f9dd5fb05955445a53242a",
+    "originalLog": "build.log"
+  },
+  {
+    "command": "pnpm previews:check",
+    "status": "fail",
+    "scope": "Exercise 74 and body 24 pass; Yoga stale extraction receipt, pre-existing on tested main",
+    "log": "logs/previews.txt",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "logSha256": "5f0c572cfb230854393b1c0fa5f5d4287e22d9b854152bd775522dea53bbb88c",
+    "originalLog": "previews.log"
+  },
+  {
+    "command": "pnpm check / check:all / check:release",
+    "status": "untested",
+    "scope": "Aggregate wrappers not run to completion: known preview failure; hardware/GPU/provider stages excluded",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67"
+  },
+  {
+    "command": "pnpm lint",
+    "status": "pass",
+    "scope": "14 tasks plus boundaries/format; changed B2C web lint executed",
+    "log": "logs/post-fix-lint.txt",
+    "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+    "logSha256": "a19bdd3c3ed5129f604fdf5e7527b9eb78a434fd4394c6f8870fd89a9842e044",
+    "originalLog": "post-fix-lint.log"
+  },
+  {
+    "command": "pnpm exec turbo run typecheck --force --concurrency=2",
+    "status": "pass",
+    "scope": "14 tasks, zero cache hits",
+    "log": "logs/post-fix-types.txt",
+    "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+    "logSha256": "76917c4ca073a42f4b339c684f4a0afdeb63a3f381c228cce200653e66d8c1c3",
+    "originalLog": "post-fix-types.log"
+  },
+  {
+    "command": "VITE_APP_MODE=instance KLISTENI_PUBLIC_PROFILE_FILE=instance-profile.example.json pnpm exec turbo run build --concurrency=1",
+    "status": "pass",
+    "scope": "16 successful tasks, 13 cached; unchanged production inputs",
+    "log": "logs/post-fix-build.txt",
+    "testedRevision": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+    "logSha256": "53b39cba23e3268d4cc1336ea5d79c1799224b31a8b4e88f847b048b4b1f9f29",
+    "originalLog": "post-fix-build.log"
+  },
+  {
+    "command": "node /workspace/qa-20261016/relay-controls.mjs",
+    "status": "pass",
+    "scope": "10 live controls across HTTP, CONNECT and source-IP admission; no guard weakened",
+    "testedRevision": "1258642b4543b6acc598d6e72ccf1c50e75b7a67",
+    "log": "logs/relay-controls.txt",
+    "logSha256": "402b731adc08c4c4fe7aee9414acf6aec7f57a5191cf75647a3887f39c21c06b",
+    "originalLog": "relay-controls.log"
+  }
+]

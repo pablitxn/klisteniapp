@@ -13,6 +13,11 @@ created: 2026-10-13
 <a id="qa-klisteniapp--b2b-socio"></a>
 # QA Klisteniapp — B2B member
 
+> **2026-10-16 follow-up:** Atlas has absorbed the seven historical notes in
+> `2026-10-16-klisteniapp-role-qa-consolidation`. The original task status and
+> restrictions below remain historical. See the [current-main QA receipt](../../../validation/current-main-2026-10-16/README.md)
+> and [new intake](../../qa-20261016/intake.md) for subsequent testing and remaining gates.
+
 Pre-documentation awaiting consolidation. This file is neither a registered nor
 absorbed Atlas entry. Primary source: owner-repository code/evidence; local testing
 does not establish deployment.

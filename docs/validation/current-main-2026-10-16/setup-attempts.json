@@ -1,0 +1,85 @@
+[
+  {
+    "run": "visitor-smoke",
+    "status": "failed",
+    "stage": "selection/output-path",
+    "browserCasesExecuted": 0,
+    "log": "logs/visitor-smoke.txt",
+    "sha256": "712a412aba388bd141c6766b4111376fef06459f4ba23610c95baa18a90de5d0",
+    "correction": "Use existing V01-V18 titles and absolute artifact paths"
+  },
+  {
+    "run": "webkit-install",
+    "status": "failed",
+    "stage": "browser platform selection",
+    "browserCasesExecuted": 0,
+    "log": "logs/webkit-install.txt",
+    "sha256": "f6aadb91f47422453352cb95ce574dc966224bbff339e8ef01e815dc0ac08599",
+    "correction": "Select ubuntu24.04-x64 and retain the Debian cache"
+  },
+  {
+    "run": "b2b-member",
+    "status": "failed",
+    "stage": "external config module loading",
+    "browserCasesExecuted": 0,
+    "log": "logs/b2b-member.txt",
+    "sha256": "4539b0e10c98fbdc01bc9cc71b7c9ea4bf99fc13f2c5301e35b119996a9bdb8e",
+    "correction": "Declare type: module outside the product repository; rerun serially"
+  },
+  {
+    "run": "b2b-trainer",
+    "status": "failed",
+    "stage": "external config module loading",
+    "browserCasesExecuted": 0,
+    "log": "logs/b2b-trainer.txt",
+    "sha256": "c1587f93b030bf6fb2a45c3a4fb6e909c27a7e321526fb1fe39704c6516c6f3e",
+    "correction": "Declare type: module outside the product repository; rerun serially"
+  },
+  {
+    "run": "b2b-anonymous",
+    "status": "failed",
+    "stage": "external config module loading",
+    "browserCasesExecuted": 0,
+    "log": "logs/b2b-anonymous.txt",
+    "sha256": "0666003115c5f6ce364cba44a76b8dfa05811da773ca73d381ae935882def18a",
+    "correction": "Declare type: module outside the product repository; rerun serially"
+  },
+  {
+    "run": "b2b-brand-admin",
+    "status": "failed",
+    "stage": "external config module loading",
+    "browserCasesExecuted": 0,
+    "log": "logs/b2b-brand-admin.txt",
+    "sha256": "191fdeabb5e716f9532e7745a546deb39d94590216c06b62dbbd0ab2c2ff3a7b",
+    "correction": "Declare type: module outside the product repository; rerun serially"
+  },
+  {
+    "run": "visitor-demo-webkit-fixed",
+    "status": "failed",
+    "stage": "worker module loading after in-flight package declaration change",
+    "passed": 18,
+    "failed": 2,
+    "unexecuted": 34,
+    "correction": "Freeze configuration and repeat full demo WebKit matrix",
+    "report": "visitor-demo-webkit-fixed/report.json"
+  },
+  {
+    "run": "b2b-member-fixed",
+    "status": "failed",
+    "stage": "remote browser explicit proxy loopback routing",
+    "failed": 96,
+    "productFlowReached": false,
+    "correction": "Use task-owned internal bridge relay to the six unchanged loopback proxies; verify 10 controls"
+  },
+  {
+    "run": "b2b-member-relay",
+    "status": "interrupted",
+    "stage": "reproducible download.path remote-browser test assumption",
+    "passed": 21,
+    "failed": 2,
+    "operatorInterrupted": 1,
+    "unexecuted": 72,
+    "correctionCommit": "c4fb918498d07b3d7bd43cf0adec8c65983ddb4d",
+    "correction": "Read member/admin JSON exports through download streams without weakening assertions; rerun full B2B matrix"
+  }
+]

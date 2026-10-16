@@ -1,0 +1,143 @@
+[WebServer] (node:66233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 96 tests using 1 worker
+
+(node:66269) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [member-chromium-narrow] › e2e/member-qa.spec.ts:272:1 › branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both (9.1s)
+(node:66368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [member-chromium-narrow] › e2e/member-qa.spec.ts:344:1 › invitation validates locally, activates only the invited branch, and rejects reused or wrong-brand links (6.7s)
+  ✓   3 [member-chromium-narrow] › e2e/member-qa.spec.ts:389:1 › QR keeps the equipment and branch through contextual login and never records a series (3.5s)
+  ✓   4 [member-chromium-narrow] › e2e/member-qa.spec.ts:417:1 › series, authorized substitution, validation, return, reload and browser history preserve a draft (3.9s)
+  ✓   5 [member-chromium-narrow] › e2e/member-qa.spec.ts:486:1 › timed session recovers duration/RPE, rejects incomplete completion and saves once on double click (7.2s)
+  ✓   6 [member-chromium-narrow] › e2e/member-qa.spec.ts:545:1 › committed but lost response retries the identical payload after reload without duplicate history (3.1s)
+  ✓   7 [member-chromium-narrow] › e2e/member-qa.spec.ts:580:1 › offline editing and uncommitted server failure retain a retryable draft (1.9s)
+  ✓   8 [member-chromium-narrow] › e2e/member-qa.spec.ts:615:1 › expired session requires login and the same account recovers its draft while another account cannot see it (1.1m)
+  ✓   9 [member-chromium-narrow] › e2e/member-qa.spec.ts:638:1 › movement search, failed initial load, direct routes, back/forward and denied management remain recoverable (4.7s)
+  ✓  10 [member-chromium-narrow] › e2e/member-qa.spec.ts:678:1 › a QR from an unauthorized branch cannot present another branch routine as using that physical equipment (3.3s)
+  ✓  11 [member-chromium-narrow] › e2e/member-qa.spec.ts:698:1 › optional voice starts only on request, pauses/resumes/stops, and unavailable speech keeps written instructions (3.6s)
+  ✓  12 [member-chromium-narrow] › e2e/member-qa.spec.ts:756:1 › rest timer uses elapsed time across pause/resume and completion without checking or persisting sets (1.4s)
+  ✓  13 [member-chromium-narrow] › e2e/member-qa.spec.ts:781:1 › another brand login is rejected; same-brand logout clears other tabs and stale protected responses stay cancelled (6.3s)
+  ✓  14 [member-chromium-narrow] › e2e/member-qa.spec.ts:831:1 › unavailable local storage warns honestly while a live session still saves to the backend (1.0m)
+  ✓  15 [member-chromium-narrow] › e2e/member-qa.spec.ts:854:1 › a delayed committed save cannot close a reopened session, and its exact retry remains idempotent (2.1s)
+  ✓  16 [member-chromium-narrow] › e2e/member-qa.spec.ts:895:1 › an existing B2B identity joins a new brand only through explicit invitation consent (8.0s)
+(node:66775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 [member-chromium-wide] › e2e/member-qa.spec.ts:272:1 › branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both (9.1s)
+(node:66873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [member-chromium-wide] › e2e/member-qa.spec.ts:344:1 › invitation validates locally, activates only the invited branch, and rejects reused or wrong-brand links (7.0s)
+  ✓  19 [member-chromium-wide] › e2e/member-qa.spec.ts:389:1 › QR keeps the equipment and branch through contextual login and never records a series (4.3s)
+  ✓  20 [member-chromium-wide] › e2e/member-qa.spec.ts:417:1 › series, authorized substitution, validation, return, reload and browser history preserve a draft (4.1s)
+  ✓  21 [member-chromium-wide] › e2e/member-qa.spec.ts:486:1 › timed session recovers duration/RPE, rejects incomplete completion and saves once on double click (8.3s)
+  ✓  22 [member-chromium-wide] › e2e/member-qa.spec.ts:545:1 › committed but lost response retries the identical payload after reload without duplicate history (3.0s)
+  ✓  23 [member-chromium-wide] › e2e/member-qa.spec.ts:580:1 › offline editing and uncommitted server failure retain a retryable draft (2.0s)
+  ✘  24 [member-chromium-wide] › e2e/member-qa.spec.ts:615:1 › expired session requires login and the same account recovers its draft while another account cannot see it (41.4s)
+
+
+  1) [member-chromium-narrow] › e2e/member-qa.spec.ts:272:1 › branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both 
+
+    Error: Path is not available when connecting remotely. Use saveAs() to save a local copy.
+
+      331 |     const exported = await download
+      332 |     expect(exported.suggestedFilename()).toBe('mi-historial.json')
+    > 333 |     const path = await exported.path()
+          |                                 ^
+      334 |     const { readFile } = await import('node:fs/promises')
+      335 |     const content = JSON.parse(await readFile(path!, 'utf8')) as { executions: Execution[] }
+      336 |     expect(content.executions).toHaveLength(1)
+        at /workspace/klisteniapp/apps/b2c-web/e2e/member-qa.spec.ts:333:33
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-narrow/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-narrow/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-narrow/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-narrow/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-narrow/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [member-chromium-wide] › e2e/member-qa.spec.ts:272:1 › branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both 
+
+    Error: Path is not available when connecting remotely. Use saveAs() to save a local copy.
+
+      331 |     const exported = await download
+      332 |     expect(exported.suggestedFilename()).toBe('mi-historial.json')
+    > 333 |     const path = await exported.path()
+          |                                 ^
+      334 |     const { readFile } = await import('node:fs/promises')
+      335 |     const content = JSON.parse(await readFile(path!, 'utf8')) as { executions: Execution[] }
+      336 |     expect(content.executions).toHaveLength(1)
+        at /workspace/klisteniapp/apps/b2c-web/e2e/member-qa.spec.ts:333:33
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-wide/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-wide/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-wide/error-context.md
+
+    attachment #6: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-wide/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../qa-20261016/b2b-member-relay/traces/member-qa-branch-drafts-st-d7d5e-nd-all-history-exports-both-member-chromium-wide/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [member-chromium-wide] › e2e/member-qa.spec.ts:615:1 › expired session requires login and the same account recovers its draft while another account cannot see it 
+
+    Test was interrupted.
+
+    Error: page.waitForTimeout: Test ended.
+
+       95 |     }
+       96 |     // Keep the product's real per-origin throttle; no test flag disables it.
+    >  97 |     await page.waitForTimeout(
+          |                ^
+       98 |       Math.min(59, Math.max(1, Number(response.headers()['retry-after']) || 60)) * 1000,
+       99 |     )
+      100 |   }
+        at submitLogin (/workspace/klisteniapp/apps/b2c-web/e2e/member-qa.spec.ts:97:16)
+        at login (/workspace/klisteniapp/apps/b2c-web/e2e/member-qa.spec.ts:81:3)
+        at /workspace/klisteniapp/apps/b2c-web/e2e/member-qa.spec.ts:619:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-wide/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../qa-20261016/b2b-member-relay/traces/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-wide/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../qa-20261016/b2b-member-relay/traces/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-wide/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../../qa-20261016/b2b-member-relay/traces/member-qa-expired-session--f5941-other-account-cannot-see-it-member-chromium-wide/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [member-chromium-narrow] › e2e/member-qa.spec.ts:272:1 › branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both 
+    [member-chromium-wide] › e2e/member-qa.spec.ts:272:1 › branch drafts stay isolated, current progress stays in the selected branch, and all-history exports both 
+  1 interrupted
+    [member-chromium-wide] › e2e/member-qa.spec.ts:615:1 › expired session requires login and the same account recovers its draft while another account cannot see it 
+  72 did not run
+  21 passed (4.7m)
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /workspace/klisteniapp/apps/b2c-web
+
