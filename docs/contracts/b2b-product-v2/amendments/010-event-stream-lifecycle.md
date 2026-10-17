@@ -17,6 +17,10 @@ instead of appending JSON to SSE. The API also rejects an already-dead transport
 at handler entry, covering disconnect during awaited authentication before event
 listeners were attached.
 
+If sending the initial ready frame encounters backpressure and closes the stream,
+the handler returns before allocating a heartbeat timer. A closed subscription
+cannot leave an idle interval behind.
+
 Root uses a retry deadline with exponential delay (one second to thirty seconds),
 a five-second floor for 429, and the server's Retry-After value when longer.
 Visibility and online events cannot bypass that deadline. Only a fresh ready

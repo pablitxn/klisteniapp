@@ -95,6 +95,40 @@ test('healthy streams survive ninety seconds and hub shutdown terminates the res
   assert.equal(ended, true);
   assert.match(frames.at(-1)!, /invalidate/);
 });
+test('a backpressured ready frame closes before any heartbeat timer is installed', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
+  const interval = t.mock.method(globalThis, 'setInterval');
+  const hub = new ProductEventHub(fakePool());
+  let ended = 0;
+  let authorizations = 0;
+  const response = Object.assign(new EventEmitter(), {
+    destroyed: false,
+    writeHead() {},
+    write() {
+      return false;
+    },
+    end() {
+      ended++;
+    },
+  });
+  try {
+    await serveProductEvents(
+      hub,
+      new EventEmitter() as IncomingMessage,
+      response as unknown as ServerResponse,
+      syntheticScope,
+      async () => {
+        authorizations++;
+      },
+    );
+    t.mock.timers.tick(30_000);
+    assert.equal(ended, 1);
+    assert.equal(authorizations, 1);
+    assert.equal(interval.mock.callCount(), 0);
+  } finally {
+    hub.close();
+  }
+});
 test('startup timeout ends a response even while subscription is still opening', async (t) => {
   t.mock.timers.enable({ apis: ['setTimeout'] });
   let release!: () => void;

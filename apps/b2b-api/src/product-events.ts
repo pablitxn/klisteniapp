@@ -159,6 +159,7 @@ export async function serveProductEvents(
     });
     ready = true;
     send('ready');
+    if (closed) return;
     heartbeat = setInterval(() => {
       if (checking || closed) return;
       checking = true;
