@@ -13,6 +13,22 @@ import { mayManageRole } from './product-policy.ts';
 import { revokeHealthForInactiveMembership } from '../health/index.ts';
 
 type Grant = ProductOutput<'people'>[number]['branchGrants'][number];
+export async function invitationBranches(
+  c: AuthorizedProductContext,
+): Promise<ProductOutput<'invitationBranches'>> {
+  if (
+    c.accessMode !== 'active' ||
+    !['admin', 'superadmin'].includes(c.role) ||
+    !c.capabilities.has('manage-people')
+  )
+    throw denied();
+  const rows = await c.db.query(
+    `SELECT organization_id AS "organizationId", id AS "branchId", name, status
+     FROM b2b_branch WHERE organization_id=$1 ORDER BY name,id FOR SHARE`,
+    [c.organizationId],
+  );
+  return rows.rows;
+}
 export async function productPeople(c: AuthorizedProductContext): Promise<ProductOutput<'people'>> {
   const administrator = c.capabilities.has('manage-people');
   const found = await c.db.query(

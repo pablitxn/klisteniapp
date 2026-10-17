@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { HealthAccess } from '../features/health/healthAccess'
 import { ProductStreamGuard } from './productStreamGuard'
+import { ProductStreamRetry } from './productStreamRetry'
 
 /** Trainer projections fail closed immediately. Workspace transport failures
  * suspend network work but retain owner-local editors until authority changes. */
@@ -21,6 +22,7 @@ export function useProductStream(
   useEffect(() => {
     if (!context || context.signal.aborted) return
     const lifetime = new AbortController()
+    const backoff = new ProductStreamRetry()
     let stream: AbortController | null = null,
       watchdog: ReturnType<typeof setTimeout> | undefined,
       retry: ReturnType<typeof setTimeout> | undefined,
@@ -38,17 +40,18 @@ export function useProductStream(
       suspend()
       callback.current()
     }
-    const unavailable = () => {
+    const unavailable = (status?: number, retryAfter?: string | null) => {
       if (lifetime.signal.aborted || invalidated) return
       if (!retain) return invalidate()
       suspend()
       clearTimeout(retry)
-      retry = setTimeout(() => void connect(), 1000)
+      retry = setTimeout(() => void connect(), backoff.failed(status, retryAfter))
     }
     const hidden = () => {
       if (document.visibilityState !== 'visible') unavailable()
       else void connect()
     }
+    const offline = () => unavailable()
     async function connect() {
       if (
         stream ||
@@ -59,13 +62,18 @@ export function useProductStream(
         context!.signal.aborted
       )
         return
+      if (backoff.remaining()) {
+        clearTimeout(retry)
+        retry = setTimeout(() => void connect(), backoff.remaining())
+        return
+      }
       clearTimeout(retry)
       const current = new AbortController()
       stream = current
       const signal = AbortSignal.any([context!.signal, lifetime.signal, current.signal])
       const reset = () => {
         clearTimeout(watchdog)
-        watchdog = setTimeout(unavailable, 10_000)
+        watchdog = setTimeout(() => unavailable(), 10_000)
       }
       reset()
       try {
@@ -83,6 +91,11 @@ export function useProductStream(
           },
         })
         if (response.status === 401 || response.status === 403) return invalidate()
+        if (!response.ok) {
+          await response.body?.cancel()
+          unavailable(response.status, response.headers.get('retry-after'))
+          return
+        }
         if (
           !response.ok ||
           !response.headers.get('content-type')?.startsWith('text/event-stream') ||
@@ -101,6 +114,7 @@ export function useProductStream(
             if (pending.length > 16_384) throw new Error('Invalid event frame')
             let end: number
             while ((end = pending.indexOf('\n\n')) >= 0) {
+              if (signal.aborted || stream !== current) return
               const frame = pending.slice(0, end)
               pending = pending.slice(end + 2)
               const event = /^event: (ready|heartbeat|invalidate)$/m.exec(frame)?.[1]
@@ -117,6 +131,7 @@ export function useProductStream(
                   return
                 }
                 if (signal.aborted || stream !== current) return
+                backoff.validated()
                 connection.guard.activate()
                 setReadyConnection(connection)
                 setValidatedConnection(connection)
@@ -139,7 +154,7 @@ export function useProductStream(
       stream?.abort()
     }
     document.addEventListener('visibilitychange', hidden)
-    window.addEventListener('offline', unavailable)
+    window.addEventListener('offline', offline)
     window.addEventListener('online', connect)
     context.signal.addEventListener('abort', abort, { once: true, signal: lifetime.signal })
     void connect()
@@ -148,7 +163,7 @@ export function useProductStream(
       clearTimeout(watchdog)
       clearTimeout(retry)
       document.removeEventListener('visibilitychange', hidden)
-      window.removeEventListener('offline', unavailable)
+      window.removeEventListener('offline', offline)
       window.removeEventListener('online', connect)
     }
   }, [connection, context, memberId, retain])

@@ -365,7 +365,7 @@ export async function adoptUnboundWorkout(
     throw new Error('The unbound workout changed or was already adopted')
   if (hasBlockedLegacyPayload(current))
     throw new Error('LEGACY_POST_REQUIRES_EXPLICIT_COMPATIBILITY')
-  if (current.origin.kind === 'legacy' && !current.accepted)
+  if (current.origin.kind === 'legacy' && current.origin.executionId === null && !current.accepted)
     throw new Error(
       'Use the explicit issued-assignment resume/new choice for unaccepted legacy work',
     )

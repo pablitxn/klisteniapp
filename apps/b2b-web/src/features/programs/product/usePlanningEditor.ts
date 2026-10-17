@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { ApiError } from '@klisteniapp/b2b-client'
 import type { ProductIssue } from '@klisteniapp/b2b-contracts/product-v2'
 import { useRef, useState } from 'react'
@@ -25,7 +26,7 @@ export function usePlanningEditor<T>({
   validate: (value: unknown) => value is T
 }) {
   const inFlight = useRef(false)
-  const creationId = useRef(crypto.randomUUID())
+  const creationId = useRef(createClientId())
   const local = useEditorDraft(
     orgId,
     'program',

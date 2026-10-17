@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { ApiError, type ProductV2Client } from '@klisteniapp/b2b-client'
 import {
   HealthCategorySchema,
@@ -122,7 +123,7 @@ export class HealthController {
     this.context = context
     this.client = options.client ?? ((signal) => healthClient(context, signal))
     this.now = options.now ?? Date.now
-    this.id = options.id ?? (() => crypto.randomUUID())
+    this.id = options.id ?? (() => createClientId())
     this.invalidateViews = options.invalidateViews ?? (() => {})
   }
 

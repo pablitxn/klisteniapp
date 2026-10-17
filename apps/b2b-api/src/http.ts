@@ -38,7 +38,12 @@ import { B2BService } from './service.ts';
 import { HttpError } from './errors.ts';
 import { createMediaStore, MEDIA_LIMITS } from './media.ts';
 import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
-import { productPeople, updateProductMember, inviteProductMember } from './auth/product-people.ts';
+import {
+  productPeople,
+  updateProductMember,
+  inviteProductMember,
+  invitationBranches,
+} from './auth/product-people.ts';
 import { readProductAudit } from './audit/product-audit.ts';
 import { HEALTH_RESPONSE_HEADERS } from './health/index.ts';
 import { authorizeHealthDisclosure } from './health/consent.ts';
@@ -727,6 +732,7 @@ export function createApiServer({
           'capabilities',
           'access',
           'people',
+          'invitationBranches',
           'updateMember',
           'inviteMember',
           'audit',
@@ -828,6 +834,8 @@ export function createApiServer({
                     return service.productAccess(context);
                   case 'people':
                     return productPeople(context);
+                  case 'invitationBranches':
+                    return invitationBranches(context);
                   case 'updateMember':
                     return updateProductMember(
                       context,

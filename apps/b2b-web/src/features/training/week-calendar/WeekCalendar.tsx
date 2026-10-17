@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import '../routine-history/routineHistory.css'
 import { useRef, useState, type ReactNode } from 'react'
 import { errorMessage } from '@klisteniapp/b2b-client'
@@ -205,7 +206,7 @@ function MoveOccurrence({
       const request =
         retry.current?.scheduledDate === date
           ? retry.current
-          : moveRequest(occurrence, date, crypto.randomUUID())
+          : moveRequest(occurrence, date, createClientId())
       retry.current = request
       await onMove(request)
       retry.current = null

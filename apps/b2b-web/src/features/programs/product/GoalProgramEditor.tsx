@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { useState } from 'react'
 import type { ProductV2Client } from '@klisteniapp/b2b-client'
 import { GoalProgramContentSchema, type Enrollment } from '@klisteniapp/b2b-contracts/product-v2'
@@ -83,7 +84,7 @@ export function GoalProgramEditor({
         pending.goalProgramId === latest.id &&
         pending.issuedGoalRevision === latest.revision
           ? pending.id
-          : crypto.randomUUID(),
+          : createClientId(),
       memberId,
       expectedRevision: 0,
       goalProgramId: latest.id,

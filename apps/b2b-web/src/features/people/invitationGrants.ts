@@ -1,5 +1,10 @@
 import { ApiError } from '@klisteniapp/b2b-client'
-import type { ProductBootstrap, ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
+import {
+  ProductEndpoints,
+  type ProductBootstrap,
+  type ProductInput,
+  type ProductOutput,
+} from '@klisteniapp/b2b-contracts/product-v2'
 import { peopleError, type PeopleContext } from './peopleModel.ts'
 import { creatableRoles } from './peopleCapabilities.ts'
 
@@ -10,6 +15,19 @@ export type InvitationBranch = {
   status: 'active' | 'archived'
 }
 export type InvitationGrant = ProductInput<'inviteMember'>['branchGrants'][number]
+/** Current guarded endpoint supplies only same-organization metadata, including
+ * archived branches; no membership/Principal inference is needed. */
+export function scopedInvitationBranches(
+  context: PeopleContext,
+  raw: ProductOutput<'invitationBranches'>,
+): InvitationBranch[] {
+  if (!context.access || !creatableRoles(context.access).length || context.signal.aborted)
+    throw new ApiError('El contexto de acceso cambió.', 403, 'CONTEXT_REVOKED')
+  const branches = ProductEndpoints.invitationBranches.output.parse(raw)
+  if (branches.some((branch) => branch.organizationId !== context.organizationId))
+    throw new ApiError('Las sedes no corresponden a esta organización.', 502, 'INVALID_RESPONSE')
+  return branches
+}
 /** The current bootstrap deliberately lists active branch choices only. Never
  * reconstruct missing branches from a Principal convention, a typed ID or roster. */
 export function invitationBranches(

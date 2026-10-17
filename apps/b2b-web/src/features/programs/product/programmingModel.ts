@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import {
   ProductEndpoints,
   RoutineDraftContentSchema,
@@ -47,7 +48,7 @@ export function goalContent(goal?: Goal): GoalContent {
       })
     : { name: '', goal: '', timeZone: null, stages: [] }
 }
-export function blankStep(id: string = crypto.randomUUID()): Step {
+export function blankStep(id: string = createClientId()): Step {
   return {
     id,
     exerciseId: null,
@@ -179,7 +180,7 @@ export function mutationAttempt(
   endpoint: PlanningMutation,
   input: unknown,
   previous: Attempt | null,
-  newId: () => string = () => crypto.randomUUID(),
+  newId: () => string = () => createClientId(),
 ): Attempt {
   const payload = JSON.stringify(input)
   return previous?.endpoint === endpoint && previous.payload === payload

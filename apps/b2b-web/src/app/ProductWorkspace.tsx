@@ -7,7 +7,9 @@ import { Shell } from '@klisteniapp/b2b-ui'
 import { doseLabel } from '../features/alternatives/alternativePresentation'
 import { ProductWorkoutHistory, type SelectedRecovery } from './ProductWorkout'
 import { IndexedDBWorkoutStore } from '../features/training/storage/workoutStore'
-import { exportOwnerLocalWorkout } from '../features/training/storage/ownerRecoveryExport'
+import type { WorkoutDocument } from '../features/training/storage/workoutStore'
+import { useSelectedWorkoutRecovery } from '../features/training/storage/useSelectedWorkoutRecovery'
+import type { WorkoutRecoveryContext } from '../features/training/storage/selectedWorkoutRecovery'
 import { useProductStream } from './productStream'
 import { TrainerHealthView } from '../features/health/TrainerHealthView'
 import { useApplication } from './ApplicationProvider'
@@ -23,8 +25,21 @@ import type { HealthAccess } from '../features/health/healthAccess'
 export default function ProductWorkspace({ publicContent }: { publicContent?: ReactNode }) {
   const { session, href, navigate } = useApplication()
   const [store] = useState(() => new IndexedDBWorkoutStore())
-  const [recovery, setRecovery] = useState<SelectedRecovery | null>(null)
   const boot = session.bootstrap
+  const recoveryContext = useMemo<WorkoutRecoveryContext | null>(
+    () =>
+      boot && session.productAccess
+        ? {
+            origin: location.origin,
+            bootstrap: boot,
+            access: session.productAccess,
+            branchId: session.branchId,
+            signal: session.contextSignal,
+          }
+        : null,
+    [boot, session.productAccess, session.branchId, session.contextSignal],
+  )
+  const recovery = useSelectedWorkoutRecovery(store, recoveryContext)
   const membership = boot?.memberships.find((m) => m.organizationId === session.orgId)
   const refresh = useCallback(() => session.refresh(), [session.refresh])
   const streamContext = useMemo<HealthAccess | null>(
@@ -137,6 +152,7 @@ export default function ProductWorkspace({ publicContent }: { publicContent?: Re
           </select>
         </label>
       )}
+      {recovery.error && <p role="alert">{recovery.error}</p>}
       {session.error && (
         <p role="alert">
           {session.error}
@@ -171,18 +187,7 @@ export default function ProductWorkspace({ publicContent }: { publicContent?: Re
           currentOrigin={location.origin}
           refreshAccess={refresh}
           localExport={
-            recovery &&
-            recovery.scope.accountId === boot.user.id &&
-            recovery.scope.organizationId === session.orgId
-              ? {
-                  exportOwnPending: ({ access, signal }) =>
-                    exportOwnerLocalWorkout(
-                      store,
-                      { scope: recovery.scope, access, signal },
-                      recovery.id,
-                    ),
-                }
-              : undefined
+            recovery.selected ? { exportOwnPending: recovery.exportOwnPending } : undefined
           }
         >
           {publicContent ?? (
@@ -197,7 +202,9 @@ export default function ProductWorkspace({ publicContent }: { publicContent?: Re
                 accessKey={session.workContextKey}
                 context={protectedContext!}
                 store={store}
-                onSelected={setRecovery}
+                recoveryContext={recoveryContext!}
+                recoverable={recovery.canResume ? recovery.selected!.document : null}
+                onSelected={recovery.remember}
                 organizationName={membership.name}
                 branchName={
                   membership.choices.find((c) => c.branchId === session.branchId)?.name ?? ''
@@ -230,9 +237,13 @@ function ProductViews({
   navigate,
   store,
   onSelected,
+  recoveryContext,
+  recoverable,
 }: {
   store: IndexedDBWorkoutStore
-  onSelected: (selection: SelectedRecovery) => void
+  onSelected: (selection: SelectedRecovery) => void | Promise<void>
+  recoveryContext: WorkoutRecoveryContext
+  recoverable: WorkoutDocument | null
   createClient: (signal?: AbortSignal) => ProductV2Client
   accessKey: string
   context: HealthAccess
@@ -366,6 +377,8 @@ function ProductViews({
           createClient={createClient}
           store={store}
           onSelected={onSelected}
+          recoveryContext={recoveryContext}
+          recoverable={recoverable}
           onOpenRoutine={setReference}
         />
       ) : (

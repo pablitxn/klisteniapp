@@ -6,6 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { createServer, type ViteDevServer } from 'vite'
 import {
   invitationBranches,
+  scopedInvitationBranches,
   invitationError,
   selectInvitationGrant,
 } from '../src/features/people/invitationGrants.ts'
@@ -46,6 +47,18 @@ const mixed = [
   { branchId: 'atlas-principal', role: 'member' as const, active: true },
   { branchId: 'atlas-north', role: 'member' as const, active: true },
 ]
+
+test('guarded invitation metadata retains archived rows and rejects foreign or duplicate branches', () => {
+  const rows = [
+    ...branchOptions,
+    { organizationId: 'atlas', branchId: 'retired', name: 'Retired', status: 'archived' as const },
+  ]
+  assert.deepEqual(scopedInvitationBranches(context(), rows), rows)
+  assert.throws(() =>
+    scopedInvitationBranches(context(), [...rows, { ...rows[0], organizationId: 'sur' }]),
+  )
+  assert.throws(() => scopedInvitationBranches(context(), [...rows, rows[0]]))
+})
 
 test('authenticated branch choices are scoped to exact identity, realm, membership revision and selected role', () => {
   const scope = context(),
@@ -159,27 +172,18 @@ test('foreign, duplicate, missing and archived active grants fail without droppi
 })
 test('branch discovery is live and stale or revoked replies cannot repopulate the invitation catalog', async () => {
   const scope = context(),
-    late = deferred<ReturnType<typeof bootstrapFor>>()
+    late = deferred<typeof branchOptions>()
   const client = { call: async () => [member] } as ProductV2Client
   let count = 0
   const controller = new PeopleController(
     scope,
     () => client,
     async () =>
-      ++count === 1
-        ? late.promise
-        : {
-            ...bootstrapFor(scope),
-            memberships: bootstrapFor(scope).memberships.map((m) =>
-              m.organizationId === 'atlas'
-                ? { ...m, choices: m.choices.filter((c) => c.branchId !== 'atlas-north') }
-                : m,
-            ),
-          },
+      ++count === 1 ? late.promise : branchOptions.filter((b) => b.branchId !== 'atlas-north'),
   )
   const old = controller.loadBranches()
   await controller.loadBranches()
-  late.resolve(bootstrapFor(scope))
+  late.resolve(branchOptions)
   await old
   assert.equal(
     controller.getSnapshot().branches.some((b) => b.branchId === 'atlas-north'),
@@ -188,7 +192,9 @@ test('branch discovery is live and stale or revoked replies cannot repopulate th
   const revoked = new PeopleController(
     scope,
     () => client,
-    async () => ({ ...bootstrapFor(scope), user: { ...bootstrapFor(scope).user, id: 'foreign' } }),
+    async () => {
+      throw new ApiError('Revoked', 403, 'CONTEXT_REVOKED')
+    },
   )
   await revoked.load()
   assert.equal(revoked.getSnapshot().branchesValid, false)
@@ -199,6 +205,7 @@ test('explicit grant replay freezes the array through lost response and reports 
   const sent: unknown[] = []
   const client = {
     call: async (key: string, input: unknown) => {
+      if (key === 'invitationBranches') return branchOptions
       if (key === 'people') return [member]
       sent.push(structuredClone(input))
       if (sent.length === 1) throw new ApiError('Lost response', 0, 'NETWORK_ERROR')

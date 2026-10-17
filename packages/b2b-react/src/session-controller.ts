@@ -72,6 +72,7 @@ export function createSessionController(client: SessionClient) {
   let signingOut = false
   let generation = 0
   let request: AbortController | null = null
+  let revalidation: { generation: number; promise: Promise<boolean> } | null = null
   let contextRevision = 0
 
   function patch(value: Partial<SessionState>) {
@@ -153,7 +154,21 @@ export function createSessionController(client: SessionClient) {
       return false
     }
   }
-  async function revalidateProduct(): Promise<boolean> {
+  function revalidateProduct(): Promise<boolean> {
+    // Focus/visibility and SSE readiness can request the same verification at
+    // once. Share it until an explicit authority/context change supersedes it.
+    if (revalidation?.generation === generation && !request?.signal.aborted)
+      return revalidation.promise
+    const promise = performProductRevalidation()
+    const current = { generation, promise }
+    revalidation = current
+    const clear = () => {
+      if (revalidation === current) revalidation = null
+    }
+    void promise.then(clear, clear)
+    return promise
+  }
+  async function performProductRevalidation(): Promise<boolean> {
     // Focus/visibility checks use a separate request lifetime. Keep the exact
     // published scope and callback identities while authority is unchanged;
     // explicit session events, switches and revocations still abort immediately.

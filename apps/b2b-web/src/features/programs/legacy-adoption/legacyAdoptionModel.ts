@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { ApiError } from '@klisteniapp/b2b-client'
 import {
   ProductEndpoints,
@@ -122,7 +123,7 @@ export function prepareLegacyAdoption(
   preview: AdoptionPreview,
   review: AdoptionReview,
   previous: AdoptionAttempt | null,
-  newId: () => string = () => crypto.randomUUID(),
+  newId: () => string = () => createClientId(),
 ): { ok: true; attempt: AdoptionAttempt } | { ok: false; issues: string[] } {
   const issues: string[] = []
   if (!issuedDraftMatches(preview))

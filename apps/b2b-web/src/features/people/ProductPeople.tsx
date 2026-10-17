@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { ProductV2Client } from '@klisteniapp/b2b-client'
 import {
@@ -36,7 +37,7 @@ export function ProductPeople({
   function operation(key: string) {
     let value = pending.current.get(key)
     if (!value) {
-      value = { operationId: crypto.randomUUID(), id: crypto.randomUUID() }
+      value = { operationId: createClientId(), id: createClientId() }
       pending.current.set(key, value)
     }
     return value

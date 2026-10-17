@@ -1,5 +1,6 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type FormEvent } from 'react'
-import { productBootstrap, type ProductV2Client } from '@klisteniapp/b2b-client'
+import type { ProductV2Client } from '@klisteniapp/b2b-client'
 import type { ProductAccess, ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
 import { Field } from '@klisteniapp/b2b-ui'
 import { AuditDrawer } from '../audit/AuditDrawer'
@@ -50,12 +51,7 @@ function ScopedPeople({
   const factory = useRef(createClient)
   factory.current = createClient
   const controller = useMemo(
-    () =>
-      new PeopleController(
-        context,
-        (signal) => factory.current(signal),
-        (signal) => productBootstrap({ signal, contextSignal: context.signal }),
-      ),
+    () => new PeopleController(context, (signal) => factory.current(signal)),
     [context],
   )
   const state = useSyncExternalStore(
@@ -542,7 +538,7 @@ export function InvitationEditor({
           access,
           branchId,
           { name, email, role, branchGrants: grants },
-          { id: crypto.randomUUID(), operationId: crypto.randomUUID() },
+          { id: createClientId(), operationId: createClientId() },
           branches,
         ),
       )

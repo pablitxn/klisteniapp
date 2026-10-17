@@ -22,6 +22,45 @@ const bootstrap: ProductBootstrap = {
     },
   ],
 }
+test('focus and stream readiness share one in-flight same-context verification without aborting it', async () => {
+  let delayed = false,
+    calls = 0,
+    release!: () => void,
+    signal: AbortSignal | undefined
+  const barrier = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  const controller = createSessionController({
+    bootstrap: async (request) => {
+      calls++
+      if (delayed) {
+        signal = request
+        await barrier
+      }
+      return bootstrap
+    },
+    productAccess: async () => access('one', 'superadmin'),
+    me: async () => {
+      throw new Error('Unexpected legacy read')
+    },
+    signOut: async () => {},
+  })
+  await controller.start()
+  await controller.setProductWorkContext('gym', 'one', 'superadmin')
+  delayed = true
+  const before = controller.getSnapshot(),
+    initialCalls = calls
+  const ready = controller.revalidateProduct(),
+    focus = controller.refresh(false)
+  assert.equal(calls, initialCalls + 1)
+  assert.equal(signal?.aborted, false)
+  release()
+  assert.equal(await ready, true)
+  await focus
+  assert.equal(controller.getSnapshot(), before)
+  assert.equal(before.contextSignal.aborted, false)
+  controller.stop()
+})
 function access(branch: string, role: 'superadmin' | 'coach'): ProductAccess {
   return {
     schemaVersion: 2,

@@ -88,6 +88,7 @@ for (const mode of ['unified-http', 'white-label-http'])
         assert.equal(page.status, 200)
         assert.match(page.body, /<html/)
         for (const suffix of [
+          'atlas-superadmin',
           'atlas-assigned-coach',
           'atlas-secondary-coach',
           'atlas-secondary-member',
@@ -129,7 +130,28 @@ for (const mode of ['unified-http', 'white-label-http'])
             )
             assert.equal(own.status, 200, JSON.stringify(own.body))
             assert.equal((await request(port, path(api + '/routines'), { headers })).status, 403)
+          } else if (suffix.endsWith('superadmin')) {
+            const branches = await request(port, path(api + '/invitation-branches'), { headers })
+            assert.equal(branches.status, 200, JSON.stringify(branches.body))
+            assert.equal(branches.body.length, 2)
+            assert.ok(
+              branches.body.every(
+                (row) => row.organizationId === 'atlas-demo' && row.status === 'active',
+              ),
+            )
+            assert.equal(
+              (
+                await request(port, path('/api/b2b/orgs/sur-demo/product/v2/invitation-branches'), {
+                  headers,
+                })
+              ).status,
+              wl ? 404 : 403,
+            )
           } else if (suffix.endsWith('coach')) {
+            assert.equal(
+              (await request(port, path(api + '/invitation-branches'), { headers })).status,
+              403,
+            )
             assert.equal(
               (await request(port, path(api + '/routine-publications'), { headers })).status,
               200,

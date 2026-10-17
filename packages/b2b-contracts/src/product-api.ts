@@ -83,6 +83,26 @@ export const ProductEndpoints = {
   capabilities: endpoint('GET', '/capabilities', empty, ProductCapabilitiesSchema),
   access: endpoint('GET', '/access', empty, ProductAccessSchema),
   people: endpoint('GET', '/people', empty, z.array(ProductMemberSchema)),
+  invitationBranches: endpoint(
+    'GET',
+    '/invitation-branches',
+    empty,
+    z
+      .array(
+        z
+          .object({
+            organizationId: IdSchema,
+            branchId: IdSchema,
+            name: z.string().min(1).max(100),
+            status: z.enum(['active', 'archived']),
+          })
+          .strict(),
+      )
+      .refine(
+        (rows) => new Set(rows.map((row) => row.branchId)).size === rows.length,
+        'Branch IDs must be unique',
+      ),
+  ),
   updateMember: endpoint(
     'POST',
     '/people/:memberId',

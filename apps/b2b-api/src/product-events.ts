@@ -137,6 +137,12 @@ export async function serveProductEvents(
   // Healthy streams stay open: periodic authorization and the browser watchdog
   // bound stale authority without destroying an editor on a transport lease.
   const startup = setTimeout(close, 10_000);
+  // Authentication may have awaited before this handler was entered. A GET
+  // response can already be gone, so its close event will not fire again.
+  if (request.aborted || response.destroyed) {
+    close();
+    return;
+  }
   try {
     unsubscribe = await hub.subscribe(scope, close);
     if (closed) {

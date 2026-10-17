@@ -1,3 +1,4 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { Field } from '@klisteniapp/b2b-ui'
 import { TimeZoneInput } from './EditorFeedback'
 import {
@@ -186,7 +187,7 @@ export function StageScheduleEditor({
             disabled={stage.slots.length >= 100}
             onClick={() =>
               stageChange(stage.id, {
-                slots: [...stage.slots, { id: crypto.randomUUID(), weekday: null, routine: null }],
+                slots: [...stage.slots, { id: createClientId(), weekday: null, routine: null }],
               })
             }
           >
@@ -203,7 +204,7 @@ export function StageScheduleEditor({
             ...content,
             stages: [
               ...content.stages,
-              { id: crypto.randomUUID(), name: '', startDate: null, endDate: null, slots: [] },
+              { id: createClientId(), name: '', startDate: null, endDate: null, slots: [] },
             ],
           })
         }

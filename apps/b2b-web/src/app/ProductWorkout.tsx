@@ -1,41 +1,61 @@
 import { useMemo, useState } from 'react'
 import type { ProductV2Client } from '@klisteniapp/b2b-client'
-import type { ProductOutput, SessionRevision } from '@klisteniapp/b2b-contracts/product-v2'
+import { AssignmentSchema } from '@klisteniapp/b2b-contracts/training'
 import { useLoad } from '@klisteniapp/b2b-react'
 import type { HealthAccess } from '../features/health/healthAccess'
 import { ProductHistoryPage } from '../features/training/HistoryPage'
 import { ProductTrainingSession } from '../features/training/Session'
-import { createWorkoutDocument, occurrenceWorkoutId } from '../features/training/sync/workoutEdit'
 import { createWorkoutClient } from '../features/training/sync/workoutClient'
-import type { WorkoutStore, WorkoutScope } from '../features/training/storage/workoutStore'
+import type { WorkoutScope, WorkoutDocument } from '../features/training/storage/workoutStore'
+import type { WorkoutRecoveryStore } from '../features/training/storage/recoverySelection'
 import type { RoutineReference, SessionRecord } from '../features/training/routine-history/model'
 
-type Selection = {
-  origin: SessionRevision['origin']
-  id?: string
-  accepted?: SessionRevision | null
-}
+import {
+  type LegacyWorkoutAssignment,
+  type WorkoutRecoveryContext,
+} from '../features/training/storage/selectedWorkoutRecovery'
+import { LegacyWorkoutEntryChoice } from '../features/training/sync/LegacyWorkoutEntryChoice'
+import { UnboundWorkoutRecoveryChoice } from '../features/training/sync/UnboundWorkoutRecoveryChoice'
+import {
+  loadSelectedWorkout,
+  readIssuedWorkoutRoutine,
+  type WorkoutSelection,
+} from './workoutSelection'
 export type SelectedRecovery = { scope: WorkoutScope; id: string }
 export function ProductWorkoutHistory({
   context,
   createClient,
   store,
   onSelected,
+  recoveryContext,
+  recoverable,
   onOpenRoutine,
 }: {
   context: HealthAccess
   createClient: (signal?: AbortSignal) => ProductV2Client
-  store: WorkoutStore
-  onSelected: (selection: SelectedRecovery) => void
+  store: WorkoutRecoveryStore
+  recoveryContext: WorkoutRecoveryContext
+  recoverable: WorkoutDocument | null
+  onSelected: (selection: SelectedRecovery) => void | Promise<void>
   onOpenRoutine: (r: RoutineReference) => void
 }) {
-  const [selection, setSelection] = useState<Selection | null>(null),
-    [message, setMessage] = useState('')
+  const [selection, setSelection] = useState<WorkoutSelection | null>(null)
+  const [legacyAssignment, setLegacyAssignment] = useState<LegacyWorkoutAssignment | null>(null)
   function edit(record: SessionRecord) {
     if (record.schemaVersion === 1) {
-      setMessage(
-        'El registro original se conserva. Para corregirlo necesitás la prescripción completa revisada por tu entrenador.',
-      )
+      setSelection({
+        id: record.original.id,
+        origin: {
+          kind: 'legacy',
+          assignmentId: record.original.assignmentId,
+          executionId: record.original.id,
+          routine: {
+            programId: record.routine.programId,
+            version: record.routine.version,
+            schemaVersion: 1,
+          },
+        },
+      })
       return
     }
     setSelection({ origin: record.origin, id: record.id, accepted: record })
@@ -49,10 +69,37 @@ export function ProductWorkoutHistory({
       selection={selection}
       onClose={() => setSelection(null)}
       onSelected={onSelected}
+      recoveryContext={recoveryContext}
+    />
+  ) : legacyAssignment ? (
+    <LegacyEntry
+      key={legacyAssignment.id}
+      assignment={legacyAssignment}
+      context={recoveryContext}
+      createClient={createClient}
+      store={store}
+      onCancel={() => setLegacyAssignment(null)}
+      onSelected={(document) => {
+        setLegacyAssignment(null)
+        setSelection({ id: document.id, origin: document.origin, accepted: document.accepted })
+      }}
     />
   ) : (
     <>
-      {message && <p role="status">{message}</p>}
+      {recoverable && (
+        <button
+          className="button"
+          onClick={() =>
+            setSelection({
+              id: recoverable.id,
+              origin: recoverable.origin,
+              accepted: recoverable.accepted,
+            })
+          }
+        >
+          Retomar trabajo guardado en este dispositivo
+        </button>
+      )}
       <ProductHistoryPage
         scope={{
           organizationId: context.organizationId,
@@ -72,16 +119,7 @@ export function ProductWorkoutHistory({
             },
           })
         }
-        onStartLegacy={(assignment) =>
-          setSelection({
-            origin: {
-              kind: 'legacy',
-              assignmentId: assignment.id,
-              executionId: null,
-              routine: assignment.routine,
-            },
-          })
-        }
+        onStartLegacy={setLegacyAssignment}
         onEditSession={edit}
       />
     </>
@@ -94,99 +132,41 @@ function SelectedWorkout({
   selection,
   onClose,
   onSelected,
+  recoveryContext,
 }: {
   context: HealthAccess
   createClient: (signal?: AbortSignal) => ProductV2Client
-  store: WorkoutStore
-  selection: Selection
+  store: WorkoutRecoveryStore
+  selection: WorkoutSelection
   onClose: () => void
-  onSelected: (selection: SelectedRecovery) => void
+  recoveryContext: WorkoutRecoveryContext
+  onSelected: (selection: SelectedRecovery) => void | Promise<void>
 }) {
   const io = useMemo(() => createWorkoutClient(createClient), [createClient])
+  const [skipUnbound, setSkipUnbound] = useState(false)
   const loaded = useLoad(
-    async (signal) => {
-      const stored = await io.routineVersion(selection.origin.routine, signal)
-      const routine =
-        stored.schemaVersion === 2
-          ? stored.snapshot
-          : await createClient(signal).call('routineSupplement', {
-              id: selection.origin.routine.programId,
-              version: selection.origin.routine.version,
-            })
-      if (!routine)
-        throw new Error(
-          'La rutina original sigue disponible en el historial. Tu entrenador debe completar su prescripción antes de usar el nuevo registro.',
-        )
-      const scope: WorkoutScope = {
-        origin: location.origin,
-        accountId: context.accountId,
-        actorId: context.accountId,
-        organizationId: context.organizationId,
-        branchId: context.branchId,
-      }
-      let accepted = selection.accepted ?? null
-      if (!selection.id && selection.origin.kind === 'occurrence') {
-        const occurrenceId = selection.origin.occurrenceId
-        const records = await createClient(signal).call('sessions', { memberId: context.accountId })
-        accepted =
-          records
-            .filter(
-              (record): record is SessionRevision =>
-                record.schemaVersion === 2 &&
-                record.origin.kind === 'occurrence' &&
-                record.origin.occurrenceId === occurrenceId,
-            )
-            .sort((a, b) => b.revision - a.revision)[0] ?? null
-      }
-      const id =
-        selection.id ??
-        accepted?.id ??
-        (selection.origin.kind === 'occurrence'
-          ? await occurrenceWorkoutId(scope, selection.origin.occurrenceId)
-          : crypto.randomUUID())
-      const equipment = await createClient(signal).call('workoutEquipment', {})
-      const relations = (
-        await Promise.all(
-          routine.steps.map((step) =>
-            createClient(signal).call('alternatives', {
-              id: routine.programId,
-              version: routine.version,
-              stepId: step.id,
-            }),
-          ),
-        )
-      ).flat()
-      const initial = createWorkoutDocument(
-        scope,
-        id,
-        selection.origin,
-        routine,
-        () => crypto.randomUUID(),
-        new Date().toISOString(),
-        accepted,
-      )
-      signal.throwIfAborted()
-      context.signal.throwIfAborted()
-      onSelected({ scope, id })
-      return {
-        initial,
-        routine: { ...routine, relations: [...new Map(relations.map((r) => [r.id, r])).values()] },
-        equipment,
-      }
-    },
-    JSON.stringify([context.generation, selection]),
+    (signal) =>
+      loadSelectedWorkout({
+        context: recoveryContext,
+        selection: { ...selection, skipUnbound },
+        store,
+        createClient,
+        signal,
+      }),
+    JSON.stringify([context.generation, selection, skipUnbound]),
   )
+  const workout = loaded.data?.kind === 'workout' ? loaded.data : null
   const [confirmed, setConfirmed] = useState<string[]>([])
   const environment = useMemo(
     () => ({
-      activeMachineIds: new Set(loaded.data?.equipment.activeMachineIds ?? []),
+      activeMachineIds: new Set(workout?.equipment.activeMachineIds ?? []),
       confirmedEquipment: new Set(confirmed),
     }),
-    [loaded.data?.equipment, confirmed],
+    [workout?.equipment, confirmed],
   )
   const labels = [
     ...new Set(
-      loaded.data?.routine.relations
+      (workout?.prescription.kind === 'reviewed' ? workout!.prescription.routine.relations : [])
         .map((r) => r.target.equipment)
         .filter((label) => label && label !== 'none') ?? [],
     ),
@@ -197,13 +177,33 @@ function SelectedWorkout({
       {loaded.error && (
         <>
           <p role="alert">{loaded.error}</p>
+          <button className="button" onClick={loaded.reload}>
+            Volver a consultar
+          </button>
           <button className="button" onClick={onClose}>
             Volver al historial
           </button>
         </>
       )}
-      {loaded.data && (
+      {loaded.data?.kind === 'unbound' && (
+        <UnboundWorkoutRecoveryChoice
+          store={store}
+          context={recoveryContext}
+          source={loaded.data.source}
+          onAdopted={() => loaded.reload()}
+          onOpenFresh={() => setSkipUnbound(true)}
+        />
+      )}
+      {workout && (
         <>
+          {workout.offline && (
+            <p role="status">
+              Abrimos la prescripción conservada en este dispositivo. Los envíos siguen suspendidos.
+              <button className="button" onClick={loaded.reload}>
+                Volver a validar la conexión
+              </button>
+            </p>
+          )}
           {!!labels.length && (
             <fieldset>
               <legend>Material disponible para alternativas</legend>
@@ -224,19 +224,109 @@ function SelectedWorkout({
             </fieldset>
           )}
           <ProductTrainingSession
-            initial={loaded.data.initial}
-            routine={loaded.data.routine}
+            initial={workout!.initial}
+            prescription={workout!.prescription}
             store={store}
             access={context.access}
             transport={io.transport}
             environment={environment}
-            integrationAccepted={context.access?.accessMode === 'active' && !context.signal.aborted}
+            integrationAccepted={
+              !workout.offline && context.access?.accessMode === 'active' && !context.signal.aborted
+            }
+            onDocumentReady={(document) => onSelected({ scope: document.scope, id: document.id })}
             onClose={onClose}
-            loadRemote={() => io.latestRevision(loaded.data!.initial.id, context.signal)}
+            loadRemote={async () => {
+              const binding = await io.sessionBinding(workout!.initial.id, context.signal)
+              if (!binding.accepted)
+                throw new Error('Solo existe la revisión original; conservamos el trabajo local.')
+              return binding.accepted
+            }}
+            loadRemoteBinding={() => io.sessionBinding(workout!.initial.id, context.signal)}
           />
         </>
       )}
     </section>
   )
 }
-export type LegacyWorkoutAssignment = ProductOutput<'legacyAssignments'>[number]
+
+function LegacyEntry({
+  assignment,
+  context,
+  createClient,
+  store,
+  onSelected,
+  onCancel,
+}: {
+  assignment: LegacyWorkoutAssignment
+  context: WorkoutRecoveryContext
+  createClient: (signal?: AbortSignal) => ProductV2Client
+  store: WorkoutRecoveryStore
+  onSelected: (document: WorkoutDocument) => void
+  onCancel: () => void
+}) {
+  const loaded = useLoad(
+    async (requestSignal) => {
+      const signal = AbortSignal.any([context.signal, requestSignal])
+      const result = await readIssuedWorkoutRoutine(
+        context,
+        assignment.routine,
+        createClient,
+        signal,
+      )
+      // This historical shape only validates and preserves the original localStorage
+      // bytes. Empty availability grants no current exercise permission or replay.
+      const original =
+        result.stored.schemaVersion === 1
+          ? AssignmentSchema.parse({
+              id: assignment.id,
+              branchId: assignment.scope.branchId,
+              active: assignment.active,
+              memberId: assignment.scope.memberId,
+              memberName: context.bootstrap.user.name,
+              assignedBy: assignment.assignedBy,
+              createdAt: assignment.createdAt,
+              program: result.stored.snapshot,
+              availability: [],
+            })
+          : null
+      return {
+        ...result,
+        legacySource: original
+          ? {
+              assignment: original,
+              storage: { getItem: (key: string) => localStorage.getItem(key) },
+            }
+          : undefined,
+      }
+    },
+    JSON.stringify([context.bootstrap.realm, context.access.accessRevision, assignment]),
+  )
+  return (
+    <section>
+      {loaded.loading && <p role="status">Consultando la asignación y su versión emitida…</p>}
+      {loaded.error && (
+        <>
+          <p role="alert">{loaded.error}</p>
+          <button className="button" onClick={loaded.reload}>
+            Volver a consultar
+          </button>
+        </>
+      )}
+      {loaded.data ? (
+        <LegacyWorkoutEntryChoice
+          store={store}
+          context={context}
+          assignment={assignment}
+          routine={loaded.data.routine}
+          legacySource={loaded.data.legacySource}
+          onSelected={onSelected}
+          onCancel={onCancel}
+        />
+      ) : (
+        <button className="button" onClick={onCancel}>
+          Volver al historial
+        </button>
+      )}
+    </section>
+  )
+}

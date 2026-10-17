@@ -1,9 +1,6 @@
+import { createClientId } from '@klisteniapp/b2b-client'
 import { ApiError, type ProductV2Client } from '@klisteniapp/b2b-client'
-import type {
-  ProductBootstrap,
-  ProductInput,
-  ProductOutput,
-} from '@klisteniapp/b2b-contracts/product-v2'
+import type { ProductInput, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
 import {
   peopleContextAllowed,
   peopleError,
@@ -11,7 +8,7 @@ import {
   type Person,
 } from './peopleModel.ts'
 import {
-  invitationBranches,
+  scopedInvitationBranches,
   invitationError,
   type InvitationBranch,
   type InvitationGrant,
@@ -60,7 +57,7 @@ export class PeopleController {
   private lifetime = new AbortController()
   private read: AbortController | null = null
   private branchRead: AbortController | null = null
-  private bootstrap?: (signal: AbortSignal) => Promise<ProductBootstrap>
+  private readBranches: (signal: AbortSignal) => Promise<ProductOutput<'invitationBranches'>>
   private pending: Pending | null = null
   private epoch = 0
   readonly context: PeopleContext
@@ -68,9 +65,10 @@ export class PeopleController {
   constructor(
     context: PeopleContext,
     createClient: (signal?: AbortSignal) => ProductV2Client,
-    bootstrap?: (signal: AbortSignal) => Promise<ProductBootstrap>,
+    readBranches?: (signal: AbortSignal) => Promise<ProductOutput<'invitationBranches'>>,
   ) {
-    this.bootstrap = bootstrap
+    this.readBranches =
+      readBranches ?? ((signal) => createClient(signal).call('invitationBranches', {}))
     this.context = context
     this.createClient = createClient
   }
@@ -191,7 +189,6 @@ export class PeopleController {
   }
   async loadBranches() {
     if (
-      !this.bootstrap ||
       !this.context.access ||
       !creatableRoles(this.context.access).length ||
       !peopleContextAllowed(this.context)
@@ -204,7 +201,7 @@ export class PeopleController {
     this.set({ branchesLoading: true, branchesError: '', branchesValid: false })
     try {
       const signal = this.signal(request.signal)
-      const options = invitationBranches(this.context, await this.bootstrap(signal))
+      const options = scopedInvitationBranches(this.context, await this.readBranches(signal))
       if (this.current(epoch) && !signal.aborted && this.branchRead === request)
         this.set({ branches: options, branchesValid: true })
     } catch (error) {
@@ -232,7 +229,7 @@ export class PeopleController {
     if (this.state.busy || this.pending || this.state.blocked) return null
     this.pending = {
       kind: 'updateMember',
-      input: structuredClone({ ...input, operationId: crypto.randomUUID() }),
+      input: structuredClone({ ...input, operationId: createClientId() }),
     }
     return (await this.send()) as Person | null
   }

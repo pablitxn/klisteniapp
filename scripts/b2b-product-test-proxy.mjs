@@ -25,6 +25,7 @@ export function createProductTestProxy(gatewayPort, protocol) {
       response.end()
       return
     }
+    let upstreamResponse
     const upstream = http.request(
       {
         hostname: '127.0.0.1',
@@ -34,15 +35,31 @@ export function createProductTestProxy(gatewayPort, protocol) {
         headers: { ...request.headers, host: target.host },
       },
       (result) => {
+        upstreamResponse = result
+        if (response.destroyed) {
+          result.destroy()
+          return
+        }
+        result.on('error', () => response.destroy())
         response.writeHead(result.statusCode, result.headers)
         result.pipe(response)
       },
     )
     upstream.on('error', () => {
+      if (response.destroyed) return
+      if (response.headersSent) {
+        response.destroy()
+        return
+      }
       if (!response.headersSent) response.writeHead(502)
       response.end()
     })
-    request.on('aborted', () => upstream.destroy())
+    const close = () => {
+      upstreamResponse?.destroy()
+      upstream.destroy()
+    }
+    response.once('close', close)
+    request.once('aborted', close)
     request.pipe(upstream)
   })
   proxy.on('connect', (request, client, head) => {
