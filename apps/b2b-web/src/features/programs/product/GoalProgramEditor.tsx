@@ -5,6 +5,7 @@ import { DraftConflict, DraftRecovery } from '../../../shared/editor/useEditorDr
 import { EditorFeedback, PlanningAudit, RetryPlanningRequest } from './EditorFeedback'
 import { StageScheduleEditor, type RoutineChoice } from './StageScheduleEditor'
 import { goalContent, goalIssues, isGoalContent, readAttempt, type Goal } from './programmingModel'
+import { saveGoalAndReadCurrent } from './planningRequests'
 import { usePlanningEditor } from './usePlanningEditor'
 
 export function GoalProgramEditor({
@@ -43,8 +44,20 @@ export function GoalProgramEditor({
   async function save() {
     const input = { id: local.value.id, memberId, expectedRevision: local.savedRevision(), content }
     await editor.run('saveGoal', input, async (operationId) => {
-      const saved = await client.call('saveGoal', { ...input, operationId })
+      const { accepted: saved, current } = await saveGoalAndReadCurrent(client, {
+        ...input,
+        operationId,
+      })
       if (!local.isCurrent()) return
+      if (current.revision > saved.revision) {
+        setLatest(current)
+        onSaved(current)
+        editor.setConflict(true)
+        editor.setMessage(
+          'La solicitud se confirmó, pero otra persona ya guardó una versión posterior. Revisala antes de continuar.',
+        )
+        return
+      }
       local.reset({ id: saved.id, content: goalContent(saved), attempt: null }, saved.revision)
       setLatest(saved)
       setConfirm(false)

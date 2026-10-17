@@ -264,3 +264,45 @@ test('recovered publication retry retains the exact old expected revision instea
     null,
   )
 })
+
+test('a lost-save replay followed by another trainer save reads current head without flattening the receipt', async () => {
+  const { saveRoutineAndReadCurrent } = await import(
+    '../src/features/programs/product/planningRequests.ts'
+  )
+  const accepted: Routine = {
+    ...complete(),
+    schemaVersion: 2,
+    id: 'routine',
+    scope,
+    revision: 2,
+    publishedVersion: 1,
+    archivedAt: null,
+  }
+  const current: Routine = {
+    ...structuredClone(accepted),
+    revision: 3,
+    name: 'Other trainer correction',
+  }
+  const responses = [accepted, current]
+  const paths: string[] = []
+  const client = createProductV2Client('coach', 'brand', {
+    branchId: 'center',
+    fetch: async (url) => {
+      paths.push(String(url))
+      return new Response(JSON.stringify(responses.shift()), {
+        headers: { 'Content-Type': 'application/json' },
+      })
+    },
+  })
+  const result = await saveRoutineAndReadCurrent(client, {
+    id: 'routine',
+    expectedRevision: 1,
+    operationId: 'original-operation',
+    content: complete(),
+  })
+  assert.equal(result.accepted.revision, 2)
+  assert.equal(result.current.revision, 3)
+  assert.equal(result.accepted.name, 'Routine')
+  assert.equal(result.current.name, 'Other trainer correction')
+  assert.equal(paths.length, 2)
+})

@@ -19,6 +19,7 @@ import {
   routineIssues,
   type Routine,
 } from './programmingModel'
+import { saveRoutineAndReadCurrent } from './planningRequests'
 import { usePlanningEditor } from './usePlanningEditor'
 
 export function RoutineEditorV2({
@@ -57,8 +58,20 @@ export function RoutineEditorV2({
     const input = { id: local.value.id, expectedRevision: local.savedRevision(), content }
     await editor.run('saveRoutine', input, async (operationId) => {
       RoutineDraftContentSchema.parse(content)
-      const saved = await client.call('saveRoutine', { ...input, operationId })
+      const { accepted: saved, current } = await saveRoutineAndReadCurrent(client, {
+        ...input,
+        operationId,
+      })
       if (!local.isCurrent()) return
+      if (current.revision > saved.revision) {
+        setLatest(current)
+        onSaved(current)
+        editor.setConflict(true)
+        editor.setMessage(
+          'La solicitud se confirmó, pero otra persona ya guardó una versión posterior. Revisala antes de continuar.',
+        )
+        return
+      }
       local.reset({ id: saved.id, content: routineContent(saved), attempt: null }, saved.revision)
       setLatest(saved)
       setPublication(null)
