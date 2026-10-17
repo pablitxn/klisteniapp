@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import http from 'node:http'
+import { randomUUID } from 'node:crypto'
 import { startProductHarness } from './b2b-product-e2e-server.mjs'
 import { PRODUCT_TEST_PASSWORD } from './b2b-product-seed.mjs'
 import { requireProductTestDatabase } from './b2b-product-harness-settings.ts'
@@ -87,6 +88,7 @@ for (const mode of ['unified-http', 'white-label-http'])
         assert.equal(page.status, 200)
         assert.match(page.body, /<html/)
         for (const suffix of [
+          'atlas-assigned-coach',
           'atlas-secondary-coach',
           'atlas-secondary-member',
           'atlas-inactive-member',
@@ -136,6 +138,60 @@ for (const mode of ['unified-http', 'white-label-http'])
               (await request(port, path(api + '/history-subjects'), { headers })).status,
               200,
             )
+            const catalog = await request(port, path(api + '/catalog/exercises'), { headers })
+            assert.equal(catalog.status, 200)
+            const adaptations = catalog.body.filter((e) => e.id.endsWith('-qa-adapted-squat'))
+            if (suffix.includes('assigned')) {
+              assert.equal(adaptations.length, 1)
+              const local = adaptations[0],
+                base = catalog.body.find((e) => e.id === 'squat')
+              assert.equal(local.scope, 'organization')
+              assert.equal(local.branchId, choice.branchId)
+              assert.equal(local.baseExerciseId, 'squat')
+              assert.equal(local.animationId, 'squat')
+              assert.notDeepEqual(local.instructions, base.instructions)
+              const id = randomUUID(),
+                mutationHeaders = { ...headers, origin, 'content-type': 'application/json' }
+              const draft = await request(port, path(api + '/routines/' + id), {
+                method: 'POST',
+                headers: mutationHeaders,
+                body: {
+                  id,
+                  operationId: randomUUID(),
+                  expectedRevision: 0,
+                  content: {
+                    name: 'Synthetic local adaptation proof',
+                    description: '',
+                    steps: [
+                      {
+                        id: 'source',
+                        exerciseId: local.id,
+                        substitutionPolicy: 'reviewed',
+                        dose: {
+                          mode: 'repetitions',
+                          sets: { kind: 'fixed', value: 3 },
+                          repetitions: { kind: 'fixed', value: 8 },
+                          durationSeconds: null,
+                          load: { mode: 'bodyweight' },
+                          restSeconds: { kind: 'fixed', value: 60 },
+                          laterality: 'bilateral',
+                          targetRpe: null,
+                          notes: '',
+                        },
+                      },
+                    ],
+                  },
+                },
+              })
+              assert.equal(draft.status, 200, JSON.stringify(draft.body))
+              const published = await request(port, path(api + '/routines/' + id + '/publish'), {
+                method: 'POST',
+                headers: mutationHeaders,
+                body: { id, operationId: randomUUID(), expectedRevision: draft.body.revision },
+              })
+              assert.equal(published.status, 200, JSON.stringify(published.body))
+              assert.deepEqual(published.body.relations, [])
+            } else assert.deepEqual(adaptations, [])
           } else {
             const own = await request(port, path(api + `/members/${actor.id}/continuity`), {
               headers,

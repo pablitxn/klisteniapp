@@ -1,0 +1,28 @@
+✖ composed unified-http serves activated synthetic planning, member history and export-only access (4704.452796ms)
+✖ composed white-label-http serves activated synthetic planning, member history and export-only access (4445.615149ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9971.39963
+
+✖ failing tests:
+
+test at scripts/b2b-product-composed-harness.test.mjs:67:3
+✖ composed unified-http serves activated synthetic planning, member history and export-only access (4704.452796ms)
+  TypeError: Cannot read properties of undefined (reading '1')
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-composed-harness.test.mjs:96:87)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at scripts/b2b-product-composed-harness.test.mjs:67:3
+✖ composed white-label-http serves activated synthetic planning, member history and export-only access (4445.615149ms)
+  TypeError: Cannot read properties of undefined (reading '1')
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-composed-harness.test.mjs:96:87)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

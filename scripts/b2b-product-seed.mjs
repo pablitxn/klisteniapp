@@ -14,6 +14,7 @@ import { migrate } from '../apps/b2b-api/src/migrate.ts'
 import { seedWhiteLabelDemo } from '../apps/b2b-api/src/white-label-demo.ts'
 import { B2BService, createUser } from '../apps/b2b-api/src/service.ts'
 import { ExecutionInputSchema } from '../packages/b2b-contracts/src/training.ts'
+import { ExerciseInputSchema } from '../packages/b2b-contracts/src/catalog.ts'
 import {
   DoseSchema,
   RoutineDraftContentSchema,
@@ -314,6 +315,30 @@ export async function seedProductHarness(pool, config, runKey) {
     // This function has already proved the schema is fresh and task-owned, and
     // preserved historical 001-005 rows through repeated normal migrations.
     await pool.query('UPDATE b2b_organization SET product_active=true')
+    // A real changed local adaptation proves that base/animation references do
+    // not confer reviewed provenance. Keep canonical and historical rows intact.
+    const base = (
+      await pool.query(
+        "SELECT data FROM b2b_exercise WHERE id='squat' AND organization_id IS NULL AND status='published'",
+      )
+    ).rows[0]
+    assert.ok(base)
+    for (const gym of demo.gyms) {
+      const adapted = ExerciseInputSchema.parse({
+        ...base.data,
+        name: 'Synthetic local squat adaptation',
+        instructions: [
+          ...base.data.instructions,
+          'Synthetic local adaptation: pause before returning to the initial position.',
+        ],
+        baseExerciseId: 'squat',
+        animationId: 'squat',
+      })
+      await pool.query(
+        "INSERT INTO b2b_exercise(id,organization_id,branch_id,data,status) VALUES($1,$2,$3,$4,'published')",
+        [`${gym.id}-qa-adapted-squat`, gym.id, gym.branches[0].id, adapted],
+      )
+    }
     const service = new B2BService(pool, auth, {
       ...config,
       productUnified: false,
