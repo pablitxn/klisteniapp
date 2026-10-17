@@ -1,0 +1,12 @@
+diff --git a/apps/b2b-web/src/app/ProductWorkout.tsx b/apps/b2b-web/src/app/ProductWorkout.tsx
+index eeed681..8927399 100644
+--- a/apps/b2b-web/src/app/ProductWorkout.tsx
++++ b/apps/b2b-web/src/app/ProductWorkout.tsx
+@@ -95,6 +95,7 @@ export function ProductWorkoutHistory({
+       {recoverable && (
+         <button
+           className="button"
++          style={{ minWidth: 0, maxWidth: '100%', whiteSpace: 'normal', overflowWrap: 'anywhere' }}
+           onClick={() =>
+             setSelection({
+               id: recoverable.id,
