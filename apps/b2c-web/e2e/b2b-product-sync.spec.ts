@@ -19,6 +19,14 @@ import {
 } from './fixtures/b2b-product/app-fixture'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
 import type { ProductInput } from '../../../packages/b2b-contracts/src/product-v2.ts'
+import {
+  holdNativeWorkoutTransaction,
+  nativeHoldState,
+  releaseNativeHold,
+  restoreNativeHold,
+  readNativeWorkout,
+  nativeWorkoutQuotaFault,
+} from './fixtures/b2b-product/native-workout-store'
 const quantity = (page: Page) => page.getByRole('spinbutton', { name: /cantidad$/ }).first()
 const synchronized = (page: Page) =>
   page.getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })
@@ -29,8 +37,80 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
   try {
     const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
     await login(page, member, info)
-    await startWorkout(page, product, info, plan)
+    const id = await startWorkout(page, product, info, plan)
     await expect(synchronized(page)).toBeVisible()
+    const closeEvidence: Array<Record<string, unknown>> = []
+    for (const store of ['workouts-v2', 'selected-workout-v1'] as const) {
+      await test.step(`Actual Close awaits native ${store} and captured successor`, async () => {
+        const before = await readNativeWorkout(page, id)
+        await context.setOffline(true)
+        await holdNativeWorkoutTransaction(page, id, store)
+        const notes = `Captured before delayed ${store} Close`
+        const reason = `Captured successor behind delayed ${store}`
+        await page.getByLabel('Notas de la sesión', { exact: true }).fill(notes)
+        await expect.poll(async () => (await nativeHoldState(page))?.held).toBe(true)
+        await page.getByLabel('Motivo de corrección', { exact: true }).fill(reason)
+        await page
+          .locator('.workout-session')
+          .getByRole('button', { name: 'Volver', exact: true })
+          .click()
+        await expect(
+          page.getByRole('button', { name: 'Guardando en este dispositivo…', exact: true }),
+        ).toBeDisabled()
+        await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)
+        await expect(page.getByLabel('Motivo de corrección', { exact: true })).toHaveValue(reason)
+        await releaseNativeHold(page)
+        await expect(
+          page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+        ).toBeVisible()
+        const saved = await readNativeWorkout(page, id)
+        expect(saved.document.content).toMatchObject({
+          notes,
+          correctionReason: reason,
+          status: before.document.content.status,
+          explicitCompletion: false,
+        })
+        expect(saved.document.accepted).toEqual(before.document.accepted)
+        expect(saved.document.operations).toEqual(before.document.operations)
+        expect(saved.pointers).toHaveLength(1)
+        expect(saved.pointers[0]).toMatchObject({
+          id,
+          documentKey: saved.document.key,
+          documentGeneration: saved.document.generation,
+        })
+        closeEvidence.push({
+          store,
+          generation: saved.document.generation,
+          pointerGeneration: saved.pointers[0]!.documentGeneration,
+          capturedNotes: saved.document.content.notes,
+          capturedReason: saved.document.content.correctionReason,
+          status: saved.document.content.status,
+          explicitCompletion: saved.document.content.explicitCompletion,
+          unchangedAcceptedRevision: true,
+          unchangedOperations: true,
+        })
+        await restoreNativeHold(page)
+        await context.setOffline(false)
+        await expect(
+          page.getByText(
+            'Conexión pendiente de validar. Conservamos el trabajo local; los envíos están suspendidos.',
+            { exact: true },
+          ),
+        ).toHaveCount(0)
+        await page
+          .getByRole('button', {
+            name: 'Retomar trabajo guardado en este dispositivo',
+            exact: true,
+          })
+          .click()
+        await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)
+        await expect(synchronized(page)).toBeVisible()
+      })
+    }
+    await info.attach('authenticated-close-local-evidence', {
+      body: JSON.stringify({ id, checkpoints: closeEvidence }, null, 2),
+      contentType: 'application/json',
+    })
     await context.setOffline(true)
     await quantity(page).fill('3')
     await page.getByLabel('Notas de la sesión').fill('WP12 persisted during network loss')
@@ -61,6 +141,7 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
     })
     await assertProductViewport(page, info)
   } finally {
+    await restoreNativeHold(page)
     await context.setOffline(false)
     await staff.context.close()
   }
@@ -530,16 +611,8 @@ test(scenarioTitle('B2BP-SYNC-009'), async ({ page, context, product }, info) =>
     await login(page, member, info)
     const id = await startWorkout(page, product, info, plan)
     await expect(synchronized(page)).toBeVisible()
-    await page.evaluate(() => {
-      const original = IDBDatabase.prototype.transaction
-      IDBDatabase.prototype.transaction = function (
-        ...args: Parameters<IDBDatabase['transaction']>
-      ) {
-        if (args[1] === 'readwrite' && String(args[0]).includes('workouts-v2'))
-          throw new DOMException('WP12 synthetic quota fault', 'QuotaExceededError')
-        return Reflect.apply(original, this, args)
-      }
-    })
+    const before = await readNativeWorkout(page, id)
+    await nativeWorkoutQuotaFault(page, true)
     await quantity(page).fill('3')
     await expect(
       page.getByRole('status').filter({
@@ -569,8 +642,55 @@ test(scenarioTitle('B2BP-SYNC-009'), async ({ page, context, product }, info) =>
       }
     })
     expect(retained).toBe(bytes)
-    await assertProductViewport(page, info)
+    let layoutFailure: unknown
+    try {
+      await assertProductViewport(page, info)
+    } catch (error) {
+      layoutFailure = error // Preserve the original failed layout while checking independent recovery.
+    }
+    await page
+      .locator('.workout-session')
+      .getByRole('button', { name: 'Volver', exact: true })
+      .click()
+    const retry = page.getByRole('button', {
+      name: 'Reintentar guardado local y volver',
+      exact: true,
+    })
+    await expect(retry).toBeEnabled()
+    await expect(quantity(page)).toHaveValue('3')
+    const download = page.waitForEvent('download')
+    await page
+      .getByRole('button', { name: 'Exportar trabajo local sin confirmar', exact: true })
+      .click()
+    const exported = JSON.parse(readFileSync((await (await download).path())!, 'utf8'))
+    expect(JSON.stringify(exported)).toContain('"repetitions":3')
+    await nativeWorkoutQuotaFault(page, false)
+    await retry.click()
+    await expect(
+      page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+    ).toBeVisible()
+    const saved = await readNativeWorkout(page, id)
+    expect(saved.document.content.sets[0]?.repetitions).toBe(3)
+    expect(saved.document.content.explicitCompletion).toBe(false)
+    expect(saved.document.accepted).toEqual(before.document.accepted)
+    expect(saved.document.operations).toEqual(before.document.operations)
+    expect(saved.pointers[0]?.documentGeneration).toBe(saved.document.generation)
+    await info.attach('authenticated-close-quota-retry-evidence', {
+      body: JSON.stringify({
+        id,
+        localGeneration: saved.document.generation,
+        pointerGeneration: saved.pointers[0]?.documentGeneration,
+        actualRepetitions: saved.document.content.sets[0]?.repetitions,
+        exportContainsCapturedValue: true,
+        explicitCompletion: false,
+        unchangedAcceptedRevision: true,
+        unchangedOperations: true,
+      }),
+      contentType: 'application/json',
+    })
+    if (layoutFailure) throw layoutFailure
   } finally {
+    await nativeWorkoutQuotaFault(page, false)
     await staff.context.close()
   }
 })
@@ -645,8 +765,50 @@ test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) =>
     await open(page, product, info, 'history')
     await expect(page.locator(`[id="actual-session-${id}"]`)).toContainText('Anulada')
     await assertProductViewport(page, info)
+    await test.step('Actual sign-out cancels a Close barrier before its native write', async () => {
+      const next = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+      const nextId = await startWorkout(page, product, info, next)
+      await expect(synchronized(page)).toBeVisible()
+      const baseline = await readNativeWorkout(page, nextId)
+      await holdNativeWorkoutTransaction(page, nextId)
+      await page
+        .getByLabel('Notas de la sesión', { exact: true })
+        .fill('Private captured value revoked before native commit')
+      await expect.poll(async () => (await nativeHoldState(page))?.held).toBe(true)
+      await page
+        .getByLabel('Motivo de corrección', { exact: true })
+        .fill('Queued successor must not cross departed authority')
+      await page
+        .locator('.workout-session')
+        .getByRole('button', { name: 'Volver', exact: true })
+        .click()
+      await expect(
+        page.getByRole('button', { name: 'Guardando en este dispositivo…', exact: true }),
+      ).toBeDisabled()
+      await page.getByRole('button', { name: 'Salir', exact: true }).click()
+      await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
+      await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveCount(0)
+      await expect.poll(async () => (await nativeHoldState(page))?.aborted).toBe(true)
+      await releaseNativeHold(page)
+      const retained = await readNativeWorkout(page, nextId)
+      expect(retained.document.generation).toBe(baseline.document.generation)
+      expect(retained.document.content).toEqual(baseline.document.content)
+      expect(retained.document.operations).toEqual(baseline.document.operations)
+      await info.attach('authenticated-close-revocation-evidence', {
+        body: JSON.stringify({
+          id: nextId,
+          nativeTransactionAborted: true,
+          generationBefore: baseline.document.generation,
+          generationAfter: retained.document.generation,
+          capturedAndQueuedWritesCancelled: true,
+          privateEditorHiddenBeforeRelease: true,
+        }),
+        contentType: 'application/json',
+      })
+    })
   } finally {
     release?.()
+    await restoreNativeHold(page)
     if (paused) await updateActive(staff.page, staff.who, member, true)
     await staff.context.close()
   }
