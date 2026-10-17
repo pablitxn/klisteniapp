@@ -8,6 +8,7 @@ export type Parser<T> = {
   safeParse(value: unknown): { success: true; data: T } | { success: false; error: unknown }
 }
 export type ClientOptions = {
+  contractVersion?: 2
   signal?: AbortSignal
   contextSignal?: AbortSignal
   branchId?: string
@@ -56,6 +57,9 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
         signal: controller.signal,
         headers: {
           Accept: 'application/json',
+          ...(options.contractVersion
+            ? { 'X-Klisteni-B2B-Contract': String(options.contractVersion) }
+            : {}),
           ...(accountId ? { 'X-Klisteni-B2B-Account': accountId } : {}),
           ...(options.branchId ? { 'X-Klisteni-B2B-Branch': options.branchId } : {}),
           ...(options.role ? { 'X-Klisteni-B2B-Role': options.role } : {}),

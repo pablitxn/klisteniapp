@@ -7,6 +7,7 @@ import { readConfig } from './config.ts';
 import { createPool, SCHEMA, LIFECYCLE_SCHEMA, CONTENT_SCHEMA } from './database.ts';
 import { seedBaseCatalog } from './service.ts';
 import { WHITE_LABEL_SCHEMA, WHITE_LABEL_PROFILE_SCHEMA } from './white-label-schema.ts';
+import { PRODUCT_SCHEMA, PRODUCT_MIGRATION_ID } from './product-schema.ts';
 export async function migrate(pool: Pool, auth: Auth) {
   const client = await pool.connect();
   try {
@@ -48,6 +49,13 @@ export async function migrate(pool: Pool, auth: Auth) {
     ) {
       await client.query(WHITE_LABEL_PROFILE_SCHEMA);
       await client.query("INSERT INTO b2b_migration(id) VALUES ('005-branch-publication-profile')");
+    }
+    if (
+      !(await client.query('SELECT id FROM b2b_migration WHERE id=$1', [PRODUCT_MIGRATION_ID]))
+        .rowCount
+    ) {
+      await client.query(PRODUCT_SCHEMA);
+      await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [PRODUCT_MIGRATION_ID]);
     }
     await client.query('COMMIT');
   } catch (error) {

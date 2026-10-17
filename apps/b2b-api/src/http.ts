@@ -107,11 +107,8 @@ export function createApiServer({
           );
           await pool.query('SELECT id FROM b2b_auth_user LIMIT 0');
           if (
-            !(
-              await pool.query(
-                "SELECT id FROM b2b_migration WHERE id='005-branch-publication-profile'",
-              )
-            ).rowCount
+            !(await pool.query("SELECT id FROM b2b_migration WHERE id='006-product-foundation'"))
+              .rowCount
           )
             throw new Error('Missing migration');
           // Auth retains schema mismatches from startup until this process is

@@ -1,0 +1,56 @@
+{
+  "legacyRoutine": {
+    "name": "Original routine",
+    "description": "Immutable prescription",
+    "programId": "routine",
+    "version": 1,
+    "steps": [
+      {
+        "id": "step",
+        "exerciseId": "exercise",
+        "sets": 3,
+        "reps": 8,
+        "durationSeconds": null,
+        "targetRpe": null,
+        "loadKg": null,
+        "restSeconds": 60,
+        "alternatives": [],
+        "notes": ""
+      }
+    ],
+    "exercises": [],
+    "machines": [],
+    "publishedAt": "2026-10-01T10:00:00Z"
+  },
+  "legacyRetry": {
+    "id": "execution",
+    "assignmentId": "assignment",
+    "status": "partial",
+    "sets": [
+      {
+        "stepId": "step",
+        "set": 1,
+        "exerciseId": "exercise",
+        "reps": 6,
+        "durationSeconds": null,
+        "rpe": null,
+        "loadKg": null,
+        "reason": ""
+      }
+    ],
+    "notes": "Original actuals",
+    "completedAt": "2026-10-02T10:00:00Z"
+  },
+  "dose": {
+    "mode": "repetitions",
+    "sets": { "kind": "range", "min": 3, "max": 4 },
+    "repetitions": { "kind": "range", "min": 8, "max": 12 },
+    "durationSeconds": null,
+    "load": { "mode": "bodyweight" },
+    "restSeconds": { "kind": "fixed", "value": 60 },
+    "laterality": "bilateral",
+    "targetRpe": null,
+    "notes": ""
+  },
+  "scope": { "organizationId": "atlas", "branchId": "atlas-principal", "memberId": "member" }
+}
