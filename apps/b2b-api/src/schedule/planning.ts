@@ -11,12 +11,11 @@ import { denied, HttpError } from '../errors.ts';
 import { memberOccurrences } from './repository.ts';
 import { persistReconciliation } from './index.ts';
 
-/** End requires an immutable server effective time in the internal change.
- * WP02's pinned seam omits it; fail closed until its owner adds this field.
- * Reading wall clock inside plan would violate its deterministic contract. */
+/** The internal change supplies immutable server time. Fail closed for malformed
+ * callers; reading wall clock here would violate the pure planning contract. */
 function endTime(change: ScheduleChange): string | undefined {
   if (change.reason !== 'end') return undefined;
-  const effectiveAt = (change as ScheduleChange & { effectiveAt?: string }).effectiveAt;
+  const effectiveAt = change.effectiveAt;
   if (!effectiveAt || !Number.isFinite(Date.parse(effectiveAt)))
     throw new HttpError(
       409,

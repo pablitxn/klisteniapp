@@ -1,0 +1,13 @@
+✔ retired assignments reject fresh legacy sessions without receipts while original history stays readable (1044.34686ms)
+✔ retirement preserves existing-session corrections and exact accepted receipts but never bypasses current user authorization (1040.195022ms)
+✔ first correction of a verified legacy execution remains permitted after retirement and preserves revision zero (914.790563ms)
+✔ a retirement committed before fresh acceptance wins the PostgreSQL race and leaves no session or receipt (685.330003ms)
+✔ fresh acceptance first holds retirement until commit and its later exact replay stays authorized and idempotent (832.4763ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5262.05219
