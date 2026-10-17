@@ -1,0 +1,192 @@
+{
+  "node": "v24.20.0",
+  "playwright": "1.63.0",
+  "scope": "Bundled component with frozen client and synthetic fetch; no product API/DB navigation",
+  "security": {
+    "uid": 1001,
+    "capabilities": "0000000000000000",
+    "noNewPrivileges": "1",
+    "network": "none",
+    "ignoreHTTPSErrors": false,
+    "chromiumSandbox": true
+  },
+  "matrix": [
+    {
+      "engine": "webkit",
+      "browserVersion": "26.6",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "groups": [
+        {
+          "name": "labels, keyboard number input, no default confirmations, hashes and responsive layout",
+          "status": "failed",
+          "error": "AssertionError [ERR_ASSERTION]: No horizontal overflow",
+          "overflow": [
+            {
+              "tag": "MAIN",
+              "className": "",
+              "text": "\n      Volver al historialRevisar una rutina anteriorLegacy routine · versión 1 ",
+              "width": 320,
+              "scroll": 341,
+              "client": 320,
+              "right": 320,
+              "minWidth": "0px"
+            },
+            {
+              "tag": "DIV",
+              "className": "",
+              "text": "Volver al historialRevisar una rutina anteriorLegacy routine · versión 1 · asign",
+              "width": 296,
+              "scroll": 329,
+              "client": 296,
+              "right": 308,
+              "minWidth": "0px"
+            },
+            {
+              "tag": "SECTION",
+              "className": "legacy-adoption",
+              "text": "Volver al historialRevisar una rutina anteriorLegacy routine · versión 1 · asign",
+              "width": 296,
+              "scroll": 329,
+              "client": 296,
+              "right": 308,
+              "minWidth": "0px"
+            },
+            {
+              "tag": "SECTION",
+              "className": "legacy-adoption",
+              "text": "Revisar una rutina anteriorLegacy routine · versión 1 · asignación assignmentOri",
+              "width": 296,
+              "scroll": 329,
+              "client": 296,
+              "right": 308,
+              "minWidth": "0px"
+            },
+            {
+              "tag": "FORM",
+              "className": "",
+              "text": "Dosis originales y decisiones explícitasMovimiento 1: Original squatSeries origi",
+              "width": 296,
+              "scroll": 329,
+              "client": 296,
+              "right": 308,
+              "minWidth": "0px"
+            },
+            {
+              "tag": "FIELDSET",
+              "className": "legacy-adoption-stack",
+              "text": "Dosis originales y decisiones explícitasMovimiento 1: Original squatSeries origi",
+              "width": 292,
+              "scroll": 325,
+              "client": 288,
+              "right": 306,
+              "minWidth": "0px"
+            },
+            {
+              "tag": "ARTICLE",
+              "className": "card legacy-adoption-stack",
+              "text": "Movimiento 1: Original squatSeries originales3Repeticiones originales8Duración o",
+              "width": 265.5,
+              "scroll": 313,
+              "client": 264,
+              "right": 292.75,
+              "minWidth": "auto"
+            },
+            {
+              "tag": "DIV",
+              "className": "field",
+              "text": "Alternativas en esta versión · movimiento 1Elegí una políticaOfrecer todas las a",
+              "width": 223.5,
+              "scroll": 293,
+              "client": 224,
+              "right": 271.75,
+              "minWidth": "0px"
+            }
+          ],
+          "diagnosis": [
+            {
+              "label": "outline",
+              "width": 341
+            },
+            {
+              "label": "native appearance",
+              "width": 336
+            },
+            {
+              "label": "number spinners",
+              "width": 341
+            },
+            {
+              "label": "details marker",
+              "width": 341
+            },
+            {
+              "label": "legend",
+              "width": 341
+            }
+          ],
+          "sizes": {
+            "innerWidth": 320,
+            "document": 341,
+            "client": 320,
+            "body": 341,
+            "viewport": 320,
+            "left": 0,
+            "rightmost": 320
+          }
+        },
+        {
+          "name": "explicit adoption preserves source and refreshes actual version data",
+          "status": "passed"
+        },
+        {
+          "name": "conflict refresh displays changed target dose/hash and requires every confirmation again",
+          "status": "passed"
+        },
+        {
+          "name": "server-error keeps exact retry operation and never duplicates acceptance",
+          "status": "passed"
+        },
+        {
+          "name": "lost-response keeps exact retry operation and never duplicates acceptance",
+          "status": "passed"
+        },
+        {
+          "name": "revoked hides source/targets and permits no second adoption",
+          "status": "passed"
+        },
+        {
+          "name": "refresh-revoked hides source/targets and permits no second adoption",
+          "status": "passed"
+        },
+        {
+          "name": "already adopted version never silently readopts",
+          "status": "passed"
+        },
+        {
+          "name": "foreign preview never renders protected original data",
+          "status": "passed"
+        },
+        {
+          "name": "scope lifetime abort clears prior data immediately",
+          "status": "passed"
+        },
+        {
+          "name": "explicit blocked policy suppresses targets and changing it clears confirmations",
+          "status": "passed"
+        },
+        {
+          "name": "no unhandled component page errors",
+          "status": "passed"
+        }
+      ],
+      "screenshots": [
+        "webkit-320-failure.png"
+      ]
+    }
+  ],
+  "passed": 11,
+  "failed": 1,
+  "skipped": 0
+}

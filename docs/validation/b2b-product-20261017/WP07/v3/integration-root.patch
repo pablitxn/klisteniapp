@@ -1,0 +1,17 @@
+--- a/apps/b2b-web/src/app/ProductWorkspace.tsx
++++ b/apps/b2b-web/src/app/ProductWorkspace.tsx
+@@ -15,0 +16 @@
++import { LegacyAdoptionAssignments } from '../features/programs/legacy-adoption/LegacyAdoptionAssignments'
+@@ -285,0 +287 @@
++              ...(context.access?.capabilities.includes('edit-planning') ? [['legacy-review', 'Revisar rutinas anteriores']] : []),
+@@ -335,0 +338,10 @@
++        />
++      ) : staff && page === 'legacy-review' && context.access ? (
++        <LegacyAdoptionAssignments
++          accountId={context.accountId}
++          branchId={context.branchId}
++          access={context.access}
++          accessKey={accessKey}
++          contextSignal={context.signal}
++          createClient={createClient}
++          onClose={() => navigate(`${route}?view=planning`)}
