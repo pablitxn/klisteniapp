@@ -1,0 +1,45 @@
+$ pnpm check:b2b:boundaries && turbo run lint && pnpm format:b2b:check
+$ node scripts/check-b2b-boundaries.mjs
+B2B package boundaries, public exports and dependency graphs are valid.
+• turbo 2.11.3
+
+   • Packages in scope: @klisteniapp/anatomy-viewer, @klisteniapp/b2b-api, @klisteniapp/b2b-client, @klisteniapp/b2b-contracts, @klisteniapp/b2b-domain, @klisteniapp/b2b-react, @klisteniapp/b2b-ui, @klisteniapp/b2b-web, @klisteniapp/b2c-api, @klisteniapp/b2c-web, @klisteniapp/catalog-base, @klisteniapp/geometry, @klisteniapp/model-assets, @klisteniapp/scene-schema
+   • Running lint in 14 packages
+   • Remote caching disabled
+
+@klisteniapp/b2b-web:lint: cache miss, executing 488ddbc87370caba
+@klisteniapp/b2b-react:lint: cache hit, replaying logs 7a7d2c0db32d83af
+@klisteniapp/b2b-react:lint: $ eslint .
+@klisteniapp/geometry:lint: cache hit, replaying logs 34940931a24a4857
+@klisteniapp/model-assets:lint: cache hit, replaying logs 2cce1ace4d954153
+@klisteniapp/model-assets:lint: $ eslint .
+@klisteniapp/geometry:lint: $ eslint .
+@klisteniapp/b2b-client:lint: cache hit, replaying logs e79476029942d34b
+@klisteniapp/b2b-contracts:lint: cache hit, replaying logs c60c2ad3a0aab92a
+@klisteniapp/scene-schema:lint: cache hit, replaying logs 9d6404ed88008b54
+@klisteniapp/b2b-client:lint: $ eslint .
+@klisteniapp/b2b-contracts:lint: $ eslint .
+@klisteniapp/scene-schema:lint: $ eslint .
+@klisteniapp/anatomy-viewer:lint: cache hit, replaying logs 3ab053ba9e13319f
+@klisteniapp/anatomy-viewer:lint: $ eslint .
+@klisteniapp/b2b-domain:lint: cache hit, replaying logs f1f8cf237c056432
+@klisteniapp/b2b-domain:lint: $ eslint .
+@klisteniapp/b2b-ui:lint: cache hit, replaying logs 76f69e801c37a6c8
+@klisteniapp/b2b-ui:lint: $ eslint .
+@klisteniapp/b2b-api:lint: cache hit, replaying logs cfce4622a43902ef
+@klisteniapp/b2b-api:lint: $ eslint .
+@klisteniapp/b2c-api:lint: cache hit, replaying logs 1aefe885b867a66d
+@klisteniapp/b2c-api:lint: $ eslint .
+@klisteniapp/b2c-web:lint: cache hit, replaying logs 423a050a18caf64e
+@klisteniapp/b2c-web:lint: $ eslint .
+@klisteniapp/catalog-base:lint: cache hit, replaying logs ff9b08b781780314
+@klisteniapp/catalog-base:lint: $ eslint .
+@klisteniapp/b2b-web:lint: $ eslint .
+
+ Tasks:    14 successful, 14 total
+Cached:    13 cached, 14 total
+  Time:    2.483s
+
+$ prettier --check "apps/b2b-api/{src,tests}/**/*.ts" "apps/b2b-web/{src,tests}/**/*.{ts,tsx}" "packages/b2b-*/{src,tests}/**/*.{ts,tsx}" "scripts/{check-b2b-boundaries,b2b-boundaries.test}.mjs"
+Checking formatting...
+All matched files use Prettier code style!
