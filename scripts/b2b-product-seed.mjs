@@ -13,6 +13,7 @@ import {
 import { migrate } from '../apps/b2b-api/src/migrate.ts'
 import { seedWhiteLabelDemo } from '../apps/b2b-api/src/white-label-demo.ts'
 import { B2BService, createUser } from '../apps/b2b-api/src/service.ts'
+import { buildReviewedDurationFixture } from './b2b-product-reviewed-duration-fixture.mjs'
 import { ExecutionInputSchema } from '../packages/b2b-contracts/src/training.ts'
 import { ExerciseInputSchema } from '../packages/b2b-contracts/src/catalog.ts'
 import {
@@ -250,7 +251,8 @@ export async function seedProductHarness(pool, config, runKey) {
       'utf8',
     ),
   )
-  const v2 = []
+  const v2 = [],
+    reviewedDuration = []
   for (const gym of demo.gyms) {
     const branch = gym.branches[1],
       id = randomUUID()
@@ -315,6 +317,26 @@ export async function seedProductHarness(pool, config, runKey) {
     // This function has already proved the schema is fresh and task-owned, and
     // preserved historical 001-005 rows through repeated normal migrations.
     await pool.query('UPDATE b2b_organization SET product_active=true')
+    // Keep independent test-dose provenance in a new frozen routine, never in
+    // canonical review metadata or the secondary-branch range seed/enrollments.
+    for (const gym of demo.gyms) {
+      const branch = gym.branches[0]
+      const { content, snapshot, manifest } = buildReviewedDurationFixture({
+        organizationId: gym.id,
+        branchId: branch.id,
+        programId: randomUUID(),
+        publishedAt: '2026-10-17T12:00:00Z',
+      })
+      await pool.query(
+        'INSERT INTO b2b_program(id,organization_id,branch_id,data,published_version,schema_version) VALUES($1,$2,$3,$4,1,2)',
+        [snapshot.programId, gym.id, branch.id, content],
+      )
+      await pool.query(
+        'INSERT INTO b2b_program_version(organization_id,branch_id,program_id,version,snapshot,schema_version,published_at) VALUES($1,$2,$3,1,$4,2,$5)',
+        [gym.id, branch.id, snapshot.programId, snapshot, snapshot.publishedAt],
+      )
+      reviewedDuration.push(manifest)
+    }
     // A real changed local adaptation proves that base/animation references do
     // not confer reviewed provenance. Keep canonical and historical rows intact.
     const base = (
@@ -455,7 +477,7 @@ export async function seedProductHarness(pool, config, runKey) {
     featuresActivated: Boolean(config.activateProductFixture),
     organizations,
     actors,
-    resources: { legacy, v2 },
+    resources: { legacy, v2, reviewedDuration },
     preservation: {
       beforeSha256: sha256(before),
       afterSha256: sha256(after),
