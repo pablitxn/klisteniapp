@@ -1,0 +1,63 @@
+{
+  "base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "validatedSource": "5476de948722f11e6acf9e93ce87834c9bb58795",
+  "plan": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlas": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "environment": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgresql": "17.11",
+    "data": "local disposable synthetic only"
+  },
+  "tests": {
+    "contracts": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "domain": {
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0
+    },
+    "b2bApi": {
+      "passed": 111,
+      "failed": 0,
+      "skipped": 0,
+      "newWp02Tests": 19
+    }
+  },
+  "static": {
+    "typecheck": {
+      "successful": 14,
+      "total": 14,
+      "cached": 0
+    },
+    "lint": {
+      "successful": 14,
+      "total": 14,
+      "cached": 13
+    },
+    "b2bBoundaries": "passed as part of pnpm lint",
+    "b2bFormatting": "passed as part of pnpm lint",
+    "diffCheck": "passed",
+    "frozenInstall": "passed"
+  },
+  "unexecuted": [
+    "production WP01 authorization + HTTP registration",
+    "production WP03 schedule adapter and adherence integration",
+    "production WP04 reviewed-relation resolver integration",
+    "product browser/UI/HTTPS/device scenarios",
+    "full composed build/release/preview checks"
+  ],
+  "sharedFileEdits": [],
+  "actualLogMutations": false,
+  "productionActions": false,
+  "logNormalization": {
+    "policy": "Only trailing whitespace and final empty lines were removed from these two unpublished log copies; output content is unchanged.",
+    "originalSha256": {
+      "lint.log": "4a381afe5a4dacecc392b34ca802b8ae3c2df6fdaf4ae49fdf4eb91a5c2a756b",
+      "typecheck.log": "b3bcebb0030c30382a618fd5393b0891630c6567c3e2cc5f5689590d285eae00"
+    }
+  }
+}
