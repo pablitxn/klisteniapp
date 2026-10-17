@@ -1,0 +1,170 @@
+{
+  "package": "WP07 programming grid width local fix",
+  "publication": "local only; no push, PR write/reopen or deleted-branch recreation",
+  "base": "22310c7ee29423e7672a8e74dc801557adab53e9",
+  "diagnosis": "8f53931effaa66e738018d6fd3f4f1b57d40205b",
+  "source": "17215c6c6990d92402e30c410bce5dac6ac73049",
+  "branch": "fix/b2b-programming-grid-width-v1",
+  "sourceSha256": {
+    "apps/b2b-web/src/features/programs/product/programming.css": "3f73b9a5ba6d4867cb8f1dbac032c581689d6c3a746835b40baea55daf02cd08",
+    "apps/b2b-web/tests/buildProgrammingGridHarness.mjs": "203ce20f675174366d588d8f51bc08896650917abfc361fcb45b53a37983c125",
+    "apps/b2b-web/tests/programmingGridHarness.tsx": "0c121a1ea567fe11123e2bbaeb19d8054afd404e9c30dd01f16debd2c7fd9ec4"
+  },
+  "applicationPatchSha256": "7ae36f9931c6b2a86917d76ba4e253a98eb123d069cca8e3dc321458a4175991",
+  "baseline": {
+    "period": {
+      "document": 371,
+      "scrollRange": 51
+    },
+    "goal": {
+      "document": 371,
+      "scrollRange": 51
+    }
+  },
+  "finalNative": {
+    "profiles": 6,
+    "checksPassed": 30,
+    "checksFailed": 0,
+    "checksSkipped": 0,
+    "layoutMeasurements": 48,
+    "horizontalScrollRanges": [
+      0
+    ]
+  },
+  "webTests": {
+    "passed": 299,
+    "failed": 0,
+    "skipped": 0
+  },
+  "static": {
+    "webTypecheck": "pass",
+    "webLint": "pass",
+    "b2bBoundaries": "pass",
+    "b2bBuild": "pass, existing chunk-size warning"
+  },
+  "APIandDatabase": "not rerun: only CSS and dedicated component harness changed; no API/schema/prescription logic edits; original composed QA remains with parent",
+  "implementation": "Grid children min-width:0 plus contain:layout only on direct .field wrappers. No paint containment, clipping, short labels, fixture edits or JS application edits.",
+  "minOnlyAttempt": {
+    "checksPassed": 24,
+    "checksFailed": 6,
+    "checksSkipped": 0,
+    "cause": "Static initial WebKit render still overflows despite computed min-width:0; later functional assertions in those failed groups were unexecuted."
+  },
+  "rawAndPublishedLogs": {
+    "atlas-content.log": {
+      "rawSha256": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd",
+      "publishedSha256": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd"
+    },
+    "identity.log": {
+      "rawSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212",
+      "publishedSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212"
+    },
+    "build-final.log": {
+      "rawSha256": "6b723adbe90ffd6b3b2b379ba1583ffd0b4ccbfa9028f2e2704b64c57627a40a",
+      "publishedSha256": "7544b0dd23051d8ee3a3e1307285b727791cd4e1dd0510492c0d1bfda7ec5178"
+    },
+    "boundaries-final.log": {
+      "rawSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+      "publishedSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758"
+    },
+    "lint-final.log": {
+      "rawSha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1",
+      "publishedSha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1"
+    },
+    "typecheck-final.log": {
+      "rawSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "publishedSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "web-final.log": {
+      "rawSha256": "1927d9bc110a83a57f4a1a11ec7f780910f9636c419cfdc30c586864b484afab",
+      "publishedSha256": "1927d9bc110a83a57f4a1a11ec7f780910f9636c419cfdc30c586864b484afab"
+    },
+    "build.log": {
+      "rawSha256": "881f0b6528f0423b58c0b16526273efda9d77efa82e73c4242da934ebe7189ad",
+      "publishedSha256": "4758abf487d2f98dd3915f8dd58f390f0469d58e533e3d0e9773fde14f6435d5"
+    },
+    "typecheck.log": {
+      "rawSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "publishedSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "lint.log": {
+      "rawSha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1",
+      "publishedSha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1"
+    },
+    "boundaries.log": {
+      "rawSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+      "publishedSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758"
+    },
+    "web.log": {
+      "rawSha256": "ccfc2570eb760bbb2d123047fd0b9a244158e255d497ef8d2fa1b61a1ae38042",
+      "publishedSha256": "ccfc2570eb760bbb2d123047fd0b9a244158e255d497ef8d2fa1b61a1ae38042"
+    },
+    "wp07-grid-install.log": {
+      "rawSha256": "70169bd9c400010d846afa4be360fd21d892bf788961439a260570b1a87f24f6",
+      "publishedSha256": "70169bd9c400010d846afa4be360fd21d892bf788961439a260570b1a87f24f6"
+    },
+    "wp07-grid-baseline-build.log": {
+      "rawSha256": "baafb9b4dc969ac4558397203b27dd780f0384fa716b46367df4013b5d0e894e",
+      "publishedSha256": "baafb9b4dc969ac4558397203b27dd780f0384fa716b46367df4013b5d0e894e"
+    },
+    "wp07-grid-fixed-build.log": {
+      "rawSha256": "b2c6c9561a77c6d5b891eef6e99eeebd3922c8a760fa3729d536939860487aa8",
+      "publishedSha256": "b2c6c9561a77c6d5b891eef6e99eeebd3922c8a760fa3729d536939860487aa8"
+    },
+    "wp07-grid-browser-initial-bootstrap.log": {
+      "rawSha256": "3ba7b164c418ebaa645d6dc506bd7ed7c0639cba415a49bc82642a643b944f98",
+      "publishedSha256": "3ba7b164c418ebaa645d6dc506bd7ed7c0639cba415a49bc82642a643b944f98"
+    },
+    "wp07-grid-browser-min-only.log": {
+      "rawSha256": "37f0e988accd3a0a339b5b7bb1198e9a7fa8bd34f017ee3a84af40444c2fc69f",
+      "publishedSha256": "37f0e988accd3a0a339b5b7bb1198e9a7fa8bd34f017ee3a84af40444c2fc69f"
+    },
+    "wp07-grid-browser-final.log": {
+      "rawSha256": "0733d39fbb191762f46ebed4620b9a056fcc41b76605673778e6212fd9f5c586",
+      "publishedSha256": "0733d39fbb191762f46ebed4620b9a056fcc41b76605673778e6212fd9f5c586"
+    },
+    "wp07-grid-diagnosis.log": {
+      "rawSha256": "1d1cd7b07ba6b68280e8cc0fdf26cdebdc590f1e4cfa4578f653b8ad93d5ba1d",
+      "publishedSha256": "1d1cd7b07ba6b68280e8cc0fdf26cdebdc590f1e4cfa4578f653b8ad93d5ba1d"
+    },
+    "wp07-grid-static-candidates.log": {
+      "rawSha256": "de97dc588f7dc0abbab13467ad007d210da8ba34b0fa866805fea0eca44b50fe",
+      "publishedSha256": "de97dc588f7dc0abbab13467ad007d210da8ba34b0fa866805fea0eca44b50fe"
+    },
+    "wp07-grid-sizing-candidates.log": {
+      "rawSha256": "d9eb5de7744db45538325c58877d156d1c47caab4ad176e8a41d63ead9bfc702",
+      "publishedSha256": "d9eb5de7744db45538325c58877d156d1c47caab4ad176e8a41d63ead9bfc702"
+    },
+    "wp07-grid-native-candidates.log": {
+      "rawSha256": "155e3a3433ffcd3301b0314d5088ecea075a8bddb310c45c62c38aafadade95b",
+      "publishedSha256": "155e3a3433ffcd3301b0314d5088ecea075a8bddb310c45c62c38aafadade95b"
+    },
+    "wp07-grid-layout-only.log": {
+      "rawSha256": "0a879b226d51ee2f87ee0b2342575d525190599497f405478fa522eff7db1ec7",
+      "publishedSha256": "0a879b226d51ee2f87ee0b2342575d525190599497f405478fa522eff7db1ec7"
+    }
+  },
+  "bundles": {
+    "baseline/probe.js": "2cfac70302045959463eb5eb4d1a926e4fd9d78dc43380c1aa6adb16e5dc3b9f",
+    "baseline/probe.css": "735094a6edefc62b461ced8e51335ccba90ce29f9e8971eac842b3c091e2d173",
+    "fixed/probe.js": "2cfac70302045959463eb5eb4d1a926e4fd9d78dc43380c1aa6adb16e5dc3b9f",
+    "fixed/probe.css": "399380a001fca01e7c4cd802070a8ddf4340ba84858e7d943af5fa95aecfadda"
+  },
+  "browser": {
+    "playwright": "1.63.0",
+    "webkit": "26.6 revision2359",
+    "image": "mcr.microsoft.com/playwright@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27",
+    "seccompSha256": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849",
+    "uid": 1001,
+    "network": "none",
+    "newPrivileges": false,
+    "chromiumSandbox": true,
+    "HTTPSVerificationBypass": false,
+    "globalCryptoIDBNetworkContextShims": false
+  },
+  "remaining": [
+    "Parent reviews additional scoped layout containment required by static native results",
+    "QA reruns original PROGRAMMING-004/008 on accepted composed head in unified and White Label HTTP modes",
+    "Publication paused by parent concurrency instruction"
+  ]
+}
