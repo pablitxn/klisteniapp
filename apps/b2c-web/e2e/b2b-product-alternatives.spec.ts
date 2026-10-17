@@ -17,6 +17,7 @@ import {
   type Page,
 } from './fixtures/b2b-product/app-fixture'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
+import { reviewedDurationFixture } from './fixtures/b2b-product/reviewed-duration'
 import type { Dose, ReviewedRelation } from '../../../packages/b2b-contracts/src/product-v2.ts'
 import { exercises as canonical } from '../../../packages/catalog-base/src/exercises.ts'
 
@@ -616,11 +617,11 @@ test(scenarioTitle('B2BP-ALTERNATIVES-011'), async ({ page, context, product }, 
   const member = principal(product),
     staff = await staffSession(context, product, info)
   try {
-    const { routine, relation } = await reviewedRoutine(
+    const { routine, relation } = await reviewedDurationFixture(
       staff.page,
       staff.who,
-      dose(),
-      (r) => r.targetDose.mode === 'duration' && r.target.equipment === 'none',
+      product,
+      info,
     )
     const plan = await prescribe(staff.page, staff.who, member, { routine, weekdays: [1] })
     await login(page, member, info)

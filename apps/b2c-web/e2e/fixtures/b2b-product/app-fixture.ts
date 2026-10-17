@@ -38,6 +38,34 @@ type RouteName =
   | 'people'
   | 'workout'
   | 'reports'
+export type ReviewedDurationManifest = {
+  fixtureKey: 'b2bp-alternatives-011-duration-v1'
+  kind: 'synthetic-contract-fixture'
+  scenarioId: 'B2BP-ALTERNATIVES-011'
+  organizationId: string
+  branchId: string
+  programId: string
+  version: 1
+  schemaVersion: 2
+  stepId: string
+  relationId: string
+  canonicalDirectedPair: {
+    relationId: string
+    relationHash: string
+    catalogRevision: string
+    sourceExerciseId: 'calf-raise'
+    targetExerciseId: 'single-leg-calf-raise'
+    sourceContentHash: string
+    targetContentHash: string
+  }
+  syntheticTargetDose: {
+    provenance: 'independent-synthetic-test-prescription'
+    reviewScope: 'contract-and-ui-test-only'
+    disclaimer: string
+    hash: string
+  }
+  routineHash: string
+}
 export type ProductFixture = {
   fixtureVersion: number
   phase: string
@@ -47,6 +75,7 @@ export type ProductFixture = {
   actors: Record<string, Actor>
   preservation: { beforeSha256: string; afterSha256: string; counts: Record<string, number> }
   resources: {
+    reviewedDuration?: ReviewedDurationManifest[]
     legacy: Array<{
       organizationId: string
       branchId: string

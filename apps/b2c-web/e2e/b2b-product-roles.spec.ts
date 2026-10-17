@@ -483,7 +483,10 @@ test(scenarioTitle('B2BP-ROLES-004'), async ({ page, product }, info) => {
     }
     for (const role of ['platform-admin', 'operator']) {
       const denied = await page.request.post(
-        `/api/b2b/orgs/${who.organization.id}/product/v2/people/${who.actor.id}`,
+        new URL(
+          `/api/b2b/orgs/${who.organization.id}/product/v2/people/${who.actor.id}`,
+          page.url(),
+        ).href,
         {
           headers: {
             Origin: new URL(page.url()).origin,
