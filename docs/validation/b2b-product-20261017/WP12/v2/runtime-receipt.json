@@ -1,0 +1,308 @@
+{
+  "version": 2,
+  "phase": "matching-runtime-and-synthetic-full-stack-HTTP",
+  "date": "2026-10-17",
+  "previousReceiptHead": "d8b048c93b390a0e241f5bc48a8887283ce73829",
+  "applicationBaseSha": "d65261d18de4522fb9a66104aabb5750104fb8b8",
+  "planSha": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "probeSourceCommit": "4e76766e2b04f785a7a170bbc58c41e7abc70229",
+  "probeSourceSha256": "9d3b5fd2bcf19a4b9e608ba6207f28d3c9701d551b5148d239c688cf46d4243d",
+  "wrapperSha256": "faf1accffc7a0268b864ad5286ab3c9a45ee7571c01f4bfbd8af28c935bfcf91",
+  "image": {
+    "registry": "mcr.microsoft.com",
+    "repository": "playwright",
+    "tag": "v1.63.0-noble",
+    "manifestDigest": "sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27",
+    "imageId": "sha256:2c1f4e0fd6450f43ddb46d60c2a6df30855a8588e165b1f2559fb0eda8d7ff35",
+    "pull": "successful; official registry, TLS verification and digest validation retained"
+  },
+  "seccomp": {
+    "url": "https://raw.githubusercontent.com/microsoft/playwright/v1.63.0/utils/docker/seccomp_profile.json",
+    "sha256": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849"
+  },
+  "packages": [
+    {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/@playwright/test/-/test-1.63.0.tgz",
+      "integrity": "sha512-oxMK4vllB9RK5NQ2l1pq1IfOf2AvnEuj/vYGDj0H2nMtmtZpKtCwt/l00GEO6xjGfpBNAvjovvYdCm50dRQkpQ==",
+      "name": "@playwright/test",
+      "matchesAppLock": true,
+      "installed": true
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.android-arm64/-/exe.android-arm64-12.7.0.tgz",
+      "integrity": "sha512-gJTCsUbazAEbIMF9l2t+z3YWHCI0AiThtBsxU6FrxXK0tZsBRZZWpleLs0uY8Dy6V0RcPEusn3UyuAyFn3dkeA==",
+      "name": "@pnpm/exe.android-arm64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.android-x64/-/exe.android-x64-12.7.0.tgz",
+      "integrity": "sha512-7187pEwqAwbrmXesKiCXfmQUARVacBooJDTWqL+9olZh7sZwnECq5pB/KzuYZbnmdHZUkBWRyvChzKojmtSE7Q==",
+      "name": "@pnpm/exe.android-x64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.darwin-arm64/-/exe.darwin-arm64-12.7.0.tgz",
+      "integrity": "sha512-ppzJ2ln60/Oq0BJpy5bHqwZb0q1Trg/+xb7myxjaIgZfaybwnH3OuFX5w8PPQdRrjYwljgygYLC/7LMtZc/iuQ==",
+      "name": "@pnpm/exe.darwin-arm64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.darwin-x64/-/exe.darwin-x64-12.7.0.tgz",
+      "integrity": "sha512-+qxS/A5O4rFD7T+qqWnWjESbKVAzKsh9LubDHt9xZ34AbwVk3ZFcAW/7vX5R1jqq+uGgziMPtcVJKc5CICVHCQ==",
+      "name": "@pnpm/exe.darwin-x64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.freebsd-x64/-/exe.freebsd-x64-12.7.0.tgz",
+      "integrity": "sha512-uv0x93hoecec7IlT/FCwQe2siStGspG7G3EZQtIHH2n3ClDzbsQcEiW1QbMoAyZoLVrR7Pm9ovTndUCRcZ5y1g==",
+      "name": "@pnpm/exe.freebsd-x64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-arm64/-/exe.linux-arm64-12.7.0.tgz",
+      "integrity": "sha512-vwPQU+Bt3qXMhzjcmMa25W3yP8OyF9yFxHoojr10QJm9lRUmz/SwtM2oHbHKZKkyid/ngmMARXsChFyuRQig5w==",
+      "name": "@pnpm/exe.linux-arm64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-arm64-musl/-/exe.linux-arm64-musl-12.7.0.tgz",
+      "integrity": "sha512-XZlRiVL/l8mOhPyaocElpaHq6rKHDvkP/oyo1hHgUePX+XzBtQ0KLEgkBLZbk1/f5yGWimQTPmBNvzaYzQLdOg==",
+      "name": "@pnpm/exe.linux-arm64-musl",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-ppc64/-/exe.linux-ppc64-12.7.0.tgz",
+      "integrity": "sha512-qzE3TEXYLw0gR2ytclbsGeQ7cA981GeTHMAn86cw9+Jn8nQNa8LZ5ZzCxKRXtGvkEN/FDc0oyGdtILT4JHSStg==",
+      "name": "@pnpm/exe.linux-ppc64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-riscv64/-/exe.linux-riscv64-12.7.0.tgz",
+      "integrity": "sha512-bTw09mf/v+AuftWePL7pO3WZR0p52A9flr8zpGlcvxKUAKRTE2BDOVeZsWk/8f01ZaO2/0ECtEds6CKfec591w==",
+      "name": "@pnpm/exe.linux-riscv64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-s390x/-/exe.linux-s390x-12.7.0.tgz",
+      "integrity": "sha512-frVk6Ilh2sKVs+CINnJCp3+kiGRi/cE3DARmFftljlrGX09livS4UU37uc7EsAxI4Kbt0WZjeTVT2q6XbVJCrA==",
+      "name": "@pnpm/exe.linux-s390x",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.7.0.tgz",
+      "integrity": "sha512-gGW7NJFmr33IJ6KZu+1w90KBtFxMVf/+AUG8aKJpy4v6dRnUd5v84PcH2ejUuxp/fm3zM0IY6h9LwcYPu9dxdg==",
+      "name": "@pnpm/exe.linux-x64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": true
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.linux-x64-musl/-/exe.linux-x64-musl-12.7.0.tgz",
+      "integrity": "sha512-AhoNY7xkhUb0GLqjrtxmxKZsoNM1Jea/VH/ypxt9nyBA5gXJGXo6uM+2Pode3vrWf1rSiVGicokkyEZLkDKf+A==",
+      "name": "@pnpm/exe.linux-x64-musl",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.win32-arm64/-/exe.win32-arm64-12.7.0.tgz",
+      "integrity": "sha512-cI+aZwzOCQc7hQwCA1BydiM3FpxVHdfdMzI3jOG7MQ0d8NHvk5MrdKTTKiKJH2L5VdwWoWHFXbnvhCEyN/fVsg==",
+      "name": "@pnpm/exe.win32-arm64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe.win32-x64/-/exe.win32-x64-12.7.0.tgz",
+      "integrity": "sha512-+eZ6gFsDbdyuw7GO7amdRh+GpjrQOIe9qjjOmeznWeEsfEeD8GNSrRXtbWe/zpPcxheexAnO7UCeavkhHLVFWg==",
+      "name": "@pnpm/exe.win32-x64",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": false
+    },
+    {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/playwright/-/playwright-1.63.0.tgz",
+      "integrity": "sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==",
+      "name": "playwright",
+      "matchesAppLock": true,
+      "installed": true
+    },
+    {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/playwright-core/-/playwright-core-1.63.0.tgz",
+      "integrity": "sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==",
+      "name": "playwright-core",
+      "matchesAppLock": true,
+      "installed": true
+    },
+    {
+      "version": "12.7.0",
+      "resolved": "https://registry.npmjs.org/pnpm/-/pnpm-12.7.0.tgz",
+      "integrity": "sha512-nFZHfjYAaNbp3KapLvtORrPcWlL86/PYTXi5c2wN7ViaVhYhpS9oIZp6OfrMY83AecMibvnJ1fArefdOaagHtg==",
+      "name": "pnpm",
+      "matchesDeclaredPnpmVersion": true,
+      "installed": true
+    }
+  ],
+  "toolchain": {
+    "node": "v24.20.0",
+    "pnpm": "12.7.0",
+    "uid": 1001,
+    "playwright": "1.63.0"
+  },
+  "taskLocalPackageLockSha256": "0b707e636fcb10d96c85739c50a362c7a215fee0c7f7a44193fb84edd38eb432",
+  "taskRuntimeRoot": "/workspace/wp12-runtime-v2",
+  "results": {
+    "matrixPassed": 6,
+    "matrixFailed": 0,
+    "matrixSkipped": 0,
+    "transportCheckGroupsPassed": 42,
+    "productFeatureBrowserTestsExecuted": 0,
+    "productFeatureScenariosStillBlocked": 88,
+    "trustedHttpsAcceptanceExecuted": 0
+  },
+  "transport": {
+    "scheme": "http",
+    "location": "127.0.0.1:ephemeral inside same container as browser",
+    "containerNetwork": "none",
+    "hostRelay": false,
+    "publishedPorts": false,
+    "allowedMethodsVerified": [
+      "GET",
+      "POST",
+      "PATCH",
+      "HEAD",
+      "DELETE"
+    ],
+    "tests": [
+      "session-cookie",
+      "body-host-origin",
+      "offline-reconnect",
+      "lost-response-exact-replay",
+      "changed-payload-409",
+      "two-tab-CAS-409",
+      "old-receipt-stability",
+      "HEAD-empty-body",
+      "byte-range-206",
+      "foreign-Origin-403",
+      "DELETE-204-GET-404"
+    ]
+  },
+  "security": {
+    "user": "pwuser",
+    "uid": 1001,
+    "effectiveCapabilities": "0 in probe process",
+    "noNewPrivileges": true,
+    "chromiumSandbox": true,
+    "chromiumNoSandboxArgumentObserved": false,
+    "officialSeccomp": true,
+    "defaultCapabilityBoundingSetRetained": true,
+    "privileged": false,
+    "hostNetworking": false,
+    "credentialMounts": false,
+    "trustChanges": false,
+    "ignoreHTTPSErrors": false
+  },
+  "preservation": {
+    "appAndHelperSha256BeforeAndAfter": {
+      "pnpm-lock.yaml": "f08b4103a23cfc28d63c4aa17a284ebdcae8bd60394b92bf452440d1a051aaef",
+      "/workspace/.onboarding/browser-support/seccomp_profile.json": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849",
+      "/workspace/.onboarding/browser-support/local-smoke.py": "8e310815de8e43956764bac6b9265362f4b75611b0efd59ecbf82127bdbb84e9",
+      "/workspace/.onboarding/browser-support/smoke.sh": "b71ba69190a42e8d3f538cdcd2bef216666ca3f97ba2a2828e7c49c9fc977c38",
+      "/workspace/.onboarding/browser-support/package-lock.json": "d7fed55e03a087d46e699e47c34ec6682de772412def1bc76f4d7e59b3fb1bed"
+    },
+    "selectedHashesUnchanged": true,
+    "installed1_62ImageUnchanged": true,
+    "v1EvidenceUnchanged": true,
+    "sharedManifestsUnchanged": true,
+    "sharedSeedOrConfigWrites": false
+  },
+  "cleanup": {
+    "taskContainersRemaining": 0,
+    "taskNetworksCreated": 0,
+    "syntheticServersStopped": true,
+    "taskImageAndPackageCacheRetained": true
+  },
+  "setupFailureAndRepair": {
+    "initialFailure": "npm ENOENT mkdir /home/agent/.npm/_cacache",
+    "safeRepair": "Use --cache /workspace/wp12-runtime-v2/npm-cache",
+    "registryBlock": false,
+    "persistentPermissionOrEnvironmentChange": false
+  },
+  "commands": [
+    {
+      "command": "docker pull mcr.microsoft.com/playwright:v1.63.0-noble",
+      "result": "passed",
+      "resolvedDigest": "sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27"
+    },
+    {
+      "command": "npm install isolated @playwright/test@1.63.0, then pnpm@12.7.0 with task --prefix/--cache, --ignore-scripts and no audit/fund",
+      "result": "passed"
+    },
+    {
+      "command": "curl --fail --location --proto '=https' --tlsv1.2 official v1.63.0 seccomp profile",
+      "result": "passed"
+    },
+    {
+      "command": "bash apps/b2c-web/e2e/fixtures/b2b-product/runtime-v2/run-probe.sh /workspace/wp12-runtime-v2 chromium",
+      "exitCode": 0,
+      "result": "passed",
+      "matrixCases": 3
+    },
+    {
+      "command": "bash apps/b2c-web/e2e/fixtures/b2b-product/runtime-v2/run-probe.sh /workspace/wp12-runtime-v2 webkit",
+      "exitCode": 0,
+      "result": "passed",
+      "matrixCases": 3
+    },
+    {
+      "command": "Separate nonroot --network none container executes task-local pnpm --version",
+      "exitCode": 0,
+      "result": "passed",
+      "version": "12.7.0"
+    },
+    {
+      "command": "node --check transport-probe.mjs; bash -n run-probe.sh",
+      "result": "passed"
+    },
+    {
+      "command": "Validate package integrities, six JSON cases/42 groups, unchanged app/helper hashes and v1 Git diff",
+      "result": "passed"
+    }
+  ],
+  "remaining": [
+    "Parent-accepted WP00 and final combined feature head",
+    "INTEGRATION seed/config binding and application/disposable-PostgreSQL composition",
+    "Actual feature U/API/STATIC/build/browser acceptance on immutable combined head",
+    "Separate valid-trust HTTPS/Secure-cookie acceptance"
+  ],
+  "limits": [
+    "Synthetic transport is not B2B feature/DTO/database/auth acceptance",
+    "No production/provider/real-user requests or data",
+    "No saved-environment publication or future-task persistence claim",
+    "No historical browser/Yoga/physical/release gate revalidation"
+  ],
+  "packageRecordsNote": "Task-local lock metadata includes optional platform packages; installed marks extracted packages in this task."
+}

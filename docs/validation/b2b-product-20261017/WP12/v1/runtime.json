@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-17",
+  "scope": "Fresh task-local synthetic page runtime smoke only",
+  "applicationSha": null,
+  "requestedHelperPath": "/workspace/shared/browser-support/README.md",
+  "requestedHelperPathPresent": false,
+  "supportedStartup": "/workspace/.onboarding/browser-support/start.md",
+  "supportedReport": "/workspace/.onboarding/browser-support/REPORT.md",
+  "helper": "/workspace/.onboarding/browser-support/local-smoke.py",
+  "image": "klisteni-browser:1.62.0",
+  "imageId": "sha256:fb70e03db1c00327d2a5626fa6eea50ef9adc333e90c415b104722bb53df58d5",
+  "playwright": {
+    "app": "1.63.0",
+    "environmentSmoke": "1.62.0"
+  },
+  "chromium": {
+    "engine": "chromium",
+    "version": "151.0.7922.34",
+    "uid": 1001,
+    "chromiumSandbox": true,
+    "status": 200,
+    "hosts": [
+      "172.19.0.1"
+    ],
+    "redirects": [],
+    "failed": []
+  },
+  "webkit": {
+    "engine": "webkit",
+    "version": "26.5",
+    "uid": 1001,
+    "chromiumSandbox": false,
+    "status": 200,
+    "hosts": [
+      "172.19.0.1"
+    ],
+    "redirects": [],
+    "failed": []
+  },
+  "requiredAppBrowsers": {
+    "chromium": {
+      "revision": "1243",
+      "version": "153.0.8010.12"
+    },
+    "webkit": {
+      "revision": "2359",
+      "version": "26.6"
+    }
+  },
+  "cleanup": {
+    "smokeContainersRemaining": 0,
+    "smokeNetworksRemaining": 0,
+    "taskPageServerStopped": true
+  },
+  "limitations": [
+    "No application feature/UI/API executed",
+    "No new HTTPS or Secure-cookie acceptance",
+    "No substitute runtime used for app acceptance",
+    "No physical/Safari/iOS equivalence claim",
+    "No shared helper, trust, sandbox or credential changes"
+  ]
+}
