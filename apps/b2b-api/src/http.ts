@@ -37,6 +37,9 @@ import type { Config } from './config.ts';
 import { B2BService } from './service.ts';
 import { HttpError } from './errors.ts';
 import { createMediaStore, MEDIA_LIMITS } from './media.ts';
+import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
+import { productPeople, updateProductMember, inviteProductMember } from './auth/product-people.ts';
+import { readProductAudit } from './audit/product-audit.ts';
 
 const TOKEN = z.object({ token: z.string().min(32).max(200) }).strict();
 async function body(request: IncomingMessage): Promise<unknown> {
@@ -411,6 +414,89 @@ export function createApiServer({
       if (!orgPath) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
       const orgId = orgPath[1],
         route = orgPath[2];
+      // Only ACCESS-owned, complete handlers are registered here. Producer
+      // endpoints remain unavailable until their owner supplies reviewed wiring.
+      if (route.startsWith('/product/v2/')) {
+        const owned: ProductEndpoint[] = [
+          'capabilities',
+          'access',
+          'people',
+          'updateMember',
+          'inviteMember',
+          'audit',
+        ];
+        for (const key of owned) {
+          const endpoint = ProductEndpoints[key];
+          if (method !== endpoint.method) continue;
+          const names: string[] = [];
+          const pattern = endpoint.path.replace(/:([a-zA-Z]+)/g, (_match, name: string) => {
+            names.push(name);
+            return '([a-zA-Z0-9_-]+)';
+          });
+          const match = new RegExp(`^${pattern}$`).exec(route);
+          if (!match) continue;
+          const parameters = Object.fromEntries(
+            names.map((name, index) => [name, match[index + 1]]),
+          );
+          const raw = mutation ? await body(request) : Object.fromEntries(url.searchParams);
+          if (!raw || typeof raw !== 'object' || Array.isArray(raw))
+            throw new HttpError(400, 'INVALID_INPUT', 'Revisá los datos de la solicitud.');
+          for (const [name, value] of Object.entries(parameters)) {
+            if (name in raw && (raw as Record<string, unknown>)[name] !== value)
+              throw new HttpError(400, 'INVALID_INPUT', 'La identidad de la ruta no coincide.');
+          }
+          const data = { ...raw, ...parameters };
+          const contract =
+            typeof request.headers['x-klisteni-b2b-contract'] === 'string'
+              ? request.headers['x-klisteni-b2b-contract']
+              : undefined;
+          const parsed = endpoint.input.parse(data);
+          if (key === 'capabilities')
+            return json(
+              response,
+              200,
+              endpoint.output.parse(
+                await service.productDiscovery(actor, orgId, session.session.id, contract, work),
+              ),
+            );
+          const result = await service.productOrganization(
+            actor,
+            orgId,
+            session.session.id,
+            mutation,
+            contract,
+            async (context) => {
+              const result = await (async () => {
+                switch (key) {
+                  case 'access':
+                    return service.productAccess(context);
+                  case 'people':
+                    return productPeople(context);
+                  case 'updateMember':
+                    return updateProductMember(
+                      context,
+                      ProductEndpoints.updateMember.input.parse(parsed),
+                    );
+                  case 'inviteMember':
+                    return inviteProductMember(
+                      context,
+                      ProductEndpoints.inviteMember.input.parse(parsed),
+                      domain?.canonicalOrigin ?? config.origin,
+                    );
+                  case 'audit':
+                    return readProductAudit(context, ProductEndpoints.audit.input.parse(parsed));
+                  default:
+                    throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+                }
+              })();
+              return endpoint.output.parse(result);
+            },
+            work,
+          );
+          return json(response, 200, result);
+        }
+        throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+      }
       const brandRoute =
         /^\/(branches(?:\/[^/]+)?|grants|theme(?:\/(?:publish|restore|versions))?|modules\/brand|members(?:\/[^/]+)?|history\/executions|brand-media|brand)$/.test(
           route,
@@ -523,7 +609,7 @@ export function createApiServer({
             }
             if (route === '/grants' && method === 'GET') return service.whiteLabel.grants(context);
             if (route === '/grants' && method === 'PUT')
-              return service.whiteLabel.grant(context, BranchGrantInputSchema.parse(input));
+              return service.updateBranchGrant(context, BranchGrantInputSchema.parse(input));
             if (route === '/theme' && method === 'GET')
               return { theme: await service.whiteLabel.theme(context) };
             if (route === '/theme' && method === 'PUT') {

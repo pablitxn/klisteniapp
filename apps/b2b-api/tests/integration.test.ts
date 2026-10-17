@@ -1655,11 +1655,11 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       before,
     );
     assert.equal((await member.request('GET', route('/assignments', 'sur-demo'))).status, 200);
-    // The second gym's coach gains no relationship merely because the member joined.
+    // Coaching relationships remain informational inside the authorized Principal branch.
     assert.equal(
       (await otherCoach.request('GET', route(`/assignments?memberId=${member.id}`, 'sur-demo')))
         .status,
-      403,
+      200,
     );
   });
   test('membership suspension and role changes revoke capabilities immediately, last admin protected', async () => {
@@ -1684,7 +1684,7 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
     await result(await admin.request('PATCH', route(`/members/${coach.id}`), { role: 'coach' }));
     assert.equal(
       (await coach.request('GET', route(`/executions?memberId=${member.id}`))).status,
-      403,
+      200,
     );
     await result(
       await admin.request('POST', route('/coach-assignments'), {
@@ -1698,7 +1698,7 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       200,
     );
   });
-  test('an unassigned coach in the same gym cannot read or assign another coach student', async () => {
+  test('an unassigned coach covers another coach student within the authorized Principal branch', async () => {
     const stranger = await service.transaction(async (db) => {
       const user = await createUser(db, auth, {
         email: `coach-${randomUUID()}@example.test`,
@@ -1715,10 +1715,10 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
     const list = await result<{ assignments: Assignment[] }>(
       await unassigned.request('GET', route('/assignments')),
     );
-    assert.equal(list.assignments.length, 0);
+    assert.ok(list.assignments.some((assignment) => assignment.memberId === member.id));
     assert.equal(
       (await unassigned.request('GET', route(`/executions?memberId=${member.id}`))).status,
-      403,
+      200,
     );
     assert.equal(
       (
@@ -1728,7 +1728,7 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
           version: 1,
         })
       ).status,
-      403,
+      201,
     );
   });
   test('a write queued behind a suspension rechecks membership after acquiring the organization lock', async () => {

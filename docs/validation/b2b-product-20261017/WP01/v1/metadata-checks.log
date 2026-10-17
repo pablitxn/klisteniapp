@@ -1,0 +1,31 @@
+WP01 commit text: 1 checked; passed
+Prepared PR title/template: passed
+Command: python3 /workspace/sysadmin-workspace/tools/cloud_git_identity.py --repo /workspace/klisteniapp
+Author and committer verified: Pablo Coronel <git@pablocoronel.com>
+Exit: 0
+Command: python3 /workspace/sysadmin-workspace/tools/check_engineering_content.py check
+check: 176 checked; human English/provenance review still required
+Exit: 0
+Command: git diff --check
+Exit: 0
+Command: git apply --check docs/validation/b2b-product-20261017/WP01/v1/planning-owner.patch
+Exit: 0
+Command: sha256sum --check docs/validation/b2b-product-20261017/WP01/v1/code-files.sha256
+apps/b2b-api/src/audit/product-audit.ts: OK
+apps/b2b-api/src/auth/product-people.ts: OK
+apps/b2b-api/src/auth/product-policy.ts: OK
+apps/b2b-api/src/http.ts: OK
+apps/b2b-api/src/organization-context.ts: OK
+apps/b2b-api/src/service.ts: OK
+apps/b2b-api/src/white-label-access.ts: OK
+apps/b2b-api/tests/integration.test.ts: OK
+apps/b2b-api/tests/product-audit.test.ts: OK
+apps/b2b-api/tests/product-authorization.test.ts: OK
+apps/b2b-api/tests/support/product-fixture.ts: OK
+apps/b2b-web/src/features/people/People.tsx: OK
+apps/b2b-web/src/features/people/PeoplePage.tsx: OK
+apps/b2b-web/src/features/people/ProductPeople.tsx: OK
+apps/b2b-web/src/features/people/peopleCapabilities.ts: OK
+apps/b2b-web/tests/peopleCapabilities.test.ts: OK
+Exit: 0
+Heuristic checks do not prove English fluency, substantive scope or provenance; human review remains required.

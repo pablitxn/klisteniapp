@@ -1,0 +1,89 @@
+--- a/apps/b2b-api/src/service.ts
++++ b/apps/b2b-api/src/service.ts
+@@ -28,4 +28,8 @@
+ } from './product-context.ts';
+ import type { OrganizationRoleV2, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2';
++import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
++import type { PlanningServices } from './product-context.ts';
++import { createHealthServices } from './health/index.ts';
++import { alternatives } from './catalog/reviewed-alternatives.ts';
+ import {
+   authorizeProductMember,
+@@ -143,5 +147,6 @@
+     >
+   > = {};
+-  constructor(pool: Pool, auth: Auth, config: Config) {
++  constructor(pool: Pool, auth: Auth, config: Config, planning?: PlanningServices) {
++    Object.assign(this.productProducers, planning ?? {}, createHealthServices(), { alternatives });
+     this.pool = pool;
+     this.auth = auth;
+@@ -358,4 +363,10 @@
+       return operation(db, org, membership);
+     });
++  }
++  async productProducer(c: AuthorizedProductContext, key: ProductEndpoint, input: unknown): Promise<unknown> {
++    const handler = this.productProducers[key as keyof typeof this.productProducers] as
++      ((context: AuthorizedProductContext, value: unknown) => Promise<unknown>) | undefined;
++    if (!handler) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
++    return handler(c, ProductEndpoints[key].input.parse(input));
+   }
+   async productAccess(c: AuthorizedProductContext): Promise<ProductOutput<'access'>> {
+--- a/apps/b2b-api/src/http.ts
++++ b/apps/b2b-api/src/http.ts
+@@ -41,8 +41,8 @@
+ import { productPeople, updateProductMember, inviteProductMember } from './auth/product-people.ts';
+ import { readProductAudit } from './audit/product-audit.ts';
++import { HEALTH_RESPONSE_HEADERS } from './health/index.ts';
+
+ const TOKEN = z.object({ token: z.string().min(32).max(200) }).strict();
+-async function body(request: IncomingMessage): Promise<unknown> {
+-  const maximum = 1024 * 1024;
++async function body(request: IncomingMessage, maximum = 1024 * 1024): Promise<unknown> {
+   if (Number(request.headers['content-length']) > maximum) {
+     request.resume();
+@@ -425,4 +425,5 @@
+           'inviteMember',
+           'audit',
++          ...(Object.keys(service.productProducers) as ProductEndpoint[]).filter((name) => ProductEndpoints[name].scope === 'organization'),
+         ];
+         for (const key of owned) {
+@@ -439,5 +440,7 @@
+             names.map((name, index) => [name, match[index + 1]]),
+           );
+-          const raw = mutation ? await body(request) : Object.fromEntries(url.searchParams);
++          const healthRoute = ['ownHealth', 'saveOwnHealth', 'previewHealthImport', 'applyHealthImport', 'healthConsents', 'grantHealthConsent', 'revokeHealthConsent', 'consentedHealth'].includes(key);
++          if (healthRoute) for (const [name, value] of Object.entries(HEALTH_RESPONSE_HEADERS)) response.setHeader(name, value);
++          const raw = mutation ? await body(request, healthRoute ? 5 * 1024 * 1024 : 1024 * 1024) : Object.fromEntries(url.searchParams);
+           if (!raw || typeof raw !== 'object' || Array.isArray(raw))
+             throw new HttpError(400, 'INVALID_INPUT', 'Revisá los datos de la solicitud.');
+@@ -446,5 +449,10 @@
+               throw new HttpError(400, 'INVALID_INPUT', 'La identidad de la ruta no coincide.');
+           }
+-          const data = { ...raw, ...parameters };
++          const data: Record<string, unknown> = { ...raw, ...parameters };
++          if (key === 'alternatives') {
++            if (typeof data.version !== 'string' || !/^[1-9][0-9]*$/.test(data.version))
++              throw new HttpError(400, 'INVALID_INPUT', 'La versión debe ser un entero positivo.');
++            data.version = Number(data.version);
++          }
+           const contract =
+             typeof request.headers['x-klisteni-b2b-contract'] === 'string'
+@@ -487,11 +495,16 @@
+                     return readProductAudit(context, ProductEndpoints.audit.input.parse(parsed));
+                   default:
+-                    throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
++                    return service.productProducer(context, key, parsed);
+                 }
+               })();
+-              return endpoint.output.parse(result);
++              const output = endpoint.output.parse(result);
++              // Queue authorized health-read bytes while authority/consent locks
++              // are held; never dispatch a captured, delayed projection here.
++              if (healthRoute && method === 'GET') json(response, 200, output);
++              return output;
+             },
+             work,
+           );
++          if (response.headersSent) return;
+           return json(response, 200, result);
+         }

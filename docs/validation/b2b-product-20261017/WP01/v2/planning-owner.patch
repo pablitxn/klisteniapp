@@ -1,0 +1,47 @@
+--- a/apps/b2b-api/src/training/repository.ts
++++ b/apps/b2b-api/src/training/repository.ts
+@@ -152,9 +152,5 @@
+        AND ($5::text IS NULL OR a.branch_id=$5)
+        AND ($3='admin' OR ($3='member' AND a.member_id=$2)
+-         OR ($3='coach' AND EXISTS(
+-           SELECT 1 FROM b2b_coach_assignment ca
+-           WHERE ca.organization_id=a.organization_id AND ca.member_id=a.member_id AND ca.coach_id=$2
+-           AND ($5::text IS NULL OR ca.branch_id=a.branch_id)
+-         )))
++         OR ($3='coach' AND $5::text IS NOT NULL AND a.branch_id=$5))
+        ORDER BY a.created_at DESC,a.id`,
+       [org.id, actorId, role, memberId ?? null, branchId ?? null],
+@@ -193,9 +189,5 @@
+        AND (NOT $6::boolean OR e.member_id=$2)
+        AND ($3='admin' OR ($3='member' AND e.member_id=$2)
+-         OR ($3='coach' AND EXISTS(
+-           SELECT 1 FROM b2b_coach_assignment ca
+-           WHERE ca.organization_id=e.organization_id AND ca.member_id=e.member_id AND ca.coach_id=$2
+-           AND ($5::text IS NULL OR ca.branch_id=e.branch_id)
+-         )))
++         OR ($3='coach' AND $5::text IS NOT NULL AND e.branch_id=$5))
+        ORDER BY e.created_at DESC,e.id`,
+       [
+--- a/apps/b2b-api/src/training/index.ts
++++ b/apps/b2b-api/src/training/index.ts
+@@ -32,5 +32,5 @@
+   catalog: Pick<CatalogModule, 'resolveExercises' | 'resolvePublishedMachines'>;
+   equipment: Pick<EquipmentModule, 'activeModels'>;
+-  memberAccess: (context: Context, memberId: string) => Promise<void>;
++  memberAccess: (context: Context, memberId: string, purpose?: 'planning' | 'history') => Promise<void>;
+   members: (context: Context) => Promise<Member[]>;
+ };
+@@ -144,5 +144,5 @@
+
+   async assignments(context: Context, memberId?: string): Promise<Assignment[]> {
+-    if (memberId) await this.dependencies.memberAccess(context, memberId);
++    if (memberId) await this.dependencies.memberAccess(context, memberId, 'history');
+     const rows = await new TrainingRepository(context).assignments(memberId);
+     const models = await this.dependencies.equipment.activeModels(context);
+@@ -207,5 +207,5 @@
+   async executions(context: Context, memberId?: string): Promise<Execution[]> {
+     if (context.history && memberId && memberId !== context.actorId) throw denied();
+-    if (memberId && !context.history) await this.dependencies.memberAccess(context, memberId);
++    if (memberId && !context.history) await this.dependencies.memberAccess(context, memberId, 'history');
+     return new TrainingRepository(context).executions(memberId);
+   }

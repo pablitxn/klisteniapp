@@ -18,8 +18,23 @@ import {
   type WebsiteInput,
   type SetupProgress,
   type Theme,
+  type BranchGrantInput,
 } from '@klisteniapp/b2b-contracts';
-import { assertLegacyProductAccess } from './product-context.ts';
+import {
+  assertLegacyProductAccess,
+  assertProductCapability,
+  type AuthorizedProductContext,
+  type ProductServices,
+} from './product-context.ts';
+import type { OrganizationRoleV2, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2';
+import {
+  authorizeProductMember,
+  mayManageRole,
+  principalScope,
+  productBranchScope,
+  productCapabilities,
+} from './auth/product-policy.ts';
+import { revokeMembershipConsents } from './auth/product-people.ts';
 import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
 import { conflict, denied, HttpError, missing } from './errors.ts';
@@ -120,6 +135,13 @@ export class B2BService {
   readonly equipment: EquipmentModule;
   readonly training: TrainingModule;
   readonly whiteLabel: WhiteLabelService;
+  /** Reserved producer seams. Route activation stays with the integration owner. */
+  readonly productProducers: Partial<
+    Omit<
+      ProductServices,
+      'capabilities' | 'access' | 'people' | 'updateMember' | 'inviteMember' | 'audit'
+    >
+  > = {};
   constructor(pool: Pool, auth: Auth, config: Config) {
     this.pool = pool;
     this.auth = auth;
@@ -132,7 +154,8 @@ export class B2BService {
     this.training = new TrainingModule({
       catalog: this.catalog,
       equipment: this.equipment,
-      memberAccess: (context, memberId) => this.memberAccess(context, memberId),
+      memberAccess: (context, memberId, purpose: 'planning' | 'history' = 'planning') =>
+        this.memberAccess(context, memberId, purpose),
       members: (context) => this.members(context),
     });
   }
@@ -186,8 +209,8 @@ export class B2BService {
       // a queued request cannot outlive a session revoked while it waited.
       await this.requireSession(db, actorId, sessionId);
       if (work.domain) await requireBrandSession(db, actorId, sessionId, work.domain);
-      const membership = await db.query<{ role: Role }>(
-        'SELECT role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active',
+      const membership = await db.query<{ role: Role; product_role: OrganizationRoleV2 }>(
+        'SELECT role,product_role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active',
         [orgId, actorId],
       );
       if (!membership.rows[0]) {
@@ -210,8 +233,149 @@ export class B2BService {
         work,
       );
       assertLegacyProductAccess(org.product_active);
-      return operation({ db, actorId, org, ...scope });
+      return operation({
+        db,
+        actorId,
+        org,
+        ...scope,
+        productRole: scope.role === 'admin' ? membership.rows[0].product_role : scope.role,
+      });
     });
+  }
+  async productOrganization<T>(
+    actorId: string,
+    orgId: string,
+    sessionId: string,
+    write: boolean,
+    contractHeader: string | undefined,
+    operation: (context: AuthorizedProductContext) => Promise<T>,
+    work: WorkContext = {},
+  ): Promise<T> {
+    return this.productTransaction(
+      actorId,
+      orgId,
+      sessionId,
+      write,
+      contractHeader,
+      async (db, org, membership) => {
+        assertProductCapability(contractHeader, org.product_active);
+        const branchId =
+          work.branchId ??
+          (work.domain
+            ? (() => {
+                throw new HttpError(400, 'BRANCH_REQUIRED', 'Elegí una sede para continuar.');
+              })()
+            : await principalScope(db, orgId, actorId, membership.product_role));
+        const role = await productBranchScope(
+          db,
+          orgId,
+          actorId,
+          membership.product_role,
+          branchId,
+          work.role,
+        );
+        const capabilities = new Set(productCapabilities(role));
+        return operation({
+          db,
+          actorId,
+          organizationId: orgId,
+          branchId,
+          role,
+          accessMode: 'active',
+          accessRevision: Number(membership.access_revision),
+          capabilities,
+          authorizeMember: (memberId, purpose) =>
+            authorizeProductMember(db, orgId, branchId, actorId, role, memberId, purpose),
+        });
+      },
+      work,
+    );
+  }
+  /** Authenticated discovery works before activation without exposing any feature. */
+  async productDiscovery(
+    actorId: string,
+    orgId: string,
+    sessionId: string,
+    contractHeader: string | undefined,
+    work: WorkContext = {},
+  ): Promise<ProductOutput<'capabilities'>> {
+    return this.productTransaction(
+      actorId,
+      orgId,
+      sessionId,
+      false,
+      contractHeader,
+      async (_db, org) => ({
+        schemaVersion: 2,
+        minimumClientVersion: 2,
+        activated: org.product_active,
+        migration: '006-product-foundation',
+      }),
+      work,
+    );
+  }
+  private async productTransaction<T>(
+    actorId: string,
+    orgId: string,
+    sessionId: string,
+    write: boolean,
+    contractHeader: string | undefined,
+    operation: (
+      db: PoolClient,
+      org: OrgRow & { product_active: boolean },
+      membership: { product_role: OrganizationRoleV2; access_revision: string },
+    ) => Promise<T>,
+    work: WorkContext,
+  ): Promise<T> {
+    if (this.config.whiteLabel && !work.domain)
+      throw new HttpError(403, 'BRAND_CONTEXT_REQUIRED', 'El dominio de la marca es obligatorio.');
+    if (work.domain && work.domain.organizationId !== orgId) throw missing();
+    return this.transaction(async (db) => {
+      const org = (
+        await db.query<OrgRow & { product_active: boolean }>(
+          `SELECT * FROM b2b_organization WHERE id=$1 ${write ? 'FOR UPDATE' : 'FOR SHARE'}`,
+          [orgId],
+        )
+      ).rows[0];
+      if (!org) throw missing();
+      await this.requireSession(db, actorId, sessionId);
+      if (work.domain) await requireBrandSession(db, actorId, sessionId, work.domain);
+      const membership = (
+        await db.query<{ product_role: OrganizationRoleV2; access_revision: string }>(
+          `SELECT product_role,access_revision FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active FOR SHARE`,
+          [orgId, actorId],
+        )
+      ).rows[0];
+      if (!membership)
+        throw new HttpError(403, 'MEMBERSHIP_REQUIRED', 'Tu acceso a esta marca cambió.');
+      if (contractHeader !== '2') assertProductCapability(contractHeader, false);
+      if (write && !organizationDTO(org).serviceActive)
+        throw new HttpError(
+          402,
+          'GYM_SERVICE_INACTIVE',
+          'El servicio del gimnasio está suspendido.',
+        );
+      return operation(db, org, membership);
+    });
+  }
+  async productAccess(c: AuthorizedProductContext): Promise<ProductOutput<'access'>> {
+    const grants = (
+      await c.db.query<{ branch_id: string; role: 'coach' | 'member' }>(
+        `SELECT g.branch_id,g.role FROM b2b_branch_grant g JOIN b2b_branch b ON b.organization_id=g.organization_id AND b.id=g.branch_id
+       WHERE g.organization_id=$1 AND g.user_id=$2 AND g.active AND b.status='active' ORDER BY g.branch_id,g.role`,
+        [c.organizationId, c.actorId],
+      )
+    ).rows;
+    return {
+      schemaVersion: 2,
+      organizationId: c.organizationId,
+      userId: c.actorId,
+      role: c.role,
+      accessMode: c.accessMode,
+      accessRevision: c.accessRevision,
+      branches: grants.map((g) => ({ branchId: g.branch_id, role: g.role })),
+      capabilities: [...c.capabilities],
+    };
   }
   staff(c: Context) {
     staff(c);
@@ -222,25 +386,18 @@ export class B2BService {
   audit(c: Context, action: string, resourceId: string) {
     return audit(c, action, resourceId);
   }
-  async memberAccess(c: Context, memberId: string): Promise<void> {
-    const member = await c.db.query(
-      `SELECT m.role FROM b2b_membership m WHERE organization_id=$1 AND user_id=$2 AND active
-       AND ($3::text IS NULL OR EXISTS(SELECT 1 FROM b2b_branch_grant g WHERE g.organization_id=m.organization_id AND g.user_id=m.user_id AND g.branch_id=$3 AND g.role='member' AND g.active))`,
-      [c.org.id, memberId, c.branchId ?? null],
-    );
-    if (!member.rows[0] || (!c.branchId && member.rows[0].role !== 'member')) throw missing();
-    if (c.role === 'admin' || (c.role === 'member' && c.actorId === memberId)) return;
-    if (
-      c.role === 'coach' &&
-      (
-        await c.db.query(
-          'SELECT 1 FROM b2b_coach_assignment WHERE organization_id=$1 AND coach_id=$2 AND member_id=$3 AND ($4::text IS NULL OR branch_id=$4)',
-          [c.org.id, c.actorId, memberId, c.branchId ?? null],
-        )
-      ).rowCount
-    )
-      return;
-    throw denied();
+  async memberAccess(
+    c: Context,
+    memberId: string,
+    purpose: 'planning' | 'history' = 'planning',
+  ): Promise<void> {
+    const branchId =
+      c.branchId ??
+      (c.role === 'admin'
+        ? (await c.db.query<{ id: string }>('SELECT b2b_principal_branch_id($1) id', [c.org.id]))
+            .rows[0].id
+        : await principalScope(c.db, c.org.id, c.actorId));
+    return authorizeProductMember(c.db, c.org.id, branchId, c.actorId, c.role, memberId, purpose);
   }
   async me(user: Me['user'], domain?: DomainContext | null): Promise<Me> {
     const found = await this.pool.query<OrgRow & { role: Role }>(
@@ -264,6 +421,8 @@ export class B2BService {
     };
   }
   async members(c: Context): Promise<Member[]> {
+    if (c.role === 'coach' && !c.branchId)
+      throw new HttpError(400, 'BRANCH_REQUIRED', 'Elegí una sede para continuar.');
     if (c.branchId) {
       const found = await c.db.query<{
         user_id: string;
@@ -277,8 +436,7 @@ export class B2BService {
          ARRAY(SELECT ca.coach_id FROM b2b_coach_assignment ca WHERE ca.organization_id=g.organization_id AND ca.branch_id=g.branch_id AND ca.member_id=g.user_id) coach_ids
          FROM b2b_branch_grant g JOIN b2b_membership m ON m.organization_id=g.organization_id AND m.user_id=g.user_id
          JOIN b2b_auth_user u ON u.id=g.user_id WHERE g.organization_id=$1 AND g.branch_id=$4
-         AND ($3='admin' OR g.user_id=$2 OR ($3='coach' AND g.role='member' AND g.active AND m.active AND EXISTS(
-           SELECT 1 FROM b2b_coach_assignment ca WHERE ca.organization_id=g.organization_id AND ca.branch_id=g.branch_id AND ca.member_id=g.user_id AND ca.coach_id=$2))) ORDER BY u.name,g.role`,
+         AND ($3='admin' OR g.user_id=$2 OR ($3='coach' AND g.role='member')) ORDER BY u.name,g.role`,
         [c.org.id, c.actorId, c.role, c.branchId],
       );
       return found.rows.map((r) => ({
@@ -301,7 +459,7 @@ export class B2BService {
       `SELECT m.user_id,u.name,u.email,m.role,m.active,
       ARRAY(SELECT coach_id FROM b2b_coach_assignment a WHERE a.organization_id=m.organization_id AND a.member_id=m.user_id) coach_ids
       FROM b2b_membership m JOIN b2b_auth_user u ON u.id=m.user_id WHERE m.organization_id=$1
-      AND ($3='admin' OR m.user_id=$2 OR ($3='coach' AND m.active AND EXISTS(SELECT 1 FROM b2b_coach_assignment a WHERE a.organization_id=m.organization_id AND a.member_id=m.user_id AND a.coach_id=$2))) ORDER BY u.name`,
+      AND ($3='admin' OR m.user_id=$2) ORDER BY u.name`,
       [c.org.id, c.actorId, c.role],
     );
     return found.rows.map((r) => ({
@@ -315,14 +473,27 @@ export class B2BService {
   }
   async updateMembership(c: Context, userId: string, input: { role?: Role; active?: boolean }) {
     this.admin(c);
-    const found = await c.db.query<{ role: Role; active: boolean }>(
-      'SELECT role,active FROM b2b_membership WHERE organization_id=$1 AND user_id=$2',
+    const found = await c.db.query<{
+      role: Role;
+      product_role: OrganizationRoleV2;
+      active: boolean;
+    }>(
+      'SELECT role,product_role,active FROM b2b_membership WHERE organization_id=$1 AND user_id=$2',
       [c.org.id, userId],
     );
     const previous = found.rows[0];
     if (!previous) throw missing();
     const role = input.role ?? previous.role,
       active = input.active ?? previous.active;
+    const actorRole = c.productRole ?? 'admin';
+    const targetRole =
+      input.role === 'admin'
+        ? previous.role === 'admin'
+          ? previous.product_role
+          : 'superadmin'
+        : (input.role ?? previous.product_role);
+    if (!mayManageRole(actorRole, previous.product_role) || !mayManageRole(actorRole, targetRole))
+      throw denied();
     if (previous.role === 'admin' && previous.active && (role !== 'admin' || !active)) {
       const count = await c.db.query(
         "SELECT 1 FROM b2b_membership WHERE organization_id=$1 AND role='admin' AND active",
@@ -339,6 +510,7 @@ export class B2BService {
       'UPDATE b2b_membership SET role=$3,active=$4 WHERE organization_id=$1 AND user_id=$2',
       [c.org.id, userId, role, active],
     );
+    if (!active) await revokeMembershipConsents(c.db, c.org.id, userId, c.actorId);
     if (role !== previous.role || !active)
       await c.db.query(
         'DELETE FROM b2b_coach_assignment WHERE organization_id=$1 AND (coach_id=$2 OR member_id=$2)',
@@ -383,6 +555,30 @@ export class B2BService {
     await this.audit(c, 'coach.assign', input.memberId);
     return { ok: true };
   }
+  async updateBranchGrant(c: Context, input: BranchGrantInput) {
+    this.admin(c);
+    const target = (
+      await c.db.query<{ product_role: OrganizationRoleV2 }>(
+        'SELECT product_role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2',
+        [c.org.id, input.userId],
+      )
+    ).rows[0];
+    if (!target) throw missing();
+    if (!mayManageRole(c.productRole ?? 'admin', target.product_role)) throw denied();
+    const previous = (
+      await c.db.query<{ active: boolean }>(
+        'SELECT active FROM b2b_branch_grant WHERE organization_id=$1 AND branch_id=$2 AND user_id=$3 AND role=$4',
+        [c.org.id, input.branchId, input.userId, input.role],
+      )
+    ).rows[0];
+    const result = await this.whiteLabel.grant(c, input);
+    if (previous?.active !== input.active)
+      await c.db.query(
+        'UPDATE b2b_membership SET access_revision=access_revision+1 WHERE organization_id=$1 AND user_id=$2',
+        [c.org.id, input.userId],
+      );
+    return result;
+  }
   async brand(c: Context, input: Brand) {
     this.admin(c);
     await this.validateLogo(c, input.logoUrl);
@@ -395,6 +591,10 @@ export class B2BService {
   }
   async invite(c: Context, input: { email: string; name: string; role: Role }) {
     this.admin(c);
+    if (
+      !mayManageRole(c.productRole ?? 'admin', input.role === 'admin' ? 'superadmin' : input.role)
+    )
+      throw denied();
     const token = randomBytes(32).toString('base64url');
     const expiresAt = new Date(Date.now() + 7 * 86400000);
     const id = randomUUID();
@@ -451,14 +651,23 @@ export class B2BService {
         id: string;
         email: string;
         role: Role;
+        product_role: OrganizationRoleV2;
+        created_by: string;
         branch_id: string | null;
       }>(
-        'SELECT id,email,role,branch_id FROM b2b_invitation WHERE token_hash=$1 AND used_at IS NULL AND expires_at>clock_timestamp() FOR UPDATE',
+        'SELECT id,email,role,product_role,created_by,branch_id FROM b2b_invitation WHERE token_hash=$1 AND used_at IS NULL AND expires_at>clock_timestamp() FOR UPDATE',
         [hashToken(token)],
       );
       const invitation = found.rows[0];
       if (!invitation)
         throw new HttpError(400, 'INVALID_INVITATION', 'Invitación inválida o vencida.');
+      const issuer = (
+        await db.query<{ product_role: OrganizationRoleV2 }>(
+          'SELECT product_role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active FOR SHARE',
+          [org.id, invitation.created_by],
+        )
+      ).rows[0];
+      if (!issuer || !mayManageRole(issuer.product_role, invitation.product_role)) throw denied();
       await db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [
         `b2b:email:${invitation.email}`,
       ]);
@@ -499,7 +708,7 @@ export class B2BService {
           'MEMBERSHIP_EXISTS',
           'Ya pertenecés a este gimnasio. Un administrador puede gestionar tu acceso.',
         );
-      if (domain) await db.query("SELECT set_config('b2b.explicit_branch_scope','on',true)");
+      await db.query("SELECT set_config('b2b.explicit_branch_scope','on',true)");
       if (
         invitation.branch_id &&
         !(
@@ -510,12 +719,11 @@ export class B2BService {
         ).rowCount
       )
         throw missing();
-      await db.query('INSERT INTO b2b_membership(organization_id,user_id,role) VALUES($1,$2,$3)', [
-        org.id,
-        userId,
-        invitation.role,
-      ]);
-      if (domain && invitation.branch_id && invitation.role !== 'admin')
+      await db.query(
+        'INSERT INTO b2b_membership(organization_id,user_id,role,product_role) VALUES($1,$2,$3,$4)',
+        [org.id, userId, invitation.role, invitation.product_role],
+      );
+      if (invitation.branch_id && invitation.role !== 'admin')
         await db.query(
           'INSERT INTO b2b_branch_grant(organization_id,branch_id,user_id,role,active) VALUES($1,$2,$3,$4,true) ON CONFLICT DO NOTHING',
           [org.id, invitation.branch_id, userId, invitation.role],

@@ -2,6 +2,7 @@ import type { PoolClient } from 'pg';
 import type { Role } from '@klisteniapp/b2b-contracts';
 import type { DomainContext } from './domain-context.ts';
 import { denied, HttpError, missing } from './errors.ts';
+import { principalScope, productBranchScope } from './auth/product-policy.ts';
 
 export type WorkContext = {
   domain?: DomainContext | null;
@@ -60,7 +61,19 @@ export async function authorizeWorkContext(
   write: boolean,
   work: WorkContext,
 ): Promise<{ role: Role; branchId?: string; domain?: DomainContext; history?: boolean }> {
-  if (!work.domain) return { role: membershipRole };
+  if (!work.domain) {
+    if (membershipRole === 'admin' && !work.branchId) return { role: membershipRole };
+    const branchId = work.branchId ?? (await principalScope(db, organizationId, actorId));
+    const role = await productBranchScope(
+      db,
+      organizationId,
+      actorId,
+      membershipRole,
+      branchId,
+      work.role ?? membershipRole,
+    );
+    return { role: role === 'superadmin' ? 'admin' : role, branchId };
+  }
   if (work.domain.organizationId !== organizationId) throw missing();
   if (work.history) {
     if (write) throw denied();
@@ -70,27 +83,19 @@ export async function authorizeWorkContext(
     if (membershipRole !== 'admin') throw denied();
     return { role: 'admin', domain: work.domain };
   }
-  const branch = await db.query<{ status: string }>(
-    'SELECT status FROM b2b_branch WHERE organization_id=$1 AND id=$2 FOR SHARE',
-    [organizationId, work.branchId],
-  );
-  if (!branch.rows[0]) throw missing();
-  if (branch.rows[0].status !== 'active')
-    throw new HttpError(403, 'BRANCH_ARCHIVED', 'Esta sede está archivada. Consultá el historial.');
-  if (membershipRole === 'admin' && (!work.role || work.role === 'admin'))
-    return { role: 'admin', branchId: work.branchId, domain: work.domain };
-  if (!['coach', 'member'].includes(work.role ?? ''))
+  if (membershipRole !== 'admin' && !['coach', 'member'].includes(work.role ?? ''))
     throw new HttpError(400, 'ROLE_REQUIRED', 'Elegí la función con la que vas a trabajar.');
-  const grant = await db.query(
-    `SELECT 1 FROM b2b_branch_grant WHERE organization_id=$1 AND branch_id=$2
-     AND user_id=$3 AND role=$4 AND active FOR SHARE`,
-    [organizationId, work.branchId, actorId, work.role],
+  const role = await productBranchScope(
+    db,
+    organizationId,
+    actorId,
+    membershipRole,
+    work.branchId,
+    work.role,
   );
-  if (!grant.rowCount)
-    throw new HttpError(
-      403,
-      'BRANCH_FORBIDDEN',
-      'Ya no tenés acceso a esta sede con la función seleccionada.',
-    );
-  return { role: work.role as Role, branchId: work.branchId, domain: work.domain };
+  return {
+    role: role === 'superadmin' ? 'admin' : role,
+    branchId: work.branchId,
+    domain: work.domain,
+  };
 }
