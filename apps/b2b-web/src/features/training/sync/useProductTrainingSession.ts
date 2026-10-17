@@ -1,7 +1,17 @@
+import {
+  workoutPrescription,
+  prescriptionContent,
+  firstCorrectionProblem,
+  confirmLegacyEntry,
+  validateWorkoutBinding,
+  type WorkoutBinding,
+} from './workoutPrescription.ts'
+import { newWorkoutId } from './workoutCrypto'
 import { useEffect, useRef, useState } from 'react'
 import type {
   ProductAccess,
   RoutineVersionV2,
+  SessionPrescriptionBinding,
   SessionContent,
   SessionRevision,
 } from '@klisteniapp/b2b-contracts/product-v2'
@@ -13,6 +23,7 @@ import {
 } from '../storage/workoutStore.ts'
 import {
   canEditWorkout,
+  hasPendingWorkoutOperation,
   editedContent,
   ownerWorkoutExport,
   queueWorkout,
@@ -24,15 +35,22 @@ import {
 import { archiveUnacceptedTarget, prepareWorkoutContent } from './workoutEdit.ts'
 export type ProductWorkoutOptions = {
   initial: WorkoutDocument
-  routine: RoutineVersionV2
+  routine?: RoutineVersionV2
+  prescription?: SessionPrescriptionBinding
   store: WorkoutStore
   access: ProductAccess | null
   transport: WorkoutTransport
   /** Parent enables only after composed WP06 authorization acceptance. */
   integrationAccepted?: boolean
+  /** Called only after a real owner document is durably loaded or created. */
+  onDocumentReady?: (document: WorkoutDocument) => void | Promise<void>
 }
 export function useProductTrainingSession(options: ProductWorkoutOptions) {
-  const { initial, routine, store, access, transport, integrationAccepted = false } = options
+  const { initial, store, access, transport, integrationAccepted = false } = options
+  const prescription = workoutPrescription(options)
+  const prescriptionIdentity = canonicalJson(prescription)
+  const currentPrescription = () =>
+    prescriptionContent(current.current?.binding?.prescription ?? prescription)
   const [document, setDocument] = useState<WorkoutDocument | null>(null)
   const [error, setError] = useState('')
   const [storageError, setStorageError] = useState('')
@@ -42,11 +60,14 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
   const retryCount = useRef(0)
   const contextController = useRef(new AbortController())
   const current = useRef<WorkoutDocument | null>(null)
+  const durableReady = useRef(false)
   const tasks = useRef<Promise<unknown>>(Promise.resolve())
   const generation = useRef(0)
   const accessRef = useRef(access)
   accessRef.current = access
   const runnerRef = useRef<WorkoutSync | null>(null)
+  const onDocumentReady = useRef(options.onDocumentReady)
+  onDocumentReady.current = options.onDocumentReady
   const editable = canEditWorkout(initial.scope, access)
   const accessIdentity = canonicalJson(access)
   useEffect(() => {
@@ -71,6 +92,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     runnerRef.current = runner
     const epoch = ++generation.current
     current.current = null
+    durableReady.current = false
     setDocument(null)
     setError('')
     setStorageError('')
@@ -78,7 +100,12 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
       try {
         let d = await store.read(initial.key)
         if (epoch !== generation.current) return
-        if (d && canonicalJson(d.origin) !== canonicalJson(initial.origin))
+        if (
+          d &&
+          (d.key !== initial.key ||
+            canonicalJson(d.scope) !== canonicalJson(initial.scope) ||
+            canonicalJson(d.origin) !== canonicalJson(initial.origin))
+        )
           throw new Error(
             'Stored workout has a different issued origin; the original is preserved.',
           )
@@ -90,6 +117,13 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         current.current = d
         setDocument(d)
         setRecovered(d !== initial)
+        try {
+          await onDocumentReady.current?.(d)
+          if (epoch === generation.current) durableReady.current = true
+        } catch (error) {
+          if (epoch === generation.current)
+            setStorageError(`No pudimos conservar la selección de recuperación: ${String(error)}`)
+        }
       } catch (e) {
         if (epoch === generation.current) {
           setStorageError(String(e))
@@ -113,6 +147,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     access?.accessRevision,
     access?.userId,
     accessIdentity,
+    prescriptionIdentity,
   ])
   function serialize(task: () => Promise<void>) {
     const epoch = generation.current
@@ -146,7 +181,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         if (epoch !== generation.current) return
         current.current = updated
         setDocument(updated)
-        setStorageError('')
+        if (durableReady.current) setStorageError('')
         return
       } catch (e) {
         if (e instanceof LocalWorkoutConflict && attempt < 4) {
@@ -188,13 +223,17 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     await serialize(async () => {
       const d = current.current
       const a = accessRef.current
-      if (!d || !a || !canEditWorkout(initial.scope, a)) return
-      const issues = sessionIssues(d.content, routine, d.accepted?.content)
-      if (issues.length) throw new Error(issues.map((i) => i.message).join('\n'))
+      if (!d || !a || !canEditWorkout(initial.scope, a) || !durableReady.current) return
+      if (!hasPendingWorkoutOperation(d)) {
+        const correctionProblem = firstCorrectionProblem(d)
+        if (correctionProblem) throw new Error(correctionProblem)
+        const issues = sessionIssues(d.content, currentPrescription(), d.accepted?.content)
+        if (issues.length) throw new Error(issues.map((i) => i.message).join('\n'))
+      }
       const queued = await queueWorkout(
         d,
         a.accessRevision,
-        crypto.randomUUID(),
+        newWorkoutId(),
         new Date().toISOString(),
       )
       if (queued !== d) await persist(queued)
@@ -228,6 +267,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
   useEffect(() => {
     if (
       !document ||
+      (!hasPendingWorkoutOperation(document) && firstCorrectionProblem(document)) ||
       !online ||
       !editable ||
       !integrationAccepted ||
@@ -283,16 +323,31 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
       if (!current.current || !canEditWorkout(initial.scope, accessRef.current)) return
       await persist({
         ...current.current,
-        content: prepareWorkoutContent(current.current, routine, complete),
+        content: prepareWorkoutContent(current.current, currentPrescription(), complete),
       })
     })
     await synchronize()
   }
-  function recover(remote: SessionRevision, choice: 'server' | 'local') {
+  function recover(remote: SessionRevision, choice: 'server' | 'local', binding?: WorkoutBinding) {
     if (!editable) return
     return serialize(async () => {
-      const d = resolveWorkoutConflict(current.current!, remote, choice)
-      const issues = sessionIssues(d.content, routine, remote.content)
+      const authoritative = binding
+        ? validateWorkoutBinding(current.current!, binding)
+        : current.current?.binding
+      if (
+        binding &&
+        (!binding.accepted || canonicalJson(binding.accepted) !== canonicalJson(remote))
+      )
+        throw new Error('Conflict recovery requires the exact bound server revision')
+      const d = {
+        ...resolveWorkoutConflict(current.current!, remote, choice),
+        ...(authoritative ? { binding: authoritative } : {}),
+      }
+      const issues = sessionIssues(
+        d.content,
+        prescriptionContent(authoritative?.prescription ?? prescription),
+        remote.content,
+      )
       if (choice === 'local' && issues.length)
         throw new Error(issues.map((i) => i.message).join('\n'))
       await persist(d)
@@ -330,6 +385,9 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         if (epoch !== generation.current) return
         current.current = recovered
         setDocument(recovered)
+        await onDocumentReady.current?.(recovered)
+        if (epoch !== generation.current) return
+        durableReady.current = true
         setStorageError('')
         setError('')
         return
@@ -349,6 +407,9 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         current.current = latest
         setDocument(latest)
       }
+      await onDocumentReady.current?.(current.current!)
+      if (epoch !== generation.current) return
+      durableReady.current = true
       setStorageError('')
       setError('')
     })
@@ -363,7 +424,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     if (!editable) return
     return serialize(async () => {
       const d = reviseRejectedWorkout(current.current!)
-      const issues = sessionIssues(d.content, routine, d.accepted?.content)
+      const issues = sessionIssues(d.content, currentPrescription(), d.accepted?.content)
       if (issues.length) throw new Error(issues.map((i) => i.message).join('\n'))
       await persist(d)
       setError('')
@@ -403,5 +464,12 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     reloadLocal,
     reviseRejected,
     archiveTarget,
+    correctionProblem: visible ? firstCorrectionProblem(visible) : null,
+    confirmLegacyCorrection: (key: string) => {
+      if (!editable) return
+      return serialize(async () => {
+        if (current.current) await persist(confirmLegacyEntry(current.current, key))
+      })
+    },
   }
 }

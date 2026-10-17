@@ -1,3 +1,5 @@
+import { firstCorrectionProblem } from './workoutPrescription.ts'
+import { workoutContentHash } from './workoutCrypto.ts'
 import {
   ProductAccessSchema,
   SessionRevisionSchema,
@@ -41,7 +43,7 @@ export function canEditWorkout(scope: WorkoutScope, value: ProductAccess | null)
   )
 }
 export async function workoutRequestHash(scope: WorkoutScope, input: SaveWorkout): Promise<string> {
-  const bytes = new TextEncoder().encode(
+  return workoutContentHash(
     canonicalJson({
       organizationId: scope.organizationId,
       branchId: scope.branchId,
@@ -50,9 +52,11 @@ export async function workoutRequestHash(scope: WorkoutScope, input: SaveWorkout
       input,
     }),
   )
-  return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), (b) =>
-    b.toString(16).padStart(2, '0'),
-  ).join('')
+}
+export function hasPendingWorkoutOperation(document: WorkoutDocument): boolean {
+  return document.operations.some(
+    (op) => op.state !== 'accepted' && !document.supersededOperationIds.includes(op.operationId),
+  )
 }
 export async function queueWorkout(
   document: WorkoutDocument,
@@ -60,13 +64,9 @@ export async function queueWorkout(
   operationId: string,
   createdAt: string,
 ): Promise<WorkoutDocument> {
-  if (
-    document.problem ||
-    document.operations.some(
-      (op) => op.state !== 'accepted' && !document.supersededOperationIds.includes(op.operationId),
-    )
-  )
-    return document
+  if (document.problem || hasPendingWorkoutOperation(document)) return document
+  const correctionProblem = firstCorrectionProblem(document)
+  if (correctionProblem) throw new Error(correctionProblem)
   if (
     document.accepted &&
     canonicalJson(document.content) === canonicalJson(document.accepted.content)
@@ -178,6 +178,16 @@ export class WorkoutSync {
           }))
           return
         }
+        if (
+          operation.payload.origin.kind === 'legacy' &&
+          operation.payload.origin.executionId !== null &&
+          operation.payload.expectedRevision === 0 &&
+          !operation.payload.content.correctionReason.trim()
+        )
+          throw Object.assign(
+            new Error('La primera corrección requiere un motivo. Conservamos el envío original.'),
+            { status: 400, code: 'INVALID_INPUT' },
+          )
         if ((await workoutRequestHash(this.scope, operation.payload)) !== operation.requestHash)
           throw new Error('Local immutable operation hash mismatch')
         this.live()

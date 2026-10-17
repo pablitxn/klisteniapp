@@ -1,3 +1,4 @@
+import { workoutContentHash } from './workoutCrypto.ts'
 import {
   SessionContentSchema,
   minimumTarget,
@@ -13,7 +14,7 @@ import {
   restoreEffectiveSegment,
   type AlternativeEnvironment,
 } from '@klisteniapp/b2b-domain/alternatives'
-import { sessionIssues } from '@klisteniapp/b2b-domain/sessions'
+import { sessionIssues, type SessionPrescription } from '@klisteniapp/b2b-domain/sessions'
 import {
   parseWorkoutDocument,
   workoutKey,
@@ -126,7 +127,7 @@ export function restoreWorkoutSegment(content: SessionContent, id: string) {
 }
 export function prepareWorkoutContent(
   document: WorkoutDocument,
-  routine: RoutineVersionV2,
+  routine: SessionPrescription,
   complete: boolean | 'void',
 ): SessionContent {
   const content = SessionContentSchema.parse(
@@ -178,7 +179,7 @@ export async function occurrenceWorkoutId(
   scope: WorkoutScope,
   occurrenceId: string,
 ): Promise<string> {
-  const bytes = new TextEncoder().encode(
+  const hash = workoutContentHash(
     JSON.stringify([
       'klisteni-session-v2',
       scope.organizationId,
@@ -187,8 +188,5 @@ export async function occurrenceWorkoutId(
       occurrenceId,
     ]),
   )
-  const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))
-  return `session-${Array.from(hash, (value) => value.toString(16).padStart(2, '0'))
-    .join('')
-    .slice(0, 40)}`
+  return `session-${hash.slice(0, 40)}`
 }

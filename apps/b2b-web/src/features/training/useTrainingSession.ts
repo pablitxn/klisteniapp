@@ -1,3 +1,4 @@
+import { newWorkoutId } from './sync/workoutCrypto'
 import { ApiError, errorMessage } from '@klisteniapp/b2b-client'
 import type { Assignment, ExecutionInput } from '@klisteniapp/b2b-contracts'
 import { useAccountClient } from '@klisteniapp/b2b-react'
@@ -26,10 +27,10 @@ export function useTrainingSession(
   const key = sessionDraftKey(orgId, userId, assignment.id, assignment.branchId)
   const [initial] = useState(() => {
     try {
-      return recoverSessionDraft(localStorage, key, assignment, () => crypto.randomUUID())
+      return recoverSessionDraft(localStorage, key, assignment, () => newWorkoutId())
     } catch {
       // Accessing localStorage itself can throw when browser storage is disabled.
-      return { draft: createSessionDraft(assignment, crypto.randomUUID()), recovered: false }
+      return { draft: createSessionDraft(assignment, newWorkoutId()), recovered: false }
     }
   })
   const [draft, setDraft] = useState(initial.draft)

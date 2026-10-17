@@ -1,0 +1,25 @@
+--- a/apps/b2b-web/src/app/ProductWorkout.tsx
++++ b/apps/b2b-web/src/app/ProductWorkout.tsx
+@@ -1,3 +1,4 @@
++import { newWorkoutId } from '../features/training/sync/workoutCrypto'
+ import { useMemo, useState } from 'react'
+ import type { ProductV2Client } from '@klisteniapp/b2b-client'
+ import type { ProductOutput, SessionRevision } from '@klisteniapp/b2b-contracts/product-v2'
+@@ -143,7 +144,7 @@
+         accepted?.id ??
+         (selection.origin.kind === 'occurrence'
+           ? await occurrenceWorkoutId(scope, selection.origin.occurrenceId)
+-          : crypto.randomUUID())
++          : newWorkoutId())
+       const equipment = await createClient(signal).call('workoutEquipment', {})
+       const relations = (
+         await Promise.all(
+@@ -161,7 +162,7 @@
+         id,
+         selection.origin,
+         routine,
+-        () => crypto.randomUUID(),
++        () => newWorkoutId(),
+         new Date().toISOString(),
+         accepted,
+       )

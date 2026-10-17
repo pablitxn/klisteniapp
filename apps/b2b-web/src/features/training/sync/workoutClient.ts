@@ -31,6 +31,17 @@ export function createWorkoutClient(clientForSignal: (signal: AbortSignal) => Pr
       // callers cannot substitute mutable draft/publication-choice projections.
       return stored
     },
+    async sessionBinding(id: string, signal: AbortSignal) {
+      signal.throwIfAborted()
+      const binding = await clientForSignal(signal).call('sessionBinding', { id })
+      signal.throwIfAborted()
+      if (
+        (binding.accepted && binding.accepted.id !== id) ||
+        (binding.original && binding.original.original.id !== id)
+      )
+        throw new Error('Foreign session binding')
+      return binding
+    },
     async latestRevision(id: string, signal: AbortSignal) {
       signal.throwIfAborted()
       const revisions = await clientForSignal(signal).call('sessionRevisions', { id })

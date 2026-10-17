@@ -1,0 +1,285 @@
+--- a/apps/b2b-web/src/app/ProductWorkspace.tsx
++++ b/apps/b2b-web/src/app/ProductWorkspace.tsx
+@@ -6,7 +6,8 @@
+ import { doseLabel } from '../features/alternatives/alternativePresentation'
+ import { ProductWorkoutHistory, type SelectedRecovery } from './ProductWorkout'
+ import { IndexedDBWorkoutStore } from '../features/training/storage/workoutStore'
+-import { exportOwnerLocalWorkout } from '../features/training/storage/ownerRecoveryExport'
++import { useSelectedWorkoutRecovery } from '../features/training/storage/useSelectedWorkoutRecovery'
++import type { WorkoutRecoveryContext } from '../features/training/storage/selectedWorkoutRecovery'
+ import { useProductStream } from './productStream'
+ import { TrainerHealthView } from '../features/health/TrainerHealthView'
+ import { useApplication } from './ApplicationProvider'
+@@ -21,8 +22,15 @@
+ export default function ProductWorkspace({ publicContent }: { publicContent?: ReactNode }) {
+   const { session, href, navigate } = useApplication()
+   const [store] = useState(() => new IndexedDBWorkoutStore())
+-  const [recovery, setRecovery] = useState<SelectedRecovery | null>(null)
+   const boot = session.bootstrap
++  const recoveryContext = useMemo<WorkoutRecoveryContext | null>(
++    () => boot && session.productAccess ? {
++      origin: location.origin, bootstrap: boot, access: session.productAccess,
++      branchId: session.branchId, signal: session.contextSignal,
++    } : null,
++    [boot, session.productAccess, session.branchId, session.contextSignal],
++  )
++  const recovery = useSelectedWorkoutRecovery(store, recoveryContext)
+   const membership = boot?.memberships.find((m) => m.organizationId === session.orgId)
+   const refresh = useCallback(() => session.refresh(), [session.refresh])
+   const streamContext = useMemo<HealthAccess | null>(
+@@ -135,6 +143,7 @@
+           </select>
+         </label>
+       )}
++      {recovery.error && <p role="alert">{recovery.error}</p>}
+       {session.error && (
+         <p role="alert">
+           {session.error}
+@@ -168,20 +177,7 @@
+           contextSignal={session.contextSignal}
+           currentOrigin={location.origin}
+           refreshAccess={refresh}
+-          localExport={
+-            recovery &&
+-            recovery.scope.accountId === boot.user.id &&
+-            recovery.scope.organizationId === session.orgId
+-              ? {
+-                  exportOwnPending: ({ access, signal }) =>
+-                    exportOwnerLocalWorkout(
+-                      store,
+-                      { scope: recovery.scope, access, signal },
+-                      recovery.id,
+-                    ),
+-                }
+-              : undefined
+-          }
++          localExport={recovery.selected ? { exportOwnPending: recovery.exportOwnPending } : undefined}
+         >
+           {publicContent ?? (
+             <AccountProvider
+@@ -195,7 +191,8 @@
+                 accessKey={session.workContextKey}
+                 context={protectedContext!}
+                 store={store}
+-                onSelected={setRecovery}
++                recoveryContext={recoveryContext!}
++                onSelected={recovery.remember}
+                 organizationName={membership.name}
+                 branchName={
+                   membership.choices.find((c) => c.branchId === session.branchId)?.name ?? ''
+@@ -228,9 +225,11 @@
+   navigate,
+   store,
+   onSelected,
++  recoveryContext,
+ }: {
+   store: IndexedDBWorkoutStore
+-  onSelected: (selection: SelectedRecovery) => void
++  onSelected: (selection: SelectedRecovery) => void | Promise<void>
++  recoveryContext: WorkoutRecoveryContext
+   createClient: (signal?: AbortSignal) => ProductV2Client
+   accessKey: string
+   context: HealthAccess
+@@ -349,6 +348,7 @@
+           createClient={createClient}
+           store={store}
+           onSelected={onSelected}
++          recoveryContext={recoveryContext}
+           onOpenRoutine={setReference}
+         />
+       ) : (
+--- a/apps/b2b-web/src/app/ProductWorkout.tsx
++++ b/apps/b2b-web/src/app/ProductWorkout.tsx
+@@ -6,9 +6,13 @@
+ import { ProductHistoryPage } from '../features/training/HistoryPage'
+ import { ProductTrainingSession } from '../features/training/Session'
+ import { createWorkoutDocument, occurrenceWorkoutId } from '../features/training/sync/workoutEdit'
++import { loadSessionWorkout } from '../features/training/sync/sessionWorkoutBinding'
++import { newWorkoutId } from '../features/training/sync/workoutCrypto'
+ import { createWorkoutClient } from '../features/training/sync/workoutClient'
+ import type { WorkoutStore, WorkoutScope } from '../features/training/storage/workoutStore'
+ import type { RoutineReference, SessionRecord } from '../features/training/routine-history/model'
++
++import { recoveryWorkoutScope, type WorkoutRecoveryContext } from '../features/training/storage/selectedWorkoutRecovery'
+ 
+ type Selection = {
+   origin: SessionRevision['origin']
+@@ -21,21 +25,27 @@
+   createClient,
+   store,
+   onSelected,
++  recoveryContext,
+   onOpenRoutine,
+ }: {
+   context: HealthAccess
+   createClient: (signal?: AbortSignal) => ProductV2Client
+   store: WorkoutStore
+-  onSelected: (selection: SelectedRecovery) => void
++  recoveryContext: WorkoutRecoveryContext
++  onSelected: (selection: SelectedRecovery) => void | Promise<void>
+   onOpenRoutine: (r: RoutineReference) => void
+ }) {
+-  const [selection, setSelection] = useState<Selection | null>(null),
+-    [message, setMessage] = useState('')
++  const [selection, setSelection] = useState<Selection | null>(null)
+   function edit(record: SessionRecord) {
+     if (record.schemaVersion === 1) {
+-      setMessage(
+-        'El registro original se conserva. Para corregirlo necesitás la prescripción completa revisada por tu entrenador.',
+-      )
++      setSelection({
++        id: record.original.id,
++        origin: {
++          kind: 'legacy', assignmentId: record.original.assignmentId,
++          executionId: record.original.id,
++          routine: { programId: record.routine.programId, version: record.routine.version, schemaVersion: 1 },
++        },
++      })
+       return
+     }
+     setSelection({ origin: record.origin, id: record.id, accepted: record })
+@@ -49,10 +59,10 @@
+       selection={selection}
+       onClose={() => setSelection(null)}
+       onSelected={onSelected}
++      recoveryContext={recoveryContext}
+     />
+   ) : (
+     <>
+-      {message && <p role="status">{message}</p>}
+       <ProductHistoryPage
+         scope={{
+           organizationId: context.organizationId,
+@@ -94,36 +104,20 @@
+   selection,
+   onClose,
+   onSelected,
++  recoveryContext,
+ }: {
+   context: HealthAccess
+   createClient: (signal?: AbortSignal) => ProductV2Client
+   store: WorkoutStore
+   selection: Selection
+   onClose: () => void
+-  onSelected: (selection: SelectedRecovery) => void
++  recoveryContext: WorkoutRecoveryContext
++  onSelected: (selection: SelectedRecovery) => void | Promise<void>
+ }) {
+   const io = useMemo(() => createWorkoutClient(createClient), [createClient])
+   const loaded = useLoad(
+     async (signal) => {
+-      const stored = await io.routineVersion(selection.origin.routine, signal)
+-      const routine =
+-        stored.schemaVersion === 2
+-          ? stored.snapshot
+-          : await createClient(signal).call('routineSupplement', {
+-              id: selection.origin.routine.programId,
+-              version: selection.origin.routine.version,
+-            })
+-      if (!routine)
+-        throw new Error(
+-          'La rutina original sigue disponible en el historial. Tu entrenador debe completar su prescripción antes de usar el nuevo registro.',
+-        )
+-      const scope: WorkoutScope = {
+-        origin: location.origin,
+-        accountId: context.accountId,
+-        actorId: context.accountId,
+-        organizationId: context.organizationId,
+-        branchId: context.branchId,
+-      }
++      const scope = recoveryWorkoutScope(recoveryContext)
+       let accepted = selection.accepted ?? null
+       if (!selection.id && selection.origin.kind === 'occurrence') {
+         const occurrenceId = selection.origin.occurrenceId
+@@ -138,39 +132,32 @@
+             )
+             .sort((a, b) => b.revision - a.revision)[0] ?? null
+       }
+-      const id =
+-        selection.id ??
+-        accepted?.id ??
+-        (selection.origin.kind === 'occurrence'
++      const id = selection.id ?? accepted?.id ?? (
++        selection.origin.kind === 'occurrence'
+           ? await occurrenceWorkoutId(scope, selection.origin.occurrenceId)
+-          : crypto.randomUUID())
++          : null
++      )
++      if (!id) throw new Error('Elegí explícitamente retomar un borrador o empezar una sesión nueva con la asignación emitida.')
+       const equipment = await createClient(signal).call('workoutEquipment', {})
+-      const relations = (
+-        await Promise.all(
+-          routine.steps.map((step) =>
+-            createClient(signal).call('alternatives', {
+-              id: routine.programId,
+-              version: routine.version,
+-              stepId: step.id,
+-            }),
+-          ),
+-        )
+-      ).flat()
+-      const initial = createWorkoutDocument(
+-        scope,
+-        id,
+-        selection.origin,
+-        routine,
+-        () => crypto.randomUUID(),
+-        new Date().toISOString(),
+-        accepted,
+-      )
++      if (selection.id || accepted) {
++        const bound = await loadSessionWorkout({
++          scope, id, origin: accepted?.origin ?? selection.origin, store,
++          signal: AbortSignal.any([signal, context.signal]),
++          readBinding: io.sessionBinding, createId: newWorkoutId, now: new Date().toISOString(),
++        })
++        return { ...bound, equipment }
++      }
++      const stored = await io.routineVersion(selection.origin.routine, signal)
++      const routine = stored.schemaVersion === 2 ? stored.snapshot : await createClient(signal).call('routineSupplement', {
++        id: selection.origin.routine.programId, version: selection.origin.routine.version,
++      })
++      if (!routine) throw new Error('La prescripción de esta nueva sesión todavía requiere revisión explícita.')
++      const initial = createWorkoutDocument(scope, id, selection.origin, routine, newWorkoutId, new Date().toISOString())
+       signal.throwIfAborted()
+       context.signal.throwIfAborted()
+-      onSelected({ scope, id })
+       return {
+         initial,
+-        routine: { ...routine, relations: [...new Map(relations.map((r) => [r.id, r])).values()] },
++        prescription: { kind: 'reviewed' as const, routine },
+         equipment,
+       }
+     },
+@@ -186,7 +173,7 @@
+   )
+   const labels = [
+     ...new Set(
+-      loaded.data?.routine.relations
++      (loaded.data?.prescription.kind === 'reviewed' ? loaded.data.prescription.routine.relations : [])
+         .map((r) => r.target.equipment)
+         .filter((label) => label && label !== 'none') ?? [],
+     ),
+@@ -225,14 +212,20 @@
+           )}
+           <ProductTrainingSession
+             initial={loaded.data.initial}
+-            routine={loaded.data.routine}
++            prescription={loaded.data.prescription}
+             store={store}
+             access={context.access}
+             transport={io.transport}
+             environment={environment}
+             integrationAccepted={context.access?.accessMode === 'active' && !context.signal.aborted}
++            onDocumentReady={(document) => onSelected({ scope: document.scope, id: document.id })}
+             onClose={onClose}
+-            loadRemote={() => io.latestRevision(loaded.data!.initial.id, context.signal)}
++            loadRemote={async () => {
++              const binding = await io.sessionBinding(loaded.data!.initial.id, context.signal)
++              if (!binding.accepted) throw new Error('Solo existe la revisión original; conservamos el trabajo local.')
++              return binding.accepted
++            }}
++            loadRemoteBinding={() => io.sessionBinding(loaded.data!.initial.id, context.signal)}
+           />
+         </>
+       )}
