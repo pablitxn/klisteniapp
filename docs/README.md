@@ -11,6 +11,7 @@ application content and original evidence retain their source language.
 | Continue the VPS delivery on a Mac, including local Blender work | [Mac workspace and handoff](development-macos.md) |
 | Continue from another Codex instance on a VPS with the Mac off | [VPS development and handoff prompt](development-vps.md) |
 | Follow the B2B roadmap, white-label refactor, 3D production and UI testing | [Implementation roadmap](roadmap-implementacion.md) |
+| Dispatch the October 17 B2B product batch using verified gaps, contracts and owned work packages | [B2B development plan v1](plans/klisteni-b2b-development-v1.md) |
 | Implement company domains, contextual login, multiple branches, themes and modules | [White-label B2B plan and E2E acceptance](b2b-white-label.md) |
 | See delivered features, verified results and outstanding acceptance | [Release evidence](b2b-release.md) |
 | Review current-main role QA, exact tested revisions and remaining gates | [October 16 QA receipt](validation/current-main-2026-10-16/README.md) |
@@ -37,8 +38,9 @@ application content and original evidence retain their source language.
 Account and payment implementation does not establish hosted availability.
 The default public demo has no account client, login, paywall or analytics.
 An instance requires an operator's public profile and separately configured API.
-Automatic health-provider synchronization remains planned; the supported import
-path is the normalized Klisteni JSON format.
+The supported health import path is the normalized Klisteni JSON format. Older
+B2C provider proposals retain their separate scope; the October 17 B2B decisions
+require manual import only, as recorded in the development plan above.
 
 The October 11 delivery includes gym workflows, local production-mode runtime
 checks and separately recorded public deployment evidence. New Blender content,
