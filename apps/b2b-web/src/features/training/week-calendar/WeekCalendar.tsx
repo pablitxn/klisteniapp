@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import { errorMessage } from '@klisteniapp/b2b-client'
 import type { Enrollment, Occurrence, ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
 import {
@@ -19,29 +19,38 @@ import {
   type WeekSummary,
 } from './model'
 
+import type { OccurrenceContext } from '../routine-history/model'
+
 const labels = {
   excluded: 'Excluida',
   completed: 'Completada',
   partial: 'Parcial',
   missed: 'Ausente',
   pending: 'Pendiente',
+  unknown: 'Estado por consultar',
 }
 export function WeekCalendar({
   summary,
   occurrences,
   sessions,
   enrollments,
+  occurrenceContexts,
   now,
   canReschedule,
   onMove,
+  onStartOccurrence,
+  renderIssuedPeriod,
 }: {
   summary: WeekSummary
   occurrences: Occurrence[]
   sessions: SessionRecord[]
   enrollments: Enrollment[]
+  occurrenceContexts: OccurrenceContext[]
   now: string
   canReschedule: boolean
   onMove: (request: ProductInput<'moveOccurrence'>) => Promise<void>
+  onStartOccurrence?: (occurrence: Occurrence) => void
+  renderIssuedPeriod?: (occurrence: Occurrence) => ReactNode
 }) {
   const dates = weekDates(summary.week.startDate)
   const today = dateInZone(now, summary.week.timeZone)
@@ -100,7 +109,12 @@ export function WeekCalendar({
             {visible
               .filter((item) => item.scheduledDate === date)
               .map((occurrence) => {
-                const state = occurrenceState(occurrence, sessions, enrollments, summary.closed)
+                const state = occurrenceState(
+                  occurrence,
+                  sessions,
+                  occurrenceContexts,
+                  summary.closed,
+                )
                 return (
                   <article
                     key={occurrence.id}
@@ -124,6 +138,7 @@ export function WeekCalendar({
                       {occurrence.issuedEnrollmentRevision} · calendario r{occurrence.revision} ·
                       fecha original {occurrence.originalDate}
                     </p>
+                    {renderIssuedPeriod?.(occurrence)}
                     {occurrence.permittedDateOverride && (
                       <p>
                         Reprogramación aceptada fuera del período original:{' '}
@@ -138,6 +153,11 @@ export function WeekCalendar({
                         <a href={`#${sessionAnchor(record)}`}>Ver registro {record.id}</a>
                       </p>
                     ))}
+                    {onStartOccurrence && occurrence.eligibility === 'required' && (
+                      <button className="button" onClick={() => onStartOccurrence(occurrence)}>
+                        Abrir sesión
+                      </button>
+                    )}
                     {canReschedule &&
                       canMoveOccurrence(
                         occurrence,

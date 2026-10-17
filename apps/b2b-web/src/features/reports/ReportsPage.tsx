@@ -18,4 +18,4 @@ export function ReportsPage({ membership, dataRefresh }: Context) {
   )
 }
 
-export { ProductReportsPage } from './ProductReportsPage'
+export { ProductReportsPage, ProductHistoryReportsPage } from './ProductReportsPage'

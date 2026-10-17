@@ -4,6 +4,7 @@ import test from 'node:test'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
+  atomicContext,
   enrollment,
   legacy,
   occurrence,
@@ -18,6 +19,9 @@ const {
   SessionActuals,
   WeekCalendar,
   ProductReportsPage,
+  EnrollmentPeriodDetails,
+  EnrollmentPeriodSnapshot,
+  LegacyAssignments,
 } = await loadHistoryViews()
 const noClient = () => {
   throw new Error('No network expected while rendering')
@@ -56,8 +60,7 @@ test('routine and dated actual rendering have both directions of stable original
     createElement(SessionHistory, {
       records: [record],
       scope,
-      occurrences: [occurrence('occurrence', { eligibility: 'cancelled' })],
-      enrollments: [],
+      occurrenceContexts: [atomicContext(occurrence('occurrence', { eligibility: 'cancelled' }))],
       createClient: noClient,
       accessKey: 'member',
       timeZone: 'America/New_York',
@@ -90,8 +93,7 @@ test('legacy actual rendering preserves ID, values, notes and unplanned status',
     createElement(SessionHistory, {
       records: [record],
       scope,
-      occurrences: [],
-      enrollments: [],
+      occurrenceContexts: [],
       createClient: noClient,
       accessKey: 'member',
       timeZone: null,
@@ -112,6 +114,7 @@ test('calendar renders four/three/one, same-day slots and keyboard form with sev
       occurrences: [first, second],
       sessions: [],
       enrollments: [enrollment()],
+      occurrenceContexts: [],
       now: '2026-10-12T15:00:00Z',
       canReschedule: true,
       onMove: async () => {},
@@ -135,6 +138,7 @@ test('read-only report calendar has no move form and lists inactive people', () 
       occurrences: [occurrence()],
       sessions: [],
       enrollments: [enrollment()],
+      occurrenceContexts: [],
       now: '2026-10-12T15:00:00Z',
       canReschedule: false,
       onMove: async () => {
@@ -147,15 +151,9 @@ test('read-only report calendar has no move form and lists inactive people', () 
     createElement(ProductReportsPage, {
       members: [
         {
-          schemaVersion: 2,
           userId: 'inactive',
           name: 'Inactive member',
-          email: 'inactive@example.test',
-          role: 'member',
           active: false,
-          revision: 1,
-          branchGrants: [],
-          coachIds: [],
         },
       ],
       organizationId: scope.organizationId,
@@ -166,4 +164,87 @@ test('read-only report calendar has no move form and lists inactive people', () 
   )
   assert.match(report, /Inactive member · Inactiva/)
   assert.doesNotMatch(report, /health|consent|watch/i)
+})
+
+test('actual period affordance uses the issued enrollment revision and keeps paired timezone and moved linkage', () => {
+  const moved = occurrence('occurrence', {
+    scheduledDate: '2026-10-19',
+    currentWeek: { startDate: '2026-10-19', timeZone: 'America/New_York' },
+    revision: 3,
+  })
+  const html = renderToStaticMarkup(
+    createElement(SessionHistory, {
+      records: [session()],
+      scope,
+      occurrenceContexts: [atomicContext(moved)],
+      createClient: noClient,
+      accessKey: 'current',
+      timeZone: 'Asia/Tokyo',
+    }),
+  )
+  assert.match(html, /Ver período original emitido r1/)
+  assert.match(html, /aria-expanded="false"/)
+  assert.match(html, /fecha vigente 2026-10-19/)
+  assert.match(html, /excluido del seguimiento vigente/)
+  assert.match(html, /fecha local en America\/New_York/)
+  assert.doesNotMatch(html, /fecha local en Asia\/Tokyo/)
+  assert.match(html, /href="#original-routine-routine-v2-s2"/)
+})
+test('issued period snapshot shows its own immutable objective, stage dates, issuer and goal revision separately', () => {
+  const original = enrollment()
+  original.revision = 1
+  original.issuedGoalRevision = 7
+  original.content.goal = 'Original objective, retained after period edits'
+  const html = renderToStaticMarkup(
+    createElement(EnrollmentPeriodSnapshot, {
+      snapshot: {
+        enrollment: original,
+        actorId: 'issuing-coach',
+        recordedAt: '2026-10-01T01:00:00Z',
+      },
+      stageId: 'stage',
+      onOpenRoutine: () => {},
+    }),
+  )
+  assert.match(html, /período r1/)
+  assert.match(html, /Original objective, retained after period edits/)
+  assert.match(html, /revisión del programa emitido 7/)
+  assert.match(html, /Etapa original de este registro/)
+  assert.match(html, /2026-10-01 a 2026-10-14/)
+  assert.match(html, /actor issuing-coach/)
+  assert.match(html, /Abrir rutina original routine-v2-s2/)
+  const closed = renderToStaticMarkup(
+    createElement(EnrollmentPeriodDetails, {
+      reference: { id: 'enrollment', revision: 1 },
+      scope,
+      createClient: noClient,
+      accessKey: 'current',
+    }),
+  )
+  assert.match(closed, /aria-controls=/)
+  assert.doesNotMatch(closed, /Original objective/)
+})
+test('retired unexecuted legacy assignments remain readable in staff history without a start callback', () => {
+  const html = renderToStaticMarkup(
+    createElement(LegacyAssignments, {
+      assignments: [
+        {
+          schemaVersion: 2,
+          id: 'retired-unexecuted',
+          scope,
+          active: false,
+          assignedBy: 'coach',
+          createdAt: '2026-10-01T00:00:00Z',
+          routine: { programId: 'old-routine', schemaVersion: 1, version: 1 },
+          name: 'Unexecuted original routine',
+          archivedAt: '2026-10-12T00:00:00Z',
+        },
+      ],
+    }),
+  )
+  assert.match(html, /Unexecuted original routine/)
+  assert.match(html, /Asignación anterior · Rutina archivada/)
+  assert.match(html, /No generan ausencias prescritas/)
+  assert.match(html, /href="#original-routine-old-routine-v1-s1"/)
+  assert.doesNotMatch(html, /Abrir registro de/)
 })

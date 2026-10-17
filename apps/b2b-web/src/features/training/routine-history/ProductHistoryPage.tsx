@@ -1,3 +1,5 @@
+import type { Occurrence, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
+import type { SessionRecord } from './model'
 import { useEffect, useRef, useState } from 'react'
 import { useLoad } from '@klisteniapp/b2b-react'
 import {
@@ -10,6 +12,9 @@ import {
   type HistoryScope,
   type RoutineReference,
 } from './model'
+import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
+import { loadRoutineHistory } from './historyReads'
+import { LegacyAssignments } from './LegacyAssignments'
 import { RoutineContinuity } from './RoutineContinuity'
 import { SessionHistory, type HistoryClientFactory } from './SessionHistory'
 import { OriginalRoutines } from './OriginalRoutines'
@@ -22,6 +27,9 @@ export type ProductHistoryProps = {
   createClient: HistoryClientFactory
   canReschedule: boolean
   onOpenRoutine?: (routine: RoutineReference) => void
+  onStartOccurrence?: (occurrence: Occurrence) => void
+  onStartLegacy?: (assignment: ProductOutput<'legacyAssignments'>[number]) => void
+  onEditSession?: (record: SessionRecord) => void
 }
 export function ProductHistoryPage(props: ProductHistoryProps) {
   return <ProductHistoryWorkspace key={JSON.stringify([props.accessKey, props.scope])} {...props} />
@@ -32,6 +40,9 @@ function ProductHistoryWorkspace({
   createClient,
   canReschedule,
   onOpenRoutine,
+  onStartOccurrence,
+  onStartLegacy,
+  onEditSession,
 }: ProductHistoryProps) {
   const [clock, setClock] = useState(() => new Date().toISOString())
   useEffect(() => {
@@ -49,20 +60,9 @@ function ProductHistoryWorkspace({
   const [moveMessage, setMoveMessage] = useState('')
   const focusOccurrence = useRef<string | null>(null)
   const ownerKey = JSON.stringify([accessKey, scope])
-  const history = useLoad(
-    async (signal) => {
-      const client = createClient(signal)
-      const [continuity, records] = await Promise.all([
-        client.call('continuity', { memberId: scope.memberId }),
-        client.call('sessions', { memberId: scope.memberId }),
-      ])
-      if (!inScope(continuity, scope))
-        throw new Error('El historial no corresponde al contexto autorizado.')
-      return { continuity, records }
-    },
-    ownerKey,
-    { refreshKey: refresh },
-  )
+  const history = useLoad((signal) => loadRoutineHistory(createClient(signal), scope), ownerKey, {
+    refreshKey: refresh,
+  })
   const plans = history.data
     ? enrollments(history.data.continuity).filter((item) => inScope(item, scope))
     : []
@@ -127,6 +127,9 @@ function ProductHistoryWorkspace({
               future: history.data.continuity.future.filter((item) => inScope(item, scope)),
             }}
             now={clock}
+            createClient={createClient}
+            accessKey={accessKey}
+            onOpenRoutine={onOpenRoutine}
           />
           {zone && weekStart && (
             <>
@@ -172,7 +175,22 @@ function ProductHistoryWorkspace({
               occurrences={weekly.data.occurrences}
               sessions={records}
               enrollments={plans}
+              occurrenceContexts={history.data.contexts}
               now={clock}
+              onStartOccurrence={onStartOccurrence}
+              renderIssuedPeriod={(occurrence) => (
+                <EnrollmentPeriodDetails
+                  reference={{
+                    id: occurrence.enrollmentId,
+                    revision: occurrence.issuedEnrollmentRevision,
+                    stageId: occurrence.stageId,
+                  }}
+                  scope={scope}
+                  accessKey={accessKey}
+                  createClient={createClient}
+                  onOpenRoutine={onOpenRoutine}
+                />
+              )}
               canReschedule={
                 canReschedule &&
                 !history.loading &&
@@ -198,20 +216,26 @@ function ProductHistoryWorkspace({
               }}
             />
           )}
+          <LegacyAssignments assignments={history.data.assignments} onStartLegacy={onStartLegacy} />
           <OriginalRoutines
             enrollments={plans}
+            references={history.data.assignments.map((a) => a.routine)}
             records={records}
-            occurrences={weekly.data?.occurrences ?? []}
+            occurrences={[
+              ...(weekly.data?.occurrences ?? []),
+              ...history.data.contexts.map((pair) => pair.occurrence),
+            ]}
             onOpenRoutine={onOpenRoutine}
           />
           <SessionHistory
             records={records}
             scope={scope}
-            occurrences={weekly.data?.occurrences ?? []}
-            enrollments={plans}
+            occurrenceContexts={history.data.contexts}
             createClient={createClient}
             accessKey={accessKey}
             timeZone={zone}
+            onEditSession={onEditSession}
+            onOpenRoutine={onOpenRoutine}
           />
         </>
       )}

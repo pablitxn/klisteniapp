@@ -11,6 +11,7 @@ import {
 } from '../src/features/training/week-calendar/model.ts'
 import { monday } from '../src/features/training/routine-history/model.ts'
 import {
+  atomicContext,
   enrollment,
   legacy,
   occurrence,
@@ -46,17 +47,17 @@ test('pending, partial, completed, missed and excluded remain distinct', () => {
   const o = occurrence(),
     plan = enrollment(),
     partial = session()
-  assert.equal(occurrenceState(o, [], [plan], false), 'pending')
-  assert.equal(occurrenceState(o, [], [plan], true), 'missed')
-  assert.equal(occurrenceState(o, [partial], [plan], false), 'partial')
-  assert.equal(occurrenceState(o, [partial], [plan], true), 'partial')
+  assert.equal(occurrenceState(o, [], [atomicContext(o, plan)], false), 'pending')
+  assert.equal(occurrenceState(o, [], [atomicContext(o, plan)], true), 'missed')
+  assert.equal(occurrenceState(o, [partial], [atomicContext(o, plan)], false), 'partial')
+  assert.equal(occurrenceState(o, [partial], [atomicContext(o, plan)], true), 'partial')
   const complete = {
     ...partial,
     content: { ...partial.content, status: 'completed' as const, explicitCompletion: true },
   }
-  assert.equal(occurrenceState(o, [complete], [plan], true), 'completed')
+  assert.equal(occurrenceState(o, [complete], [atomicContext(o, plan)], true), 'completed')
   assert.equal(
-    occurrenceState({ ...o, eligibility: 'cancelled' }, [complete], [plan], true),
+    occurrenceState({ ...o, eligibility: 'cancelled' }, [complete], [atomicContext(o, plan)], true),
     'excluded',
   )
   const corrected = {
@@ -64,7 +65,7 @@ test('pending, partial, completed, missed and excluded remain distinct', () => {
     revision: 2,
     content: { ...complete.content, status: 'partial' as const, explicitCompletion: false },
   }
-  assert.equal(occurrenceState(o, [complete, corrected], [plan], true), 'partial')
+  assert.equal(occurrenceState(o, [complete, corrected], [atomicContext(o, plan)], true), 'partial')
 })
 test('two same-day slots remain independent; repeated completed records do not fill another occurrence', () => {
   const o1 = occurrence('one'),
@@ -75,8 +76,8 @@ test('two same-day slots remain independent; repeated completed records do not f
   completed.content.status = 'completed'
   completed.content.explicitCompletion = true
   const records = [completed, { ...completed, id: 's2' }, legacy()]
-  assert.equal(occurrenceState(o1, records, [enrollment()], true), 'completed')
-  assert.equal(occurrenceState(o2, records, [enrollment()], true), 'missed')
+  assert.equal(occurrenceState(o1, records, [atomicContext(o1)], true), 'completed')
+  assert.equal(occurrenceState(o2, records, [atomicContext(o1)], true), 'missed')
 })
 test('move controls exclude completed, cancelled, ended and foreign enrollment work', () => {
   assert.equal(canMoveOccurrence(occurrence(), [session()], enrollment()), true)
