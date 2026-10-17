@@ -34,6 +34,7 @@ export function WeekCalendar({
   now,
   canReschedule,
   onMove,
+  onStartOccurrence,
 }: {
   summary: WeekSummary
   occurrences: Occurrence[]
@@ -42,6 +43,7 @@ export function WeekCalendar({
   now: string
   canReschedule: boolean
   onMove: (request: ProductInput<'moveOccurrence'>) => Promise<void>
+  onStartOccurrence?: (occurrence: Occurrence) => void
 }) {
   const dates = weekDates(summary.week.startDate)
   const today = dateInZone(now, summary.week.timeZone)
@@ -138,6 +140,11 @@ export function WeekCalendar({
                         <a href={`#${sessionAnchor(record)}`}>Ver registro {record.id}</a>
                       </p>
                     ))}
+                    {onStartOccurrence && occurrence.eligibility === 'required' && (
+                      <button className="button" onClick={() => onStartOccurrence(occurrence)}>
+                        Abrir sesión
+                      </button>
+                    )}
                     {canReschedule &&
                       canMoveOccurrence(
                         occurrence,

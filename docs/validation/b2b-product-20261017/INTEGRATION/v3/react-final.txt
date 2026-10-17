@@ -1,0 +1,27 @@
+$ node --test tests/*.test.ts
+✔ product controller requires actual choices, preserves superadmin role and synchronously revokes departed authority (2.912572ms)
+✔ inactive product bootstrap obtains branchless export access without legacy membership or synthetic grants (0.905733ms)
+✔ unchanged background validation and offline failures preserve editor authority; explicit revocation does not (1.075965ms)
+✔ late background validation cannot restore a departed actor or selected scope (0.539556ms)
+✔ validated legacy fallback clears old product identity and selections (0.682196ms)
+✔ reload restores only a stored product choice present in fresh server authority (0.735882ms)
+✔ changing data owner clears old data while same-owner refresh preserves the editor (1.421853ms)
+✔ late success and rejection cannot replace the latest request or another owner (0.530845ms)
+✔ temporary failures retain existing data; authorization loss clears it (0.290103ms)
+✔ latest session refresh wins and aborts the superseded probe (1.549711ms)
+✔ signout suppresses refresh and a delayed session probe cannot restore identity (0.502232ms)
+✔ focus revalidation preserves organization selection, while authentication loss clears it (0.682499ms)
+✔ stopping cancels in-flight reads and ignores all subsequent state updates from them (0.208525ms)
+✔ failed signout preserves identity and a restart is independent of the old logout (0.37355ms)
+✔ WL multiple branch-role contexts require explicit choice and never inherit another role (16.395752ms)
+✔ WL revoked and archived branches invalidate selection while a single valid pair opens automatically (2.058257ms)
+✔ WL a late session probe cannot undo an explicit context switch (0.822564ms)
+✔ WL explicit selection survives navigation only while the new session still authorizes the exact pair (2.918953ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 366.177941

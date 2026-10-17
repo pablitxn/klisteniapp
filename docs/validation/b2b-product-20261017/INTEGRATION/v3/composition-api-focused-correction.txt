@@ -1,0 +1,71 @@
+▶ B2B independent PostgreSQL API
+  ✔ independent auth, exact origin, safe cookies and absence of B2C tables (223.442399ms)
+  ✔ tenant IDs never grant access; staff and assigned-member scope are enforced (179.998704ms)
+  ✔ machine models are reusable but physical units and published QR output are tenant scoped (67.118671ms)
+  ✔ model adaptations and unit edits preserve base data, reject stale changes and hide withdrawn/public-private units (251.074076ms)
+  ✔ publishing and optimistic edits preserve immutable assigned exercise/program snapshots (251.159688ms)
+  ✔ executions validate assigned sets and substitutions; exact replay is idempotent and histories immutable (169.743039ms)
+  ✔ gym contract gates writes independently while allowing own history reads (37.090393ms)
+  ✔ new prescriptions require active compatible units; archived machines preserve old snapshots and exact execution retries (346.415681ms)
+  ✔ machine exercise templates require local adaptation and explicit review; edits invalidate approval (171.891078ms)
+  ✔ unit batches are atomic, scoped and idempotent even after response loss (54.180654ms)
+  ✔ timed prescriptions retain actual dose, RPE, immutable history and normalized legacy replays (183.840173ms)
+  ✔ floor plans publish snapshots, reject foreign units and remove revoked markers immediately (147.759279ms)
+  ✔ website drafts preserve public snapshots, explicit publication and derived completion (167.752102ms)
+  ✔ uploaded media remains tenant-private, validates every reference and preserves authorized historical access (611.844213ms)
+  ✔ website floor plan images and spatial models reject another gym’s uploaded media without changing either snapshot (452.663239ms)
+  ✔ membership revocation during an upload prevents its commit and cleans the unreferenced file (218.734355ms)
+  ✔ new invitation is one-use; an existing B2B identity joins another gym without password reset (195.199576ms)
+  ✔ membership suspension and role changes revoke capabilities immediately, last admin protected (102.149513ms)
+  ✔ an unassigned coach covers another coach student within the authorized Principal branch (235.032952ms)
+  ✔ a write queued behind a suspension rechecks membership after acquiring the organization lock (41.519678ms)
+  ✔ operator adds gyms to an existing installation idempotently without resetting an existing identity (166.645394ms)
+  ✔ a session revoked while a write waits cannot authorize the queued mutation (38.616965ms)
+  ✖ demo reset requires explicit mode, marker and confirmation; leaves unrelated tables untouched (87.566159ms)
+✖ B2B independent PostgreSQL API (7820.864268ms)
+✔ explicit unified bootstrap preserves full topology and requires a positive origin session (1368.6371ms)
+✔ registered migration 007 populates fresh canonical review and repeats without rewriting stored rows (1018.803322ms)
+✔ installed 006 state enriches unchanged rows only and preserves unrelated historical snapshot bytes (1069.839613ms)
+✔ planning publication freezes actual reviewed targets and own doses with current branch exclusions (731.273606ms)
+✔ product authorization and publication fail closed when catalog migration receipt is missing (660.581105ms)
+✔ committed invalidations reach independent API listeners; rollback, foreign scope and unrelated updates do not (927.989558ms)
+✔ listener failure invalidates dependent views and new subscriptions establish a fresh LISTEN baseline (783.970404ms)
+✔ inactive correct-host login admits only own complete export/discovery/invitation and denies gym, media and retry routes (1655.664457ms)
+✔ failed inactive or foreign login cleans the fresh session and returns no cookie (1132.78685ms)
+✔ stale active cookies become export-only atomically and reactivation restores history without consent or revoked grants (1234.942902ms)
+✔ product migration installs into an empty database and repeats without rewriting rows (835.872693ms)
+✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (877.041659ms)
+✔ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (805.286488ms)
+✔ competing superadmin deactivations serialize and retain one active administrator (736.256549ms)
+✔ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (1290.050537ms)
+✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (1109.586468ms)
+✔ activation and old-tab guards fail closed with explicit recoverable codes (1.555676ms)
+✔ activated organizations reject every legacy callback after current authorization checks (753.725952ms)
+ℹ tests 41
+ℹ suites 1
+ℹ pass 40
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29353.662608
+
+✖ failing tests:
+
+test at tests/integration.test.ts:1898:3
+✖ demo reset requires explicit mode, marker and confirmation; leaves unrelated tables untouched (87.566159ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  10 !== 8
+  
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/apps/b2b-api/tests/integration.test.ts:1909:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 10,
+    expected: 8,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

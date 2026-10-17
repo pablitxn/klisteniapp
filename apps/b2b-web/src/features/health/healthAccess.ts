@@ -10,6 +10,8 @@ export type HealthAccess = {
   generation: string
   access: ProductAccess | null
   signal: AbortSignal
+  /** Optional live workspace transport gate; never an authorization claim. */
+  requestSignal?: () => AbortSignal
 }
 
 export function healthAccessKey(context: HealthAccess): string {
