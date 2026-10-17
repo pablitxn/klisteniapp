@@ -1,0 +1,19 @@
+--- a/packages/b2b-domain/package.json
++++ b/packages/b2b-domain/package.json
+@@ -6,7 +6,8 @@
+   "exports": {
+     ".": "./src/index.ts",
+     "./catalog": "./src/catalog.ts",
+-    "./training": "./src/training.ts"
++    "./training": "./src/training.ts",
++    "./alternatives": "./src/alternatives.ts"
+   },
+   "scripts": {
+     "lint": "eslint .",
+--- a/packages/b2b-domain/src/index.ts
++++ b/packages/b2b-domain/src/index.ts
+@@ -13,3 +13,4 @@
+   type RuleResult,
+ } from './training.ts'
+ export { MODULE_POLICY, effectiveModules, contrastRatio, accessibleTheme } from './white-label.ts'
++export { reviewedAlternatives, targetEquipmentAvailable, createOriginalSegment, createReviewedSegment, selectEffectiveSegment, restoreEffectiveSegment, emptyPerformedSet, segmentCoverage, checkEffectiveSegments, checkNewSegmentSelections, type AlternativeEnvironment, type AlternativeState, type EffectiveSegment, type PerformedSet } from './alternatives.ts'
