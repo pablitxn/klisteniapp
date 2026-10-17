@@ -12,7 +12,6 @@ import {
   newPage,
   updateActive,
   raw,
-  unavailable,
   record,
   operation,
   open,
@@ -49,7 +48,7 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
     expect(saved).toMatchObject({
       schemaVersion: 2,
       content: {
-        status: 'draft',
+        status: 'partial',
         explicitCompletion: false,
         notes: 'WP12 persisted during network loss',
       },
@@ -97,7 +96,7 @@ test(scenarioTitle('B2BP-SYNC-003'), async ({ page, context, product }, info) =>
       ),
     ).toHaveLength(1)
     expect(await latest(page, member, plan.occurrences[0]!.id)).toMatchObject({
-      content: { status: 'draft', explicitCompletion: false },
+      content: { status: 'partial', explicitCompletion: false },
     })
     await assertProductViewport(page, info)
   } finally {
@@ -222,11 +221,6 @@ test(scenarioTitle('B2BP-SYNC-007'), async ({ page, context, product }, info) =>
 })
 
 test(scenarioTitle('B2BP-SYNC-008'), async ({ page, context, product }, info) => {
-  if (!product.readiness?.localRecoveryBinding)
-    unavailable(
-      info,
-      'Actual WP09 store / WP11 selected owner-local recovery binding not declared ready',
-    )
   const member = principal(product),
     staff = await staffSession(context, product, info)
   let deactivated = false
@@ -285,7 +279,11 @@ test(scenarioTitle('B2BP-SYNC-010'), async ({ page, context, product }, info) =>
     await expect
       .poll(async () => await latest(page, member, plan.occurrences[0]!.id))
       .toMatchObject({ content: { status: 'completed', explicitCompletion: true } })
+    await expect(synchronized(page)).toBeVisible()
     await page.getByLabel('Motivo de corrección').fill('Truthful completion corrected to partial')
+    await expect(page.getByLabel('Motivo de corrección')).toHaveValue(
+      'Truthful completion corrected to partial',
+    )
     await page.getByRole('button', { name: 'Guardar parcial' }).click()
     await expect
       .poll(async () => await latest(page, member, plan.occurrences[0]!.id))
@@ -405,6 +403,244 @@ test(scenarioTitle('B2BP-SYNC-005'), async ({ page, context, product }, info) =>
     ).toBeVisible()
     await assertProductViewport(page, info)
   } finally {
+    if (paused) await updateActive(staff.page, staff.who, member, true)
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-SYNC-002'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  let release!: () => void
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const id = await startWorkout(page, product, info, plan)
+    await expect(synchronized(page)).toBeVisible()
+    await expect(page.getByText('Estado del trabajo: draft.', { exact: false })).toBeVisible()
+    let arrived!: () => void
+    const held = new Promise<void>((resolve) => {
+        arrived = resolve
+      }),
+      gate = new Promise<void>((resolve) => {
+        release = resolve
+      })
+    await page.route(
+      `**/sessions/${id}/revisions`,
+      async (route) => {
+        const response = await route.fetch()
+        expect(response.ok()).toBe(true)
+        arrived()
+        await gate
+        await route.fulfill({ response })
+      },
+      { times: 1 },
+    )
+    await quantity(page).fill('1')
+    await held
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Enviando una operación inmutable…' }),
+    ).toBeVisible()
+    await expect(page.getByText('Estado del trabajo: partial.', { exact: false })).toBeVisible()
+    await expect(synchronized(page)).toHaveCount(0)
+    release()
+    await expect(synchronized(page)).toBeVisible()
+    expect((await latest(page, member, plan.occurrences[0]!.id))!.content).toMatchObject({
+      status: 'partial',
+      explicitCompletion: false,
+    })
+    await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
+    await expect
+      .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))!.content.status)
+      .toBe('completed')
+    await expect(synchronized(page)).toBeVisible()
+    await expect(page.getByText('Estado del trabajo: completed.', { exact: false })).toBeVisible()
+    await assertProductViewport(page, info)
+  } finally {
+    release?.()
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-SYNC-011'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const id = await startWorkout(page, product, info, plan)
+    await expect(synchronized(page)).toBeVisible()
+    const attempts: Array<{ time: number; payload: ProductInput<'saveSession'> }> = []
+    await page.route(`**/sessions/${id}/revisions`, async (route) => {
+      attempts.push({ time: performance.now(), payload: route.request().postDataJSON() })
+      if (attempts.length <= 3) await route.abort('connectionfailed')
+      else await route.continue()
+    })
+    await quantity(page).fill('1')
+    await expect(
+      page.getByRole('status').filter({ hasText: /Falló la sincronización|Envío pendiente/ }),
+    ).toBeVisible()
+    await expect(synchronized(page)).toHaveCount(0)
+    await expect(synchronized(page)).toBeVisible({ timeout: 30_000 })
+    expect(attempts).toHaveLength(4)
+    for (let index = 1; index < attempts.length; index++) {
+      expect(attempts[index]!.payload).toEqual(attempts[0]!.payload)
+      expect(attempts[index]!.time - attempts[index - 1]!.time).toBeGreaterThanOrEqual(700)
+    }
+    expect(
+      (await api(page, member, 'sessionRevisions', { id })).filter(
+        (r) => r.schemaVersion === 2 && r.operationId === attempts[0]!.payload.operationId,
+      ),
+    ).toHaveLength(1)
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-SYNC-009'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  try {
+    // This is an opaque synthetic v1 database fixture, not a fabricated v2 DTO.
+    await page.goto(new URL('/api/b2b/healthz', String(info.project.use.baseURL)).href)
+    const bytes = '{unreadable-old-draft: preserve these exact synthetic bytes'
+    await page.evaluate(async (bytes) => {
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open('klisteni.b2b.workouts', 1)
+        request.onupgradeneeded = () => request.result.createObjectStore('wp12-v1-opaque')
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+      await new Promise<void>((resolve, reject) => {
+        const transaction = db.transaction('wp12-v1-opaque', 'readwrite')
+        transaction.objectStore('wp12-v1-opaque').put(bytes, 'old')
+        transaction.oncomplete = () => resolve()
+        transaction.onerror = () => reject(transaction.error)
+      })
+      db.close()
+    }, bytes)
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const id = await startWorkout(page, product, info, plan)
+    await expect(synchronized(page)).toBeVisible()
+    await page.evaluate(() => {
+      const original = IDBDatabase.prototype.transaction
+      IDBDatabase.prototype.transaction = function (
+        ...args: Parameters<IDBDatabase['transaction']>
+      ) {
+        if (args[1] === 'readwrite' && String(args[0]).includes('workouts-v2'))
+          throw new DOMException('WP12 synthetic quota fault', 'QuotaExceededError')
+        return Reflect.apply(original, this, args)
+      }
+    })
+    await quantity(page).fill('3')
+    await expect(
+      page.getByRole('status').filter({
+        hasText: 'No se pudo guardar en este dispositivo. Exportá el trabajo antes de salir.',
+      }),
+    ).toBeVisible()
+    await expect(quantity(page)).toHaveValue('3')
+    expect(
+      (await api(page, member, 'sessionRevisions', { id }))
+        .filter((r) => r.schemaVersion === 2)
+        .at(-1),
+    ).toMatchObject({ content: { sets: [] } })
+    const retained = await page.evaluate(async () => {
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        const r = indexedDB.open('klisteni.b2b.workouts')
+        r.onsuccess = () => resolve(r.result)
+        r.onerror = () => reject(r.error)
+      })
+      try {
+        return await new Promise((resolve, reject) => {
+          const r = db.transaction('wp12-v1-opaque').objectStore('wp12-v1-opaque').get('old')
+          r.onsuccess = () => resolve(r.result)
+          r.onerror = () => reject(r.error)
+        })
+      } finally {
+        db.close()
+      }
+    })
+    expect(retained).toBe(bytes)
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  let release!: () => void
+  let paused = false
+  let queued!: ProductInput<'saveSession'>
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const id = await startWorkout(page, product, info, plan)
+    await expect(synchronized(page)).toBeVisible()
+    const accepted = (await latest(page, member, plan.occurrences[0]!.id))!
+    let arrived!: () => void
+    const held = new Promise<void>((resolve) => {
+        arrived = resolve
+      }),
+      gate = new Promise<void>((resolve) => {
+        release = resolve
+      })
+    await page.route(
+      `**/sessions/${id}/revisions`,
+      async (route) => {
+        queued = route.request().postDataJSON()
+        arrived()
+        await gate
+        await route.continue()
+      },
+      { times: 1 },
+    )
+    await page.getByLabel('Notas de la sesión').fill('Stale device must not resurrect void work')
+    await held
+    const peer = await newPage(context, info)
+    try {
+      await login(peer.page, member, info)
+      await api(peer.page, member, 'saveSession', {
+        id,
+        expectedRevision: accepted.revision,
+        operationId: operation(),
+        origin: accepted.origin,
+        content: {
+          ...accepted.content,
+          status: 'void',
+          explicitCompletion: false,
+          correctionReason: 'Void accepted from another device',
+        },
+      })
+    } finally {
+      await peer.context.close()
+    }
+    release()
+    await expect(
+      page.getByRole('button', { name: 'Cargar revisión del servidor', exact: true }),
+    ).toBeVisible()
+    expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
+    await updateActive(staff.page, staff.who, member, false)
+    paused = true
+    expect((await raw(page, member, 'saveSession', queued)).status()).toBe(403)
+    expect((await raw(page, member, 'operationReceipt', { id: accepted.operationId })).ok()).toBe(
+      false,
+    )
+    await updateActive(staff.page, staff.who, member, true)
+    paused = false
+    expect((await raw(page, member, 'saveSession', queued)).status()).toBe(409)
+    expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
+    await page.getByRole('button', { name: 'Salir', exact: true }).click()
+    await login(page, member, info)
+    expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
+    await open(page, product, info, 'history')
+    await expect(page.locator(`[id="actual-session-${id}"]`)).toContainText('Anulada')
+    await assertProductViewport(page, info)
+  } finally {
+    release?.()
     if (paused) await updateActive(staff.page, staff.who, member, true)
     await staff.context.close()
   }

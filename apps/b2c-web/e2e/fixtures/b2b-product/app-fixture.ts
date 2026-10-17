@@ -7,7 +7,8 @@ import {
 } from '@playwright/test'
 import { get } from 'node:http'
 import { randomUUID } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { readFileSync, mkdirSync, existsSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import {
   ProductEndpoints,
   type ProductEndpoint,
@@ -44,6 +45,7 @@ export type ProductFixture = {
   runKey: string
   organizations: Record<string, Organization>
   actors: Record<string, Actor>
+  preservation: { beforeSha256: string; afterSha256: string; counts: Record<string, number> }
   resources: {
     legacy: Array<{
       organizationId: string
@@ -180,28 +182,47 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.goto(`${origin}/app`)
   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)
   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')
+  // Keep the real 10/minute password guard. The timestamp contains no cookie,
+  // token or password and survives Playwright replacing a failed worker.
+  mkdirSync(info.project.outputDir, { recursive: true })
+  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
+  const previous = existsSync(pacePath) ? Number(JSON.parse(readFileSync(pacePath, 'utf8')).at) : 0
+  const wait = Math.max(0, previous + 7000 - Date.now())
+  if (wait) {
+    info.annotations.push({
+      type: 'auth-pacing',
+      description: 'Real password admission paced to preserve the unchanged 10/minute guard',
+    })
+    await new Promise((resolve) => setTimeout(resolve, Math.min(wait, 7000)))
+  }
+  writeFileSync(pacePath, JSON.stringify({ at: Date.now() }), { mode: 0o600 })
   const response = page.waitForResponse(
     (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
   )
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
   expect((await response).status(), 'Real composed UI password admission').toBe(200)
+  const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })
+  await expect(organizations).toBeVisible()
+  if ((await organizations.inputValue()) !== who.organization.id)
+    await organizations.selectOption(who.organization.id)
   const access = await api(page, who, 'access', {})
   expect(access.userId).toBe(who.actor.id)
   if (access.accessMode === 'export-only') return
   expect(access.accessMode).toBe('active')
-  const selector = page.getByLabel('Sede y función', { exact: true })
-  if (await selector.count()) {
-    const exact = `${who.branchId}:${who.role}`
+  const selector = page.getByRole('combobox', { name: 'Sede y función', exact: true })
+  await expect(selector).toBeVisible()
+  {
+    const exact = JSON.stringify([who.branchId, who.role])
     const options = await selector
       .locator('option')
       .evaluateAll((nodes) => nodes.map((node) => (node as HTMLOptionElement).value))
-    const legacyAdmin = `${who.branchId}:admin`
+    const legacyAdmin = JSON.stringify([who.branchId, 'admin'])
     const value = options.includes(exact)
       ? exact
       : who.role === 'superadmin' && options.includes(legacyAdmin)
         ? legacyAdmin
         : exact
-    await selector.selectOption(value)
+    if ((await selector.inputValue()) !== value) await selector.selectOption(value)
   }
 }
 export async function open(
@@ -212,14 +233,43 @@ export async function open(
   values: Record<string, string> = {},
 ) {
   const template = product.routes?.[route]
-  if (!template)
-    unavailable(info, `INTEGRATION has not advertised the actual ${route} route in the fixture map`)
+  if (!template) {
+    // These are the actual composed navigation labels in candidate 04ac103,
+    // not test-only routes or injected component mounts.
+    const labels = {
+      programming: 'Programación',
+      history: 'Mi rutina e historial',
+      health: 'Mi salud',
+      trainerHealth: 'Salud compartida',
+      people: 'Personas',
+      reports: 'Historial',
+    }
+    if (route === 'workout')
+      unavailable(info, 'Workouts open through the actual issued-session action')
+    await page
+      .getByRole('navigation', { name: 'Secciones del gimnasio', exact: true })
+      .getByRole('link', { name: labels[route], exact: true })
+      .click()
+    if (route === 'trainerHealth') {
+      expect(values.memberId, 'An actual member must be selected for trainer health').toBeTruthy()
+      await page
+        .getByRole('combobox', { name: 'Persona', exact: true })
+        .selectOption(values.memberId!)
+    }
+    return
+  }
   const path = template.replace(/\{(\w+)\}/g, (_, key) => {
     if (!values[key]) throw new Error(`Missing bound route parameter ${key}`)
     return encodeURIComponent(values[key])
   })
   expect(path.startsWith('/') && !path.startsWith('//')).toBe(true)
   await page.goto(new URL(path, page.url()).href)
+  if (route === 'trainerHealth') {
+    expect(values.memberId, 'An actual member must be selected for trainer health').toBeTruthy()
+    await page
+      .getByRole('combobox', { name: 'Persona', exact: true })
+      .selectOption(values.memberId!)
+  }
 }
 export async function raw<K extends ProductEndpoint>(
   page: Page,
@@ -350,20 +400,26 @@ export async function prescribe(
   page: Page,
   staff: Principal,
   member: Principal,
-  options: { weekStart?: string; weekdays?: number[]; routine?: RoutineVersionV2 } = {},
+  options: {
+    weekStart?: string
+    weekdays?: number[]
+    routine?: RoutineVersionV2
+    timeZone?: string
+    durationDays?: number
+  } = {},
 ) {
   const routine = options.routine ?? (await publish(page, staff))
   const start = options.weekStart ?? caseWeek()
   const content = {
     name: `WP12 goal ${operation()}`,
     goal: 'Preserve routine, occurrence and actual links',
-    timeZone: 'UTC',
+    timeZone: options.timeZone ?? 'UTC',
     stages: [
       {
         id: operation(),
         name: 'Synthetic stage',
         startDate: start,
-        endDate: addDays(start, 6),
+        endDate: addDays(start, (options.durationDays ?? 7) - 1),
         slots: (options.weekdays ?? [1, 2, 3, 4]).map((weekday) => ({
           id: operation(),
           weekday,
@@ -396,7 +452,7 @@ export async function prescribe(
     await api(page, staff, 'occurrences', {
       memberId: member.actor.id,
       weekStart: start,
-      timeZone: 'UTC',
+      timeZone: content.timeZone,
     })
   ).filter((item) => item.enrollmentId === enrollment.id)
   expect(occurrences).toHaveLength(content.stages[0]!.slots.length)
@@ -480,7 +536,7 @@ export async function updateActive(page: Page, staff: Principal, who: Principal,
     active,
   })
 }
-export async function newPage(context: BrowserContext, info: TestInfo) {
+export async function newPage(context: BrowserContext, info: TestInfo, timezoneId = 'UTC') {
   const browser = context.browser()!
   const use = info.project.use
   const separate = await browser.newContext({
@@ -490,7 +546,7 @@ export async function newPage(context: BrowserContext, info: TestInfo) {
     proxy: use.proxy,
     baseURL: use.baseURL,
     locale: 'es-AR',
-    timezoneId: 'UTC',
+    timezoneId,
     ignoreHTTPSErrors: false,
   })
   if (info.project.metadata.b2bProduct?.mode === 'white-label-http')
@@ -515,7 +571,13 @@ export type Prescription = {
   weekStart: string
 }
 
-export async function showWeek(page: Page, product: ProductFixture, info: TestInfo, week: string) {
+export async function showWeek(
+  page: Page,
+  product: ProductFixture,
+  info: TestInfo,
+  week: string,
+  timeZone = 'UTC',
+) {
   await open(page, product, info, 'history')
   await expect(
     page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
@@ -524,6 +586,9 @@ export async function showWeek(page: Page, product: ProductFixture, info: TestIn
   // asOf/closed counts remain unmodified real responses. No mocked DTO is used.
   await page.clock.setFixedTime(new Date(`${week}T12:00:00Z`))
   await page.reload()
+  await page
+    .getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })
+    .selectOption(timeZone)
   await expect(page.getByRole('heading', { name: `Semana del ${week}`, exact: true })).toBeVisible()
 }
 export async function startWorkout(
@@ -534,12 +599,6 @@ export async function startWorkout(
   sessionId = operation(),
 ) {
   const occurrence = plan.occurrences[0]!
-  if (!product.routes?.workout && !product.entryPoints?.workoutButtonName) {
-    unavailable(
-      info,
-      'Need the actual issued-occurrence workout route or its actual calendar button name from INTEGRATION',
-    )
-  }
   const accepted = page.waitForResponse((r) => {
     if (
       r.request().method() !== 'POST' ||
@@ -558,10 +617,16 @@ export async function startWorkout(
     })
   } else {
     await showWeek(page, product, info, plan.weekStart)
-    await page
-      .locator(`[id="scheduled-occurrence-${occurrence.id}"]`)
-      .getByRole('button', { name: product.entryPoints!.workoutButtonName!, exact: true })
-      .click()
+    if (product.entryPoints?.workoutButtonName) {
+      await page
+        .locator(`[id="scheduled-occurrence-${occurrence.id}"]`)
+        .getByRole('button', { name: product.entryPoints.workoutButtonName, exact: true })
+        .click()
+    } else {
+      await page
+        .getByRole('button', { name: `Abrir sesión del ${occurrence.scheduledDate}`, exact: true })
+        .click()
+    }
   }
   await expect(page.getByRole('heading', { name: plan.routine.name, exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Guardar parcial', exact: true })).toBeVisible()

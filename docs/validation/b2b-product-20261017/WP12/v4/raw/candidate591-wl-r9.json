@@ -1,0 +1,1410 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/candidate591/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.b2b-product-wl-http.config.ts",
+      "--grep",
+      "B2BP-(HEALTH-001|INACTIVE-001|PROGRAMMING-003|WEEK-001)",
+      "--timeout",
+      "45000",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/candidate591/apps/b2c-web/playwright.b2b-product-wl-http.config.ts",
+    "rootDir": "/task/candidate591/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/wp12-candidate591-wl-r9/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-wl-r9/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-wl-r9/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-wl-r9/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-wl-r9/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-wl-r9/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/candidate591/",
+      "env": {
+        "B2B_PRODUCT_MODE": "white-label-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5700/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-health.spec.ts",
+      "file": "b2b-product-health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3207,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:03.231Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-6d0db340a91d5b6fb398",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2879,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:42.368Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-993e1cd3a9d943160458",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4974,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:01:22.428Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-db7e55f83b5833e12f0b",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4757,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:02:05.100Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-30747d793f4a1f4c49c6",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4429,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:02:49.714Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-4dbc5c840a6efaa3dceb",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4830,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:03:31.908Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-07b171abcd44f1341ca0",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-inactive.spec.ts",
+      "file": "b2b-product-inactive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:06.617Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-7aaf5590134df7cc9e0d",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5914,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:45.452Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-591b849b994331c6ef2c",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6244,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:01:27.581Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-52df93f47fcdc9ee5747",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5619,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:02:10.037Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-28aa86dbab0686f40c6e",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6112,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:02:54.429Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-039b546472fd56bb1e36",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7991,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:03:36.972Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-b6f099910705373cf7bc",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8366,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:12.604Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-4d9e0c34453445a2a832",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8833,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:51.404Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-523d19daedbe96ccb69d",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8808,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:01:33.865Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-1bd454c6324a16825702",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8111,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:02:15.701Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-1b610af240925b2ca2bb",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9373,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:03:00.582Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-a6de3cf68ca5e9fd3496",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10473,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:03:45.068Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-67faab3b06b48d030caa",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-week.spec.ts",
+      "file": "b2b-product-week.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19811,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at assertProductViewport (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-week.spec.ts:66:11",
+                    "location": {
+                      "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                      "column": 8,
+                      "line": 42
+                    },
+                    "snippet": "   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                        "column": 8,
+                        "line": 42
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-week.spec.ts:66:11"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:00:21.004Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "actual-viewport-measurements",
+                      "contentType": "application/json",
+                      "body": "ewogICJpbm5lcldpZHRoIjogMzQzLAogICJkb2N1bWVudFdpZHRoIjogMzQzLAogICJib2R5V2lkdGgiOiAzNDMsCiAgIm92ZXJmbG93aW5nIjogW10KfQ=="
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-wl-r9/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-wl-r9/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-wl-r9/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-wl-r9/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                    "column": 8,
+                    "line": 42
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-91d52adb710cc8dec5c0",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21303,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:01:00.303Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-00494568b0dee6d3d9eb",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21255,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:01:42.758Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-cfe3b9b0588fa17c9f15",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24736,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:02:23.858Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-271c7796dfbb6e6cd427",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20801,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:03:10.063Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-df040a8334e0df1a8df2",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21142,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:03:55.594Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-f5b1df0a8bb75f33b2f8",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T15:59:28.642Z",
+    "duration": 288980.99799999996,
+    "expected": 23,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

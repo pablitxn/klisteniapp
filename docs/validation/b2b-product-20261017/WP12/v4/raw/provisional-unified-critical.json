@@ -1,0 +1,639 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/cleanapp/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.b2b-product-unified.config.ts",
+      "--project",
+      "product-chromium-320",
+      "--grep",
+      "B2BP-(ROLES-001|PROGRAMMING-003|SYNC-010|HEALTH-001|INACTIVE-001)",
+      "--timeout",
+      "45000",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/cleanapp/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/cleanapp/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/wp12-provisional-unified-critical/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/cleanapp/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-provisional-unified-critical/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/cleanapp/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-provisional-unified-critical/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/cleanapp/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-provisional-unified-critical/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/cleanapp/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-provisional-unified-critical/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/cleanapp/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-provisional-unified-critical/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/cleanapp/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/cleanapp/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-health.spec.ts",
+      "file": "b2b-product-health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 7017,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-health.spec.ts:23:3",
+                    "location": {
+                      "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 31,
+                      "line": 189
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 31,
+                        "line": 189
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-health.spec.ts:23:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:31:04.031Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-health-B2BP-HE-a57c1-lone-leaves-sharing-private-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-health-B2BP-HE-a57c1-lone-leaves-sharing-private-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-health-B2BP-HE-a57c1-lone-leaves-sharing-private-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 31,
+                    "line": 189
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-6d0db340a91d5b6fb398",
+          "file": "b2b-product-health.spec.ts",
+          "line": 21,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-inactive.spec.ts",
+      "file": "b2b-product-inactive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6132,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:35:3",
+                    "location": {
+                      "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 31,
+                      "line": 189
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 31,
+                        "line": 189
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:35:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:31:12.904Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-inactive-B2BP--44a4d-domain-cookie-remain-denied-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-inactive-B2BP--44a4d-domain-cookie-remain-denied-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-inactive-B2BP--44a4d-domain-cookie-remain-denied-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 31,
+                    "line": 189
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-7aaf5590134df7cc9e0d",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 33,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6310,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-programming.spec.ts:89:3",
+                    "location": {
+                      "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 31,
+                      "line": 189
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 31,
+                        "line": 189
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-programming.spec.ts:89:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:31:20.788Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-programming-B2-4b5d0-ssing-zero-and-inapplicable-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-programming-B2-4b5d0-ssing-zero-and-inapplicable-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-programming-B2-4b5d0-ssing-zero-and-inapplicable-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 31,
+                    "line": 189
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-4d9e0c34453445a2a832",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 87,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-roles.spec.ts",
+      "file": "b2b-product-roles.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6172,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-roles.spec.ts:19:3",
+                    "location": {
+                      "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 31,
+                      "line": 189
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 31,
+                        "line": 189
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-roles.spec.ts:19:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:31:28.257Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-roles-B2BP-ROL-bc7f9-nning-and-assigns-a-routine-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-roles-B2BP-ROL-bc7f9-nning-and-assigns-a-routine-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-roles-B2BP-ROL-bc7f9-nning-and-assigns-a-routine-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 31,
+                    "line": 189
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-67f6250cf95f8138b066",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 16,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5941,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at staffSession (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:604:3)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-sync.spec.ts:267:13",
+                    "location": {
+                      "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 31,
+                      "line": 189
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 31,
+                        "line": 189
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Organización', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByLabel('Organización', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Organización', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:189\n\n  187 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  188 |   const organizations = page.getByLabel('Organización', { exact: true })\n> 189 |   await expect(organizations).toBeVisible()\n      |                               ^\n  190 |   await organizations.selectOption(who.organization.id)\n  191 |   const access = await api(page, who, 'access', {})\n  192 |   expect(access.userId).toBe(who.actor.id)\n    at login (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:189:31)\n    at staffSession (/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:604:3)\n    at /task/cleanapp/apps/b2c-web/e2e/b2b-product-sync.spec.ts:267:13"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:31:35.536Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-provisional-unified-critical/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/cleanapp/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 31,
+                    "line": 189
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-eb9cd55a1ebd8c876322",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 265,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T15:30:26.449Z",
+    "duration": 76213.179,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

@@ -2,7 +2,9 @@ import { expect, type Page, type TestInfo } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 
 type Scenario = { id: string; layer: string; target: string; testTitle: string }
-const inventory = JSON.parse(readFileSync(new URL('./scenarios.json', import.meta.url), 'utf8')) as {
+const inventory = JSON.parse(
+  readFileSync(new URL('./scenarios.json', import.meta.url), 'utf8'),
+) as {
   scenarios: Scenario[]
 }
 
@@ -26,9 +28,52 @@ export async function assertProductViewport(page: Page, info: TestInfo) {
     expect(info.project.use.hasTouch).toBe(true)
     expect(info.project.use.isMobile).toBe(true)
   }
-  await expect.poll(async () => page.evaluate((width) =>
-    innerWidth === width && document.documentElement.scrollWidth <= width &&
-    document.body.scrollWidth <= width, viewport!.width)).toBe(true)
+  try {
+    await expect
+      .poll(async () =>
+        page.evaluate(
+          (width) =>
+            innerWidth === width &&
+            document.documentElement.scrollWidth <= width &&
+            document.body.scrollWidth <= width,
+          viewport!.width,
+        ),
+      )
+      .toBe(true)
+  } catch (error) {
+    if (!page.isClosed()) {
+      const measured = await page
+        .evaluate(() => ({
+          innerWidth,
+          documentWidth: document.documentElement.scrollWidth,
+          bodyWidth: document.body.scrollWidth,
+          overflowing: Array.from(document.querySelectorAll('body *'))
+            .flatMap((node) => {
+              const bounds = node.getBoundingClientRect()
+              return bounds.right > innerWidth + 0.5
+                ? [
+                    {
+                      tag: node.tagName,
+                      id: node.id,
+                      role: node.getAttribute('role'),
+                      right: bounds.right,
+                      width: bounds.width,
+                      minWidth: getComputedStyle(node).minWidth,
+                      text: node.textContent?.slice(0, 100),
+                    },
+                  ]
+                : []
+            })
+            .slice(0, 20),
+        }))
+        .catch(() => ({ unavailable: 'Page departed while collecting diagnostic measurements' }))
+      await info.attach('actual-viewport-measurements', {
+        body: JSON.stringify(measured, null, 2),
+        contentType: 'application/json',
+      })
+    }
+    throw error
+  }
 }
 
 /** Screenshots supplement assertions and contain only task-owned synthetic data. */

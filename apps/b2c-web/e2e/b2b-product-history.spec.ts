@@ -316,3 +316,94 @@ test(scenarioTitle('B2BP-HISTORY-001'), async ({ page, context, product }, info)
     await staff.context.close()
   }
 })
+
+test(scenarioTitle('B2BP-HISTORY-005'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const actual = await record(page, member, plan.routine, plan.occurrences[0]!)
+    // Remove the original stable slot. A new slot is a separate obligation,
+    // even when its routine and calendar date happen to be identical.
+    const proposed = {
+      ...plan.enrollment.content,
+      stages: plan.enrollment.content.stages.map((stage) => ({
+        ...stage,
+        slots: stage.slots.map((slot) => ({ ...slot, id: operation() })),
+      })),
+    }
+    const preview = await api(staff.page, staff.who, 'periodPreview', {
+      id: plan.enrollment.id,
+      expectedRevision: plan.enrollment.revision,
+      proposed,
+    })
+    expect(preview.impacts.find((i) => i.occurrenceId === plan.occurrences[0]!.id)).toMatchObject({
+      afterEligibility: 'cancelled',
+      linkedSessionIds: [actual.session.id],
+    })
+    await api(staff.page, staff.who, 'applyPeriod', {
+      enrollmentId: plan.enrollment.id,
+      expectedRevision: plan.enrollment.revision,
+      operationId: operation(),
+      proposed,
+      previewHash: preview.previewHash,
+    })
+    const linked = await api(page, member, 'occurrence', { id: plan.occurrences[0]!.id })
+    expect(linked.occurrence.eligibility).toBe('cancelled')
+    expect(linked.occurrence.cancellationReason).toBeTruthy()
+    const summary = await api(page, member, 'week', {
+      memberId: member.actor.id,
+      weekStart: plan.weekStart,
+      timeZone: 'UTC',
+    })
+    expect(summary).toMatchObject({ required: 1, completed: 0, missed: 1 })
+    expect(summary.occurrenceIds).not.toContain(plan.occurrences[0]!.id)
+    await open(page, product, info, 'history')
+    const entry = page.locator(`[id="actual-session-${actual.session.id}"]`)
+    await expect(entry).toContainText('Trabajo conservado, excluido del seguimiento vigente')
+    await expect(entry).toContainText(
+      actual.session.origin.kind === 'occurrence' ? actual.session.origin.occurrenceId : '',
+    )
+    expect(await api(page, member, 'sessionRevisions', { id: actual.session.id })).toEqual([
+      actual.session,
+    ])
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-HISTORY-009'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const saved = await record(page, member, plan.routine, plan.occurrences[0]!)
+    await open(page, product, info, 'history')
+    await page.getByRole('link', { name: `Ver sesión ${saved.session.id}`, exact: true }).click()
+    await page.reload()
+    await expect(page.locator(`[id="actual-session-${saved.session.id}"]`)).toBeVisible()
+    await open(page, product, info, 'health')
+    await page.goBack()
+    await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText(
+      saved.session.id,
+    )
+    await page.goForward()
+    await expect(
+      page.getByRole('heading', { name: 'Mi salud y privacidad', exact: true }),
+    ).toBeVisible()
+    await page.getByRole('button', { name: 'Salir', exact: true }).click()
+    await login(page, principal(product, 'secondary-member', 'atlas', true), info)
+    await open(page, product, info, 'history')
+    await page.reload()
+    await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).not.toContainText(
+      saved.session.id,
+    )
+    await expect(page.getByText(plan.enrollment.content.name, { exact: true })).toHaveCount(0)
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})

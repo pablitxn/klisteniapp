@@ -7,9 +7,9 @@ import {
   api,
   raw,
   newPage,
-  unavailable,
   staffSession,
   updateActive,
+  operation,
 } from './fixtures/b2b-product/app-fixture'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
 import {
@@ -39,12 +39,24 @@ test(scenarioTitle('B2BP-HEALTH-001'), async ({ page, product }, info) => {
   await expect(page.getByRole('heading', { name: 'Vista previa de importación' })).toBeVisible()
   expect(await api(page, owner, 'ownHealth', {})).toEqual(before)
   expect(writes.some((url) => new URL(url).pathname.endsWith('/health/import'))).toBe(false)
-  const response = page.waitForResponse(
-    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname.endsWith('/health/import'),
+  const response = page.waitForRequest(
+    (r) => r.method() === 'POST' && new URL(r.url()).pathname.endsWith('/health/import'),
   )
   await page.getByRole('button', { name: 'Confirmar importación' }).focus()
   await page.keyboard.press('Enter')
-  expect((await response).ok()).toBe(true)
+  expect((await response).postDataJSON()).toMatchObject({
+    format: 'klisteniapp.health',
+    version: 1,
+    raw: file.raw,
+  })
+  await expect
+    .poll(async () => JSON.stringify((await api(page, owner, 'ownHealth', {})).data))
+    .toContain(file.marker)
+  const accepted = await api(page, owner, 'ownHealth', {})
+  expect(accepted.revision).toBeGreaterThan(before.revision)
+  await expect(
+    page.getByText(new RegExp(`Revisión de tus datos: ${accepted.revision}\\.`)),
+  ).toBeVisible()
   expect(writes.some((url) => url.includes('/consents/'))).toBe(false)
   expect(
     (await api(page, owner, 'healthConsents', {})).filter(
@@ -92,7 +104,7 @@ test(scenarioTitle('B2BP-HEALTH-003'), async ({ page, context, product }, info) 
   await expect(permit).toBeDisabled()
   await expect(page.getByText(/incluidos quienes obtengan ese acceso en el futuro/)).toBeVisible()
   await expect(page.getByText(/No se limita a tu entrenador asignado/)).toBeVisible()
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const peer = await newPage(context, info),
     coach = principal(product, 'cover-coach')
   try {
@@ -117,15 +129,10 @@ test(scenarioTitle('B2BP-HEALTH-003'), async ({ page, context, product }, info) 
 })
 
 test(scenarioTitle('B2BP-HEALTH-004'), async ({ page, context, product }, info) => {
-  if (!product.readiness?.remoteHealthInvalidation)
-    unavailable(
-      info,
-      'Committed remote health invalidation is not declared wired; polling is insufficient',
-    )
   const owner = principal(product)
   await login(page, owner, info)
   await importThroughUi(page, product, info, owner)
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const peer = await newPage(context, info),
     coach = principal(product, 'cover-coach')
   let release!: () => void
@@ -181,7 +188,7 @@ test(scenarioTitle('B2BP-HEALTH-005'), async ({ page, context, product }, info) 
   const owner = principal(product)
   await login(page, owner, info)
   const file = await importThroughUi(page, product, info, owner)
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const peer = await newPage(context, info),
     coach = principal(product, 'cover-coach')
   try {
@@ -301,11 +308,11 @@ test(scenarioTitle('B2BP-HEALTH-006'), async ({ page, context, product }, info) 
     activated = true
     await login(page, owner, info)
     await importThroughUi(page, product, info, owner)
-    await grantThroughUi(page)
+    await grantThroughUi(page, owner)
     await login(other.page, otherOwner, info)
     otherReady = true
     await importThroughUi(other.page, product, info, otherOwner)
-    await grantThroughUi(other.page)
+    await grantThroughUi(other.page, otherOwner)
     const atlasConsent = (await api(page, owner, 'healthConsents', {})).find(
       (c) => c.status === 'active' && c.scope.branchId === owner.branchId,
     )!
@@ -336,7 +343,7 @@ test(scenarioTitle('B2BP-HEALTH-006'), async ({ page, context, product }, info) 
     await expect(
       page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),
     ).toBeVisible()
-    await grantThroughUi(page)
+    await grantThroughUi(page, owner)
     const fresh = (await api(page, owner, 'healthConsents', {})).find(
       (c) => c.status === 'active' && c.scope.branchId === owner.branchId,
     )!
@@ -355,4 +362,100 @@ test(scenarioTitle('B2BP-HEALTH-006'), async ({ page, context, product }, info) 
       }
     }
   }
+})
+
+test(scenarioTitle('B2BP-HEALTH-009'), async ({ page, context, product }, info) => {
+  const owner = principal(product),
+    staff = await staffSession(context, product, info, 'cover-coach')
+  try {
+    await login(page, owner, info)
+    const file = await importThroughUi(page, product, info, owner)
+    const before = await api(page, owner, 'ownHealth', {})
+    const impersonated = { ...staff.who, actor: owner.actor }
+    const denied = await raw(staff.page, impersonated, 'saveOwnHealth', {
+      expectedRevision: before.revision,
+      operationId: operation(),
+      data: before.data,
+    })
+    expect([403, 409]).toContain(denied.status())
+    expect((await raw(staff.page, impersonated, 'personalExport', {})).ok()).toBe(false)
+    const training = await api(staff.page, staff.who, 'sessions', { memberId: owner.actor.id })
+    const subjects = await api(staff.page, staff.who, 'historySubjects', {})
+    const staffExport = await api(staff.page, staff.who, 'personalExport', {})
+    expect(JSON.stringify({ training, subjects, staffExport })).not.toContain(file.marker)
+    await open(staff.page, product, info, 'reports')
+    await staff.page
+      .getByRole('combobox', { name: 'Persona', exact: true })
+      .selectOption(owner.actor.id)
+    await expect(
+      staff.page.getByRole('heading', { name: 'Historial de entrenamiento', exact: true }),
+    ).toBeVisible()
+    expect(await staff.page.locator('body').innerText()).not.toContain(file.marker)
+    expect(await api(page, owner, 'ownHealth', {})).toEqual(before)
+    await assertProductViewport(staff.page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-HEALTH-010'), async ({ page, product }, info) => {
+  const owner = principal(product)
+  await login(page, owner, info)
+  await open(page, product, info, 'health')
+  await expect(
+    page.getByRole('button', { name: 'Actualizar datos y permisos', exact: true }),
+  ).toBeEnabled()
+  await page.route('**/health/own', (route) => route.abort('failed'), { times: 1 })
+  await page.getByRole('button', { name: 'Actualizar datos y permisos', exact: true }).click()
+  await expect(page.getByRole('alert')).not.toHaveCount(0)
+  await page.getByRole('button', { name: 'Actualizar datos y permisos', exact: true }).click()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  await importThroughUi(page, product, info, owner)
+  await grantThroughUi(page, owner)
+  const revoke = page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true })
+  const accepted = page.waitForResponse(
+    (r) =>
+      r.request().method() === 'POST' &&
+      /\/health\/consents\/[^/]+\/revoke$/.test(new URL(r.url()).pathname),
+  )
+  await revoke.focus()
+  await page.keyboard.press('Enter')
+  expect((await accepted).ok()).toBe(true)
+  await expect(
+    page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Salir', exact: true }).click()
+  await login(page, principal(product, 'secondary-member', 'atlas', true), info)
+  await open(page, product, info, 'health')
+  await expect(
+    page.getByRole('heading', { name: 'Vista previa de importación', exact: true }),
+  ).toHaveCount(0)
+  await expect(
+    page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true }),
+  ).toHaveCount(0)
+  await assertProductViewport(page, info)
+})
+
+test(scenarioTitle('B2BP-HEALTH-011'), async ({ page, product }, info) => {
+  const owner = principal(product)
+  await login(page, owner, info)
+  const requests: string[] = []
+  page.on('request', (r) => requests.push(r.url()))
+  await importThroughUi(page, product, info, owner)
+  await expect(
+    page.getByText(/No podemos recuperar datos que alguien ya haya visto o copiado/),
+  ).toBeVisible()
+  await grantThroughUi(page, owner)
+  await page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true }).click()
+  await expect(
+    page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),
+  ).toBeVisible()
+  const origin = new URL(page.url()).origin
+  expect(requests.filter((url) => new URL(url).origin !== origin)).toEqual([])
+  expect(
+    requests.filter((url) =>
+      /\/auth\/|oauth|samsung|health-connect|watch|provider/i.test(new URL(url).pathname),
+    ),
+  ).toEqual([])
+  await assertProductViewport(page, info)
 })
