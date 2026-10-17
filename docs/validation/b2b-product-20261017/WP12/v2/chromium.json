@@ -1,0 +1,85 @@
+{
+  "scope": "matching-runtime-and-synthetic-full-stack-HTTP-only",
+  "playwright": "1.63.0",
+  "node": "v24.20.0",
+  "uid": 1001,
+  "capabilitiesEffective": "0",
+  "noNewPrivileges": true,
+  "chromiumSandbox": true,
+  "noSandboxArgument": false,
+  "serverBinding": "127.0.0.1:ephemeral",
+  "externalNetworking": "disabled-by-container",
+  "ignoreHTTPSErrors": false,
+  "transport": "HTTP-loopback-inside-container",
+  "methodsObserved": {
+    "GET": 27,
+    "POST": 18,
+    "PATCH": 9,
+    "HEAD": 3,
+    "DELETE": 3
+  },
+  "passed": 3,
+  "failed": 0,
+  "skipped": 0,
+  "results": [
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "touch": true,
+      "status": "passed",
+      "checks": [
+        "GET-401/session-POST/HttpOnly-same-origin-cookie",
+        "frontend-POST/body/host/origin/response",
+        "offline-failure/reconnect-no-phantom-write",
+        "accepted-POST/lost-response/exact-replay/changed-payload-409",
+        "two-tab-PATCH/one-accept-one-409/old-receipt-stable",
+        "HEAD/no-body/custom-header/binary-Range-206",
+        "foreign-Origin-403/no-write/DELETE-204/GET-404"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "touch": true,
+      "status": "passed",
+      "checks": [
+        "GET-401/session-POST/HttpOnly-same-origin-cookie",
+        "frontend-POST/body/host/origin/response",
+        "offline-failure/reconnect-no-phantom-write",
+        "accepted-POST/lost-response/exact-replay/changed-payload-409",
+        "two-tab-PATCH/one-accept-one-409/old-receipt-stable",
+        "HEAD/no-body/custom-header/binary-Range-206",
+        "foreign-Origin-403/no-write/DELETE-204/GET-404"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "touch": false,
+      "status": "passed",
+      "checks": [
+        "GET-401/session-POST/HttpOnly-same-origin-cookie",
+        "frontend-POST/body/host/origin/response",
+        "offline-failure/reconnect-no-phantom-write",
+        "accepted-POST/lost-response/exact-replay/changed-payload-409",
+        "two-tab-PATCH/one-accept-one-409/old-receipt-stable",
+        "HEAD/no-body/custom-header/binary-Range-206",
+        "foreign-Origin-403/no-write/DELETE-204/GET-404"
+      ]
+    }
+  ],
+  "productAcceptanceExecuted": 0,
+  "trustedHttpsAcceptanceExecuted": 0
+}

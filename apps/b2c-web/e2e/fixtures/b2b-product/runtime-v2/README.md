@@ -34,7 +34,7 @@ import json
 from pathlib import Path
 Path('/workspace/wp12-runtime-v2/package.json').write_text(json.dumps({
     'private': True, 'type': 'module',
-    'dependencies': {'@playwright/test': '1.63.0'}
+    'dependencies': {'@playwright/test': '1.63.0', 'pnpm': '12.7.0'}
 }, indent=2) + '\n')
 PY
 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm install \
@@ -52,6 +52,10 @@ The downloaded package integrities for `@playwright/test`, `playwright` and
 `playwright-core` must match the app's unchanged pnpm lockfile. All three did in
 this task. The probe independently asserts each package version is 1.63.0 from
 the isolated mounted module tree, avoiding globally installed runtime fallbacks.
+The task-local pnpm 12.7.0 tool matches the app's declared packageManager; a
+separate nonroot, network-disabled container check executes its `--version`.
+For the final runner, prepend `/harness/node_modules/.bin` to the container's
+standard PATH without changing the host environment or application manifests.
 The official seccomp SHA-256 is
 `cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849`.
 The run script verifies that hash and uses `--pull=never` with the immutable image.
@@ -85,6 +89,10 @@ or credential mount is required. That DB/composition is not executed by this pro
 
 The existing unified and WL proxy servers/configs can share container loopback
 with their browsers. Their seed/config registration stays with INTEGRATION.
+INTEGRATION must set Chromium `launchOptions.chromiumSandbox: true` explicitly:
+Playwright's default does not enable it. Keep `ignoreHTTPSErrors: false`, avoid
+certificate-ignore arguments, and resolve binaries from the pinned matching
+image rather than an unrelated native executable override.
 Run the accepted candidate's own `@playwright/test` 1.63 and locked dependencies;
 the synthetic probe is not a replacement for the final scenario runner. Trusted
 HTTPS remains a separate gate using existing valid trust without exceptions.
