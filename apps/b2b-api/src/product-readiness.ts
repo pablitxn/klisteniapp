@@ -6,6 +6,7 @@ import { HttpError } from './errors.ts';
 export const PRODUCT_REQUIRED_MIGRATIONS = [
   '006-product-foundation',
   '007-reviewed-catalog-v1',
+  '008-product-audit-branch-identity',
 ] as const;
 export async function assertProductMigrations(db: Pool | PoolClient): Promise<void> {
   const found = await db.query<{ id: string }>(

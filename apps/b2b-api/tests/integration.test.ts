@@ -1906,6 +1906,6 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
     await resetDemo(pool, config, true);
     assert.equal((await pool.query('SELECT id FROM unrelated_data')).rows[0].id, 7);
     assert.equal((await pool.query('SELECT id FROM b2b_auth_user')).rowCount, 0);
-    assert.equal((await pool.query('SELECT id FROM b2b_migration')).rowCount, 7);
+    assert.equal((await pool.query('SELECT id FROM b2b_migration')).rowCount, 8);
   });
 });

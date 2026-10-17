@@ -196,9 +196,24 @@ test(
         consent,
       );
       const audit = (
-        await pool.query("SELECT changed_fields FROM b2b_audit WHERE operation_id='pause-consent'")
+        await pool.query(
+          "SELECT changed_fields FROM b2b_audit WHERE operation_id='pause-consent' AND action='membership.update'",
+        )
       ).rows[0];
       assert.deepEqual(audit.changed_fields, ['active']);
+      const consentAudit = (
+        await pool.query(
+          "SELECT resource_id,before_revision,after_revision,changed_fields FROM b2b_audit WHERE operation_id='pause-consent' AND action='health.consent.membership-inactive'",
+        )
+      ).rows;
+      assert.deepEqual(consentAudit, [
+        {
+          resource_id: 'consent',
+          before_revision: '1',
+          after_revision: '2',
+          changed_fields: ['status', 'categories', 'audience', 'disclosureVersion'],
+        },
+      ]);
     }),
 );
 
