@@ -11,8 +11,14 @@ import {
   publish,
   newPage,
   staffSession,
+  pacePasswordAdmission,
+  type Page,
+  type Principal,
 } from './fixtures/b2b-product/app-fixture'
-import type { ProductInput } from '../../../packages/b2b-contracts/src/product-v2.ts'
+import {
+  ProductEndpoints,
+  type ProductInput,
+} from '../../../packages/b2b-contracts/src/product-v2.ts'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
 
 test(scenarioTitle('B2BP-ROLES-001'), async ({ page, context, product }, info) => {
@@ -84,26 +90,100 @@ test(scenarioTitle('B2BP-ROLES-002'), async ({ page, context, product }, info) =
   await assertProductViewport(page, info)
 })
 
+async function inviteThroughUi(
+  page: Page,
+  who: Principal,
+  role: ProductInput<'inviteMember'>['role'],
+  grants: ProductInput<'inviteMember'>['branchGrants'],
+  email = `wp12-ui-invite-${operation()}@example.test`,
+) {
+  const branches = await api(page, who, 'invitationBranches', {})
+  const form = page.getByRole('form', { name: 'Invitar persona', exact: true })
+  await expect(form.getByLabel('Email de la persona invitada')).toHaveValue('')
+  await form.getByLabel('Nombre de la persona invitada').fill(`Synthetic UI ${role}`)
+  await form.getByLabel('Email de la persona invitada').fill(email)
+  await form.getByLabel('Rol de la persona invitada').selectOption(role)
+  for (const branch of branches)
+    for (const grantRole of ['coach', 'member'] as const)
+      await form
+        .getByLabel(
+          `${grantRole === 'coach' ? 'Entrenador' : 'Socio'} en ${branch.name} (${branch.branchId})`,
+          { exact: true },
+        )
+        .selectOption('none')
+  // These actual selections deliberately preserve the user's explicit array order.
+  for (const grant of grants) {
+    const branch = branches.find((row) => row.branchId === grant.branchId)!
+    expect(branch).toBeTruthy()
+    await form
+      .getByLabel(
+        `${grant.role === 'coach' ? 'Entrenador' : 'Socio'} en ${branch.name} (${branch.branchId})`,
+        { exact: true },
+      )
+      .selectOption(grant.active ? 'active' : 'inactive')
+  }
+  const create = form.getByRole('button', { name: 'Crear invitación', exact: true })
+  if (!grants.length) {
+    await expect(create).toBeDisabled()
+    await form
+      .getByRole('checkbox', {
+        name: 'Confirmo que esta invitación no incluirá funciones por sede',
+        exact: true,
+      })
+      .check()
+  }
+  const submitted = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      /\/product\/v2\/invitations\/[^/]+$/.test(new URL(response.url()).pathname),
+  )
+  await create.click()
+  const response = await submitted
+  expect(response.ok()).toBe(true)
+  expect(response.request().postDataJSON()).toMatchObject({ email, role, branchGrants: grants })
+  const invitation = ProductEndpoints.inviteMember.output.parse(await response.json())
+  expect(invitation.role).toBe(role)
+  await expect(page.getByLabel('Enlace para compartir', { exact: true })).toHaveValue(
+    invitation.invitationUrl,
+  )
+  await expect(form.getByLabel('Email de la persona invitada')).toHaveValue('')
+  return { invitation, email }
+}
+
 test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) => {
+  test.setTimeout(180_000)
   const superadmin = principal(product, 'superadmin')
   await login(page, superadmin, info)
   await open(page, product, info, 'people')
-  const options = await page
-    .getByRole('form', { name: 'Invitar persona', exact: true })
-    .getByLabel('Rol de la persona invitada', { exact: true })
+  const form = page.getByRole('form', { name: 'Invitar persona', exact: true })
+  const options = await form
+    .getByLabel('Rol de la persona invitada')
     .locator('option')
-    .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value))
+    .evaluateAll((nodes) => nodes.map((node) => (node as HTMLOptionElement).value))
   for (const role of ['admin', 'coach', 'member']) expect(options).toContain(role)
   const peer = await newPage(context, info),
-    admin = principal(product, 'new-admin')
+    activated = await newPage(context, info)
+  let surStaff: Awaited<ReturnType<typeof staffSession>> | undefined
   try {
+    const secondary = principal(product, 'secondary-member', 'atlas', true)
+    const grants = [
+      { branchId: superadmin.branchId, role: 'coach' as const, active: true },
+      { branchId: superadmin.branchId, role: 'member' as const, active: true },
+      { branchId: secondary.branchId, role: 'member' as const, active: false },
+    ]
+    await inviteThroughUi(page, superadmin, 'admin', [])
+    await inviteThroughUi(page, superadmin, 'coach', [
+      { branchId: superadmin.branchId, role: 'coach', active: true },
+    ])
+    const mixed = await inviteThroughUi(page, superadmin, 'member', grants)
+    const admin = principal(product, 'new-admin')
     await login(peer.page, admin, info)
     await open(peer.page, product, info, 'people')
     const allowed = await peer.page
       .getByRole('form', { name: 'Invitar persona', exact: true })
-      .getByLabel('Rol de la persona invitada', { exact: true })
+      .getByLabel('Rol de la persona invitada')
       .locator('option')
-      .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value))
+      .evaluateAll((nodes) => nodes.map((node) => (node as HTMLOptionElement).value))
     expect(allowed.sort()).toEqual(['coach', 'member'])
     for (const role of ['admin', 'superadmin'] as const) {
       const denied = await raw(peer.page, admin, 'inviteMember', {
@@ -117,20 +197,114 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
       })
       expect([403, 409]).toContain(denied.status())
     }
-    for (const role of ['coach', 'member'] as const) {
-      const invited = await api(peer.page, admin, 'inviteMember', {
-        id: operation(),
-        operationId: operation(),
-        expectedRevision: 0,
-        email: `wp12-${operation()}@example.test`,
-        name: 'Synthetic invitation',
-        role,
-        branchGrants: [{ branchId: admin.branchId, role, active: true }],
-      })
-      expect(invited.role).toBe(role)
+    for (const role of ['coach', 'member'] as const)
+      await inviteThroughUi(peer.page, admin, role, [
+        { branchId: admin.branchId, role, active: true },
+      ])
+    await activated.page.goto(mixed.invitation.invitationUrl)
+    await activated.page.getByLabel('Tu nombre', { exact: true }).fill('Synthetic accepted member')
+    const password = 'wp12-synthetic-new-password-2026'
+    await activated.page.getByLabel('Nueva contraseña', { exact: true }).fill(password)
+    const acceptance = activated.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        new URL(response.url()).pathname.endsWith('/invitations/accept'),
+    )
+    await activated.page.getByRole('button', { name: 'Activar mi cuenta', exact: true }).click()
+    expect((await acceptance).ok()).toBe(true)
+    await activated.page.getByRole('link', { name: 'Iniciar sesión', exact: true }).click()
+    await activated.page.getByLabel('Email', { exact: true }).fill(mixed.email)
+    await activated.page.getByLabel('Contraseña', { exact: true }).fill(password)
+    await pacePasswordAdmission(info)
+    const admitted = activated.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' && response.url().endsWith('/auth/sign-in/email'),
+    )
+    await activated.page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
+    const admission = await admitted
+    expect(admission.status()).toBe(200)
+    const identity = (await admission.json()).user
+    expect(identity.email).toBe(mixed.email)
+    const member: Principal = {
+      organization: superadmin.organization,
+      branchId: superadmin.branchId,
+      role: 'coach',
+      actor: { id: identity.id, email: identity.email, memberships: [] },
     }
-    await assertProductViewport(peer.page, info)
+    const selector = activated.page.getByRole('combobox', { name: 'Sede y función', exact: true })
+    await expect(selector).toBeVisible()
+    const contexts = await selector
+      .locator('option')
+      .evaluateAll((nodes) => nodes.map((node) => (node as HTMLOptionElement).value))
+    for (const role of ['coach', 'member'])
+      expect(contexts).toContain(JSON.stringify([member.branchId, role]))
+    expect(contexts).not.toContain(JSON.stringify([secondary.branchId, 'member']))
+    await selector.selectOption(JSON.stringify([member.branchId, 'coach']))
+    expect((await api(activated.page, member, 'access', {})).capabilities).toContain(
+      'edit-planning',
+    )
+    expect(
+      (
+        await raw(
+          activated.page,
+          member,
+          'access',
+          {},
+          { branchId: secondary.branchId, role: 'member' },
+        )
+      ).status(),
+    ).toBe(403)
+    await assertProductViewport(activated.page, info)
+    // Existing-account acceptance replaces a different mounted actor in this same tab.
+    const foreignStaff = {
+      ...(await newPage(context, info)),
+      who: principal(product, 'superadmin', 'sur'),
+    }
+    surStaff = foreignStaff
+    await login(foreignStaff.page, foreignStaff.who, info)
+    await open(foreignStaff.page, product, info, 'people')
+    const additional = await inviteThroughUi(
+      foreignStaff.page,
+      foreignStaff.who,
+      'member',
+      [{ branchId: foreignStaff.who.branchId, role: 'member', active: true }],
+      mixed.email,
+    )
+    await page.goto(additional.invitation.invitationUrl)
+    await page.getByRole('button', { name: 'Ya tengo una cuenta de gimnasio', exact: true }).click()
+    await page.getByLabel('Email', { exact: true }).fill(mixed.email)
+    await page.getByLabel('Contraseña', { exact: true }).fill(password)
+    await page.getByRole('checkbox', { name: /Acepto incorporarme a esta marca/ }).check()
+    await pacePasswordAdmission(info)
+    const fresh = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        new URL(response.url()).pathname.endsWith('/invitations/sign-in'),
+    )
+    await page
+      .getByRole('button', { name: 'Aceptar invitación con mi cuenta', exact: true })
+      .click()
+    expect((await fresh).ok()).toBe(true)
+    const organization = page.getByRole('combobox', { name: 'Organización', exact: true })
+    await expect(organization).toBeVisible()
+    await organization.selectOption(foreignStaff.who.organization.id)
+    const inSur: Principal = {
+      ...member,
+      organization: foreignStaff.who.organization,
+      branchId: foreignStaff.who.branchId,
+      role: 'member',
+    }
+    expect((await api(page, inSur, 'access', {})).userId).toBe(identity.id)
+    expect((await raw(page, { ...inSur, actor: superadmin.actor }, 'access', {})).status()).toBe(
+      401,
+    )
+    await page
+      .getByRole('combobox', { name: 'Sede y función', exact: true })
+      .selectOption(JSON.stringify([inSur.branchId, 'member']))
+    await assertProductViewport(page, info)
   } finally {
+    await surStaff?.context.close()
+    await activated.context.close()
     await peer.context.close()
   }
 })
