@@ -89,7 +89,13 @@ export default function App() {
         branches={context.branches}
       />
     ) : route.kind === 'invitation' ? (
-      <Invitation whiteLabel={Boolean(context)} context={context ?? undefined} />
+      <Invitation
+        context={context ?? undefined}
+        onAuthenticated={() => {
+          void session.refresh()
+          navigate('/app')
+        }}
+      />
     ) : ['login', 'member', 'management'].includes(route.kind) ? (
       <Workspace />
     ) : (

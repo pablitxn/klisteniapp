@@ -218,7 +218,7 @@ test(
 );
 
 test(
-  'unrepresentable invitation grants fail atomically and revoked issuers cannot grant pending invitations',
+  'foreign invitation grants fail atomically and revoked issuers cannot grant pending invitations',
   { skip: !databaseUrl },
   async () =>
     productFixture(async ({ scoped, pool, service }) => {
@@ -238,7 +238,7 @@ test(
               ...base,
               branchGrants: [
                 { branchId: branch, role: 'coach', active: true },
-                { branchId: 'atlas-north', role: 'coach', active: true },
+                { branchId: 'sur-north', role: 'coach', active: true },
               ],
             },
             'http://localhost:4200',

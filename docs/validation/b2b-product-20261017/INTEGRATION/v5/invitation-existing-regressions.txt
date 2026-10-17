@@ -1,0 +1,34 @@
+✔ operation hashing sorts object keys while preserving arrays and actual scalar values (1.449078ms)
+✔ audit records actor/branch/server time and immutable revisions exactly once; failure rolls back audit and receipt (918.72118ms)
+✔ audit projects only current tenant/branch planning scope; legacy absent metadata stays unknown (805.978539ms)
+✔ invitation exact retries preserve the private URL and role; accepting narrower admin never creates a superadmin (1113.319872ms)
+✔ deactivation atomically appends consent revocation and reactivation never restores it (1198.253833ms)
+✔ foreign invitation grants fail atomically and revoked issuers cannot grant pending invitations (1494.302778ms)
+✔ explicit unified bootstrap preserves full topology and requires a positive origin session (2826.419252ms)
+✔ product migration installs into an empty database and repeats without rewriting rows (1453.674484ms)
+✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (2466.136818ms)
+✔ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (957.11ms)
+✔ competing superadmin deactivations serialize and retain one active administrator (1003.858693ms)
+✔ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (923.447612ms)
+✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (876.41381ms)
+✔ activation and old-tab guards fail closed with explicit recoverable codes (0.734083ms)
+✔ activated organizations reject every legacy callback after current authorization checks (785.286806ms)
+B2B authentication failed
+▶ WL domain and branch HTTP authorization
+  ✔ D01/D02 published identity by trusted host; unknown/unverified/spoofed host and direct API fail closed (220.964413ms)
+  ✔ legacy runtime cannot bypass branch authorization after white-label data exists (71.423436ms)
+  ✔ D03-D07 login belongs to host; roles/sedes are explicit and copied tokens and cross origins fail (414.429658ms)
+  ✔ D09/D14 independent branch publication and identity draft/publish/restore (419.017142ms)
+  ✔ D08 new and existing invitations bind one branch, explicit consent, expiry and one-use (613.815091ms)
+  ✔ D10 private media requires branch reference for GET HEAD Range and never crosses brands (948.727978ms)
+  ✔ D11/D12/D15/D17 record in four branches, coach isolation, exact retry, capabilities and preserved own history (1733.500596ms)
+  ✔ duplicate branch slug is a recoverable conflict and never inserts a second branch (160.620201ms)
+✔ WL domain and branch HTTP authorization (7114.843147ms)
+ℹ tests 23
+ℹ suites 1
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28007.599018

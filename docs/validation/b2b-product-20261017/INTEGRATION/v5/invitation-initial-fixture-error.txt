@@ -1,0 +1,43 @@
+✔ explicit invitation arrays retain mixed multibranch/inactive grants; empty arrays never gain Principal (1800.750784ms)
+✔ grant acceptance revalidates branch status and malformed persisted snapshots never fall back to Principal (1620.634618ms)
+✖ unified invitation password admission consumes exact grants and binds only the fresh session; failed admission forwards no cookie (1352.974137ms)
+✔ bound unified joins revalidate positive realm inside acceptance and do not consume invitations after revocation (1562.683374ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7268.499987
+
+✖ failing tests:
+
+test at tests/product-invitations.test.ts:120:1
+✖ unified invitation password admission consumes exact grants and binds only the fresh session; failed admission forwards no cookie (1352.974137ms)
+  error: cannot insert multiple commands into a prepared statement
+      at /workspace/klisteniapp/node_modules/.pnpm/pg-pool@3.14.0_pg@8.23.1/node_modules/pg-pool/index.js:45:11
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///workspace/klisteniapp/apps/b2b-api/tests/product-invitations.test.ts:128:7
+      at async productFixture (file:///workspace/klisteniapp/apps/b2b-api/tests/support/product-fixture.ts:66:5)
+      at async TestContext.<anonymous> (file:///workspace/klisteniapp/apps/b2b-api/tests/product-invitations.test.ts:124:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    length: 123,
+    severity: 'ERROR',
+    code: '42601',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'postgres.c',
+    line: '1479',
+    routine: 'exec_parse_message'
+  }
