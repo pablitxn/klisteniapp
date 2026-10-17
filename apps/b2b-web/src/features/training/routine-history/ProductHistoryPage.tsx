@@ -1,3 +1,4 @@
+import './routineHistory.css'
 import type { Occurrence, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
 import type { SessionRecord } from './model'
 import { useEffect, useRef, useState } from 'react'
@@ -98,7 +99,7 @@ function ProductHistoryWorkspace({
   }, [weekly.data, weekly.loading])
   const records = latestSessions(history.data?.records ?? [], scope)
   return (
-    <>
+    <div className="routine-history">
       <h1>Mi rutina e historial</h1>
       <p>
         La planificación conserva objetivos y períodos. Cada sesión mantiene sus valores reales y su
@@ -239,6 +240,6 @@ function ProductHistoryWorkspace({
           />
         </>
       )}
-    </>
+    </div>
   )
 }
