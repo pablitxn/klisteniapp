@@ -1,11 +1,20 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import * as sharedImporter from '@klisteniapp/scene-schema/health-import';
+import * as compatibilityImporter from '../src/lib/health-import.ts';
 import { createEmptyHealthData, type BodyMeasurement } from '@klisteniapp/scene-schema';
 import {
   createHealthImportTemplate, HEALTH_IMPORT_MAX_BYTES, previewHealthImport,
 } from '../src/lib/health-import.ts';
 
 const now = new Date('2026-10-04T12:00:00Z');
+
+test('B2C compatibility entrypoint re-exports shared parser symbols by identity', () => {
+  assert.deepEqual(Object.keys(compatibilityImporter).sort(), Object.keys(sharedImporter).sort());
+  for (const key of Object.keys(sharedImporter) as (keyof typeof sharedImporter)[]) {
+    assert.equal(compatibilityImporter[key], sharedImporter[key]);
+  }
+});
 const measurement = (overrides: Partial<BodyMeasurement> = {}): BodyMeasurement => ({
   id: 'weight-1', date: '2026-10-03', recordedAt: '2026-10-03T09:00:00+02:00',
   source: { kind: 'samsung-health', externalId: 'weight-source-1', device: 'Galaxy Watch 8' },

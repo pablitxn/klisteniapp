@@ -1,0 +1,13 @@
+diff --git a/packages/scene-schema/package.json b/packages/scene-schema/package.json
+--- a/packages/scene-schema/package.json
++++ b/packages/scene-schema/package.json
+@@ -6,7 +6,8 @@
+   "private": true,
+   "type": "module",
+   "exports": {
+-    ".": "./src/index.ts"
++    ".": "./src/index.ts",
++    "./health-import": "./src/health-import.ts"
+   },
+   "scripts": {
+     "lint": "eslint .",
