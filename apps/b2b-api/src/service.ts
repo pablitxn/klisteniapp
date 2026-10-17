@@ -30,6 +30,10 @@ import type { OrganizationRoleV2, ProductOutput } from '@klisteniapp/b2b-contrac
 import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
 import type { PlanningServices } from './product-context.ts';
 import { createHealthServices } from './health/index.ts';
+import { createProductPlanning } from './product-composition.ts';
+import { createPlanningSchedule } from './schedule/planning.ts';
+import { createRecordsServices } from './schedule/index.ts';
+import { catalogExercises, routinePublications, routineVersion } from './product-reads.ts';
 import { assertProductMigrations } from './product-readiness.ts';
 import { alternatives } from './catalog/reviewed-alternatives.ts';
 import {
@@ -148,7 +152,13 @@ export class B2BService {
     >
   > = {};
   constructor(pool: Pool, auth: Auth, config: Config, planning?: PlanningServices) {
-    Object.assign(this.productProducers, planning ?? {}, createHealthServices(), { alternatives });
+    Object.assign(
+      this.productProducers,
+      planning ?? createProductPlanning(createPlanningSchedule()),
+      createRecordsServices(),
+      createHealthServices(),
+      { alternatives, catalogExercises, routinePublications, routineVersion },
+    );
     this.pool = pool;
     this.auth = auth;
     this.config = config;

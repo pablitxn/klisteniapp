@@ -126,7 +126,7 @@ test(
 );
 
 test(
-  'HTTP mounts only owned v2 handlers, validates path IDs and versions, and keeps activation disabled',
+  'HTTP mounts composed v2 handlers, validates path IDs and versions, and keeps activation disabled',
   { skip: !databaseUrl },
   async () =>
     productFixture(async ({ pool, service, auth, config }) => {
@@ -184,7 +184,22 @@ test(
           ).status,
           426,
         );
-        assert.equal((await fetch(`${base}/routines`, { headers })).status, 404);
+        const routines = await fetch(`${base}/routines`, { headers });
+        assert.equal(routines.status, 200);
+        assert.deepEqual(await routines.json(), []);
+        const catalog = await fetch(`${base}/catalog/exercises`, { headers });
+        assert.equal(catalog.status, 200);
+        assert.ok(
+          (await catalog.json()).some((exercise: { id: string }) => exercise.id === 'pushup'),
+        );
+        const publications = await fetch(`${base}/routine-publications`, { headers });
+        assert.equal(publications.status, 200);
+        assert.deepEqual(await publications.json(), []);
+        assert.equal((await fetch(`${base}/routines/unknown/versions/1`, { headers })).status, 404);
+        assert.equal(
+          (await fetch(`${base}/routines/unknown/versions/01`, { headers })).status,
+          400,
+        );
         assert.equal(
           (
             await fetch(`${base}/people/member`, {

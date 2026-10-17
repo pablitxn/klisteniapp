@@ -474,7 +474,7 @@ export function createApiServer({
               throw new HttpError(400, 'INVALID_INPUT', 'La identidad de la ruta no coincide.');
           }
           const data: Record<string, unknown> = { ...raw, ...parameters };
-          if (key === 'alternatives') {
+          if (key === 'alternatives' || key === 'routineVersion') {
             if (typeof data.version !== 'string' || !/^[1-9][0-9]*$/.test(data.version))
               throw new HttpError(400, 'INVALID_INPUT', 'La versión debe ser un entero positivo.');
             data.version = Number(data.version);

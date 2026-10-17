@@ -37,3 +37,15 @@ export {
   type EffectiveSegment,
   type PerformedSet,
 } from './alternatives.ts'
+export { canonicalJson, sessionIssues, type SessionPrescription } from './sessions.ts'
+export {
+  addDays,
+  weekStart,
+  localDate,
+  startOfLocalDate,
+  weekBounds,
+  isCompletionEligible,
+  moveWithinWeek,
+  reconcileOccurrences,
+  deriveWeek,
+} from './schedule.ts'

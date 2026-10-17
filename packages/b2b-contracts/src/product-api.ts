@@ -6,6 +6,7 @@ import {
 } from './product-access.ts'
 import { z } from 'zod'
 import { IdSchema, RevisionSchema } from './common.ts'
+import { ExerciseSchema } from './catalog.ts'
 import {
   AuditChangeSchema,
   OperationSchema,
@@ -18,6 +19,7 @@ import {
   RoutineDraftV2Schema,
   RoutineVersionV2Schema,
   ReviewedRelationSchema,
+  RoutineReferenceSchema,
 } from './product-prescription.ts'
 import {
   ApplyPeriodSchema,
@@ -45,6 +47,7 @@ import {
   B2CInvitationSchema,
   PersonalExportSchema,
   SessionRecordSchema,
+  StoredRoutineSchema,
 } from './product-compatibility.ts'
 
 const empty = z.object({}).strict()
@@ -85,6 +88,19 @@ export const ProductEndpoints = {
     ProductInvitationSchema,
   ),
   audit: endpoint('GET', '/audit/:id', id, z.array(AuditChangeSchema)),
+  catalogExercises: endpoint('GET', '/catalog/exercises', empty, z.array(ExerciseSchema)),
+  routinePublications: endpoint(
+    'GET',
+    '/routine-publications',
+    empty,
+    z.array(z.object({ name: z.string(), reference: RoutineReferenceSchema }).strict()),
+  ),
+  routineVersion: endpoint(
+    'GET',
+    '/routines/:id/versions/:version',
+    id.extend({ version: z.number().int().positive() }),
+    StoredRoutineSchema,
+  ),
   routines: endpoint('GET', '/routines', empty, z.array(RoutineDraftV2Schema)),
   routine: endpoint('GET', '/routines/:id', id, RoutineDraftV2Schema),
   saveRoutine: endpoint(
