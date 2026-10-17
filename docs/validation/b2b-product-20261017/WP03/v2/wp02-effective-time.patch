@@ -1,0 +1,29 @@
+--- a/apps/b2b-api/src/planning/schedule-change.ts
++++ b/apps/b2b-api/src/planning/schedule-change.ts
+@@ -13,6 +13,8 @@
+ 
+ export type ScheduleChange = {
+   reason: 'enroll' | 'period' | 'end';
++  /** Immutable server time for deterministic future-only end reconciliation. */
++  effectiveAt: string;
+   before: Enrollment | null;
+   after: Enrollment;
+   occurrences: readonly Occurrence[];
+--- a/apps/b2b-api/src/planning/index.ts
++++ b/apps/b2b-api/src/planning/index.ts
+@@ -392,6 +392,7 @@
+       });
+       const change: ScheduleChange = {
+         reason: 'enroll',
++        effectiveAt: new Date(this.now()).toISOString(),
+         before: null,
+         after: saved,
+         occurrences: [],
+@@ -471,6 +472,7 @@
+         content: proposed,
+       }),
+       ...state,
++      effectiveAt: new Date(this.now()).toISOString(),
+     };
+   }
+   private preview(context: AuthorizedProductContext, change: ScheduleChange) {
