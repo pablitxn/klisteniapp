@@ -1,0 +1,126 @@
+$ turbo run build
+• turbo 2.11.3
+
+   • Packages in scope: @klisteniapp/anatomy-viewer, @klisteniapp/b2b-api, @klisteniapp/b2b-client, @klisteniapp/b2b-contracts, @klisteniapp/b2b-domain, @klisteniapp/b2b-react, @klisteniapp/b2b-ui, @klisteniapp/b2b-web, @klisteniapp/b2c-api, @klisteniapp/b2c-web, @klisteniapp/catalog-base, @klisteniapp/geometry, @klisteniapp/model-assets, @klisteniapp/scene-schema
+   • Running build in 14 packages
+   • Remote caching disabled
+
+@klisteniapp/b2b-contracts:typecheck: cache hit, replaying logs 09ac7b268f12937e
+@klisteniapp/scene-schema:typecheck: cache hit, replaying logs b9fa873cf41e3a40
+@klisteniapp/b2b-contracts:typecheck: $ tsc --noEmit
+@klisteniapp/scene-schema:typecheck: $ tsc --noEmit
+@klisteniapp/model-assets:typecheck: cache hit, replaying logs d5b530045c6a1c18
+@klisteniapp/model-assets:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-domain:typecheck: cache hit, replaying logs bef6f21eb418a4ce
+@klisteniapp/b2b-domain:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-api:typecheck: cache hit, replaying logs 93b196c2a7f14a6b
+@klisteniapp/b2c-api:typecheck: $ tsc --noEmit
+@klisteniapp/catalog-base:typecheck: cache hit, replaying logs f25daf81c2a14946
+@klisteniapp/catalog-base:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-api:typecheck: cache miss, executing 7c69687198fedd27
+@klisteniapp/geometry:typecheck: cache hit, replaying logs 369e44d29a271363
+@klisteniapp/geometry:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-client:typecheck: cache miss, executing 5bfd9c6c57185493
+@klisteniapp/anatomy-viewer:typecheck: cache hit, replaying logs 8a9c3fc18b1b1e0f
+@klisteniapp/anatomy-viewer:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:typecheck: cache hit, replaying logs 70557c03b375f5fa
+@klisteniapp/b2c-web:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:build: cache bypass, force executing 67b34fff7ff664eb
+@klisteniapp/b2b-ui:typecheck: cache hit, replaying logs 5a52f8c6810f2681
+@klisteniapp/b2b-ui:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:build: $ vite build
+@klisteniapp/b2b-client:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-api:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:build: vite v8.3.1 building client environment for production...
+@klisteniapp/b2c-web:build: transforming...
+@klisteniapp/b2c-web:build: ✓ 805 modules transformed.
+@klisteniapp/b2c-web:build: rendering chunks...
+@klisteniapp/b2c-web:build: computing gzip size...
+@klisteniapp/b2c-web:build: dist/index.html                                      0.94 kB │ gzip:   0.48 kB
+@klisteniapp/b2c-web:build: dist/assets/YogaViewer-D6k1wRpq.css                  5.09 kB │ gzip:   1.28 kB
+@klisteniapp/b2c-web:build: dist/assets/HealthPage-sI3pXf8H.css                 10.94 kB │ gzip:   2.48 kB
+@klisteniapp/b2c-web:build: dist/assets/AnatomyViewer-D_oRkMFT.css              12.49 kB │ gzip:   2.67 kB
+@klisteniapp/b2c-web:build: dist/assets/YogaPage-DB86VfXS.css                   21.17 kB │ gzip:   4.41 kB
+@klisteniapp/b2c-web:build: dist/assets/index-BbcfZQ98.css                      59.73 kB │ gzip:  12.46 kB
+@klisteniapp/b2c-web:build: dist/assets/rolldown-runtime-hePW80VL.js             0.71 kB │ gzip:   0.42 kB
+@klisteniapp/b2c-web:build: dist/assets/InitialSetup-BvLzXG2M.js                 7.26 kB │ gzip:   2.67 kB
+@klisteniapp/b2c-web:build: dist/assets/AnatomyViewer-ApSzWWV9.js               20.49 kB │ gzip:   7.19 kB
+@klisteniapp/b2c-web:build: dist/assets/YogaPage-Dpp_bwqH.js                    41.00 kB │ gzip:  10.63 kB
+@klisteniapp/b2c-web:build: dist/assets/YogaViewer-BhR_kxt9.js                  43.77 kB │ gzip:  15.41 kB
+@klisteniapp/b2c-web:build: dist/assets/yoga-bUbRK_ZN.js                        47.41 kB │ gzip:  15.26 kB
+@klisteniapp/b2c-web:build: dist/assets/HealthPage-Bhj_Jg9H.js                  59.01 kB │ gzip:  17.05 kB
+@klisteniapp/b2c-web:build: dist/assets/jsx-runtime-BntgdPik.js                212.63 kB │ gzip:  59.14 kB
+@klisteniapp/b2c-web:build: dist/assets/index-DKGILFQJ.js                      588.83 kB │ gzip: 188.54 kB
+@klisteniapp/b2c-web:build: dist/assets/anatomy-render-settings-mTY8ROf5.js  1,094.68 kB │ gzip: 299.71 kB
+@klisteniapp/b2c-web:build: 
+@klisteniapp/b2c-web:build: ✓ built in 2.88s
+@klisteniapp/b2c-web:build: [plugin builtin:vite-reporter] 
+@klisteniapp/b2c-web:build: (!) Some chunks are larger than 500 kB after minification. Consider:
+@klisteniapp/b2c-web:build: - Using dynamic import() to code-split the application
+@klisteniapp/b2c-web:build: - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+@klisteniapp/b2c-web:build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+@klisteniapp/b2b-react:typecheck: cache miss, executing d6392ed0d6e855e3
+@klisteniapp/b2b-react:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-web:typecheck: cache miss, executing 445f2ba33ae9604b
+@klisteniapp/b2b-web:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-web:build: cache bypass, force executing e9bb0db7e177996b
+@klisteniapp/b2b-web:build: $ vite build
+@klisteniapp/b2b-web:build: vite v8.3.1 building client environment for production...
+@klisteniapp/b2b-web:build: transforming...
+@klisteniapp/b2b-web:build: ✓ 837 modules transformed.
+@klisteniapp/b2b-web:build: rendering chunks...
+@klisteniapp/b2b-web:build: computing gzip size...
+@klisteniapp/b2b-web:build: dist/index.html                                 0.62 kB │ gzip:   0.33 kB
+@klisteniapp/b2b-web:build: dist/assets/ExerciseDetails-J9zBYuvQ.css        2.70 kB │ gzip:   1.00 kB
+@klisteniapp/b2b-web:build: dist/assets/index-CAsCtyCJ.css                 15.95 kB │ gzip:   4.31 kB
+@klisteniapp/b2b-web:build: dist/assets/editorEntity-CxtH-Y7-.js            0.09 kB │ gzip:   0.10 kB
+@klisteniapp/b2b-web:build: dist/assets/Heading-4doqjV3n.js                 0.36 kB │ gzip:   0.24 kB
+@klisteniapp/b2b-web:build: dist/assets/training-labels-BGW0D0EV.js         0.39 kB │ gzip:   0.24 kB
+@klisteniapp/b2b-web:build: dist/assets/MediaPage-CwWpv5L9.js               0.45 kB │ gzip:   0.32 kB
+@klisteniapp/b2b-web:build: dist/assets/SectionResources-CC2vasfX.js        0.53 kB │ gzip:   0.35 kB
+@klisteniapp/b2b-web:build: dist/assets/src-B2ZHDtsC.js                     0.55 kB │ gzip:   0.33 kB
+@klisteniapp/b2b-web:build: dist/assets/editorDraftStorage-Cs-kgejg.js      0.67 kB │ gzip:   0.36 kB
+@klisteniapp/b2b-web:build: dist/assets/useAction-CIEC1C6q.js               0.76 kB │ gzip:   0.43 kB
+@klisteniapp/b2b-web:build: dist/assets/HistoryPage-CGRaG1vl.js             1.04 kB │ gzip:   0.59 kB
+@klisteniapp/b2b-web:build: dist/assets/BrandEntry-e2CKZ1t7.js              1.73 kB │ gzip:   0.81 kB
+@klisteniapp/b2b-web:build: dist/assets/ExecutionHistory-BYR4wR2S.js        2.04 kB │ gzip:   0.84 kB
+@klisteniapp/b2b-web:build: dist/assets/GymEntry-DdLGYVs7.js                2.55 kB │ gzip:   1.25 kB
+@klisteniapp/b2b-web:build: dist/assets/BrandSettings-D4owwsLm.js           2.77 kB │ gzip:   1.29 kB
+@klisteniapp/b2b-web:build: dist/assets/content-BvZGLpP7.js                 2.78 kB │ gzip:   1.23 kB
+@klisteniapp/b2b-web:build: dist/assets/AssetEditor-DGZc_kmN.js             2.95 kB │ gzip:   1.31 kB
+@klisteniapp/b2b-web:build: dist/assets/useEditorDraft-D3dy8ooK.js          3.29 kB │ gzip:   1.32 kB
+@klisteniapp/b2b-web:build: dist/assets/ReportsPage-cyvtbydu.js             4.51 kB │ gzip:   1.59 kB
+@klisteniapp/b2b-web:build: dist/assets/Invitation-BF3rBIk4.js              4.60 kB │ gzip:   1.64 kB
+@klisteniapp/b2b-web:build: dist/assets/ExerciseDetails-C37kFzDk.js         4.61 kB │ gzip:   1.79 kB
+@klisteniapp/b2b-web:build: dist/assets/ManagementWorkspace-DbayBnNn.js     5.91 kB │ gzip:   2.46 kB
+@klisteniapp/b2b-web:build: dist/assets/PublicGym-DhPkD27G.js               6.14 kB │ gzip:   2.21 kB
+@klisteniapp/b2b-web:build: dist/assets/EquipmentModelViewer-pXALaxdR.js    6.74 kB │ gzip:   2.82 kB
+@klisteniapp/b2b-web:build: dist/assets/Workspace-RFZzHEaW.js               7.07 kB │ gzip:   2.56 kB
+@klisteniapp/b2b-web:build: dist/assets/jsx-runtime-D3jfb0Ew.js             8.90 kB │ gzip:   3.38 kB
+@klisteniapp/b2b-web:build: dist/assets/InventoryPage-DaaWZ5Al.js           9.16 kB │ gzip:   3.45 kB
+@klisteniapp/b2b-web:build: dist/assets/PeoplePage-Cj2url-L.js             12.84 kB │ gzip:   4.07 kB
+@klisteniapp/b2b-web:build: dist/assets/CatalogPage-B2YtrVyJ.js            14.49 kB │ gzip:   4.73 kB
+@klisteniapp/b2b-web:build: dist/assets/MediaLibrary-5HzqOPKn.js           15.87 kB │ gzip:   5.76 kB
+@klisteniapp/b2b-web:build: dist/assets/ProgramsPage-sfaSbKg7.js           16.84 kB │ gzip:   5.42 kB
+@klisteniapp/b2b-web:build: dist/assets/WebsitePage-DzDq2iAE.js            19.72 kB │ gzip:   6.04 kB
+@klisteniapp/b2b-web:build: dist/assets/WhiteLabelSettings-s2oc73Z4.js     20.41 kB │ gzip:   5.93 kB
+@klisteniapp/b2b-web:build: dist/assets/MemberWorkspace-C6_tq1MT.js        23.35 kB │ gzip:   8.04 kB
+@klisteniapp/b2b-web:build: dist/assets/Equipment-Bm0YAsWW.js              45.46 kB │ gzip:  15.88 kB
+@klisteniapp/b2b-web:build: dist/assets/src-lICDXgq-.js                    46.48 kB │ gzip:  14.36 kB
+@klisteniapp/b2b-web:build: dist/assets/iso-D3SZVvtp.js                    92.90 kB │ gzip:  26.14 kB
+@klisteniapp/b2b-web:build: dist/assets/MovementViewer-B9LGFpjr.js         93.79 kB │ gzip:  32.56 kB
+@klisteniapp/b2b-web:build: dist/assets/ExercisePreview-_FIzxb_3.js       110.47 kB │ gzip:  28.52 kB
+@klisteniapp/b2b-web:build: dist/assets/index-9s81dQ0J.js                 223.68 kB │ gzip:  70.43 kB
+@klisteniapp/b2b-web:build: dist/assets/OrbitControls-B4fB_-Ot.js         996.90 kB │ gzip: 266.23 kB
+@klisteniapp/b2b-web:build: 
+@klisteniapp/b2b-web:build: ✓ built in 2.33s
+@klisteniapp/b2b-web:build: [plugin builtin:vite-reporter] 
+@klisteniapp/b2b-web:build: (!) Some chunks are larger than 500 kB after minification. Consider:
+@klisteniapp/b2b-web:build: - Using dynamic import() to code-split the application
+@klisteniapp/b2b-web:build: - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+@klisteniapp/b2b-web:build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+ Tasks:    16 successful, 16 total
+Cached:    10 cached, 16 total
+  Time:    25.971s 
+

@@ -83,6 +83,12 @@ contains both `b2b` and `test`; connection options, queries and fragments are
 rejected. Do not print the URL or put it into tracked files. The harness only
 creates/removes its random schemas, not the database itself.
 
+Use a separate disposable database from API suites that concurrently create/drop
+schemas. Auth migration introspection can observe another suite's disappearing
+schema and retain a failed startup check. Finish the frontend build before
+starting the harness; the build replaces its output directory. These are setup
+ordering requirements, not reasons to bypass readiness or authentication checks.
+
 ```sh
 source /workspace/.onboarding/activate.sh
 pnpm --filter @klisteniapp/b2b-web build
