@@ -132,19 +132,28 @@ test(scenarioTitle('B2BP-INACTIVE-003'), async ({ page, context, product }, info
     paused = true
     await page.reload()
     await restricted(page)
-    for (const path of [
-      '/manage/programs',
-      '/app/history',
-      '/manage/media',
-      '/unknown-wp12-route',
-      '/',
-    ]) {
-      await page.goto(new URL(path, page.url()).href)
+    for (const route of ['programming', 'history', 'health', 'people', 'reports'] as const) {
+      const path = product.routes?.[route]
+      expect(path, `Actual INTEGRATION ${route} deep-link binding`).toBeTruthy()
+      expect(path).not.toContain('{')
+      await page.goto(new URL(path!, page.url()).href)
       await restricted(page)
     }
     await page.goBack()
     await restricted(page)
     await page.goForward()
+    await restricted(page)
+    await page.goto(new URL('/unknown-wp12-route', page.url()).href)
+    await expect(
+      page.getByRole('heading', { name: 'Esta página no existe', exact: true }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),
+    ).toHaveCount(0)
+    await expect(
+      page.getByRole('region', { name: 'Salud y privacidad de la cuenta', exact: true }),
+    ).toHaveCount(0)
+    await page.getByRole('banner').locator('a[href="/app"]').click()
     await restricted(page)
     await assertProductViewport(page, info)
   } finally {
