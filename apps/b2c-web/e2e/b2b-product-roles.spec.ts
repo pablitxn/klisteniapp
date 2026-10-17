@@ -10,7 +10,9 @@ import {
   operation,
   publish,
   newPage,
+  staffSession,
 } from './fixtures/b2b-product/app-fixture'
+import type { ProductInput } from '../../../packages/b2b-contracts/src/product-v2.ts'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
 
 test(scenarioTitle('B2BP-ROLES-001'), async ({ page, context, product }, info) => {
@@ -159,7 +161,7 @@ test(scenarioTitle('B2BP-ROLES-005'), async ({ page, product }, info) => {
   await assertProductViewport(page, info)
 })
 
-test(scenarioTitle('B2BP-ROLES-008'), async ({ page, product }, info) => {
+test(scenarioTitle('B2BP-ROLES-008'), async ({ page, context, product }, info) => {
   const mixed = principal(product, 'mixed-role')
   await login(page, mixed, info)
   expect((await api(page, mixed, 'people', {})).length).toBeGreaterThan(0)
@@ -177,6 +179,75 @@ test(scenarioTitle('B2BP-ROLES-008'), async ({ page, product }, info) => {
   expect((await memberAccess.json()).capabilities).not.toContain('edit-planning')
   await open(page, product, info, 'people')
   await assertProductViewport(page, info)
+  const staff = await staffSession(context, product, info)
+  const before = (await api(staff.page, staff.who, 'people', {})).find(
+    (p) => p.userId === mixed.actor.id,
+  )!
+  let revoked = false,
+    release!: () => void,
+    arrived!: () => void
+  let queued!: ProductInput<'saveRoutine'>
+  const held = new Promise<void>((resolve) => {
+      arrived = resolve
+    }),
+    gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+  try {
+    await open(page, product, info, 'programming')
+    await page.getByRole('button', { name: 'Crear rutina', exact: true }).click()
+    const name = `Revoked queued planning ${operation()}`
+    await page.getByLabel('Nombre de la rutina', { exact: true }).fill(name)
+    await page.route(
+      '**/product/v2/routines/*',
+      async (route) => {
+        if (route.request().method() !== 'POST') return route.continue()
+        queued = route.request().postDataJSON()
+        arrived()
+        await gate
+        try {
+          await route.continue()
+        } catch (e) {
+          if (!/abort|closed|handled/i.test(String(e))) throw e
+        }
+      },
+      { times: 1 },
+    )
+    await page.getByRole('button', { name: 'Guardar borrador incompleto', exact: true }).click()
+    await held
+    await api(staff.page, staff.who, 'updateMember', {
+      memberId: mixed.actor.id,
+      expectedRevision: before.revision,
+      operationId: operation(),
+      branchGrants: before.branchGrants.map((g) => ({
+        ...g,
+        active: g.branchId === mixed.branchId && g.role === 'coach' ? false : g.active,
+      })),
+    })
+    revoked = true
+    release()
+    expect((await raw(page, mixed, 'saveRoutine', queued)).status()).toBe(403)
+    expect((await raw(page, mixed, 'operationReceipt', { id: queued.operationId })).ok()).toBe(
+      false,
+    )
+    await expect(page.getByLabel('Nombre de la rutina', { exact: true })).toHaveCount(0)
+    expect((await raw(staff.page, staff.who, 'routine', { id: queued.id })).status()).toBe(404)
+    await assertProductViewport(page, info)
+  } finally {
+    release?.()
+    if (revoked) {
+      const current = (await api(staff.page, staff.who, 'people', {})).find(
+        (p) => p.userId === mixed.actor.id,
+      )!
+      await api(staff.page, staff.who, 'updateMember', {
+        memberId: mixed.actor.id,
+        expectedRevision: current.revision,
+        operationId: operation(),
+        branchGrants: before.branchGrants,
+      })
+    }
+    await staff.context.close()
+  }
 })
 
 test(scenarioTitle('B2BP-ROLES-007'), async ({ page, product }, info) => {

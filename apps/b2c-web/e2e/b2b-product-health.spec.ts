@@ -39,12 +39,24 @@ test(scenarioTitle('B2BP-HEALTH-001'), async ({ page, product }, info) => {
   await expect(page.getByRole('heading', { name: 'Vista previa de importación' })).toBeVisible()
   expect(await api(page, owner, 'ownHealth', {})).toEqual(before)
   expect(writes.some((url) => new URL(url).pathname.endsWith('/health/import'))).toBe(false)
-  const response = page.waitForResponse(
-    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname.endsWith('/health/import'),
+  const response = page.waitForRequest(
+    (r) => r.method() === 'POST' && new URL(r.url()).pathname.endsWith('/health/import'),
   )
   await page.getByRole('button', { name: 'Confirmar importación' }).focus()
   await page.keyboard.press('Enter')
-  expect((await response).ok()).toBe(true)
+  expect((await response).postDataJSON()).toMatchObject({
+    format: 'klisteniapp.health',
+    version: 1,
+    raw: file.raw,
+  })
+  await expect
+    .poll(async () => JSON.stringify((await api(page, owner, 'ownHealth', {})).data))
+    .toContain(file.marker)
+  const accepted = await api(page, owner, 'ownHealth', {})
+  expect(accepted.revision).toBeGreaterThan(before.revision)
+  await expect(
+    page.getByText(new RegExp(`Revisión de tus datos: ${accepted.revision}\\.`)),
+  ).toBeVisible()
   expect(writes.some((url) => url.includes('/consents/'))).toBe(false)
   expect(
     (await api(page, owner, 'healthConsents', {})).filter(

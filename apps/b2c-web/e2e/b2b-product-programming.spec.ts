@@ -484,10 +484,17 @@ test(scenarioTitle('B2BP-PROGRAMMING-004'), async ({ page, product }, info) => {
   await open(page, product, info, 'programming')
   await page.getByRole('button', { name: `Editar ${routine.name}`, exact: true }).click()
   await page.getByLabel('Series · movimiento 1 · formato', { exact: true }).selectOption('range')
-  await page.getByLabel('Series · movimiento 1 · mínimo', { exact: true }).fill('4')
-  await page.getByLabel('Series · movimiento 1 · máximo', { exact: true }).fill('2')
-  await page.getByRole('button', { name: 'Publicar versión para asignar', exact: true }).click()
-  await expect(page.getByRole('alert')).not.toHaveCount(0)
+  for (const [minimum, maximum] of [
+    ['4', '2'],
+    ['0', '2'],
+    ['-1', '2'],
+    ['1', '31'],
+  ]) {
+    await page.getByLabel('Series · movimiento 1 · mínimo', { exact: true }).fill(minimum!)
+    await page.getByLabel('Series · movimiento 1 · máximo', { exact: true }).fill(maximum!)
+    await page.getByRole('button', { name: 'Publicar versión para asignar', exact: true }).click()
+    await expect(page.getByRole('alert')).not.toHaveCount(0)
+  }
   expect((await api(page, staff, 'routine', { id: routine.programId })).publishedVersion).toBe(1)
   await goalForm(page, product, info, member)
   await page
@@ -519,6 +526,36 @@ test(scenarioTitle('B2BP-PROGRAMMING-004'), async ({ page, product }, info) => {
     .check()
   await page.getByRole('button', { name: 'Asignar programa completo', exact: true }).click()
   await expect(page.getByRole('alert', { name: 'Campos a revisar', exact: true })).toBeVisible()
+  await page.getByLabel('Fin inclusive · etapa 1', { exact: true }).fill('2026-10-25')
+  await page.getByRole('button', { name: 'Agregar etapa', exact: true }).click()
+  await page
+    .getByLabel('Nombre · etapa 2', { exact: true })
+    .fill('Reject overlapping and out-of-order stage')
+  await page.getByRole('button', { name: 'Agregar sesión semanal a etapa 2', exact: true }).click()
+  await page.getByLabel('Día · etapa 2, sesión 1', { exact: true }).selectOption('1')
+  await page
+    .getByLabel('Rutina publicada · etapa 2, sesión 1', { exact: true })
+    .selectOption(JSON.stringify([routine.programId, 1, 2]))
+  for (const [start, end] of [
+    ['2026-10-22', '2026-10-28'],
+    ['2026-10-12', '2026-10-18'],
+    ['2026-10-26', ''],
+  ]) {
+    await page.getByLabel('Inicio · etapa 2', { exact: true }).fill(start!)
+    await page.getByLabel('Fin inclusive · etapa 2', { exact: true }).fill(end!)
+    const response = page.waitForResponse(
+      (r) => r.request().method() === 'POST' && /\/goals\/[^/]+$/.test(new URL(r.url()).pathname),
+    )
+    await page.getByRole('button', { name: 'Guardar programa incompleto', exact: true }).click()
+    expect((await response).ok()).toBe(true)
+    await page
+      .getByRole('checkbox', {
+        name: 'Confirmo fechas, sesiones y zona horaria para asignar una nueva inscripción a esta persona.',
+      })
+      .check()
+    await page.getByRole('button', { name: 'Asignar programa completo', exact: true }).click()
+    await expect(page.getByRole('alert', { name: 'Campos a revisar', exact: true })).toBeVisible()
+  }
   await assertProductViewport(page, info)
 })
 

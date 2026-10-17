@@ -185,7 +185,7 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   // Keep the real 10/minute password guard. The timestamp contains no cookie,
   // token or password and survives Playwright replacing a failed worker.
   mkdirSync(info.project.outputDir, { recursive: true })
-  const pacePath = join(info.project.outputDir, `wp12-auth-pace-${info.project.name}.json`)
+  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
   const previous = existsSync(pacePath) ? Number(JSON.parse(readFileSync(pacePath, 'utf8')).at) : 0
   const wait = Math.max(0, previous + 7000 - Date.now())
   if (wait) {

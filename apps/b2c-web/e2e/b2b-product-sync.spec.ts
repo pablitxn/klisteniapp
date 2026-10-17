@@ -573,6 +573,8 @@ test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) =>
   const member = principal(product),
     staff = await staffSession(context, product, info)
   let release!: () => void
+  let paused = false
+  let queued!: ProductInput<'saveSession'>
   try {
     const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
     await login(page, member, info)
@@ -589,6 +591,7 @@ test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) =>
     await page.route(
       `**/sessions/${id}/revisions`,
       async (route) => {
+        queued = route.request().postDataJSON()
         arrived()
         await gate
         await route.continue()
@@ -620,6 +623,16 @@ test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) =>
       page.getByRole('button', { name: 'Cargar revisión del servidor', exact: true }),
     ).toBeVisible()
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
+    await updateActive(staff.page, staff.who, member, false)
+    paused = true
+    expect((await raw(page, member, 'saveSession', queued)).status()).toBe(403)
+    expect((await raw(page, member, 'operationReceipt', { id: accepted.operationId })).ok()).toBe(
+      false,
+    )
+    await updateActive(staff.page, staff.who, member, true)
+    paused = false
+    expect((await raw(page, member, 'saveSession', queued)).status()).toBe(409)
+    expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
     await page.getByRole('button', { name: 'Salir', exact: true }).click()
     await login(page, member, info)
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
@@ -628,6 +641,7 @@ test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) =>
     await assertProductViewport(page, info)
   } finally {
     release?.()
+    if (paused) await updateActive(staff.page, staff.who, member, true)
     await staff.context.close()
   }
 })
