@@ -279,6 +279,7 @@ test(scenarioTitle('B2BP-SYNC-010'), async ({ page, context, product }, info) =>
     await expect
       .poll(async () => await latest(page, member, plan.occurrences[0]!.id))
       .toMatchObject({ content: { status: 'completed', explicitCompletion: true } })
+    await expect(synchronized(page)).toBeVisible()
     await page.getByLabel('Motivo de corrección').fill('Truthful completion corrected to partial')
     await expect(page.getByLabel('Motivo de corrección')).toHaveValue(
       'Truthful completion corrected to partial',
@@ -535,11 +536,9 @@ test(scenarioTitle('B2BP-SYNC-009'), async ({ page, context, product }, info) =>
     })
     await quantity(page).fill('3')
     await expect(
-      page
-        .getByRole('status')
-        .filter({
-          hasText: 'No se pudo guardar en este dispositivo. Exportá el trabajo antes de salir.',
-        }),
+      page.getByRole('status').filter({
+        hasText: 'No se pudo guardar en este dispositivo. Exportá el trabajo antes de salir.',
+      }),
     ).toBeVisible()
     await expect(quantity(page)).toHaveValue('3')
     expect(

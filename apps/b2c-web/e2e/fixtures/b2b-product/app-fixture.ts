@@ -249,6 +249,12 @@ export async function open(
   })
   expect(path.startsWith('/') && !path.startsWith('//')).toBe(true)
   await page.goto(new URL(path, page.url()).href)
+  if (route === 'trainerHealth') {
+    expect(values.memberId, 'An actual member must be selected for trainer health').toBeTruthy()
+    await page
+      .getByRole('combobox', { name: 'Persona', exact: true })
+      .selectOption(values.memberId!)
+  }
 }
 export async function raw<K extends ProductEndpoint>(
   page: Page,
@@ -596,13 +602,16 @@ export async function startWorkout(
     })
   } else {
     await showWeek(page, product, info, plan.weekStart)
-    await page
-      .getByRole('button', {
-        name:
-          product.entryPoints?.workoutButtonName ?? `Abrir sesión del ${occurrence.scheduledDate}`,
-        exact: true,
-      })
-      .click()
+    if (product.entryPoints?.workoutButtonName) {
+      await page
+        .locator(`[id="scheduled-occurrence-${occurrence.id}"]`)
+        .getByRole('button', { name: product.entryPoints.workoutButtonName, exact: true })
+        .click()
+    } else {
+      await page
+        .getByRole('button', { name: `Abrir sesión del ${occurrence.scheduledDate}`, exact: true })
+        .click()
+    }
   }
   await expect(page.getByRole('heading', { name: plan.routine.name, exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Guardar parcial', exact: true })).toBeVisible()

@@ -250,7 +250,9 @@ test(scenarioTitle('B2BP-INACTIVE-008'), async ({ page, context, product }, info
     ).toBe(false)
     await updateActive(staff.page, staff.who, member, true)
     paused = false
-    await page.getByRole('button', { name: 'Actualizar mi acceso', exact: true }).click()
+    // A committed reactivation may already refresh the root through SSE. A
+    // real reload validates either path without racing a departed button.
+    await page.reload()
     await expect(
       page.getByRole('heading', { name: 'Tu membresía está inactiva', exact: true }),
     ).toHaveCount(0)
