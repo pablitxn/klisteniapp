@@ -1,3 +1,7 @@
+import {
+  canonicalExercises,
+  REVIEWED_CATALOG_REVISION,
+} from '../src/catalog/reviewed-projection.ts';
 import assert from 'node:assert/strict';
 import { setTimeout } from 'node:timers/promises';
 import { test } from 'node:test';
@@ -16,32 +20,15 @@ const records = createRecordsServices(now);
 const relation = ReviewedRelationSchema.parse({
   id: 'catalog-target',
   sourceExerciseId: 'exercise',
-  targetExerciseId: 'target',
+  targetExerciseId: 'squat',
   type: 'alternative',
   conditions: ['target-requirements-confirmed', 'use-target-dose'],
   rationale: 'Synthetic current catalog test',
-  catalogRevision: 'a'.repeat(64),
+  catalogRevision: REVIEWED_CATALOG_REVISION,
   sourceContentHash: 'b'.repeat(64),
   targetContentHash: 'c'.repeat(64),
   requirements: ['Confirm target requirements'],
-  target: {
-    id: 'target',
-    scope: 'base',
-    status: 'published',
-    version: 1,
-    revision: 0,
-    name: 'Synthetic target',
-    description: '',
-    instructions: ['Synthetic'],
-    equipment: 'none',
-    machineId: null,
-    compatibleMachineIds: [],
-    pattern: '',
-    muscles: [],
-    animationId: null,
-    assets: [],
-    baseExerciseId: null,
-  },
+  target: canonicalExercises().find((e) => e.id === 'squat')!,
   targetDose: legacy.dose,
 });
 async function catalogFixture(
@@ -72,7 +59,7 @@ async function catalogFixture(
       selected.segments.push({
         segmentId: 'target',
         originalStepId: 'step',
-        exerciseId: 'target',
+        exerciseId: 'squat',
         dose: relation.targetDose,
         relation,
         confirmedConditions: relation.conditions,
@@ -110,11 +97,11 @@ test(
           { status: 403, message: 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE' },
         );
       await ledger.pool.query(
-        "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','target',false)",
+        "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','squat',false)",
       );
       await reject('disabled-target');
-      await ledger.pool.query("DELETE FROM b2b_branch_catalog WHERE resource_id='target'");
-      for (const id of ['exercise', 'target']) {
+      await ledger.pool.query("DELETE FROM b2b_branch_catalog WHERE resource_id='squat'");
+      for (const id of ['exercise', 'squat']) {
         await ledger.pool.query("UPDATE b2b_exercise SET status='draft' WHERE id=$1", [id]);
         await reject(`unpublished-${id}`);
         await ledger.pool.query(
@@ -128,15 +115,22 @@ test(
         );
       }
       await ledger.pool.query(
-        "UPDATE b2b_exercise SET organization_id='atlas',branch_id='atlas-east' WHERE id='target'",
+        "UPDATE b2b_exercise SET organization_id='atlas',branch_id='atlas-east' WHERE id='squat'",
       );
       await reject('unshared-branch');
       await ledger.pool.query(
-        "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','target',true)",
+        "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','squat',true)",
+      );
+      await assert.rejects(
+        ledger.run((ctx) => records.saveSession(ctx, input)),
+        { code: 'REVIEWED_TARGET_UNAVAILABLE' },
+      );
+      await ledger.pool.query(
+        "UPDATE b2b_exercise SET organization_id=NULL,branch_id=NULL WHERE id='squat'",
       );
       await ledger.run((ctx) => records.saveSession(ctx, input));
       await ledger.pool.query(
-        "UPDATE b2b_branch_catalog SET enabled=false WHERE resource_id='target'; UPDATE b2b_exercise SET status='draft' WHERE id IN ('exercise','target')",
+        "UPDATE b2b_branch_catalog SET enabled=false WHERE resource_id='squat'; UPDATE b2b_exercise SET status='draft' WHERE id IN ('exercise','squat')",
       );
       const retained = await ledger.run((ctx) =>
         records.saveSession(ctx, {
@@ -182,7 +176,7 @@ test(
   { skip: !databaseUrl },
   async () => {
     for (const mutation of [
-      "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','target',false)",
+      "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','squat',false)",
       "UPDATE b2b_exercise SET status='draft' WHERE id='exercise'",
     ]) {
       await catalogFixture(async (ledger, input) => {
@@ -243,7 +237,7 @@ test(
         await writer.query('BEGIN');
         const pid = (await writer.query('SELECT pg_backend_pid() AS pid')).rows[0].pid;
         const disabling = writer.query(
-          "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','target',false)",
+          "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','squat',false)",
         );
         await waitForLock(ledger, pid);
         release();

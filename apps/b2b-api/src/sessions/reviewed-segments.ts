@@ -7,6 +7,7 @@ import {
 import type { RoutineVersionV2, SessionContent } from '@klisteniapp/b2b-contracts/product-v2';
 import type { AuthorizedProductContext } from '../product-context.ts';
 import { HttpError } from '../errors.ts';
+import { assertNewReviewedCatalogEligibility } from '../catalog/reviewed-alternatives.ts';
 
 /** An incomplete draft may omit selections. Add validation-only source entries
  * so WP04 can validate any supplied actuals without storing or selecting work
@@ -123,4 +124,9 @@ export async function validateReviewedSegments(
       selections.code === 'INCOMPLETE_SEGMENT' ? 'INCOMPLETE_EXECUTION' : 'INVALID_INPUT',
       selections.code,
     );
+  await assertNewReviewedCatalogEligibility(
+    context,
+    content,
+    previous ?? { segments: [], selectedSegments: [] },
+  );
 }

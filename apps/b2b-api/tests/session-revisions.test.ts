@@ -1,3 +1,7 @@
+import {
+  canonicalExercises,
+  REVIEWED_CATALOG_REVISION,
+} from '../src/catalog/reviewed-projection.ts';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { createRecordsServices } from '../src/schedule/index.ts';
@@ -11,32 +15,15 @@ test(
     const relation = ReviewedRelationSchema.parse({
       id: 'reviewed-target',
       sourceExerciseId: 'exercise',
-      targetExerciseId: 'target',
+      targetExerciseId: 'squat',
       type: 'alternative',
       conditions: ['target-requirements-confirmed', 'use-target-dose'],
       rationale: 'Synthetic fixture only',
-      catalogRevision: 'a'.repeat(64),
+      catalogRevision: REVIEWED_CATALOG_REVISION,
       sourceContentHash: 'b'.repeat(64),
       targetContentHash: 'c'.repeat(64),
       requirements: ['Confirm target requirements'],
-      target: {
-        id: 'target',
-        scope: 'base',
-        status: 'published',
-        version: 1,
-        revision: 0,
-        name: 'Synthetic timed target',
-        description: '',
-        instructions: ['Synthetic'],
-        equipment: 'none',
-        machineId: null,
-        compatibleMachineIds: [],
-        pattern: '',
-        muscles: [],
-        animationId: null,
-        assets: [],
-        baseExerciseId: null,
-      },
+      target: canonicalExercises().find((e) => e.id === 'squat')!,
       targetDose: {
         ...legacy.dose,
         mode: 'duration',
@@ -79,7 +66,7 @@ test(
         switched.segments.push({
           segmentId: 'target-segment',
           originalStepId: 'step',
-          exerciseId: 'target',
+          exerciseId: 'squat',
           dose: relation.targetDose,
           relation,
           confirmedConditions: relation.conditions,

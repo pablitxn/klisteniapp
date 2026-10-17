@@ -5,7 +5,7 @@ import { createRecordsServices } from '../src/schedule/index.ts';
 import { content, databaseUrl, legacy, now, routine, withLedger } from './fixtures/wp03-ledger.ts';
 const records = createRecordsServices(now);
 test(
-  'WP04 current branch equipment gates new target segments while retained history survives equipment archival',
+  'WP04 equipment checks cannot admit a target without current canonical review',
   { skip: !databaseUrl },
   async () => {
     const relation = ReviewedRelationSchema.parse({
@@ -85,36 +85,16 @@ test(
         await ledger.pool.query(
           "INSERT INTO b2b_machine(id,organization_id,data) VALUES('target-machine','atlas','{}'); INSERT INTO b2b_unit(id,organization_id,branch_id,machine_id,label) VALUES('target-unit','atlas','atlas-principal','target-machine','Synthetic')",
         );
-        await ledger.run((ctx) =>
-          records.saveSession(ctx, {
-            ...input,
-            operationId: 'select-target',
-            expectedRevision: 1,
-            content: target,
-          }),
-        );
-        await ledger.pool.query("UPDATE b2b_unit SET archived=true WHERE id='target-unit'");
-        target.notes = 'Retained after equipment loss';
-        await ledger.run((ctx) =>
-          records.saveSession(ctx, {
-            ...input,
-            operationId: 'retained',
-            expectedRevision: 2,
-            content: target,
-          }),
-        );
-        const extra = structuredClone(target);
-        extra.segments.push({ ...extra.segments[1]!, segmentId: 'another-target' });
         await assert.rejects(
           ledger.run((ctx) =>
             records.saveSession(ctx, {
               ...input,
-              operationId: 'new-after-archive',
-              expectedRevision: 3,
-              content: extra,
+              operationId: 'unproven-with-equipment',
+              expectedRevision: 1,
+              content: target,
             }),
           ),
-          { message: 'TARGET_EQUIPMENT_UNAVAILABLE' },
+          { code: 'REVIEWED_TARGET_UNAVAILABLE' },
         );
       },
       { ...routine, relations: [relation] },
