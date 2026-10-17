@@ -35,7 +35,10 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
     await quantity(page).fill('3')
     await page.getByLabel('Notas de la sesión').fill('WP12 persisted during network loss')
     await expect(
-      page.getByRole('status').filter({ hasText: /sin conexión|local|pendiente/i }),
+      page
+        .locator('.workout-session')
+        .getByRole('status')
+        .filter({ hasText: /sin conexión|local|pendiente/i }),
     ).toBeVisible()
     await context.setOffline(false)
     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.

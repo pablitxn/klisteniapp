@@ -143,6 +143,7 @@ async function inviteThroughUi(
   expect(response.request().postDataJSON()).toMatchObject({ email, role, branchGrants: grants })
   const invitation = ProductEndpoints.inviteMember.output.parse(await response.json())
   expect(invitation.role).toBe(role)
+  expect(new URL(invitation.invitationUrl).origin).toBe(new URL(page.url()).origin)
   await expect(page.getByLabel('Enlace para compartir', { exact: true })).toHaveValue(
     invitation.invitationUrl,
   )
@@ -156,6 +157,7 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
   await login(page, superadmin, info)
   await open(page, product, info, 'people')
   const form = page.getByRole('form', { name: 'Invitar persona', exact: true })
+  await expect(form.getByLabel('Rol de la persona invitada', { exact: true })).toBeVisible()
   const options = await form
     .getByLabel('Rol de la persona invitada')
     .locator('option')
@@ -179,6 +181,11 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
     const admin = principal(product, 'new-admin')
     await login(peer.page, admin, info)
     await open(peer.page, product, info, 'people')
+    await expect(
+      peer.page
+        .getByRole('form', { name: 'Invitar persona', exact: true })
+        .getByLabel('Rol de la persona invitada', { exact: true }),
+    ).toBeVisible()
     const allowed = await peer.page
       .getByRole('form', { name: 'Invitar persona', exact: true })
       .getByLabel('Rol de la persona invitada')
@@ -536,7 +543,18 @@ test(scenarioTitle('B2BP-ROLES-006'), async ({ page, product }, info) => {
     /weightKg|durationSeconds|performedSets|sessionRevisions|wp12-synthetic-measurement-source/,
   )
   const foreign = principal(product, 'member', 'sur')
-  expect((await raw(page, staff, 'audit', { id: foreign.actor.id })).ok()).toBe(false)
+  const filtered = await raw(page, staff, 'audit', { id: foreign.actor.id })
+  expect(filtered.ok()).toBe(true)
+  expect(await filtered.json()).toEqual([])
+  expect(filtered.headers()['cache-control']).toContain('no-store')
+  const foreignScope = await raw(
+    page,
+    staff,
+    'audit',
+    { id: foreign.actor.id },
+    { organizationId: foreign.organization.id, branchId: foreign.branchId },
+  )
+  expect([403, 404, 409]).toContain(foreignScope.status())
   await page.keyboard.press('Escape')
   await expect(drawer).toHaveCount(0)
   await expect(trigger).toBeFocused()

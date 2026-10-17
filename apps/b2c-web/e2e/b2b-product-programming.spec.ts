@@ -505,6 +505,14 @@ test(scenarioTitle('B2BP-PROGRAMMING-004'), async ({ page, product }, info) => {
     .fill('Reject incomplete and reversed date periods')
   await page.getByLabel('Zona horaria IANA', { exact: true }).fill('UTC')
   await page.getByRole('button', { name: 'Confirmar zona horaria', exact: true }).click()
+  const beforeContinuity = await api(page, staff, 'continuity', { memberId: member.actor.id })
+  const baseline = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      /\/goals\/[^/]+$/.test(new URL(response.url()).pathname),
+  )
+  await page.getByRole('button', { name: 'Guardar programa incompleto', exact: true }).click()
+  expect((await baseline).ok()).toBe(true)
   await page.getByRole('button', { name: 'Agregar etapa', exact: true }).click()
   await page.getByLabel('Nombre · etapa 1', { exact: true }).fill('Invalid period')
   await page.getByLabel('Inicio · etapa 1', { exact: true }).fill('2026-10-20')
@@ -518,7 +526,12 @@ test(scenarioTitle('B2BP-PROGRAMMING-004'), async ({ page, product }, info) => {
     (r) => r.request().method() === 'POST' && /\/goals\/[^/]+$/.test(new URL(r.url()).pathname),
   )
   await page.getByRole('button', { name: 'Guardar programa incompleto', exact: true }).click()
-  expect((await saved).ok()).toBe(true)
+  const reversed = await saved
+  expect(reversed.status()).toBe(400)
+  expect(await reversed.json()).toMatchObject({
+    code: 'INVALID_INPUT',
+    issues: expect.arrayContaining([expect.objectContaining({ path: ['stages', 0, 'endDate'] })]),
+  })
   await page
     .getByRole('checkbox', {
       name: 'Confirmo fechas, sesiones y zona horaria para asignar una nueva inscripción a esta persona.',
@@ -547,7 +560,16 @@ test(scenarioTitle('B2BP-PROGRAMMING-004'), async ({ page, product }, info) => {
       (r) => r.request().method() === 'POST' && /\/goals\/[^/]+$/.test(new URL(r.url()).pathname),
     )
     await page.getByRole('button', { name: 'Guardar programa incompleto', exact: true }).click()
-    expect((await response).ok()).toBe(true)
+    const rejectedOrIncomplete = await response
+    if (end) {
+      expect(rejectedOrIncomplete.status()).toBe(400)
+      expect(await rejectedOrIncomplete.json()).toMatchObject({
+        code: 'INVALID_INPUT',
+        issues: expect.arrayContaining([
+          expect.objectContaining({ path: ['stages', 1, 'startDate'] }),
+        ]),
+      })
+    } else expect(rejectedOrIncomplete.ok()).toBe(true)
     await page
       .getByRole('checkbox', {
         name: 'Confirmo fechas, sesiones y zona horaria para asignar una nueva inscripción a esta persona.',
@@ -556,6 +578,9 @@ test(scenarioTitle('B2BP-PROGRAMMING-004'), async ({ page, product }, info) => {
     await page.getByRole('button', { name: 'Asignar programa completo', exact: true }).click()
     await expect(page.getByRole('alert', { name: 'Campos a revisar', exact: true })).toBeVisible()
   }
+  expect(await api(page, staff, 'continuity', { memberId: member.actor.id })).toEqual(
+    beforeContinuity,
+  )
   await assertProductViewport(page, info)
 })
 
