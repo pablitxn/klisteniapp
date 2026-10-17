@@ -20,6 +20,13 @@
   gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
 }
+.programming-grid > * {
+  min-width: 0;
+}
+/* Native select layout overflow must not escape its field; paint remains uncontained. */
+.programming-grid > .field {
+  contain: layout;
+}
 .programming-target {
   display: grid;
   gap: 10px;
