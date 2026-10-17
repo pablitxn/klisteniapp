@@ -5,7 +5,11 @@ import test from 'node:test';
 import { Pool } from 'pg';
 import { exercises } from '@klisteniapp/catalog-base';
 import { ProgramVersionSchema } from '@klisteniapp/b2b-contracts/training';
-import { RoutineVersionV2Schema, type SessionContent } from '@klisteniapp/b2b-contracts/product-v2';
+import {
+  RoutineVersionV2Schema,
+  GoalProgramContentSchema,
+  type SessionContent,
+} from '@klisteniapp/b2b-contracts/product-v2';
 import {
   canonicalExercises,
   contentHash,
@@ -479,6 +483,237 @@ test(
                   r.targetExerciseId === relations[0].targetExerciseId,
               ).length,
         );
+      } finally {
+        db.release();
+      }
+    } finally {
+      await pool.end();
+      await owner.query(`DROP SCHEMA ${schema} CASCADE`);
+      await owner.end();
+    }
+  },
+);
+
+test(
+  'v2-only members read alternatives only through exact own required occurrence linkage',
+  { skip: !process.env.B2B_TEST_DATABASE_URL },
+  async () => {
+    const url = new URL(process.env.B2B_TEST_DATABASE_URL!);
+    assert.match(url.hostname, /^(127\.0\.0\.1|localhost)$/);
+    assert.match(url.pathname, /b2b.*test/);
+    const owner = new Pool({ connectionString: url.href });
+    const schema = `wp04_issued_${randomUUID().replaceAll('-', '')}`;
+    await owner.query(`CREATE SCHEMA ${schema}`);
+    url.searchParams.set('options', `-c search_path=${schema}`);
+    const pool = new Pool({ connectionString: url.href });
+    try {
+      const config = {
+        databaseUrl: url.href,
+        secret: 'wp04-synthetic-secret-12345678901234567890',
+        origin: 'http://localhost:4200',
+        host: '127.0.0.1',
+        port: 0,
+        production: false,
+        demoMode: false,
+      };
+      await migrate(pool, createAuth(pool, config, { migrating: true }));
+      const db = await pool.connect();
+      try {
+        await db.query(`INSERT INTO b2b_auth_user(id,name,email,"emailVerified","createdAt","updatedAt") VALUES
+        ('member','Member','member@example.test',true,now(),now()),('other','Other','other@example.test',true,now(),now());
+        INSERT INTO b2b_organization(id,slug,brand) VALUES ('atlas','atlas','{"name":"Atlas"}'),('sur','sur','{"name":"Sur"}');
+        INSERT INTO b2b_branch(id,organization_id,slug,name) VALUES ('atlas-west','atlas','west','West');
+        INSERT INTO b2b_membership(organization_id,user_id,role) VALUES ('atlas','member','member'),('atlas','other','member'),('sur','member','member');
+        INSERT INTO b2b_branch_grant(organization_id,branch_id,user_id,role) VALUES ('atlas','atlas-west','member','member');`);
+        const publish = async (
+          id: string,
+          organizationId: string,
+          branchId: string,
+          version = 1,
+        ) => {
+          const snapshot = {
+            ...routine,
+            programId: id,
+            version,
+            scope: { organizationId, branchId },
+          };
+          await db.query(
+            `INSERT INTO b2b_program(id,organization_id,branch_id,data,schema_version) VALUES($1,$2,$3,$4,2) ON CONFLICT(id) DO NOTHING`,
+            [
+              id,
+              organizationId,
+              branchId,
+              { name: snapshot.name, description: snapshot.description, steps: snapshot.steps },
+            ],
+          );
+          await db.query(
+            'INSERT INTO b2b_program_version(organization_id,branch_id,program_id,version,snapshot,schema_version) VALUES($1,$2,$3,$4,$5,2)',
+            [organizationId, branchId, id, version, snapshot],
+          );
+          return snapshot;
+        };
+        const issue = async (
+          id: string,
+          snapshot: Awaited<ReturnType<typeof publish>>,
+          memberId: string,
+          eligibility: 'required' | 'cancelled' = 'required',
+        ) => {
+          const { organizationId, branchId } = snapshot.scope;
+          const args = [organizationId, branchId, memberId, id];
+          const slot = {
+            id: 'slot',
+            weekday: 6,
+            routine: { programId: snapshot.programId, version: snapshot.version, schemaVersion: 2 },
+          };
+          const stage = {
+            id: 'stage',
+            name: 'Stage',
+            startDate: '2026-10-12',
+            endDate: '2026-10-18',
+            slots: [slot],
+          };
+          const content = GoalProgramContentSchema.parse({
+            name: 'Goal',
+            goal: 'Fixture',
+            timeZone: 'UTC',
+            stages: [stage],
+          });
+          await db.query(
+            "INSERT INTO b2b_goal_program(organization_id,branch_id,member_id,id,content,status,revision) VALUES($1,$2,$3,$4,$5,'active',1)",
+            [...args, content],
+          );
+          await db.query(
+            'INSERT INTO b2b_goal_program_revision(organization_id,branch_id,member_id,goal_program_id,revision,content,actor_id) VALUES($1,$2,$3,$4,1,$5,$3)',
+            [...args, content],
+          );
+          await db.query(
+            "INSERT INTO b2b_enrollment(organization_id,branch_id,member_id,id,goal_program_id,issued_goal_revision,revision,status) VALUES($1,$2,$3,$4,$4,1,1,'active')",
+            args,
+          );
+          await db.query(
+            'INSERT INTO b2b_enrollment_revision(organization_id,branch_id,member_id,enrollment_id,revision,content,actor_id) VALUES($1,$2,$3,$4,1,$5,$3)',
+            [...args, content],
+          );
+          await db.query(
+            "INSERT INTO b2b_stage_revision(organization_id,branch_id,enrollment_id,enrollment_revision,id,ordinal,start_date,end_date,content) VALUES($1,$2,$3,1,'stage',0,'2026-10-12','2026-10-18',$4)",
+            [organizationId, branchId, id, stage],
+          );
+          await db.query(
+            `INSERT INTO b2b_occurrence(organization_id,branch_id,member_id,id,enrollment_id,issued_enrollment_revision,stage_id,slot_id,slot_ordinal,program_id,program_version,original_date,original_week_start,time_zone,scheduled_date,current_week_start,eligibility,cancellation_reason)
+          VALUES($1,$2,$3,$4,$4,1,'stage','slot',0,$5,$6,'2026-10-17','2026-10-12','UTC','2026-10-17','2026-10-12',$7,$8)`,
+            [
+              ...args,
+              snapshot.programId,
+              snapshot.version,
+              eligibility,
+              eligibility === 'cancelled' ? 'Fixture cancellation' : null,
+            ],
+          );
+        };
+        const own = await publish('issued-routine', 'atlas', 'atlas-principal');
+        await issue('own-occurrence', own, 'member');
+        await publish('issued-routine', 'atlas', 'atlas-principal', 2);
+        const cancelled = await publish('issued-routine', 'atlas', 'atlas-principal', 3);
+        await issue('cancelled-occurrence', cancelled, 'member', 'cancelled');
+        await publish('unissued-routine', 'atlas', 'atlas-principal');
+        await issue(
+          'other-occurrence',
+          await publish('other-routine', 'atlas', 'atlas-principal'),
+          'other',
+        );
+        await issue(
+          'west-occurrence',
+          await publish('west-routine', 'atlas', 'atlas-west'),
+          'member',
+        );
+        await issue(
+          'sur-occurrence',
+          await publish('sur-routine', 'sur', 'sur-principal'),
+          'member',
+        );
+        assert.equal(
+          (await db.query('SELECT count(*)::int AS n FROM b2b_program_assignment')).rows[0].n,
+          0,
+        );
+        let authorizationChecks = 0;
+        const context: AuthorizedProductContext = {
+          db,
+          actorId: 'member',
+          organizationId: 'atlas',
+          branchId: 'atlas-principal',
+          role: 'member',
+          accessMode: 'active',
+          accessRevision: 0,
+          capabilities: new Set(['edit-own-sessions']),
+          authorizeMember: async (memberId) => {
+            authorizationChecks += 1;
+            const allowed = await db.query(
+              `SELECT 1 FROM b2b_membership m JOIN b2b_branch_grant g ON g.organization_id=m.organization_id AND g.user_id=m.user_id WHERE m.organization_id='atlas' AND m.user_id=$1 AND m.active AND g.branch_id='atlas-principal' AND g.active`,
+              [memberId],
+            );
+            if (!allowed.rowCount) throw new Error('CURRENT_ACCESS_DENIED');
+          },
+        };
+        const input = { id: 'issued-routine', version: 1, stepId: 'step' };
+        assert.equal((await alternatives(context, input)).length, 3);
+        for (const deniedInput of [
+          { ...input, version: 2 },
+          { ...input, version: 3 },
+          { ...input, id: 'unissued-routine' },
+          { ...input, id: 'other-routine' },
+          { ...input, id: 'west-routine' },
+          { ...input, id: 'sur-routine' },
+        ]) {
+          await assert.rejects(alternatives(context, deniedInput), {
+            status: 404,
+            code: 'NOT_FOUND',
+          });
+        }
+        assert.equal(authorizationChecks, 7);
+        await assert.rejects(alternatives({ ...context, branchId: 'atlas-west' }, input), {
+          status: 404,
+        });
+        await assert.rejects(
+          alternatives({ ...context, organizationId: 'sur', branchId: 'sur-principal' }, input),
+          { status: 404 },
+        );
+        await assert.rejects(alternatives({ ...context, accessMode: 'export-only' }, input), {
+          status: 403,
+        });
+        await db.query(
+          "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise',$1,false)",
+          [relations[0].targetExerciseId],
+        );
+        assert.equal((await alternatives(context, input)).length, 2);
+        const selected = {
+          segments: [
+            {
+              segmentId: 'chosen',
+              originalStepId: 'step',
+              exerciseId: relations[0].targetExerciseId,
+              dose: relations[0].targetDose,
+              relation: relations[0],
+              confirmedConditions: relations[0].conditions,
+              createdAt: at,
+            },
+          ],
+          selectedSegments: [{ originalStepId: 'step', segmentId: 'chosen' }],
+        };
+        await assert.rejects(
+          assertNewReviewedCatalogEligibility(context, selected, {
+            segments: [],
+            selectedSegments: [],
+          }),
+          { code: 'REVIEWED_TARGET_UNAVAILABLE' },
+        );
+        await db.query(
+          "UPDATE b2b_occurrence SET eligibility='cancelled',cancellation_reason='Fixture revocation',revision=revision+1 WHERE id='own-occurrence'",
+        );
+        await assert.rejects(alternatives(context, input), { status: 404 });
+        await db.query(
+          "UPDATE b2b_membership SET active=false WHERE organization_id='atlas' AND user_id='member'",
+        );
+        await assert.rejects(alternatives(context, input), /CURRENT_ACCESS_DENIED/);
       } finally {
         db.release();
       }

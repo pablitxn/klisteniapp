@@ -89,7 +89,12 @@ export async function alternatives(
     await context.authorizeMember(context.actorId, 'history');
     const assigned = await context.db.query(
       `SELECT 1 FROM b2b_program_assignment
-      WHERE organization_id=$1 AND branch_id=$2 AND member_id=$3 AND program_id=$4 AND version=$5`,
+      WHERE organization_id=$1 AND branch_id=$2 AND member_id=$3 AND program_id=$4 AND version=$5
+      UNION ALL
+      SELECT 1 FROM b2b_occurrence
+      WHERE organization_id=$1 AND branch_id=$2 AND member_id=$3 AND program_id=$4 AND program_version=$5
+        AND eligibility='required'
+      LIMIT 1`,
       [context.organizationId, context.branchId, context.actorId, input.id, input.version],
     );
     if (!assigned.rowCount) throw missing();
