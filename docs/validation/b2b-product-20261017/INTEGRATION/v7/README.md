@@ -9,19 +9,19 @@ remain intact.
 
 ## Browser evidence qualification
 
-WP12/v4 contains all88 authored IDs; only eight distinct IDs executed on591feb1,
+WP12/v4 contains all 88 authored IDs; only eight distinct IDs executed on `591feb1`,
 nine across older diagnostics. Those runs do not validate this combined candidate.
 All ten raw JSON/decoded-log hash pairs were independently checked by read-only
 review. The results remain separate:
 
-| Run on591feb1               | Pass | Fail | Qualification                                                       |
+| Run on `591feb1`            | Pass | Fail | Qualification                                                       |
 | --------------------------- | ---: | ---: | ------------------------------------------------------------------- |
-| R6 unified320               |    8 |    6 | Actual correction-textarea loss plus admission/response assumptions |
+| R6 unified 320px            |    8 |    6 | Actual correction-textarea loss plus admission/response assumptions |
 | R7 targeted unified         |    6 |    0 | Retried admission/consent paths                                     |
-| R9 white-label six profiles |   23 |    1 | Sole failure:320px history width expands to343px                    |
-| R10 desktop continuity      |    1 |    0 | Editor retained beyond91seconds, then actual conflict               |
+| R9 white-label six profiles |   23 |    1 | Sole failure: 320px history width expands to 343px                  |
+| R10 desktop continuity      |    1 |    0 | Editor retained beyond 91 seconds, then actual conflict             |
 
-R8 retains5 passes,2 failures,1 interruption and16 unrun cells. Discovery of528
+R8 retains 5 passes, 2 failures, 1 interruption and 16 unrun cells. Discovery of 528
 cells per mode remains source inventory, not execution. HTTPS did not execute.
 The old HTTP WebCrypto failure remains older-candidate evidence. Parent assigned
 WP09's correction/hash/recovery work and WP08's actual overflow fix; neither is
@@ -58,7 +58,7 @@ independent target-dose confirmations. A preexisting supplement must not count
 as proof of the adoption action. Role scenarios also retain qualified API-backed
 mutations; full form journeys remain separate acceptance work.
 
-No application source changed after validated executable sourceb9ae8d8; only QA
-and synthetic harness source changed. The prior API240/web220/React18 totals
+No application source changed after validated executable source `b9ae8d8`; only QA
+and synthetic harness source changed. The prior API 240/web 220/React 18 totals
 remain qualified to that application source. Final combined owner amendments and
 browser acceptance are pending. No main merge, production activation or deploy.
