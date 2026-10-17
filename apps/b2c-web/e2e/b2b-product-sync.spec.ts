@@ -152,7 +152,7 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
       page
         .locator('.workout-session')
         .getByRole('status')
-        .filter({ hasText: /sin conexión|local|pendiente/i }),
+        .filter({ hasText: /^Sin conexión: borrador conservado en este dispositivo\.$/ }),
     ).toBeVisible()
     await context.setOffline(false)
     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.
