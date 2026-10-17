@@ -1,9 +1,12 @@
 # WP12 product acceptance preparation
 
-This directory contains scenario metadata and synthetic seed intent, not v2 DTOs
-or executable feature acceptance. WP00 owns transport fixtures and migrations;
-INTEGRATION owns seed/config registration. No feature spec or skipped placeholder
-is introduced before the parent's accepted contract and combined feature head.
+This directory contains the original scenario inventory, synthetic fixture intent,
+strict browser collector and current executable feature helpers. The 88 reserved
+browser IDs now have owned specs against the parent's accepted v2 contracts.
+WP00 owns transport authority and migrations; INTEGRATION owns the registered
+seeds, configs and combined application head. No skipped placeholder establishes
+acceptance. Source-bound execution and limitations are recorded in the additive
+WP12 validation revisions.
 
 `scenarios.json` reserves exact IDs, final spec paths and titles for 88 browser
 scenarios, plus owner unit/API and evidence-review obligations. Its `blocked`
@@ -54,8 +57,8 @@ node apps/b2c-web/e2e/fixtures/b2b-product/run-browser.mjs \
 ```
 
 Run separately for `white-label-http` and `white-label-https-valid-trust`; each
-receipt attests only its mode/head. The named configs above are owner requests,
-not files this preparation creates. Every one of the six projects must expose
+receipt attests only its mode/head. The configs are maintained by INTEGRATION;
+this preparation does not edit them. Every one of the six projects must expose
 truthful `metadata.b2bProduct = { mode, engine, width, height, touch }`; metadata
 does not itself verify browser launch policy. The config owner must preserve the
 matching locked runtime, Chromium sandbox, certificate verification and explicit
