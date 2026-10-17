@@ -158,6 +158,10 @@ export function createApiServer({
           '/self/exports',
           '/self/b2c-invitation',
         ].includes(unifiedPath) ||
+          (method === 'POST' &&
+            ['/invitations/accept', '/invitations/sign-in', '/invitations/join'].includes(
+              unifiedPath,
+            )) ||
           /^\/orgs\/[a-zA-Z0-9_-]+\/product\/v2(?:\/|$)/.test(unifiedPath));
       if (
         !domain &&
@@ -310,7 +314,7 @@ export function createApiServer({
           throw new HttpError(404, 'WHITE_LABEL_DISABLED', 'Contexto por dominio no habilitado.');
         return json(response, 200, await service.whiteLabel.context(domain));
       }
-      if (path.startsWith('/auth/') || (path === '/invitations/sign-in' && domain)) {
+      if (path.startsWith('/auth/') || path === '/invitations/sign-in') {
         const routes = new Map([
           ['/auth/sign-in/email', 'POST'],
           ['/invitations/sign-in', 'POST'],
@@ -331,7 +335,11 @@ export function createApiServer({
             else await requireBrandSession(db, identity.user.id, identity.session.id, domain);
           });
         }
-        if (config.productUnified && path !== '/auth/sign-in/email') {
+        if (
+          config.productUnified &&
+          path !== '/auth/sign-in/email' &&
+          path !== '/invitations/sign-in'
+        ) {
           if (!currentSession)
             throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
           await service.transaction((db) =>
@@ -367,31 +375,37 @@ export function createApiServer({
             },
           ),
         );
-        if (domain && (path === '/auth/sign-in/email' || invitationLogin) && result.ok) {
+        if (invitationLogin && result.ok) {
           const payload = (await result.clone().json()) as {
             token?: string;
             user?: { id?: string };
           };
-          if (invitationLogin) {
+          try {
             const identity = (
-              await pool.query<{ id: string }>('SELECT id FROM b2b_auth_session WHERE token=$1', [
-                payload.token,
-              ])
+              await pool.query<{ id: string }>(
+                'SELECT id FROM b2b_auth_session WHERE token=$1 AND "userId"=$2',
+                [payload.token, payload.user?.id],
+              )
             ).rows[0];
-            try {
-              if (!identity || !payload.user?.id)
-                throw new HttpError(401, 'INVALID_INVITATION', 'Invitación inválida o vencida.');
-              await service.acceptInvitation(
-                invitationLogin.token,
-                undefined,
-                { userId: payload.user.id, sessionId: identity.id },
-                domain,
-              );
-            } catch (error) {
-              await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
-              throw error;
-            }
+            if (!identity || !payload.user?.id)
+              throw new HttpError(401, 'INVALID_INVITATION', 'Invitación inválida o vencida.');
+            await service.acceptInvitation(
+              invitationLogin.token,
+              undefined,
+              { userId: payload.user.id, sessionId: identity.id },
+              domain,
+              { sessionPurpose: 'fresh-invitation-login' },
+            );
+          } catch (error) {
+            await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
+            throw error;
           }
+        }
+        if (domain && path === '/auth/sign-in/email' && result.ok) {
+          const payload = (await result.clone().json()) as {
+            token?: string;
+            user?: { id?: string };
+          };
           let admitted = false;
           try {
             admitted = await service.transaction(async (db) => {

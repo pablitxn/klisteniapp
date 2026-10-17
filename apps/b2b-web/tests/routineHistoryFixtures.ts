@@ -186,3 +186,7 @@ export function summary(closed = false) {
     occurrenceIds: ['o1', 'o2', 'o3', 'o4'],
   })
 }
+
+export function atomicContext(value = occurrence(), plan = enrollment()) {
+  return { occurrence: value, enrollment: plan }
+}

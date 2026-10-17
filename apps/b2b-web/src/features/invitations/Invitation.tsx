@@ -1,6 +1,6 @@
-import { b2bClient, createB2BClient, errorMessage } from '@klisteniapp/b2b-client'
+import { b2bClient, errorMessage } from '@klisteniapp/b2b-client'
 import type { BrandContext } from '@klisteniapp/b2b-contracts'
-import { Field, Login, Notice, Shell } from '@klisteniapp/b2b-ui'
+import { Field, Notice, Shell } from '@klisteniapp/b2b-ui'
 import { useEffect, useState, type FormEvent } from 'react'
 
 function invitationToken() {
@@ -12,18 +12,17 @@ function invitationToken() {
 }
 
 export function Invitation({
-  whiteLabel = false,
   context,
+  onAuthenticated,
 }: {
-  whiteLabel?: boolean
   context?: BrandContext
+  onAuthenticated: () => void
 }) {
   const [token, setToken] = useState(invitationToken)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [done, setDone] = useState(false)
   const [existing, setExisting] = useState(false)
-  const [signedIn, setSignedIn] = useState('')
 
   useEffect(() => {
     // Opening another fragment link can keep this document and component alive.
@@ -33,7 +32,6 @@ export function Invitation({
       setToken(next)
       setDone(false)
       setExisting(false)
-      setSignedIn('')
       setError('')
     }
     window.addEventListener('hashchange', changed)
@@ -69,28 +67,7 @@ export function Invitation({
     }
   }
 
-  async function join() {
-    setBusy(true)
-    setError('')
-    try {
-      await createB2BClient(signedIn).invitations.join({ token })
-      accepted()
-    } catch (error) {
-      setError(errorMessage(error))
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function signedInSuccessfully() {
-    try {
-      setSignedIn((await b2bClient.me()).user.id)
-    } catch (error) {
-      setError(errorMessage(error))
-    }
-  }
-
-  if (existing && whiteLabel && !done) {
+  if (existing && !done) {
     return (
       <Shell
         name={context?.theme.brand.name}
@@ -117,7 +94,10 @@ export function Invitation({
                   token,
                   consent: true,
                 })
-                .then(accepted)
+                .then(() => {
+                  accepted()
+                  onAuthenticated()
+                })
                 .catch((error) => setError(errorMessage(error)))
                 .finally(() => setBusy(false))
             }}
@@ -145,25 +125,6 @@ export function Invitation({
     )
   }
 
-  if (existing && !signedIn && !done) {
-    return (
-      <Shell
-        name={context?.theme.brand.name}
-        logoUrl={context?.theme.brand.logoUrl}
-        eyebrow="BIENVENIDO"
-      >
-        <button className="text-button" onClick={() => setExisting(false)}>
-          Volver a la invitación
-        </button>
-        <Login
-          context={context}
-          onSignIn={b2bClient.auth.signIn}
-          onDone={() => void signedInSuccessfully()}
-        />
-      </Shell>
-    )
-  }
-
   return (
     <Shell
       name={context?.theme.brand.name}
@@ -181,18 +142,6 @@ export function Invitation({
             <a className="button primary" href="/app">
               Iniciar sesión
             </a>
-          </>
-        ) : signedIn ? (
-          <>
-            <p>Con tu cuenta actual, aceptá la invitación para sumarte a este gimnasio.</p>
-            <Notice error>{error}</Notice>
-            <button
-              className="button primary"
-              disabled={busy || !token}
-              onClick={() => void join()}
-            >
-              {busy ? 'Aceptando…' : 'Aceptar invitación con mi cuenta'}
-            </button>
           </>
         ) : (
           <form className="form-stack" onSubmit={submit}>

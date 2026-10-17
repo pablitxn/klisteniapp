@@ -1,3 +1,5 @@
+import { legacySupplementPreview, adoptLegacySupplement } from './catalog/legacy-adoption.ts';
+import { sessionBinding } from './sessions/binding.ts';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 import type { Pool, PoolClient } from 'pg';
@@ -27,7 +29,12 @@ import {
   type ProductServices,
 } from './product-context.ts';
 import type { OrganizationRoleV2, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2';
-import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
+import {
+  ProductEndpoints,
+  ProductBranchGrantSchema,
+  uniqueBy,
+  type ProductEndpoint,
+} from '@klisteniapp/b2b-contracts/product-v2';
 import type { PlanningServices } from './product-context.ts';
 import { createHealthServices } from './health/index.ts';
 import { createProductPlanning } from './product-composition.ts';
@@ -183,6 +190,9 @@ export class B2BService {
         routinePublications,
         routineVersion,
         routineSupplement,
+        legacySupplementPreview,
+        adoptLegacySupplement,
+        sessionBinding,
         workoutEquipment,
         legacyAssignments,
         enrollmentRevision,
@@ -723,6 +733,7 @@ export class B2BService {
     input?: { name: string; password: string },
     existingSession?: { userId: string; sessionId: string },
     domain?: DomainContext | null,
+    options?: { sessionPurpose: 'bound' | 'fresh-invitation-login' },
   ) {
     return this.transaction(async (db) => {
       const first = await db.query<{ organization_id: string }>(
@@ -737,8 +748,28 @@ export class B2BService {
         ])
       ).rows[0];
       if (domain) await requireActiveDomain(db, domain);
-      if (existingSession)
+      if (existingSession) {
         await this.requireSession(db, existingSession.userId, existingSession.sessionId);
+        if (options?.sessionPurpose === 'fresh-invitation-login') {
+          // Only the fresh password handler supplies this internal purpose.
+          if (
+            (
+              await db.query(
+                'SELECT 1 FROM b2b_session_context WHERE session_id=$1 UNION ALL SELECT 1 FROM b2b_unified_session_context WHERE session_id=$1',
+                [existingSession.sessionId],
+              )
+            ).rowCount
+          )
+            throw denied();
+        } else
+          await requireIdentityRealm(
+            db,
+            existingSession.userId,
+            existingSession.sessionId,
+            domain,
+            this.config.productUnified ? this.config.origin : undefined,
+          );
+      }
       if (!organizationDTO(org).serviceActive)
         throw new HttpError(
           402,
@@ -752,8 +783,9 @@ export class B2BService {
         product_role: OrganizationRoleV2;
         created_by: string;
         branch_id: string | null;
+        branch_grants: unknown;
       }>(
-        'SELECT id,email,role,product_role,created_by,branch_id FROM b2b_invitation WHERE token_hash=$1 AND used_at IS NULL AND expires_at>clock_timestamp() FOR UPDATE',
+        'SELECT id,email,role,product_role,created_by,branch_id,branch_grants FROM b2b_invitation WHERE token_hash=$1 AND used_at IS NULL AND expires_at>clock_timestamp() FOR UPDATE',
         [hashToken(token)],
       );
       const invitation = found.rows[0];
@@ -807,25 +839,45 @@ export class B2BService {
           'Ya pertenecés a este gimnasio. Un administrador puede gestionar tu acceso.',
         );
       await db.query("SELECT set_config('b2b.explicit_branch_scope','on',true)");
-      if (
-        invitation.branch_id &&
-        !(
-          await db.query(
-            "SELECT 1 FROM b2b_branch WHERE organization_id=$1 AND id=$2 AND status='active'",
-            [org.id, invitation.branch_id],
-          )
-        ).rowCount
-      )
-        throw missing();
+      const grants =
+        invitation.branch_grants === null
+          ? invitation.branch_id && invitation.role !== 'admin'
+            ? [{ branchId: invitation.branch_id, role: invitation.role, active: true }]
+            : []
+          : ProductBranchGrantSchema.array()
+              .refine((items) => uniqueBy(items, (item) => `${item.branchId}:${item.role}`))
+              .parse(invitation.branch_grants);
+      for (const grant of grants)
+        if (
+          !(
+            await db.query(
+              "SELECT 1 FROM b2b_branch WHERE organization_id=$1 AND id=$2 AND (NOT $3 OR status='active') FOR SHARE",
+              [org.id, grant.branchId, grant.active],
+            )
+          ).rowCount
+        )
+          throw missing();
       await db.query(
         'INSERT INTO b2b_membership(organization_id,user_id,role,product_role) VALUES($1,$2,$3,$4)',
         [org.id, userId, invitation.role, invitation.product_role],
       );
-      if (invitation.branch_id && invitation.role !== 'admin')
+      for (const grant of grants)
         await db.query(
-          'INSERT INTO b2b_branch_grant(organization_id,branch_id,user_id,role,active) VALUES($1,$2,$3,$4,true) ON CONFLICT DO NOTHING',
-          [org.id, invitation.branch_id, userId, invitation.role],
+          'INSERT INTO b2b_branch_grant(organization_id,branch_id,user_id,role,active) VALUES($1,$2,$3,$4,$5)',
+          [org.id, grant.branchId, userId, grant.role, grant.active],
         );
+      if (existingSession && options?.sessionPurpose === 'fresh-invitation-login') {
+        if (domain)
+          await db.query(
+            'INSERT INTO b2b_session_context(session_id,organization_id,domain_host,domain_generation) VALUES($1,$2,$3,$4)',
+            [existingSession.sessionId, domain.organizationId, domain.host, domain.generation],
+          );
+        else if (this.config.productUnified)
+          await db.query(
+            'INSERT INTO b2b_unified_session_context(session_id,origin) VALUES($1,$2)',
+            [existingSession.sessionId, this.config.origin],
+          );
+      }
       await db.query('UPDATE b2b_invitation SET used_at=now() WHERE id=$1', [invitation.id]);
       return { ok: true };
     });

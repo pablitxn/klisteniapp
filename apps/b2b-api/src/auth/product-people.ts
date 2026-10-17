@@ -210,27 +210,11 @@ export async function inviteProductMember(
   return productOperation(c, 'invitation.create', input, input.id, async () => {
     if (input.expectedRevision !== 0) throw conflict();
     await validateGrants(c, input.branchGrants);
-    const privileged = ['superadmin', 'admin'].includes(input.role);
-    // Frozen SQL stores one invitation branch. Reject unrepresentable grants;
-    // CONTRACT owns the additive multi-grant invitation amendment.
-    if (
-      privileged
-        ? input.branchGrants.length !== 0
-        : input.branchGrants.length !== 1 ||
-          input.branchGrants[0].branchId !== c.branchId ||
-          input.branchGrants[0].role !== input.role ||
-          !input.branchGrants[0].active
-    )
-      throw new HttpError(
-        400,
-        'INVALID_INPUT',
-        'La invitación requiere una función en la sede actual.',
-      );
     const token = randomBytes(32).toString('base64url');
     const expiresAt = new Date(Date.now() + 7 * 86400000);
     const created = await c.db.query(
       `INSERT INTO b2b_invitation(id,organization_id,email,name,role,product_role,token_hash,
-       expires_at,created_by,branch_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+       expires_at,created_by,branch_id,branch_grants) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,NULL,$10)
        ON CONFLICT(id) DO NOTHING RETURNING id`,
       [
         input.id,
@@ -242,7 +226,7 @@ export async function inviteProductMember(
         createHash('sha256').update(token).digest('hex'),
         expiresAt,
         c.actorId,
-        privileged ? null : c.branchId,
+        JSON.stringify(input.branchGrants),
       ],
     );
     if (!created.rowCount) throw conflict();

@@ -11,8 +11,13 @@ export const productRoleLabels: Record<OrganizationRoleV2, string> = {
   member: 'Socio',
 }
 export function creatableRoles(access: ProductAccess): OrganizationRoleV2[] {
-  if (access.accessMode !== 'active' || !access.capabilities.includes('manage-people')) return []
-  return access.capabilities.includes('manage-admins')
+  if (
+    access.accessMode !== 'active' ||
+    !['admin', 'superadmin'].includes(access.role) ||
+    !access.capabilities.includes('manage-people')
+  )
+    return []
+  return access.role === 'superadmin' && access.capabilities.includes('manage-admins')
     ? ['member', 'coach', 'admin', 'superadmin']
     : ['member', 'coach']
 }

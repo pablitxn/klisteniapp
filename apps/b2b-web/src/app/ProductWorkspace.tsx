@@ -1,6 +1,7 @@
+import { PeopleWorkspace } from '../features/people/PeopleWorkspace'
 import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { createProductV2Client, type ProductV2Client } from '@klisteniapp/b2b-client'
-import type { ProductOutput, OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2'
+import type { OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2'
 import { AccountProvider, useLoad } from '@klisteniapp/b2b-react'
 import { Shell } from '@klisteniapp/b2b-ui'
 import { doseLabel } from '../features/alternatives/alternativePresentation'
@@ -13,7 +14,7 @@ import { useApplication } from './ApplicationProvider'
 import { MembershipAccessBoundary } from '../features/membership/RestrictedMembership'
 import { personalExportDownload } from '../features/membership/trainingInterchange'
 import { ProgrammingPage } from '../features/programs/product/ProgrammingPage'
-import { ProductReportsPage } from '../features/reports/ProductReportsPage'
+import { ProductHistoryReportsPage } from '../features/reports/ProductReportsPage'
 import type { RoutineReference } from '../features/training/routine-history/model'
 import { HealthSettings } from '../features/health/HealthSettings'
 import type { HealthAccess } from '../features/health/healthAccess'
@@ -433,24 +434,17 @@ function Reports({
   context: HealthAccess
   onOpenRoutine: (r: RoutineReference) => void
 }) {
-  const roster = useLoad((signal) => createClient(signal).call('historySubjects', {}), accessKey)
   return (
-    <>
-      {roster.error && <p role="alert">{roster.error}</p>}
-      {roster.loading && <p role="status">Cargando personas autorizadas…</p>}
-      {roster.data && (
-        <ProductReportsPage
-          members={roster.data.members}
-          organizationId={context.organizationId}
-          branchId={context.branchId}
-          accessKey={accessKey}
-          createClient={createClient}
-          onOpenRoutine={onOpenRoutine}
-        />
-      )}
-    </>
+    <ProductHistoryReportsPage
+      organizationId={context.organizationId}
+      branchId={context.branchId}
+      accessKey={accessKey}
+      createClient={createClient}
+      onOpenRoutine={onOpenRoutine}
+    />
   )
 }
+
 function People({
   createClient,
   accessKey,
@@ -460,46 +454,7 @@ function People({
   accessKey: string
   context: HealthAccess
 }) {
-  const people = useLoad((signal) => createClient(signal).call('people', {}), accessKey)
-  const [error, setError] = useState(''),
-    [busy, setBusy] = useState(false)
-  const canManage = context.access?.capabilities.includes('manage-people')
-  async function change(member: ProductOutput<'people'>[number], active: boolean) {
-    setBusy(true)
-    setError('')
-    try {
-      await createClient().call('updateMember', {
-        memberId: member.userId,
-        operationId: crypto.randomUUID(),
-        expectedRevision: member.revision,
-        active,
-      })
-      people.reload()
-    } catch (e) {
-      if (!context.signal.aborted) setError(e instanceof Error ? e.message : 'No pudimos guardar.')
-    } finally {
-      if (!context.signal.aborted) setBusy(false)
-    }
-  }
-  return (
-    <section>
-      <h1>Personas del gimnasio</h1>
-      {(error || people.error) && <p role="alert">{error || people.error}</p>}
-      {people.data?.map((m) => (
-        <article className="card" key={m.userId}>
-          <h2>{m.name}</h2>
-          <p>
-            {m.role} · {m.active ? 'Activa' : 'Inactiva'}
-          </p>
-          {canManage && (
-            <button className="button" disabled={busy} onClick={() => void change(m, !m.active)}>
-              {m.active ? 'Desactivar membresía' : 'Reactivar membresía'}
-            </button>
-          )}
-        </article>
-      ))}
-    </section>
-  )
+  return <PeopleWorkspace createClient={createClient} accessKey={accessKey} context={context} />
 }
 
 function SharedHealth({

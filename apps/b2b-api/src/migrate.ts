@@ -12,6 +12,10 @@ import {
   PRODUCT_INVALIDATION_MIGRATION_ID,
 } from './product-invalidation-schema.ts';
 import { PRODUCT_REALM_SCHEMA, PRODUCT_REALM_MIGRATION_ID } from './product-realm-schema.ts';
+import {
+  PRODUCT_INVITATION_SCHEMA,
+  PRODUCT_INVITATION_MIGRATION_ID,
+} from './product-invitation-schema.ts';
 import { PRODUCT_SCHEMA, PRODUCT_MIGRATION_ID } from './product-schema.ts';
 import { PRODUCT_AUDIT_SCHEMA, PRODUCT_AUDIT_MIGRATION_ID } from './product-audit-schema.ts';
 import { enrichReviewedCatalog, REVIEWED_CATALOG_REVISION } from './catalog/reviewed-projection.ts';
@@ -103,6 +107,18 @@ export async function migrate(pool: Pool, auth: Auth) {
       await client.query(PRODUCT_INVALIDATION_SCHEMA);
       await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [
         PRODUCT_INVALIDATION_MIGRATION_ID,
+      ]);
+    }
+    if (
+      !(
+        await client.query('SELECT id FROM b2b_migration WHERE id=$1', [
+          PRODUCT_INVITATION_MIGRATION_ID,
+        ])
+      ).rowCount
+    ) {
+      await client.query(PRODUCT_INVITATION_SCHEMA);
+      await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [
+        PRODUCT_INVITATION_MIGRATION_ID,
       ]);
     }
     await client.query('COMMIT');

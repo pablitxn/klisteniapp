@@ -12,6 +12,9 @@ import {
   type HistoryScope,
   type RoutineReference,
 } from './model'
+import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
+import { loadRoutineHistory } from './historyReads'
+import { LegacyAssignments } from './LegacyAssignments'
 import { RoutineContinuity } from './RoutineContinuity'
 import { SessionHistory, type HistoryClientFactory } from './SessionHistory'
 import { OriginalRoutines } from './OriginalRoutines'
@@ -57,29 +60,9 @@ function ProductHistoryWorkspace({
   const [moveMessage, setMoveMessage] = useState('')
   const focusOccurrence = useRef<string | null>(null)
   const ownerKey = JSON.stringify([accessKey, scope])
-  const history = useLoad(
-    async (signal) => {
-      const client = createClient(signal)
-      const [continuity, records, assignments] = await Promise.all([
-        client.call('continuity', { memberId: scope.memberId }),
-        client.call('sessions', { memberId: scope.memberId }),
-        client.call('legacyAssignments', { memberId: scope.memberId }),
-      ])
-      if (!inScope(continuity, scope))
-        throw new Error('El historial no corresponde al contexto autorizado.')
-      const ids = [
-        ...new Set(
-          records.flatMap((r) =>
-            r.schemaVersion === 2 && r.origin.kind === 'occurrence' ? [r.origin.occurrenceId] : [],
-          ),
-        ),
-      ]
-      const linked = await Promise.all(ids.map((id) => client.call('occurrence', { id })))
-      return { continuity, records, assignments, linked }
-    },
-    ownerKey,
-    { refreshKey: refresh },
-  )
+  const history = useLoad((signal) => loadRoutineHistory(createClient(signal), scope), ownerKey, {
+    refreshKey: refresh,
+  })
   const plans = history.data
     ? enrollments(history.data.continuity).filter((item) => inScope(item, scope))
     : []
@@ -144,6 +127,9 @@ function ProductHistoryWorkspace({
               future: history.data.continuity.future.filter((item) => inScope(item, scope)),
             }}
             now={clock}
+            createClient={createClient}
+            accessKey={accessKey}
+            onOpenRoutine={onOpenRoutine}
           />
           {zone && weekStart && (
             <>
@@ -189,8 +175,22 @@ function ProductHistoryWorkspace({
               occurrences={weekly.data.occurrences}
               sessions={records}
               enrollments={plans}
+              occurrenceContexts={history.data.contexts}
               now={clock}
               onStartOccurrence={onStartOccurrence}
+              renderIssuedPeriod={(occurrence) => (
+                <EnrollmentPeriodDetails
+                  reference={{
+                    id: occurrence.enrollmentId,
+                    revision: occurrence.issuedEnrollmentRevision,
+                    stageId: occurrence.stageId,
+                  }}
+                  scope={scope}
+                  accessKey={accessKey}
+                  createClient={createClient}
+                  onOpenRoutine={onOpenRoutine}
+                />
+              )}
               canReschedule={
                 canReschedule &&
                 !history.loading &&
@@ -216,39 +216,26 @@ function ProductHistoryWorkspace({
               }}
             />
           )}
-          {onStartLegacy &&
-            history.data.assignments.map((a) => (
-              <p key={a.id}>
-                {a.name} · {a.active ? 'Asignación vigente' : 'Asignación anterior'}
-                {a.active && !a.archivedAt && (
-                  <button className="button" onClick={() => onStartLegacy(a)}>
-                    Abrir registro de {a.name}
-                  </button>
-                )}
-              </p>
-            ))}
+          <LegacyAssignments assignments={history.data.assignments} onStartLegacy={onStartLegacy} />
           <OriginalRoutines
             enrollments={plans}
             references={history.data.assignments.map((a) => a.routine)}
             records={records}
             occurrences={[
               ...(weekly.data?.occurrences ?? []),
-              ...(history.data?.linked.map((x) => x.occurrence) ?? []),
+              ...history.data.contexts.map((pair) => pair.occurrence),
             ]}
             onOpenRoutine={onOpenRoutine}
           />
           <SessionHistory
             records={records}
             scope={scope}
-            occurrences={[
-              ...(weekly.data?.occurrences ?? []),
-              ...(history.data?.linked.map((x) => x.occurrence) ?? []),
-            ]}
-            enrollments={[...plans, ...(history.data?.linked.map((x) => x.enrollment) ?? [])]}
+            occurrenceContexts={history.data.contexts}
             createClient={createClient}
             accessKey={accessKey}
             timeZone={zone}
             onEditSession={onEditSession}
+            onOpenRoutine={onOpenRoutine}
           />
         </>
       )}

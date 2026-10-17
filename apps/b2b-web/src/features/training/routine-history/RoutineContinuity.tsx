@@ -8,9 +8,24 @@ import {
   type Continuity,
 } from './model'
 
+import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
+import type { HistoryClientFactory } from './SessionHistory'
+
 const positions = { past: 'Etapa anterior', current: 'Etapa actual', future: 'Próxima etapa' }
 const weekdays = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
-export function RoutineContinuity({ continuity, now }: { continuity: Continuity; now: string }) {
+export function RoutineContinuity({
+  continuity,
+  now,
+  createClient,
+  accessKey,
+  onOpenRoutine,
+}: {
+  continuity: Continuity
+  now: string
+  createClient?: HistoryClientFactory
+  accessKey?: string
+  onOpenRoutine?: (routine: import('./model').RoutineReference) => void
+}) {
   const plans = enrollments(continuity)
   return (
     <section aria-label="Continuidad de la rutina">
@@ -22,7 +37,19 @@ export function RoutineContinuity({ continuity, now }: { continuity: Continuity;
         </p>
       )}
       {plans.map((enrollment) => (
-        <EnrollmentContinuity key={enrollment.id} enrollment={enrollment} now={now} />
+        <div key={enrollment.id}>
+          <EnrollmentContinuity enrollment={enrollment} now={now} />
+          {createClient && accessKey && (
+            <EnrollmentPeriodDetails
+              reference={{ id: enrollment.id, revision: enrollment.revision }}
+              scope={enrollment.scope}
+              accessKey={accessKey}
+              createClient={createClient}
+              onOpenRoutine={onOpenRoutine}
+              label={`Ver detalle del período vigente r${enrollment.revision}`}
+            />
+          )}
+        </div>
       ))}
       {continuity.unscheduledLegacyAssignmentIds.length > 0 && (
         <p>

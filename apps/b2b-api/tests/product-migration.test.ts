@@ -113,7 +113,7 @@ test(
       await migrate(pool, auth);
       const before = (await pool.query('SELECT * FROM b2b_migration ORDER BY id')).rows;
       await migrate(pool, auth);
-      assert.equal(before.length, 10);
+      assert.equal(before.length, 11);
       assert.deepEqual((await pool.query('SELECT * FROM b2b_migration ORDER BY id')).rows, before);
       assert.equal((await pool.query('SELECT * FROM b2b_occurrence')).rowCount, 0);
     }, false);
@@ -124,11 +124,28 @@ test(
   { skip: !databaseUrl },
   async () => {
     await fixture(async (pool, auth) => {
+      const oldInvitation = (
+        await pool.query(
+          'SELECT id,role,branch_id,token_hash,expires_at,used_at FROM b2b_invitation ORDER BY id',
+        )
+      ).rows;
       const before = await originals(pool),
         beforeHash = hash(before);
       await migrate(pool, auth);
       await migrate(pool, auth);
       assert.deepEqual(await originals(pool), before);
+      assert.deepEqual(
+        (
+          await pool.query(
+            'SELECT id,role,branch_id,token_hash,expires_at,used_at FROM b2b_invitation ORDER BY id',
+          )
+        ).rows,
+        oldInvitation,
+      );
+      assert.equal(
+        (await pool.query('SELECT branch_grants FROM b2b_invitation')).rows[0].branch_grants,
+        null,
+      );
       assert.equal(hash(await originals(pool)), beforeHash);
       assert.equal((await pool.query('SELECT id FROM b2b_branch')).rowCount, 4);
       assert.equal((await pool.query('SELECT * FROM b2b_platform_admin')).rowCount, 0);

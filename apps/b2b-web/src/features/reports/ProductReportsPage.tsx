@@ -1,3 +1,6 @@
+import { useLoad } from '@klisteniapp/b2b-react'
+import { loadHistorySubjects } from '../training/routine-history/historyReads'
+import type { RoutineReference } from '../training/routine-history/model'
 import { useState } from 'react'
 import type { ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
 import { ProductHistoryPage } from '../training/routine-history/ProductHistoryPage'
@@ -11,16 +14,14 @@ export function ProductReportsPage({
   createClient,
   onOpenRoutine,
 }: {
-  members: (ProductOutput<'historySubjects'>['members'][number] | ProductOutput<'people'>[number])[]
+  members: ProductOutput<'historySubjects'>['members']
   organizationId: string
   branchId: string
   accessKey: string
   createClient: HistoryClientFactory
-  onOpenRoutine?: import('../training/routine-history/model').RoutineReference extends infer T
-    ? (routine: T) => void
-    : never
+  onOpenRoutine?: (routine: RoutineReference) => void
 }) {
-  // This list is the authorized people response. Historical inactive targets remain selectable.
+  // This list is the branch-scoped historical-subject response. Historical inactive targets remain selectable.
   const [selected, setSelected] = useState('')
   const member = members.find((item) => item.userId === selected)
   return (
@@ -58,6 +59,39 @@ export function ProductReportsPage({
             onOpenRoutine={onOpenRoutine}
           />
         </section>
+      )}
+    </>
+  )
+}
+
+/** Optional owning-feature loader; INTEGRATION may replace its current root roster
+ * wrapper with this component without creating another provider. */
+export function ProductHistoryReportsPage(props: {
+  organizationId: string
+  branchId: string
+  accessKey: string
+  createClient: HistoryClientFactory
+  onOpenRoutine?: (routine: RoutineReference) => void
+}) {
+  const roster = useLoad(
+    (signal) => loadHistorySubjects(props.createClient(signal), props),
+    JSON.stringify([props.accessKey, props.organizationId, props.branchId]),
+  )
+  return (
+    <>
+      {roster.loading && <p role="status">Cargando personas autorizadas…</p>}
+      {roster.error && <p role="alert">{roster.error}</p>}
+      {roster.error && (
+        <button className="button" onClick={roster.reload}>
+          Reintentar personas
+        </button>
+      )}
+      {roster.data && !roster.error && (
+        <ProductReportsPage
+          key={JSON.stringify([props.accessKey, props.organizationId, props.branchId])}
+          {...props}
+          members={roster.data}
+        />
       )}
     </>
   )

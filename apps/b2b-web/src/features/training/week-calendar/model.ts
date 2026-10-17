@@ -1,3 +1,4 @@
+import type { OccurrenceContext } from '../routine-history/model.ts'
 import { isCompletionEligible } from '@klisteniapp/b2b-domain/schedule'
 import type {
   Enrollment,
@@ -22,19 +23,19 @@ export function weekDates(start: string): string[] {
 export function occurrenceState(
   occurrence: Occurrence,
   records: readonly SessionRecord[],
-  plans: readonly Enrollment[],
+  contexts: readonly OccurrenceContext[],
   closed: boolean,
 ) {
   if (occurrence.eligibility === 'cancelled') return 'excluded'
-  const eligible = linkedSessions(occurrence, records).filter(
-    (record) => actualEligibility(record, [occurrence], plans) === 'eligible',
-  )
+  const linked = linkedSessions(occurrence, records)
+  const eligible = linked.filter((record) => actualEligibility(record, contexts) === 'eligible')
   if (
     eligible.some(
       (record) => record.content.status === 'completed' && record.content.explicitCompletion,
     )
   )
     return 'completed'
+  if (linked.some((record) => actualEligibility(record, contexts) === 'unknown')) return 'unknown'
   if (eligible.some((record) => record.content.status === 'partial')) return 'partial'
   return closed ? 'missed' : 'pending'
 }
