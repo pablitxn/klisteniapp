@@ -14,6 +14,10 @@
   max-width: 100%;
   min-height: 44px;
 }
+/* Recovery controls keep every word visible within narrow workout containers. */
+.workout-session button {
+  white-space: normal;
+}
 .workout-fields {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));

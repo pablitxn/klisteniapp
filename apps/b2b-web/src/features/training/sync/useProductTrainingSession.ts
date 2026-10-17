@@ -62,6 +62,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     prescriptionContent(current.current?.binding?.prescription ?? prescription)
   const [document, setDocument] = useState<WorkoutDocument | null>(null)
   const [error, setError] = useState('')
+  const [validationError, setValidationError] = useState('')
   const [storageError, setStorageError] = useState('')
   const [closing, setClosing] = useState(false)
   const [closeError, setCloseError] = useState('')
@@ -155,6 +156,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     durableReady.current = false
     setDocument(null)
     setError('')
+    setValidationError('')
     setStorageError('')
     tasks.current = (async () => {
       try {
@@ -434,14 +436,22 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
   }, [error, busy, online, document, storageError, editable, integrationAccepted])
   async function save(complete: boolean | 'void') {
     if (!editable) return
+    let prepared = false
     await serialize(async () => {
       if (!current.current || !canEditWorkout(initial.scope, accessRef.current)) return
-      await persist({
-        ...current.current,
-        content: prepareWorkoutContent(current.current, currentPrescription(), complete),
-      })
+      let content: SessionContent
+      try {
+        content = prepareWorkoutContent(current.current, currentPrescription(), complete)
+      } catch (failure) {
+        // A rejected explicit intent must survive unrelated partial acknowledgements.
+        setValidationError(failure instanceof Error ? failure.message : String(failure))
+        return
+      }
+      await persist({ ...current.current, content })
+      setValidationError('')
+      prepared = true
     })
-    await synchronize()
+    if (prepared) await synchronize()
   }
   function recover(remote: SessionRevision, choice: 'server' | 'local', binding?: WorkoutBinding) {
     if (!editable) return
@@ -644,6 +654,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
     online,
     busy,
     error,
+    validationError,
     storageError,
     edit,
     save,
