@@ -126,22 +126,7 @@ export const test = base.extend<{ product: ProductFixture }>({
     const product = await fixtureMap(info)
     if (!product.featuresActivated)
       unavailable(info, `Real fixture phase ${product.phase} has product activation disabled`)
-    // Existing HTTP QA convention: cryptographic UUIDs only; this does not make a
-    // fictitious HTTP origin secure, alter TLS trust, or change cookie rules.
-    if (info.project.metadata.b2bProduct?.mode === 'white-label-http') {
-      await context.addInitScript(() => {
-        if (!crypto.randomUUID)
-          Object.defineProperty(crypto, 'randomUUID', {
-            value: () => {
-              const bytes = crypto.getRandomValues(new Uint8Array(16))
-              bytes[6] = (bytes[6]! & 15) | 64
-              bytes[8] = (bytes[8]! & 63) | 128
-              const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
-              return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
-            },
-          })
-      })
-    }
+    expect(context.browser()?.browserType().name()).toBe(info.project.use.browserName)
     await use(product)
   },
 })
@@ -571,19 +556,6 @@ export async function newPage(context: BrowserContext, info: TestInfo, timezoneI
     timezoneId,
     ignoreHTTPSErrors: false,
   })
-  if (info.project.metadata.b2bProduct?.mode === 'white-label-http')
-    await separate.addInitScript(() => {
-      if (!crypto.randomUUID)
-        Object.defineProperty(crypto, 'randomUUID', {
-          value: () => {
-            const bytes = crypto.getRandomValues(new Uint8Array(16))
-            bytes[6] = (bytes[6]! & 15) | 64
-            bytes[8] = (bytes[8]! & 63) | 128
-            const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
-            return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
-          },
-        })
-    })
   return { context: separate, page: await separate.newPage() }
 }
 export type Prescription = {
