@@ -92,7 +92,7 @@ test(scenarioTitle('B2BP-HEALTH-003'), async ({ page, context, product }, info) 
   await expect(permit).toBeDisabled()
   await expect(page.getByText(/incluidos quienes obtengan ese acceso en el futuro/)).toBeVisible()
   await expect(page.getByText(/No se limita a tu entrenador asignado/)).toBeVisible()
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const peer = await newPage(context, info),
     coach = principal(product, 'cover-coach')
   try {
@@ -120,7 +120,7 @@ test(scenarioTitle('B2BP-HEALTH-004'), async ({ page, context, product }, info) 
   const owner = principal(product)
   await login(page, owner, info)
   await importThroughUi(page, product, info, owner)
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const peer = await newPage(context, info),
     coach = principal(product, 'cover-coach')
   let release!: () => void
@@ -176,7 +176,7 @@ test(scenarioTitle('B2BP-HEALTH-005'), async ({ page, context, product }, info) 
   const owner = principal(product)
   await login(page, owner, info)
   const file = await importThroughUi(page, product, info, owner)
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const peer = await newPage(context, info),
     coach = principal(product, 'cover-coach')
   try {
@@ -296,11 +296,11 @@ test(scenarioTitle('B2BP-HEALTH-006'), async ({ page, context, product }, info) 
     activated = true
     await login(page, owner, info)
     await importThroughUi(page, product, info, owner)
-    await grantThroughUi(page)
+    await grantThroughUi(page, owner)
     await login(other.page, otherOwner, info)
     otherReady = true
     await importThroughUi(other.page, product, info, otherOwner)
-    await grantThroughUi(other.page)
+    await grantThroughUi(other.page, otherOwner)
     const atlasConsent = (await api(page, owner, 'healthConsents', {})).find(
       (c) => c.status === 'active' && c.scope.branchId === owner.branchId,
     )!
@@ -331,7 +331,7 @@ test(scenarioTitle('B2BP-HEALTH-006'), async ({ page, context, product }, info) 
     await expect(
       page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),
     ).toBeVisible()
-    await grantThroughUi(page)
+    await grantThroughUi(page, owner)
     const fresh = (await api(page, owner, 'healthConsents', {})).find(
       (c) => c.status === 'active' && c.scope.branchId === owner.branchId,
     )!
@@ -399,7 +399,7 @@ test(scenarioTitle('B2BP-HEALTH-010'), async ({ page, product }, info) => {
   await page.getByRole('button', { name: 'Actualizar datos y permisos', exact: true }).click()
   await expect(page.getByRole('alert')).toHaveCount(0)
   await importThroughUi(page, product, info, owner)
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   const revoke = page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true })
   const accepted = page.waitForResponse(
     (r) =>
@@ -433,7 +433,7 @@ test(scenarioTitle('B2BP-HEALTH-011'), async ({ page, product }, info) => {
   await expect(
     page.getByText(/No podemos recuperar datos que alguien ya haya visto o copiado/),
   ).toBeVisible()
-  await grantThroughUi(page)
+  await grantThroughUi(page, owner)
   await page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true }).click()
   await expect(
     page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),

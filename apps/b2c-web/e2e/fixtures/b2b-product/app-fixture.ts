@@ -7,7 +7,8 @@ import {
 } from '@playwright/test'
 import { get } from 'node:http'
 import { randomUUID } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { readFileSync, mkdirSync, existsSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import {
   ProductEndpoints,
   type ProductEndpoint,
@@ -181,6 +182,20 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.goto(`${origin}/app`)
   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)
   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')
+  // Keep the real 10/minute password guard. The timestamp contains no cookie,
+  // token or password and survives Playwright replacing a failed worker.
+  mkdirSync(info.project.outputDir, { recursive: true })
+  const pacePath = join(info.project.outputDir, `wp12-auth-pace-${info.project.name}.json`)
+  const previous = existsSync(pacePath) ? Number(JSON.parse(readFileSync(pacePath, 'utf8')).at) : 0
+  const wait = Math.max(0, previous + 7000 - Date.now())
+  if (wait) {
+    info.annotations.push({
+      type: 'auth-pacing',
+      description: 'Real password admission paced to preserve the unchanged 10/minute guard',
+    })
+    await new Promise((resolve) => setTimeout(resolve, Math.min(wait, 7000)))
+  }
+  writeFileSync(pacePath, JSON.stringify({ at: Date.now() }), { mode: 0o600 })
   const response = page.waitForResponse(
     (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
   )

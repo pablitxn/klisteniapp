@@ -164,6 +164,21 @@ test(scenarioTitle('B2BP-PROGRAMMING-009'), async ({ page, context, product }, i
   await open(page, product, info, 'programming')
   await page.getByRole('button', { name: `Editar ${initial.name}`, exact: true }).click()
   await page.getByLabel('Descripción de la rutina').fill('My conflicting unsaved work')
+  // Cross two previous 45-second stream lifetimes while retaining the actual
+  // unsaved editor. Polling also detects an early remount or dropped draft.
+  test.setTimeout(180_000)
+  const editorStarted = performance.now()
+  await expect
+    .poll(
+      async () => {
+        await expect(page.getByLabel('Descripción de la rutina')).toHaveValue(
+          'My conflicting unsaved work',
+        )
+        return performance.now() - editorStarted
+      },
+      { timeout: 110_000, intervals: [10_000] },
+    )
+    .toBeGreaterThan(91_000)
   const other = await newPage(context, info)
   try {
     const peer = principal(product, 'assigned-coach')

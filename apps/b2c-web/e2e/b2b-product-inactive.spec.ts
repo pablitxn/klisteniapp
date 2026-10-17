@@ -237,7 +237,7 @@ test(scenarioTitle('B2BP-INACTIVE-008'), async ({ page, context, product }, info
     await login(page, member, info)
     const accepted = await record(page, member, plan.routine, plan.occurrences[0]!)
     await importThroughUi(page, product, info, member)
-    await grantThroughUi(page)
+    await grantThroughUi(page, member)
     const consent = (await api(page, member, 'healthConsents', {})).find(
       (c) => c.status === 'active' && c.scope.branchId === member.branchId,
     )!
@@ -505,7 +505,7 @@ test(scenarioTitle('B2BP-INACTIVE-011'), async ({ page, context, product }, info
     await login(page, member, info)
     const actual = await record(page, member, plan.routine, plan.occurrences[0]!)
     await importThroughUi(page, product, info, member)
-    await grantThroughUi(page)
+    await grantThroughUi(page, member)
     expect(
       (await raw(coach.page, coach.who, 'consentedHealth', { memberId: member.actor.id })).ok(),
     ).toBe(true)
