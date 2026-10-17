@@ -175,7 +175,10 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
         <input
           value={d.content.performedAt}
           disabled={!session.editable}
-          onChange={(e) => void session.edit((c) => ({ ...c, performedAt: e.target.value }))}
+          onChange={(e) => {
+            const value = e.currentTarget.value
+            void session.edit((c) => ({ ...c, performedAt: value }))
+          }}
         />
       </Field>
       {props.routine.steps.map((step) => (
@@ -200,7 +203,10 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           maxLength={2000}
           value={d.content.notes}
           disabled={!session.editable}
-          onChange={(e) => void session.edit((c) => ({ ...c, notes: e.target.value }))}
+          onChange={(e) => {
+            const value = e.currentTarget.value
+            void session.edit((c) => ({ ...c, notes: value }))
+          }}
         />
       </Field>
       <Field label="Motivo de corrección">
@@ -208,7 +214,10 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           maxLength={1000}
           value={d.content.correctionReason}
           disabled={!session.editable}
-          onChange={(e) => void session.edit((c) => ({ ...c, correctionReason: e.target.value }))}
+          onChange={(e) => {
+            const value = e.currentTarget.value
+            void session.edit((c) => ({ ...c, correctionReason: value }))
+          }}
         />
       </Field>
       <p>
