@@ -142,7 +142,7 @@ test(
     const endChanges: ScheduleChange[] = [];
     await fixture(
       async (f) => {
-      f.time.now = Date.parse('2026-10-05T09:00:00Z');
+        f.time.now = Date.parse('2026-10-05T09:00:00Z');
         await publish(f);
         await seedLegacy(f);
         const schedule = goalContent();
