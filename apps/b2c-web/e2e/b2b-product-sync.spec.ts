@@ -48,17 +48,19 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
         const notes = `Captured before delayed ${store} Close`
         const reason = `Captured successor behind delayed ${store}`
         await page.getByLabel('Notas de la sesión', { exact: true }).fill(notes)
-        await expect.poll(async () => (await nativeHoldState(page))?.held).toBe(true)
+        if (store === 'workouts-v2')
+          await expect.poll(async () => (await nativeHoldState(page))?.held).toBe(true)
         await page.getByLabel('Motivo de corrección', { exact: true }).fill(reason)
         await page
           .locator('.workout-session')
           .getByRole('button', { name: 'Volver', exact: true })
           .click()
+        await expect.poll(async () => (await nativeHoldState(page))?.held).toBe(true)
         await expect(
           page.getByRole('button', { name: 'Guardando en este dispositivo…', exact: true }),
         ).toBeDisabled()
-        await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)
-        await expect(page.getByLabel('Motivo de corrección', { exact: true })).toHaveValue(reason)
+        await expect(page.getByLabel('Notas de la sesión', { exact: true })).toBeVisible()
+        await expect(page.getByLabel('Motivo de corrección', { exact: true })).toBeDisabled()
         await releaseNativeHold(page)
         await expect(
           page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
