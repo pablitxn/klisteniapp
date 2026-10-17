@@ -1,7 +1,8 @@
 import { BrandThemeProvider, Empty, Notice, Shell } from '@klisteniapp/b2b-ui'
-import { lazy, Suspense, useEffect, type MouseEvent } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useApplication } from './app/ApplicationProvider'
-import { compatiblePath, isWorkspaceRoute, resolveRoute } from './routes'
+import { compatiblePath, isWorkspaceRoute } from './routes'
+import { followApplicationLink } from './app/navigationLinks'
 
 const ProductWorkspace = lazy(() => import('./app/ProductWorkspace'))
 const Workspace = lazy(() => import('./app/Workspace'))
@@ -30,26 +31,6 @@ export default function App() {
         ? 'Gestión del gimnasio'
         : context?.theme.brand.name || 'Mi gimnasio'
   }, [href, route.kind, context, navigate])
-
-  function followLink(event: MouseEvent<HTMLDivElement>) {
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.ctrlKey ||
-      event.metaKey ||
-      event.shiftKey ||
-      event.altKey
-    )
-      return
-    const link = event.target instanceof Element ? event.target.closest('a') : null
-    if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
-    const url = new URL(link.href)
-    if (url.origin !== location.origin || resolveRoute(url.pathname).kind === 'notFound') return
-    // In-document anchors retain their native scrolling behavior.
-    if (url.pathname + url.search === location.pathname + location.search && url.hash) return
-    event.preventDefault()
-    navigate(url.pathname + url.search + url.hash)
-  }
 
   if (brand.loading)
     return (
@@ -91,6 +72,7 @@ export default function App() {
     ) : route.kind === 'invitation' ? (
       <Invitation
         context={context ?? undefined}
+        replaceLocation={(href) => navigate(href, true)}
         onAuthenticated={() => {
           void session.refresh()
           navigate('/app')
@@ -106,7 +88,7 @@ export default function App() {
       </Shell>
     )
   const content = (
-    <div onClick={followLink}>
+    <div onClick={(event) => followApplicationLink(event, href)}>
       <Suspense fallback={<p role="status">Cargando…</p>}>
         {session.bootstrap ? (
           <ProductWorkspace publicContent={isWorkspaceRoute(route) ? undefined : routeContent} />

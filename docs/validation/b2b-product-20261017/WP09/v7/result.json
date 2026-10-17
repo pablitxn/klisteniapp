@@ -1,0 +1,398 @@
+{
+  "runtime": {
+    "playwright": "1.63.0",
+    "chromium": "153.0.8010.12",
+    "sandbox": true,
+    "nativeInsecureHTTP": true,
+    "realIndexedDB": true
+  },
+  "apiRequests": 0,
+  "results": [
+    {
+      "case": "frozen-close-reproduction",
+      "lostReason": true,
+      "generation": 1,
+      "events": [
+        {
+          "event": "write-start",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "pointer-start",
+          "generation": 0
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 0
+        },
+        {
+          "event": "write-start",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-held"
+        },
+        {
+          "event": "closed"
+        },
+        {
+          "event": "write-released"
+        },
+        {
+          "event": "write-committed",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "case": "frozen-no-close-control",
+      "preserved": true,
+      "generation": 2
+    },
+    {
+      "case": "normal-double-close",
+      "width": 320,
+      "heldWrite": "first",
+      "generation": 2,
+      "closed": 1,
+      "selectionBeforeClose": true,
+      "events": [
+        {
+          "event": "write-start",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "pointer-start",
+          "generation": 0
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 0
+        },
+        {
+          "event": "write-start",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-held"
+        },
+        {
+          "event": "write-released"
+        },
+        {
+          "event": "write-committed",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-start",
+          "generation": 2,
+          "notes": "Notes entered before slow storage",
+          "reason": "Final reason entered before close"
+        },
+        {
+          "event": "write-committed",
+          "generation": 2,
+          "notes": "Notes entered before slow storage",
+          "reason": "Final reason entered before close"
+        },
+        {
+          "event": "pointer-start",
+          "generation": 2
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 2
+        },
+        {
+          "event": "closed"
+        }
+      ]
+    },
+    {
+      "case": "normal-double-close",
+      "width": 1440,
+      "heldWrite": "first",
+      "generation": 2,
+      "closed": 1,
+      "selectionBeforeClose": true,
+      "events": [
+        {
+          "event": "write-start",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "pointer-start",
+          "generation": 0
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 0
+        },
+        {
+          "event": "write-start",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-held"
+        },
+        {
+          "event": "write-released"
+        },
+        {
+          "event": "write-committed",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-start",
+          "generation": 2,
+          "notes": "Notes entered before slow storage",
+          "reason": "Final reason entered before close"
+        },
+        {
+          "event": "write-committed",
+          "generation": 2,
+          "notes": "Notes entered before slow storage",
+          "reason": "Final reason entered before close"
+        },
+        {
+          "event": "pointer-start",
+          "generation": 2
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 2
+        },
+        {
+          "event": "closed"
+        }
+      ]
+    },
+    {
+      "case": "normal-double-close",
+      "width": 320,
+      "heldWrite": "final",
+      "generation": 2,
+      "closed": 1,
+      "selectionBeforeClose": true,
+      "events": [
+        {
+          "event": "write-start",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "pointer-start",
+          "generation": 0
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 0
+        },
+        {
+          "event": "write-start",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-start",
+          "generation": 2,
+          "notes": "Notes entered before slow storage",
+          "reason": "Final reason entered before close"
+        },
+        {
+          "event": "write-held"
+        },
+        {
+          "event": "write-released"
+        },
+        {
+          "event": "write-committed",
+          "generation": 2,
+          "notes": "Notes entered before slow storage",
+          "reason": "Final reason entered before close"
+        },
+        {
+          "event": "pointer-start",
+          "generation": 2
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 2
+        },
+        {
+          "event": "closed"
+        }
+      ]
+    },
+    {
+      "case": "final-quota-failure-and-explicit-retry",
+      "retainedAndExported": true,
+      "closedOnlyAfterRetry": true
+    },
+    {
+      "case": "first-write-failure-retains-later-captured-edit",
+      "retryGeneration": 1,
+      "closedOnlyAfterRetry": true
+    },
+    {
+      "case": "CAS-conflict",
+      "noOverwrite": true,
+      "noFalseClose": true,
+      "localExportRetained": true
+    },
+    {
+      "case": "slow-selection",
+      "closedAfterDurableSelection": true
+    },
+    {
+      "case": "selection-failure-and-retry",
+      "closedAfterDurableSelection": true
+    },
+    {
+      "case": "slow-initial-selection",
+      "queuedEditsPreserved": true
+    },
+    {
+      "case": "rapid-repeated-edits",
+      "generation": 4,
+      "closed": 1,
+      "operationBytesUnchanged": true
+    },
+    {
+      "case": "revoke-during-flush",
+      "closed": 0,
+      "privateUIHidden": true,
+      "staleWrites": 0,
+      "events": [
+        {
+          "event": "write-start",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "pointer-start",
+          "generation": 0
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 0
+        },
+        {
+          "event": "write-start",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-held"
+        },
+        {
+          "event": "write-released"
+        }
+      ]
+    },
+    {
+      "case": "switchAccount-during-flush",
+      "closed": 0,
+      "privateUIHidden": true,
+      "staleWrites": 0,
+      "events": [
+        {
+          "event": "write-start",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "write-committed",
+          "generation": 0,
+          "notes": "",
+          "reason": ""
+        },
+        {
+          "event": "pointer-start",
+          "generation": 0
+        },
+        {
+          "event": "pointer-committed",
+          "generation": 0
+        },
+        {
+          "event": "write-start",
+          "generation": 1,
+          "notes": "Notes entered before slow storage",
+          "reason": ""
+        },
+        {
+          "event": "write-held"
+        },
+        {
+          "event": "write-released"
+        }
+      ]
+    },
+    {
+      "case": "network-never-resolves",
+      "localCloseSucceeded": true,
+      "operationBytesUnchanged": true
+    }
+  ],
+  "fullApplicationOrAuthorizationAcceptance": false
+}

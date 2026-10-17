@@ -1,0 +1,10 @@
+file:///harness/run.mjs:13
+async function until(page,what,predicate,label){let last;const end=Date.now()+12000;while(Date.now()<end){last=await page.evaluate(what);if(predicate(last))return last;await new Promise(r=>setTimeout(r,25))}throw Error(label+': '+JSON.stringify(last))}
+                                                                                                                                                                                                                     ^
+
+Error: first held: {"ready":true,"held":false,"pointerHeld":false,"closed":0,"events":[{"event":"pointer-start","generation":1},{"event":"pointer-committed","generation":1}],"writeAttempts":0,"networkRequests":0}
+    at until (file:///harness/run.mjs:13:214)
+    at async editPair (file:///harness/run.mjs:16:153)
+    at async file:///harness/run.mjs:30:91
+
+Node.js v24.18.0

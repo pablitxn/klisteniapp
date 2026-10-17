@@ -1,0 +1,7 @@
+cp -a /tmp/klisteni-close-proof-v6/driver-playwright-core /tmp/b2b-route-browser-setup/driver-playwright-core
+PLAYWRIGHT_BROWSERS_PATH=/tmp/b2b-route-browser-setup/browsers node /tmp/b2b-route-browser-setup/driver-playwright-core/cli.js install chromium > /tmp/b2b-route-browser-setup/install.log 2>&1
+# Public runtime assets require read/traverse access by image user pwuser (UID 1001).
+chmod -R a+rX /tmp/b2b-route-browser-setup/browsers
+chmod 755 /tmp/b2b-route-browser-setup
+chmod 644 /tmp/b2b-route-browser-setup/runtime-smoke.mjs
+/tmp/b2b-route-browser-setup/run-runtime-smoke.sh > /tmp/b2b-route-browser-setup/runtime-smoke.log 2>&1

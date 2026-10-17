@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import type { ProductV2Client } from '@klisteniapp/b2b-client'
 import { AssignmentSchema } from '@klisteniapp/b2b-contracts/training'
 import { useLoad } from '@klisteniapp/b2b-react'
 import type { HealthAccess } from '../features/health/healthAccess'
 import { ProductHistoryPage } from '../features/training/HistoryPage'
 import { ProductTrainingSession } from '../features/training/Session'
+import type { FlushLocalWorkout } from '../features/training/sync/localWorkoutFlush'
 import { createWorkoutClient } from '../features/training/sync/workoutClient'
 import type { WorkoutScope, WorkoutDocument } from '../features/training/storage/workoutStore'
 import type { WorkoutRecoveryStore } from '../features/training/storage/recoverySelection'
@@ -30,6 +31,7 @@ export function ProductWorkoutHistory({
   recoveryContext,
   recoverable,
   onOpenRoutine,
+  registerLocalFlush,
 }: {
   context: HealthAccess
   createClient: (signal?: AbortSignal) => ProductV2Client
@@ -38,8 +40,10 @@ export function ProductWorkoutHistory({
   recoverable: WorkoutDocument | null
   onSelected: (selection: SelectedRecovery) => void | Promise<void>
   onOpenRoutine: (r: RoutineReference) => void
+  registerLocalFlush?: (flush: FlushLocalWorkout) => void | (() => void)
 }) {
   const [selection, setSelection] = useState<WorkoutSelection | null>(null)
+  const [visit, setVisit] = useState(0)
   const [legacyAssignment, setLegacyAssignment] = useState<LegacyWorkoutAssignment | null>(null)
   function edit(record: SessionRecord) {
     if (record.schemaVersion === 1) {
@@ -62,14 +66,16 @@ export function ProductWorkoutHistory({
   }
   return selection ? (
     <SelectedWorkout
-      key={JSON.stringify([selection.origin, selection.id])}
+      key={JSON.stringify([selection.origin, selection.id, visit])}
       context={context}
       createClient={createClient}
       store={store}
       selection={selection}
       onClose={() => setSelection(null)}
+      onRestart={() => setVisit((value) => value + 1)}
       onSelected={onSelected}
       recoveryContext={recoveryContext}
+      registerLocalFlush={registerLocalFlush}
     />
   ) : legacyAssignment ? (
     <LegacyEntry
@@ -131,17 +137,54 @@ function SelectedWorkout({
   store,
   selection,
   onClose,
+  onRestart,
   onSelected,
   recoveryContext,
+  registerLocalFlush,
 }: {
   context: HealthAccess
   createClient: (signal?: AbortSignal) => ProductV2Client
   store: WorkoutRecoveryStore
   selection: WorkoutSelection
   onClose: () => void
+  onRestart: () => void
+  registerLocalFlush?: (flush: FlushLocalWorkout) => void | (() => void)
   recoveryContext: WorkoutRecoveryContext
   onSelected: (selection: SelectedRecovery) => void | Promise<void>
 }) {
+  const localFlush = useRef<FlushLocalWorkout | null>(null)
+  const departure = useRef<Promise<void> | null>(null)
+  const [departureError, setDepartureError] = useState('')
+  const bindLocalFlush = useCallback(
+    (flush: FlushLocalWorkout) => {
+      localFlush.current = flush
+      const unregister = registerLocalFlush?.(flush)
+      return () => {
+        if (localFlush.current === flush) localFlush.current = null
+        unregister?.()
+      }
+    },
+    [registerLocalFlush],
+  )
+  function restartAfterLocalFlush() {
+    if (departure.current) return departure.current
+    const flush = localFlush.current
+    departure.current = (async () => {
+      try {
+        await flush?.()
+        if (context.signal.aborted || localFlush.current !== flush) return
+        onRestart()
+      } catch {
+        if (!context.signal.aborted)
+          setDepartureError(
+            'No pudimos conservar todos los cambios locales. Reintentá desde la sesión o exportá tu trabajo.',
+          )
+      } finally {
+        departure.current = null
+      }
+    })()
+    return departure.current
+  }
   const io = useMemo(() => createWorkoutClient(createClient), [createClient])
   const [skipUnbound, setSkipUnbound] = useState(false)
   const loaded = useLoad(
@@ -173,16 +216,22 @@ function SelectedWorkout({
   ]
   return (
     <section>
+      {departureError && <p role="alert">{departureError}</p>}
       {loaded.loading && <p role="status">Cargando tu prescripción emitida y acceso actual…</p>}
       {loaded.error && (
         <>
           <p role="alert">{loaded.error}</p>
-          <button className="button" onClick={loaded.reload}>
+          <button
+            className="button"
+            onClick={workout ? () => void restartAfterLocalFlush() : loaded.reload}
+          >
             Volver a consultar
           </button>
-          <button className="button" onClick={onClose}>
-            Volver al historial
-          </button>
+          {!workout && (
+            <button className="button" onClick={onClose}>
+              Volver al historial
+            </button>
+          )}
         </>
       )}
       {loaded.data?.kind === 'unbound' && (
@@ -199,7 +248,7 @@ function SelectedWorkout({
           {workout.offline && (
             <p role="status">
               Abrimos la prescripción conservada en este dispositivo. Los envíos siguen suspendidos.
-              <button className="button" onClick={loaded.reload}>
+              <button className="button" onClick={() => void restartAfterLocalFlush()}>
                 Volver a validar la conexión
               </button>
             </p>
@@ -234,6 +283,8 @@ function SelectedWorkout({
               !workout.offline && context.access?.accessMode === 'active' && !context.signal.aborted
             }
             onDocumentReady={(document) => onSelected({ scope: document.scope, id: document.id })}
+            contextSignal={context.signal}
+            registerLocalFlush={bindLocalFlush}
             onClose={onClose}
             loadRemote={async () => {
               const binding = await io.sessionBinding(workout!.initial.id, context.signal)
