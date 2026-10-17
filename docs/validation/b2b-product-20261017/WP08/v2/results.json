@@ -1,0 +1,159 @@
+{
+  "package": "WP08",
+  "amendment": 2,
+  "date": "2026-10-17",
+  "status": "owned-historical-detail-implementation-ready-composed-QA-pending",
+  "sourceHead": "346efab0c08ed28b19d2ea030e04f424641241b7",
+  "dependency": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+  "dependencySource": "9c9f1929fcc1fe203bdae86f7dfbd14f7e406614",
+  "composedTree": "11ac37a4ea9cc0cfb0c5575fb8a771a6ed61972f",
+  "toolchain": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgres": "17.11",
+    "frozenInstall": true
+  },
+  "tests": {
+    "focused": {
+      "tests": 40,
+      "pass": 40,
+      "fail": 0,
+      "skipped": 0
+    },
+    "web-tests": {
+      "tests": 204,
+      "pass": 204,
+      "fail": 0,
+      "skipped": 0
+    },
+    "contracts": {
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0
+    },
+    "domain": {
+      "tests": 34,
+      "pass": 34,
+      "fail": 0,
+      "skipped": 0
+    },
+    "client": {
+      "tests": 27,
+      "pass": 27,
+      "fail": 0,
+      "skipped": 0
+    },
+    "api": {
+      "tests": 232,
+      "pass": 232,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "focusedCasesIncludedInWebTotal": true,
+  "newFocusedCases": 19,
+  "static": {
+    "typecheck": {
+      "passed": 14,
+      "total": 14,
+      "cacheHits": 6
+    },
+    "lint": {
+      "passed": 14,
+      "total": 14,
+      "cacheHits": 7
+    },
+    "boundary": "passed",
+    "fullB2BFormatting": "passed",
+    "buildB2B": "passed; existing large-chunk warning"
+  },
+  "apiInitialDiagnostic": {
+    "tests": 232,
+    "passed": 202,
+    "failed": 30,
+    "skipped": 0,
+    "reason": "Existing fixture guard requires exact disposable database basename klisteni_b2b_test",
+    "repair": "Create that new database inside the same task-owned ephemeral container and rerun full suite; no assertion/guard/source change",
+    "log": "api-db-name-diagnostic.log"
+  },
+  "database": {
+    "onlyNewTaskContainer": true,
+    "synthetic": true,
+    "loopbackOnly": true,
+    "containerRemoved": true
+  },
+  "scope": {
+    "ownedSourceTestsAmended": 18,
+    "sharedSourceEdits": false,
+    "v1EvidenceUnchanged": true,
+    "rootBindingPatch": "apply-check only; not applied or tested"
+  },
+  "browser": {
+    "executed": 0,
+    "passed": 0,
+    "skipsInvented": false,
+    "owner": "QA; cross-feature matrix and final combined head"
+  },
+  "remaining": [
+    "INTEGRATION accepts incremental owned patch and optional exact root roster patch",
+    "QA browser/mobile/keyboard/touch/delayed-response/current-context acceptance on final composed head",
+    "Trusted HTTPS/Secure-cookie and physical acceptance remain separate",
+    "Legacy adoption/recovery and people/audit scope remains with existing owners"
+  ],
+  "logNormalization": "terminal escapes and trailing whitespace/final blank lines only",
+  "logs": {
+    "install.log": {
+      "rawSha256": "cc8362e35a26fb32d8404dcc4896621c5d14a0424cff92d5dcb67f38d5d3bbc0",
+      "normalizedSha256": "cc8362e35a26fb32d8404dcc4896621c5d14a0424cff92d5dcb67f38d5d3bbc0"
+    },
+    "focused.log": {
+      "rawSha256": "9bfd1ce8dc60dc0a9498a04886641f42d3a948f91034ae820d52eab865d512e7",
+      "normalizedSha256": "9bfd1ce8dc60dc0a9498a04886641f42d3a948f91034ae820d52eab865d512e7"
+    },
+    "web-tests.log": {
+      "rawSha256": "a4db8422f8427bb84a146bfebbaa8b88bf008a8e6d03e352a422d2dda6a9f6c8",
+      "normalizedSha256": "a4db8422f8427bb84a146bfebbaa8b88bf008a8e6d03e352a422d2dda6a9f6c8"
+    },
+    "contracts.log": {
+      "rawSha256": "9860d5bcb1f047a75687eaa396792329fdee0eb214840753a9cad8a6fd51fb31",
+      "normalizedSha256": "9860d5bcb1f047a75687eaa396792329fdee0eb214840753a9cad8a6fd51fb31"
+    },
+    "domain.log": {
+      "rawSha256": "ac9d39baa8a3ceef857f8883fcd4bb9ed880c2b6b675fd104d4a8e0bc89073fd",
+      "normalizedSha256": "ac9d39baa8a3ceef857f8883fcd4bb9ed880c2b6b675fd104d4a8e0bc89073fd"
+    },
+    "client.log": {
+      "rawSha256": "9e079dd8134f23c9e9a8ef1cdfaad62484b4062de18c76007ea34c7c929dea1f",
+      "normalizedSha256": "9e079dd8134f23c9e9a8ef1cdfaad62484b4062de18c76007ea34c7c929dea1f"
+    },
+    "api.log": {
+      "rawSha256": "75f6434f89ee95b04370ab316ec659f473c2828a4669c59845b5cced7044e399",
+      "normalizedSha256": "75f6434f89ee95b04370ab316ec659f473c2828a4669c59845b5cced7044e399"
+    },
+    "api-db-name-diagnostic.log": {
+      "rawSha256": "0dba81004c4f0dbaee62d1d9da28554854121ade686393ba73bf4f95a39201f0",
+      "normalizedSha256": "912aaffcc06c970fa0a07dceff0688a7f5fcab8fd5342f65e03b1ad4b68774f8"
+    },
+    "typecheck.log": {
+      "rawSha256": "d938e0ef655d88dda7c83267e93686f9b1281e2064b85d95b851d76e5a934e92",
+      "normalizedSha256": "ed93d001e6b1bd75fa0e0635caf4425fc9b8d859a2fa5a1a166628b469cefd74"
+    },
+    "lint.log": {
+      "rawSha256": "2fed4028e1f3582b998255c40c32b96b4b7c82c0bda78755f7a1ae0ebdff8bc9",
+      "normalizedSha256": "7cba41da9e99e79d488a4bfca9239b9cb770752b3d7b1612e3f9ab67fb97d73c"
+    },
+    "build.log": {
+      "rawSha256": "8145bde035bd50f59c036e95bd17897f92e39564edb88b1030b7e46250da6bb1",
+      "normalizedSha256": "57d4e085687f56839c37cc719b32204cc46ba31e8a8aab8761204308076fc99d"
+    },
+    "identity.log": {
+      "rawSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212",
+      "normalizedSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212"
+    },
+    "commits.log": {
+      "rawSha256": "ff10bd3268f5eb237f6d33ad0b0c2a08d50cdc8ca32968f40abc4742e4be605e",
+      "normalizedSha256": "ff10bd3268f5eb237f6d33ad0b0c2a08d50cdc8ca32968f40abc4742e4be605e"
+    }
+  }
+}

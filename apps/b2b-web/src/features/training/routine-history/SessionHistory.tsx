@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLoad } from '@klisteniapp/b2b-react'
-import type { Enrollment, Occurrence } from '@klisteniapp/b2b-contracts/product-v2'
+import { contextForRecord, type OccurrenceContext } from './model'
+import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
 import type { ProductV2Client } from '@klisteniapp/b2b-client'
 import { executionDoseLabel, prescriptionDoseLabel } from '@klisteniapp/b2b-ui'
 import {
@@ -30,62 +31,94 @@ const eligibility = {
 export function SessionHistory({
   records,
   scope,
-  occurrences,
-  enrollments,
+  occurrenceContexts,
   createClient,
   accessKey,
   timeZone,
   onEditSession,
+  onOpenRoutine,
 }: {
   records: SessionRecord[]
   scope: HistoryScope
-  occurrences: Occurrence[]
-  enrollments: Enrollment[]
+  occurrenceContexts: OccurrenceContext[]
   createClient: HistoryClientFactory
   accessKey: string
   timeZone: string | null
   onEditSession?: (record: SessionRecord) => void
+  onOpenRoutine?: (routine: import('./model').RoutineReference) => void
 }) {
   const latest = latestSessions(records, scope)
   return (
     <section aria-label="Sesiones realizadas">
       <h2>Lo que hiciste, por fecha</h2>
       {!latest.length && <p>Todavía no hay registros aceptados.</p>}
-      {latest.map((record) => (
-        <article
-          className="card"
-          id={sessionAnchor(record)}
-          key={sessionId(record)}
-          style={{ marginBottom: 20, overflowWrap: 'anywhere' }}
-        >
-          <h3>
-            {timeZone ? dateInZone(performedAt(record), timeZone) : performedAt(record)} ·{' '}
-            {statuses[record.schemaVersion === 1 ? record.original.status : record.content.status]}
-          </h3>
-          <p>
-            <time dateTime={performedAt(record)}>{performedAt(record)}</time>
-            {timeZone && ` · fecha local en ${timeZone}`}
-          </p>
-          <p>
-            <a href={`#${routineAnchor(routineReference(record))}`}>
-              Ver rutina original {routineKey(routineReference(record))}
-            </a>
-          </p>
-          <p>{eligibility[actualEligibility(record, occurrences, enrollments)]}</p>
-          <SessionActuals record={record} />
-          {onEditSession && (
-            <button className="button" onClick={() => onEditSession(record)}>
-              Editar mi registro
-            </button>
-          )}
-          <RevisionHistory
-            record={record}
-            createClient={createClient}
-            accessKey={accessKey}
-            scope={scope}
-          />
-        </article>
-      ))}
+      {latest.map((record) => {
+        const pair = contextForRecord(record, occurrenceContexts)
+        const displayZone = pair?.occurrence.originalWeek.timeZone ?? timeZone
+        return (
+          <article
+            className="card"
+            id={sessionAnchor(record)}
+            key={sessionId(record)}
+            style={{ marginBottom: 20, overflowWrap: 'anywhere' }}
+          >
+            <h3>
+              {displayZone ? dateInZone(performedAt(record), displayZone) : performedAt(record)} ·{' '}
+              {
+                statuses[
+                  record.schemaVersion === 1 ? record.original.status : record.content.status
+                ]
+              }
+            </h3>
+            <p>
+              <time dateTime={performedAt(record)}>{performedAt(record)}</time>
+              {displayZone && ` · fecha local en ${displayZone}`}
+            </p>
+            <p>
+              <a href={`#${routineAnchor(routineReference(record))}`}>
+                Ver rutina original {routineKey(routineReference(record))}
+              </a>
+            </p>
+            <p>{eligibility[actualEligibility(record, occurrenceContexts)]}</p>
+            {pair && (
+              <>
+                <p>
+                  Turno original {pair.occurrence.id} · fecha original{' '}
+                  {pair.occurrence.originalDate} · fecha vigente {pair.occurrence.scheduledDate} ·
+                  calendario r{pair.occurrence.revision} · período vigente r
+                  {pair.enrollment.revision}
+                </p>
+                {pair.occurrence.cancellationReason && (
+                  <p>Motivo de exclusión: {pair.occurrence.cancellationReason}</p>
+                )}
+                <EnrollmentPeriodDetails
+                  reference={{
+                    id: pair.occurrence.enrollmentId,
+                    revision: pair.occurrence.issuedEnrollmentRevision,
+                    stageId: pair.occurrence.stageId,
+                  }}
+                  scope={scope}
+                  accessKey={accessKey}
+                  createClient={createClient}
+                  onOpenRoutine={onOpenRoutine}
+                />
+              </>
+            )}
+            <SessionActuals record={record} />
+            {onEditSession && (
+              <button className="button" onClick={() => onEditSession(record)}>
+                Editar mi registro
+              </button>
+            )}
+            <RevisionHistory
+              record={record}
+              createClient={createClient}
+              accessKey={accessKey}
+              scope={scope}
+            />
+          </article>
+        )
+      })}
     </section>
   )
 }

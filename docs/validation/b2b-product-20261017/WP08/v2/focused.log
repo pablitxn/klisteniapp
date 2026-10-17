@@ -1,0 +1,48 @@
+✔ today follows each enrollment timezone across device day and DST boundaries (59.461356ms)
+✔ inclusive past, current, future and gap states preserve stage order (44.557215ms)
+✔ latest corrections replace legacy projections without changing original IDs or version links (87.561966ms)
+✔ foreign tenant, branch and member records never enter history, including duplicate IDs (14.888978ms)
+✔ period moves retain actual work and original lineage while excluding its former week (29.805138ms)
+✔ cancelled work stays excluded and an unloaded occurrence is unknown rather than missed (1.991228ms)
+✔ an accepted same-week override remains eligible beyond the original midweek stage end (11.328838ms)
+✔ range prescription and actual scalar values are displayed independently with explicit units (0.966952ms)
+✔ history reads retain an unexecuted retired assignment and fetch each linked occurrence once outside any loaded week (542.902182ms)
+✔ atomic paired current enrollment wins over an earlier continuity snapshot in the same week (12.536305ms)
+✔ inclusion also preserves the paired enrollment when independently loaded continuity is newer (2.759136ms)
+✔ cancelled linked work remains excluded, with its original IDs and reason retained (12.09454ms)
+✔ legacy-only and unexecuted histories never invent an occurrence or a scheduled absence (11.158424ms)
+✔ history loader rejects a foreign organizationId before asking for its occurrence (5.553795ms)
+✔ atomic pair rejects a foreign enrollment organizationId (2.647931ms)
+✔ history loader rejects a foreign branchId before asking for its occurrence (9.182959ms)
+✔ atomic pair rejects a foreign enrollment branchId (2.272285ms)
+✔ history loader rejects a foreign memberId before asking for its occurrence (35.180619ms)
+✔ atomic pair rejects a foreign enrollment memberId (7.948622ms)
+✔ an atomic pair with a different enrollment or original routine version fails closed (22.233195ms)
+✔ issued period reads use occurrence enrollment revision rather than issued goal revision or current period (2.72852ms)
+✔ issued period detail rejects another revision, scope, enrollment and missing original stage (14.385724ms)
+✔ inactive historical subjects use the scoped history endpoint and never people or health (13.382879ms)
+✔ revoked linked reads reject the entire projection; departed context makes no new request (33.186065ms)
+✔ continuity renders current stage in enrollment timezone and tells gaps truthfully (93.17295ms)
+✔ routine and dated actual rendering have both directions of stable original links after period removal (57.51953ms)
+✔ actual detail retains unused segments, units and correction attribution without substitution metrics (8.217869ms)
+✔ legacy actual rendering preserves ID, values, notes and unplanned status (8.757439ms)
+✔ calendar renders four/three/one, same-day slots and keyboard form with seven same-week options (11.805242ms)
+✔ read-only report calendar has no move form and lists inactive people (6.195154ms)
+✔ actual period affordance uses the issued enrollment revision and keeps paired timezone and moved linkage (13.733618ms)
+✔ issued period snapshot shows its own immutable objective, stage dates, issuer and goal revision separately (1.855648ms)
+✔ retired unexecuted legacy assignments remain readable in staff history without a start callback (0.637394ms)
+✔ Monday to Sunday uses seven calendar days across short and long DST weeks (1.596083ms)
+✔ same-week move sends only stable identity, CAS revision, operation and date (44.900352ms)
+✔ pending, partial, completed, missed and excluded remain distinct (14.871853ms)
+✔ two same-day slots remain independent; repeated completed records do not fill another occurrence (10.421263ms)
+✔ move controls exclude completed, cancelled, ended and foreign enrollment work (4.048104ms)
+✔ server four/three/one summary stays authoritative; a watermark alone does not claim late correction (8.777999ms)
+✔ real product client preserves exact move payload and frozen structured conflict (164.487444ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3794.363646

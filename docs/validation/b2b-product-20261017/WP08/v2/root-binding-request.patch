@@ -1,0 +1,44 @@
+--- a/apps/b2b-web/src/app/ProductWorkspace.tsx
++++ b/apps/b2b-web/src/app/ProductWorkspace.tsx
+@@ -13,7 +13,7 @@
+ import { MembershipAccessBoundary } from '../features/membership/RestrictedMembership'
+ import { personalExportDownload } from '../features/membership/trainingInterchange'
+ import { ProgrammingPage } from '../features/programs/product/ProgrammingPage'
+-import { ProductReportsPage } from '../features/reports/ProductReportsPage'
++import { ProductHistoryReportsPage } from '../features/reports/ProductReportsPage'
+ import type { RoutineReference } from '../features/training/routine-history/model'
+ import { HealthSettings } from '../features/health/HealthSettings'
+ import type { HealthAccess } from '../features/health/healthAccess'
+@@ -433,24 +433,17 @@
+   context: HealthAccess
+   onOpenRoutine: (r: RoutineReference) => void
+ }) {
+-  const roster = useLoad((signal) => createClient(signal).call('historySubjects', {}), accessKey)
+   return (
+-    <>
+-      {roster.error && <p role="alert">{roster.error}</p>}
+-      {roster.loading && <p role="status">Cargando personas autorizadas…</p>}
+-      {roster.data && (
+-        <ProductReportsPage
+-          members={roster.data.members}
+-          organizationId={context.organizationId}
+-          branchId={context.branchId}
+-          accessKey={accessKey}
+-          createClient={createClient}
+-          onOpenRoutine={onOpenRoutine}
+-        />
+-      )}
+-    </>
++    <ProductHistoryReportsPage
++      organizationId={context.organizationId}
++      branchId={context.branchId}
++      accessKey={accessKey}
++      createClient={createClient}
++      onOpenRoutine={onOpenRoutine}
++    />
+   )
+ }
++
+ function People({
+   createClient,
+   accessKey,

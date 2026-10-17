@@ -1,3 +1,4 @@
+import { isCompletionEligible } from '@klisteniapp/b2b-domain/schedule'
 import type {
   Dose,
   Enrollment,
@@ -5,6 +6,27 @@ import type {
   ProductOutput,
   SessionRevision,
 } from '@klisteniapp/b2b-contracts/product-v2'
+
+export type OccurrenceContext = ProductOutput<'occurrence'>
+export function contextForRecord(
+  record: SessionRecord,
+  contexts: readonly OccurrenceContext[],
+): OccurrenceContext | null {
+  if (record.schemaVersion === 1 || record.origin.kind === 'legacy') return null
+  const id = record.origin.occurrenceId
+  const pair = contexts.find(
+    (item) => item.occurrence.id === id && inScope(item.occurrence, record.scope),
+  )
+  if (!pair) return null
+  if (
+    !inScope(pair.enrollment, record.scope) ||
+    pair.enrollment.id !== pair.occurrence.enrollmentId ||
+    routineKey(pair.occurrence.routine) !== routineKey(record.origin.routine)
+  ) {
+    throw new Error('El período y el turno no corresponden al registro original.')
+  }
+  return pair
+}
 
 export type Continuity = ProductOutput<'continuity'>
 export type SessionRecord = ProductOutput<'sessions'>[number]
@@ -100,27 +122,11 @@ export function linkedSessions(
       record.origin.occurrenceId === occurrence.id,
   )
 }
-export function actualEligibility(
-  record: SessionRecord,
-  occurrences: readonly Occurrence[],
-  plans: readonly Enrollment[],
-) {
+export function actualEligibility(record: SessionRecord, contexts: readonly OccurrenceContext[]) {
   if (record.schemaVersion === 1 || record.origin.kind === 'legacy') return 'unplanned'
-  const occurrenceId = record.origin.occurrenceId
-  const occurrence = occurrences.find(
-    (item) => item.id === occurrenceId && inScope(item, record.scope),
-  )
-  if (!occurrence) return 'unknown'
-  if (occurrence.eligibility === 'cancelled') return 'excluded'
-  const enrollment = plans.find(
-    (item) => item.id === occurrence.enrollmentId && inScope(item, record.scope),
-  )
-  if (!enrollment) return 'unknown'
-  const stage = enrollment.content.stages.find((item) => item.id === occurrence.stageId)
-  const date = dateInZone(record.content.performedAt, occurrence.currentWeek.timeZone)
-  return monday(date) === occurrence.currentWeek.startDate &&
-    (date === occurrence.permittedDateOverride ||
-      (!!stage && date >= stage.startDate && date <= stage.endDate))
+  const pair = contextForRecord(record, contexts)
+  if (!pair) return 'unknown'
+  return isCompletionEligible(pair.occurrence, pair.enrollment, record.content.performedAt)
     ? 'eligible'
     : 'excluded'
 }
