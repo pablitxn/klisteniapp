@@ -590,9 +590,9 @@ export async function showWeek(
   await expect(
     page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
   ).toBeVisible()
-  // Date-only clock controls the requested calendar week; authoritative server
-  // asOf/closed counts remain unmodified real responses. No mocked DTO is used.
-  await page.clock.setFixedTime(new Date(`${week}T12:00:00Z`))
+  // Offset the calendar while wall time keeps advancing, so real retry deadlines
+  // can expire. Authoritative server asOf/closed responses remain unmodified.
+  await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))
   await page.reload()
   await page
     .getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })
