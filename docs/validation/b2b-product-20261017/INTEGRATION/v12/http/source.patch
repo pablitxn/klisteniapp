@@ -1,0 +1,148 @@
+diff --git a/scripts/b2b-product-composed-harness.test.mjs b/scripts/b2b-product-composed-harness.test.mjs
+index 489fb0b..32ff7aa 100644
+--- a/scripts/b2b-product-composed-harness.test.mjs
++++ b/scripts/b2b-product-composed-harness.test.mjs
+@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto'
+ import { startProductHarness } from './b2b-product-e2e-server.mjs'
+ import { PRODUCT_TEST_PASSWORD } from './b2b-product-seed.mjs'
+ import { requireProductTestDatabase } from './b2b-product-harness-settings.ts'
++import { createPool } from '../apps/b2b-api/src/database.ts'
+ import { contentHash } from '../apps/b2b-api/src/catalog/reviewed-projection.ts'
+ import {
+   createOriginalSegment,
+@@ -71,6 +72,61 @@ async function streamReady(port, path, headers) {
+   })
+ }
+ 
++async function assertUnboundContextDenied({ fixture, actor, port, path, headers }) {
++  const databaseUrl = new URL(source)
++  databaseUrl.searchParams.set('options', `-c search_path=${fixture.schema}`)
++  const db = createPool({ databaseUrl: databaseUrl.href })
++  let removed
++  try {
++    // Remove only this test actor's binding in the harness-owned disposable schema.
++    // Keep its authenticated session and membership intact to isolate realm denial.
++    const bindings = await db.query(
++      `SELECT c.* FROM b2b_session_context c JOIN b2b_auth_session s ON s.id=c.session_id
++       WHERE s."userId"=$1 AND c.organization_id='atlas-demo' AND c.domain_host='atlas.b2b.test'`,
++      [actor.id],
++    )
++    assert.equal(bindings.rows.length, 1)
++    const binding = bindings.rows[0]
++    const deleted = await db.query(
++      'DELETE FROM b2b_session_context WHERE session_id=$1 RETURNING *',
++      [binding.session_id],
++    )
++    removed = deleted.rows[0]
++    assert.equal(deleted.rowCount, 1)
++    for (const route of [
++      '/api/b2b/context',
++      '/api/b2b/bootstrap/v2',
++      '/api/b2b/orgs/atlas-demo/product/v2/access',
++    ]) {
++      const denied = await request(port, path(route), { headers })
++      assert.equal(denied.status, 401, `${route}: ${JSON.stringify(denied.body)}`)
++      assert.equal(denied.body.code, 'BRAND_SESSION_REQUIRED')
++    }
++  } finally {
++    try {
++      if (removed)
++        await db.query(
++          `INSERT INTO b2b_session_context(session_id,organization_id,domain_host,domain_generation,created_at)
++           VALUES($1,$2,$3,$4,$5)`,
++          [
++            removed.session_id,
++            removed.organization_id,
++            removed.domain_host,
++            removed.domain_generation,
++            removed.created_at,
++          ],
++        )
++    } finally {
++      await db.end()
++    }
++  }
++  const restored = await request(port, path('/api/b2b/context'), {
++    headers: { cookie: headers.cookie },
++  })
++  assert.equal(restored.status, 403, JSON.stringify(restored.body))
++  assert.equal(restored.body.code, 'CONTEXT_REVOKED')
++}
++
+ async function prescribeReviewedDuration({ port, path, api, headers, fixture, memberId }) {
+   const routinePath = api + `/routines/${fixture.programId}/versions/${fixture.version}`
+   const issued = await request(port, path(routinePath), { headers })
+@@ -239,7 +295,7 @@ for (const mode of ['unified-http', 'white-label-http'])
+   test(
+     `composed ${mode} serves activated synthetic planning, member history and export-only access`,
+     { timeout: 120000 },
+-    async () => {
++    async (t) => {
+       const harness = await startProductHarness({
+         source,
+         mode,
+@@ -307,14 +363,63 @@ for (const mode of ['unified-http', 'white-label-http'])
+           assert.equal(access.status, 200, JSON.stringify(access.body))
+           await streamReady(port, path(api + '/events'), headers)
+           if (suffix.endsWith('inactive-member')) {
++            assert.equal(member.accessMode, 'export-only')
++            assert.deepEqual(member.choices, [])
+             assert.equal(access.body.accessMode, 'export-only')
++            assert.deepEqual(access.body.branches, [])
++            assert.deepEqual(access.body.capabilities, ['export-own-records'])
+             const own = await request(
+               port,
+               path('/api/b2b/self/exports?organizationId=atlas-demo'),
+               { headers },
+             )
+             assert.equal(own.status, 200, JSON.stringify(own.body))
+-            assert.equal((await request(port, path(api + '/routines'), { headers })).status, 403)
++            for (const route of [
++              '/routines',
++              `/members/${actor.id}/sessions`,
++              '/health/own',
++              '/people',
++            ]) {
++              const denied = await request(port, path(api + route), { headers })
++              assert.equal(denied.status, 403, `${route}: ${JSON.stringify(denied.body)}`)
++              assert.equal(denied.body.code, 'CONTEXT_REVOKED')
++            }
++            t.diagnostic(
++              'Inactive bootstrap/access retain empty grants and export-only capability; export succeeds and routines/history/health/people remain 403 CONTEXT_REVOKED.',
++            )
++            if (wl) {
++              const unknownPage = await request(port, path('/unknown-wp12-route'), {
++                headers: { cookie },
++              })
++              assert.equal(unknownPage.status, 200)
++              assert.match(unknownPage.body, /<html/)
++              // Match the public brand hook: no account or contract header is needed
++              // for this exact, bound-inactive context rejection.
++              const context = await request(port, path('/api/b2b/context'), {
++                headers: { cookie },
++              })
++              assert.equal(context.status, 403, JSON.stringify(context.body))
++              assert.equal(context.body.code, 'CONTEXT_REVOKED')
++              const anonymousContext = await request(port, path('/api/b2b/context'))
++              assert.equal(anonymousContext.status, 200)
++              assert.equal(anonymousContext.body.organization.id, 'atlas-demo')
++              const invalidHost = await request(port, 'http://unknown.b2b.test/api/b2b/context', {
++                headers: { cookie },
++              })
++              assert.equal(invalidHost.status, 421, JSON.stringify(invalidHost.body))
++              assert.equal(invalidHost.body.code, 'DOMAIN_UNAVAILABLE')
++              for (const host of ['sur.b2b.test', 'alias.b2b.test']) {
++                const foreign = await request(port, `http://${host}/api/b2b/context`, {
++                  headers: { cookie },
++                })
++                assert.equal(foreign.status, 401, JSON.stringify(foreign.body))
++                assert.equal(foreign.body.code, 'BRAND_SESSION_REQUIRED')
++              }
++              await assertUnboundContextDenied({ fixture: f, actor, port, path, headers })
++              t.diagnostic(
++                'White Label context: bound inactive 403 CONTEXT_REVOKED; anonymous known host 200; unknown host 421 DOMAIN_UNAVAILABLE; foreign/alias/unbound session 401 BRAND_SESSION_REQUIRED; exact binding restored.',
++              )
++            }
+           } else if (suffix.endsWith('superadmin')) {
+             const branches = await request(port, path(api + '/invitation-branches'), { headers })
+             assert.equal(branches.status, 200, JSON.stringify(branches.body))

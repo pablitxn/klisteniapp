@@ -1,0 +1,14 @@
+{"engine":"webkit","version":"26.6","syntheticTransport":true,"components":["App","ApplicationProvider","useBrandContext","useB2BSession","ProductWorkspace","MembershipAccessBoundary"],"nativeSecurityAndClock":true}
+{"case":"baseline-inactive-public-404-preempted","reproduced":true,"requests":[{"method":"GET","path":"/api/b2b/context"}]}
+{"case":"inactive-public-404-and-restricted-recovery","width":320,"publicRequests":[{"method":"GET","path":"/api/b2b/context"}],"backRetainsMembershipBoundary":true,"operationalRequests":0,"requests":[{"method":"GET","path":"/api/b2b/context"},{"method":"GET","path":"/api/b2b/bootstrap/v2"},{"method":"GET","path":"/api/b2b/orgs/gym/product/v2/access"},{"method":"GET","path":"/api/b2b/orgs/gym/product/v2/events"},{"method":"GET","path":"/api/b2b/bootstrap/v2"},{"method":"GET","path":"/api/b2b/orgs/gym/product/v2/access"}]}
+{"case":"inactive-public-404-and-restricted-recovery","width":1440,"publicRequests":[{"method":"GET","path":"/api/b2b/context"}],"backRetainsMembershipBoundary":true,"operationalRequests":0,"requests":[{"method":"GET","path":"/api/b2b/context"},{"method":"GET","path":"/api/b2b/bootstrap/v2"},{"method":"GET","path":"/api/b2b/orgs/gym/product/v2/access"},{"method":"GET","path":"/api/b2b/orgs/gym/product/v2/events"},{"method":"GET","path":"/api/b2b/bootstrap/v2"},{"method":"GET","path":"/api/b2b/orgs/gym/product/v2/access"}]}
+{"case":"other-denial-stays-blocked","status":421,"code":"DOMAIN_NOT_FOUND","publicContextRequests":2,"noBootstrap":true}
+{"case":"other-denial-stays-blocked","status":401,"code":"BRAND_SESSION_REQUIRED","publicContextRequests":1,"noBootstrap":true}
+{"case":"other-denial-stays-blocked","status":403,"code":"FORBIDDEN","publicContextRequests":1,"noBootstrap":true}
+{"case":"other-denial-stays-blocked","status":403,"code":null,"publicContextRequests":1,"noBootstrap":true}
+{"case":"other-denial-stays-blocked","status":502,"code":"CONTEXT_REVOKED","publicContextRequests":1,"noBootstrap":true}
+{"case":"other-denial-stays-blocked","status":404,"code":"NOT_FOUND","publicContextRequests":1,"noBootstrap":true}
+{"case":"other-denial-stays-blocked","status":0,"code":null,"publicContextRequests":3,"noBootstrap":true}
+{"case":"home-denial-unchanged","publicRequestsOnly":true}
+{"case":"retry-classifies-current-response-and-clears-legacy-error","requests":3}
+{"result":"PASS","engine":"webkit","cases":12,"pageErrors":0,"acceptance":"actual composed UI with synthetic HTTP; real backend denial proof is separate"}
