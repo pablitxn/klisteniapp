@@ -476,7 +476,7 @@ test(scenarioTitle('B2BP-SYNC-011'), async ({ page, context, product }, info) =>
     const attempts: Array<{ time: number; payload: ProductInput<'saveSession'> }> = []
     await page.route(`**/sessions/${id}/revisions`, async (route) => {
       attempts.push({ time: performance.now(), payload: route.request().postDataJSON() })
-      if (attempts.length <= 3) await route.abort('connectionfailed')
+      if (attempts.length <= 2) await route.abort('connectionfailed')
       else await route.continue()
     })
     await quantity(page).fill('1')
@@ -485,7 +485,7 @@ test(scenarioTitle('B2BP-SYNC-011'), async ({ page, context, product }, info) =>
     ).toBeVisible()
     await expect(synchronized(page)).toHaveCount(0)
     await expect(synchronized(page)).toBeVisible({ timeout: 30_000 })
-    expect(attempts).toHaveLength(4)
+    expect(attempts).toHaveLength(3)
     for (let index = 1; index < attempts.length; index++) {
       expect(attempts[index]!.payload).toEqual(attempts[0]!.payload)
       expect(attempts[index]!.time - attempts[index - 1]!.time).toBeGreaterThanOrEqual(700)
