@@ -24,7 +24,8 @@ async function reviewedRoutine(
   page: Page,
   staff: Principal,
   sourceDose: Dose = dose(),
-  accept: (relation: ReviewedRelation) => boolean = () => true,
+  accept: (relation: ReviewedRelation) => boolean = (relation) =>
+    relation.target.equipment === 'none',
 ) {
   const catalog = await api(page, staff, 'catalogExercises', {})
   // Relationships and dose come only from accepted server publications, never
