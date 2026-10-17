@@ -48,7 +48,7 @@ export function People({
         memberId: String(data.get('memberId') ?? ''),
       })
       reload()
-    }, 'Profesional asignado. Ya puede acompañar a esta persona.')
+    }, 'Acompañamiento registrado. El equipo autorizado de la sede conserva el acceso.')
   }
   return (
     <>
@@ -57,7 +57,7 @@ export function People({
         description={
           admin
             ? 'Invitá a tu comunidad y asigná a cada socio el equipo que lo acompaña.'
-            : 'Las personas que acompañás. Tus permisos se limitan a tus socios asignados.'
+            : 'Podés acompañar a todos los socios de la sede autorizada. Las asignaciones de acompañamiento son informativas.'
         }
       >
         {admin && (
