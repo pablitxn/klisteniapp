@@ -1,10 +1,10 @@
+import { createPlanningSchedule } from '../../src/schedule/planning.ts';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { Pool } from 'pg';
 import { ExerciseInputSchema, type Exercise } from '@klisteniapp/b2b-contracts';
 import {
-  OccurrenceSchema,
   type Enrollment,
   type Occurrence,
   type ProductOutput,
@@ -57,147 +57,6 @@ export const errorCode =
   (code: string) =>
   (error: unknown): boolean =>
     error instanceof HttpError && error.code === code;
-export function addDays(date: string, days: number): string {
-  const value = new Date(`${date}T12:00:00Z`);
-  value.setUTCDate(value.getUTCDate() + days);
-  return value.toISOString().slice(0, 10);
-}
-export function week(date: string): string {
-  const day = new Date(`${date}T12:00:00Z`).getUTCDay() || 7;
-  return addDays(date, 1 - day);
-}
-function dates(start: string, end: string, weekday: number): string[] {
-  const result: string[] = [];
-  for (let date = start; date <= end; date = addDays(date, 1))
-    if ((new Date(`${date}T12:00:00Z`).getUTCDay() || 7) === weekday) result.push(date);
-  return result;
-}
-
-/** Synthetic WP03 stand-in for planning's transaction/seam tests only. This
- * deliberately limited ledger does not establish WP03 reconciliation acceptance. */
-export const syntheticSchedule: PlanningSchedule = {
-  plan(change) {
-    return change.occurrences.map((occurrence) => {
-      const stage = change.after.content.stages.find((stage) => stage.id === occurrence.stageId);
-      const slot = stage?.slots.find((slot) => slot.id === occurrence.slotId);
-      const afterDate =
-        stage && slot && change.after.status === 'active'
-          ? (dates(stage.startDate, stage.endDate, slot.weekday)[occurrence.slotOrdinal] ?? null)
-          : null;
-      return {
-        occurrenceId: occurrence.id,
-        expectedRevision: occurrence.revision,
-        beforeDate: occurrence.scheduledDate,
-        afterDate,
-        beforeEligibility: occurrence.eligibility,
-        afterEligibility: afterDate ? 'required' : 'cancelled',
-        linkedSessionIds: change.sessions
-          .filter((session) => session.occurrenceId === occurrence.id)
-          .map((session) => session.id),
-        reason: afterDate
-          ? 'Period schedule changes; actual records retain their performed date.'
-          : 'Outside the revised period; retain linked actual work.',
-      };
-    });
-  },
-  async apply(context, change, impacts) {
-    if (!change.before) {
-      for (const stage of change.after.content.stages)
-        for (const slot of stage.slots) {
-          for (const [ordinal, date] of dates(
-            stage.startDate,
-            stage.endDate,
-            slot.weekday,
-          ).entries()) {
-            const occurrence = OccurrenceSchema.parse({
-              schemaVersion: 2,
-              id: randomUUID(),
-              scope: change.after.scope,
-              enrollmentId: change.after.id,
-              issuedEnrollmentRevision: change.after.revision,
-              stageId: stage.id,
-              slotId: slot.id,
-              slotOrdinal: ordinal,
-              routine: slot.routine,
-              originalDate: date,
-              originalWeek: { startDate: week(date), timeZone: change.after.content.timeZone },
-              scheduledDate: date,
-              currentWeek: { startDate: week(date), timeZone: change.after.content.timeZone },
-              permittedDateOverride: null,
-              revision: 1,
-              eligibility: 'required',
-              cancellationReason: null,
-            });
-            await context.db.query(
-              "INSERT INTO b2b_occurrence(organization_id,branch_id,member_id,id,enrollment_id,issued_enrollment_revision,stage_id,slot_id,slot_ordinal,program_id,program_version,original_date,original_week_start,time_zone,scheduled_date,current_week_start,revision,eligibility) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$12,$13,1,'required')",
-              [
-                context.organizationId,
-                context.branchId,
-                occurrence.scope.memberId,
-                occurrence.id,
-                occurrence.enrollmentId,
-                occurrence.issuedEnrollmentRevision,
-                occurrence.stageId,
-                occurrence.slotId,
-                occurrence.slotOrdinal,
-                occurrence.routine.programId,
-                occurrence.routine.version,
-                date,
-                week(date),
-                occurrence.originalWeek.timeZone,
-              ],
-            );
-            await appendOccurrence(context, occurrence);
-          }
-        }
-    } else {
-      for (const impact of impacts) {
-        const before = change.occurrences.find(
-          (occurrence) => occurrence.id === impact.occurrenceId,
-        )!;
-        const after = OccurrenceSchema.parse({
-          ...before,
-          scheduledDate: impact.afterDate ?? before.scheduledDate,
-          currentWeek: {
-            ...before.currentWeek,
-            startDate: week(impact.afterDate ?? before.scheduledDate),
-          },
-          revision: before.revision + 1,
-          eligibility: impact.afterEligibility,
-          cancellationReason: impact.afterEligibility === 'cancelled' ? impact.reason : null,
-        });
-        await context.db.query(
-          'UPDATE b2b_occurrence SET scheduled_date=$4,current_week_start=$5,revision=$6,eligibility=$7,cancellation_reason=$8 WHERE organization_id=$1 AND branch_id=$2 AND id=$3',
-          [
-            context.organizationId,
-            context.branchId,
-            after.id,
-            after.scheduledDate,
-            after.currentWeek.startDate,
-            after.revision,
-            after.eligibility,
-            after.cancellationReason,
-          ],
-        );
-        await appendOccurrence(context, after);
-      }
-    }
-  },
-};
-async function appendOccurrence(context: AuthorizedProductContext, occurrence: Occurrence) {
-  await context.db.query(
-    'INSERT INTO b2b_occurrence_revision(organization_id,branch_id,member_id,occurrence_id,revision,snapshot,actor_id) VALUES($1,$2,$3,$4,$5,$6,$7)',
-    [
-      context.organizationId,
-      context.branchId,
-      occurrence.scope.memberId,
-      occurrence.id,
-      occurrence.revision,
-      occurrence,
-      context.actorId,
-    ],
-  );
-}
 export type Fixture = {
   pool: Pool;
   module: PlanningModule;
@@ -209,7 +68,7 @@ export type Fixture = {
 };
 export async function fixture(
   run: (fixture: Fixture) => Promise<void>,
-  schedule = syntheticSchedule,
+  schedule: PlanningSchedule = createPlanningSchedule(),
 ) {
   assert.ok(
     databaseUrl,
