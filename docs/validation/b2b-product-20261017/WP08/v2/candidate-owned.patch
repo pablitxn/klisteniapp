@@ -1,0 +1,1469 @@
+diff --git a/apps/b2b-web/src/features/reports/ProductReportsPage.tsx b/apps/b2b-web/src/features/reports/ProductReportsPage.tsx
+index 950887e..3a3aaee 100644
+--- a/apps/b2b-web/src/features/reports/ProductReportsPage.tsx
++++ b/apps/b2b-web/src/features/reports/ProductReportsPage.tsx
+@@ -1,3 +1,6 @@
++import { useLoad } from '@klisteniapp/b2b-react'
++import { loadHistorySubjects } from '../training/routine-history/historyReads'
++import type { RoutineReference } from '../training/routine-history/model'
+ import { useState } from 'react'
+ import type { ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
+ import { ProductHistoryPage } from '../training/routine-history/ProductHistoryPage'
+@@ -11,16 +14,14 @@ export function ProductReportsPage({
+   createClient,
+   onOpenRoutine,
+ }: {
+-  members: (ProductOutput<'historySubjects'>['members'][number] | ProductOutput<'people'>[number])[]
++  members: ProductOutput<'historySubjects'>['members']
+   organizationId: string
+   branchId: string
+   accessKey: string
+   createClient: HistoryClientFactory
+-  onOpenRoutine?: import('../training/routine-history/model').RoutineReference extends infer T
+-    ? (routine: T) => void
+-    : never
++  onOpenRoutine?: (routine: RoutineReference) => void
+ }) {
+-  // This list is the authorized people response. Historical inactive targets remain selectable.
++  // This list is the branch-scoped historical-subject response. Historical inactive targets remain selectable.
+   const [selected, setSelected] = useState('')
+   const member = members.find((item) => item.userId === selected)
+   return (
+@@ -62,3 +63,36 @@ export function ProductReportsPage({
+     </>
+   )
+ }
++
++/** Optional owning-feature loader; INTEGRATION may replace its current root roster
++ * wrapper with this component without creating another provider. */
++export function ProductHistoryReportsPage(props: {
++  organizationId: string
++  branchId: string
++  accessKey: string
++  createClient: HistoryClientFactory
++  onOpenRoutine?: (routine: RoutineReference) => void
++}) {
++  const roster = useLoad(
++    (signal) => loadHistorySubjects(props.createClient(signal), props),
++    JSON.stringify([props.accessKey, props.organizationId, props.branchId]),
++  )
++  return (
++    <>
++      {roster.loading && <p role="status">Cargando personas autorizadas…</p>}
++      {roster.error && <p role="alert">{roster.error}</p>}
++      {roster.error && (
++        <button className="button" onClick={roster.reload}>
++          Reintentar personas
++        </button>
++      )}
++      {roster.data && !roster.error && (
++        <ProductReportsPage
++          key={JSON.stringify([props.accessKey, props.organizationId, props.branchId])}
++          {...props}
++          members={roster.data}
++        />
++      )}
++    </>
++  )
++}
+diff --git a/apps/b2b-web/src/features/reports/ReportsPage.tsx b/apps/b2b-web/src/features/reports/ReportsPage.tsx
+index 5f0fa7d..c3dfaaa 100644
+--- a/apps/b2b-web/src/features/reports/ReportsPage.tsx
++++ b/apps/b2b-web/src/features/reports/ReportsPage.tsx
+@@ -18,4 +18,4 @@ export function ReportsPage({ membership, dataRefresh }: Context) {
+   )
+ }
+ 
+-export { ProductReportsPage } from './ProductReportsPage'
++export { ProductReportsPage, ProductHistoryReportsPage } from './ProductReportsPage'
+diff --git a/apps/b2b-web/src/features/training/routine-history/EnrollmentPeriodDetails.tsx b/apps/b2b-web/src/features/training/routine-history/EnrollmentPeriodDetails.tsx
+new file mode 100644
+index 0000000..f342ebe
+--- /dev/null
++++ b/apps/b2b-web/src/features/training/routine-history/EnrollmentPeriodDetails.tsx
+@@ -0,0 +1,143 @@
++import { useId, useState } from 'react'
++import { useLoad } from '@klisteniapp/b2b-react'
++import type { ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
++import { loadEnrollmentRevision, type PeriodReference } from './historyReads'
++import { routineKey, type HistoryScope, type RoutineReference } from './model'
++import type { HistoryClientFactory } from './SessionHistory'
++
++export function EnrollmentPeriodDetails({
++  reference,
++  scope,
++  accessKey,
++  createClient,
++  onOpenRoutine,
++  label = `Ver período original emitido r${reference.revision}`,
++}: {
++  reference: PeriodReference
++  scope: HistoryScope
++  accessKey: string
++  createClient: HistoryClientFactory
++  label?: string
++  onOpenRoutine?: (routine: RoutineReference) => void
++}) {
++  const [open, setOpen] = useState(false)
++  const id = useId()
++  return (
++    <div>
++      <button
++        className="button"
++        aria-expanded={open}
++        aria-controls={id}
++        onClick={() => setOpen(!open)}
++      >
++        {open ? 'Ocultar detalle del período' : label}
++      </button>
++      <div id={id}>
++        {open && (
++          <LoadedPeriod
++            key={JSON.stringify([accessKey, scope, reference])}
++            reference={reference}
++            scope={scope}
++            accessKey={accessKey}
++            createClient={createClient}
++            onOpenRoutine={onOpenRoutine}
++          />
++        )}
++      </div>
++    </div>
++  )
++}
++function LoadedPeriod({
++  reference,
++  scope,
++  accessKey,
++  createClient,
++  onOpenRoutine,
++}: {
++  reference: PeriodReference
++  scope: HistoryScope
++  accessKey: string
++  createClient: HistoryClientFactory
++  onOpenRoutine?: (routine: RoutineReference) => void
++}) {
++  const loaded = useLoad(
++    (signal) => loadEnrollmentRevision(createClient(signal), scope, reference),
++    JSON.stringify([accessKey, scope, reference]),
++  )
++  return (
++    <>
++      {loaded.loading && <p role="status">Cargando período emitido r{reference.revision}…</p>}
++      {loaded.error && <p role="alert">{loaded.error}</p>}
++      {loaded.error && (
++        <button className="button" onClick={loaded.reload}>
++          Reintentar período
++        </button>
++      )}
++      {loaded.data && !loaded.error && (
++        <EnrollmentPeriodSnapshot
++          snapshot={loaded.data}
++          stageId={reference.stageId}
++          onOpenRoutine={onOpenRoutine}
++        />
++      )}
++    </>
++  )
++}
++export function EnrollmentPeriodSnapshot({
++  snapshot,
++  stageId,
++  onOpenRoutine,
++}: {
++  snapshot: ProductOutput<'enrollmentRevision'>
++  stageId?: string
++  onOpenRoutine?: (routine: RoutineReference) => void
++}) {
++  const { enrollment, actorId, recordedAt } = snapshot
++  return (
++    <section aria-label={`Período registrado r${enrollment.revision}`}>
++      <h4>
++        {enrollment.content.name} · período r{enrollment.revision}
++      </h4>
++      <p>Objetivo en esta revisión: {enrollment.content.goal || 'Sin objetivo indicado'}</p>
++      <p>
++        Inscripción {enrollment.id} · programa {enrollment.goalProgramId} · revisión del programa
++        emitido {enrollment.issuedGoalRevision}
++      </p>
++      <p>Zona horaria de esta revisión: {enrollment.content.timeZone}</p>
++      <p>
++        Registrado {recordedAt} · actor {actorId}
++      </p>
++      <ol>
++        {enrollment.content.stages.map((stage) => (
++          <li key={stage.id}>
++            <strong>
++              {stage.name}
++              {stage.id === stageId ? ' · Etapa original de este registro' : ''}
++            </strong>
++            <p>
++              {stage.startDate} a {stage.endDate}
++            </p>
++            <ul>
++              {stage.slots.map((slot) => (
++                <li key={slot.id}>
++                  Turno {slot.id} · día ISO {slot.weekday} ·{' '}
++                  {onOpenRoutine ? (
++                    <button className="button" onClick={() => onOpenRoutine(slot.routine)}>
++                      Abrir rutina original {routineKey(slot.routine)}
++                    </button>
++                  ) : (
++                    <span>Rutina original {routineKey(slot.routine)}</span>
++                  )}
++                </li>
++              ))}
++            </ul>
++          </li>
++        ))}
++      </ol>
++      <p className="small muted">
++        Esta revisión inmutable conserva los períodos emitidos. La inclusión semanal vigente se
++        consulta por separado.
++      </p>
++    </section>
++  )
++}
+diff --git a/apps/b2b-web/src/features/training/routine-history/LegacyAssignments.tsx b/apps/b2b-web/src/features/training/routine-history/LegacyAssignments.tsx
+new file mode 100644
+index 0000000..f605759
+--- /dev/null
++++ b/apps/b2b-web/src/features/training/routine-history/LegacyAssignments.tsx
+@@ -0,0 +1,44 @@
++import type { ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
++import { routineAnchor, routineKey } from './model'
++
++export function LegacyAssignments({
++  assignments,
++  onStartLegacy,
++}: {
++  assignments: ProductOutput<'legacyAssignments'>
++  onStartLegacy?: (assignment: ProductOutput<'legacyAssignments'>[number]) => void
++}) {
++  return (
++    <section aria-label="Asignaciones anteriores sin calendario">
++      <h2>Rutinas asignadas sin calendario</h2>
++      <p>
++        Estas asignaciones conservan su versión original, incluso sin registros. No generan
++        ausencias prescritas.
++      </p>
++      {!assignments.length && <p>No hay asignaciones anteriores sin calendario.</p>}
++      {assignments.map((assignment) => (
++        <article className="card" key={assignment.id}>
++          <h3>{assignment.name}</h3>
++          <p>
++            {assignment.active ? 'Asignación vigente' : 'Asignación anterior'}
++            {assignment.archivedAt ? ' · Rutina archivada' : ''}
++          </p>
++          <p>
++            Asignación {assignment.id} · asignada {assignment.createdAt} · actor{' '}
++            {assignment.assignedBy}
++          </p>
++          <p>
++            <a href={`#${routineAnchor(assignment.routine)}`}>
++              Ver rutina original {routineKey(assignment.routine)}
++            </a>
++          </p>
++          {onStartLegacy && assignment.active && !assignment.archivedAt && (
++            <button className="button" onClick={() => onStartLegacy(assignment)}>
++              Abrir registro de {assignment.name}
++            </button>
++          )}
++        </article>
++      ))}
++    </section>
++  )
++}
+diff --git a/apps/b2b-web/src/features/training/routine-history/ProductHistoryPage.tsx b/apps/b2b-web/src/features/training/routine-history/ProductHistoryPage.tsx
+index 20de814..1dea017 100644
+--- a/apps/b2b-web/src/features/training/routine-history/ProductHistoryPage.tsx
++++ b/apps/b2b-web/src/features/training/routine-history/ProductHistoryPage.tsx
+@@ -12,6 +12,9 @@ import {
+   type HistoryScope,
+   type RoutineReference,
+ } from './model'
++import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
++import { loadRoutineHistory } from './historyReads'
++import { LegacyAssignments } from './LegacyAssignments'
+ import { RoutineContinuity } from './RoutineContinuity'
+ import { SessionHistory, type HistoryClientFactory } from './SessionHistory'
+ import { OriginalRoutines } from './OriginalRoutines'
+@@ -57,29 +60,9 @@ function ProductHistoryWorkspace({
+   const [moveMessage, setMoveMessage] = useState('')
+   const focusOccurrence = useRef<string | null>(null)
+   const ownerKey = JSON.stringify([accessKey, scope])
+-  const history = useLoad(
+-    async (signal) => {
+-      const client = createClient(signal)
+-      const [continuity, records, assignments] = await Promise.all([
+-        client.call('continuity', { memberId: scope.memberId }),
+-        client.call('sessions', { memberId: scope.memberId }),
+-        client.call('legacyAssignments', { memberId: scope.memberId }),
+-      ])
+-      if (!inScope(continuity, scope))
+-        throw new Error('El historial no corresponde al contexto autorizado.')
+-      const ids = [
+-        ...new Set(
+-          records.flatMap((r) =>
+-            r.schemaVersion === 2 && r.origin.kind === 'occurrence' ? [r.origin.occurrenceId] : [],
+-          ),
+-        ),
+-      ]
+-      const linked = await Promise.all(ids.map((id) => client.call('occurrence', { id })))
+-      return { continuity, records, assignments, linked }
+-    },
+-    ownerKey,
+-    { refreshKey: refresh },
+-  )
++  const history = useLoad((signal) => loadRoutineHistory(createClient(signal), scope), ownerKey, {
++    refreshKey: refresh,
++  })
+   const plans = history.data
+     ? enrollments(history.data.continuity).filter((item) => inScope(item, scope))
+     : []
+@@ -144,6 +127,9 @@ function ProductHistoryWorkspace({
+               future: history.data.continuity.future.filter((item) => inScope(item, scope)),
+             }}
+             now={clock}
++            createClient={createClient}
++            accessKey={accessKey}
++            onOpenRoutine={onOpenRoutine}
+           />
+           {zone && weekStart && (
+             <>
+@@ -189,8 +175,22 @@ function ProductHistoryWorkspace({
+               occurrences={weekly.data.occurrences}
+               sessions={records}
+               enrollments={plans}
++              occurrenceContexts={history.data.contexts}
+               now={clock}
+               onStartOccurrence={onStartOccurrence}
++              renderIssuedPeriod={(occurrence) => (
++                <EnrollmentPeriodDetails
++                  reference={{
++                    id: occurrence.enrollmentId,
++                    revision: occurrence.issuedEnrollmentRevision,
++                    stageId: occurrence.stageId,
++                  }}
++                  scope={scope}
++                  accessKey={accessKey}
++                  createClient={createClient}
++                  onOpenRoutine={onOpenRoutine}
++                />
++              )}
+               canReschedule={
+                 canReschedule &&
+                 !history.loading &&
+@@ -216,39 +216,26 @@ function ProductHistoryWorkspace({
+               }}
+             />
+           )}
+-          {onStartLegacy &&
+-            history.data.assignments.map((a) => (
+-              <p key={a.id}>
+-                {a.name} · {a.active ? 'Asignación vigente' : 'Asignación anterior'}
+-                {a.active && !a.archivedAt && (
+-                  <button className="button" onClick={() => onStartLegacy(a)}>
+-                    Abrir registro de {a.name}
+-                  </button>
+-                )}
+-              </p>
+-            ))}
++          <LegacyAssignments assignments={history.data.assignments} onStartLegacy={onStartLegacy} />
+           <OriginalRoutines
+             enrollments={plans}
+             references={history.data.assignments.map((a) => a.routine)}
+             records={records}
+             occurrences={[
+               ...(weekly.data?.occurrences ?? []),
+-              ...(history.data?.linked.map((x) => x.occurrence) ?? []),
++              ...history.data.contexts.map((pair) => pair.occurrence),
+             ]}
+             onOpenRoutine={onOpenRoutine}
+           />
+           <SessionHistory
+             records={records}
+             scope={scope}
+-            occurrences={[
+-              ...(weekly.data?.occurrences ?? []),
+-              ...(history.data?.linked.map((x) => x.occurrence) ?? []),
+-            ]}
+-            enrollments={[...plans, ...(history.data?.linked.map((x) => x.enrollment) ?? [])]}
++            occurrenceContexts={history.data.contexts}
+             createClient={createClient}
+             accessKey={accessKey}
+             timeZone={zone}
+             onEditSession={onEditSession}
++            onOpenRoutine={onOpenRoutine}
+           />
+         </>
+       )}
+diff --git a/apps/b2b-web/src/features/training/routine-history/RoutineContinuity.tsx b/apps/b2b-web/src/features/training/routine-history/RoutineContinuity.tsx
+index 4796930..5137c77 100644
+--- a/apps/b2b-web/src/features/training/routine-history/RoutineContinuity.tsx
++++ b/apps/b2b-web/src/features/training/routine-history/RoutineContinuity.tsx
+@@ -8,9 +8,24 @@ import {
+   type Continuity,
+ } from './model'
+ 
++import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
++import type { HistoryClientFactory } from './SessionHistory'
++
+ const positions = { past: 'Etapa anterior', current: 'Etapa actual', future: 'Próxima etapa' }
+ const weekdays = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
+-export function RoutineContinuity({ continuity, now }: { continuity: Continuity; now: string }) {
++export function RoutineContinuity({
++  continuity,
++  now,
++  createClient,
++  accessKey,
++  onOpenRoutine,
++}: {
++  continuity: Continuity
++  now: string
++  createClient?: HistoryClientFactory
++  accessKey?: string
++  onOpenRoutine?: (routine: import('./model').RoutineReference) => void
++}) {
+   const plans = enrollments(continuity)
+   return (
+     <section aria-label="Continuidad de la rutina">
+@@ -22,7 +37,19 @@ export function RoutineContinuity({ continuity, now }: { continuity: Continuity;
+         </p>
+       )}
+       {plans.map((enrollment) => (
+-        <EnrollmentContinuity key={enrollment.id} enrollment={enrollment} now={now} />
++        <div key={enrollment.id}>
++          <EnrollmentContinuity enrollment={enrollment} now={now} />
++          {createClient && accessKey && (
++            <EnrollmentPeriodDetails
++              reference={{ id: enrollment.id, revision: enrollment.revision }}
++              scope={enrollment.scope}
++              accessKey={accessKey}
++              createClient={createClient}
++              onOpenRoutine={onOpenRoutine}
++              label={`Ver detalle del período vigente r${enrollment.revision}`}
++            />
++          )}
++        </div>
+       ))}
+       {continuity.unscheduledLegacyAssignmentIds.length > 0 && (
+         <p>
+diff --git a/apps/b2b-web/src/features/training/routine-history/SessionHistory.tsx b/apps/b2b-web/src/features/training/routine-history/SessionHistory.tsx
+index d77d222..e5b24f0 100644
+--- a/apps/b2b-web/src/features/training/routine-history/SessionHistory.tsx
++++ b/apps/b2b-web/src/features/training/routine-history/SessionHistory.tsx
+@@ -1,6 +1,7 @@
+ import { useState } from 'react'
+ import { useLoad } from '@klisteniapp/b2b-react'
+-import type { Enrollment, Occurrence } from '@klisteniapp/b2b-contracts/product-v2'
++import { contextForRecord, type OccurrenceContext } from './model'
++import { EnrollmentPeriodDetails } from './EnrollmentPeriodDetails'
+ import type { ProductV2Client } from '@klisteniapp/b2b-client'
+ import { executionDoseLabel, prescriptionDoseLabel } from '@klisteniapp/b2b-ui'
+ import {
+@@ -30,62 +31,94 @@ const eligibility = {
+ export function SessionHistory({
+   records,
+   scope,
+-  occurrences,
+-  enrollments,
++  occurrenceContexts,
+   createClient,
+   accessKey,
+   timeZone,
+   onEditSession,
++  onOpenRoutine,
+ }: {
+   records: SessionRecord[]
+   scope: HistoryScope
+-  occurrences: Occurrence[]
+-  enrollments: Enrollment[]
++  occurrenceContexts: OccurrenceContext[]
+   createClient: HistoryClientFactory
+   accessKey: string
+   timeZone: string | null
+   onEditSession?: (record: SessionRecord) => void
++  onOpenRoutine?: (routine: import('./model').RoutineReference) => void
+ }) {
+   const latest = latestSessions(records, scope)
+   return (
+     <section aria-label="Sesiones realizadas">
+       <h2>Lo que hiciste, por fecha</h2>
+       {!latest.length && <p>Todavía no hay registros aceptados.</p>}
+-      {latest.map((record) => (
+-        <article
+-          className="card"
+-          id={sessionAnchor(record)}
+-          key={sessionId(record)}
+-          style={{ marginBottom: 20, overflowWrap: 'anywhere' }}
+-        >
+-          <h3>
+-            {timeZone ? dateInZone(performedAt(record), timeZone) : performedAt(record)} ·{' '}
+-            {statuses[record.schemaVersion === 1 ? record.original.status : record.content.status]}
+-          </h3>
+-          <p>
+-            <time dateTime={performedAt(record)}>{performedAt(record)}</time>
+-            {timeZone && ` · fecha local en ${timeZone}`}
+-          </p>
+-          <p>
+-            <a href={`#${routineAnchor(routineReference(record))}`}>
+-              Ver rutina original {routineKey(routineReference(record))}
+-            </a>
+-          </p>
+-          <p>{eligibility[actualEligibility(record, occurrences, enrollments)]}</p>
+-          <SessionActuals record={record} />
+-          {onEditSession && (
+-            <button className="button" onClick={() => onEditSession(record)}>
+-              Editar mi registro
+-            </button>
+-          )}
+-          <RevisionHistory
+-            record={record}
+-            createClient={createClient}
+-            accessKey={accessKey}
+-            scope={scope}
+-          />
+-        </article>
+-      ))}
++      {latest.map((record) => {
++        const pair = contextForRecord(record, occurrenceContexts)
++        const displayZone = pair?.occurrence.originalWeek.timeZone ?? timeZone
++        return (
++          <article
++            className="card"
++            id={sessionAnchor(record)}
++            key={sessionId(record)}
++            style={{ marginBottom: 20, overflowWrap: 'anywhere' }}
++          >
++            <h3>
++              {displayZone ? dateInZone(performedAt(record), displayZone) : performedAt(record)} ·{' '}
++              {
++                statuses[
++                  record.schemaVersion === 1 ? record.original.status : record.content.status
++                ]
++              }
++            </h3>
++            <p>
++              <time dateTime={performedAt(record)}>{performedAt(record)}</time>
++              {displayZone && ` · fecha local en ${displayZone}`}
++            </p>
++            <p>
++              <a href={`#${routineAnchor(routineReference(record))}`}>
++                Ver rutina original {routineKey(routineReference(record))}
++              </a>
++            </p>
++            <p>{eligibility[actualEligibility(record, occurrenceContexts)]}</p>
++            {pair && (
++              <>
++                <p>
++                  Turno original {pair.occurrence.id} · fecha original{' '}
++                  {pair.occurrence.originalDate} · fecha vigente {pair.occurrence.scheduledDate} ·
++                  calendario r{pair.occurrence.revision} · período vigente r
++                  {pair.enrollment.revision}
++                </p>
++                {pair.occurrence.cancellationReason && (
++                  <p>Motivo de exclusión: {pair.occurrence.cancellationReason}</p>
++                )}
++                <EnrollmentPeriodDetails
++                  reference={{
++                    id: pair.occurrence.enrollmentId,
++                    revision: pair.occurrence.issuedEnrollmentRevision,
++                    stageId: pair.occurrence.stageId,
++                  }}
++                  scope={scope}
++                  accessKey={accessKey}
++                  createClient={createClient}
++                  onOpenRoutine={onOpenRoutine}
++                />
++              </>
++            )}
++            <SessionActuals record={record} />
++            {onEditSession && (
++              <button className="button" onClick={() => onEditSession(record)}>
++                Editar mi registro
++              </button>
++            )}
++            <RevisionHistory
++              record={record}
++              createClient={createClient}
++              accessKey={accessKey}
++              scope={scope}
++            />
++          </article>
++        )
++      })}
+     </section>
+   )
+ }
+diff --git a/apps/b2b-web/src/features/training/routine-history/historyReads.ts b/apps/b2b-web/src/features/training/routine-history/historyReads.ts
+new file mode 100644
+index 0000000..b5cab7e
+--- /dev/null
++++ b/apps/b2b-web/src/features/training/routine-history/historyReads.ts
+@@ -0,0 +1,83 @@
++import type { ProductV2Client } from '@klisteniapp/b2b-client'
++import type { ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
++import { contextForRecord, inScope, latestSessions, type HistoryScope } from './model.ts'
++
++/** Preserve the atomic occurrence/enrollment response; never merge its members
++ * into independently loaded weekly or continuity arrays. */
++export type PeriodReference = ProductInput<'enrollmentRevision'> & {
++  stageId?: string
++}
++
++export async function loadRoutineHistory(client: ProductV2Client, scope: HistoryScope) {
++  const [continuity, allRecords, assignments] = await Promise.all([
++    client.call('continuity', { memberId: scope.memberId }),
++    client.call('sessions', { memberId: scope.memberId }),
++    client.call('legacyAssignments', { memberId: scope.memberId }),
++  ])
++  if (
++    !inScope(continuity, scope) ||
++    assignments.some((item) => !inScope(item, scope)) ||
++    [...continuity.current, ...continuity.past, ...continuity.future, ...allRecords].some(
++      (item) => !inScope(item, scope),
++    )
++  )
++    throw new Error('El historial no corresponde al contexto autorizado.')
++  const records = latestSessions(allRecords, scope)
++  const ids = [
++    ...new Set(
++      records.flatMap((record) =>
++        record.schemaVersion === 2 && record.origin.kind === 'occurrence'
++          ? [record.origin.occurrenceId]
++          : [],
++      ),
++    ),
++  ]
++  const contexts = await Promise.all(
++    ids.map(async (id) => {
++      const pair = await client.call('occurrence', { id })
++      if (
++        pair.occurrence.id !== id ||
++        !inScope(pair.occurrence, scope) ||
++        !inScope(pair.enrollment, scope) ||
++        pair.occurrence.enrollmentId !== pair.enrollment.id
++      )
++        throw new Error('El turno no corresponde al contexto autorizado.')
++      return pair
++    }),
++  )
++  for (const record of records) contextForRecord(record, contexts)
++  return { continuity, records, assignments, contexts }
++}
++
++export async function loadEnrollmentRevision(
++  client: ProductV2Client,
++  scope: HistoryScope,
++  reference: PeriodReference,
++) {
++  const snapshot = await client.call('enrollmentRevision', {
++    id: reference.id,
++    revision: reference.revision,
++  })
++  if (
++    !inScope(snapshot.enrollment, scope) ||
++    snapshot.enrollment.id !== reference.id ||
++    snapshot.enrollment.revision !== reference.revision ||
++    (reference.stageId &&
++      !snapshot.enrollment.content.stages.some((stage) => stage.id === reference.stageId))
++  )
++    throw new Error('La revisión recibida no corresponde al período solicitado.')
++  return snapshot
++}
++
++export async function loadHistorySubjects(
++  client: ProductV2Client,
++  scope: { organizationId: string; branchId: string },
++) {
++  const roster = await client.call('historySubjects', {})
++  if (
++    roster.scope.organizationId !== scope.organizationId ||
++    roster.scope.branchId !== scope.branchId
++  )
++    throw new Error('Las personas no corresponden a la sede autorizada.')
++  return roster.members
++}
+diff --git a/apps/b2b-web/src/features/training/routine-history/model.ts b/apps/b2b-web/src/features/training/routine-history/model.ts
+index 0ec189b..5d7ab1f 100644
+--- a/apps/b2b-web/src/features/training/routine-history/model.ts
++++ b/apps/b2b-web/src/features/training/routine-history/model.ts
+@@ -1,3 +1,4 @@
++import { isCompletionEligible } from '@klisteniapp/b2b-domain/schedule'
+ import type {
+   Dose,
+   Enrollment,
+@@ -6,6 +7,27 @@ import type {
+   SessionRevision,
+ } from '@klisteniapp/b2b-contracts/product-v2'
+ 
++export type OccurrenceContext = ProductOutput<'occurrence'>
++export function contextForRecord(
++  record: SessionRecord,
++  contexts: readonly OccurrenceContext[],
++): OccurrenceContext | null {
++  if (record.schemaVersion === 1 || record.origin.kind === 'legacy') return null
++  const id = record.origin.occurrenceId
++  const pair = contexts.find(
++    (item) => item.occurrence.id === id && inScope(item.occurrence, record.scope),
++  )
++  if (!pair) return null
++  if (
++    !inScope(pair.enrollment, record.scope) ||
++    pair.enrollment.id !== pair.occurrence.enrollmentId ||
++    routineKey(pair.occurrence.routine) !== routineKey(record.origin.routine)
++  ) {
++    throw new Error('El período y el turno no corresponden al registro original.')
++  }
++  return pair
++}
++
+ export type Continuity = ProductOutput<'continuity'>
+ export type SessionRecord = ProductOutput<'sessions'>[number]
+ export type HistoryScope = Occurrence['scope']
+@@ -100,27 +122,11 @@ export function linkedSessions(
+       record.origin.occurrenceId === occurrence.id,
+   )
+ }
+-export function actualEligibility(
+-  record: SessionRecord,
+-  occurrences: readonly Occurrence[],
+-  plans: readonly Enrollment[],
+-) {
++export function actualEligibility(record: SessionRecord, contexts: readonly OccurrenceContext[]) {
+   if (record.schemaVersion === 1 || record.origin.kind === 'legacy') return 'unplanned'
+-  const occurrenceId = record.origin.occurrenceId
+-  const occurrence = occurrences.find(
+-    (item) => item.id === occurrenceId && inScope(item, record.scope),
+-  )
+-  if (!occurrence) return 'unknown'
+-  if (occurrence.eligibility === 'cancelled') return 'excluded'
+-  const enrollment = plans.find(
+-    (item) => item.id === occurrence.enrollmentId && inScope(item, record.scope),
+-  )
+-  if (!enrollment) return 'unknown'
+-  const stage = enrollment.content.stages.find((item) => item.id === occurrence.stageId)
+-  const date = dateInZone(record.content.performedAt, occurrence.currentWeek.timeZone)
+-  return monday(date) === occurrence.currentWeek.startDate &&
+-    (date === occurrence.permittedDateOverride ||
+-      (!!stage && date >= stage.startDate && date <= stage.endDate))
++  const pair = contextForRecord(record, contexts)
++  if (!pair) return 'unknown'
++  return isCompletionEligible(pair.occurrence, pair.enrollment, record.content.performedAt)
+     ? 'eligible'
+     : 'excluded'
+ }
+diff --git a/apps/b2b-web/src/features/training/week-calendar/WeekCalendar.tsx b/apps/b2b-web/src/features/training/week-calendar/WeekCalendar.tsx
+index 787f8fb..e200a6d 100644
+--- a/apps/b2b-web/src/features/training/week-calendar/WeekCalendar.tsx
++++ b/apps/b2b-web/src/features/training/week-calendar/WeekCalendar.tsx
+@@ -1,4 +1,4 @@
+-import { useRef, useState } from 'react'
++import { useRef, useState, type ReactNode } from 'react'
+ import { errorMessage } from '@klisteniapp/b2b-client'
+ import type { Enrollment, Occurrence, ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
+ import {
+@@ -19,31 +19,38 @@ import {
+   type WeekSummary,
+ } from './model'
+ 
++import type { OccurrenceContext } from '../routine-history/model'
++
+ const labels = {
+   excluded: 'Excluida',
+   completed: 'Completada',
+   partial: 'Parcial',
+   missed: 'Ausente',
+   pending: 'Pendiente',
++  unknown: 'Estado por consultar',
+ }
+ export function WeekCalendar({
+   summary,
+   occurrences,
+   sessions,
+   enrollments,
++  occurrenceContexts,
+   now,
+   canReschedule,
+   onMove,
+   onStartOccurrence,
++  renderIssuedPeriod,
+ }: {
+   summary: WeekSummary
+   occurrences: Occurrence[]
+   sessions: SessionRecord[]
+   enrollments: Enrollment[]
++  occurrenceContexts: OccurrenceContext[]
+   now: string
+   canReschedule: boolean
+   onMove: (request: ProductInput<'moveOccurrence'>) => Promise<void>
+   onStartOccurrence?: (occurrence: Occurrence) => void
++  renderIssuedPeriod?: (occurrence: Occurrence) => ReactNode
+ }) {
+   const dates = weekDates(summary.week.startDate)
+   const today = dateInZone(now, summary.week.timeZone)
+@@ -102,7 +109,12 @@ export function WeekCalendar({
+             {visible
+               .filter((item) => item.scheduledDate === date)
+               .map((occurrence) => {
+-                const state = occurrenceState(occurrence, sessions, enrollments, summary.closed)
++                const state = occurrenceState(
++                  occurrence,
++                  sessions,
++                  occurrenceContexts,
++                  summary.closed,
++                )
+                 return (
+                   <article
+                     key={occurrence.id}
+@@ -126,6 +138,7 @@ export function WeekCalendar({
+                       {occurrence.issuedEnrollmentRevision} · calendario r{occurrence.revision} ·
+                       fecha original {occurrence.originalDate}
+                     </p>
++                    {renderIssuedPeriod?.(occurrence)}
+                     {occurrence.permittedDateOverride && (
+                       <p>
+                         Reprogramación aceptada fuera del período original:{' '}
+diff --git a/apps/b2b-web/src/features/training/week-calendar/model.ts b/apps/b2b-web/src/features/training/week-calendar/model.ts
+index 425aed2..9998f77 100644
+--- a/apps/b2b-web/src/features/training/week-calendar/model.ts
++++ b/apps/b2b-web/src/features/training/week-calendar/model.ts
+@@ -1,3 +1,4 @@
++import type { OccurrenceContext } from '../routine-history/model.ts'
+ import { isCompletionEligible } from '@klisteniapp/b2b-domain/schedule'
+ import type {
+   Enrollment,
+@@ -22,19 +23,19 @@ export function weekDates(start: string): string[] {
+ export function occurrenceState(
+   occurrence: Occurrence,
+   records: readonly SessionRecord[],
+-  plans: readonly Enrollment[],
++  contexts: readonly OccurrenceContext[],
+   closed: boolean,
+ ) {
+   if (occurrence.eligibility === 'cancelled') return 'excluded'
+-  const eligible = linkedSessions(occurrence, records).filter(
+-    (record) => actualEligibility(record, [occurrence], plans) === 'eligible',
+-  )
++  const linked = linkedSessions(occurrence, records)
++  const eligible = linked.filter((record) => actualEligibility(record, contexts) === 'eligible')
+   if (
+     eligible.some(
+       (record) => record.content.status === 'completed' && record.content.explicitCompletion,
+     )
+   )
+     return 'completed'
++  if (linked.some((record) => actualEligibility(record, contexts) === 'unknown')) return 'unknown'
+   if (eligible.some((record) => record.content.status === 'partial')) return 'partial'
+   return closed ? 'missed' : 'pending'
+ }
+diff --git a/apps/b2b-web/tests/routineHistory.test.ts b/apps/b2b-web/tests/routineHistory.test.ts
+index a7eff73..7524a7f 100644
+--- a/apps/b2b-web/tests/routineHistory.test.ts
++++ b/apps/b2b-web/tests/routineHistory.test.ts
+@@ -10,7 +10,14 @@ import {
+   sessionAnchor,
+   stagePosition,
+ } from '../src/features/training/routine-history/model.ts'
+-import { enrollment, legacy, occurrence, scope, session } from './routineHistoryFixtures.ts'
++import {
++  atomicContext,
++  enrollment,
++  legacy,
++  occurrence,
++  scope,
++  session,
++} from './routineHistoryFixtures.ts'
+ 
+ test('today follows each enrollment timezone across device day and DST boundaries', () => {
+   assert.equal(dateInZone('2026-10-12T02:00:00Z', 'America/New_York'), '2026-10-11')
+@@ -60,37 +67,35 @@ test('period moves retain actual work and original lineage while excluding its f
+     scheduledDate: '2026-10-19',
+     currentWeek: { startDate: '2026-10-19', timeZone: 'America/New_York' },
+   })
+-  assert.equal(actualEligibility(record, [moved], [enrollment()]), 'excluded')
++  assert.equal(actualEligibility(record, [atomicContext(moved)]), 'excluded')
+   assert.equal(record.content.sets[0]!.repetitions, 4)
+   assert.equal(record.origin.routine.version, 2)
+ })
+ test('cancelled work stays excluded and an unloaded occurrence is unknown rather than missed', () => {
+   assert.equal(
+-    actualEligibility(
+-      session(),
+-      [occurrence('occurrence', { eligibility: 'cancelled', cancellationReason: 'Period moved' })],
+-      [enrollment()],
+-    ),
++    actualEligibility(session(), [
++      atomicContext(
++        occurrence('occurrence', { eligibility: 'cancelled', cancellationReason: 'Period moved' }),
++      ),
++    ]),
+     'excluded',
+   )
+-  assert.equal(actualEligibility(session(), [], [enrollment()]), 'unknown')
+-  assert.equal(actualEligibility(legacy(), [], []), 'unplanned')
++  assert.equal(actualEligibility(session(), []), 'unknown')
++  assert.equal(actualEligibility(legacy(), []), 'unplanned')
+ })
+ test('an accepted same-week override remains eligible beyond the original midweek stage end', () => {
+   const record = session()
+   record.content.performedAt = '2026-10-17T15:00:00Z'
+-  assert.equal(actualEligibility(record, [occurrence()], [enrollment()]), 'excluded')
++  assert.equal(actualEligibility(record, [atomicContext()]), 'excluded')
+   assert.equal(
+-    actualEligibility(
+-      record,
+-      [
++    actualEligibility(record, [
++      atomicContext(
+         occurrence('occurrence', {
+           scheduledDate: '2026-10-17',
+           permittedDateOverride: '2026-10-17',
+         }),
+-      ],
+-      [enrollment()],
+-    ),
++      ),
++    ]),
+     'eligible',
+   )
+ })
+diff --git a/apps/b2b-web/tests/routineHistoryFixtures.ts b/apps/b2b-web/tests/routineHistoryFixtures.ts
+index 7bc6ec7..dfe43f6 100644
+--- a/apps/b2b-web/tests/routineHistoryFixtures.ts
++++ b/apps/b2b-web/tests/routineHistoryFixtures.ts
+@@ -186,3 +186,7 @@ export function summary(closed = false) {
+     occurrenceIds: ['o1', 'o2', 'o3', 'o4'],
+   })
+ }
++
++export function atomicContext(value = occurrence(), plan = enrollment()) {
++  return { occurrence: value, enrollment: plan }
++}
+diff --git a/apps/b2b-web/tests/routineHistoryReads.test.ts b/apps/b2b-web/tests/routineHistoryReads.test.ts
+new file mode 100644
+index 0000000..160390d
+--- /dev/null
++++ b/apps/b2b-web/tests/routineHistoryReads.test.ts
+@@ -0,0 +1,288 @@
++import assert from 'node:assert/strict'
++import test from 'node:test'
++import { createProductV2Client, type ProductV2Client } from '@klisteniapp/b2b-client'
++import type { ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
++import {
++  loadEnrollmentRevision,
++  loadHistorySubjects,
++  loadRoutineHistory,
++} from '../src/features/training/routine-history/historyReads.ts'
++import {
++  actualEligibility,
++  contextForRecord,
++} from '../src/features/training/routine-history/model.ts'
++import {
++  atomicContext,
++  enrollment,
++  legacy,
++  occurrence,
++  scope,
++  session,
++} from './routineHistoryFixtures.ts'
++
++const continuity = () => ({
++  schemaVersion: 2,
++  scope,
++  current: [enrollment()],
++  past: [],
++  future: [],
++  unscheduledLegacyAssignmentIds: ['unexecuted'],
++})
++const assignment = (): ProductOutput<'legacyAssignments'>[number] => ({
++  schemaVersion: 2,
++  id: 'unexecuted',
++  scope,
++  active: false,
++  assignedBy: 'coach',
++  createdAt: '2026-10-01T00:00:00Z',
++  routine: { programId: 'retired-routine', version: 1, schemaVersion: 1 },
++  name: 'Retired unexecuted routine',
++  archivedAt: '2026-10-10T00:00:00Z',
++})
++function historyClient(
++  overrides: Record<string, unknown> = {},
++  options: { signal?: AbortSignal; deny?: string } = {},
++) {
++  const paths: string[] = []
++  const prefix = `/api/b2b/orgs/${scope.organizationId}/product/v2`
++  const responses: Record<string, unknown> = {
++    [`/members/${scope.memberId}/continuity`]: continuity(),
++    [`/members/${scope.memberId}/sessions`]: [session()],
++    [`/members/${scope.memberId}/legacy-assignments`]: [assignment()],
++    '/occurrences/occurrence': atomicContext(),
++    '/history-subjects': {
++      schemaVersion: 2,
++      scope: { organizationId: scope.organizationId, branchId: scope.branchId },
++      members: [{ userId: 'retained-inactive', name: 'Historical subject', active: false }],
++    },
++    ...overrides,
++  }
++  const client: ProductV2Client = createProductV2Client('actor', scope.organizationId, {
++    branchId: scope.branchId,
++    signal: options.signal,
++    onAuthChange: () => {},
++    fetch: async (url, init) => {
++      const path = String(url).slice(prefix.length)
++      paths.push(path)
++      assert.equal(init?.method, 'GET')
++      assert.equal(new Headers(init?.headers).get('X-Klisteni-B2B-Contract'), '2')
++      assert.equal(new Headers(init?.headers).get('X-Klisteni-B2B-Branch'), scope.branchId)
++      if (path === options.deny)
++        return Response.json(
++          { error: 'Current context revoked', code: 'CONTEXT_REVOKED' },
++          { status: 403 },
++        )
++      assert.ok(path in responses, `Unexpected endpoint ${path}`)
++      return Response.json(responses[path])
++    },
++  })
++  return { client, paths }
++}
++
++test('history reads retain an unexecuted retired assignment and fetch each linked occurrence once outside any loaded week', async () => {
++  const record = session()
++  const moved = occurrence('occurrence', {
++    currentWeek: { startDate: '2026-10-19', timeZone: 'America/New_York' },
++    scheduledDate: '2026-10-19',
++    revision: 3,
++  })
++  const pair = atomicContext(moved)
++  const { client, paths } = historyClient({
++    [`/members/${scope.memberId}/sessions`]: [record, { ...record, id: 'second-record' }, legacy()],
++    '/occurrences/occurrence': pair,
++  })
++  const loaded = await loadRoutineHistory(client, scope)
++  assert.equal(loaded.assignments[0]!.id, 'unexecuted')
++  assert.equal(loaded.assignments[0]!.active, false)
++  assert.equal(paths.filter((path) => path === '/occurrences/occurrence').length, 1)
++  assert.equal(
++    paths.some((path) => path.includes('week') || path.includes('?')),
++    false,
++  )
++  assert.equal(actualEligibility(record, loaded.contexts), 'excluded')
++  assert.equal(
++    contextForRecord(record, loaded.contexts)?.enrollment.revision,
++    pair.enrollment.revision,
++  )
++  assert.equal(loaded.records.length, 3)
++  assert.equal(record.origin.routine.version, 2)
++})
++
++test('atomic paired current enrollment wins over an earlier continuity snapshot in the same week', async () => {
++  const pairedEnrollment = enrollment()
++  pairedEnrollment.revision = 3
++  pairedEnrollment.content.stages[0]!.startDate = '2026-10-14'
++  pairedEnrollment.content.stages[0]!.endDate = '2026-10-18'
++  const { client } = historyClient({
++    '/occurrences/occurrence': atomicContext(occurrence(), pairedEnrollment),
++  })
++  const loaded = await loadRoutineHistory(client, scope)
++  assert.equal(loaded.continuity.current[0]!.revision, 2)
++  assert.equal(loaded.contexts[0]!.enrollment.revision, 3)
++  assert.equal(actualEligibility(loaded.records[0]!, loaded.contexts), 'excluded')
++})
++
++test('inclusion also preserves the paired enrollment when independently loaded continuity is newer', async () => {
++  const different = continuity()
++  different.current[0]!.revision = 5
++  different.current[0]!.content.stages[0]!.startDate = '2026-10-14'
++  const { client } = historyClient({ [`/members/${scope.memberId}/continuity`]: different })
++  const loaded = await loadRoutineHistory(client, scope)
++  assert.equal(actualEligibility(loaded.records[0]!, loaded.contexts), 'eligible')
++  assert.equal(loaded.contexts[0]!.enrollment.revision, 2)
++})
++
++test('cancelled linked work remains excluded, with its original IDs and reason retained', async () => {
++  const { client } = historyClient({
++    '/occurrences/occurrence': atomicContext(
++      occurrence('occurrence', {
++        eligibility: 'cancelled',
++        cancellationReason: 'Stage removed',
++        revision: 4,
++      }),
++    ),
++  })
++  const loaded = await loadRoutineHistory(client, scope)
++  assert.equal(actualEligibility(loaded.records[0]!, loaded.contexts), 'excluded')
++  assert.equal(loaded.contexts[0]!.occurrence.cancellationReason, 'Stage removed')
++  assert.equal(loaded.records[0]!.schemaVersion, 2)
++})
++
++test('legacy-only and unexecuted histories never invent an occurrence or a scheduled absence', async () => {
++  const { client, paths } = historyClient({ [`/members/${scope.memberId}/sessions`]: [legacy()] })
++  const loaded = await loadRoutineHistory(client, scope)
++  assert.deepEqual(loaded.contexts, [])
++  assert.equal(
++    paths.some((path) => path.startsWith('/occurrences')),
++    false,
++  )
++  assert.equal(actualEligibility(loaded.records[0]!, loaded.contexts), 'unplanned')
++  assert.equal(loaded.assignments.length, 1)
++})
++
++for (const field of ['organizationId', 'branchId', 'memberId'] as const) {
++  test(`history loader rejects a foreign ${field} before asking for its occurrence`, async () => {
++    const { client, paths } = historyClient({
++      [`/members/${scope.memberId}/sessions`]: [
++        session('foreign', { scope: { ...scope, [field]: 'foreign' } }),
++      ],
++    })
++    await assert.rejects(loadRoutineHistory(client, scope), /contexto autorizado/)
++    assert.equal(
++      paths.some((path) => path.startsWith('/occurrences')),
++      false,
++    )
++  })
++  test(`atomic pair rejects a foreign enrollment ${field}`, async () => {
++    const plan = enrollment()
++    plan.scope = { ...scope, [field]: 'foreign' }
++    const { client } = historyClient({
++      '/occurrences/occurrence': atomicContext(occurrence(), plan),
++    })
++    await assert.rejects(loadRoutineHistory(client, scope), /contexto autorizado/)
++  })
++}
++
++test('an atomic pair with a different enrollment or original routine version fails closed', async () => {
++  const mismatch = enrollment()
++  mismatch.id = 'different-enrollment'
++  await assert.rejects(
++    loadRoutineHistory(
++      historyClient({ '/occurrences/occurrence': atomicContext(occurrence(), mismatch) }).client,
++      scope,
++    ),
++    /contexto autorizado/,
++  )
++  const wrongVersion = occurrence('occurrence', {
++    routine: { ...occurrence().routine, version: 9 },
++  })
++  await assert.rejects(
++    loadRoutineHistory(
++      historyClient({ '/occurrences/occurrence': atomicContext(wrongVersion) }).client,
++      scope,
++    ),
++    /registro original/,
++  )
++})
++
++test('issued period reads use occurrence enrollment revision rather than issued goal revision or current period', async () => {
++  const original = enrollment()
++  original.revision = 1
++  original.issuedGoalRevision = 7
++  original.content.goal = 'Original issued objective'
++  const snapshot = {
++    enrollment: original,
++    actorId: 'issuing-coach',
++    recordedAt: '2026-10-01T01:00:00Z',
++  }
++  const { client, paths } = historyClient({ '/enrollments/enrollment/revisions/1': snapshot })
++  assert.deepEqual(
++    await loadEnrollmentRevision(client, scope, {
++      id: 'enrollment',
++      revision: 1,
++      stageId: 'stage',
++    }),
++    snapshot,
++  )
++  assert.deepEqual(paths, ['/enrollments/enrollment/revisions/1'])
++})
++
++test('issued period detail rejects another revision, scope, enrollment and missing original stage', async () => {
++  for (const mutate of [
++    (plan: ReturnType<typeof enrollment>) => {
++      plan.revision = 2
++    },
++    (plan: ReturnType<typeof enrollment>) => {
++      plan.scope.branchId = 'foreign'
++    },
++    (plan: ReturnType<typeof enrollment>) => {
++      plan.id = 'foreign-enrollment'
++    },
++    (plan: ReturnType<typeof enrollment>) => {
++      plan.content.stages[0]!.id = 'different-stage'
++    },
++  ]) {
++    const plan = enrollment()
++    plan.revision = 1
++    mutate(plan)
++    const { client } = historyClient({
++      '/enrollments/enrollment/revisions/1': {
++        enrollment: plan,
++        actorId: 'coach',
++        recordedAt: '2026-10-01T00:00:00Z',
++      },
++    })
++    await assert.rejects(
++      loadEnrollmentRevision(client, scope, { id: 'enrollment', revision: 1, stageId: 'stage' }),
++      /período solicitado/,
++    )
++  }
++})
++
++test('inactive historical subjects use the scoped history endpoint and never people or health', async () => {
++  const { client, paths } = historyClient()
++  const members = await loadHistorySubjects(client, scope)
++  assert.equal(members[0]!.active, false)
++  assert.deepEqual(paths, ['/history-subjects'])
++  const foreign = historyClient({
++    '/history-subjects': {
++      schemaVersion: 2,
++      scope: { organizationId: scope.organizationId, branchId: 'other' },
++      members: [],
++    },
++  })
++  await assert.rejects(loadHistorySubjects(foreign.client, scope), /sede autorizada/)
++})
++
++test('revoked linked reads reject the entire projection; departed context makes no new request', async () => {
++  const denied = historyClient({}, { deny: '/occurrences/occurrence' })
++  await assert.rejects(loadRoutineHistory(denied.client, scope), {
++    status: 403,
++    code: 'CONTEXT_REVOKED',
++  })
++  const controller = new AbortController()
++  controller.abort()
++  const departed = historyClient({}, { signal: controller.signal })
++  await assert.rejects(loadRoutineHistory(departed.client, scope), { code: 'ABORTED' })
++  assert.deepEqual(departed.paths, [])
++})
+diff --git a/apps/b2b-web/tests/routineHistoryRenderEntry.ts b/apps/b2b-web/tests/routineHistoryRenderEntry.ts
+index 116714b..d358b2b 100644
+--- a/apps/b2b-web/tests/routineHistoryRenderEntry.ts
++++ b/apps/b2b-web/tests/routineHistoryRenderEntry.ts
+@@ -6,3 +6,9 @@ export {
+ } from '../src/features/training/routine-history/SessionHistory'
+ export { WeekCalendar } from '../src/features/training/week-calendar/WeekCalendar'
+ export { ProductReportsPage } from '../src/features/reports/ProductReportsPage'
++
++export {
++  EnrollmentPeriodDetails,
++  EnrollmentPeriodSnapshot,
++} from '../src/features/training/routine-history/EnrollmentPeriodDetails'
++export { LegacyAssignments } from '../src/features/training/routine-history/LegacyAssignments'
+diff --git a/apps/b2b-web/tests/routineHistoryViews.test.ts b/apps/b2b-web/tests/routineHistoryViews.test.ts
+index 6cd6caa..5b4d5b1 100644
+--- a/apps/b2b-web/tests/routineHistoryViews.test.ts
++++ b/apps/b2b-web/tests/routineHistoryViews.test.ts
+@@ -4,6 +4,7 @@ import test from 'node:test'
+ import { createElement } from 'react'
+ import { renderToStaticMarkup } from 'react-dom/server'
+ import {
++  atomicContext,
+   enrollment,
+   legacy,
+   occurrence,
+@@ -18,6 +19,9 @@ const {
+   SessionActuals,
+   WeekCalendar,
+   ProductReportsPage,
++  EnrollmentPeriodDetails,
++  EnrollmentPeriodSnapshot,
++  LegacyAssignments,
+ } = await loadHistoryViews()
+ const noClient = () => {
+   throw new Error('No network expected while rendering')
+@@ -56,8 +60,7 @@ test('routine and dated actual rendering have both directions of stable original
+     createElement(SessionHistory, {
+       records: [record],
+       scope,
+-      occurrences: [occurrence('occurrence', { eligibility: 'cancelled' })],
+-      enrollments: [],
++      occurrenceContexts: [atomicContext(occurrence('occurrence', { eligibility: 'cancelled' }))],
+       createClient: noClient,
+       accessKey: 'member',
+       timeZone: 'America/New_York',
+@@ -90,8 +93,7 @@ test('legacy actual rendering preserves ID, values, notes and unplanned status',
+     createElement(SessionHistory, {
+       records: [record],
+       scope,
+-      occurrences: [],
+-      enrollments: [],
++      occurrenceContexts: [],
+       createClient: noClient,
+       accessKey: 'member',
+       timeZone: null,
+@@ -112,6 +114,7 @@ test('calendar renders four/three/one, same-day slots and keyboard form with sev
+       occurrences: [first, second],
+       sessions: [],
+       enrollments: [enrollment()],
++      occurrenceContexts: [],
+       now: '2026-10-12T15:00:00Z',
+       canReschedule: true,
+       onMove: async () => {},
+@@ -135,6 +138,7 @@ test('read-only report calendar has no move form and lists inactive people', ()
+       occurrences: [occurrence()],
+       sessions: [],
+       enrollments: [enrollment()],
++      occurrenceContexts: [],
+       now: '2026-10-12T15:00:00Z',
+       canReschedule: false,
+       onMove: async () => {
+@@ -147,15 +151,9 @@ test('read-only report calendar has no move form and lists inactive people', ()
+     createElement(ProductReportsPage, {
+       members: [
+         {
+-          schemaVersion: 2,
+           userId: 'inactive',
+           name: 'Inactive member',
+-          email: 'inactive@example.test',
+-          role: 'member',
+           active: false,
+-          revision: 1,
+-          branchGrants: [],
+-          coachIds: [],
+         },
+       ],
+       organizationId: scope.organizationId,
+@@ -167,3 +165,86 @@ test('read-only report calendar has no move form and lists inactive people', ()
+   assert.match(report, /Inactive member · Inactiva/)
+   assert.doesNotMatch(report, /health|consent|watch/i)
+ })
++
++test('actual period affordance uses the issued enrollment revision and keeps paired timezone and moved linkage', () => {
++  const moved = occurrence('occurrence', {
++    scheduledDate: '2026-10-19',
++    currentWeek: { startDate: '2026-10-19', timeZone: 'America/New_York' },
++    revision: 3,
++  })
++  const html = renderToStaticMarkup(
++    createElement(SessionHistory, {
++      records: [session()],
++      scope,
++      occurrenceContexts: [atomicContext(moved)],
++      createClient: noClient,
++      accessKey: 'current',
++      timeZone: 'Asia/Tokyo',
++    }),
++  )
++  assert.match(html, /Ver período original emitido r1/)
++  assert.match(html, /aria-expanded="false"/)
++  assert.match(html, /fecha vigente 2026-10-19/)
++  assert.match(html, /excluido del seguimiento vigente/)
++  assert.match(html, /fecha local en America\/New_York/)
++  assert.doesNotMatch(html, /fecha local en Asia\/Tokyo/)
++  assert.match(html, /href="#original-routine-routine-v2-s2"/)
++})
++test('issued period snapshot shows its own immutable objective, stage dates, issuer and goal revision separately', () => {
++  const original = enrollment()
++  original.revision = 1
++  original.issuedGoalRevision = 7
++  original.content.goal = 'Original objective, retained after period edits'
++  const html = renderToStaticMarkup(
++    createElement(EnrollmentPeriodSnapshot, {
++      snapshot: {
++        enrollment: original,
++        actorId: 'issuing-coach',
++        recordedAt: '2026-10-01T01:00:00Z',
++      },
++      stageId: 'stage',
++      onOpenRoutine: () => {},
++    }),
++  )
++  assert.match(html, /período r1/)
++  assert.match(html, /Original objective, retained after period edits/)
++  assert.match(html, /revisión del programa emitido 7/)
++  assert.match(html, /Etapa original de este registro/)
++  assert.match(html, /2026-10-01 a 2026-10-14/)
++  assert.match(html, /actor issuing-coach/)
++  assert.match(html, /Abrir rutina original routine-v2-s2/)
++  const closed = renderToStaticMarkup(
++    createElement(EnrollmentPeriodDetails, {
++      reference: { id: 'enrollment', revision: 1 },
++      scope,
++      createClient: noClient,
++      accessKey: 'current',
++    }),
++  )
++  assert.match(closed, /aria-controls=/)
++  assert.doesNotMatch(closed, /Original objective/)
++})
++test('retired unexecuted legacy assignments remain readable in staff history without a start callback', () => {
++  const html = renderToStaticMarkup(
++    createElement(LegacyAssignments, {
++      assignments: [
++        {
++          schemaVersion: 2,
++          id: 'retired-unexecuted',
++          scope,
++          active: false,
++          assignedBy: 'coach',
++          createdAt: '2026-10-01T00:00:00Z',
++          routine: { programId: 'old-routine', schemaVersion: 1, version: 1 },
++          name: 'Unexecuted original routine',
++          archivedAt: '2026-10-12T00:00:00Z',
++        },
++      ],
++    }),
++  )
++  assert.match(html, /Unexecuted original routine/)
++  assert.match(html, /Asignación anterior · Rutina archivada/)
++  assert.match(html, /No generan ausencias prescritas/)
++  assert.match(html, /href="#original-routine-old-routine-v1-s1"/)
++  assert.doesNotMatch(html, /Abrir registro de/)
++})
+diff --git a/apps/b2b-web/tests/weekCalendar.test.ts b/apps/b2b-web/tests/weekCalendar.test.ts
+index f307a0b..8b5a64d 100644
+--- a/apps/b2b-web/tests/weekCalendar.test.ts
++++ b/apps/b2b-web/tests/weekCalendar.test.ts
+@@ -11,6 +11,7 @@ import {
+ } from '../src/features/training/week-calendar/model.ts'
+ import { monday } from '../src/features/training/routine-history/model.ts'
+ import {
++  atomicContext,
+   enrollment,
+   legacy,
+   occurrence,
+@@ -46,17 +47,17 @@ test('pending, partial, completed, missed and excluded remain distinct', () => {
+   const o = occurrence(),
+     plan = enrollment(),
+     partial = session()
+-  assert.equal(occurrenceState(o, [], [plan], false), 'pending')
+-  assert.equal(occurrenceState(o, [], [plan], true), 'missed')
+-  assert.equal(occurrenceState(o, [partial], [plan], false), 'partial')
+-  assert.equal(occurrenceState(o, [partial], [plan], true), 'partial')
++  assert.equal(occurrenceState(o, [], [atomicContext(o, plan)], false), 'pending')
++  assert.equal(occurrenceState(o, [], [atomicContext(o, plan)], true), 'missed')
++  assert.equal(occurrenceState(o, [partial], [atomicContext(o, plan)], false), 'partial')
++  assert.equal(occurrenceState(o, [partial], [atomicContext(o, plan)], true), 'partial')
+   const complete = {
+     ...partial,
+     content: { ...partial.content, status: 'completed' as const, explicitCompletion: true },
+   }
+-  assert.equal(occurrenceState(o, [complete], [plan], true), 'completed')
++  assert.equal(occurrenceState(o, [complete], [atomicContext(o, plan)], true), 'completed')
+   assert.equal(
+-    occurrenceState({ ...o, eligibility: 'cancelled' }, [complete], [plan], true),
++    occurrenceState({ ...o, eligibility: 'cancelled' }, [complete], [atomicContext(o, plan)], true),
+     'excluded',
+   )
+   const corrected = {
+@@ -64,7 +65,7 @@ test('pending, partial, completed, missed and excluded remain distinct', () => {
+     revision: 2,
+     content: { ...complete.content, status: 'partial' as const, explicitCompletion: false },
+   }
+-  assert.equal(occurrenceState(o, [complete, corrected], [plan], true), 'partial')
++  assert.equal(occurrenceState(o, [complete, corrected], [atomicContext(o, plan)], true), 'partial')
+ })
+ test('two same-day slots remain independent; repeated completed records do not fill another occurrence', () => {
+   const o1 = occurrence('one'),
+@@ -75,8 +76,8 @@ test('two same-day slots remain independent; repeated completed records do not f
+   completed.content.status = 'completed'
+   completed.content.explicitCompletion = true
+   const records = [completed, { ...completed, id: 's2' }, legacy()]
+-  assert.equal(occurrenceState(o1, records, [enrollment()], true), 'completed')
+-  assert.equal(occurrenceState(o2, records, [enrollment()], true), 'missed')
++  assert.equal(occurrenceState(o1, records, [atomicContext(o1)], true), 'completed')
++  assert.equal(occurrenceState(o2, records, [atomicContext(o1)], true), 'missed')
+ })
+ test('move controls exclude completed, cancelled, ended and foreign enrollment work', () => {
+   assert.equal(canMoveOccurrence(occurrence(), [session()], enrollment()), true)
