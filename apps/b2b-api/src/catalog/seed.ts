@@ -1,29 +1,12 @@
 import type { PoolClient } from 'pg';
 import { exercises as baseExercises } from '@klisteniapp/catalog-base';
 import { ExerciseInputSchema, MachineInputSchema } from '@klisteniapp/b2b-contracts';
+import { canonicalExerciseInput } from './reviewed-projection.ts';
 
 /** Immutable initial snapshots: shared package data are copied, never read from B2C. */
 export async function seedBaseCatalog(db: PoolClient) {
   for (const base of baseExercises) {
-    const data = ExerciseInputSchema.parse({
-      name: base.name,
-      description: base.description,
-      instructions: [...base.setup, ...base.steps, ...base.cues],
-      equipment: base.equipment,
-      muscles: base.primaryMuscles,
-      pattern: base.pattern,
-      animationId: base.id,
-      assets: [
-        {
-          id: `base-${base.id}-poster-v1`,
-          kind: 'image',
-          label: base.name,
-          url: `/previews/${base.id}-poster.webp`,
-          attribution:
-            'Klisteni exercise preview; see /models/NOTICE.md for anatomical model attribution.',
-        },
-      ],
-    });
+    const data = canonicalExerciseInput(base);
     await db.query(
       "INSERT INTO b2b_exercise(id,data,status,version) VALUES($1,$2,'published',1) ON CONFLICT(id) DO NOTHING",
       [base.id, data],
