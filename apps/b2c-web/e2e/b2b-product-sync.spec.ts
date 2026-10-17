@@ -94,6 +94,10 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
           unchangedAcceptedRevision: true,
           unchangedOperations: true,
         })
+        await info.attach(`authenticated-close-${store}-checkpoint`, {
+          body: JSON.stringify({ id, checkpoint: closeEvidence.at(-1) }, null, 2),
+          contentType: 'application/json',
+        })
         await restoreNativeHold(page)
         await context.setOffline(false)
         await expect(
@@ -109,7 +113,32 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
           })
           .click()
         await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)
-        await expect(synchronized(page)).toBeVisible()
+        try {
+          // Reopening can span the existing bounded connection/replay backoff.
+          await expect(synchronized(page)).toBeVisible({ timeout: 30_000 })
+        } catch (error) {
+          const local = await readNativeWorkout(page, id)
+          await info.attach('reopened-workout-sync-diagnostic', {
+            body: JSON.stringify({
+              store,
+              browser: await page.evaluate(() => ({
+                online: navigator.onLine,
+                visibility: document.visibilityState,
+                wallTime: Date.now(),
+              })),
+              hold: await nativeHoldState(page),
+              content: local.document.content,
+              accepted: local.document.accepted?.content,
+              operations: local.document.operations.map((op) => ({
+                id: op.operationId,
+                state: op.state,
+              })),
+              problem: local.document.problem,
+            }),
+            contentType: 'application/json',
+          })
+          throw error
+        }
       })
     }
     await info.attach('authenticated-close-local-evidence', {
