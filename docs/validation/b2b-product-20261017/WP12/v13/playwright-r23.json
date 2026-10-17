@@ -1,0 +1,414 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--project=product-chromium-430",
+      "--grep=B2BP-SYNC-(001|009|012)",
+      "--timeout=180000",
+      "--max-failures=3",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 3,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidatea1ade-close-r23/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-r23/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-r23/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-r23/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-r23/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-r23/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19115,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\u001b[22m\n\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:112:42\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                      "column": 42,
+                      "line": 112
+                    },
+                    "snippet": "  110 |           .click()\n  111 |         await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)\n> 112 |         await expect(synchronized(page)).toBeVisible()\n      |                                          ^\n  113 |       })\n  114 |     }\n  115 |     await info.attach('authenticated-close-local-evidence', {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                        "column": 42,
+                        "line": 112
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\u001b[22m\n\n\n  110 |           .click()\n  111 |         await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)\n> 112 |         await expect(synchronized(page)).toBeVisible()\n      |                                          ^\n  113 |       })\n  114 |     }\n  115 |     await info.attach('authenticated-close-local-evidence', {\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:112:42\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2087
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 8396,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' })\u001b[22m\n\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:112:42\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7",
+                        "location": {
+                          "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                          "column": 42,
+                          "line": 112
+                        },
+                        "snippet": "  110 |           .click()\n  111 |         await expect(page.getByLabel('Notas de la sesión', { exact: true })).toHaveValue(notes)\n> 112 |         await expect(synchronized(page)).toBeVisible()\n      |                                          ^\n  113 |       })\n  114 |     }\n  115 |     await info.attach('authenticated-close-local-evidence', {"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-10-17T17:59:51.481Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-r23/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-r23/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatea1ade-close-r23/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatea1ade-close-r23/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                    "column": 42,
+                    "line": 112
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-1f83c0935a782331258d",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6755,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:00:12.244Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tZDliNzg0OTYzNzNhZjJjYmQxMWMwZjQ1MDQ2ODljZTg3NGJkYWE3YyIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-53f076c8eab48eac8024",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 593,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13795,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 3285
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:00:19.190Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tNDFkNDY1MWRlNWRhYjRkNWQ1OWQyNDUwMDE3MjYwZDU2YWZhZWM0MyIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-0d4c27af88bca1c226e8",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 710,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T17:59:20.291Z",
+    "duration": 73451.93800000001,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
