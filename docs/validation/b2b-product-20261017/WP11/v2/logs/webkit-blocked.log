@@ -1,0 +1,29 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+browserType.launch: 
+╔════════════════════════════════════════════════════════════════════════════════════════════╗
+║ Host system is missing dependencies to run browsers.                                       ║
+║ This is most likely due to Docker image version not matching Playwright version:           ║
+║ - Playwright  : 1.63.0                                                                     ║
+║ - Docker image: 1.62.0                                                                     ║
+║                                                                                            ║
+║ Either:                                                                                    ║
+║ - (recommended) use Docker image "mcr.microsoft.com/playwright:v1.63.0-noble"              ║
+║ - (alternative 1) run the following command inside Docker to install missing dependencies: ║
+║                                                                                            ║
+║     sudo npx playwright install-deps                                                       ║
+║                                                                                            ║
+║ - (alternative 2) use apt inside Docker:                                                   ║
+║                                                                                            ║
+║     sudo apt-get install                                                                   ║
+║                                                                                            ║
+║ <3 Playwright Team                                                                         ║
+╚════════════════════════════════════════════════════════════════════════════════════════════╝
+    at /harness/owned-ui-probe.mjs:18:54 {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v24.18.0
