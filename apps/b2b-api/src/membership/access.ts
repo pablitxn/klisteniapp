@@ -9,8 +9,55 @@ import type { DomainContext } from '../domain-context.ts';
 import { HttpError } from '../errors.ts';
 import { assertProductCapability } from '../product-context.ts';
 import { assertProductMigrations } from '../product-readiness.ts';
+import { requireActiveDomain } from '../white-label-access.ts';
 
 const revoked = () => new HttpError(403, 'CONTEXT_REVOKED', 'El acceso cambió.');
+
+/** Explicit inactive-login admission seam. Call only after password auth has
+ * created a fresh session, in the same transaction as the brand binding.
+ * Active login keeps its existing path; an existing foreign binding is never
+ * rebound. This changes only the brand binding; restricted purpose is derived
+ * from current membership on every request. */
+export async function bindInactiveBrandSession(
+  db: PoolClient,
+  actorId: string,
+  sessionId: string,
+  domain: DomainContext,
+  contractHeader?: string,
+): Promise<AuthorizedProductIdentityContext> {
+  const org = (
+    await db.query<{ product_active: boolean }>(
+      'SELECT product_active FROM b2b_organization WHERE id=$1 FOR SHARE',
+      [domain.organizationId],
+    )
+  ).rows[0];
+  if (!org) throw revoked();
+  assertProductCapability(contractHeader, org.product_active);
+  await assertProductMigrations(db);
+  const session = await db.query(
+    `SELECT id FROM b2b_auth_session WHERE id=$1 AND "userId"=$2
+     AND "expiresAt">clock_timestamp() FOR SHARE`,
+    [sessionId, actorId],
+  );
+  if (!session.rowCount) throw revoked();
+  const inactive = await db.query(
+    `SELECT 1 FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND NOT active FOR SHARE`,
+    [domain.organizationId, actorId],
+  );
+  if (!inactive.rowCount)
+    throw new HttpError(403, 'MEMBERSHIP_REQUIRED', 'Tu acceso a esta marca cambió.');
+  await requireActiveDomain(db, domain);
+  await db.query(
+    `INSERT INTO b2b_session_context(session_id,organization_id,domain_host,domain_generation)
+     VALUES($1,$2,$3,$4) ON CONFLICT(session_id) DO NOTHING`,
+    [sessionId, domain.organizationId, domain.host, domain.generation],
+  );
+  return authorizeExportIdentity(db, actorId, domain.organizationId, sessionId, {
+    contractHeader,
+    whiteLabel: true,
+    domain,
+  });
+}
 
 /** Identity-only authorization for the self endpoints. This does not authorize
  * an operational context or weaken requireBrandSession's active-member check.

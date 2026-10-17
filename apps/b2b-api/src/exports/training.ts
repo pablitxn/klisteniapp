@@ -24,6 +24,22 @@ export async function trainingExport(
 ): Promise<Training[]> {
   const { db, organizationId, actorId } = context;
   const parameters = [organizationId, actorId];
+  // A broken current pointer must fail the whole download rather than present
+  // a seemingly complete accepted-history export with missing records.
+  const incomplete = await db.query(
+    `SELECT 1 FROM b2b_enrollment e WHERE e.organization_id=$1 AND e.member_id=$2
+       AND NOT EXISTS(SELECT 1 FROM b2b_enrollment_revision r WHERE
+         (r.organization_id,r.branch_id,r.enrollment_id,r.revision)=(e.organization_id,e.branch_id,e.id,e.revision))
+     UNION ALL SELECT 1 FROM b2b_occurrence o WHERE o.organization_id=$1 AND o.member_id=$2
+       AND NOT EXISTS(SELECT 1 FROM b2b_occurrence_revision r WHERE
+         (r.organization_id,r.branch_id,r.occurrence_id,r.revision)=(o.organization_id,o.branch_id,o.id,o.revision))
+     UNION ALL SELECT 1 FROM b2b_training_session s WHERE s.organization_id=$1 AND s.member_id=$2
+       AND s.revision>0 AND NOT EXISTS(SELECT 1 FROM b2b_session_revision r WHERE
+         (r.organization_id,r.branch_id,r.session_id,r.revision)=(s.organization_id,s.branch_id,s.id,s.revision))
+     LIMIT 1`,
+    parameters,
+  );
+  if (incomplete.rowCount) throw invalidHistory();
   const branches = new Map<string, Training>();
   const branch = (branchId: string) => {
     let value = branches.get(branchId);
@@ -108,8 +124,7 @@ export async function trainingExport(
   for (const row of sessions.rows) {
     const session = SessionRevisionSchema.parse(row.snapshot);
     scoped(session.scope, row.branch_id);
-    if (session.id !== row.session_id || session.revision !== row.revision)
-      throw invalidHistory();
+    if (session.id !== row.session_id || session.revision !== row.revision) throw invalidHistory();
     branch(row.branch_id).sessionRevisions.push(session);
     reference(row.branch_id, session.origin.routine.programId, session.origin.routine.version);
   }
@@ -168,17 +183,25 @@ export async function trainingExport(
           [organizationId, branchId, programId, version],
         )
       ).rows[0];
-      if (supplement)
-        branch(branchId).supplements.push(
-          LegacySupplementSchema.parse({
-            schemaVersion: 2,
-            scope: branch(branchId).scope,
-            programId,
-            version,
-            sourceSnapshotHash: supplement.source_snapshot_hash,
-            supplement: supplement.snapshot,
-          }),
-        );
+      if (supplement) {
+        const exported = LegacySupplementSchema.parse({
+          schemaVersion: 2,
+          scope: branch(branchId).scope,
+          programId,
+          version,
+          sourceSnapshotHash: supplement.source_snapshot_hash,
+          supplement: supplement.snapshot,
+        });
+        if (
+          stored.schemaVersion !== 1 ||
+          exported.supplement.scope.organizationId !== organizationId ||
+          exported.supplement.scope.branchId !== branchId ||
+          exported.supplement.programId !== programId ||
+          exported.supplement.version !== version
+        )
+          throw invalidHistory();
+        branch(branchId).supplements.push(exported);
+      }
     }
   }
   return [...branches.values()]

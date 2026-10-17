@@ -57,7 +57,9 @@ export function createPersonalExportServices(
   if (invitation.url) {
     const url = new URL(invitation.url);
     if (url.username || url.password || url.hash || url.search)
-      throw new Error('The separate B2C invitation must not contain credentials or transfer parameters');
+      throw new Error(
+        'The separate B2C invitation must not contain credentials or transfer parameters',
+      );
   }
   async function authorize(context: AuthorizedProductIdentityContext) {
     await currentIdentity(context);
