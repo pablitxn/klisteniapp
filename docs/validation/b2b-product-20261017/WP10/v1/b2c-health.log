@@ -1,0 +1,39 @@
+✔ empty dashboard preserves unknown values and contains no invented observations (6.030418ms)
+✔ calendar window includes both boundaries across DST and counts distinct training dates only (0.973572ms)
+✔ sleep excludes ambiguous cross-boundary overlaps before computing observed-day average (12.842098ms)
+✔ nutrition keeps separate field denominators, accepts recorded zero, and does not fill missing days (0.654109ms)
+✔ supplement summary describes logged takes and skips, with distinct dates instead of an adherence target (0.742093ms)
+✔ body trends keep sources and devices separate and respect chronological timestamp offsets (1.232236ms)
+✔ body series with one day has no change estimate and same-time ties resolve independently of input order (0.443483ms)
+✔ B2C compatibility entrypoint re-exports shared parser symbols by identity (3.111954ms)
+✔ empty template downloads without fabricated personal data and requires real records (91.655284ms)
+✔ preview preserves all categories, provenance and explicit units without mutating existing data (45.719441ms)
+✔ reimport and duplicates within one file are idempotent even when local ID and timestamp offset differ (35.824154ms)
+✔ changed source payload rejects the entire file and leaves current data untouched (3.323704ms)
+✔ two origins cannot reuse a local ID in a file or collide with a saved record (11.592548ms)
+✔ the same external ID can exist in distinct sources without being collapsed (10.193105ms)
+✔ unknown fields, wrong units, impossible dates and missing source identity are rejected (13.78477ms)
+✔ future export, observation and record timestamps reject the entire import (15.370658ms)
+✔ manual correction timestamps are preserved and normalized for comparison without overwriting corrections (28.534382ms)
+✔ explicit record timezone wins over file timezone and is persisted (2.208052ms)
+✔ invalid sleep windows and stages do not become apparently valid summaries (3.397861ms)
+✔ raw Samsung/Health Connect exports are not accepted as normalized records (1.901446ms)
+✔ UTF-8 byte bound and total-record bound fail before processing records (321.817645ms)
+✔ health saves require its captured revision and exports include confirmed server data (88.223108ms)
+✔ failed health saves never pretend to be saved or spill into local demo/pending storage (6.107336ms)
+✔ health conflict refreshes current state while rejecting the stale write (7.17784ms)
+✔ an in-flight health response cannot restore private data after logout (19.283675ms)
+✔ anonymous and invalid health changes do not reach the API (8.513116ms)
+✔ a local routine import omits health so legacy preferences cannot erase it (49.012869ms)
+✔ free local health persists separately and restores after account logout without uploading it (14.643056ms)
+✔ an exported account including health and plans can be imported and exported in free local mode (8.152185ms)
+✔ unreadable local personal copies are preserved and can be downloaded for recovery (6.901639ms)
+✔ expired cloud access blocks health edits but permits explicit deletion requests for server validation (11.244525ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1191.662766

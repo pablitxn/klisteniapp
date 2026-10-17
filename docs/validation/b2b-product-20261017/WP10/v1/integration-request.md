@@ -105,7 +105,7 @@ trainer cache while composing these modules.
 ## ACCESS/INTEGRATION and WP06: producer requests remain required
 
 Apply the eight handlers, per-route body limit and `HEALTH_RESPONSE_HEADERS`
-from [WP05/v1/integration-request.md](../../WP05/v1/integration-request.md).
+from [WP05/v1/integration-request.md](https://github.com/pablitxn/klisteniapp/blob/b5715612f989b66327a2f89d7df94813bbebf98a/docs/validation/b2b-product-20261017/WP05/v1/integration-request.md).
 Revalidate delayed disclosures at the producer's final guard, lock through
 serialization, and test real HTTP success and error headers. This UI verifies
 request no-store only; it cannot enforce server/intermediary headers.

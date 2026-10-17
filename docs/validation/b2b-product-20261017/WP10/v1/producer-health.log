@@ -1,0 +1,30 @@
+✔ private by default for coach/admin/superadmin; consent exposes precisely its category without profile or goals (778.644049ms)
+✔ wrong audience/category/scope and owner override are rejected; dynamic audience requires a current branch trainer grant (575.440897ms)
+✔ consent revisions/CAS/replay are atomic; stale grant retry cannot resurrect revoked sharing (517.741606ms)
+✔ settings list is scoped to owner/brand and consent IDs cannot overwrite another owner (579.763022ms)
+✔ stale role, revision, archived branch, inactive member and revoked target grant deny health (556.450577ms)
+✔ inactivity hook revokes every owner grant in that gym atomically, leaves other gyms intact, and reactivation never restores consent (664.946566ms)
+✔ owner export includes private profile/categories/goals independent of consent; no staff can select an owner (493.795435ms)
+✔ manual preview writes nothing; confirm stores owner data and provenance without consent or gym audit payload (580.457795ms)
+✔ exact response-loss retries survive ticket expiry and later edits; operation ID reuse conflicts (527.359141ms)
+✔ reimport deduplicates equivalent source records and rejects the complete file on conflict (532.085661ms)
+✔ preview is owner/revision/input/expiry bound and survives a rolled-back confirmation (517.350415ms)
+✔ malformed, CSV, ZIP, wrong version, future, invalid units and oversized imports produce no writes (625.294725ms)
+✔ owner edits use canonical medical-unit/duplicate/future validation and cannot override owner identity (505.653269ms)
+✔ accumulated 4 MiB limit fails atomically and explicitly zoned observations use their local calendar (485.534844ms)
+✔ two concurrent confirmations serialize once; concurrent independent stale edits conflict (473.655679ms)
+✔ queued trainer read cannot disclose after a preceding revocation commits (571.099447ms)
+✔ captured in-flight projection is discarded after revoke or replacement; final dispatch refreshes owner edits (565.646991ms)
+✔ role/grant changes while a read is queued are rechecked rather than trusting captured capabilities (829.813527ms)
+✔ queued import and captured owner export context lose operational authority after inactivity; fresh export remains available (620.569908ms)
+✔ revoke serializes before queued consent update and prevents stale grant response replay (759.870243ms)
+✔ queued trainer disclosure and final guard fail after target membership deactivation even with a retained stale consent (666.294252ms)
+✔ two owners racing on an absent consent ID cannot overwrite or share the other owner health (536.367167ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14942.45677

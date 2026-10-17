@@ -1,0 +1,46 @@
+✔ default private consent requires selected categories and separate explicit acknowledgement (5.121485ms)
+✔ category replacement uses current scoped consent revision and fresh read (1.06646ms)
+✔ revoke invalidates mounted views before dispatch and after success without trusting a stale receipt (1.042372ms)
+✔ another branch consent is visible in settings but cannot be revoked in the selected branch (0.647378ms)
+✔ failed revoke never claims success and clears old settings until refreshed (1.270726ms)
+✔ administrative capability alone and foreign branch never authorize a trainer health view (0.386338ms)
+✔ inactive/export-only context cannot read or share health but keeps owner export affordance (0.413773ms)
+✔ late trainer response cannot remount after revoke (0.537431ms)
+✔ late trainer response cannot remount after offline (0.408553ms)
+✔ late trainer response cannot remount after hidden (0.518478ms)
+✔ late trainer response cannot remount after context abort (0.521115ms)
+✔ late trainer response cannot remount after unmount (0.372337ms)
+✔ reconnect requires a fresh authorization request and denial leaves no old projection (0.829307ms)
+✔ revoke and regrant cannot be overwritten by an older category response (0.535127ms)
+✔ trainer revalidation clears already mounted data before waiting for the server (0.515055ms)
+✔ trainer rejects compatible DTO with a foreign owner (0.355589ms)
+✔ trainer rejects compatible DTO with a foreign organization (0.267804ms)
+✔ trainer rejects compatible DTO with a foreign branch (0.278107ms)
+✔ scope identity changes with account, host, branch, role, access revision and consent generation (0.526167ms)
+✔ frozen client carries no-store, v2 header, selected branch, cancellation and strict decoding (62.803133ms)
+✔ manual preview and explicit import use frozen fields and never grant consent (5.071063ms)
+✔ confirm without a preview cannot write (0.604035ms)
+✔ unsupported or invalid file samsung.csv rejects before API preview or writes (0.886672ms)
+✔ unsupported or invalid file health.zip rejects before API preview or writes (0.470784ms)
+✔ unsupported or invalid file vendor.json rejects before API preview or writes (0.745371ms)
+✔ unsupported or invalid file future.json rejects before API preview or writes (0.66106ms)
+✔ unsupported or invalid file broken.json rejects before API preview or writes (0.658652ms)
+✔ unsupported or invalid file large.json rejects before API preview or writes (0.338588ms)
+✔ byte limit counts UTF-8 even when file metadata lies (6.780621ms)
+✔ server issues disable confirmation without inventing conflict IDs (1.075394ms)
+✔ server conflicts disable confirmation without inventing conflict IDs (0.611285ms)
+✔ expired preview cannot be applied for the first time (1.001148ms)
+✔ uncertain delivery retries the identical operation after expiry (1.243118ms)
+✔ revision conflict discards the obsolete preview and requires a fresh review (1.154245ms)
+✔ file reader resolving after context cancellation cannot request a preview (0.681684ms)
+✔ a newer file selection wins over a delayed older preview (8.007503ms)
+✔ browser lifecycle clears pending responses on cross-tab invalidation, focus loss, offline and cleanup without persisting health (41.369209ms)
+✔ record presentation retains original units and provenance without exposing technical IDs or inferring missing values (0.802491ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 516.124343

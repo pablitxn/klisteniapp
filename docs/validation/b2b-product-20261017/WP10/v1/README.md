@@ -6,7 +6,7 @@ explicit scoped consent settings and online trainer disclosure.
 Implementation: `7c223969cfecff8549d20462e8770bf4c332517b` on
 `feat/b2b-health-ui-v1`, from frozen
 `0b611064a91b87b3a17274cabca5415bcf1d7d55`.
-The subsequent evidence-only commit carries this immutable directory; its SHA
+The subsequent evidence-only commits carry this immutable directory; the final SHA
 is the final PR head in the publication receipt. No source changes follow the
 implementation SHA in this revision.
 
