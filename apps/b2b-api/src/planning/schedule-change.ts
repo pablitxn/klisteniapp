@@ -13,6 +13,8 @@ export type PlanningSessionHead = {
 
 export type ScheduleChange = {
   reason: 'enroll' | 'period' | 'end';
+  /** Immutable server time for deterministic future-only end reconciliation. */
+  readonly effectiveAt: string;
   before: Enrollment | null;
   after: Enrollment;
   occurrences: readonly Occurrence[];

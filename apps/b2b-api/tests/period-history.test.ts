@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { SessionRevisionSchema, type Enrollment } from '@klisteniapp/b2b-contracts/product-v2';
 import { PlanningModule } from '../src/planning/index.ts';
+import { createPlanningSchedule } from '../src/schedule/planning.ts';
+import type { ScheduleChange } from '../src/planning/schedule-change.ts';
 import { createPlanningResources } from '../src/planning/resources.ts';
 import {
   databaseUrl,
@@ -12,7 +14,6 @@ import {
   legacy,
   occurrenceRows,
   publish,
-  syntheticSchedule,
   type Fixture,
 } from './wp02/fixture.ts';
 
@@ -132,6 +133,168 @@ function moved(enrollment: Enrollment) {
   proposed.stages[0]!.endDate = '2026-11-01';
   return proposed;
 }
+
+test(
+  'endEnrollment supplies immutable server time, cancels future local dates only and preserves accepted history',
+  { skip: !databaseUrl },
+  async () => {
+    const production = createPlanningSchedule();
+    const endChanges: ScheduleChange[] = [];
+    await fixture(
+      async (f) => {
+        await publish(f);
+        await seedLegacy(f);
+        const schedule = goalContent();
+        schedule.stages[0]!.slots.push(
+          { ...schedule.stages[0]!.slots[0]!, id: 'wednesday', weekday: 3 },
+          { ...schedule.stages[0]!.slots[0]!, id: 'thursday', weekday: 4 },
+        );
+        const issued = await enroll(f, schedule);
+        await seedSession(f);
+        const original = await originalHistory(f);
+        const originals = await occurrenceRows(f);
+        const oldRevisions = (
+          await f.pool.query(
+            'SELECT occurrence_id,revision,snapshot::text FROM b2b_occurrence_revision ORDER BY occurrence_id,revision',
+          )
+        ).rows;
+        const effectiveAt = '2026-10-08T02:00:00.000Z'; // October 7 in enrollment timezone.
+        f.time.now = Date.parse(effectiveAt);
+        const request = {
+          id: issued.id,
+          expectedRevision: issued.revision,
+          operationId: 'end-from-handler',
+        };
+        await assert.rejects(
+          f.transaction((context) =>
+            f.module.endEnrollment(context, {
+              ...request,
+              effectiveAt: '2099-01-01T00:00:00Z',
+            } as typeof request),
+          ),
+          errorCode('INVALID_INPUT'),
+        );
+        const ended = await f.transaction((context) => f.module.endEnrollment(context, request));
+        assert.equal(ended.status, 'ended');
+        assert.equal(ended.revision, 2);
+        assert.equal(endChanges.length, 1);
+        assert.equal(endChanges[0]!.effectiveAt, effectiveAt);
+        assert.equal(endChanges[0]!.before!.status, 'active');
+        assert.deepEqual(endChanges[0]!.after, ended);
+        assert.deepEqual(
+          production.plan(endChanges[0]!),
+          production.plan(structuredClone(endChanges[0]!)),
+        );
+        const reconciled = await occurrenceRows(f);
+        assert.equal(reconciled.length, originals.length);
+        for (const occurrence of reconciled) {
+          const before = originals.find((original) => original.id === occurrence.id)!;
+          assert.ok(before, 'Every issued occurrence survives ending.');
+          assert.equal(occurrence.originalDate, before.originalDate);
+          assert.deepEqual(occurrence.routine, before.routine);
+          assert.equal(occurrence.issuedEnrollmentRevision, before.issuedEnrollmentRevision);
+          assert.equal(occurrence.scheduledDate, before.scheduledDate);
+          const future = occurrence.scheduledDate > '2026-10-07';
+          assert.equal(occurrence.eligibility, future ? 'cancelled' : 'required');
+          assert.equal(occurrence.revision, before.revision + (future ? 1 : 0));
+          if (future) assert.ok(occurrence.cancellationReason);
+          else assert.deepEqual(occurrence, before);
+        }
+        assert.ok(
+          reconciled.some(
+            (occurrence) =>
+              occurrence.scheduledDate === '2026-10-08' && occurrence.eligibility === 'cancelled',
+          ),
+          'UTC date must not replace the enrollment local date.',
+        );
+        assert.deepEqual(await originalHistory(f), original);
+        const allRevisions = (
+          await f.pool.query(
+            'SELECT occurrence_id,revision,snapshot::text FROM b2b_occurrence_revision ORDER BY occurrence_id,revision',
+          )
+        ).rows;
+        for (const revision of oldRevisions)
+          assert.deepEqual(
+            allRevisions.find(
+              (row) =>
+                row.occurrence_id === revision.occurrence_id && row.revision === revision.revision,
+            ),
+            revision,
+          );
+        f.time.now = Date.parse('2026-11-01T12:00:00Z');
+        assert.deepEqual(
+          await f.transaction((context) => f.module.endEnrollment(context, request)),
+          ended,
+        );
+        assert.equal(
+          endChanges.length,
+          1,
+          'Accepted replay does not recalculate its effective instant.',
+        );
+        assert.deepEqual(await occurrenceRows(f), reconciled);
+        assert.equal(
+          (
+            await f.pool.query(
+              "SELECT * FROM b2b_audit WHERE action='enrollment.end' AND resource_id=$1",
+              [issued.id],
+            )
+          ).rowCount,
+          1,
+        );
+        assert.equal(
+          (
+            await f.pool.query(
+              "SELECT * FROM b2b_operation_receipt WHERE operation_id='end-from-handler'",
+            )
+          ).rowCount,
+          1,
+        );
+      },
+      {
+        plan(change) {
+          if (change.reason === 'end') endChanges.push(structuredClone(change));
+          return production.plan(change);
+        },
+        async apply(context, change, impacts) {
+          if (change.reason === 'end') assert.equal(change.effectiveAt, endChanges[0]!.effectiveAt);
+          await production.apply(context, change, impacts);
+        },
+      },
+    );
+  },
+);
+
+test(
+  'production period preview stays valid as server time advances within its expiry bucket',
+  { skip: !databaseUrl },
+  async () => {
+    await fixture(async (f) => {
+      await publish(f);
+      const issued = await enroll(f);
+      const proposed = moved(issued);
+      const preview = await f.transaction((context) =>
+        f.module.periodPreview(context, {
+          id: issued.id,
+          expectedRevision: issued.revision,
+          proposed,
+        }),
+      );
+      f.time.now += 60_000;
+      assert.ok(f.time.now < Date.parse(preview.expiresAt));
+      const accepted = await f.transaction((context) =>
+        f.module.applyPeriod(context, {
+          enrollmentId: issued.id,
+          expectedRevision: issued.revision,
+          proposed,
+          previewHash: preview.previewHash,
+          operationId: 'apply-after-clock-advance',
+        }),
+      );
+      assert.equal(accepted.revision, 2);
+      assert.deepEqual(accepted.content, proposed);
+    });
+  },
+);
 
 test(
   'legacy draft projection requires explicit load/laterality confirmation and never rewrites issued versions or actuals',
@@ -397,9 +560,24 @@ test(
         }),
       );
       assert.deepEqual(await originalHistory(f), before);
+      const reconciled = await occurrenceRows(f);
+      const removedIds = new Set(preview.impacts.map((impact) => impact.occurrenceId));
+      assert.equal(
+        reconciled.filter((occurrence) => removedIds.has(occurrence.id)).length,
+        removedIds.size,
+      );
       assert.ok(
-        (await occurrenceRows(f)).every(
-          (occurrence) => occurrence.eligibility === 'cancelled' && occurrence.cancellationReason,
+        reconciled
+          .filter((occurrence) => removedIds.has(occurrence.id))
+          .every(
+            (occurrence) => occurrence.eligibility === 'cancelled' && occurrence.cancellationReason,
+          ),
+      );
+      const replacementSlots = reconciled.filter((occurrence) => occurrence.slotId === 'new-slot');
+      assert.equal(replacementSlots.length, 2);
+      assert.ok(
+        replacementSlots.every(
+          (occurrence) => occurrence.eligibility === 'required' && !removedIds.has(occurrence.id),
         ),
       );
       const ended = await f.transaction((context) =>
@@ -548,7 +726,7 @@ test(
       const failing = new PlanningModule({
         ...createPlanningResources(async () => []),
         schedule: {
-          ...syntheticSchedule,
+          ...createPlanningSchedule(),
           async apply() {
             throw new Error('Synthetic schedule failure');
           },

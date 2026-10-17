@@ -392,6 +392,7 @@ export class PlanningModule implements PlanningServices {
       });
       const change: ScheduleChange = {
         reason: 'enroll',
+        effectiveAt: saved.createdAt,
         before: null,
         after: saved,
         occurrences: [],
@@ -461,6 +462,7 @@ export class PlanningModule implements PlanningServices {
     reason: 'period' | 'end',
   ): Promise<ScheduleChange> {
     const state = await new PlanningRepository(context).scheduleState(previous.id);
+    const now = this.now();
     return {
       reason,
       before: previous,
@@ -471,12 +473,17 @@ export class PlanningModule implements PlanningServices {
         content: proposed,
       }),
       ...state,
+      // End uses its precise server instant. Period previews bind the existing
+      // expiry bucket, so time passing within that bucket cannot change the hash.
+      effectiveAt: new Date(
+        reason === 'end' ? now : Math.floor(now / 900_000) * 900_000,
+      ).toISOString(),
     };
   }
   private preview(context: AuthorizedProductContext, change: ScheduleChange) {
     const impacts = this.impacts(change);
     // Stateless expiry is the end of the current 15-minute server-clock bucket.
-    const expiresAt = new Date((Math.floor(this.now() / 900_000) + 1) * 900_000).toISOString();
+    const expiresAt = new Date(Date.parse(change.effectiveAt) + 900_000).toISOString();
     const previewHash = planningHash({
       actorId: context.actorId,
       scope: change.after.scope,
