@@ -1,0 +1,8 @@
+$ pnpm check:b2b:boundaries && turbo run lint && pnpm format:b2b:check
+$ node scripts/check-b2b-boundaries.mjs
+apps/b2b-api/src/schedule/index.ts: package path is not exported (@klisteniapp/b2b-domain/schedule)
+apps/b2b-api/src/schedule/index.ts: package path is not exported (@klisteniapp/b2b-domain/sessions)
+apps/b2b-api/src/sessions/index.ts: package path is not exported (@klisteniapp/b2b-domain/sessions)
+apps/b2b-api/src/sessions/operations.ts: package path is not exported (@klisteniapp/b2b-domain/sessions)
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

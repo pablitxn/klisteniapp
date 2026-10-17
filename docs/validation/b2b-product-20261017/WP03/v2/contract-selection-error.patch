@@ -1,0 +1,10 @@
+--- a/packages/b2b-contracts/src/product-common.ts
++++ b/packages/b2b-contracts/src/product-common.ts
+@@ -103,6 +103,7 @@
+       'STALE_PERIOD_PREVIEW',
+       'OUTSIDE_PRESCRIBED_WEEK',
+       'UNSUPPORTED_FORMAT',
++      'REVIEWED_TARGET_UNAVAILABLE',
+     ]),
+     issues: z.array(ProductIssueSchema).optional(),
+   })

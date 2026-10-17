@@ -1,0 +1,34 @@
+$ node --test tests/*.test.ts
+✔ routine retry keys are per request headers and never change content or account/context guards (60.302089ms)
+✔ the public client API works without a browser or cross-tab notification support (1.832062ms)
+✔ named reads validate responses and keep each originating account bound to the request (2.749346ms)
+✔ catalog response validation rejects nested invalid media and missing required response fields (12.802586ms)
+✔ invalid JSON and unexpected empty successful responses are contract errors, not network errors (1.227978ms)
+✔ server conflict and session errors preserve status, code and safe message (3.465112ms)
+✔ writes use named route, validated input and the account guard (2.736011ms)
+✔ media sends raw bytes with encoded metadata and validates the stored asset (14.485668ms)
+✔ transport distinguishes failed connections from aborted deadlines (5.712636ms)
+✔ authentication notifies other tabs only when the server changed the session (1.592049ms)
+✔ an interrupted response body preserves timeout and connection errors after headers arrive (6.78485ms)
+✔ 401 and 403 still revoke protected views when their response body is interrupted (11.722986ms)
+✔ cancelling a scoped read preserves sibling requests and account binding (1.223623ms)
+✔ an already cancelled scope never sends a request (0.298533ms)
+✔ WL client scopes branch and role immutably through account and abort binding (1.024731ms)
+✔ WL departed context drops even a successful late response and refuses queued writes (0.932417ms)
+✔ WL accepting an invitation through credentials announces the changed session (1.739683ms)
+✔ product client explicitly binds identity, organization, branch and contract version (52.554888ms)
+✔ routine mutations preserve immutable retry payload and operation key and validate response (19.8515ms)
+✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (3.096254ms)
+✔ inactive export uses the restricted self namespace with selected organization (1.578281ms)
+✔ legacy clients retain their existing headers and strict schemas (1.921508ms)
+✔ structured activation issues survive transport with exact step and field paths (2.287844ms)
+✔ v2 role selection carries organization superadmin without changing the legacy role enum (1.784136ms)
+✔ withdrawn selection parses through the frozen error contract and client with its field issue retained (42.60226ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 757.794547
