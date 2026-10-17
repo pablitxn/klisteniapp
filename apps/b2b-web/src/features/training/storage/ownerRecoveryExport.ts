@@ -6,9 +6,10 @@ import { sameScope, workoutKey, type WorkoutScope, type WorkoutStore } from './w
  * and discovery result; this never grants operational access or starts replay. */
 export async function exportOwnerLocalWorkout(
   store: WorkoutStore,
-  context: { scope: WorkoutScope; access: ProductAccess },
+  context: { scope: WorkoutScope; access: ProductAccess; signal: AbortSignal },
   sessionId: string,
 ): Promise<string | null> {
+  context.signal.throwIfAborted()
   const access = ProductAccessSchema.parse(context.access)
   const { scope } = context
   if (
@@ -19,6 +20,7 @@ export async function exportOwnerLocalWorkout(
   )
     throw new Error('Current authenticated owner export access is required')
   const document = await store.read(workoutKey(scope, sessionId))
+  context.signal.throwIfAborted()
   if (!document) return null
   if (!sameScope(document.scope, scope) || document.id !== sessionId)
     throw new Error('Local workout does not belong to the selected owner context')

@@ -3,6 +3,7 @@ import test from 'node:test'
 import { exportOwnerLocalWorkout } from '../src/features/training/storage/ownerRecoveryExport.ts'
 import { queueWorkout } from '../src/features/training/sync/workoutSync.ts'
 import { access, scope, stored, now, receipt } from './fixtures/workout.ts'
+const signal = new AbortController().signal
 
 test('export-only owner can recover unsynchronized work without operational grants, requests or mutation', async () => {
   const { store, d } = await stored()
@@ -16,7 +17,7 @@ test('export-only owner can recover unsynchronized work without operational gran
     capabilities: ['export-own-records' as const],
   }
   const output = JSON.parse(
-    (await exportOwnerLocalWorkout(store, { scope, access: restricted }, d.id))!,
+    (await exportOwnerLocalWorkout(store, { signal, scope, access: restricted }, d.id))!,
   )
   assert.equal(output.serverConfirmed, false)
   assert.equal(output.operations[0].operationId, 'pending-owner')
@@ -35,13 +36,13 @@ test('owner export refuses other identities, organizations and missing export ca
     { ...access, capabilities: [] },
   ])
     await assert.rejects(
-      exportOwnerLocalWorkout(store, { scope, access: changed }, d.id),
+      exportOwnerLocalWorkout(store, { signal, scope, access: changed }, d.id),
       /owner export access/,
     )
   assert.equal(
     await exportOwnerLocalWorkout(
       store,
-      { scope: { ...scope, branchId: 'foreign' }, access },
+      { signal, scope: { ...scope, branchId: 'foreign' }, access },
       d.id,
     ),
     null,
@@ -49,7 +50,7 @@ test('owner export refuses other identities, organizations and missing export ca
   assert.equal(
     await exportOwnerLocalWorkout(
       store,
-      { scope: { ...scope, origin: 'https://foreign.example' }, access },
+      { signal, scope: { ...scope, origin: 'https://foreign.example' }, access },
       d.id,
     ),
     null,
@@ -68,12 +69,38 @@ test('server-confirmed content is omitted from a local-only export unless recove
     })
   ).session
   await store.compareAndSet({ ...d, accepted, generation: 1 }, 0)
-  assert.equal(await exportOwnerLocalWorkout(store, { scope, access }, d.id), null)
+  assert.equal(await exportOwnerLocalWorkout(store, { signal, scope, access }, d.id), null)
   const saved = (await store.read(d.key))!
   await store.compareAndSet({ ...saved, recovery: [saved.content], generation: 2 }, 1)
-  const output = JSON.parse((await exportOwnerLocalWorkout(store, { scope, access }, d.id))!)
+  const output = JSON.parse(
+    (await exportOwnerLocalWorkout(store, { signal, scope, access }, d.id))!,
+  )
   assert.equal(output.localContent, null)
   assert.equal(output.acceptedRevision, 1)
   assert.equal(output.recovery.length, 1)
   assert.equal('accepted' in output, false)
+})
+
+test('account departure during a local read cancels the export before bytes reach the next screen', async () => {
+  const { store, d } = await stored()
+  const controller = new AbortController()
+  let release!: () => void
+  const waiting = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  const slow = {
+    read: async (key: string) => {
+      await waiting
+      return store.read(key)
+    },
+    compareAndSet: store.compareAndSet.bind(store),
+    preserveLegacy: store.preserveLegacy.bind(store),
+  }
+  const pending = exportOwnerLocalWorkout(slow, { scope, access, signal: controller.signal }, d.id)
+  controller.abort()
+  release()
+  await assert.rejects(
+    pending,
+    (error) => error instanceof DOMException && error.name === 'AbortError',
+  )
 })
