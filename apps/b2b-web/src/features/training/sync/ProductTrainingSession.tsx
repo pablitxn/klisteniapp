@@ -7,7 +7,7 @@ import {
   type WorkoutBinding,
 } from './workoutPrescription'
 import { canonicalJson } from '@klisteniapp/b2b-domain/sessions'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { SessionRevision } from '@klisteniapp/b2b-contracts/product-v2'
 import type { AlternativeEnvironment } from '@klisteniapp/b2b-domain/alternatives'
 import { Field, Notice } from '@klisteniapp/b2b-ui'
@@ -30,6 +30,17 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
   const [remote, setRemote] = useState<SessionRevision | null>(null)
   const [remoteBinding, setRemoteBinding] = useState<WorkoutBinding | undefined>(undefined)
   const [recoveryError, setRecoveryError] = useState('')
+  const closeRequest = useRef<Promise<void> | null>(null)
+  function requestClose() {
+    if (closeRequest.current) return closeRequest.current
+    closeRequest.current = session
+      .requestClose(props.onClose, { retry: Boolean(session.closeError) })
+      .catch(() => {
+        // The hook keeps captured values and exposes the local durability failure.
+        closeRequest.current = null
+      })
+    return closeRequest.current
+  }
   const d = session.document
   const prescription = d?.binding?.prescription ?? workoutPrescription(props)
   const display = prescriptionDisplay(prescription)
@@ -107,12 +118,18 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           <h1>{display.name}</h1>
           <p>Registrá valores reales. Cada ejercicio usa su propia dosis y carga.</p>
         </div>
-        <button className="button" onClick={props.onClose}>
-          Volver
+        <button className="button" disabled={session.closing} onClick={() => void requestClose()}>
+          {session.closing
+            ? 'Guardando en este dispositivo…'
+            : session.closeError
+              ? 'Reintentar guardado local y volver'
+              : 'Volver'}
         </button>
       </div>
       <p role="status" aria-live="polite">
-        {labels[state]}
+        {session.closing
+          ? 'Guardando cambios locales antes de salir. No esperamos la sincronización con el servidor.'
+          : labels[state]}
       </p>
       {session.recovered && <Notice>Recuperamos tu borrador local.</Notice>}
       {!session.editable && (
@@ -120,7 +137,9 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           Este acceso permite recuperar el trabajo propio. La edición y el envío están bloqueados.
         </Notice>
       )}
-      <Notice error>{session.error || session.storageError || recoveryError}</Notice>
+      <Notice error>
+        {session.closeError || session.error || session.storageError || recoveryError}
+      </Notice>
       {session.storageError && (
         <button className="button" onClick={() => void session.reloadLocal()}>
           Recargar copia local y archivar cambios de esta pantalla
@@ -138,7 +157,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
       {(d.problem?.kind === 'invalid' || d.problem?.kind === 'unavailable') && (
         <button
           className="button"
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onClick={() => void session.reviseRejected()}
         >
           Reenviar datos corregidos con nueva operación
@@ -193,7 +212,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           </p>
           <button
             className="button"
-            disabled={!session.editable}
+            disabled={!session.editable || session.closing}
             onClick={() => {
               setRemote(null)
               setRemoteBinding(undefined)
@@ -238,7 +257,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
       <Field label="Fecha y hora realizada (ISO con zona)">
         <input
           value={d.content.performedAt}
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onChange={(e) => {
             const value = e.currentTarget.value
             void session.edit((c) => ({ ...c, performedAt: value }))
@@ -252,7 +271,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           step={step}
           content={d.content}
           environment={props.environment}
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           acceptedSegmentIds={new Set(d.accepted?.content.segments.map((s) => s.segmentId) ?? [])}
           onArchiveTarget={(id) => {
             void session.archiveTarget(id)
@@ -266,7 +285,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
         <textarea
           maxLength={2000}
           value={d.content.notes}
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onChange={(e) => {
             const value = e.currentTarget.value
             void session.edit((c) => ({ ...c, notes: value }))
@@ -277,7 +296,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
         <textarea
           maxLength={1000}
           value={d.content.correctionReason}
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onChange={(e) => {
             const value = e.currentTarget.value
             void session.edit((c) => ({ ...c, correctionReason: value }))
@@ -291,21 +310,21 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
       <div className="workout-actions">
         <button
           className="button"
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onClick={() => void session.save('void')}
         >
           Anular registro con motivo
         </button>
         <button
           className="button"
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onClick={() => void session.save(false)}
         >
           Guardar parcial
         </button>
         <button
           className="button primary"
-          disabled={!session.editable}
+          disabled={!session.editable || session.closing}
           onClick={() => void session.save(true)}
         >
           Completar sesión explícitamente
@@ -314,6 +333,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           className="button"
           disabled={
             !session.editable ||
+            session.closing ||
             session.busy ||
             !session.online ||
             !props.integrationAccepted ||
