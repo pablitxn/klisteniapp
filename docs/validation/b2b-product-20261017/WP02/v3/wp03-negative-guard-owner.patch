@@ -1,0 +1,28 @@
+--- a/apps/b2b-api/tests/production-schedule.test.ts
++++ b/apps/b2b-api/tests/production-schedule.test.ts
+@@ -84,5 +84,6 @@
+ test(
+-  'pinned WP02 end seam fails closed without deterministic effectiveAt and rolls back the new revision',
++  'production adapter rejects deliberately omitted effectiveAt and preserves the current revision',
+   { skip: !databaseUrl },
+   async () => {
++    const adapter = createPlanningSchedule();
+     await fixture(async (f) => {
+@@ -118,3 +119,16 @@
+       );
+-    }, createPlanningSchedule());
++    }, {
++      ...adapter,
++      plan(change) {
++        if (change.reason !== 'end') return adapter.plan(change);
++        // Deliberately malformed adapter input; the repaired handler supplies time.
++        return adapter.plan({
++          reason: change.reason,
++          before: change.before,
++          after: change.after,
++          occurrences: change.occurrences,
++          sessions: change.sessions,
++        } as ScheduleChange);
++      },
++    });
+   },

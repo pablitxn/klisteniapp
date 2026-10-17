@@ -1,0 +1,11 @@
+{
+  "extends": "/workspace/wp02-v3-validation/apps/b2b-api/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@klisteniapp/b2b-domain/sessions": ["/workspace/wp02-v3-validation/packages/b2b-domain/src/sessions.ts"],
+      "@klisteniapp/b2b-domain/schedule": ["/workspace/wp02-v3-validation/packages/b2b-domain/src/schedule.ts"],
+      "@klisteniapp/b2b-domain/alternatives": ["/workspace/wp02-v3-validation/packages/b2b-domain/src/alternatives.ts"]
+    },
+    "typeRoots": ["/workspace/wp02-v3-validation/node_modules/@types"]
+  }
+}
