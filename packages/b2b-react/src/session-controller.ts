@@ -22,6 +22,13 @@ export type SessionState = {
 }
 
 type SessionClient = {
+  readProductWorkContext?: (
+    bootstrap: ProductBootstrap,
+  ) => { organizationId: string; branchId: string; role: OrganizationRoleV2 | '' } | null
+  writeProductWorkContext?: (
+    bootstrap: ProductBootstrap,
+    selection: { organizationId: string; branchId: string; role: OrganizationRoleV2 | '' } | null,
+  ) => void
   bootstrap?: (signal: AbortSignal) => Promise<ProductBootstrap>
   productAccess?: (
     actor: string,
@@ -132,6 +139,7 @@ export function createSessionController(client: SessionClient) {
       )
         throw new Error('El contexto autorizado cambió.')
       authority = new AbortController()
+      client.writeProductWorkContext?.(boot, { organizationId, branchId, role })
       patch({
         productAccess: access,
         contextSignal: authority.signal,
@@ -145,8 +153,55 @@ export function createSessionController(client: SessionClient) {
       return false
     }
   }
+  async function revalidateProduct(): Promise<boolean> {
+    // Focus/visibility checks use a separate request lifetime. Keep the exact
+    // published scope and callback identities while authority is unchanged;
+    // explicit session events, switches and revocations still abort immediately.
+    if (
+      !active ||
+      signingOut ||
+      !state.bootstrap ||
+      !state.productAccess ||
+      !client.bootstrap ||
+      !client.productAccess
+    )
+      return false
+    const previous = state
+    const current = ++generation
+    request?.abort()
+    const controller = new AbortController()
+    request = controller
+    try {
+      const bootstrap = await client.bootstrap(controller.signal)
+      if (!active || current !== generation || controller.signal.aborted) return false
+      if (JSON.stringify(bootstrap) === JSON.stringify(previous.bootstrap)) {
+        const access = await client.productAccess(
+          bootstrap.user.id,
+          previous.orgId,
+          previous.branchId,
+          previous.productRole,
+          controller.signal,
+        )
+        if (!active || current !== generation || controller.signal.aborted) return false
+        if (JSON.stringify(access) === JSON.stringify(previous.productAccess)) return true
+      }
+    } catch (error) {
+      if (!active || current !== generation || controller.signal.aborted) return false
+      if (!(error instanceof ApiError) || (error.status !== 401 && error.status !== 403)) {
+        // A transport failure is not evidence of logout. The workspace's live
+        // stream gate suspends network writes; owner-local drafts remain mounted.
+        return false
+      }
+    }
+    if (active && current === generation) await refresh(true)
+    return false
+  }
   async function refresh(immediate = true): Promise<void> {
     if (!active || signingOut) return
+    if (!immediate && state.bootstrap && state.productAccess) {
+      await revalidateProduct()
+      return
+    }
     const current = ++generation
     const previous = state
     request?.abort()
@@ -173,9 +228,14 @@ export function createSessionController(client: SessionClient) {
         const bootstrap = await client.bootstrap(controller.signal)
         if (!active || current !== generation || controller.signal.aborted) return
         if (bootstrap.memberships.some((m) => m.activated) || bootstrap.realm.mode === 'unified') {
+          const stored = client.readProductWorkContext?.(bootstrap)
+          const sameIdentity =
+            previous.bootstrap?.user.id === bootstrap.user.id &&
+            previous.bootstrap.realm.key === bootstrap.realm.key
           const membership =
-            bootstrap.memberships.find((m) => m.organizationId === previous.orgId) ??
-            bootstrap.memberships[0]
+            bootstrap.memberships.find(
+              (m) => m.organizationId === (sameIdentity ? previous.orgId : stored?.organizationId),
+            ) ?? bootstrap.memberships[0]
           patch({
             bootstrap,
             me: null,
@@ -188,8 +248,20 @@ export function createSessionController(client: SessionClient) {
           if (membership?.activated) {
             const selected =
               membership.choices.find(
-                (c) => c.branchId === previous.branchId && c.role === previous.productRole,
-              ) ?? (membership.choices.length === 1 ? membership.choices[0] : undefined)
+                (c) =>
+                  sameIdentity &&
+                  c.branchId === previous.branchId &&
+                  c.role === previous.productRole,
+              ) ??
+              (membership.choices.length === 1 ? membership.choices[0] : undefined) ??
+              membership.choices.find(
+                (c) =>
+                  stored?.organizationId === membership.organizationId &&
+                  c.branchId === stored.branchId &&
+                  c.role === stored.role,
+              )
+            if (stored && !selected && membership.accessMode === 'active')
+              client.writeProductWorkContext?.(bootstrap, null)
             if (membership.accessMode === 'export-only' || selected)
               await selectProduct(
                 membership.organizationId,
@@ -228,6 +300,10 @@ export function createSessionController(client: SessionClient) {
           client.writeWorkContext?.(access.organizationId, me.user.id, null)
         patch({
           me,
+          bootstrap: null,
+          productAccess: null,
+          productRole: '',
+          ...(previous.bootstrap ? { orgId: '', branchId: '', workRole: '' } : {}),
           loading: false,
           dataRefresh: state.dataRefresh + 1,
           ...(access
@@ -241,6 +317,15 @@ export function createSessionController(client: SessionClient) {
       }
     } catch (error) {
       if (active && current === generation) {
+        if (previous.bootstrap && !(error instanceof ApiError && error.status === 401)) {
+          patch({
+            bootstrap: previous.bootstrap,
+            productAccess: null,
+            loading: false,
+            error: errorMessage(error),
+          })
+          return
+        }
         patch({
           me: null,
           bootstrap: null,
@@ -265,6 +350,7 @@ export function createSessionController(client: SessionClient) {
     patch({ loading: true, error: '', productAccess: null })
     try {
       await client.signOut()
+      if (state.bootstrap) client.writeProductWorkContext?.(state.bootstrap, null)
       if (state.me?.whiteLabel)
         client.writeWorkContext?.(state.me.whiteLabel.organizationId, state.me.user.id, null)
       if (active && current === generation)
@@ -307,6 +393,7 @@ export function createSessionController(client: SessionClient) {
       invalidateAuthority()
     },
     refresh,
+    revalidateProduct,
     signOut,
     setProductWorkContext: selectProduct,
     setOrgId(orgId: string) {

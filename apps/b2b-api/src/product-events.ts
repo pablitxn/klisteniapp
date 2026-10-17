@@ -60,6 +60,9 @@ export class ProductEventHub {
   };
   private async open() {
     if (this.closing) throw new Error('Event hub closed');
+    // A connected socket is not yet a listening socket. Every concurrent
+    // subscriber must cross the same completed LISTEN barrier.
+    if (this.opening) return this.opening;
     if (this.connection) return;
     if (!this.opening)
       this.opening = (async () => {
@@ -86,7 +89,11 @@ export class ProductEventHub {
   }
   async subscribe(scope: EventScope, invalidate: () => void) {
     await this.open();
-    if (this.listeners.size >= 128)
+    if (this.closing || !this.connection) throw new Error('Event listener unavailable');
+    const owned = [...this.listeners].filter(
+      (listener) => listener.scope.actorId === scope.actorId,
+    ).length;
+    if (owned >= 8 || this.listeners.size >= 128)
       throw new HttpError(429, 'TOO_MANY_REQUESTS', 'Hay demasiadas conexiones activas.');
     const listener = { scope, invalidate };
     this.listeners.add(listener);
@@ -113,20 +120,23 @@ export async function serveProductEvents(
     checking = false;
   let unsubscribe = () => {};
   let heartbeat: ReturnType<typeof setInterval> | undefined;
-  const close = () => {
+  const close = (terminate = true) => {
     if (closed) return;
     closed = true;
     clearInterval(heartbeat);
-    clearTimeout(lease);
+    clearTimeout(startup);
     unsubscribe();
     if (ready && !response.destroyed) response.end('event: invalidate\ndata: {}\n\n');
+    else if (terminate && !response.destroyed) response.destroy();
   };
   const send = (event: string) => {
     if (!closed && !response.destroyed && !response.write(`event: ${event}\ndata: {}\n\n`)) close();
   };
   response.once('close', close);
   request.once('aborted', close);
-  const lease = setTimeout(close, 45_000);
+  // Healthy streams stay open: periodic authorization and the browser watchdog
+  // bound stale authority without destroying an editor on a transport lease.
+  const startup = setTimeout(close, 10_000);
   try {
     unsubscribe = await hub.subscribe(scope, close);
     if (closed) {
@@ -135,6 +145,7 @@ export async function serveProductEvents(
     }
     await authorize();
     if (closed) throw new HttpError(403, 'CONTEXT_REVOKED', 'El acceso cambió.');
+    clearTimeout(startup);
     response.writeHead(200, {
       'content-type': 'text/event-stream; charset=utf-8',
       'cache-control': 'private, no-store',
@@ -152,7 +163,7 @@ export async function serveProductEvents(
         });
     }, 5000);
   } catch (error) {
-    close();
+    close(false);
     throw error;
   }
 }

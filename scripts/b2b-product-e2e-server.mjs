@@ -174,10 +174,27 @@ export async function startProductHarness({
       }
       fixtureMap.push({
         ...fixture,
+        ...(activateProductFixture
+          ? {
+              routes: {
+                programming: '/manage?view=planning',
+                history: '/app?view=history',
+                health: '/app?view=health',
+                trainerHealth: '/manage?view=shared-health',
+                people: '/manage?view=people',
+                reports: '/manage?view=reports',
+              },
+              entryPoints: { workoutButtonName: 'Abrir sesión' },
+              // Implementation bindings for QA to exercise, not acceptance claims.
+              readiness: { remoteHealthInvalidation: true, localRecoveryBinding: true },
+            }
+          : {}),
         project: { ...project, mode },
         baselineEntry: whiteLabel
           ? 'brand-scoped'
-          : 'blocked-by-current-white-label-required-guard',
+          : activateProductFixture
+            ? 'product-unified'
+            : 'blocked-by-current-white-label-required-guard',
         schema: environment.schema,
       })
     }

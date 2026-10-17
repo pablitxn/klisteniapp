@@ -41,6 +41,7 @@ import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contrac
 import { productPeople, updateProductMember, inviteProductMember } from './auth/product-people.ts';
 import { readProductAudit } from './audit/product-audit.ts';
 import { HEALTH_RESPONSE_HEADERS } from './health/index.ts';
+import { authorizeHealthDisclosure } from './health/consent.ts';
 import { assertProductMigrations } from './product-readiness.ts';
 import { bindInactiveBrandSession, inactiveRouteAllowed } from './membership/access.ts';
 import { PERSONAL_EXPORT_HEADERS } from './exports/index.ts';
@@ -609,7 +610,7 @@ export function createApiServer({
               false,
               contractHeader,
               async (c) => {
-                if (memberId) await service.productProducer(c, 'consentedHealth', { memberId });
+                if (memberId) await authorizeHealthDisclosure(c, memberId);
               },
               work,
             );
@@ -1232,6 +1233,11 @@ export function createApiServer({
   server.requestTimeout = 120000;
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
-  server.once('close', () => eventHub.close());
+  // SSE responses must end before server.close can finish draining requests.
+  const close = server.close.bind(server);
+  server.close = (callback) => {
+    eventHub.close();
+    return close(callback);
+  };
   return server;
 }

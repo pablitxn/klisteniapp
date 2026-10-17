@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { createProductV2Client, type ProductV2Client } from '@klisteniapp/b2b-client'
 import type { ProductOutput, OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2'
 import { AccountProvider, useLoad } from '@klisteniapp/b2b-react'
@@ -18,31 +18,13 @@ import type { RoutineReference } from '../features/training/routine-history/mode
 import { HealthSettings } from '../features/health/HealthSettings'
 import type { HealthAccess } from '../features/health/healthAccess'
 
-export default function ProductWorkspace() {
+export default function ProductWorkspace({ publicContent }: { publicContent?: ReactNode }) {
   const { session, href, navigate } = useApplication()
   const [store] = useState(() => new IndexedDBWorkoutStore())
   const [recovery, setRecovery] = useState<SelectedRecovery | null>(null)
   const boot = session.bootstrap
   const membership = boot?.memberships.find((m) => m.organizationId === session.orgId)
   const refresh = useCallback(() => session.refresh(), [session.refresh])
-  const createClient = useCallback(
-    (signal?: AbortSignal) =>
-      createProductV2Client(boot?.user.id ?? '', session.orgId, {
-        branchId: session.branchId || undefined,
-        role: session.productRole || undefined,
-        contextSignal: session.contextSignal,
-        signal,
-        onAuthChange: () => void refresh(),
-      }),
-    [
-      boot?.user.id,
-      session.orgId,
-      session.branchId,
-      session.productRole,
-      session.contextSignal,
-      refresh,
-    ],
-  )
   const streamContext = useMemo<HealthAccess | null>(
     () =>
       boot && session.productAccess
@@ -65,7 +47,42 @@ export default function ProductWorkspace() {
       session.contextSignal,
     ],
   )
-  const live = useProductStream(streamContext, undefined, () => void refresh())
+  const stream = useProductStream(streamContext, undefined, () => void refresh(), {
+    revalidate: session.revalidateProduct,
+  })
+  const protectedContext = useMemo(
+    () =>
+      streamContext
+        ? {
+            ...streamContext,
+            requestSignal: () => stream.guard.requestSignal(),
+          }
+        : null,
+    [streamContext, stream.guard],
+  )
+  const createClient = useCallback(
+    (signal?: AbortSignal): ProductV2Client => ({
+      call: async (key, input) => {
+        const network = stream.guard.requestSignal()
+        return createProductV2Client(boot?.user.id ?? '', session.orgId, {
+          branchId: session.branchId || undefined,
+          role: session.productRole || undefined,
+          contextSignal: AbortSignal.any([session.contextSignal, network]),
+          signal,
+          onAuthChange: () => void refresh(),
+        }).call(key, input)
+      },
+    }),
+    [
+      boot?.user.id,
+      session.orgId,
+      session.branchId,
+      session.productRole,
+      session.contextSignal,
+      stream.guard,
+      refresh,
+    ],
+  )
   if (!boot) return null
   return (
     <Shell
@@ -126,13 +143,27 @@ export default function ProductWorkspace() {
           </button>
         </p>
       )}
-      {membership && !membership.activated ? (
+      {stream.validated && !stream.ready && (
+        <p role="status">
+          Conexión pendiente de validar. Conservamos el trabajo local; los envíos están suspendidos.
+        </p>
+      )}
+      {publicContent &&
+      membership?.accessMode === 'active' &&
+      !session.productAccess &&
+      !session.loading ? (
+        publicContent
+      ) : membership && !membership.activated ? (
         <p role="status">La nueva experiencia todavía no está activada en este gimnasio.</p>
       ) : membership && session.productAccess ? (
         <MembershipAccessBoundary
           identity={{ userId: boot.user.id, organizationId: membership.organizationId }}
           access={session.productAccess}
-          revalidating={session.loading || !live}
+          revalidating={
+            session.loading ||
+            !stream.validated ||
+            (session.productAccess.accessMode === 'export-only' && !stream.ready)
+          }
           client={createClient()}
           contextSignal={session.contextSignal}
           currentOrigin={location.origin}
@@ -152,34 +183,28 @@ export default function ProductWorkspace() {
               : undefined
           }
         >
-          <AccountProvider
-            userId={boot.user.id}
-            branchId={session.branchId}
-            contextKey={session.workContextKey}
-          >
-            <ProductViews
-              key={session.workContextKey}
-              createClient={createClient}
-              accessKey={session.workContextKey}
-              context={{
-                accountId: boot.user.id,
-                organizationId: session.orgId,
-                branchId: session.branchId,
-                hostBinding: boot.realm.key,
-                generation: session.workContextKey,
-                access: session.productAccess,
-                signal: session.contextSignal,
-              }}
-              store={store}
-              onSelected={setRecovery}
-              organizationName={membership.name}
-              branchName={
-                membership.choices.find((c) => c.branchId === session.branchId)?.name ?? ''
-              }
-              href={href}
-              navigate={navigate}
-            />
-          </AccountProvider>
+          {publicContent ?? (
+            <AccountProvider
+              userId={boot.user.id}
+              branchId={session.branchId}
+              contextKey={session.workContextKey}
+            >
+              <ProductViews
+                key={session.workContextKey}
+                createClient={createClient}
+                accessKey={session.workContextKey}
+                context={protectedContext!}
+                store={store}
+                onSelected={setRecovery}
+                organizationName={membership.name}
+                branchName={
+                  membership.choices.find((c) => c.branchId === session.branchId)?.name ?? ''
+                }
+                href={href}
+                navigate={navigate}
+              />
+            </AccountProvider>
+          )}
         </MembershipAccessBoundary>
       ) : (
         <p role="status">
@@ -546,11 +571,11 @@ function TrainerHealthGate({
     }
   }, [context, generation])
   const scoped = scopedLifetime.context
-  const ready = useProductStream(invalid ? null : scoped, memberId, () => {
+  const stream = useProductStream(invalid ? null : scoped, memberId, () => {
     scopedLifetime.controller.abort()
     setInvalid(true)
   })
-  if (!ready)
+  if (!stream.ready)
     return (
       <section>
         <p role="status">

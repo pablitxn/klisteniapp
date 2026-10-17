@@ -205,10 +205,10 @@ export const HEALTH_RESPONSE_HEADERS = Object.freeze({
 export const healthDisclosureGeneration = (view: ProductOutput<'consentedHealth'>) =>
   `${view.scope.organizationId}:${view.scope.branchId}:${view.ownerId}:${view.consentId}:${view.consentRevision}`;
 
-export async function consentedHealth(
+/** Stream maintenance authorizes metadata only; it never reads health records. */
+export async function authorizeHealthDisclosure(
   context: AuthorizedProductContext,
   memberId: string,
-  now: Date,
 ) {
   await currentHealthContext(context, 'read-consented-health');
   await currentHealthTarget(context, memberId);
@@ -225,7 +225,15 @@ export async function consentedHealth(
       'CONSENT_REQUIRED',
       'Se necesita consentimiento vigente para ver estos datos.',
     );
-  const consent = consentDto(row);
+  return consentDto(row);
+}
+
+export async function consentedHealth(
+  context: AuthorizedProductContext,
+  memberId: string,
+  now: Date,
+) {
+  const consent = await authorizeHealthDisclosure(context, memberId);
   const own = await readOwnerHealth(context, memberId);
   return ConsentedHealthSchema.parse({
     schemaVersion: 2,

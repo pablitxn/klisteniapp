@@ -190,6 +190,7 @@ function ProductHistoryWorkspace({
               sessions={records}
               enrollments={plans}
               now={clock}
+              onStartOccurrence={onStartOccurrence}
               canReschedule={
                 canReschedule &&
                 !history.loading &&
@@ -215,16 +216,6 @@ function ProductHistoryWorkspace({
               }}
             />
           )}
-          {onStartOccurrence &&
-            weekly.data?.occurrences
-              .filter((o) => o.eligibility === 'required')
-              .map((o) => (
-                <p key={o.id}>
-                  <button className="button" onClick={() => onStartOccurrence(o)}>
-                    Abrir sesión del {o.scheduledDate}
-                  </button>
-                </p>
-              ))}
           {onStartLegacy &&
             history.data.assignments.map((a) => (
               <p key={a.id}>

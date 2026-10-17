@@ -1,8 +1,128 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { setTimeout as delay } from 'node:timers/promises';
-import { ProductEventHub } from '../src/product-events.ts';
+import { EventEmitter } from 'node:events';
+import type { Pool } from 'pg';
+import { ProductEventHub, serveProductEvents } from '../src/product-events.ts';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { productFixture, databaseUrl } from './support/product-fixture.ts';
+
+function fakePool(listen = async () => {}) {
+  const client = Object.assign(new EventEmitter(), {
+    async query(sql: string) {
+      if (sql.startsWith('LISTEN')) await listen();
+      return { rows: [{ schema: 'synthetic' }] };
+    },
+    release() {},
+  });
+  return { connect: async () => client } as unknown as Pool;
+}
+const syntheticScope = { actorId: 'owner', organizationId: 'gym', sessionId: 'session' };
+test('concurrent subscriptions cannot pass the unfinished LISTEN initialization barrier', async () => {
+  let release!: () => void;
+  const barrier = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const hub = new ProductEventHub(fakePool(() => barrier));
+  let ready = 0;
+  const first = hub.subscribe(syntheticScope, () => {}).then(() => ready++);
+  await delay(0);
+  const second = hub.subscribe(syntheticScope, () => {}).then(() => ready++);
+  await delay(0);
+  assert.equal(ready, 0);
+  release();
+  await Promise.all([first, second]);
+  assert.equal(ready, 2);
+  hub.close();
+});
+test('one actor cannot exhaust the global stream budget by changing sessions', async () => {
+  const hub = new ProductEventHub(fakePool());
+  try {
+    const off = [];
+    for (let i = 0; i < 8; i++)
+      off.push(await hub.subscribe({ ...syntheticScope, sessionId: `session-${i}` }, () => {}));
+    await assert.rejects(
+      hub.subscribe({ ...syntheticScope, sessionId: 'new-session' }, () => {}),
+      { status: 429 },
+    );
+    await hub.subscribe({ ...syntheticScope, actorId: 'another-owner' }, () => {});
+    off[0]();
+    await hub.subscribe(syntheticScope, () => {});
+  } finally {
+    hub.close();
+  }
+});
+test('healthy streams survive ninety seconds and hub shutdown terminates the response', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
+  const hub = new ProductEventHub(fakePool());
+  let ended = false;
+  const frames: string[] = [];
+  const response = Object.assign(new EventEmitter(), {
+    destroyed: false,
+    writeHead() {},
+    write(frame: string) {
+      frames.push(frame);
+      return true;
+    },
+    end(frame: string) {
+      ended = true;
+      frames.push(frame);
+    },
+    destroy() {
+      this.destroyed = true;
+    },
+  });
+  let authorizations = 0;
+  await serveProductEvents(
+    hub,
+    new EventEmitter() as IncomingMessage,
+    response as unknown as ServerResponse,
+    syntheticScope,
+    async () => {
+      authorizations++;
+    },
+  );
+  for (let i = 0; i < 18; i++) {
+    t.mock.timers.tick(5000);
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+  }
+  assert.equal(ended, false);
+  assert.equal(authorizations, 19);
+  assert.equal(frames.filter((f) => f.includes('heartbeat')).length, 18);
+  hub.close();
+  assert.equal(ended, true);
+  assert.match(frames.at(-1)!, /invalidate/);
+});
+test('startup timeout ends a response even while subscription is still opening', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let release!: () => void;
+  const barrier = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const hub = new ProductEventHub(fakePool(() => barrier));
+  const response = Object.assign(new EventEmitter(), {
+    destroyed: false,
+    destroy() {
+      this.destroyed = true;
+    },
+  });
+  const pending = serveProductEvents(
+    hub,
+    new EventEmitter() as IncomingMessage,
+    response as unknown as ServerResponse,
+    syntheticScope,
+    async () => {
+      assert.fail('Expired request must not authorize');
+    },
+  );
+  t.mock.timers.tick(10_000);
+  assert.equal(response.destroyed, true);
+  release();
+  await pending;
+  hub.close();
+});
 
 test(
   'committed invalidations reach independent API listeners; rollback, foreign scope and unrelated updates do not',
