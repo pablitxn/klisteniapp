@@ -188,9 +188,7 @@ export function LegacyAdoptionReview({
                     }
                   >
                     <option value="">Elegí una política</option>
-                    <option value="reviewed">
-                      Ofrecer todas las alternativas revisadas elegibles
-                    </option>
+                    <option value="reviewed">Alternativas revisadas</option>
                     <option value="blocked">Bloquear alternativas</option>
                   </select>
                 </Field>

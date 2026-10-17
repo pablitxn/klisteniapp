@@ -16,6 +16,7 @@
   margin-inline-start: 0;
 }
 .legacy-adoption dl {
+  grid-template-columns: minmax(0, 1fr);
   display: grid;
   gap: 6px 16px;
 }
@@ -23,6 +24,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .legacy-adoption-stack {
+  grid-template-columns: minmax(0, 1fr);
   display: grid;
   gap: 18px;
 }
@@ -50,4 +52,15 @@
   .legacy-adoption-scalars {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.legacy-adoption .field {
+  min-width: 0;
+}
+.legacy-adoption legend {
+  max-width: 100%;
+  white-space: normal;
+}
+.legacy-adoption select {
+  width: 100%;
 }

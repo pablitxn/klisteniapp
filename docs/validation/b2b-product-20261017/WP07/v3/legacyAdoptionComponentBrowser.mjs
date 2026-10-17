@@ -26,18 +26,34 @@ const baseURL = `http://127.0.0.1:${server.address().port}`
 const results = { node: process.version, playwright: '1.63.0', scope: 'Bundled component with frozen client and synthetic fetch; no product API/DB navigation',
   security: { uid: process.getuid(), capabilities: readFileSync('/proc/self/status', 'utf8').match(/^CapEff:\s*(.*)$/m)?.[1], noNewPrivileges: readFileSync('/proc/self/status', 'utf8').match(/^NoNewPrivs:\s*(.*)$/m)?.[1], network: 'none', ignoreHTTPSErrors: false, chromiumSandbox: true }, matrix: [] }
 const wait = async (page, predicate) => page.waitForFunction(predicate)
-for (const [engine, type] of [['chromium', chromium], ['webkit', webkit]]) {
+for (const [engine, type] of [['chromium', chromium], ['webkit', webkit]].filter(([name]) => !process.env.COMPONENT_ENGINE || process.env.COMPONENT_ENGINE === name)) {
   const browser = await type.launch({ ...(engine === 'chromium' ? { chromiumSandbox: true } : {}) })
-  for (const [width, height, touch] of [[320, 740, true], [430, 932, true], [1440, 1000, false]]) {
+  for (const [width, height, touch] of [[320, 740, true], [430, 932, true], [1440, 1000, false]].filter(([width]) => !process.env.COMPONENT_WIDTH || process.env.COMPONENT_WIDTH === String(width))) {
     const context = await browser.newContext({ viewport: { width, height }, isMobile: touch, hasTouch: touch, ignoreHTTPSErrors: false })
     const page = await context.newPage()
+    page.setDefaultTimeout(8000)
     const errors = []
     page.on('pageerror', (error) => errors.push(error.message))
     const row = { engine, browserVersion: browser.version(), width, height, touch, groups: [], screenshots: [] }
     results.matrix.push(row)
     const group = async (name, run) => {
       try { await run(); row.groups.push({ name, status: 'passed' }) }
-      catch (error) { row.groups.push({ name, status: 'failed', error: String(error) }) }
+      catch (error) {
+        const overflow = await page.evaluate(() => [...document.querySelectorAll('body *')].filter((node) => node.getBoundingClientRect().width > 0 && (node.getBoundingClientRect().right > innerWidth + .5 || node.scrollWidth > node.clientWidth + 1)).slice(-30).map((node) => ({ tag: node.tagName, className: node.className, text: node.textContent?.slice(0, 80), width: node.getBoundingClientRect().width, scroll: node.scrollWidth, client: node.clientWidth, right: node.getBoundingClientRect().right, minWidth: getComputedStyle(node).minWidth })))
+        const diagnosis = await page.evaluate(() => {
+          const changes = [
+            ['outline', '* { outline: none !important }'],
+            ['native appearance', 'select,input { appearance: none !important; -webkit-appearance: none !important }'],
+            ['number spinners', 'input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none !important; display: none !important }'],
+            ['details marker', 'summary { list-style: none !important } summary::-webkit-details-marker { display: none !important }'],
+            ['legend', 'legend { display: none !important }'],
+          ]
+          return changes.map(([label, css]) => { const style=document.createElement('style'); style.textContent=css; document.head.append(style); const width=document.documentElement.scrollWidth; style.remove(); return { label, width } })
+        })
+        row.groups.push({ name, status: 'failed', error: String(error), overflow, diagnosis, sizes: await page.evaluate(() => ({ innerWidth, document: document.documentElement.scrollWidth, client: document.documentElement.clientWidth, body: document.body.scrollWidth, viewport: visualViewport?.width, left: window.scrollX, rightmost: Math.max(...[...document.querySelectorAll('body *')].map((node) => node.getBoundingClientRect().right)) })) })
+        const filename = `${engine}-${width}-failure.png`
+        await page.screenshot({ path: join(output, filename), fullPage: true }); row.screenshots.push(filename)
+      }
     }
     async function open(mode = 'normal') {
       await page.goto(baseURL)
