@@ -13,7 +13,7 @@
     "build": "turbo run build",
     "lint": "pnpm check:b2b:boundaries && turbo run lint && pnpm format:b2b:check",
     "typecheck": "turbo run typecheck",
-    "test": "node --test scripts/preview-provenance.test.mjs scripts/preview-workspace-relocation.test.mjs scripts/b2b-boundaries.test.mjs scripts/dev-environment.test.mjs scripts/b2b-gateway.test.mjs && turbo run test",
+    "test": "node --test scripts/fixture-safety.test.mjs scripts/fixture-lifecycle.test.mjs scripts/preview-provenance.test.mjs scripts/preview-workspace-relocation.test.mjs scripts/b2b-boundaries.test.mjs scripts/dev-environment.test.mjs scripts/b2b-gateway.test.mjs && turbo run test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm previews:check && pnpm build",
     "test:e2e": "pnpm --filter @klisteniapp/b2c-web test:e2e",
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:analytics",
