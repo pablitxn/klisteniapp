@@ -42,7 +42,7 @@ test(scenarioTitle('B2BP-ROLES-001'), async ({ page, context, product }, info) =
   }
 })
 
-test(scenarioTitle('B2BP-ROLES-002'), async ({ page, product }, info) => {
+test(scenarioTitle('B2BP-ROLES-002'), async ({ page, context, product }, info) => {
   const coach = principal(product, 'cover-coach')
   await login(page, coach, info)
   expect(
@@ -60,17 +60,25 @@ test(scenarioTitle('B2BP-ROLES-002'), async ({ page, product }, info) => {
     const denied = await raw(page, coach, 'sessions', { memberId: who.actor.id }, override)
     expect([403, 404, 409]).toContain(denied.status())
   }
-  const branchless = await page.request.get(
-    `/api/b2b/orgs/${coach.organization.id}/product/v2/people`,
-    {
-      headers: {
-        'X-Klisteni-B2B-Contract': '2',
-        'X-Klisteni-B2B-Account': coach.actor.id,
-        'X-Klisteni-B2B-Role': 'coach',
+  const ambiguous = principal(product, 'mixed-role')
+  const peer = await newPage(context, info)
+  try {
+    await login(peer.page, ambiguous, info)
+    const branchless = await peer.page.request.get(
+      `/api/b2b/orgs/${ambiguous.organization.id}/product/v2/people`,
+      {
+        headers: {
+          'X-Klisteni-B2B-Contract': '2',
+          'X-Klisteni-B2B-Account': ambiguous.actor.id,
+          'X-Klisteni-B2B-Role': 'coach',
+        },
       },
-    },
-  )
-  expect([400, 403, 409]).toContain(branchless.status())
+    )
+    expect(branchless.status()).toBe(400)
+    expect((await branchless.json()).code).toBe('BRANCH_REQUIRED')
+  } finally {
+    await peer.context.close()
+  }
   await open(page, product, info, 'people')
   await expect(page.getByText(foreign.actor.email, { exact: true })).toHaveCount(0)
   await assertProductViewport(page, info)
