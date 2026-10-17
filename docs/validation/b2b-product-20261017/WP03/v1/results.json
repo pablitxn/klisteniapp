@@ -1,0 +1,38 @@
+{
+  "sourceHead": "22dd8743ce9e20cecfb7ddd098a75d0af1bef5ba",
+  "base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "tests": {
+    "contracts": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "domain": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    "apiWithExplicitExportSeams": {
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0,
+      "newWP03Cases": 13
+    }
+  },
+  "static": {
+    "packageLint": "passed:14",
+    "format": "passed",
+    "domainTypecheck": "passed",
+    "apiTypecheckWithExplicitExportSeams": "passed",
+    "ordinaryRootLint": "blocked:unregistered-domain-exports",
+    "ordinaryRootTypecheck": "blocked:unregistered-domain-exports"
+  },
+  "deferred": [
+    "new-v2-HTTP-composition",
+    "WP02-preview-and-apply-composition",
+    "WP04-target-availability-and-legacy-supplements",
+    "Astra-review",
+    "new-browser-acceptance",
+    "combined-build"
+  ]
+}
