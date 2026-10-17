@@ -11,7 +11,7 @@ This receipt is immutable after publication. Corrections require v2 or an amendm
 - Validated implementation: `5476de948722f11e6acf9e93ce87834c9bb58795`.
   Checks ran on the identical source/test tree immediately before that commit;
   `source-hashes.json` binds every changed source/test file to the committed bytes.
-  The subsequent receipt commit changes only this evidence directory.
+  The subsequent receipt commits change only this evidence directory.
 - Exact plan fetched/read: `447d77ebb5587e319018e7b56003f0ef7299bb6c`, including
   the plan, work-packages and full WP02 prompt. The base includes WP00 and WP13.
 - Atlas: `ce45d206a2ed4035f8003a3303abd1fff98e09b8`. Both root AGENTS, Atlas
@@ -75,7 +75,7 @@ All data was synthetic. No existing database credentials were read or changed.
 | `B2B_TEST_DATABASE_URL=<disposable local synthetic DB> pnpm --filter @klisteniapp/b2b-api test` | 111 passed, 0 failed, 0 skipped | `api.log` |
 | `pnpm typecheck` | 14/14 successful, uncached | `typecheck.log` |
 | `pnpm lint` | 14/14 successful; 13 prior unchanged-package cache hits; boundary and full B2B formatting checks passed | `lint.log` |
-| `git diff --check` | Passed | `checks.json` |
+| `git diff --check <frozen-base> HEAD` | Passed | `checks.json` |
 | Atlas effective identity guard | Passed: both roles Pablo Coronel, approved address | `identity.log` |
 | Atlas engineering instruction check | Passed on unchanged Atlas checkout | `atlas-engineering-content.log` |
 | Atlas commit and prepared PR text helpers | Passed; helper's `commits(applicationRoot, frozenBase)` explicitly selects this repository | `commits.log`, `pr-text.log` |
@@ -83,7 +83,9 @@ All data was synthetic. No existing database credentials were read or changed.
 The B2B API total includes the retained migration new-install/001-005 upgrade/
 repeat/race tests, legacy training tests and immutable-history integration cases.
 The WP02 additions contribute 19 PostgreSQL tests. New domain tests contribute four.
-No failed or skipped test is counted as a pass. Initial development failures were
+The lint/typecheck log copies remove trailing whitespace and final empty lines for
+patch hygiene; `checks.json` retains their original-output SHA-256 hashes. Output
+content and results are unchanged. No failed or skipped test is counted as a pass. Initial development failures were
 fixed before this source freeze; the listed logs are the final successful runs.
 
 ## Acceptance coverage and limits
