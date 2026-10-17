@@ -624,6 +624,7 @@ test(scenarioTitle('B2BP-PROGRAMMING-010'), async ({ page, product }, info) => {
       page.getByRole('button', { name: `Editar ${routine.name}`, exact: true }),
     ).toHaveCount(0)
     await page.getByRole('button', { name: 'Salir', exact: true }).click()
+    await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
     await login(page, principal(product, 'superadmin', 'sur'), info)
     await open(page, product, info, 'programming')
     await expect(

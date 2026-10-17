@@ -454,6 +454,7 @@ test(scenarioTitle('B2BP-HEALTH-010'), async ({ page, product }, info) => {
     page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),
   ).toBeVisible()
   await page.getByRole('button', { name: 'Salir', exact: true }).click()
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
   await login(page, principal(product, 'secondary-member', 'atlas', true), info)
   await open(page, product, info, 'health')
   await expect(

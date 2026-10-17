@@ -464,6 +464,7 @@ test(scenarioTitle('B2BP-HISTORY-009'), async ({ page, context, product }, info)
       page.getByRole('heading', { name: 'Mi salud y privacidad', exact: true }),
     ).toBeVisible()
     await page.getByRole('button', { name: 'Salir', exact: true }).click()
+    await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
     await login(page, principal(product, 'secondary-member', 'atlas', true), info)
     await open(page, product, info, 'history')
     await page.reload()
