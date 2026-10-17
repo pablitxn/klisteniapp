@@ -1,0 +1,40 @@
+$ VITE_APP_MODE=instance turbo run build --filter=@klisteniapp/b2c-web
+• turbo 2.11.3
+
+   • Packages in scope: @klisteniapp/b2c-web
+   • Running build in 1 package
+   • Remote caching disabled
+
+@klisteniapp/model-assets:typecheck: cache hit, replaying logs 50b32a6968812a9e
+@klisteniapp/model-assets:typecheck: $ tsc --noEmit
+@klisteniapp/scene-schema:typecheck: cache hit, replaying logs b9fa873cf41e3a40
+@klisteniapp/scene-schema:typecheck: $ tsc --noEmit
+@klisteniapp/catalog-base:typecheck: cache hit, replaying logs f25daf81c2a14946
+@klisteniapp/catalog-base:typecheck: $ tsc --noEmit
+@klisteniapp/geometry:typecheck: cache hit, replaying logs 369e44d29a271363
+@klisteniapp/geometry:typecheck: $ tsc --noEmit
+@klisteniapp/anatomy-viewer:typecheck: cache hit, replaying logs 802ce1658d49052d
+@klisteniapp/anatomy-viewer:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:typecheck: cache hit, replaying logs 64bf24bbc24f1af3
+@klisteniapp/b2c-web:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:build: cache bypass, force executing a1cfa8ad93105c61
+@klisteniapp/b2c-web:build: $ vite build
+@klisteniapp/b2c-web:build: failed to load config from /workspace/klisteniapp/apps/b2c-web/vite.config.ts
+@klisteniapp/b2c-web:build: error during build:
+@klisteniapp/b2c-web:build: Error: An instance build requires KLISTENI_PUBLIC_PROFILE_FILE with its public operator profile.
+@klisteniapp/b2c-web:build:     at loadDeployment (file:///workspace/klisteniapp/apps/b2c-web/node_modules/.vite-temp/vite.config.ts.timestamp-1792245869238-c6c17104fe89d.mjs:41:19)
+@klisteniapp/b2c-web:build:     at file:///workspace/klisteniapp/apps/b2c-web/node_modules/.vite-temp/vite.config.ts.timestamp-1792245869238-c6c17104fe89d.mjs:60:21
+@klisteniapp/b2c-web:build:     at loadConfigFromFile (file:///workspace/klisteniapp/node_modules/.pnpm/vite@8.3.1_@types+node@24.13.6/node_modules/vite/dist/node/chunks/node.js:37672:62)
+@klisteniapp/b2c-web:build:     at async resolveConfig (file:///workspace/klisteniapp/node_modules/.pnpm/vite@8.3.1_@types+node@24.13.6/node_modules/vite/dist/node/chunks/node.js:37271:22)
+@klisteniapp/b2c-web:build:     at async createBuilder (file:///workspace/klisteniapp/node_modules/.pnpm/vite@8.3.1_@types+node@24.13.6/node_modules/vite/dist/node/chunks/node.js:34841:17)
+@klisteniapp/b2c-web:build:     at async CAC.<anonymous> (file:///workspace/klisteniapp/node_modules/.pnpm/vite@8.3.1_@types+node@24.13.6/node_modules/vite/dist/node/cli.js:769:19)
+@klisteniapp/b2c-web:build: [ELIFECYCLE] Command failed with exit code 1.
+@klisteniapp/b2c-web#build:  ERROR  command (/workspace/klisteniapp/apps/b2c-web) /workspace/.onboarding/tools/node_modules/.bin/pnpm run build exited (1)
+
+ Tasks:    6 successful, 7 total
+Cached:    6 cached, 7 total
+  Time:    191ms 
+Failed:    @klisteniapp/b2c-web#build
+
+ ERROR  run failed: command  exited (1)
+[ELIFECYCLE] Command failed with exit code 1.
