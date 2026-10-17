@@ -533,6 +533,7 @@ test(scenarioTitle('B2BP-SYNC-002'), async ({ page, context, product }, info) =>
   const member = principal(product),
     staff = await staffSession(context, product, info)
   let release!: () => void
+  let heldOperationId: string | undefined
   try {
     const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
     await login(page, member, info)
@@ -549,11 +550,11 @@ test(scenarioTitle('B2BP-SYNC-002'), async ({ page, context, product }, info) =>
     await page.route(
       `**/sessions/${id}/revisions`,
       async (route) => {
-        const response = await route.fetch()
-        expect(response.ok()).toBe(true)
+        heldOperationId = (route.request().postDataJSON() as ProductInput<'saveSession'>)
+          .operationId
         arrived()
         await gate
-        await route.fulfill({ response })
+        await route.continue()
       },
       { times: 1 },
     )
@@ -564,7 +565,15 @@ test(scenarioTitle('B2BP-SYNC-002'), async ({ page, context, product }, info) =>
     ).toBeVisible()
     await expect(page.getByText('Estado del trabajo: partial.', { exact: false })).toBeVisible()
     await expect(synchronized(page)).toHaveCount(0)
+    const acknowledged = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        new URL(response.url()).pathname.endsWith(`/sessions/${id}/revisions`) &&
+        (response.request().postDataJSON() as ProductInput<'saveSession'>).operationId ===
+          heldOperationId,
+    )
     release()
+    expect((await acknowledged).ok()).toBe(true)
     await expect(synchronized(page)).toBeVisible()
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content).toMatchObject({
       status: 'partial',
