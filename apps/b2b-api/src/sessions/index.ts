@@ -2,21 +2,13 @@ import {
   ProductEndpoints,
   SessionReceiptSchema,
   SessionRevisionSchema,
-  RoutineVersionV2Schema,
-  decodeRoutine,
-  projectLegacyRoutine,
   type SessionContent,
-  type RoutineVersionV2,
 } from '@klisteniapp/b2b-contracts/product-v2';
-import {
-  canonicalJson,
-  sessionIssues,
-  type SessionPrescription,
-} from '@klisteniapp/b2b-domain/sessions';
+import { canonicalJson, sessionIssues } from '@klisteniapp/b2b-domain/sessions';
 import type { AuthorizedProductContext, RecordsServices } from '../product-context.ts';
 import { conflict, denied, HttpError, missing } from '../errors.ts';
 import { enrollment, occurrence } from '../schedule/repository.ts';
-import { contentHash } from '../catalog/reviewed-projection.ts';
+import { resolveSessionPrescription } from './prescription.ts';
 import { validateReviewedSegments } from './reviewed-segments.ts';
 import {
   authorizeRecords,
@@ -151,54 +143,16 @@ export function createSessionServices(
         input.origin.routine.version,
       );
       if (stored.schema_version !== input.origin.routine.schemaVersion) throw conflict();
-      const decoded = decodeRoutine(stored.schema_version, stored.snapshot);
-      let prescription: SessionPrescription;
-      let reviewedRoutine: RoutineVersionV2 | undefined;
-      if (decoded.schemaVersion === 2)
-        prescription = reviewedRoutine = RoutineVersionV2Schema.parse(decoded.snapshot);
-      else {
-        const supplement = await context.db.query(
-          'SELECT source_snapshot_hash,snapshot FROM b2b_routine_supplement WHERE organization_id=$1 AND branch_id=$2 AND program_id=$3 AND program_version=$4',
-          [
-            context.organizationId,
-            context.branchId,
-            input.origin.routine.programId,
-            input.origin.routine.version,
-          ],
-        );
-        if (supplement.rows[0]) {
-          const sourceHash = contentHash(stored.snapshot);
-          if (supplement.rows[0].source_snapshot_hash !== sourceHash)
-            throw new Error('Legacy supplement does not match the issued snapshot');
-          prescription = reviewedRoutine = RoutineVersionV2Schema.parse(
-            supplement.rows[0].snapshot,
-          );
-        } else {
-          // Compatibility dose only; this is never published or persisted over
-          // the issued JSON. Reviewed targets require WP04's immutable supplement.
-          const projected = projectLegacyRoutine(decoded.snapshot);
-          prescription = {
-            relations: [],
-            steps: projected.steps.map((step) => ({
-              ...step,
-              exerciseId: step.exerciseId!,
-              dose: {
-                ...step.dose,
-                mode: step.dose.mode!,
-                sets: step.dose.sets!,
-                load: step.dose.load!,
-                restSeconds: step.dose.restSeconds!,
-                laterality: 'bilateral' as const,
-              },
-            })),
-          };
-        }
-      }
+      const priorContent: SessionContent | undefined =
+        previous?.schemaVersion === 2 ? previous.content : undefined;
+      const { prescription, reviewedRoutine } = await resolveSessionPrescription(
+        context,
+        stored,
+        priorContent,
+      );
       const now = clock().toISOString();
       if (Date.parse(input.content.performedAt) > Date.parse(now))
         throw new HttpError(400, 'INVALID_INPUT', 'Performed time cannot be in the future.');
-      const priorContent: SessionContent | undefined =
-        previous?.schemaVersion === 2 ? previous.content : undefined;
       if (reviewedRoutine)
         await validateReviewedSegments(context, reviewedRoutine, input.content, priorContent);
       const issues = sessionIssues(input.content, prescription, priorContent);

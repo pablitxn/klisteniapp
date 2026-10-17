@@ -1,3 +1,5 @@
+import { legacySupplementPreview, adoptLegacySupplement } from './catalog/legacy-adoption.ts';
+import { sessionBinding } from './sessions/binding.ts';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 import type { Pool, PoolClient } from 'pg';
@@ -183,6 +185,9 @@ export class B2BService {
         routinePublications,
         routineVersion,
         routineSupplement,
+        legacySupplementPreview,
+        adoptLegacySupplement,
+        sessionBinding,
         workoutEquipment,
         legacyAssignments,
         enrollmentRevision,

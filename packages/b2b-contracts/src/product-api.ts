@@ -5,6 +5,12 @@ import {
   ProductInvitationSchema,
 } from './product-access.ts'
 import { z } from 'zod'
+import {
+  LegacySupplementPreviewSchema,
+  AdoptLegacySupplementSchema,
+  SessionBindingSchema,
+} from './product-legacy-adoption.ts'
+import { LegacySupplementSchema } from './product-compatibility.ts'
 import { IdSchema, RevisionSchema, TimestampSchema } from './common.ts'
 import { ExerciseSchema } from './catalog.ts'
 import {
@@ -102,6 +108,19 @@ export const ProductEndpoints = {
     id.extend({ version: z.number().int().positive() }),
     RoutineVersionV2Schema.nullable(),
   ),
+  legacySupplementPreview: endpoint(
+    'GET',
+    '/legacy-assignments/:id/supplement-preview',
+    id,
+    LegacySupplementPreviewSchema,
+  ),
+  adoptLegacySupplement: endpoint(
+    'POST',
+    '/legacy-assignments/:id/supplement',
+    AdoptLegacySupplementSchema,
+    LegacySupplementSchema,
+  ),
+  sessionBinding: endpoint('GET', '/sessions/:id/binding', id, SessionBindingSchema),
   legacyAssignments: endpoint(
     'GET',
     '/members/:memberId/legacy-assignments',

@@ -1,0 +1,57 @@
+✔ public adoption requires exact confirmations, preserves original bytes and replays atomically after catalog changes (879.878866ms)
+✔ adoption denies member and foreign branch access and detects catalog changes before new acceptance (772.483855ms)
+✔ supplement adoption cannot alter retained session doses or prior bytes; new sessions require adopted doses (954.163243ms)
+✖ first legacy correction binding keeps accepted null, requires reason and preserves original revision zero after retirement (968.192016ms)
+✔ retired assignments reject fresh legacy sessions without receipts while original history stays readable (1198.671259ms)
+✔ retirement preserves existing-session corrections and exact accepted receipts but never bypasses current user authorization (863.358529ms)
+✔ first correction of a verified legacy execution remains permitted after retirement and preserves revision zero (883.479218ms)
+✔ a retirement committed before fresh acceptance wins the PostgreSQL race and leaves no session or receipt (1185.96027ms)
+✔ fresh acceptance first holds retirement until commit and its later exact replay stays authorized and idempotent (982.190857ms)
+✔ raw legacy fixtures omit defaulted fields without changing their adoption identity or bytes (25.134764ms)
+✔ canonical projection retains exactly 37 exercises, 42 directed links, every kind and nine honest empty lists (28.990668ms)
+✔ proven canonical content requires base scope, exact ID/version/revision/content; adaptation IDs and animation matches never suffice (1.521081ms)
+✔ each target uses its own sets/reps/rest/bodyweight/laterality and confirmed requirements (2.371587ms)
+✔ publication snapshots survive later catalog edits and do not mutate source snapshots/manual legacy permissions (20.121625ms)
+✔ synthetic PostgreSQL: fresh/repeated/installed enrichment, unchanged historical JSON, supplement replay, scoped reads and immutable adoption (1340.556459ms)
+✔ v2-only members read alternatives only through exact own required occurrence linkage (808.159567ms)
+✔ reviewed source-to-target duration/per-side segments retain all source actuals and restore the original segment without changing issued JSON (1026.426091ms)
+✔ exact accepted receipt survives successors; changed create payload and stale revisions conflict without extra audit (788.879545ms)
+✔ legacy revision zero and original bytes/IDs survive first correction and retained history stays unscheduled (803.597758ms)
+✔ revoked/inactive current access rejects new and replayed operations; trainer cannot edit member actuals (764.617341ms)
+✔ future actuals, implicit completion and foreign-branch reads fail; empty draft saves without completion (798.529672ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 20
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18515.15782
+
+✖ failing tests:
+
+test at tests/legacy-adoption.test.ts:287:1
+✖ first legacy correction binding keeps accepted null, requires reason and preserves original revision zero after retirement (968.192016ms)
+  ZodError: [
+    {
+      "origin": "array",
+      "code": "too_small",
+      "minimum": 1,
+      "inclusive": true,
+      "path": [
+        "original",
+        "sets"
+      ],
+      "message": "Too small: expected array to have >=1 items"
+    }
+  ]
+      at file:///workspace/klisteniapp/apps/b2b-api/src/sessions/repository.ts:36:33
+      at Array.map (<anonymous>)
+      at legacyRecords (file:///workspace/klisteniapp/apps/b2b-api/src/sessions/repository.ts:35:22)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async sessionBinding (file:///workspace/klisteniapp/apps/b2b-api/src/sessions/binding.ts:15:21)
+      at async B2BService.transaction (file:///workspace/klisteniapp/apps/b2b-api/src/service.ts:218:22)
+      at async file:///workspace/klisteniapp/apps/b2b-api/tests/legacy-adoption.test.ts:295:22
+      at async productFixture (file:///workspace/klisteniapp/apps/b2b-api/tests/support/product-fixture.ts:66:5)
+      at async TestContext.<anonymous> (file:///workspace/klisteniapp/apps/b2b-api/tests/legacy-adoption.test.ts:291:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
