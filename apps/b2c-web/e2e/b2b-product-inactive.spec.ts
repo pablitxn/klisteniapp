@@ -430,6 +430,7 @@ test(scenarioTitle('B2BP-INACTIVE-006'), async ({ page, context, product }, info
     await page.route(`**/sessions/${id}/revisions`, (route) => route.abort('connectionfailed'))
     const marker = `Local unaccepted bytes ${operation()}`
     await page.getByLabel('Notas de la sesión').fill(marker)
+    await expect(page.getByLabel('Notas de la sesión')).toHaveValue(marker)
     await expect(
       page.getByRole('status').filter({ hasText: /Falló la sincronización|Envío pendiente/ }),
     ).toBeVisible()
