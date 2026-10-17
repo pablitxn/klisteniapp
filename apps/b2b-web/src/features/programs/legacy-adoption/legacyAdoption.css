@@ -1,0 +1,53 @@
+.legacy-adoption {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.legacy-adoption :is(fieldset, input, select, button) {
+  min-width: 0;
+  max-width: 100%;
+}
+.legacy-adoption :is(input:not([type='checkbox']), select, button) {
+  min-height: 44px;
+}
+.legacy-adoption button {
+  white-space: normal;
+}
+.legacy-adoption dd {
+  margin-inline-start: 0;
+}
+.legacy-adoption dl {
+  display: grid;
+  gap: 6px 16px;
+}
+.legacy-adoption-scalars {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.legacy-adoption-stack {
+  display: grid;
+  gap: 18px;
+}
+.legacy-adoption-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-block: 10px;
+  min-height: 44px;
+}
+.legacy-adoption-check input {
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+.legacy-adoption-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.legacy-adoption :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+@media (max-width: 380px) {
+  .legacy-adoption-scalars {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
