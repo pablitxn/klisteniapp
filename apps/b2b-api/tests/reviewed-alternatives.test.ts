@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { Pool } from 'pg';
 import { exercises } from '@klisteniapp/catalog-base';
 import { ProgramVersionSchema } from '@klisteniapp/b2b-contracts/training';
-import { RoutineVersionV2Schema } from '@klisteniapp/b2b-contracts/product-v2';
+import { RoutineVersionV2Schema, type SessionContent } from '@klisteniapp/b2b-contracts/product-v2';
 import {
   canonicalExercises,
   contentHash,
@@ -15,7 +16,10 @@ import {
   legacySupplement,
   saveLegacySupplement,
 } from '../src/catalog/reviewed-projection.ts';
-import { alternatives } from '../src/catalog/reviewed-alternatives.ts';
+import {
+  alternatives,
+  assertNewReviewedCatalogEligibility,
+} from '../src/catalog/reviewed-alternatives.ts';
 import { seedBaseCatalog } from '../src/catalog/seed.ts';
 import { createAuth } from '../src/auth.ts';
 import { migrate } from '../src/migrate.ts';
@@ -71,6 +75,54 @@ const legacy = ProgramVersionSchema.parse({
   ],
   exercises: catalog,
   machines: [],
+});
+
+const rawFixtures = ['repetitions', 'duration'].map((mode) => {
+  const bytes = readFileSync(
+    new URL(
+      `./fixtures/reviewed-alternatives/legacy-${mode}-omitted-defaults.json`,
+      import.meta.url,
+    ),
+  );
+  return { mode, bytes, raw: JSON.parse(bytes.toString('utf8')) };
+});
+function confirmedFixture(raw: unknown) {
+  const original = ProgramVersionSchema.parse(raw);
+  const step = original.steps[0];
+  return RoutineVersionV2Schema.parse({
+    ...routine,
+    machines: original.machines,
+    steps: [
+      {
+        ...routine.steps[0],
+        dose: {
+          ...routine.steps[0].dose,
+          mode: step.reps === null ? 'duration' : 'repetitions',
+          repetitions: step.reps === null ? null : { kind: 'fixed', value: step.reps },
+          durationSeconds:
+            step.durationSeconds === null ? null : { kind: 'fixed', value: step.durationSeconds },
+        },
+      },
+    ],
+  });
+}
+test('raw legacy fixtures omit defaulted fields without changing their adoption identity or bytes', () => {
+  for (const { raw, bytes } of rawFixtures) {
+    assert.equal('targetRpe' in raw.steps[0], false);
+    for (const field of ['derivedFromId', 'derivedFromVersion', 'revision', 'status'])
+      assert.equal(field in raw.machines[0], false);
+    const rawBefore = JSON.stringify(raw);
+    const fileHash = createHash('sha256').update(bytes).digest('hex');
+    const normalized = ProgramVersionSchema.parse(raw);
+    assert.notEqual(contentHash(normalized), contentHash(raw));
+    const supplement = legacySupplement(raw, confirmedFixture(raw), 'member');
+    assert.equal(supplement.sourceSnapshotHash, contentHash(raw));
+    assert.equal(JSON.stringify(raw), rawBefore);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), fileHash);
+    assert.throws(() =>
+      legacySupplement({ ...raw, name: 'Tampered' }, confirmedFixture(raw), 'member'),
+    );
+  }
 });
 
 test('canonical projection retains exactly 37 exercises, 42 directed links, every kind and nine honest empty lists', () => {
@@ -245,6 +297,13 @@ test(
           'INSERT INTO b2b_program_version(organization_id,program_id,version,snapshot,schema_version) VALUES($1,$2,2,$3,2)',
           ['atlas', 'routine', blocked],
         );
+        for (const [index, fixture] of rawFixtures.entries()) {
+          const version = index + 3;
+          await db.query(
+            'INSERT INTO b2b_program_version(organization_id,program_id,version,snapshot) VALUES($1,$2,$3,$4)',
+            ['atlas', 'routine', version, { ...fixture.raw, version }],
+          );
+        }
         const before = (await db.query('SELECT snapshot::text FROM b2b_program_version')).rows;
         const context: AuthorizedProductContext = {
           db,
@@ -259,6 +318,55 @@ test(
             if (member !== 'member') throw new Error('FOREIGN_MEMBER');
           },
         };
+        for (const [index, fixture] of rawFixtures.entries()) {
+          const version = index + 3;
+          const raw = { ...fixture.raw, version };
+          const frozen = { ...confirmedFixture(fixture.raw), version };
+          const supplement = legacySupplement(raw, frozen, 'member');
+          const bytesBefore = (
+            await db.query('SELECT snapshot::text FROM b2b_program_version WHERE version=$1', [
+              version,
+            ])
+          ).rows[0].snapshot;
+          const storedBeforeHash = createHash('sha256').update(bytesBefore).digest('hex');
+          await saveLegacySupplement(context, supplement, `adopt-raw-${version}`);
+          await saveLegacySupplement(context, supplement, `adopt-raw-${version}`);
+          assert.equal(
+            (await alternatives(context, { id: 'routine', version, stepId: 'step' })).length,
+            3,
+          );
+          await assert.rejects(
+            saveLegacySupplement(
+              context,
+              { ...supplement, sourceSnapshotHash: contentHash(ProgramVersionSchema.parse(raw)) },
+              `normalized-${version}`,
+            ),
+          );
+          await assert.rejects(
+            saveLegacySupplement(
+              context,
+              {
+                ...supplement,
+                sourceSnapshotHash: contentHash({ ...raw, steps: [{ ...raw.steps[0], reps: 99 }] }),
+              },
+              `tamper-${version}`,
+            ),
+          );
+          const bytesAfter = (
+            await db.query('SELECT snapshot::text FROM b2b_program_version WHERE version=$1', [
+              version,
+            ])
+          ).rows[0].snapshot;
+          assert.equal(bytesAfter, bytesBefore);
+          assert.equal(createHash('sha256').update(bytesAfter).digest('hex'), storedBeforeHash);
+          const saved = (
+            await db.query(
+              'SELECT source_snapshot_hash FROM b2b_routine_supplement WHERE program_version=$1',
+              [version],
+            )
+          ).rows[0];
+          assert.equal(saved.source_snapshot_hash, contentHash(raw));
+        }
         const supplement = legacySupplement(legacy, routine, 'member');
         const input = { id: 'routine', version: 1, stepId: 'step' };
         assert.deepEqual(await alternatives(context, input), []);
@@ -274,10 +382,10 @@ test(
           other.release();
         }
         await saveLegacySupplement(context, supplement, 'adopt');
-        assert.equal((await db.query('SELECT * FROM b2b_routine_supplement')).rowCount, 1);
+        assert.equal((await db.query('SELECT * FROM b2b_routine_supplement')).rowCount, 3);
         assert.equal(
           (await db.query("SELECT * FROM b2b_audit WHERE action='routine.supplement'")).rowCount,
-          1,
+          3,
         );
         assert.equal((await alternatives(context, input)).length, 3);
         const member = {
@@ -309,11 +417,38 @@ test(
             'changed',
           ),
         );
+        const segment: SessionContent['segments'][number] = {
+          segmentId: 'chosen',
+          originalStepId: 'step',
+          exerciseId: relations[0].targetExerciseId,
+          dose: relations[0].targetDose,
+          relation: relations[0],
+          confirmedConditions: relations[0].conditions,
+          createdAt: at,
+        };
+        const selected = {
+          segments: [segment],
+          selectedSegments: [{ originalStepId: 'step', segmentId: 'chosen' }],
+        };
+        const none = { segments: [], selectedSegments: [] };
+        await assertNewReviewedCatalogEligibility(context, selected, none);
         await db.query(
           "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise',$1,false)",
           [relations[0].targetExerciseId],
         );
         assert.equal((await alternatives(context, input)).length, 2);
+        await assert.rejects(assertNewReviewedCatalogEligibility(context, selected, none), {
+          code: 'REVIEWED_TARGET_UNAVAILABLE',
+        });
+        await assertNewReviewedCatalogEligibility(context, selected, selected);
+        await assert.rejects(
+          assertNewReviewedCatalogEligibility(context, selected, {
+            ...selected,
+            selectedSegments: [],
+          }),
+          { code: 'REVIEWED_TARGET_UNAVAILABLE' },
+        );
+
         await db.query(
           "UPDATE b2b_exercise SET data=jsonb_set(data,'{name}','\"Changed current catalog\"') WHERE id=$1",
           [relations[0].targetExerciseId],
@@ -327,6 +462,11 @@ test(
           db.query("UPDATE b2b_routine_supplement SET snapshot='{}'"),
           /immutable|append.only/i,
         );
+        await db.query('DELETE FROM b2b_branch_catalog WHERE resource_id=$1', [segment.exerciseId]);
+        await assert.rejects(assertNewReviewedCatalogEligibility(context, selected, none), {
+          code: 'REVIEWED_TARGET_UNAVAILABLE',
+        });
+        await assertNewReviewedCatalogEligibility(context, selected, selected);
         await db.query('DELETE FROM b2b_reviewed_relation');
         assert.equal(
           await enrichReviewedCatalog(db),

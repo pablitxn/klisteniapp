@@ -15,7 +15,7 @@ import {
   type ReviewedRelation,
   type RoutineVersionV2,
 } from '@klisteniapp/b2b-contracts/product-v2';
-import type { ProgramVersion } from '@klisteniapp/b2b-contracts/training';
+import { ProgramVersionSchema } from '@klisteniapp/b2b-contracts/training';
 import type { AuthorizedProductContext } from '../product-context.ts';
 import { denied, conflict, missing } from '../errors.ts';
 
@@ -207,10 +207,14 @@ export function freezeReviewedRelations(
 /** Legacy adoption is explicit and immutable. Missing dose/laterality must first
  * be confirmed by WP02; legacy manual allowlists are never relabelled reviewed. */
 export function legacySupplement(
-  original: ProgramVersion,
+  rawOriginal: unknown,
   confirmed: RoutineVersionV2,
   memberId: string,
 ) {
+  // Defaults are a read projection only. Hash the unmodified persisted JSON so
+  // adoption, replay and reads agree even when old snapshots omit defaults.
+  const sourceSnapshotHash = contentHash(rawOriginal);
+  const original = ProgramVersionSchema.parse(rawOriginal);
   const supplement = RoutineVersionV2Schema.parse(confirmed);
   if (
     original.name !== supplement.name ||
@@ -266,7 +270,7 @@ export function legacySupplement(
     scope: { ...supplement.scope, memberId },
     programId: original.programId,
     version: original.version,
-    sourceSnapshotHash: contentHash(original),
+    sourceSnapshotHash,
     supplement,
   });
 }
@@ -288,7 +292,7 @@ export async function saveLegacySupplement(
     value.supplement.scope.branchId !== context.branchId
   )
     throw denied();
-  const original = await context.db.query<{ snapshot: ProgramVersion; schema_version: number }>(
+  const original = await context.db.query<{ snapshot: unknown; schema_version: number }>(
     'SELECT snapshot,schema_version FROM b2b_program_version WHERE organization_id=$1 AND branch_id=$2 AND program_id=$3 AND version=$4 FOR SHARE',
     [context.organizationId, context.branchId, value.programId, value.version],
   );
