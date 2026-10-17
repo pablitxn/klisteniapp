@@ -238,7 +238,8 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
   expect((await response).status(), 'Real composed UI password admission').toBe(200)
   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })
-  await expect(organizations).toBeVisible()
+  // Cold workspace chunks may still be loading after real password admission.
+  await expect(organizations).toBeVisible({ timeout: 30_000 })
   if ((await organizations.inputValue()) !== who.organization.id)
     await organizations.selectOption(who.organization.id)
   const access = await api(page, who, 'access', {})
