@@ -1,0 +1,50 @@
+$ node --test tests/*.test.ts
+✔ product controller requires actual choices, preserves superadmin role and synchronously revokes departed authority (3.545987ms)
+✔ inactive product bootstrap obtains branchless export access without legacy membership or synthetic grants (0.802734ms)
+✔ unchanged background validation and offline failures preserve editor authority; explicit revocation does not (10.763261ms)
+✔ late background validation cannot restore a departed actor or selected scope (0.644958ms)
+✔ validated legacy fallback clears old product identity and selections (1.540655ms)
+✔ changing data owner clears old data while same-owner refresh preserves the editor (0.986801ms)
+✔ late success and rejection cannot replace the latest request or another owner (5.434571ms)
+✔ temporary failures retain existing data; authorization loss clears it (0.279371ms)
+✔ latest session refresh wins and aborts the superseded probe (1.529551ms)
+✔ signout suppresses refresh and a delayed session probe cannot restore identity (0.428115ms)
+✖ focus revalidation preserves organization selection, while authentication loss clears it (1.558784ms)
+✔ stopping cancels in-flight reads and ignores all subsequent state updates from them (0.208939ms)
+✔ failed signout preserves identity and a restart is independent of the old logout (0.326279ms)
+✔ WL multiple branch-role contexts require explicit choice and never inherit another role (24.308794ms)
+✔ WL revoked and archived branches invalidate selection while a single valid pair opens automatically (1.289174ms)
+✔ WL a late session probe cannot undo an explicit context switch (0.87067ms)
+✔ WL explicit selection survives navigation only while the new session still authorizes the exact pair (1.816748ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 16
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 701.280968
+
+✖ failing tests:
+
+test at tests/session-controller.test.ts:68:1
+✖ focus revalidation preserves organization selection, while authentication loss clears it (1.558784ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== 'gym-selected'
+  
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/packages/b2b-react/tests/session-controller.test.ts:80:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'gym-selected',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /workspace/klisteniapp/packages/b2b-react
+
