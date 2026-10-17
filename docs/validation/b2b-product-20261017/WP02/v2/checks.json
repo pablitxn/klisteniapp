@@ -1,0 +1,86 @@
+{
+  "base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "source": "0e6e0ce93c4d9c59a22435b0aeddba48596a0ba3",
+  "previousPrHead": "3b045cbe431d1995d75f9e88eeac1d79a08607bb",
+  "dependencies": {
+    "WP01": "af1fef78f912d746f79a00c52c261f03b58b4fe9",
+    "WP04": "c91fbcbaf3dc228630cda66dd2229f2524cb46c9"
+  },
+  "validationCandidates": {
+    "wp01": {
+      "commit": "8c4b5857a2f4b4c761ac19e7d50f52eeae173465",
+      "tree": "d4b84ef43adad334365d739cb889d5bd88e607b2"
+    },
+    "wp01Wp04": {
+      "commit": "2849c9a4a9015c08529f01bb479efcb508611b90",
+      "tree": "b4fefd30a9904947055a97c3a5d277f56fa5eb09"
+    }
+  },
+  "results": {
+    "ownedFocused": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0
+    },
+    "wp01ComposedFullApi": {
+      "passed": 128,
+      "failed": 1,
+      "skipped": 0,
+      "failure": "white-label-training.test.ts:371 has an obsolete expectation of zero assignments for a trainer with the selected North branch grant"
+    },
+    "wp01Wp04ComposedFocused": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0
+    },
+    "contracts": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "domain": {
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": {
+      "successful": 14,
+      "total": 14,
+      "cached": 13
+    },
+    "lint": {
+      "successful": 14,
+      "total": 14,
+      "cached": 13
+    },
+    "composedApiTypecheck": "passed",
+    "realWp04Seam": {
+      "source": "pushup",
+      "relations": 2,
+      "hiddenTarget": "full-pushup",
+      "hiddenExcluded": true,
+      "blockedRelations": 0
+    }
+  },
+  "v1EvidenceTree": "f67126d07b06944a62933a29eae0d0b16312b6ef",
+  "rawLogSha256": {
+    "focused.log": "44887bf99095f48b8d09d23fdac3795c871116173951b9c6fa369c05e0eb274b",
+    "composed-api.log": "edb9a04288c881f97d56896f0ccfb86562a6e659b7b613e559c215e54e62326a",
+    "composed-focused.log": "02316e1551e9ca59ccd32dbd9f7fab2c37ce0005e81f715001f21a9f07c0dc21",
+    "composed-typecheck.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "wp04-seam.log": "1ad96bbedc15f9d79a0166cc1c1f446dd25c02527dd5fd5944dd244dde8f1ddc",
+    "typecheck.log": "dbc1a1372d50e46ba669b0a2c28eac7a240618ebb9f4b0bb61002e02327360a4",
+    "lint.log": "6537502bd852ad93df33a97064c3852838d753fbed0977eb391a6f1e150e7b81",
+    "contracts.log": "4c0444db1bd4775175ed1981839ad40259fdaaf70168a911d75b06053236a012",
+    "domain.log": "53f2ec0844f1f7dd9ae2e4b7dded844064a0ed2eac912c474eec26cc7026420a",
+    "composed-frozen-install.log": "c9156a3c3fe893938b6682a5e23f5594a5581943acf89740851cc0a233d7d369"
+  },
+  "logNormalization": "Trailing whitespace/final empty lines only; output content and results retained.",
+  "unappliedOwnerPatch": "integration-test-expectation.patch",
+  "sharedFileEdits": [],
+  "remaining": [
+    "shared white-label training assertion update by INTEGRATION",
+    "WP04 hash fix acceptance remains with WP04",
+    "WP03 production schedule and final registration/browser composition"
+  ]
+}

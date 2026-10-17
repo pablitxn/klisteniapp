@@ -30,12 +30,12 @@ type CatalogRow = {
 async function resources(
   context: AuthorizedProductContext,
   kind: 'exercise' | 'machine',
-  ids: string[],
+  ids: string[] | null,
   published: boolean,
 ) {
   const table = `b2b_${kind}`;
   const rows = await context.db.query<CatalogRow>(
-    `SELECT * FROM ${table} c WHERE c.id=ANY($1::text[]) AND (c.organization_id IS NULL OR c.organization_id=$2)
+    `SELECT * FROM ${table} c WHERE ($1::text[] IS NULL OR c.id=ANY($1::text[])) AND (c.organization_id IS NULL OR c.organization_id=$2)
      AND (NOT $4::boolean OR c.status='published')
      AND (c.branch_id IS NULL OR c.branch_id=$3 OR (c.status='published' AND EXISTS(
        SELECT 1 FROM b2b_branch_catalog bc WHERE bc.organization_id=$2 AND bc.branch_id=$3 AND bc.kind=$5 AND bc.resource_id=c.id AND bc.enabled)))
@@ -43,7 +43,7 @@ async function resources(
      ORDER BY c.id FOR SHARE OF c`,
     [ids, context.organizationId, context.branchId, published, kind],
   );
-  if (rows.rowCount !== ids.length)
+  if (ids !== null && rows.rowCount !== ids.length)
     throw new HttpError(
       409,
       'INVALID_INPUT',
@@ -63,11 +63,12 @@ async function resources(
 export type PublicationRelations = (
   context: AuthorizedProductContext,
   content: AssignableRoutine,
-  exercises: readonly Exercise[],
+  availableExercises: readonly Exercise[],
 ) => Promise<ReviewedRelation[]>;
 
-/** WP04 supplies the explicit reviewed-relation resolver. Even an empty result
- * must be a deliberate result from that resolver, never a silent fallback. */
+/** WP04 receives the full published, branch-authorized catalog, including target
+ * candidates outside the routine's source steps. Even an empty result must be a
+ * deliberate result from that resolver, never a silent fallback. */
 export function createPlanningResources(
   resolveRelations: PublicationRelations,
 ): Pick<
@@ -157,7 +158,10 @@ export function createPlanningResources(
         content.steps.map((step) => step.exerciseId),
         true,
       );
-      const relations = await resolveRelations(context, content, source);
+      const eligible = (await resources(context, 'exercise', null, true)).map((row) =>
+        ExerciseSchema.parse(row),
+      );
+      const relations = await resolveRelations(context, content, eligible);
       const targetIds = relations.map((relation) => relation.targetExerciseId);
       const targets = await exercises(context, targetIds, true);
       const all = [

@@ -151,11 +151,7 @@ export class TrainingRepository {
        WHERE a.organization_id=$1 AND ($4::text IS NULL OR a.member_id=$4)
        AND ($5::text IS NULL OR a.branch_id=$5)
        AND ($3='admin' OR ($3='member' AND a.member_id=$2)
-         OR ($3='coach' AND EXISTS(
-           SELECT 1 FROM b2b_coach_assignment ca
-           WHERE ca.organization_id=a.organization_id AND ca.member_id=a.member_id AND ca.coach_id=$2
-           AND ($5::text IS NULL OR ca.branch_id=a.branch_id)
-         )))
+         OR ($3='coach' AND $5::text IS NOT NULL AND a.branch_id=$5))
        ORDER BY a.created_at DESC,a.id`,
       [org.id, actorId, role, memberId ?? null, branchId ?? null],
     );
@@ -192,11 +188,7 @@ export class TrainingRepository {
        AND ($5::text IS NULL OR e.branch_id=$5)
        AND (NOT $6::boolean OR e.member_id=$2)
        AND ($3='admin' OR ($3='member' AND e.member_id=$2)
-         OR ($3='coach' AND EXISTS(
-           SELECT 1 FROM b2b_coach_assignment ca
-           WHERE ca.organization_id=e.organization_id AND ca.member_id=e.member_id AND ca.coach_id=$2
-           AND ($5::text IS NULL OR ca.branch_id=e.branch_id)
-         )))
+         OR ($3='coach' AND $5::text IS NOT NULL AND e.branch_id=$5))
        ORDER BY e.created_at DESC,e.id`,
       [
         org.id,

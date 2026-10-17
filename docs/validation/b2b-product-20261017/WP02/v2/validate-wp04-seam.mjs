@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+const root = resolve(process.argv[2] ?? process.cwd());
+const load = (path) => import(pathToFileURL(resolve(root, path)).href);
+const { fixture, content } = await load('apps/b2b-api/tests/wp02/fixture.ts');
+const { createPlanningResources } = await load('apps/b2b-api/src/planning/resources.ts');
+const { canonicalExercises, projectReviewedRelations, freezeReviewedRelations } = await load('apps/b2b-api/src/catalog/reviewed-projection.ts');
+const canonical = canonicalExercises();
+const source = canonical.find((exercise) => projectReviewedRelations(exercise, canonical).length > 0);
+assert.ok(source, 'Pinned WP04 must expose a reviewed canonical source.');
+await fixture(async (f) => {
+  const routine = content();
+  routine.steps[0].exerciseId = source.id;
+  let candidates = [];
+  const resources = createPlanningResources(async (_context, selected, available) => {
+    candidates = available;
+    return freezeReviewedRelations(selected, available);
+  });
+  const first = await f.transaction((context) => resources.publicationResources(context, routine));
+  assert.ok(first.relations.length > 0, 'A full scoped catalog must freeze reviewed targets outside source steps.');
+  assert.ok(first.relations.every((relation) => candidates.some((exercise) => exercise.id === relation.targetExerciseId)));
+  assert.ok(first.relations.every((relation) => first.exercises.some((exercise) => exercise.id === relation.targetExerciseId)));
+  const hidden = first.relations[0].targetExerciseId;
+  await f.pool.query("INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise',$1,false)", [hidden]);
+  const filtered = await f.transaction((context) => resources.publicationResources(context, routine));
+  assert.ok(!candidates.some((exercise) => exercise.id === hidden));
+  assert.ok(filtered.relations.every((relation) => relation.targetExerciseId !== hidden));
+  routine.steps[0].substitutionPolicy = 'blocked';
+  const blocked = await f.transaction((context) => resources.publicationResources(context, routine));
+  assert.deepEqual(blocked.relations, []);
+  console.log(JSON.stringify({ source: source.id, reviewedRelations: first.relations.length, hiddenTarget: hidden, hiddenTargetExcluded: true, blockedRelations: blocked.relations.length }));
+});
