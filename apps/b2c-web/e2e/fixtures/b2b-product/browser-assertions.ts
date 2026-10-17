@@ -45,8 +45,32 @@ export async function assertProductViewport(page: Page, info: TestInfo) {
       const measured = await page
         .evaluate(() => ({
           innerWidth,
+          scrollX,
+          visualViewport: visualViewport
+            ? {
+                width: visualViewport.width,
+                offsetLeft: visualViewport.offsetLeft,
+                pageLeft: visualViewport.pageLeft,
+                scale: visualViewport.scale,
+              }
+            : null,
           documentWidth: document.documentElement.scrollWidth,
+          documentClientWidth: document.documentElement.clientWidth,
           bodyWidth: document.body.scrollWidth,
+          bodyClientWidth: document.body.clientWidth,
+          internalOverflow: Array.from(document.querySelectorAll('body *'))
+            .filter((node) => node.scrollWidth > node.clientWidth + 0.5)
+            .slice(0, 30)
+            .map((node) => ({
+              tag: node.tagName,
+              id: node.id,
+              role: node.getAttribute('role'),
+              clientWidth: node.clientWidth,
+              scrollWidth: node.scrollWidth,
+              width: node.getBoundingClientRect().width,
+              overflowX: getComputedStyle(node).overflowX,
+              minWidth: getComputedStyle(node).minWidth,
+            })),
           overflowing: Array.from(document.querySelectorAll('body *'))
             .flatMap((node) => {
               const bounds = node.getBoundingClientRect()
