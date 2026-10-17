@@ -48,3 +48,43 @@ export function deferred<T>() {
   })
   return { promise, resolve }
 }
+
+export const branchOptions: import('../../src/features/people/invitationGrants.ts').InvitationBranch[] =
+  [
+    { organizationId: 'atlas', branchId: 'atlas-principal', name: 'Principal', status: 'active' },
+    { organizationId: 'atlas', branchId: 'atlas-north', name: 'North', status: 'active' },
+    { organizationId: 'atlas', branchId: 'atlas-east', name: 'East', status: 'active' },
+  ]
+export function bootstrapFor(
+  scope = context(),
+): import('@klisteniapp/b2b-contracts/product-v2').ProductBootstrap {
+  return {
+    schemaVersion: 2,
+    user: { id: scope.accountId, name: 'Admin', email: 'admin@example.test' },
+    realm: { mode: 'unified', key: scope.hostBinding },
+    memberships: [
+      {
+        organizationId: scope.organizationId,
+        name: 'Atlas',
+        role: scope.access!.role,
+        activated: true,
+        accessMode: 'active',
+        accessRevision: scope.access!.accessRevision,
+        choices: branchOptions.map((branch) => ({
+          branchId: branch.branchId,
+          name: branch.name,
+          role: scope.access!.role,
+        })),
+      },
+      {
+        organizationId: 'sur',
+        name: 'Foreign',
+        role: 'superadmin',
+        activated: true,
+        accessMode: 'active',
+        accessRevision: 0,
+        choices: [{ branchId: 'sur-principal', name: 'Foreign branch', role: 'superadmin' }],
+      },
+    ],
+  }
+}

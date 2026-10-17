@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import { ApiError, type ProductV2Client } from '@klisteniapp/b2b-client'
 import { PeopleController } from '../src/features/people/peopleController.ts'
 import { invitationInput } from '../src/features/people/peopleModel.ts'
-import { admin, member, context, deferred } from './people/fixture.ts'
+import { admin, member, context, deferred, branchOptions } from './people/fixture.ts'
 
 test('response-loss retry retains exact permission bytes and revision and blocks a new competing action', async () => {
   const sent: unknown[] = [],
@@ -53,8 +53,17 @@ test('invitation retries reuse the original invitation and operation IDs, with n
     invitationInput(
       admin,
       'atlas-principal',
-      { name: 'Person', email: 'person@example.test', role: 'coach' },
+      {
+        name: 'Person',
+        email: 'person@example.test',
+        role: 'coach',
+        branchGrants: [
+          { branchId: 'atlas-principal', role: 'member', active: true },
+          { branchId: 'atlas-north', role: 'coach', active: false },
+        ],
+      },
       { id: 'invite', operationId: 'operation' },
+      branchOptions,
     ),
   )
   assert.equal(sent.length, 1)
@@ -62,6 +71,10 @@ test('invitation retries reuse the original invitation and operation IDs, with n
   await controller.retry()
   assert.deepEqual(sent[0], sent[1])
   assert.deepEqual(controller.getSnapshot().invitation, response)
+  assert.deepEqual(
+    controller.getSnapshot().invitationGrants,
+    (sent[0] as { branchGrants: unknown }).branchGrants,
+  )
   controller.dismissInvitation()
   assert.equal(controller.getSnapshot().invitation, null)
 })

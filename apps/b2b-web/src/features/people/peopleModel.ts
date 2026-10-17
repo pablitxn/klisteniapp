@@ -1,3 +1,4 @@
+import type { InvitationBranch } from './invitationGrants.ts'
 import { ApiError } from '@klisteniapp/b2b-client'
 import {
   InviteProductMemberSchema,
@@ -91,20 +92,48 @@ export function lastVisibleSuperadmin(person: Person, roster: readonly Person[])
 export function invitationInput(
   access: ProductAccess,
   branchId: string,
-  values: { name: string; email: string; role: Person['role'] },
+  values: {
+    name: string
+    email: string
+    role: Person['role']
+    branchGrants: ProductInput<'inviteMember'>['branchGrants']
+  },
   ids: { id: string; operationId: string },
+  availableBranches: readonly InvitationBranch[],
 ): ProductInput<'inviteMember'> {
   if (!branchId || !creatableRoles(access).includes(values.role))
     throw new Error('Tu función actual no permite esta invitación.')
-  return InviteProductMemberSchema.parse({
+  for (const grant of values.branchGrants) {
+    const branch = availableBranches.find(
+      (option) =>
+        option.organizationId === access.organizationId && option.branchId === grant.branchId,
+    )
+    if (!branch)
+      throw new Error(
+        'Una sede seleccionada ya no está disponible. Recargá las sedes y revisá los permisos; no se modificó tu selección.',
+      )
+    if (grant.active && branch.status !== 'active')
+      throw new Error(
+        'Una sede archivada no admite funciones activas. Elegí explícitamente una función inactiva o quitá esa sede.',
+      )
+  }
+  const parsed = InviteProductMemberSchema.safeParse({
     ...values,
     ...ids,
     expectedRevision: 0,
-    branchGrants:
-      values.role === 'coach' || values.role === 'member'
-        ? [{ branchId, role: values.role, active: true }]
-        : [],
+    branchGrants: values.branchGrants.map((grant) => ({ ...grant })),
   })
+  if (!parsed.success) {
+    const field = parsed.error.issues[0]?.path[0]
+    throw new Error(
+      field === 'name'
+        ? 'Ingresá un nombre válido para la persona invitada.'
+        : field === 'email'
+          ? 'Ingresá un email válido para la persona invitada.'
+          : 'Revisá el rol y los permisos: cada combinación de sede y función debe aparecer una sola vez.',
+    )
+  }
+  return parsed.data
 }
 export function peopleError(error: unknown): {
   message: string
@@ -133,6 +162,19 @@ export function peopleError(error: unknown): {
       NOT_FOUND: 'La persona o el recurso no está disponible en esta organización y sede.',
       MEMBERSHIP_REQUIRED: 'Tu membresía en esta organización cambió.',
       UNAUTHENTICATED: 'La sesión finalizó. Iniciá sesión para continuar.',
+      BRAND_SESSION_REQUIRED:
+        'Iniciá sesión en la marca de esta invitación para validar el acceso.',
+      UNIFIED_SESSION_REQUIRED: 'Iniciá sesión en este espacio para validar la invitación.',
+      ACCOUNT_CHANGED: 'La cuenta cambió. Volvé a validar tu identidad antes de continuar.',
+      NEW_ACCOUNT_REQUIRED: 'La persona invitada debe completar su propia activación de cuenta.',
+      INVALID_INVITATION:
+        'La invitación es inválida, venció o ya se usó. Pedí una nueva invitación a una persona autorizada.',
+      MEMBERSHIP_EXISTS:
+        'Esta persona ya tiene una membresía. Gestioná su acceso desde Personas; una invitación no puede promoverla ni reactivarla.',
+      EXISTING_ACCOUNT:
+        'Esta persona ya tiene una cuenta B2B. Debe aceptar con su propia contraseña y consentimiento; no se reemplaza su cuenta.',
+      BRANCH_ARCHIVED:
+        'Una sede seleccionada fue archivada. Recargá las sedes y revisá los permisos de la invitación.',
       GYM_SERVICE_INACTIVE: 'El servicio de la marca está suspendido. No se guardó el cambio.',
     }
     return {
