@@ -42,8 +42,47 @@ export async function validateReviewedSegments(
       semantics.code === 'INCOMPLETE_SEGMENT' ? 'INCOMPLETE_EXECUTION' : 'INVALID_INPUT',
       semantics.code,
     );
+  const newRelations = content.segments.filter(
+    (s) => s.relation && !previous?.segments.some((old) => old.segmentId === s.segmentId),
+  );
+  if (newRelations.length) {
+    // Catalog overrides may be absent before a concurrent disable INSERT.
+    // SHARE blocks catalog INSERT/UPDATE/DELETE through acceptance, including
+    // that phantom case, without depending on another owner's advisory locks.
+    await context.db.query('LOCK TABLE b2b_branch_catalog IN SHARE MODE');
+    const ids = [
+      ...new Set(newRelations.flatMap((s) => [s.relation!.sourceExerciseId, s.exerciseId])),
+    ].sort();
+    const rows = await context.db.query<{
+      id: string;
+      organization_id: string | null;
+      branch_id: string | null;
+      status: string;
+    }>(
+      'SELECT id,organization_id,branch_id,status FROM b2b_exercise WHERE id=ANY($1::text[]) ORDER BY id FOR SHARE',
+      [ids],
+    );
+    const overrides = await context.db.query<{ resource_id: string; enabled: boolean }>(
+      "SELECT resource_id,enabled FROM b2b_branch_catalog WHERE organization_id=$1 AND branch_id=$2 AND kind='exercise' AND resource_id=ANY($3::text[])",
+      [context.organizationId, context.branchId, ids],
+    );
+    const enabled = new Map(overrides.rows.map((r) => [r.resource_id, r.enabled]));
+    if (
+      ids.some((id) => {
+        const row = rows.rows.find((r) => r.id === id);
+        return (
+          !row ||
+          row.status !== 'published' ||
+          (row.organization_id !== null && row.organization_id !== context.organizationId) ||
+          enabled.get(id) === false ||
+          (row.branch_id !== null && row.branch_id !== context.branchId && enabled.get(id) !== true)
+        );
+      })
+    )
+      throw new HttpError(403, 'INVALID_INPUT', 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE');
+  }
   const models = await context.db.query<{ machine_id: string }>(
-    'SELECT DISTINCT machine_id FROM b2b_unit WHERE organization_id=$1 AND branch_id=$2 AND NOT archived',
+    'SELECT machine_id FROM b2b_unit WHERE organization_id=$1 AND branch_id=$2 AND NOT archived ORDER BY id FOR SHARE',
     [context.organizationId, context.branchId],
   );
   const environment = {

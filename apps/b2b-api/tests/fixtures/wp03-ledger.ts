@@ -156,6 +156,14 @@ export async function withLedger(
       ['routine-v2', 'atlas', 'atlas-principal', issuedRoutine],
     );
     await pool.query(
+      "INSERT INTO b2b_exercise(id,organization_id,branch_id,data,status) VALUES('exercise',NULL,NULL,'{}','published')",
+    );
+    for (const target of new Set(issuedRoutine.relations.map((r) => r.targetExerciseId)))
+      await pool.query(
+        "INSERT INTO b2b_exercise(id,organization_id,branch_id,data,status) VALUES($1,NULL,NULL,'{}','published') ON CONFLICT DO NOTHING",
+        [target],
+      );
+    await pool.query(
       'INSERT INTO b2b_program_version(organization_id,branch_id,program_id,version,snapshot,schema_version) VALUES($1,$2,$3,1,$4,2)',
       ['atlas', 'atlas-principal', 'routine-v2', issuedRoutine],
     );
