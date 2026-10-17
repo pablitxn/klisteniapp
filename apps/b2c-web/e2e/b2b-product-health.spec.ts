@@ -230,6 +230,10 @@ test(scenarioTitle('B2BP-HEALTH-005'), async ({ page, context, product }, info) 
     })
     expect(durable).not.toContain(file.marker)
     await peer.context.setOffline(false)
+    await expect(peer.page.getByRole('heading', { name: 'Medidas', exact: true })).toHaveCount(0)
+    await peer.page
+      .getByRole('button', { name: 'Volver a validar consentimiento', exact: true })
+      .click()
     await peer.page.getByRole('button', { name: 'Validar y mostrar datos' }).click()
     await expect(peer.page.getByRole('heading', { name: 'Medidas', exact: true })).toBeVisible()
     await assertProductViewport(peer.page, info)
@@ -271,14 +275,36 @@ test(scenarioTitle('B2BP-HEALTH-008'), async ({ page, product }, info) => {
   await open(page, product, info, 'health')
   const before = await api(page, owner, 'ownHealth', {})
   const invalids = [
-    { name: 'unsupported.csv', text: 'date,weightKg\n2026-10-16,73.5' },
-    { name: 'unsupported.zip', text: 'PK\u0003\u0004synthetic' },
-    { name: 'invalid.json', text: '{' },
+    {
+      name: 'unsupported.csv',
+      text: 'date,weightKg\n2026-10-16,73.5',
+      message: 'Solo se admite JSON klisteniapp.health v1. CSV y ZIP no son compatibles.',
+    },
+    {
+      name: 'unsupported.zip',
+      text: 'PK\u0003\u0004synthetic',
+      message: 'Solo se admite JSON klisteniapp.health v1. CSV y ZIP no son compatibles.',
+    },
+    {
+      name: 'invalid.json',
+      text: '{',
+      message: 'El archivo no es JSON válido. No se importó ningún registro.',
+    },
+    {
+      name: 'empty.json',
+      text: '',
+      message: 'El archivo no es JSON válido. No se importó ningún registro.',
+    },
     {
       name: 'unknown.json',
       text: JSON.stringify({ format: 'klisteniapp.health', version: 99, records: {} }),
+      message: 'Formato o versión no compatible. Solo se admite klisteniapp.health v1.',
     },
-    { name: 'oversized.json', text: ' '.repeat(2 * 1024 * 1024 + 1) },
+    {
+      name: 'oversized.json',
+      text: ' '.repeat(2 * 1024 * 1024 + 1),
+      message: 'El archivo supera el límite de 2 MiB. No se importó ningún registro.',
+    },
   ]
   for (const file of invalids) {
     await page.getByLabel('Archivo JSON').setInputFiles({
@@ -286,7 +312,7 @@ test(scenarioTitle('B2BP-HEALTH-008'), async ({ page, product }, info) => {
       mimeType: 'application/octet-stream',
       buffer: Buffer.from(file.text),
     })
-    await expect(page.getByRole('alert')).not.toHaveCount(0)
+    await expect(page.getByRole('status').filter({ hasText: file.message })).toBeVisible()
     expect(await api(page, owner, 'ownHealth', {})).toEqual(before)
     const confirm = page.getByRole('button', { name: 'Confirmar importación' })
     if (await confirm.count()) await expect(confirm).toBeDisabled()
@@ -377,8 +403,11 @@ test(scenarioTitle('B2BP-HEALTH-009'), async ({ page, context, product }, info) 
       operationId: operation(),
       data: before.data,
     })
-    expect([403, 409]).toContain(denied.status())
-    expect((await raw(staff.page, impersonated, 'personalExport', {})).ok()).toBe(false)
+    expect(denied.status()).toBe(401)
+    expect((await denied.json()).code).toBe('ACCOUNT_CHANGED')
+    const deniedExport = await raw(staff.page, impersonated, 'personalExport', {})
+    expect(deniedExport.status()).toBe(401)
+    expect((await deniedExport.json()).code).toBe('ACCOUNT_CHANGED')
     const training = await api(staff.page, staff.who, 'sessions', { memberId: owner.actor.id })
     const subjects = await api(staff.page, staff.who, 'historySubjects', {})
     const staffExport = await api(staff.page, staff.who, 'personalExport', {})

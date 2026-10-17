@@ -42,7 +42,7 @@ test(scenarioTitle('B2BP-ROLES-001'), async ({ page, context, product }, info) =
   }
 })
 
-test(scenarioTitle('B2BP-ROLES-002'), async ({ page, product }, info) => {
+test(scenarioTitle('B2BP-ROLES-002'), async ({ page, context, product }, info) => {
   const coach = principal(product, 'cover-coach')
   await login(page, coach, info)
   expect(
@@ -60,17 +60,25 @@ test(scenarioTitle('B2BP-ROLES-002'), async ({ page, product }, info) => {
     const denied = await raw(page, coach, 'sessions', { memberId: who.actor.id }, override)
     expect([403, 404, 409]).toContain(denied.status())
   }
-  const branchless = await page.request.get(
-    `/api/b2b/orgs/${coach.organization.id}/product/v2/people`,
-    {
-      headers: {
-        'X-Klisteni-B2B-Contract': '2',
-        'X-Klisteni-B2B-Account': coach.actor.id,
-        'X-Klisteni-B2B-Role': 'coach',
+  const ambiguous = principal(product, 'mixed-role')
+  const peer = await newPage(context, info)
+  try {
+    await login(peer.page, ambiguous, info)
+    const branchless = await peer.page.request.get(
+      `/api/b2b/orgs/${ambiguous.organization.id}/product/v2/people`,
+      {
+        headers: {
+          'X-Klisteni-B2B-Contract': '2',
+          'X-Klisteni-B2B-Account': ambiguous.actor.id,
+          'X-Klisteni-B2B-Role': 'coach',
+        },
       },
-    },
-  )
-  expect([400, 403, 409]).toContain(branchless.status())
+    )
+    expect(branchless.status()).toBe(400)
+    expect((await branchless.json()).code).toBe('BRANCH_REQUIRED')
+  } finally {
+    await peer.context.close()
+  }
   await open(page, product, info, 'people')
   await expect(page.getByText(foreign.actor.email, { exact: true })).toHaveCount(0)
   await assertProductViewport(page, info)
@@ -81,7 +89,8 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
   await login(page, superadmin, info)
   await open(page, product, info, 'people')
   const options = await page
-    .getByLabel('Rol en la marca', { exact: true })
+    .getByRole('form', { name: 'Invitar persona', exact: true })
+    .getByLabel('Rol de la persona invitada', { exact: true })
     .locator('option')
     .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value))
   for (const role of ['admin', 'coach', 'member']) expect(options).toContain(role)
@@ -91,7 +100,8 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
     await login(peer.page, admin, info)
     await open(peer.page, product, info, 'people')
     const allowed = await peer.page
-      .getByLabel('Rol en la marca')
+      .getByRole('form', { name: 'Invitar persona', exact: true })
+      .getByLabel('Rol de la persona invitada', { exact: true })
       .locator('option')
       .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value))
     expect(allowed.sort()).toEqual(['coach', 'member'])
@@ -342,7 +352,10 @@ test(scenarioTitle('B2BP-ROLES-006'), async ({ page, product }, info) => {
   const trigger = page.getByRole('button', { name: `Ver cambios de ${target.name}`, exact: true })
   await trigger.focus()
   await page.keyboard.press('Enter')
-  const drawer = page.getByRole('dialog', { name: 'Cambios registrados', exact: true })
+  const drawer = page.getByRole('dialog', {
+    name: `Cambios registrados: ${target.name}`,
+    exact: true,
+  })
   await expect(drawer).toBeVisible()
   await expect(drawer.getByRole('button', { name: 'Cerrar cambios', exact: true })).toBeFocused()
   expect(await drawer.innerText()).not.toMatch(

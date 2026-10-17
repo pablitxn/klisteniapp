@@ -33,6 +33,23 @@ test(scenarioTitle('B2BP-HISTORY-002'), async ({ page, context, product }, info)
     await expect(continuity.getByText(/cantidad de sustituciones|substitution count/i)).toHaveCount(
       0,
     )
+    const enrolled = continuity.locator(':scope > div').filter({
+      has: page.getByRole('heading', { name: plan.enrollment.content.name, exact: true }),
+    })
+    await enrolled
+      .getByRole('button', {
+        name: `Ver detalle del período vigente r${plan.enrollment.revision}`,
+        exact: true,
+      })
+      .click()
+    const detail = enrolled.getByRole('region', {
+      name: `Período registrado r${plan.enrollment.revision}`,
+      exact: true,
+    })
+    await expect(detail).toContainText(plan.enrollment.content.goal)
+    await expect(detail).toContainText(plan.enrollment.content.timeZone)
+    await expect(detail).toContainText(plan.enrollment.content.stages[0]!.startDate)
+    await expect(detail).toContainText(staff.who.actor.id)
     await assertProductViewport(page, info)
   } finally {
     await staff.context.close()
@@ -62,6 +79,20 @@ test(scenarioTitle('B2BP-HISTORY-003'), async ({ page, context, product }, info)
     await page.getByRole('link', { name: `Ver sesión ${saved.session.id}`, exact: true }).click()
     expect(new URL(page.url()).hash).toContain(saved.session.id)
     const session = history.locator(`[id="actual-session-${saved.session.id}"]`)
+    await session
+      .getByRole('button', {
+        name: `Ver período original emitido r${plan.enrollment.revision}`,
+        exact: true,
+      })
+      .click()
+    const issued = session.getByRole('region', {
+      name: `Período registrado r${plan.enrollment.revision}`,
+      exact: true,
+    })
+    await expect(issued).toContainText(plan.enrollment.content.goal)
+    await expect(issued).toContainText(plan.enrollment.content.stages[0]!.startDate)
+    await expect(issued).toContainText('Etapa original de este registro')
+    await expect(issued).toContainText(staff.who.actor.id)
     await session.getByRole('button', { name: 'Ver registro original y correcciones' }).click()
     await expect(session.getByText(/Revisión 1/)).not.toHaveCount(0)
     await assertProductViewport(page, info)
@@ -198,7 +229,7 @@ test(scenarioTitle('B2BP-HISTORY-004'), async ({ page, context, product }, info)
       expectedRevision: plan.enrollment.revision,
       proposed,
     })
-    await api(staff.page, staff.who, 'applyPeriod', {
+    const revised = await api(staff.page, staff.who, 'applyPeriod', {
       enrollmentId: plan.enrollment.id,
       expectedRevision: plan.enrollment.revision,
       operationId: operation(),
@@ -222,6 +253,44 @@ test(scenarioTitle('B2BP-HISTORY-004'), async ({ page, context, product }, info)
         .getByRole('link', { name: /Ver rutina original/ })
         .filter({ hasText: plan.routine.programId }),
     ).toHaveCount(1)
+    const actual = actuals.locator(`[id="actual-session-${saved.session.id}"]`)
+    await actual
+      .getByRole('button', {
+        name: `Ver período original emitido r${plan.enrollment.revision}`,
+        exact: true,
+      })
+      .click()
+    const issued = actual.getByRole('region', {
+      name: `Período registrado r${plan.enrollment.revision}`,
+      exact: true,
+    })
+    await expect(issued).toContainText(plan.enrollment.content.stages[0]!.startDate)
+    const currentPlan = page
+      .getByRole('region', { name: 'Continuidad de la rutina' })
+      .locator(':scope > div')
+      .filter({
+        has: page.getByRole('heading', { name: revised.content.name, exact: true }),
+      })
+    await currentPlan
+      .getByRole('button', {
+        name: `Ver detalle del período vigente r${revised.revision}`,
+        exact: true,
+      })
+      .click()
+    const currentPeriod = currentPlan.getByRole('region', {
+      name: `Período registrado r${revised.revision}`,
+      exact: true,
+    })
+    await expect(currentPeriod).toContainText(proposed.stages[0]!.startDate)
+    expect(revised.revision).toBeGreaterThan(plan.enrollment.revision)
+    expect(
+      (
+        await api(page, member, 'enrollmentRevision', {
+          id: plan.enrollment.id,
+          revision: plan.enrollment.revision,
+        })
+      ).enrollment,
+    ).toEqual(plan.enrollment)
     const oldWeek = await api(page, member, 'week', {
       memberId: member.actor.id,
       weekStart: plan.weekStart,

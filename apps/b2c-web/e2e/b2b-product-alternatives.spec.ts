@@ -432,22 +432,28 @@ test(scenarioTitle('B2BP-ALTERNATIVES-007'), async ({ page, product }, info) => 
     id: legacy.programId,
     version: 1,
   })
-  if (!supplement)
-    unavailable(
-      info,
-      'Actual legacy supplement is absent; candidate 04ac exposes only the read endpoint and no accepted adoption write/UI. Need the CONTRACT/INTEGRATION adoption interface, not a fabricated DTO',
-    )
-  const archive = await api(page, member, 'personalExport', {})
-  const adopted = archive.training
-    .flatMap((t) => t.supplements)
-    .find((s) => s.programId === legacy.programId && s.version === 1)!
-  expect(adopted).toBeTruthy()
-  expect(adopted.sourceSnapshotHash).toMatch(/^[a-f0-9]{64}$/)
-  expect(adopted.supplement).toEqual(supplement)
+  if (supplement) {
+    const archive = await api(page, member, 'personalExport', {})
+    const retained = archive.training
+      .flatMap((t) => t.supplements)
+      .find((entry) => entry.programId === legacy.programId && entry.version === 1)!
+    expect(retained).toBeTruthy()
+    expect(retained.sourceSnapshotHash).toMatch(/^[a-f0-9]{64}$/)
+    expect(retained.supplement).toEqual(supplement)
+    info.annotations.push({
+      type: 'retained-data-only',
+      description:
+        'Preexisting supplement provenance/export reads do not execute review or adoption',
+    })
+  }
   expect(await api(page, member, 'routineVersion', { id: legacy.programId, version: 1 })).toEqual(
     original,
   )
   await assertProductViewport(page, info)
+  unavailable(
+    info,
+    'Reviewed supplement adoption action is unmet until the returned WP07 UI is composed and exercised; retained-data/API reads cannot qualify the browser action',
+  )
 })
 
 test(scenarioTitle('B2BP-ALTERNATIVES-009'), async ({ page, context, product }, info) => {
@@ -475,14 +481,12 @@ test(scenarioTitle('B2BP-ALTERNATIVES-009'), async ({ page, context, product }, 
       .getByRole('group', { name: relation.target.name, exact: true })
     for (const checkbox of await option.getByRole('checkbox').all()) await checkbox.check()
     await option.getByRole('button', { name: `Usar ${relation.target.name}`, exact: true }).click()
-    const target = page
-      .locator('.workout-segment')
-      .filter({
-        has: page.getByRole('heading', {
-          name: `${relation.target.name} · Objetivo actual`,
-          exact: true,
-        }),
-      })
+    const target = page.locator('.workout-segment').filter({
+      has: page.getByRole('heading', {
+        name: `${relation.target.name} · Objetivo actual`,
+        exact: true,
+      }),
+    })
     for (const input of await target.getByRole('spinbutton', { name: / left cantidad$/ }).all())
       await input.fill('1')
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
@@ -530,14 +534,12 @@ test(scenarioTitle('B2BP-ALTERNATIVES-011'), async ({ page, context, product }, 
       .getByRole('group', { name: relation.target.name, exact: true })
     for (const checkbox of await option.getByRole('checkbox').all()) await checkbox.check()
     await option.getByRole('button', { name: `Usar ${relation.target.name}`, exact: true }).click()
-    const target = page
-      .locator('.workout-segment')
-      .filter({
-        has: page.getByRole('heading', {
-          name: `${relation.target.name} · Objetivo actual`,
-          exact: true,
-        }),
-      })
+    const target = page.locator('.workout-segment').filter({
+      has: page.getByRole('heading', {
+        name: `${relation.target.name} · Objetivo actual`,
+        exact: true,
+      }),
+    })
     const minimum =
       relation.targetDose.sets.kind === 'fixed'
         ? relation.targetDose.sets.value
