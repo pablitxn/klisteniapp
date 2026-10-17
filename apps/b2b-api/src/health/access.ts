@@ -44,7 +44,12 @@ export async function currentHealthContext(
     !identity.active ||
     !identity.service_enabled ||
     !identity.service_current ||
-    identity.product_role !== context.role ||
+    // ACCESS supplies the selected role. Only administrative contexts derive
+    // authority directly from organization role; coach/member use live grants.
+    (['admin', 'superadmin'].includes(context.role) &&
+      identity.product_role !== context.role &&
+      !(identity.product_role === 'superadmin' && context.role === 'admin')) ||
+    (capability === 'read-consented-health' && context.role === 'member') ||
     !context.capabilities.has(capability)
   )
     throw revoked();
