@@ -56,3 +56,5 @@ branch permissions, themes and modules are implemented. See the dated
 separate deployment and local-testing boundaries. Historical WL-0–WL-8 planning
 text does not reopen the delivered implementation. Transfer a published Git
 checkpoint before continuing on the VPS.
+
+- [B2B product v2 contract handoff](contracts/b2b-product-v2/README.md) — adopted ADR, endpoint registry and WP00 ownership.
