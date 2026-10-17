@@ -151,6 +151,14 @@ test('audit presentation includes actual actor/resource/time/revisions and marks
   assert.match(html, /Rol en la marca, Funciones por sede/)
   assert.match(html, /3 → 4/)
   assert.match(html, /Sistema/)
+  const planning = await render('audit/AuditDrawer', 'AuditEntries', {
+    changes: [
+      { ...changes[0], action: 'routine.save', changedFields: ['draft', 'publishedVersion'] },
+    ],
+    actors: [],
+  })
+  assert.match(planning, /Rutina guardada/)
+  assert.match(planning, /Borrador, Versión publicada/)
   assert.match(html, /histórico no conserva el detalle/)
   assert.match(html, /Ámbito de marca/)
   const dialog = await render('audit/AuditDrawer', 'AuditDrawer', {
