@@ -151,7 +151,29 @@ test(
         (await ledger.run((ctx) => records.sessionRevisions(ctx, { id: input.id }))).length,
         3,
       );
-      assert.equal((await ledger.pool.query('SELECT * FROM b2b_operation_receipt')).rowCount, 3);
+      const source = {
+        ...input.content,
+        selectedSegments: [{ originalStepId: 'step', segmentId: 'source' }],
+      };
+      await ledger.run((ctx) =>
+        records.saveSession(ctx, {
+          ...input,
+          expectedRevision: 3,
+          operationId: 'restore-source',
+          content: source,
+        }),
+      );
+      await assert.rejects(
+        ledger.run((ctx) =>
+          records.saveSession(ctx, {
+            ...input,
+            expectedRevision: 4,
+            operationId: 'restore-disabled-target',
+          }),
+        ),
+        { message: 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE' },
+      );
+      assert.equal((await ledger.pool.query('SELECT * FROM b2b_operation_receipt')).rowCount, 4);
     });
   },
 );

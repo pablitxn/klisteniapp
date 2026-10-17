@@ -2,6 +2,7 @@ import {
   checkEffectiveSegments,
   checkNewSegmentSelections,
   createOriginalSegment,
+  targetEquipmentAvailable,
 } from '@klisteniapp/b2b-domain/alternatives';
 import type { RoutineVersionV2, SessionContent } from '@klisteniapp/b2b-contracts/product-v2';
 import type { AuthorizedProductContext } from '../product-context.ts';
@@ -43,7 +44,18 @@ export async function validateReviewedSegments(
       semantics.code,
     );
   const newRelations = content.segments.filter(
-    (s) => s.relation && !previous?.segments.some((old) => old.segmentId === s.segmentId),
+    (s) =>
+      s.relation &&
+      (!previous?.segments.some((old) => old.segmentId === s.segmentId) ||
+        content.selectedSegments.some(
+          (selected) =>
+            selected.segmentId === s.segmentId &&
+            !previous?.selectedSegments.some(
+              (old) =>
+                old.originalStepId === selected.originalStepId &&
+                old.segmentId === selected.segmentId,
+            ),
+        )),
   );
   if (newRelations.length) {
     // Catalog overrides may be absent before a concurrent disable INSERT.
@@ -103,6 +115,8 @@ export async function validateReviewedSegments(
     previous ?? { segments: [] },
     environment,
   );
+  if (newRelations.some((s) => !targetEquipmentAvailable(s.relation!.target, environment)))
+    throw new HttpError(400, 'INVALID_INPUT', 'TARGET_EQUIPMENT_UNAVAILABLE');
   if (!selections.ok)
     throw new HttpError(
       400,
