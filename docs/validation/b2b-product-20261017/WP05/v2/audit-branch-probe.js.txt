@@ -1,0 +1,40 @@
+// Run from apps/b2b-api with the private disposable test environment loaded.
+// This diagnostic is separate from the normal test suite. DDL is schema-local
+// and removed by the fixture; no repository migration is edited or applied.
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { withHealthFixture, grantInput } from './tests/fixtures/health.ts';
+import { revokeHealthForInactiveMembership } from './src/health/index.ts';
+
+await withHealthFixture(async (f) => {
+  await f.as((c) => f.services.grantHealthConsent(c, grantInput('same-consent')));
+  await f.as((c) => f.services.grantHealthConsent(c, grantInput('same-consent')), 'member', 'atlas', 'atlas-east');
+  async function deactivate(operationId) {
+    return f.as(async (c) => {
+      await c.db.query("UPDATE b2b_membership SET active=false WHERE organization_id='atlas' AND user_id='member'");
+      const revoked = await revokeHealthForInactiveMembership(c, 'member', operationId);
+      assert.deepEqual(await revokeHealthForInactiveMembership(c, 'member', operationId), []);
+      return revoked;
+    }, 'superadmin');
+  }
+  await assert.rejects(deactivate(randomUUID()), (error) => {
+    console.log(JSON.stringify({ result: 'frozen index rejects inactivity transaction', code: error.code, constraint: error.constraint }));
+    return error.code === '23505' && error.constraint === 'b2b_product_audit_operation';
+  });
+  assert.equal((await f.pool.query("SELECT active FROM b2b_membership WHERE organization_id='atlas' AND user_id='member'")).rows[0].active, true);
+  assert.equal((await f.pool.query('SELECT * FROM b2b_health_consent WHERE revoked_at IS NULL')).rowCount, 2);
+  console.log('Frozen-index failure rolls back membership, both consent revisions and audit atomically.');
+
+  await f.pool.query(`DROP INDEX b2b_product_audit_operation;
+    CREATE UNIQUE INDEX b2b_product_audit_operation ON b2b_audit
+    (organization_id,actor_id,operation_id,action,branch_id,resource_id)
+    NULLS NOT DISTINCT WHERE operation_id IS NOT NULL`);
+  const operationId = randomUUID();
+  assert.equal((await deactivate(operationId)).length, 2);
+  assert.equal((await f.pool.query("SELECT active FROM b2b_membership WHERE organization_id='atlas' AND user_id='member'")).rows[0].active, false);
+  assert.equal((await f.pool.query('SELECT * FROM b2b_health_consent WHERE revoked_at IS NULL')).rowCount, 0);
+  const audit = (await f.pool.query("SELECT branch_id,operation_id FROM b2b_audit WHERE action='health.consent.membership-inactive' ORDER BY branch_id")).rows;
+  assert.deepEqual(audit.map((row) => row.branch_id), ['atlas-east', 'atlas-principal']);
+  assert.ok(audit.every((row) => row.operation_id === operationId));
+  console.log('Proposed schema-local branch-aware index: one inactivity transaction revokes both same-ID branch grants; exactly two audits share the parent operation; retry adds none.');
+});

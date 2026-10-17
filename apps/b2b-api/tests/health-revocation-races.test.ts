@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { test } from 'node:test';
+import type { AuthorizedProductContext } from '../src/product-context.ts';
 import {
   healthDisclosureGeneration,
   ownerHealthExport,
@@ -144,6 +145,24 @@ test('queued import and captured owner export context lose operational authority
     const preview = await f.as((c) => f.services.previewHealthImport(c, request));
     const blocker = await f.pool.connect();
     const pending: Promise<unknown>[] = [];
+    let resolveCaptured!: () => void;
+    let rejectCaptured!: (error: unknown) => void;
+    const bothCaptured = new Promise<void>((resolve, reject) => {
+      resolveCaptured = resolve;
+      rejectCaptured = reject;
+    });
+    let captured = 0;
+    const startCaptured = (run: (context: AuthorizedProductContext) => Promise<unknown>) =>
+      f
+        .transaction(async (db) => {
+          const context = await f.context(db);
+          if (++captured === 2) resolveCaptured();
+          return run(context);
+        })
+        .catch((error) => {
+          rejectCaptured(error);
+          throw error;
+        });
     try {
       await blocker.query('BEGIN');
       await blocker.query(
@@ -155,12 +174,15 @@ test('queued import and captured owner export context lose operational authority
         randomUUID(),
       );
       pending.push(
-        f.as((c) =>
+        startCaptured((c) =>
           f.services.applyHealthImport(c, { ...request, previewHash: preview.previewHash }),
         ),
-        f.as(ownerHealthExport),
+        startCaptured(ownerHealthExport),
       );
       const denied = pending.map((p) => assert.rejects(p, errorCode('CONTEXT_REVOKED')));
+      // Both reads must hold the pre-transition context. Waiting for one lock
+      // alone allows the second export to obtain valid fresh inactive access.
+      await bothCaptured;
       await queued(f);
       await blocker.query('COMMIT');
       await Promise.all(denied);
