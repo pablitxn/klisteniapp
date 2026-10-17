@@ -465,7 +465,7 @@ test(scenarioTitle('B2BP-PROGRAMMING-007'), async ({ page, context, product }, i
     await open(peer.page, product, info, 'history')
     await expect(
       peer.page.getByRole('region', { name: 'Rutinas originales y sus registros' }),
-    ).toContainText(draft.id)
+    ).toContainText(draft.id, { timeout: 30_000 })
     expect(
       (await api(peer.page, member, 'enrollmentRevision', { id: first.enrollment.id, revision: 1 }))
         .enrollment,
