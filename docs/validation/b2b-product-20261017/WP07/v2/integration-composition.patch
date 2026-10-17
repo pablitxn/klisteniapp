@@ -1,0 +1,18 @@
+--- a/apps/b2b-web/src/app/ManagementWorkspace.tsx
++++ b/apps/b2b-web/src/app/ManagementWorkspace.tsx
+@@ -10 +10 @@
+-import { lazy, useState, type ReactNode } from 'react'
++import { lazy, useState, type ComponentProps, type ReactNode } from 'react'
+@@ -26,0 +27,3 @@
++)
++const ProgrammingPage = lazy(() =>
++  import('../features/programs/product/ProgrammingPage').then((module) => ({ default: module.ProgrammingPage })),
+@@ -59,0 +63 @@
++  productProgramming,
+@@ -71,0 +76 @@
++  productProgramming?: Omit<ComponentProps<typeof ProgrammingPage>, 'membership' | 'dataRefresh'>
+@@ -241 +246,3 @@
+-      {page === 'programs' && <ProgramsPage {...context} />}
++      {page === 'programs' && (productProgramming
++        ? <ProgrammingPage {...context} {...productProgramming} />
++        : <ProgramsPage {...context} />)}

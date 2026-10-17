@@ -1,0 +1,106 @@
+{
+  "package": "WP07",
+  "plan": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlas": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "source": "c008dd883870d69026851e0945b825c583f8dd0e",
+  "dependencyHeads": {
+    "WP02": "c6825101d6ac798437599062481adf2a79ac5f69",
+    "WP04": "c91fbcbaf3dc228630cda66dd2229f2524cb46c9"
+  },
+  "validationHead": "e813f65d1872278e40ef7456b56e544a2600873c",
+  "sourceSha256": {
+    "apps/b2b-web/src/features/programs/product/EditorFeedback.tsx": "083ad3f48dffdd6d438ada4d37b321de334af99c0d305014e96f13df1abe7890",
+    "apps/b2b-web/src/features/programs/product/GoalProgramEditor.tsx": "45b73091771def74c8e3199a6aa459a7a2924491e373d8d44986326d2ab7a9b4",
+    "apps/b2b-web/src/features/programs/product/NumericTargetEditor.tsx": "963107da61331d6049090936c80f1d634806be08bdaad7072f9f2bda07cbf030",
+    "apps/b2b-web/src/features/programs/product/PeriodImpactEditor.tsx": "373b292725a3607b831527a3da24cab2180e6c7b33ae7d2d54ddba3ffd37756e",
+    "apps/b2b-web/src/features/programs/product/PrescriptionEditor.tsx": "c3b9bf5350d98b72f6c4a2eec381b1dfe9719a98511a35fbbf041e9d4a848393",
+    "apps/b2b-web/src/features/programs/product/ProgrammingPage.tsx": "441c23760e3b7234e32157b5052be95046459fbf0d58c6ede3b55b06d633e277",
+    "apps/b2b-web/src/features/programs/product/RoutineEditorV2.tsx": "54021714001f8ccdfab95d357c47c879777648fbac1803b360346d6079aad9b6",
+    "apps/b2b-web/src/features/programs/product/StageScheduleEditor.tsx": "9f5be4b35c6b9dc8ce30fd82289c77d89fc066dbbaa845bd5b9c8ebeda5bdc7b",
+    "apps/b2b-web/src/features/programs/product/planningRequests.ts": "9e76d37ad83b1b468bbf0b49341447e8ad7f9082699245112f1a7de7e9ac0869",
+    "apps/b2b-web/src/features/programs/product/programming.css": "75b9c0ff82dc7fca01ce68ad2e0dedfe45ed509b34880115ed8dbe07836ebbfa",
+    "apps/b2b-web/src/features/programs/product/programmingModel.ts": "848599e52f9ef65f5cb6344d94ba3b45a5ef017b8326618cc70284662c6d5ab9",
+    "apps/b2b-web/src/features/programs/product/usePlanningEditor.ts": "9cfcaeca5e584d65347d61a16ab5986f9fe8c43e98edbe9cfd7314a2215aa5b8",
+    "apps/b2b-web/tests/goalProgramDraft.test.ts": "7c0e966f54d9db5d598fdf89888c4d40e173fc57a26b19f3304e6a6ec5052ce7",
+    "apps/b2b-web/tests/prescriptionEditor.test.ts": "474df5720be4844e8a0a78fa35dfe2afcd81bc5b0adafb7545b7f499a479ddf7",
+    "apps/b2b-web/tests/programmingComponents.test.ts": "8dc384bf20acca54d3aae45bf17ff8a5a53c8dc95d344dd3f4d1ad47e4093468"
+  },
+  "runtime": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgresql": "17.11"
+  },
+  "suites": {
+    "contracts": {
+      "pass": 22,
+      "fail": 0,
+      "skip": 0,
+      "head": "1aad18838d8e8689686294eab9b4c479591634cb",
+      "applicability": "Contract source/tests unchanged on final composition"
+    },
+    "domain": {
+      "pass": 22,
+      "fail": 0,
+      "skip": 0,
+      "head": "1aad18838d8e8689686294eab9b4c479591634cb",
+      "applicability": "Domain source/tests unchanged on final composition"
+    },
+    "web": {
+      "pass": 80,
+      "fail": 0,
+      "skip": 0,
+      "head": "e813f65d1872278e40ef7456b56e544a2600873c"
+    },
+    "api": {
+      "pass": 114,
+      "fail": 7,
+      "skip": 0,
+      "head": "ce459d2a48d090653daae89c31bd75bfe1612e19",
+      "applicability": "API source/tests unchanged by subsequent UI-only recovery fix",
+      "blockers": [
+        "Six legacy HTTP regressions require WP01 composition; context/branch assumptions differ after amended planning coverage",
+        "Known shared white-label-training.test.ts:371 obsolete zero count; INTEGRATION owns exact owner patch"
+      ]
+    }
+  },
+  "browserCasesExecuted": 0,
+  "validationScope": "Isolated exact producer dependency composition; final parent/WP01 composition pending",
+  "static": {
+    "boundaries": "pass",
+    "rootTypecheck": "14/14, 13 unchanged cached tasks in final run",
+    "rootLint": "14/14, 13 unchanged cached tasks plus full formatting in final run",
+    "buildB2B": "pass, existing chunk-size warning"
+  },
+  "logsSha256": {
+    "frozen-install.log": "ab245ef33939e68b44632af5c5ffb9b7197a22956802dd3df5cb57147f53758e",
+    "boundaries.log": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+    "build-final.log": "d667d0e78391248c11b80e514b6fbca88c00f5f33b9a96c9961739019919bb55",
+    "identity.log": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212",
+    "api.log": "4f4a924a355d0e0c35f48f372f91a2f833feccb4457eb6408ceb71b1bcd81e55",
+    "web.log": "6c314fa3a610c840b0fc26d4126301e796d931af22cc1b7279d490ab6ff68757",
+    "web-amended-wp02.log": "9fa6b148a0c78bd9d243250d34a9bf3f07076f0379ae4a5fa96722974378b457",
+    "api-amended-wp02.log": "397d1fe0ba4d9f05610d628d8861f32fd9520c3c8900b09bf83223e7dbdd2bb5",
+    "domain.log": "bf75c7670c462f8728d4ce721296672bad3e3ac63727716937abeea223888813",
+    "typecheck-amended-wp02.log": "9815fbb5bfa5bf43c1f009ac5f0e23f5144c1009ddd5d33d031252776b8075ec",
+    "lint.log": "11a25750f6277aaf9361e5438726ba7f0195f04f334b3e753d2e996b9df107d6",
+    "lint-amended-wp02.log": "f4769bd833e5585ec11cfaea1856c32be3bc86cedc6ea2951ccfd050db3f3557",
+    "typecheck.log": "6520c593aed9d5fc804e125b5cd12cccea544176e585dc19c9092f8a064d862e",
+    "typecheck-final.log": "b119cdcd2b2615f768200c891bb37d93b97f13adde82e7b6dbc057fa296347d1",
+    "web-final.log": "760ef7f61b6574a78676666e8aa011b5fed192c58f5d68214e33be9b5c6f6cf8",
+    "api-initial-invalid-db-name.log": "f4abfdb9764569fd9111cbce8951a027c4df311ffee15203f6f0063837b064a3",
+    "lint-final.log": "ffd95a3fb5e25c62c47f257188290b180dd23821b4ca4538eefb7c10929b1a88",
+    "atlas-content.log": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd",
+    "contracts.log": "2fc2630943d0fe29310fcb5dbc4e53a63ccd278a80a1293ce8d09ca88fed3ed7",
+    "build.log": "15a24c18e162e4551b7bec0970198231ada1b5986ad91a3553dd0886c429dff3"
+  },
+  "historicalValidation": {
+    "head": "1aad18838d8e8689686294eab9b4c479591634cb",
+    "source": "2056aad15e7d6bc772c26af6767fe74a9410d913",
+    "WP02": "3b045cbe431d1995d75f9e88eeac1d79a08607bb",
+    "testsPassed": 239,
+    "failures": 0,
+    "skips": 0
+  },
+  "status": "UI modules ready; integration/API/browser acceptance incomplete"
+}
