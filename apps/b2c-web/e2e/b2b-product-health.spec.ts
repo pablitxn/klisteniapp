@@ -403,8 +403,11 @@ test(scenarioTitle('B2BP-HEALTH-009'), async ({ page, context, product }, info) 
       operationId: operation(),
       data: before.data,
     })
-    expect([403, 409]).toContain(denied.status())
-    expect((await raw(staff.page, impersonated, 'personalExport', {})).ok()).toBe(false)
+    expect(denied.status()).toBe(401)
+    expect((await denied.json()).code).toBe('ACCOUNT_CHANGED')
+    const deniedExport = await raw(staff.page, impersonated, 'personalExport', {})
+    expect(deniedExport.status()).toBe(401)
+    expect((await deniedExport.json()).code).toBe('ACCOUNT_CHANGED')
     const training = await api(staff.page, staff.who, 'sessions', { memberId: owner.actor.id })
     const subjects = await api(staff.page, staff.who, 'historySubjects', {})
     const staffExport = await api(staff.page, staff.who, 'personalExport', {})
