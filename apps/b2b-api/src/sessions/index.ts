@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto';
 import {
   ProductEndpoints,
   SessionReceiptSchema,
@@ -7,6 +6,7 @@ import {
   decodeRoutine,
   projectLegacyRoutine,
   type SessionContent,
+  type RoutineVersionV2,
 } from '@klisteniapp/b2b-contracts/product-v2';
 import {
   canonicalJson,
@@ -16,6 +16,8 @@ import {
 import type { AuthorizedProductContext, RecordsServices } from '../product-context.ts';
 import { conflict, denied, HttpError, missing } from '../errors.ts';
 import { enrollment, occurrence } from '../schedule/repository.ts';
+import { contentHash } from '../catalog/reviewed-projection.ts';
+import { validateReviewedSegments } from './reviewed-segments.ts';
 import {
   authorizeRecords,
   lockKey,
@@ -70,15 +72,16 @@ export function createSessionServices(
       const input = ProductEndpoints.saveSession.input.parse(raw);
       await authorizeRecords(context, context.actorId, true);
       const hash = requestHash(context, 'session.save', input);
+      const replay = await replayOperation(context, input.operationId, hash);
+      if (replay !== undefined) return SessionReceiptSchema.parse(replay);
       if (input.origin.kind === 'occurrence') {
         const issued = await occurrence(context, input.origin.occurrenceId);
         if (issued.scope.memberId !== context.actorId) throw denied();
-        // Planning and records lock the same enrollment before child heads.
+        // Match WP02: actor operation, enrollment advisory lock, parent row, child.
+        await lockKey(context, 'enrollment', issued.enrollmentId);
         await enrollment(context, issued.enrollmentId, true);
       }
-      const replay = await replayOperation(context, input.operationId, hash);
-      if (replay !== undefined) return SessionReceiptSchema.parse(replay);
-      await lockKey(context, `session:${input.id}`);
+      await lockKey(context, 'session', input.id);
       const head = await sessionHead(context, input.id);
       if (head && head.member_id !== context.actorId) throw denied();
       if ((head?.revision ?? 0) !== input.expectedRevision) throw conflict();
@@ -145,8 +148,9 @@ export function createSessionServices(
       if (stored.schema_version !== input.origin.routine.schemaVersion) throw conflict();
       const decoded = decodeRoutine(stored.schema_version, stored.snapshot);
       let prescription: SessionPrescription;
+      let reviewedRoutine: RoutineVersionV2 | undefined;
       if (decoded.schemaVersion === 2)
-        prescription = RoutineVersionV2Schema.parse(decoded.snapshot);
+        prescription = reviewedRoutine = RoutineVersionV2Schema.parse(decoded.snapshot);
       else {
         const supplement = await context.db.query(
           'SELECT source_snapshot_hash,snapshot FROM b2b_routine_supplement WHERE organization_id=$1 AND branch_id=$2 AND program_id=$3 AND program_version=$4',
@@ -158,12 +162,12 @@ export function createSessionServices(
           ],
         );
         if (supplement.rows[0]) {
-          const sourceHash = createHash('sha256')
-            .update(canonicalJson(stored.snapshot))
-            .digest('hex');
+          const sourceHash = contentHash(stored.snapshot);
           if (supplement.rows[0].source_snapshot_hash !== sourceHash)
             throw new Error('Legacy supplement does not match the issued snapshot');
-          prescription = RoutineVersionV2Schema.parse(supplement.rows[0].snapshot);
+          prescription = reviewedRoutine = RoutineVersionV2Schema.parse(
+            supplement.rows[0].snapshot,
+          );
         } else {
           // Compatibility dose only; this is never published or persisted over
           // the issued JSON. Reviewed targets require WP04's immutable supplement.
@@ -190,6 +194,8 @@ export function createSessionServices(
         throw new HttpError(400, 'INVALID_INPUT', 'Performed time cannot be in the future.');
       const priorContent: SessionContent | undefined =
         previous?.schemaVersion === 2 ? previous.content : undefined;
+      if (reviewedRoutine)
+        await validateReviewedSegments(context, reviewedRoutine, input.content, priorContent);
       const issues = sessionIssues(input.content, prescription, priorContent);
       if (originalLegacy && !head && !input.content.correctionReason.trim())
         issues.push({

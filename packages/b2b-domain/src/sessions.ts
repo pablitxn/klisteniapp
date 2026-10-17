@@ -116,8 +116,10 @@ export function sessionIssues(
     if (
       (dose.mode === 'repetitions' && (set.repetitions === null || set.durationSeconds !== null)) ||
       (dose.mode === 'duration' && (set.durationSeconds === null || set.repetitions !== null)) ||
-      (dose.laterality === 'per-side' ? set.side === 'both' : set.side !== 'both') ||
-      (dose.load.mode === 'external' && set.loadKg === null)
+      (dose.laterality === 'bilateral' ? set.side !== 'both' : set.side === 'both') ||
+      set.ordinal > (dose.sets.kind === 'fixed' ? dose.sets.value : dose.sets.max) ||
+      (dose.load.mode === 'bodyweight' && set.loadKg !== null) ||
+      (content.status === 'completed' && dose.load.mode === 'external' && set.loadKg === null)
     )
       issue('Actual units, side and load must match this segment', segment.originalStepId)
   }
@@ -131,7 +133,7 @@ export function sessionIssues(
         issue('Select an effective segment for every original step', step.id)
         continue
       }
-      const sides = segment.dose.laterality === 'per-side' ? ['left', 'right'] : ['both']
+      const sides = segment.dose.laterality === 'bilateral' ? ['both'] : ['left', 'right']
       for (let ordinal = 1; ordinal <= minimumTarget(segment.dose.sets); ordinal++) {
         for (const side of sides) {
           const set = content.sets.find(

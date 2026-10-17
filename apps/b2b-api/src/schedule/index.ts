@@ -18,6 +18,7 @@ import { conflict, denied, HttpError } from '../errors.ts';
 import { createSessionServices } from '../sessions/index.ts';
 import {
   authorizeRecords,
+  lockKey,
   recordOperation,
   replayOperation,
   requestHash,
@@ -118,10 +119,11 @@ export function createRecordsServices(clock: () => Date = () => new Date()): Rec
       const input = ProductEndpoints.moveOccurrence.input.parse(raw);
       const first = await occurrence(context, input.id);
       await authorizeRecords(context, first.scope.memberId, true);
-      const currentEnrollment = await enrollment(context, first.enrollmentId, true);
       const hash = requestHash(context, 'occurrence.move', input);
       const replay = await replayOperation(context, input.operationId, hash);
       if (replay !== undefined) return OccurrenceSchema.parse(replay);
+      await lockKey(context, 'enrollment', first.enrollmentId);
+      const currentEnrollment = await enrollment(context, first.enrollmentId, true);
       const current = await occurrence(context, input.id);
       if (current.revision !== input.expectedRevision) throw conflict();
       const completed = (await latestSessions(context, current.scope.memberId)).some(

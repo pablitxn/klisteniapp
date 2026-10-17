@@ -29,9 +29,9 @@ export function requestHash(context: AuthorizedProductContext, action: string, i
     )
     .digest('hex');
 }
-export async function lockKey(context: AuthorizedProductContext, key: string) {
+export async function lockKey(context: AuthorizedProductContext, family: string, id: string) {
   await context.db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [
-    canonicalJson([context.organizationId, context.branchId, key]),
+    canonicalJson([context.organizationId, context.branchId, family, id]),
   ]);
 }
 export async function replayOperation(
@@ -42,7 +42,7 @@ export async function replayOperation(
   // The primary receipt identity excludes branch. Include no branch in this lock,
   // so accidental operation reuse on another branch serializes and conflicts.
   await context.db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [
-    canonicalJson([context.organizationId, context.actorId, operationId]),
+    canonicalJson([context.organizationId, context.actorId, 'operation', operationId]),
   ]);
   const result = await context.db.query(
     'SELECT request_hash,response FROM b2b_operation_receipt WHERE organization_id=$1 AND actor_id=$2 AND operation_id=$3',

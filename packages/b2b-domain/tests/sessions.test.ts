@@ -135,3 +135,24 @@ test('operation canonicalization sorts objects and preserves array order and act
   assert.notEqual(canonicalJson([1, 2]), canonicalJson([2, 1]))
   assert.notEqual(canonicalJson({ reps: 1 }), canonicalJson({ reps: 2 }))
 })
+test('alternating coverage needs both sides, ranged maxima bound extra sets and bodyweight has no external load', () => {
+  const alternating = content()
+  const dose = {
+    ...fixture.dose,
+    laterality: 'alternating' as const,
+    sets: { kind: 'range' as const, min: 1, max: 2 },
+  }
+  alternating.segments[0]!.dose = dose
+  alternating.sets = ['left', 'right'].map((side) => ({
+    ...content().sets[0]!,
+    performedSetId: `set-${side}`,
+    side: side as 'left' | 'right',
+  }))
+  const issued = { steps: [{ ...prescription.steps[0]!, dose }], relations: [] }
+  assert.deepEqual(sessionIssues(alternating, issued), [])
+  alternating.sets[0]!.ordinal = 3
+  assert.ok(sessionIssues(alternating, issued).length)
+  alternating.sets[0]!.ordinal = 1
+  alternating.sets[0]!.loadKg = 10
+  assert.ok(sessionIssues(alternating, issued).length)
+})
