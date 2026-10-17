@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect, type MouseEvent } from 'react'
 import { useApplication } from './app/ApplicationProvider'
 import { compatiblePath, resolveRoute } from './routes'
 
+const ProductWorkspace = lazy(() => import('./app/ProductWorkspace'))
 const Workspace = lazy(() => import('./app/Workspace'))
 const GymEntry = lazy(() =>
   import('./features/public/GymEntry').then((module) => ({ default: module.GymEntry })),
@@ -18,7 +19,7 @@ const Invitation = lazy(() =>
 )
 
 export default function App() {
-  const { brand, route, href, navigate } = useApplication()
+  const { brand, session, route, href, navigate } = useApplication()
   const context = brand.context
   useEffect(() => {
     const url = new URL(href, location.origin)
@@ -56,7 +57,7 @@ export default function App() {
         <p role="status">Conociendo tu gimnasio…</p>
       </Shell>
     )
-  if (brand.error)
+  if (brand.error && !session.bootstrap && !['login', 'member', 'management'].includes(route.kind))
     return (
       <Shell eyebrow="ACCESO">
         <Notice error>{brand.error}</Notice>
@@ -68,7 +69,9 @@ export default function App() {
   const content = (
     <div onClick={followLink}>
       <Suspense fallback={<p role="status">Cargando…</p>}>
-        {route.kind === 'home' ? (
+        {session.bootstrap ? (
+          <ProductWorkspace />
+        ) : route.kind === 'home' ? (
           context ? (
             <BrandEntry context={context} />
           ) : (

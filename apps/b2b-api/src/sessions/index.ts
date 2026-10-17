@@ -117,9 +117,9 @@ export function createSessionServices(
         if (!head && issued.eligibility !== 'required') throw denied();
       } else {
         const assignment = await context.db.query(
-          `SELECT a.member_id,a.program_id,a.version,p.archived_at FROM b2b_program_assignment a JOIN b2b_program p
+          `SELECT a.member_id,a.program_id,a.version,a.active,p.archived_at FROM b2b_program_assignment a JOIN b2b_program p
            ON (p.organization_id,p.branch_id,p.id)=(a.organization_id,a.branch_id,a.program_id)
-           WHERE a.organization_id=$1 AND a.branch_id=$2 AND a.id=$3`,
+           WHERE a.organization_id=$1 AND a.branch_id=$2 AND a.id=$3 FOR SHARE OF a`,
           [context.organizationId, context.branchId, input.origin.assignmentId],
         );
         const row = assignment.rows[0];
@@ -138,7 +138,12 @@ export function createSessionServices(
           )[0];
           if (!originalLegacy || originalLegacy.original.assignmentId !== input.origin.assignmentId)
             throw missing();
-        } else if (!head && row.archived_at) throw denied();
+        }
+        // Accepted-operation replay already returned after current authorization.
+        // A persisted session or verified old execution is a correction; only a
+        // genuinely new record requires an active, selectable assignment.
+        const creatingLegacySession = !head && !originalLegacy;
+        if (creatingLegacySession && (!row.active || row.archived_at)) throw denied();
       }
       const stored = await routineSnapshot(
         context,

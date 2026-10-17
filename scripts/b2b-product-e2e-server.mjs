@@ -48,7 +48,7 @@ function existingTLS(mode, env) {
   return { cert, key }
 }
 
-/** Composition only. Feature activation is never enabled by this harness. */
+/** Task-owned synthetic schemas only. Product activation requires an explicit test flag. */
 export async function startProductHarness({
   source,
   mode,
@@ -59,6 +59,7 @@ export async function startProductHarness({
   signal,
 } = {}) {
   const sourceUrl = requireProductTestDatabase(source)
+  const activateProductFixture = env.B2B_PRODUCT_TEST_ACTIVATE === '1'
   const layout = productHarnessLayout(mode, offset)
   if (!Number.isInteger(projectCount) || projectCount < 1 || projectCount > 6)
     throw new Error('Invalid product harness project count')
@@ -131,6 +132,8 @@ export async function startProductHarness({
         production: Boolean(tls),
         demoMode: true,
         whiteLabel,
+        productUnified: activateProductFixture && !whiteLabel,
+        activateProductFixture,
         proxySecret,
         trustedProxyAddresses: ['127.0.0.1'],
         domainProtocol: protocol,
@@ -158,6 +161,8 @@ export async function startProductHarness({
         built: true,
         builtDirectory: snapshotDirectory,
         whiteLabel,
+        productUnified: activateProductFixture && !whiteLabel,
+        activateProductFixture,
         proxySecret,
         domainProtocol: protocol,
         tls,
@@ -190,7 +195,12 @@ export async function startProductHarness({
       const url = new URL(request.url ?? '/', 'http://127.0.0.1')
       let payload
       if (url.pathname === '/healthz')
-        payload = { ready: true, mode, projects: fixtureMap.length, featuresActivated: false }
+        payload = {
+          ready: true,
+          mode,
+          projects: fixtureMap.length,
+          featuresActivated: activateProductFixture,
+        }
       else if (url.pathname === '/fixtures') {
         const index = Number(url.searchParams.get('project'))
         if (!url.searchParams.has('project') || !Number.isInteger(index) || !fixtureMap[index]) {
@@ -235,7 +245,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     if (abort.signal.aborted) await harness.close()
     else
       console.info(
-        `Product baseline harness ready: ${harness.fixtures.length} isolated projects; fixture map ${harness.fixtureMapPath}; features remain inactive.`,
+        `Product harness ready: ${harness.fixtures.length} isolated projects; fixture map ${harness.fixtureMapPath}; activation flag ${process.env.B2B_PRODUCT_TEST_ACTIVATE === '1' ? 'enabled for synthetic fixtures' : 'off'}.`,
       )
   } catch (error) {
     console.error(

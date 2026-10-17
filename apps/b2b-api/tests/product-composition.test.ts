@@ -56,7 +56,7 @@ test(
         (await pool.query('SELECT id,data::text FROM b2b_exercise ORDER BY id')).rows,
         catalog,
       );
-      assert.equal((await pool.query('SELECT id FROM b2b_migration')).rowCount, 8);
+      assert.equal((await pool.query('SELECT id FROM b2b_migration')).rowCount, 10);
       await scoped('coach', 'atlas-principal', false, (context) =>
         assertProductMigrations(context.db),
       );

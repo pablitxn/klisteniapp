@@ -20,7 +20,7 @@ export function ApplicationProvider({ children }: { children: ReactNode }) {
   // survives internal navigation so changing views never creates another session.
   const started = useRef(false)
   if (isWorkspaceRoute(route)) started.current = true
-  const session = useB2BSession({ enabled: started.current && !brand.loading && !brand.error })
+  const session = useB2BSession({ enabled: started.current && !brand.loading })
   return (
     <Context.Provider value={{ brand, session, route, href, navigate }}>
       {children}

@@ -1,0 +1,36 @@
+[
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2b-web test",
+    "exitCode": 0
+  },
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2b-web typecheck",
+    "exitCode": 0
+  },
+  {
+    "command": "corepack pnpm@12.7.0 check:b2b:boundaries",
+    "exitCode": 0
+  },
+  {
+    "command": "corepack pnpm@12.7.0 lint",
+    "exitCode": 0
+  },
+  {
+    "command": "corepack pnpm@12.7.0 build:b2b",
+    "exitCode": 0
+  },
+  {
+    "command": "corepack pnpm@12.7.0 typecheck",
+    "exitCode": 0,
+    "log": "typecheck.log",
+    "tasksPassed": 14
+  },
+  {
+    "command": "B2B_TEST_DATABASE_URL=<disposable-local-synthetic> node --test apps/b2b-api/tests/product-read-composition.test.ts",
+    "exitCode": 0,
+    "log": "api-reads.log",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0
+  }
+]

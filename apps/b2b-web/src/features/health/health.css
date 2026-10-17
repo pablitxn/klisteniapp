@@ -1,0 +1,73 @@
+.health-feature {
+  min-width: 0;
+  max-width: 72rem;
+}
+.health-feature p,
+.health-feature li,
+.health-feature label,
+.health-feature dd {
+  overflow-wrap: anywhere;
+}
+.health-panel {
+  margin-block: 1rem;
+  min-width: 0;
+}
+.health-feature button {
+  min-height: 44px;
+  max-width: 100%;
+  white-space: normal;
+  margin-block: 0.4rem;
+}
+.health-feature input[type='file'] {
+  display: block;
+  max-width: 100%;
+  min-height: 44px;
+}
+.health-feature fieldset {
+  min-width: 0;
+  margin-block: 1rem;
+}
+.health-check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding-block: 0.3rem;
+}
+.health-check input {
+  flex: 0 0 auto;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.health-feature :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+.health-record {
+  margin: 0.75rem 0;
+}
+.health-record > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.75rem;
+  padding-block: 0.35rem;
+}
+.health-record dt {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.health-record dd {
+  margin: 0;
+  white-space: pre-wrap;
+}
+.health-feature summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding-block: 0.7rem;
+}
+@media (max-width: 430px) {
+  .health-record > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+}

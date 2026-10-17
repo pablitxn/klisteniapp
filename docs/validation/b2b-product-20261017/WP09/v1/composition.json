@@ -1,0 +1,44 @@
+{
+  "base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "plan": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlas": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "featureHead": "f123dfb717774b88eba78291af2386fde60dd28b",
+  "WP03": "d12b56b92304764f988b051350b6211b7f1e38ba",
+  "WP04": "04b2e036e6d9b5d8987c6d228ab92bf1a48827d1",
+  "validationWorktree": "/workspace/wp09-validation",
+  "toolchain": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "containerNode": "24.18.0",
+    "playwright": "1.63.0",
+    "chromium": "153.0.8010.12",
+    "database": "PostgreSQL 17.11; task-owned loopback port 55439, synthetic database only"
+  },
+  "composition": {
+    "WP03Paths": [
+      "apps/b2b-api/src/sessions/**",
+      "apps/b2b-api/src/schedule/**",
+      "apps/b2b-api/tests/{session-revisions,training-operation-races,catalog-selection-races}.test.ts",
+      "apps/b2b-api/tests/fixtures/wp03-{ledger.ts,composed-seams.mjs,domain-seams.mjs}",
+      "packages/b2b-domain/src/{sessions,schedule}.ts",
+      "packages/b2b-domain/tests/{sessions,schedule}.test.ts"
+    ],
+    "WP04Paths": [
+      "apps/b2b-api/src/catalog/{seed,reviewed-alternatives,reviewed-projection}.ts",
+      "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "apps/b2b-api/tests/fixtures/reviewed-alternatives/**",
+      "apps/b2b-web/src/features/alternatives/**",
+      "packages/b2b-domain/src/alternatives.ts",
+      "packages/b2b-domain/tests/alternatives.test.ts"
+    ],
+    "validationOnlySharedChange": "packages/b2b-domain/package.json: exports ./sessions, ./schedule, ./alternatives; no dependency version or lockfile edits",
+    "missingDependency": "WP02 planning/schedule-change.ts required by the WP03 planning bridge; no accepted WP02 input supplied to WP09"
+  },
+  "nativeProbe": {
+    "platformImage": "klisteni-browser:1.62.0@sha256:fb70e03db1c00327d2a5626fa6eea50ef9adc333e90c415b104722bb53df58d5",
+    "browserSource": "Official Playwright 1.63.0 download, task-owned /workspace/wp09-tools/browsers; matching 1.63 playwright-core copied from the frozen installed package",
+    "browserOverride": false,
+    "security": "pwuser; Chromium sandbox true; proc argv guard rejects --no-sandbox; no-new-privileges; existing seccomp; internal task-only network; no ports; read-only public fixture/browser mounts; no TLS exception",
+    "limits": "Platform image supplies OS dependencies only. Its bundled 1.62 browser/helper was never used. Official 1.63 image pull returned Forbidden; direct official matching binary download succeeded. Host launch rejected unusable sandbox; unchanged container sandbox succeeded."
+  }
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2b-web test",
+    "exitCode": 0,
+    "seconds": 1.87,
+    "log": "web.log"
+  },
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2b-web typecheck",
+    "exitCode": 0,
+    "seconds": 6.76,
+    "log": "web-typecheck.log"
+  },
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2b-web lint",
+    "exitCode": 0,
+    "seconds": 2.07,
+    "log": "web-lint.log"
+  },
+  {
+    "command": "corepack pnpm@12.7.0 check:b2b:boundaries",
+    "exitCode": 0,
+    "seconds": 1.12,
+    "log": "boundaries.log"
+  },
+  {
+    "command": "corepack pnpm@12.7.0 build:b2b",
+    "exitCode": 0,
+    "seconds": 3.0,
+    "log": "build-b2b.log"
+  },
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2c-web typecheck",
+    "exitCode": 0,
+    "seconds": 10.32,
+    "log": "unified-typecheck.log"
+  },
+  {
+    "command": "corepack pnpm@12.7.0 --filter @klisteniapp/b2c-web build",
+    "exitCode": 0,
+    "seconds": 1.09,
+    "log": "unified-build.log"
+  }
+]

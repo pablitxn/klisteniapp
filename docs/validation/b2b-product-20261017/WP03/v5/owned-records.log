@@ -1,0 +1,35 @@
+✔ new alternatives require published, currently authorized source and target catalog rows; retained segments survive disablement (4861.960946ms)
+✔ concurrent catalog disable insertion or source unpublication commits before selection and denies acceptance atomically (4535.999231ms)
+✔ accepted target selection serializes before a concurrent disable and remains a retained historical segment (3393.207212ms)
+✔ production planning callback enrolls stable occurrences and member moves invalidate WP02 previews (1532.785912ms)
+✔ repaired end handler deterministically cancels future local dates, preserves actual linkage and replays its exact receipt (1617.555267ms)
+✔ direct adapter rejects malformed end input that omits immutable effectiveAt (2.554201ms)
+✔ explicit effectiveAt end metadata reconciles only future obligations through the production adapter (1064.266283ms)
+✔ retired assignments reject fresh legacy sessions without receipts while original history stays readable (2810.541293ms)
+✔ retirement preserves existing-session corrections and exact accepted receipts but never bypasses current user authorization (1575.729669ms)
+✔ first correction of a verified legacy execution remains permitted after retirement and preserves revision zero (2062.67002ms)
+✔ a retirement committed before fresh acceptance wins the PostgreSQL race and leaves no session or receipt (2274.465384ms)
+✔ fresh acceptance first holds retirement until commit and its later exact replay stays authorized and idempotent (3309.164418ms)
+✔ WP04 equipment checks cannot admit a target without current canonical review (4227.336681ms)
+✔ empty unselected draft remains empty after WP04 validation and cannot complete work (2002.842841ms)
+✔ reviewed source-to-target duration/per-side segments retain all source actuals and restore the original segment without changing issued JSON (3672.280906ms)
+✔ exact accepted receipt survives successors; changed create payload and stale revisions conflict without extra audit (2130.459666ms)
+✔ legacy revision zero and original bytes/IDs survive first correction and retained history stays unscheduled (2108.75335ms)
+✔ revoked/inactive current access rejects new and replayed operations; trainer cannot edit member actuals (1778.256843ms)
+✔ future actuals, implicit completion and foreign-branch reads fail; empty draft saves without completion (1678.475861ms)
+✔ PostgreSQL concurrent exact create accepts once and returns identical immutable receipts (2331.521038ms)
+✔ PostgreSQL two-device CAS accepts one different edit and rejects the stale writer without partial audit or receipt (1482.419173ms)
+✔ PostgreSQL simultaneous changed-payload operation reuse conflicts, and rollback leaves no accepted record (1133.689568ms)
+✔ ending an enrollment cancels future obligations while authorized late submission can still record past work (1484.480195ms)
+✔ midweek stage boundary retains accepted same-week override and same-day slots remain separate in PostgreSQL (1171.595941ms)
+✔ four/three/one, duplicate retries/repeated sessions, partial-only, late void and correction revise closed weeks (1554.872888ms)
+✔ same-week move is receipted, a midweek override is completion-eligible and completed moves are denied (852.404712ms)
+✔ period reconciliation moves stable obligations across weeks, preserves actuals and cancels removed work without extra absences (1652.68085ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69112.665935

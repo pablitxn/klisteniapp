@@ -1759,7 +1759,7 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       let waiting = false;
       for (let attempt = 0; attempt < 100; attempt++) {
         const found = await pool.query(
-          "SELECT 1 FROM pg_stat_activity WHERE application_name='klisteni-b2b-api' AND wait_event_type='Lock' AND query LIKE 'SELECT * FROM b2b_organization%' AND datname=current_database()",
+          "SELECT 1 FROM pg_stat_activity WHERE application_name='klisteni-b2b-api' AND wait_event_type='Lock' AND (query LIKE 'SELECT * FROM b2b_organization%' OR query='SELECT id FROM b2b_organization WHERE id=$1 FOR SHARE') AND datname=current_database()",
         );
         if (found.rowCount) {
           waiting = true;
@@ -1869,7 +1869,7 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
       let waiting = false;
       for (let attempt = 0; attempt < 100; attempt++) {
         const found = await pool.query(
-          "SELECT 1 FROM pg_stat_activity WHERE application_name='klisteni-b2b-api' AND wait_event_type='Lock' AND query LIKE 'SELECT * FROM b2b_organization%' AND datname=current_database()",
+          "SELECT 1 FROM pg_stat_activity WHERE application_name='klisteni-b2b-api' AND wait_event_type='Lock' AND (query LIKE 'SELECT * FROM b2b_organization%' OR query='SELECT id FROM b2b_organization WHERE id=$1 FOR SHARE') AND datname=current_database()",
         );
         if (found.rowCount) {
           waiting = true;
@@ -1906,6 +1906,6 @@ describe('B2B independent PostgreSQL API', { skip: !databaseUrl }, () => {
     await resetDemo(pool, config, true);
     assert.equal((await pool.query('SELECT id FROM unrelated_data')).rows[0].id, 7);
     assert.equal((await pool.query('SELECT id FROM b2b_auth_user')).rowCount, 0);
-    assert.equal((await pool.query('SELECT id FROM b2b_migration')).rowCount, 8);
+    assert.equal((await pool.query('SELECT id FROM b2b_migration')).rowCount, 10);
   });
 });

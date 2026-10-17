@@ -151,3 +151,5 @@ export function Session({ assignment, orgId, userId, active, onSaved, onClose }:
     </>
   )
 }
+
+export { ProductTrainingSession } from './sync/ProductTrainingSession'

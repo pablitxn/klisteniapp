@@ -7,6 +7,8 @@ export const PRODUCT_REQUIRED_MIGRATIONS = [
   '006-product-foundation',
   '007-reviewed-catalog-v1',
   '008-product-audit-branch-identity',
+  '009-product-unified-realm',
+  '010-product-invalidation',
 ] as const;
 export async function assertProductMigrations(db: Pool | PoolClient): Promise<void> {
   const found = await db.query<{ id: string }>(

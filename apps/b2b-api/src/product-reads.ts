@@ -1,6 +1,8 @@
+import { contentHash } from './catalog/reviewed-projection.ts';
 import { ExerciseSchema } from '@klisteniapp/b2b-contracts';
 import {
   decodeRoutine,
+  RoutineVersionV2Schema,
   type ProductInput,
   type ProductOutput,
 } from '@klisteniapp/b2b-contracts/product-v2';
@@ -128,4 +130,45 @@ export async function routinePublications(
     });
   }
   return result;
+}
+
+export async function routineSupplement(
+  context: AuthorizedProductContext,
+  input: ProductInput<'routineSupplement'>,
+): Promise<ProductOutput<'routineSupplement'>> {
+  await assertIssuedRoutineAccess(context, input.id, input.version);
+  const row = (
+    await context.db.query(
+      `SELECT v.schema_version,v.snapshot,s.snapshot AS supplement,s.source_snapshot_hash FROM b2b_program_version v
+    LEFT JOIN b2b_routine_supplement s ON (s.organization_id,s.branch_id,s.program_id,s.program_version)=(v.organization_id,v.branch_id,v.program_id,v.version)
+    WHERE v.organization_id=$1 AND v.branch_id=$2 AND v.program_id=$3 AND v.version=$4`,
+      [context.organizationId, context.branchId, input.id, input.version],
+    )
+  ).rows[0];
+  if (!row) throw missing();
+  if (row.schema_version !== 1 || row.supplement == null) return null;
+  if (row.source_snapshot_hash !== contentHash(row.snapshot)) throw missing();
+  const supplement = RoutineVersionV2Schema.parse(row.supplement);
+  if (
+    supplement.programId !== input.id ||
+    supplement.version !== input.version ||
+    supplement.scope.organizationId !== context.organizationId ||
+    supplement.scope.branchId !== context.branchId
+  )
+    throw missing();
+  return supplement;
+}
+export async function workoutEquipment(
+  context: AuthorizedProductContext,
+): Promise<ProductOutput<'workoutEquipment'>> {
+  if (context.accessMode !== 'active' || !context.capabilities.has('edit-own-sessions'))
+    throw denied();
+  await context.authorizeMember(context.actorId, 'history');
+  const rows = (
+    await context.db.query(
+      'SELECT machine_id FROM b2b_unit WHERE organization_id=$1 AND branch_id=$2 AND NOT archived ORDER BY id FOR SHARE',
+      [context.organizationId, context.branchId],
+    )
+  ).rows;
+  return { activeMachineIds: [...new Set(rows.map((row) => row.machine_id as string))] };
 }

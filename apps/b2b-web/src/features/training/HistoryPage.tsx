@@ -39,3 +39,6 @@ export function HistoryPage({
     </>
   )
 }
+
+// V2 composition is owned by INTEGRATION; legacy routes retain their strict client.
+export { ProductHistoryPage } from './routine-history/ProductHistoryPage'

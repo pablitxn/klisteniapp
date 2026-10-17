@@ -1,5 +1,10 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { b2bClient, watchSessionChange } from '@klisteniapp/b2b-client'
+import {
+  b2bClient,
+  productBootstrap,
+  createProductV2Client,
+  watchSessionChange,
+} from '@klisteniapp/b2b-client'
 import { createSessionController } from './session-controller.ts'
 import { IdSchema, RoleSchema } from '@klisteniapp/b2b-contracts'
 
@@ -8,6 +13,13 @@ export type SessionOptions = { enabled?: boolean }
 export function useB2BSession({ enabled = true }: SessionOptions = {}) {
   const [controller] = useState(() =>
     createSessionController({
+      bootstrap: (signal) => productBootstrap({ signal }),
+      productAccess: (actor, org, branch, role, signal) =>
+        createProductV2Client(actor, org, {
+          branchId: branch || undefined,
+          role: role || undefined,
+          signal,
+        }).call('access', {}),
       me: (signal) => b2bClient.withSignal(signal).me(),
       signOut: () => b2bClient.auth.signOut(),
       readWorkContext: (organizationId, userId) => {
@@ -57,6 +69,7 @@ export function useB2BSession({ enabled = true }: SessionOptions = {}) {
     signOut: controller.signOut,
     setOrgId: controller.setOrgId,
     setWorkContext: controller.setWorkContext,
+    setProductWorkContext: controller.setProductWorkContext,
     updateOrganization: controller.updateOrganization,
   }
 }

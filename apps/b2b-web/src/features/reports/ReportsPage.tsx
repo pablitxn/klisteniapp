@@ -17,3 +17,5 @@ export function ReportsPage({ membership, dataRefresh }: Context) {
     </SectionResources>
   )
 }
+
+export { ProductReportsPage } from './ProductReportsPage'

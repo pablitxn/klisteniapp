@@ -80,3 +80,5 @@ export function ExecutionHistory({
     </Empty>
   )
 }
+
+export { SessionHistory as ProductExecutionHistory } from './routine-history/SessionHistory'

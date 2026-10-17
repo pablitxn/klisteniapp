@@ -458,3 +458,101 @@ test('white-label training draft keys isolate branch context while retaining the
     'klisteni.b2b.session.v1.atlas.member.assignment',
   )
 })
+
+test('IndexedDB migration archives exact legacy pending POST bytes and retains the original key', async () => {
+  const { preserveLegacyWorkout } = await import(
+    '../src/features/training/storage/legacyMigration.ts'
+  )
+  const local = storage()
+  const original = completedDraft()
+  const prepared = prepareExecution(original, assignment, 'completed', timestamp)
+  assert.equal(prepared.ok, true)
+  if (!prepared.ok) return
+  const bytes = JSON.stringify({ ...original, pending: prepared.payload })
+  local.setItem('legacy-key', bytes)
+  const copies: string[] = []
+  const result = await preserveLegacyWorkout(
+    {
+      read: async () => null,
+      compareAndSet: async () => {},
+      preserveLegacy: async (_key, value) => {
+        copies.push(value)
+      },
+    },
+    local,
+    'legacy-key',
+    assignment,
+  )
+  assert.equal(result?.requiresLegacyReplay, true)
+  assert.equal(local.getItem('legacy-key'), bytes)
+  assert.deepEqual(copies, [bytes])
+  assert.deepEqual(result?.draft.pending, prepared.payload)
+})
+
+test('unreadable legacy bytes are archived before migration refuses a replacement', async () => {
+  const { preserveLegacyWorkout } = await import(
+    '../src/features/training/storage/legacyMigration.ts'
+  )
+  const local = storage()
+  local.setItem('legacy-key', '{broken')
+  const copies: string[] = []
+  await assert.rejects(
+    preserveLegacyWorkout(
+      {
+        read: async () => null,
+        compareAndSet: async () => {},
+        preserveLegacy: async (_key, value) => {
+          copies.push(value)
+        },
+      },
+      local,
+      'legacy-key',
+      assignment,
+    ),
+    /preserved/,
+  )
+  assert.deepEqual(copies, ['{broken'])
+  assert.equal(local.getItem('legacy-key'), '{broken')
+})
+
+test('readable legacy drafts migrate performed actuals with stable links and retain all unfinished source fields', async () => {
+  const { migrateLegacyWorkoutDraft } = await import(
+    '../src/features/training/storage/legacyMigration.ts'
+  )
+  const { MemoryWorkoutStore, draft: productDraft } = await import('./fixtures/workout.ts')
+  const store = new MemoryWorkoutStore()
+  const local = storage()
+  const legacy = createSessionDraft(assignment, 'execution-a')
+  legacy.sets[0].done = true
+  legacy.sets[0].reps = 7
+  legacy.sets[1].reps = 11
+  legacy.notes = 'Unfinished original fields retained'
+  const bytes = JSON.stringify(legacy)
+  local.setItem('legacy-key', bytes)
+  const initial = productDraft()
+  initial.id = legacy.id
+  initial.origin = {
+    kind: 'legacy',
+    assignmentId: assignment.id,
+    executionId: null,
+    routine: { programId: assignment.program.programId, version: 1, schemaVersion: 1 },
+  }
+  const source = initial.content.segments[0]
+  initial.content.segments = [{ ...source, originalStepId: 'step-a', exerciseId: 'squat' }]
+  initial.content.selectedSegments = [{ originalStepId: 'step-a', segmentId: source.segmentId }]
+  const { workoutKey } = await import('../src/features/training/storage/workoutStore.ts')
+  initial.key = workoutKey(initial.scope, initial.id)
+  const migrated = await migrateLegacyWorkoutDraft({
+    store,
+    storage: local,
+    key: 'legacy-key',
+    assignment,
+    initial,
+  })
+  assert.equal(migrated?.id, 'execution-a')
+  assert.equal(migrated?.content.sets[0].repetitions, 7)
+  assert.equal(migrated?.content.sets.length, 1)
+  assert.equal(migrated?.content.explicitCompletion, false)
+  assert.equal(migrated?.legacyDraft?.bytes, bytes)
+  assert.equal(local.getItem('legacy-key'), bytes)
+})
