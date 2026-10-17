@@ -4,6 +4,7 @@ import {
   expect,
   principal,
   login,
+  pacePasswordAdmission,
   open,
   api,
   raw,
@@ -53,6 +54,7 @@ test(scenarioTitle('B2BP-INACTIVE-001'), async ({ page, context, product }, info
   try {
     const foreign = principal(product, 'member', 'sur')
     await peer.page.goto(new URL('/app', page.url()).href)
+    await pacePasswordAdmission(info)
     const denied = await peer.page.request.post(
       new URL('/api/b2b/auth/sign-in/email', page.url()).href,
       {

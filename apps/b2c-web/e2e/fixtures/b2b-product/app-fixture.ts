@@ -173,6 +173,41 @@ export function principal(
         : 'member'
   return { actor: actor!, organization: organization!, branchId: branchId!, role }
 }
+/** Respect the locked database limiter, which expires after an idle window. */
+export async function pacePasswordAdmission(info: TestInfo) {
+  mkdirSync(info.project.outputDir, { recursive: true })
+  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
+  const previous = existsSync(pacePath)
+    ? (JSON.parse(readFileSync(pacePath, 'utf8')) as { at: number; count?: number })
+    : { at: 0, count: 0 }
+  // better-auth1.7.7 updates lastRequest on every accepted admission. A steady
+  // seven-second cadence never expires its counter: reserve at most nine slots,
+  // then allow a full idle minute plus margin. No credential/cookie is retained.
+  const gap = (previous.count ?? 1) >= 9 ? 61_000 : 7000
+  const wait = Math.max(0, Number(previous.at) + gap - Date.now())
+  if (wait) {
+    info.annotations.push({
+      type: 'auth-pacing',
+      description: `Real password admission waits ${wait}ms for the unchanged database guard`,
+    })
+    info.setTimeout(info.timeout + wait + 1000)
+    let remaining = wait
+    while (remaining > 0) {
+      const chunk = Math.min(remaining, 30_000)
+      await new Promise((resolve) => setTimeout(resolve, chunk))
+      remaining -= chunk
+    }
+  }
+  const now = Date.now()
+  writeFileSync(
+    pacePath,
+    JSON.stringify({
+      at: now,
+      count: now - Number(previous.at) >= 60_000 ? 1 : (previous.count ?? 1) + 1,
+    }),
+    { mode: 0o600 },
+  )
+}
 export async function login(page: Page, who: Principal, info: TestInfo) {
   const mode = info.project.metadata.b2bProduct.mode
   const origin =
@@ -182,20 +217,7 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.goto(`${origin}/app`)
   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)
   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')
-  // Keep the real 10/minute password guard. The timestamp contains no cookie,
-  // token or password and survives Playwright replacing a failed worker.
-  mkdirSync(info.project.outputDir, { recursive: true })
-  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
-  const previous = existsSync(pacePath) ? Number(JSON.parse(readFileSync(pacePath, 'utf8')).at) : 0
-  const wait = Math.max(0, previous + 7000 - Date.now())
-  if (wait) {
-    info.annotations.push({
-      type: 'auth-pacing',
-      description: 'Real password admission paced to preserve the unchanged 10/minute guard',
-    })
-    await new Promise((resolve) => setTimeout(resolve, Math.min(wait, 7000)))
-  }
-  writeFileSync(pacePath, JSON.stringify({ at: Date.now() }), { mode: 0o600 })
+  await pacePasswordAdmission(info)
   const response = page.waitForResponse(
     (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
   )
