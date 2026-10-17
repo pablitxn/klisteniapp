@@ -275,14 +275,36 @@ test(scenarioTitle('B2BP-HEALTH-008'), async ({ page, product }, info) => {
   await open(page, product, info, 'health')
   const before = await api(page, owner, 'ownHealth', {})
   const invalids = [
-    { name: 'unsupported.csv', text: 'date,weightKg\n2026-10-16,73.5' },
-    { name: 'unsupported.zip', text: 'PK\u0003\u0004synthetic' },
-    { name: 'invalid.json', text: '{' },
+    {
+      name: 'unsupported.csv',
+      text: 'date,weightKg\n2026-10-16,73.5',
+      message: 'Solo se admite JSON klisteniapp.health v1. CSV y ZIP no son compatibles.',
+    },
+    {
+      name: 'unsupported.zip',
+      text: 'PK\u0003\u0004synthetic',
+      message: 'Solo se admite JSON klisteniapp.health v1. CSV y ZIP no son compatibles.',
+    },
+    {
+      name: 'invalid.json',
+      text: '{',
+      message: 'El archivo no es JSON válido. No se importó ningún registro.',
+    },
+    {
+      name: 'empty.json',
+      text: '',
+      message: 'El archivo no es JSON válido. No se importó ningún registro.',
+    },
     {
       name: 'unknown.json',
       text: JSON.stringify({ format: 'klisteniapp.health', version: 99, records: {} }),
+      message: 'Formato o versión no compatible. Solo se admite klisteniapp.health v1.',
     },
-    { name: 'oversized.json', text: ' '.repeat(2 * 1024 * 1024 + 1) },
+    {
+      name: 'oversized.json',
+      text: ' '.repeat(2 * 1024 * 1024 + 1),
+      message: 'El archivo supera el límite de 2 MiB. No se importó ningún registro.',
+    },
   ]
   for (const file of invalids) {
     await page.getByLabel('Archivo JSON').setInputFiles({
@@ -290,7 +312,7 @@ test(scenarioTitle('B2BP-HEALTH-008'), async ({ page, product }, info) => {
       mimeType: 'application/octet-stream',
       buffer: Buffer.from(file.text),
     })
-    await expect(page.getByRole('alert')).not.toHaveCount(0)
+    await expect(page.getByRole('status').filter({ hasText: file.message })).toBeVisible()
     expect(await api(page, owner, 'ownHealth', {})).toEqual(before)
     const confirm = page.getByRole('button', { name: 'Confirmar importación' })
     if (await confirm.count()) await expect(confirm).toBeDisabled()
