@@ -8,6 +8,7 @@ import type { RoutineVersionV2, SessionContent } from '@klisteniapp/b2b-contract
 import type { AuthorizedProductContext } from '../product-context.ts';
 import { HttpError } from '../errors.ts';
 import { assertNewReviewedCatalogEligibility } from '../catalog/reviewed-alternatives.ts';
+import { unavailableSelection } from './selection-error.ts';
 
 /** An incomplete draft may omit selections. Add validation-only source entries
  * so WP04 can validate any supplied actuals without storing or selecting work
@@ -92,7 +93,7 @@ export async function validateReviewedSegments(
         );
       })
     )
-      throw new HttpError(403, 'INVALID_INPUT', 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE');
+      throw unavailableSelection();
   }
   const models = await context.db.query<{ machine_id: string }>(
     'SELECT machine_id FROM b2b_unit WHERE organization_id=$1 AND branch_id=$2 AND NOT archived ORDER BY id FOR SHARE',
@@ -117,16 +118,24 @@ export async function validateReviewedSegments(
     environment,
   );
   if (newRelations.some((s) => !targetEquipmentAvailable(s.relation!.target, environment)))
-    throw new HttpError(400, 'INVALID_INPUT', 'TARGET_EQUIPMENT_UNAVAILABLE');
+    throw unavailableSelection();
+  if (!selections.ok && selections.code === 'TARGET_EQUIPMENT_UNAVAILABLE')
+    throw unavailableSelection();
   if (!selections.ok)
     throw new HttpError(
       400,
       selections.code === 'INCOMPLETE_SEGMENT' ? 'INCOMPLETE_EXECUTION' : 'INVALID_INPUT',
       selections.code,
     );
-  await assertNewReviewedCatalogEligibility(
-    context,
-    content,
-    previous ?? { segments: [], selectedSegments: [] },
-  );
+  try {
+    await assertNewReviewedCatalogEligibility(
+      context,
+      content,
+      previous ?? { segments: [], selectedSegments: [] },
+    );
+  } catch (error) {
+    if (error instanceof HttpError && error.code === 'REVIEWED_TARGET_UNAVAILABLE')
+      throw unavailableSelection();
+    throw error;
+  }
 }

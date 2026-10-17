@@ -6,6 +6,7 @@ import {
   EnrollmentSchema,
   RoutineVersionV2Schema,
   SessionContentSchema,
+  ProductErrorSchema,
   type Enrollment,
 } from '@klisteniapp/b2b-contracts/product-v2';
 import { createAuth } from '../../src/auth.ts';
@@ -15,6 +16,20 @@ import { HttpError } from '../../src/errors.ts';
 import { prepareReconciliation, persistReconciliation } from '../../src/schedule/index.ts';
 
 export const databaseUrl = process.env.B2B_TEST_DATABASE_URL;
+export function unavailableError(error: unknown): boolean {
+  if (!(error instanceof HttpError)) return false;
+  assert.equal(error.status, 409);
+  assert.equal(error.code, 'INVALID_INPUT');
+  const payload = ProductErrorSchema.parse({
+    error: error.message,
+    code: error.code,
+    issues: error.issues,
+  });
+  assert.equal(payload.issues?.[0]?.code, 'unavailable');
+  assert.deepEqual(payload.issues?.[0]?.path, ['content', 'selectedSegments']);
+  assert.ok(!payload.error.includes('REVIEWED_TARGET_UNAVAILABLE'));
+  return true;
+}
 export const legacy = JSON.parse(
   readFileSync(
     new URL('../../../../packages/b2b-contracts/tests/fixtures/product-v2.json', import.meta.url),

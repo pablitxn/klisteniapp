@@ -15,6 +15,7 @@ import {
   routine,
   withLedger,
   type Ledger,
+  unavailableError,
 } from './fixtures/wp03-ledger.ts';
 const records = createRecordsServices(now);
 const relation = ReviewedRelationSchema.parse({
@@ -94,7 +95,7 @@ test(
       const reject = async (operationId: string) =>
         assert.rejects(
           ledger.run((ctx) => records.saveSession(ctx, { ...input, operationId })),
-          { status: 403, message: 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE' },
+          unavailableError,
         );
       await ledger.pool.query(
         "INSERT INTO b2b_branch_catalog(organization_id,branch_id,kind,resource_id,enabled) VALUES('atlas','atlas-principal','exercise','squat',false)",
@@ -123,7 +124,7 @@ test(
       );
       await assert.rejects(
         ledger.run((ctx) => records.saveSession(ctx, input)),
-        { code: 'REVIEWED_TARGET_UNAVAILABLE' },
+        unavailableError,
       );
       await ledger.pool.query(
         "UPDATE b2b_exercise SET organization_id=NULL,branch_id=NULL WHERE id='squat'",
@@ -165,7 +166,7 @@ test(
             operationId: 'restore-disabled-target',
           }),
         ),
-        { message: 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE' },
+        unavailableError,
       );
       assert.equal((await ledger.pool.query('SELECT * FROM b2b_operation_receipt')).rowCount, 4);
     });
@@ -195,11 +196,11 @@ test(
             })
             .then(
               () => 'accepted',
-              (error) => error.message,
+              (error) => error.issues?.[0]?.code,
             );
           await waitForLock(ledger, await started);
           await writer.query('COMMIT');
-          assert.equal(await saving, 'SOURCE_OR_TARGET_CATALOG_UNAVAILABLE');
+          assert.equal(await saving, 'unavailable');
           assert.equal((await ledger.pool.query('SELECT * FROM b2b_session_revision')).rowCount, 1);
           assert.equal(
             (await ledger.pool.query('SELECT * FROM b2b_operation_receipt')).rowCount,

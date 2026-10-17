@@ -2,7 +2,15 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { ReviewedRelationSchema } from '@klisteniapp/b2b-contracts/product-v2';
 import { createRecordsServices } from '../src/schedule/index.ts';
-import { content, databaseUrl, legacy, now, routine, withLedger } from './fixtures/wp03-ledger.ts';
+import {
+  content,
+  databaseUrl,
+  legacy,
+  now,
+  routine,
+  withLedger,
+  unavailableError,
+} from './fixtures/wp03-ledger.ts';
 const records = createRecordsServices(now);
 test(
   'WP04 equipment checks cannot admit a target without current canonical review',
@@ -80,7 +88,7 @@ test(
               content: target,
             }),
           ),
-          { code: 'INVALID_INPUT', message: 'TARGET_EQUIPMENT_UNAVAILABLE' },
+          unavailableError,
         );
         await ledger.pool.query(
           "INSERT INTO b2b_machine(id,organization_id,data) VALUES('target-machine','atlas','{}'); INSERT INTO b2b_unit(id,organization_id,branch_id,machine_id,label) VALUES('target-unit','atlas','atlas-principal','target-machine','Synthetic')",
@@ -94,7 +102,7 @@ test(
               content: target,
             }),
           ),
-          { code: 'REVIEWED_TARGET_UNAVAILABLE' },
+          unavailableError,
         );
       },
       { ...routine, relations: [relation] },
