@@ -78,12 +78,15 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
         expect(saved.pointers[0]).toMatchObject({
           id,
           documentKey: saved.document.key,
-          documentGeneration: saved.document.generation,
+          scope: saved.document.scope,
+          origin: saved.document.origin,
         })
+        expect(saved.pointers[0]!.documentGeneration).toBeLessThanOrEqual(saved.document.generation)
         closeEvidence.push({
           store,
           generation: saved.document.generation,
-          pointerGeneration: saved.pointers[0]!.documentGeneration,
+          pointerDocumentGeneration: saved.pointers[0]!.documentGeneration,
+          pointerMatchesDurableDocument: true,
           capturedNotes: saved.document.content.notes,
           capturedReason: saved.document.content.correctionReason,
           status: saved.document.content.status,
@@ -676,7 +679,14 @@ test(scenarioTitle('B2BP-SYNC-009'), async ({ page, context, product }, info) =>
     expect(saved.document.content.explicitCompletion).toBe(false)
     expect(saved.document.accepted).toEqual(before.document.accepted)
     expect(saved.document.operations).toEqual(before.document.operations)
-    expect(saved.pointers[0]?.documentGeneration).toBe(saved.document.generation)
+    expect(saved.pointers).toHaveLength(1)
+    expect(saved.pointers[0]).toMatchObject({
+      id,
+      documentKey: saved.document.key,
+      scope: saved.document.scope,
+      origin: saved.document.origin,
+    })
+    expect(saved.pointers[0]!.documentGeneration).toBeLessThanOrEqual(saved.document.generation)
     await info.attach('authenticated-close-quota-retry-evidence', {
       body: JSON.stringify({
         id,

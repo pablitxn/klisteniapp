@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import type { WorkoutDocument } from '../../../../b2b-web/src/features/training/storage/workoutStore'
 import type { WorkoutRecoveryPointer } from '../../../../b2b-web/src/features/training/storage/recoverySelection'
 
-/** Hold an actual readwrite transaction before its CAS read callback can write.
+/** Hold an actual CAS write or existing-selection validation transaction.
  * Native keepalive reads preserve transaction activity; no DTO/write is fabricated.
  * Abort still reaches the actual transaction immediately. */
 export async function holdNativeWorkoutTransaction(
@@ -40,7 +40,7 @@ export async function holdNativeWorkoutTransaction(
         if (
           !used &&
           this.name === store &&
-          this.transaction.mode === 'readwrite' &&
+          this.transaction.mode === (store === 'workouts-v2' ? 'readwrite' : 'readonly') &&
           typeof key === 'string' &&
           (store === 'selected-workout-v1' || key.includes(id))
         ) {
