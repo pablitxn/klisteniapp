@@ -1,0 +1,48 @@
+--- a/apps/b2b-web/src/app/ManagementWorkspace.tsx
++++ b/apps/b2b-web/src/app/ManagementWorkspace.tsx
+@@ -7,7 +7,7 @@
+ } from '@klisteniapp/b2b-contracts'
+ import { useAccountClient, useLoad } from '@klisteniapp/b2b-react'
+ import { Notice, Shell } from '@klisteniapp/b2b-ui'
+-import { lazy, useState, type ReactNode } from 'react'
++import { lazy, useState, type ComponentProps, type ReactNode } from 'react'
+ import { managementPath, type ManagementPage } from '../routes'
+ import { useApplication } from './ApplicationProvider'
+ 
+@@ -24,6 +24,9 @@
+ )
+ const ProgramsPage = lazy(() =>
+   import('../features/programs/ProgramsPage').then((module) => ({ default: module.ProgramsPage })),
++)
++const ProgrammingPage = lazy(() =>
++  import('../features/programs/product/ProgrammingPage').then((module) => ({ default: module.ProgrammingPage })),
+ )
+ const ReportsPage = lazy(() =>
+   import('../features/reports/ReportsPage').then((module) => ({ default: module.ReportsPage })),
+@@ -57,6 +60,7 @@
+   branchId,
+   branchSlug,
+   onRefresh,
++  productProgramming,
+ }: {
+   me: Me
+   membership: Membership
+@@ -69,6 +73,7 @@
+   branchId?: string
+   branchSlug?: string
+   onRefresh?: () => void
++  productProgramming?: Omit<ComponentProps<typeof ProgrammingPage>, 'membership' | 'dataRefresh'>
+ }) {
+   const client = useAccountClient()
+   const capabilities = useLoad(
+@@ -238,7 +243,9 @@
+       {page === 'reports' && <ReportsPage {...context} />}
+       {page === 'people' && <PeoplePage {...context} />}
+       {page === 'catalog' && <CatalogPage {...context} />}
+-      {page === 'programs' && <ProgramsPage {...context} />}
++      {page === 'programs' && (productProgramming
++        ? <ProgrammingPage {...context} {...productProgramming} />
++        : <ProgramsPage {...context} />)}
+       {page === 'brand' && admin && (
+         <BrandSettings organization={org} active={org.serviceActive} onSaved={onBrand} />
+       )}

@@ -1,0 +1,1106 @@
+$ node --test --test-concurrency=1 tests/*.test.ts
+▶ Anonymous white-label publication regressions
+  ✖ branch website and QR return only published branch contact, never live drafts
+  ✖ root-only published media supports GET HEAD Range and remains brand isolated
+  ✖ brand publication is independent of public branches, and unpublish revokes root media
+  ✖ missing published profile denies direct unit URL as well as branch page
+✖ Anonymous white-label publication regressions (2.262733ms)
+✔ extracted catalogue and equipment modules reject unauthorized writes before touching dependencies (9.34213ms)
+✔ B2B requires dedicated configuration and cannot inherit consumer credentials (8.381652ms)
+✔ white-label mode requires its own proxy boundary and HTTPS in production (1.552131ms)
+✔ strict host normalization rejects ambiguous authority syntax (1.883321ms)
+✔ only the authenticated peer can provide a host; ordinary proxy headers cannot override it (1.611981ms)
+✔ origins compare exactly with the resolved brand, including duplicate rejection (0.625473ms)
+✔ domain registry is consulted for every request and has no default organization (1.320762ms)
+✔ canonical URLs come from the verified registry; alias redirects cannot transfer secrets (0.899446ms)
+✔ activation evidence requires ownership, exclusive correct DNS and an unexpired certificate (1.307372ms)
+✖ domain lifecycle verifies every stage, revokes immediately and prevents automatic reassignment (1.624371ms)
+✖ unspecified load differs from bodyweight and zero external load; explicit rest default is retained (3.262661ms)
+✖ drafts can reference unpublished exercises; publication and assignment recheck current branch equipment (0.333994ms)
+✖ draft stage dates and identities remain consistent without requiring unfinished fields (0.260493ms)
+✖ planning persists empty and partially configured drafts; publication reports exact missing fields (0.333603ms)
+✖ fixed/range publication freezes immutable versions; legacy readers reject v2 before strict parsing (0.405411ms)
+✖ exact replay returns its original response after successors; payload reuse and stale trainer edits conflict (0.197447ms)
+✖ goal drafts retain unfinished dates and references; activation binds the exact saved complete revision (0.283537ms)
+✖ two same-day slots and two stages reuse one immutable routine; gaps are explicit and overlaps fail (0.223677ms)
+✖ archive blocks new reuse and retains issued versions, enrollments, revision references and active continuity (0.564791ms)
+✖ tenant/branch/member boundaries, unavailable resources and inactive replay fail before writes (0.302436ms)
+✖ planning CAS serializes two trainers and exact concurrent retries append once (0.365472ms)
+▶ B2B independent PostgreSQL API
+  ✖ independent auth, exact origin, safe cookies and absence of B2C tables
+  ✖ tenant IDs never grant access; staff and assigned-member scope are enforced
+  ✖ machine models are reusable but physical units and published QR output are tenant scoped
+  ✖ model adaptations and unit edits preserve base data, reject stale changes and hide withdrawn/public-private units
+  ✖ publishing and optimistic edits preserve immutable assigned exercise/program snapshots
+  ✖ executions validate assigned sets and substitutions; exact replay is idempotent and histories immutable
+  ✖ gym contract gates writes independently while allowing own history reads
+  ✖ new prescriptions require active compatible units; archived machines preserve old snapshots and exact execution retries
+  ✖ machine exercise templates require local adaptation and explicit review; edits invalidate approval
+  ✖ unit batches are atomic, scoped and idempotent even after response loss
+  ✖ timed prescriptions retain actual dose, RPE, immutable history and normalized legacy replays
+  ✖ floor plans publish snapshots, reject foreign units and remove revoked markers immediately
+  ✖ website drafts preserve public snapshots, explicit publication and derived completion
+  ✖ uploaded media remains tenant-private, validates every reference and preserves authorized historical access
+  ✖ website floor plan images and spatial models reject another gym’s uploaded media without changing either snapshot
+  ✖ membership revocation during an upload prevents its commit and cleans the unreferenced file
+  ✖ new invitation is one-use; an existing B2B identity joins another gym without password reset
+  ✖ membership suspension and role changes revoke capabilities immediately, last admin protected
+  ✖ an unassigned coach in the same gym cannot read or assign another coach student
+  ✖ a write queued behind a suspension rechecks membership after acquiring the organization lock
+  ✖ operator adds gyms to an existing installation idempotently without resetting an existing identity
+  ✖ a session revoked while a write waits cannot authorize the queued mutation
+  ✖ demo reset requires explicit mode, marker and confirmation; leaves unrelated tables untouched
+✖ B2B independent PostgreSQL API (902.828189ms)
+✔ binary media profile rejects type spoofing, corrupt PNG, SVG, oversized dimensions and incomplete containers (11.550351ms)
+✔ MP4 and WebM require video container structure and reject external MP4 data references (3.552268ms)
+✔ static GLB accepts an embedded triangle and rejects external/data resources, extensions, animation and cyclic nodes (2.265738ms)
+✔ uploaded object is immutable, persists across store instances and supports bounded byte ranges (31.223573ms)
+✔ failed, interrupted and oversized uploads leave no object or temporary file; symlinks cannot be served (41.190856ms)
+✖ legacy draft projection requires explicit load/laterality confirmation and never rewrites issued versions or actuals (6.911805ms)
+✖ competing period applies accept one revision and deny foreign branch, member writes and inactive replay (0.713607ms)
+✖ period preview/apply before and after logged work preserves original versions, assignment IDs and actual bytes (0.329106ms)
+✖ removing a period slot previews exclusion, keeps linked actual work and ends enrollment without deletion (0.273823ms)
+✖ preview binds actor, proposed content, occurrence revision, accepted date override and server expiry (0.516529ms)
+✖ actual correction after preview invalidates apply even when enrollment and schedule revisions match (0.204178ms)
+✖ schedule failure rolls back enrollment/stage revisions, receipts and audit in the authorized transaction (0.205409ms)
+✖ continuity projects simultaneous current/past/future enrollments in their local timezone and leaves legacy work unscheduled (0.223547ms)
+✔ B2B mapping preserves canonical normalized JSON, provenance and adapter preview bytes (39.464012ms)
+✔ B2B semantic boundary rejects invalid measurements and unsupported vendor formats without importing (1.163615ms)
+✖ product migration installs into an empty database and repeats without rewriting rows (22.415304ms)
+✖ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (35.507996ms)
+✖ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (7.587023ms)
+✖ competing superadmin deactivations serialize and retain one active administrator (6.294824ms)
+✖ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (8.032887ms)
+✖ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (7.640053ms)
+✔ activation and old-tab guards fail closed with explicit recoverable codes (1.454624ms)
+✖ activated organizations reject every legacy callback after current authorization checks (11.984295ms)
+B2B authentication failed
+B2B request failed
+✔ readiness includes cached auth schema failures after an external migration (787.936509ms)
+✔ canonical projection retains exactly 37 exercises, 42 directed links, every kind and nine honest empty lists (57.498183ms)
+✔ proven canonical content requires base scope, exact ID/version/revision/content; adaptation IDs and animation matches never suffice (1.696559ms)
+✔ each target uses its own sets/reps/rest/bodyweight/laterality and confirmed requirements (2.083262ms)
+✔ publication snapshots survive later catalog edits and do not mutate source snapshots/manual legacy permissions (18.645773ms)
+✖ synthetic PostgreSQL: fresh/repeated/installed enrichment, unchanged historical JSON, supplement replay, scoped reads and immutable adoption (1.620745ms)
+✔ routine references are deduplicated across steps without allowing repeated alternatives within one step (7.044525ms)
+✔ execution validation accepts complete prescribed and substituted sets without mutating their snapshot (1.983462ms)
+✔ execution clock tolerance accepts five minutes but rejects later completion timestamps (0.738734ms)
+✔ execution sets must belong to the assigned step and stay inside its prescribed series count (0.478011ms)
+✔ substitutions need both snapshot permission and a nonblank reason (0.483068ms)
+✔ complete sessions require positive repetitions for every prescribed series in every step (0.873367ms)
+✔ assignments accept available alternatives and textual equipment requirements but reject entirely unavailable steps (0.490139ms)
+✔ new executions check the equipment of the selected exercise, independently of permitted alternatives (0.467636ms)
+✔ training reports aggregate only active member summaries while preserving authorized execution history and member order (1.129884ms)
+✔ training authorization rejects members and staff before touching forbidden dependencies (2.065606ms)
+▶ WL revocation, branch publication and capabilities
+  ✖ WL mode refuses organization-only service access without verified domain context
+  ✖ D07 queued mutation rechecks a revoked branch grant after its lock is released
+  ✖ D07 queued mutation rechecks domain generation and host deactivation
+  ✖ D07 session and TLS expiry are checked at execution time after a queue wait
+  ✖ D08 queued invitation cannot grant access after domain authority changes
+  ✖ D12 active assignments block archive and transfer; explicit retirement preserves historical snapshots
+  ✖ D09 unpublished profile changes and branch website disablement never leak through public context
+  ✖ D15 branch preferences cannot elevate brand/platform capabilities; dependencies and direct writes use the same policy
+  ✖ D14 theme contrast, revision checks and explicit publish/restore preserve drafts and version history
+  ✖ D10 private media ownership cannot be bypassed with absolute, encoded, or other-brand local media URLs
+  ✖ D10 visible published catalog authorizes associated media without assignments, with explicit cross-branch sharing
+  ✖ D05 administration and explicit training grants remain distinct selectable roles
+✖ WL revocation, branch publication and capabilities (24.663299ms)
+▶ WL domain and branch HTTP authorization
+  ✖ D01/D02 published identity by trusted host; unknown/unverified/spoofed host and direct API fail closed
+  ✖ legacy runtime cannot bypass branch authorization after white-label data exists
+  ✖ D03-D07 login belongs to host; roles/sedes are explicit and copied tokens and cross origins fail
+  ✖ D09/D14 independent branch publication and identity draft/publish/restore
+  ✖ D08 new and existing invitations bind one branch, explicit consent, expiry and one-use
+  ✖ D10 private media requires branch reference for GET HEAD Range and never crosses brands
+  ✖ D11/D12/D15/D17 record in four branches, coach isolation, exact retry, capabilities and preserved own history
+  ✖ duplicate branch slug is a recoverable conflict and never inserts a second branch
+✖ WL domain and branch HTTP authorization (2.312979ms)
+✔ WL-1 profile migration freezes existing public metadata without changing historical JSON (376.959316ms)
+✔ WL-1 migration preserves legacy IDs, immutable JSON, invitation expiry and Principal-only grants (292.304204ms)
+✔ WL-1 composite constraints reject cross-brand branches and cross-branch prescriptions and executions (314.936318ms)
+✔ WL-1 empty migration supports legacy writes and explicit scoped membership without privilege expansion (320.313929ms)
+✔ WL-1 anomalous execution ownership aborts atomically instead of relabeling history (205.533263ms)
+✖ routine creation and prescription retries keep one row and reject changed actors, content and contexts (1.612382ms)
+✖ WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits (0.303248ms)
+✖ WL physical inventory and idempotent batches remain scoped even with identical labels and batch IDs (0.220472ms)
+✖ WL prescriptions, coach relations, execution retries and own history preserve branch isolation (0.259632ms)
+ℹ tests 116
+ℹ suites 4
+ℹ pass 37
+ℹ fail 32
+ℹ cancelled 47
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19445.726491
+
+✖ failing tests:
+
+test at tests/anonymous-public.test.ts:106:3
+✖ branch website and QR return only published branch contact, never live drafts
+  'test did not finish before its parent and was cancelled'
+
+test at tests/anonymous-public.test.ts:123:3
+✖ root-only published media supports GET HEAD Range and remains brand isolated
+  'test did not finish before its parent and was cancelled'
+
+test at tests/anonymous-public.test.ts:141:3
+✖ brand publication is independent of public branches, and unpublish revokes root media
+  'test did not finish before its parent and was cancelled'
+
+test at tests/anonymous-public.test.ts:157:3
+✖ missing published profile denies direct unit URL as well as branch page
+  'test did not finish before its parent and was cancelled'
+
+test at tests/anonymous-public.test.ts:19:1
+✖ Anonymous white-label publication regressions (2.262733ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at SuiteContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/anonymous-public.test.ts:46:12)
+      at TestHook.runInAsyncScope (node:async_hooks:227:14)
+      at TestHook.run (node:internal/test_runner/test:1382:25)
+      at TestHook.run (node:internal/test_runner/test:1726:18)
+      at TestHook.run (node:internal/util:581:20)
+      at Suite.runHook (node:internal/test_runner/test:1269:20)
+      at Suite.run (node:internal/test_runner/test:1863:18)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/domain-lifecycle.test.ts:22:1
+✖ domain lifecycle verifies every stage, revokes immediately and prevents automatic reassignment (1.624371ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/. Input:
+
+  '/wp07'
+
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/domain-lifecycle.test.ts:27:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:19:1
+✖ unspecified load differs from bodyweight and zero external load; explicit rest default is retained (3.262661ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:23:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:74:1
+✖ drafts can reference unpublished exercises; publication and assignment recheck current branch equipment (0.333994ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:78:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:139:1
+✖ draft stage dates and identities remain consistent without requiring unfinished fields (0.260493ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:143:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:187:1
+✖ planning persists empty and partially configured drafts; publication reports exact missing fields (0.333603ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:191:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:263:1
+✖ fixed/range publication freezes immutable versions; legacy readers reject v2 before strict parsing (0.405411ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:267:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:340:1
+✖ exact replay returns its original response after successors; payload reuse and stale trainer edits conflict (0.197447ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:344:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:398:1
+✖ goal drafts retain unfinished dates and references; activation binds the exact saved complete revision (0.283537ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:402:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:472:1
+✖ two same-day slots and two stages reuse one immutable routine; gaps are explicit and overlaps fail (0.223677ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:476:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:529:1
+✖ archive blocks new reuse and retains issued versions, enrollments, revision references and active continuity (0.564791ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:533:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:580:1
+✖ tenant/branch/member boundaries, unavailable resources and inactive replay fail before writes (0.302436ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:584:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/goal-programs.test.ts:649:1
+✖ planning CAS serializes two trainers and exact concurrent retries append once (0.365472ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/goal-programs.test.ts:653:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/integration.test.ts:175:3
+✖ independent auth, exact origin, safe cookies and absence of B2C tables
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:220:3
+✖ tenant IDs never grant access; staff and assigned-member scope are enforced
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:248:3
+✖ machine models are reusable but physical units and published QR output are tenant scoped
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:280:3
+✖ model adaptations and unit edits preserve base data, reject stale changes and hide withdrawn/public-private units
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:396:3
+✖ publishing and optimistic edits preserve immutable assigned exercise/program snapshots
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:486:3
+✖ executions validate assigned sets and substitutions; exact replay is idempotent and histories immutable
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:599:3
+✖ gym contract gates writes independently while allowing own history reads
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:610:3
+✖ new prescriptions require active compatible units; archived machines preserve old snapshots and exact execution retries
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:801:3
+✖ machine exercise templates require local adaptation and explicit review; edits invalidate approval
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:891:3
+✖ unit batches are atomic, scoped and idempotent even after response loss
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:930:3
+✖ timed prescriptions retain actual dose, RPE, immutable history and normalized legacy replays
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1042:3
+✖ floor plans publish snapshots, reject foreign units and remove revoked markers immediately
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1145:3
+✖ website drafts preserve public snapshots, explicit publication and derived completion
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1214:3
+✖ uploaded media remains tenant-private, validates every reference and preserves authorized historical access
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1432:3
+✖ website floor plan images and spatial models reject another gym’s uploaded media without changing either snapshot
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1521:3
+✖ membership revocation during an upload prevents its commit and cleans the unreferenced file
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1593:3
+✖ new invitation is one-use; an existing B2B identity joins another gym without password reset
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1665:3
+✖ membership suspension and role changes revoke capabilities immediately, last admin protected
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1701:3
+✖ an unassigned coach in the same gym cannot read or assign another coach student
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1734:3
+✖ a write queued behind a suspension rechecks membership after acquiring the organization lock
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1795:3
+✖ operator adds gyms to an existing installation idempotently without resetting an existing identity
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1844:3
+✖ a session revoked while a write waits cannot authorize the queued mutation
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:1898:3
+✖ demo reset requires explicit mode, marker and confirmation; leaves unrelated tables untouched
+  'test did not finish before its parent and was cancelled'
+
+test at tests/integration.test.ts:39:1
+✖ B2B independent PostgreSQL API (902.828189ms)
+  Error: Demo operations require a dedicated database with b2b and demo/test in its name
+      at requireDemoDatabase (file:///workspace/wp07-validation/apps/b2b-api/src/demo.ts:50:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async seedDemo (file:///workspace/wp07-validation/apps/b2b-api/src/demo.ts:56:3)
+      at async SuiteContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/integration.test.ts:148:14)
+      at async TestHook.run (node:internal/test_runner/test:1389:7)
+      at async Suite.runHook (node:internal/test_runner/test:1269:9)
+      at async Suite.run (node:internal/test_runner/test:1863:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/period-history.test.ts:136:1
+✖ legacy draft projection requires explicit load/laterality confirmation and never rewrites issued versions or actuals (6.911805ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:140:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:195:1
+✖ competing period applies accept one revision and deny foreign branch, member writes and inactive replay (0.713607ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:199:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:289:1
+✖ period preview/apply before and after logged work preserves original versions, assignment IDs and actual bytes (0.329106ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:293:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:370:1
+✖ removing a period slot previews exclusion, keeps linked actual work and ends enrollment without deletion (0.273823ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:374:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:420:1
+✖ preview binds actor, proposed content, occurrence revision, accepted date override and server expiry (0.516529ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:424:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:498:1
+✖ actual correction after preview invalidates apply even when enrollment and schedule revisions match (0.204178ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:502:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:541:1
+✖ schedule failure rolls back enrollment/stage revisions, receipts and audit in the authorized transaction (0.205409ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:545:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/period-history.test.ts:588:1
+✖ continuity projects simultaneous current/past/future enrollments in their local timezone and leaves legacy work unscheduled (0.223547ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/wp02/fixture.ts:219:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/period-history.test.ts:592:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:108:1
+✖ product migration installs into an empty database and repeats without rewriting rows (22.415304ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:112:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:122:1
+✖ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (35.507996ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:126:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:161:1
+✖ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (7.587023ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:165:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:208:1
+✖ competing superadmin deactivations serialize and retain one active administrator (6.294824ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:212:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:266:1
+✖ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (8.032887ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:270:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:315:1
+✖ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (7.640053ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:319:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/product-migration.test.ts:402:1
+✖ activated organizations reject every legacy callback after current authorization checks (11.984295ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:34:12)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/product-migration.test.ts:406:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/reviewed-alternatives.test.ts:188:1
+✖ synthetic PostgreSQL: fresh/repeated/installed enrichment, unchanged historical JSON, supplement replay, scoped reads and immutable adoption (1.620745ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test/. Input:
+
+  '/wp07'
+
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/reviewed-alternatives.test.ts:194:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/white-label-authorization.test.ts:163:3
+✖ WL mode refuses organization-only service access without verified domain context
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:172:3
+✖ D07 queued mutation rechecks a revoked branch grant after its lock is released
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:186:3
+✖ D07 queued mutation rechecks domain generation and host deactivation
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:199:3
+✖ D07 session and TLS expiry are checked at execution time after a queue wait
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:226:3
+✖ D08 queued invitation cannot grant access after domain authority changes
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:266:3
+✖ D12 active assignments block archive and transfer; explicit retirement preserves historical snapshots
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:322:3
+✖ D09 unpublished profile changes and branch website disablement never leak through public context
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:363:3
+✖ D15 branch preferences cannot elevate brand/platform capabilities; dependencies and direct writes use the same policy
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:432:3
+✖ D14 theme contrast, revision checks and explicit publish/restore preserve drafts and version history
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:470:3
+✖ D10 private media ownership cannot be bypassed with absolute, encoded, or other-brand local media URLs
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:515:3
+✖ D10 visible published catalog authorizes associated media without assignments, with explicit cross-branch sharing
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:605:3
+✖ D05 administration and explicit training grants remain distinct selectable roles
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-authorization.test.ts:26:1
+✖ WL revocation, branch publication and capabilities (24.663299ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at SuiteContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-authorization.test.ts:35:12)
+      at TestHook.runInAsyncScope (node:async_hooks:227:14)
+      at TestHook.run (node:internal/test_runner/test:1382:25)
+      at TestHook.run (node:internal/test_runner/test:1726:18)
+      at TestHook.run (node:internal/util:581:20)
+      at Suite.runHook (node:internal/test_runner/test:1269:20)
+      at Suite.run (node:internal/test_runner/test:1863:18)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/white-label-http.test.ts:131:3
+✖ D01/D02 published identity by trusted host; unknown/unverified/spoofed host and direct API fail closed
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:158:3
+✖ legacy runtime cannot bypass branch authorization after white-label data exists
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:176:3
+✖ D03-D07 login belongs to host; roles/sedes are explicit and copied tokens and cross origins fail
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:237:3
+✖ D09/D14 independent branch publication and identity draft/publish/restore
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:318:3
+✖ D08 new and existing invitations bind one branch, explicit consent, expiry and one-use
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:432:3
+✖ D10 private media requires branch reference for GET HEAD Range and never crosses brands
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:536:3
+✖ D11/D12/D15/D17 record in four branches, coach isolation, exact retry, capabilities and preserved own history
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:623:3
+✖ duplicate branch slug is a recoverable conflict and never inserts a second branch
+  'test did not finish before its parent and was cancelled'
+
+test at tests/white-label-http.test.ts:24:1
+✖ WL domain and branch HTTP authorization (2.312979ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at SuiteContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-http.test.ts:92:12)
+      at TestHook.runInAsyncScope (node:async_hooks:227:14)
+      at TestHook.run (node:internal/test_runner/test:1382:25)
+      at TestHook.run (node:internal/test_runner/test:1726:18)
+      at TestHook.run (node:internal/util:581:20)
+      at Suite.runHook (node:internal/test_runner/test:1269:20)
+      at Suite.run (node:internal/test_runner/test:1863:18)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/white-label-training.test.ts:107:1
+✖ routine creation and prescription retries keep one row and reject changed actors, content and contexts (1.612382ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:31:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:111:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/white-label-training.test.ts:208:1
+✖ WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits (0.303248ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:31:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:212:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/white-label-training.test.ts:280:1
+✖ WL physical inventory and idempotent batches remain scoped even with identical labels and batch IDs (0.220472ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:31:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:284:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/white-label-training.test.ts:332:1
+✖ WL prescriptions, coach relations, execution retries and own history preserve branch isolation (0.259632ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /b2b.*test|test.*b2b/i. Input:
+
+  '/wp07'
+
+      at fixture (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:31:10)
+      at TestContext.<anonymous> (file:///workspace/wp07-validation/apps/b2b-api/tests/white-label-training.test.ts:336:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/wp07',
+    expected: /b2b.*test|test.*b2b/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /workspace/wp07-validation/apps/b2b-api
+
