@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../../apps/b2c-web/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "../../../../../apps/b2c-web/node_modules/vite/client"],
+    "paths": {
+      "@klisteniapp/scene-schema/health-import": [
+        "../../../../../packages/scene-schema/src/health-import.ts"
+      ]
+    }
+  }
+}
