@@ -203,6 +203,7 @@ export default function ProductWorkspace({ publicContent }: { publicContent?: Re
                 createClient={createClient}
                 accessKey={session.workContextKey}
                 context={protectedContext!}
+                workspaceReady={stream.ready}
                 store={store}
                 recoveryContext={recoveryContext!}
                 recoverable={recovery.canResume ? recovery.selected!.document : null}
@@ -233,6 +234,7 @@ export function ProductViews({
   createClient,
   accessKey,
   context,
+  workspaceReady,
   organizationName,
   branchName,
   href,
@@ -249,6 +251,7 @@ export function ProductViews({
   createClient: (signal?: AbortSignal) => ProductV2Client
   accessKey: string
   context: HealthAccess
+  workspaceReady: boolean
   organizationName: string
   branchName: string
   href: string
@@ -367,7 +370,12 @@ export function ProductViews({
           onClose={() => setReference(null)}
         />
       ) : page === 'shared-health' && context.access?.role === 'coach' ? (
-        <SharedHealth createClient={createClient} context={context} branchName={branchName} />
+        <SharedHealth
+          createClient={createClient}
+          context={context}
+          workspaceReady={workspaceReady}
+          branchName={branchName}
+        />
       ) : page === 'health' ? (
         <HealthSettings
           context={context}
@@ -524,22 +532,25 @@ function People({
 function SharedHealth({
   createClient,
   context,
+  workspaceReady,
   branchName,
 }: {
   createClient: (signal?: AbortSignal) => ProductV2Client
   context: HealthAccess
+  workspaceReady: boolean
   branchName: string
 }) {
   const roster = useLoad(
     (signal) => createClient(signal).call('historySubjects', {}),
     context.generation,
+    { refreshKey: Number(workspaceReady) },
   )
   const [selected, setSelected] = useState('')
   const member = roster.data?.members.find((m) => m.userId === selected && m.active)
   return (
     <section>
       <h1>Salud compartida con tu función de entrenador</h1>
-      {roster.error && <p role="alert">{roster.error}</p>}
+      {workspaceReady && roster.error && <p role="alert">{roster.error}</p>}
       <label>
         Persona
         <select value={selected} onChange={(e) => setSelected(e.target.value)}>
@@ -557,6 +568,7 @@ function SharedHealth({
         <TrainerHealthGate
           key={JSON.stringify([context.generation, member.userId])}
           context={context}
+          workspaceReady={workspaceReady}
           memberId={member.userId}
           memberName={member.name}
           branchName={branchName}
@@ -567,11 +579,13 @@ function SharedHealth({
 }
 function TrainerHealthGate({
   context,
+  workspaceReady,
   memberId,
   memberName,
   branchName,
 }: {
   context: HealthAccess
+  workspaceReady: boolean
   memberId: string
   memberName: string
   branchName: string
@@ -594,7 +608,9 @@ function TrainerHealthGate({
     scopedLifetime.controller.abort()
     setInvalid(true)
   })
-  if (!stream.ready)
+  // A renewed consent stream can be ready while workspace admission is still
+  // pending. Mount a fresh health controller only after both gates validate.
+  if (!workspaceReady || !stream.ready)
     return (
       <section>
         <p role="status">
