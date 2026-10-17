@@ -344,7 +344,10 @@ test(scenarioTitle('B2BP-ROLES-006'), async ({ page, product }, info) => {
   const trigger = page.getByRole('button', { name: `Ver cambios de ${target.name}`, exact: true })
   await trigger.focus()
   await page.keyboard.press('Enter')
-  const drawer = page.getByRole('dialog', { name: 'Cambios registrados', exact: true })
+  const drawer = page.getByRole('dialog', {
+    name: `Cambios registrados: ${target.name}`,
+    exact: true,
+  })
   await expect(drawer).toBeVisible()
   await expect(drawer.getByRole('button', { name: 'Cerrar cambios', exact: true })).toBeFocused()
   expect(await drawer.innerText()).not.toMatch(
