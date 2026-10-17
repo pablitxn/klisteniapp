@@ -64,7 +64,7 @@ test(scenarioTitle('B2BP-WEEK-001'), async ({ page, context, product }, info) =>
       calendar.getByText('Parcial al cierre: incluida entre las ausentes.'),
     ).toBeVisible()
     await assertProductViewport(page, info)
-    const openMember = principal(product, 'secondary-member', 'atlas', true)
+    const openMember = principal(product, 'mixed-role', 'atlas', true)
     const openStaff = { ...staff.who, branchId: openMember.branchId }
     const openPlan = await prescribe(staff.page, openStaff, openMember, {
       weekStart: monday(),

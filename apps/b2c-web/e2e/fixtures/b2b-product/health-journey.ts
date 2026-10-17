@@ -49,6 +49,7 @@ export async function importThroughUi(
   await open(page, product, info, 'health')
   await expect(page.getByRole('heading', { name: 'Mi salud y privacidad' })).toBeVisible()
   const file = healthFile()
+  await expect(page.getByLabel('Archivo JSON', { exact: true })).toBeEnabled()
   await page.getByLabel('Archivo JSON', { exact: true }).setInputFiles({
     name: 'synthetic.json',
     mimeType: 'application/json',
