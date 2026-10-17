@@ -1,0 +1,22 @@
+{
+  "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+  "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+  "commands": [
+    {
+      "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+      "status": "passed",
+      "log": "qabd30-typecheck.txt"
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2c-web exec eslint e2e/b2b-product-*.spec.ts e2e/fixtures/b2b-product/*.ts",
+      "status": "passed",
+      "log": "qabd30-eslint.txt"
+    },
+    {
+      "command": "node scripts/check-b2b-boundaries.mjs",
+      "status": "passed",
+      "log": "qabd30-boundaries.txt"
+    }
+  ],
+  "qualification": "Observed fail-fast command chain completed with exit0; these exact source logs do not attest the active browser waves."
+}
