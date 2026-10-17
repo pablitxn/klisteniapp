@@ -1,0 +1,122 @@
+{
+  "package": "WP04",
+  "revision": "v2",
+  "date": "2026-10-17",
+  "amendment_base": "c91fbcbaf3dc228630cda66dd2229f2524cb46c9",
+  "source_sha": "31a1deb278f5fed777ee8314d51097a615a9f695",
+  "frozen_implementation_base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "plan_sha": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlas_sha": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "tests": {
+    "targeted_api": 6,
+    "full_api": 98,
+    "failed": 0,
+    "skipped": 0,
+    "targeted_included_in_full": true,
+    "browser_executed": 0
+  },
+  "runtime": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgres": "17.11"
+  },
+  "source_files": [
+    {
+      "path": "apps/b2b-api/src/catalog/reviewed-alternatives.ts",
+      "sha256": "2917ddaa3855c8ccdae6727ae42f0675a5d09a19a2358dc6ba1b388688950140"
+    },
+    {
+      "path": "apps/b2b-api/src/catalog/reviewed-projection.ts",
+      "sha256": "1382c8ee050a093d80b4f85383821bf3994be0af1ab838c27fef631cc0cd5f32"
+    },
+    {
+      "path": "apps/b2b-api/tests/fixtures/reviewed-alternatives/legacy-duration-omitted-defaults.json",
+      "sha256": "04d52067b068716f0db8799f44c7b3336f397b77bf251253b08e5f22c3131bc9"
+    },
+    {
+      "path": "apps/b2b-api/tests/fixtures/reviewed-alternatives/legacy-repetitions-omitted-defaults.json",
+      "sha256": "aa607f13dcd450fe3accd4b6e214a392ebda8d86e4f4fb0848840dfc8ed3715e"
+    },
+    {
+      "path": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "sha256": "8f099a1e48d53f4e5e1e29982b5a66aa6de1ad735001ba9e51c7604562554b8b"
+    }
+  ],
+  "logs": [
+    {
+      "path": "targeted-api.log",
+      "raw_sha256": "e0c496f72061cac5e35fec47c8b6df124e54fd3c48190d7d033e97ceba76a775",
+      "sha256": "e0c496f72061cac5e35fec47c8b6df124e54fd3c48190d7d033e97ceba76a775"
+    },
+    {
+      "path": "api.log",
+      "raw_sha256": "26aea3734339a2d127d581ece14f77e7e794878c21785028a137f0fc179a955f",
+      "sha256": "26aea3734339a2d127d581ece14f77e7e794878c21785028a137f0fc179a955f"
+    },
+    {
+      "path": "api-typecheck.log",
+      "raw_sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "api-lint.log",
+      "raw_sha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1",
+      "sha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1"
+    },
+    {
+      "path": "boundaries.log",
+      "raw_sha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+      "sha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758"
+    },
+    {
+      "path": "root-lint.log",
+      "raw_sha256": "2aee6960f636c45ffcdb2774ca8be39c9887a61c21ca56b8defb4a96a61dcb45",
+      "sha256": "26396a3258ffc13cb49fdeea7ec0f2e85d374a3642481db6b00ed2853f0d7bac"
+    },
+    {
+      "path": "root-typecheck.log",
+      "raw_sha256": "51e93261fef846857e5f0dbf1a12b0ea90db71d05614b082895edae48bc8e274",
+      "sha256": "ac815ba1cdd7a3ce1a4d2db953a57b2dd1c3ec58a343178f1873c4b64b42348b"
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "apps/b2b-api/tests/fixtures/reviewed-alternatives/legacy-repetitions-omitted-defaults.json",
+      "byteSha256": "aa607f13dcd450fe3accd4b6e214a392ebda8d86e4f4fb0848840dfc8ed3715e",
+      "rawContentHash": "10d7bd5645a24d17cdd27476e99379348fafcdd46f31d837076dfb948b7b8b0d",
+      "normalizedContentHash": "d3b6e4bc39a67c50c4e96bffe27d71c7ce0a64ed9ac1053ee9b80f5e5ace2932",
+      "omittedStepDefaults": [
+        "targetRpe",
+        "durationSeconds"
+      ],
+      "omittedMachineDefaults": [
+        "derivedFromId",
+        "derivedFromVersion",
+        "revision",
+        "status"
+      ]
+    },
+    {
+      "path": "apps/b2b-api/tests/fixtures/reviewed-alternatives/legacy-duration-omitted-defaults.json",
+      "byteSha256": "04d52067b068716f0db8799f44c7b3336f397b77bf251253b08e5f22c3131bc9",
+      "rawContentHash": "4d547a3ff64391db7924372922fd0298cbe27b16cd4a63185fb8f414aa876dd7",
+      "normalizedContentHash": "fdd07239eba8b24915efe5aaae3023e7d6af5924e59e1817b5fbda3893d4aa37",
+      "omittedStepDefaults": [
+        "targetRpe"
+      ],
+      "omittedMachineDefaults": [
+        "derivedFromId",
+        "derivedFromVersion",
+        "revision",
+        "status"
+      ]
+    }
+  ],
+  "log_normalization": "Only terminal trailing whitespace/blank EOF lines removed before first publication; both hashes retained.",
+  "integration_pending": [
+    "WP02 must use raw stored JSON for supplement identity",
+    "WP03 current catalog selection helper wiring",
+    "v1 owner migration/export/route/UI wiring",
+    "composed-head browser acceptance"
+  ]
+}
