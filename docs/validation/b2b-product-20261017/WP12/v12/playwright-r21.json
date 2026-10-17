@@ -1,0 +1,543 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--project=product-chromium-430",
+      "--grep=B2BP-(ALTERNATIVES-007|ROLES-003|SYNC-001|SYNC-009|SYNC-012)",
+      "--timeout=180000",
+      "--max-failures=5",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 5,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidate7dc-close-r21/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidate7dc-close-r21/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidate7dc-close-r21/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidate7dc-close-r21/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidate7dc-close-r21/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidate7dc-close-r21/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-alternatives.spec.ts",
+      "file": "b2b-product-alternatives.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7064,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:53:29.645Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-7fe26858129377348506",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 406,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-roles.spec.ts",
+      "file": "b2b-product-roles.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13205,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:53:36.892Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-1c73df93a6a926ca7e56",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 154,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6991,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"documentGeneration\": 6,\u001b[39m\n\u001b[31m+   \"documentGeneration\": 0,\u001b[39m\n\u001b[2m    \"documentKey\": \"[\\\"http://127.0.0.1:5613\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"atlas-demo\\\",\\\"atlas-demo-principal\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"realm-v1\\\",\\\"unified\\\",\\\"4784d4f36dd62ddb92717046a56cd705cf7aeddd72dffbb61c02580689272afe\\\",\\\"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\\\"]\",\u001b[22m\n\u001b[2m    \"id\": \"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"documentGeneration\": 6,\u001b[39m\n\u001b[31m+   \"documentGeneration\": 0,\u001b[39m\n\u001b[2m    \"documentKey\": \"[\\\"http://127.0.0.1:5613\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"atlas-demo\\\",\\\"atlas-demo-principal\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"realm-v1\\\",\\\"unified\\\",\\\"4784d4f36dd62ddb92717046a56cd705cf7aeddd72dffbb61c02580689272afe\\\",\\\"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\\\"]\",\u001b[22m\n\u001b[2m    \"id\": \"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:78:35\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                      "column": 35,
+                      "line": 78
+                    },
+                    "snippet": "  76 |         expect(saved.document.operations).toEqual(before.document.operations)\n  77 |         expect(saved.pointers).toHaveLength(1)\n> 78 |         expect(saved.pointers[0]).toMatchObject({\n     |                                   ^\n  79 |           id,\n  80 |           documentKey: saved.document.key,\n  81 |           documentGeneration: saved.document.generation,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                        "column": 35,
+                        "line": 78
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"documentGeneration\": 6,\u001b[39m\n\u001b[31m+   \"documentGeneration\": 0,\u001b[39m\n\u001b[2m    \"documentKey\": \"[\\\"http://127.0.0.1:5613\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"atlas-demo\\\",\\\"atlas-demo-principal\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"realm-v1\\\",\\\"unified\\\",\\\"4784d4f36dd62ddb92717046a56cd705cf7aeddd72dffbb61c02580689272afe\\\",\\\"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\\\"]\",\u001b[22m\n\u001b[2m    \"id\": \"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  76 |         expect(saved.document.operations).toEqual(before.document.operations)\n  77 |         expect(saved.pointers).toHaveLength(1)\n> 78 |         expect(saved.pointers[0]).toMatchObject({\n     |                                   ^\n  79 |           id,\n  80 |           documentKey: saved.document.key,\n  81 |           documentGeneration: saved.document.generation,\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:78:35\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 282,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"documentGeneration\": 6,\u001b[39m\n\u001b[31m+   \"documentGeneration\": 0,\u001b[39m\n\u001b[2m    \"documentKey\": \"[\\\"http://127.0.0.1:5613\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"atlas-demo\\\",\\\"atlas-demo-principal\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"realm-v1\\\",\\\"unified\\\",\\\"4784d4f36dd62ddb92717046a56cd705cf7aeddd72dffbb61c02580689272afe\\\",\\\"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\\\"]\",\u001b[22m\n\u001b[2m    \"id\": \"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"documentGeneration\": 6,\u001b[39m\n\u001b[31m+   \"documentGeneration\": 0,\u001b[39m\n\u001b[2m    \"documentKey\": \"[\\\"http://127.0.0.1:5613\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"atlas-demo\\\",\\\"atlas-demo-principal\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"realm-v1\\\",\\\"unified\\\",\\\"4784d4f36dd62ddb92717046a56cd705cf7aeddd72dffbb61c02580689272afe\\\",\\\"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\\\"]\",\u001b[22m\n\u001b[2m    \"id\": \"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:78:35\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7",
+                        "location": {
+                          "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                          "column": 35,
+                          "line": 78
+                        },
+                        "snippet": "  76 |         expect(saved.document.operations).toEqual(before.document.operations)\n  77 |         expect(saved.pointers).toHaveLength(1)\n> 78 |         expect(saved.pointers[0]).toMatchObject({\n     |                                   ^\n  79 |           id,\n  80 |           documentKey: saved.document.key,\n  81 |           documentGeneration: saved.document.generation,"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-10-17T17:53:50.134Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                    "column": 35,
+                    "line": 78
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-1f83c0935a782331258d",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 235856,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 54856ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 63300,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m5\u001b[39m\nReceived: \u001b[31m0\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m5\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:679:51",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                      "column": 51,
+                      "line": 679
+                    },
+                    "snippet": "  677 |     expect(saved.document.accepted).toEqual(before.document.accepted)\n  678 |     expect(saved.document.operations).toEqual(before.document.operations)\n> 679 |     expect(saved.pointers[0]?.documentGeneration).toBe(saved.document.generation)\n      |                                                   ^\n  680 |     await info.attach('authenticated-close-quota-retry-evidence', {\n  681 |       body: JSON.stringify({\n  682 |         id,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                        "column": 51,
+                        "line": 679
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m5\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\n  677 |     expect(saved.document.accepted).toEqual(before.document.accepted)\n  678 |     expect(saved.document.operations).toEqual(before.document.operations)\n> 679 |     expect(saved.pointers[0]?.documentGeneration).toBe(saved.document.generation)\n      |                                                   ^\n  680 |     await info.attach('authenticated-close-quota-retry-evidence', {\n  681 |       body: JSON.stringify({\n  682 |         id,\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:679:51"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:53:58.215Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 54856ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                    "column": 51,
+                    "line": 679
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-53f076c8eab48eac8024",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 590,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17781,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 4418
+                    }
+                  ],
+                  "startTime": "2026-10-17T17:55:03.228Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tMWM0OTYwODc1ZDUxZDMyMmU5NzVlZWFkNTEyOTEyZDkxZDA4NzBjZSIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-0d4c27af88bca1c226e8",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 700,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T17:52:52.601Z",
+    "duration": 150697.72100000002,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
