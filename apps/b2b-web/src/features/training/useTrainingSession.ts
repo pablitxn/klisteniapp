@@ -113,3 +113,5 @@ export function useTrainingSession(
     save,
   }
 }
+
+export { useProductTrainingSession } from './sync/useProductTrainingSession'

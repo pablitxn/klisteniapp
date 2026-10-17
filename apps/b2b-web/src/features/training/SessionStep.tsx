@@ -200,3 +200,5 @@ export function SessionStep({
     </section>
   )
 }
+
+export { ProductSessionStep } from './sync/ProductSessionStep'

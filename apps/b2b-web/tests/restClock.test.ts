@@ -27,3 +27,10 @@ test('pausing retains the actual remaining duration and excludes paused time on 
   assert.equal(ended.remainingMs, 0)
   assert.equal(resumeRest(ended, 300_000), ended)
 })
+
+test('zero-rest and resumed timers never create work or completion state', () => {
+  const clock = startRest(0, 1000)
+  assert.equal(remainingRest(clock, 1000), 0)
+  assert.deepEqual(Object.keys(clock).sort(), ['deadline', 'remainingMs'])
+  assert.equal(formatRest(0), '0:00')
+})

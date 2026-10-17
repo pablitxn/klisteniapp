@@ -1,0 +1,63 @@
+{
+  "unit": {
+    "web": {
+      "passed": 78,
+      "failed": 0,
+      "skipped": 0
+    },
+    "contracts": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "composedDomain": {
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "api": {
+    "passed": 109,
+    "failed": 0,
+    "skipped": 0,
+    "database": "disposable synthetic local PostgreSQL"
+  },
+  "workoutAPIProbe": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "mode": "direct authorized services; injected discovery"
+  },
+  "nativeStorageProbe": {
+    "passed": [
+      "v1 store retained during v2 upgrade",
+      "exact legacy bytes backed up",
+      "close/reopen recovery",
+      "one CAS winner across connections",
+      "immutable operation rewrite refused",
+      "development StrictMode hook autosave",
+      "typed actual persisted and acknowledged as partial"
+    ],
+    "failed": 0,
+    "skipped": 0,
+    "engine": "Chromium 153.0.8010.12 / Playwright 1.63.0",
+    "viewport": "320x740",
+    "productAcceptance": false
+  },
+  "static": {
+    "boundaries": "pass",
+    "lint": "pass",
+    "webTypecheck": "pass",
+    "unifiedTypecheck": "pass",
+    "b2bBuild": "pass",
+    "unifiedBuild": "pass",
+    "rootTypecheck": "blocked: WP03 planning bridge requires absent WP02 planning/schedule-change.ts"
+  },
+  "remaining": [
+    "Integrator export and workspace wiring",
+    "WP06 current access and integrated auth acceptance before replay activation",
+    "QA composed HTTP/HTTPS Chromium/WebKit 320/430/1440 feature matrix",
+    "Astra protocol review; parent merge decision"
+  ],
+  "ordinaryFrozenBranch": "Dedicated web tests cannot resolve unintegrated domain subpaths; see frozen-base-web-blocked.log. No owner manifests edited to hide this."
+}
