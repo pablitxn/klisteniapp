@@ -110,6 +110,7 @@ export function reconcileOccurrences(
   next: Enrollment,
   existing: readonly Occurrence[],
   allocateId: () => string,
+  endedAt?: string,
 ): Occurrence[] {
   EnrollmentSchema.parse(next)
   GoalProgramContentSchema.parse(next.content)
@@ -125,6 +126,19 @@ export function reconcileOccurrences(
     throw new Error('FOREIGN_OCCURRENCE')
   if (new Set(existing.map((o) => o.id)).size !== existing.length)
     throw new Error('DUPLICATE_OCCURRENCE')
+  if (next.status === 'ended') {
+    if (!endedAt) throw new Error('EXPLICIT_END_TIME_REQUIRED')
+    return existing.map((o) =>
+      o.scheduledDate > localDate(endedAt, o.currentWeek.timeZone) && o.eligibility === 'required'
+        ? OccurrenceSchema.parse({
+            ...o,
+            eligibility: 'cancelled',
+            cancellationReason: 'Enrollment ended before prescribed date',
+            revision: o.revision + 1,
+          })
+        : o,
+    )
+  }
   const result: Occurrence[] = []
   const retained = new Set<string>()
   for (const stage of next.content.stages) {

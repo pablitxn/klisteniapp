@@ -31,6 +31,7 @@ export async function prepareReconciliation(
   context: AuthorizedProductContext,
   before: Enrollment | null,
   next: Enrollment,
+  asOf: string = new Date().toISOString(),
 ) {
   if (context.accessMode !== 'active' || !context.capabilities.has('edit-planning')) throw denied();
   await context.authorizeMember(next.scope.memberId, 'planning');
@@ -60,6 +61,7 @@ export async function prepareReconciliation(
         )
         .digest('hex')
         .slice(0, 48)}`,
+    asOf,
   );
   const sessions = await latestSessions(context, next.scope.memberId);
   const impacts = existing.map((prior) => {

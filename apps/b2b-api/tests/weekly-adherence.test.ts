@@ -17,6 +17,57 @@ import {
 const services = createRecordsServices(now);
 const query = { memberId: 'member', weekStart: '2026-10-19', timeZone: 'America/New_York' };
 test(
+  'ending an enrollment cancels future obligations while authorized late submission can still record past work',
+  { skip: !databaseUrl },
+  async () => {
+    await withLedger(async (ledger) => {
+      const original = await ledger.run((ctx) => services.occurrences(ctx, query));
+      await ledger.run(async (ctx) => {
+        const before = await enrollment(ctx, 'enrollment', true),
+          next = structuredClone(before);
+        next.status = 'ended';
+        next.revision++;
+        const { planned: revised } = await prepareReconciliation(
+          ctx,
+          before,
+          next,
+          '2026-10-20T16:00:00Z',
+        );
+        await writeEnrollment(ctx, next);
+        await persistReconciliation(ctx, original, revised);
+        await ctx.db.query("UPDATE b2b_enrollment SET status='ended' WHERE id='enrollment'");
+      }, 'coach');
+      const past = original.find((o) => o.scheduledDate === '2026-10-19')!;
+      const actuals = content();
+      actuals.performedAt = '2026-10-19T16:00:00Z';
+      await ledger.run((ctx) =>
+        services.saveSession(ctx, {
+          id: 'late-ended',
+          operationId: 'late-ended',
+          expectedRevision: 0,
+          origin: { kind: 'occurrence', occurrenceId: past.id, routine: past.routine },
+          content: actuals,
+        }),
+      );
+      const summary = await ledger.run((ctx) => services.week(ctx, query));
+      assert.deepEqual([summary.required, summary.completed, summary.missed], [2, 1, 1]);
+      const future = original.find((o) => o.scheduledDate === '2026-10-21')!;
+      await assert.rejects(
+        ledger.run((ctx) =>
+          services.saveSession(ctx, {
+            id: 'cancelled',
+            operationId: 'cancelled',
+            expectedRevision: 0,
+            origin: { kind: 'occurrence', occurrenceId: future.id, routine: future.routine },
+            content: content(),
+          }),
+        ),
+        { status: 403 },
+      );
+    });
+  },
+);
+test(
   'midweek stage boundary retains accepted same-week override and same-day slots remain separate in PostgreSQL',
   { skip: !databaseUrl },
   async () => {

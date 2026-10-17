@@ -70,12 +70,11 @@ export function createSessionServices(
       const input = ProductEndpoints.saveSession.input.parse(raw);
       await authorizeRecords(context, context.actorId, true);
       const hash = requestHash(context, 'session.save', input);
-      let enrollmentValue;
       if (input.origin.kind === 'occurrence') {
         const issued = await occurrence(context, input.origin.occurrenceId);
         if (issued.scope.memberId !== context.actorId) throw denied();
         // Planning and records lock the same enrollment before child heads.
-        enrollmentValue = await enrollment(context, issued.enrollmentId, true);
+        await enrollment(context, issued.enrollmentId, true);
       }
       const replay = await replayOperation(context, input.operationId, hash);
       if (replay !== undefined) return SessionReceiptSchema.parse(replay);
@@ -112,8 +111,7 @@ export function createSessionServices(
           canonicalJson(issued.routine) !== canonicalJson(input.origin.routine)
         )
           throw denied();
-        if (!head && (issued.eligibility !== 'required' || enrollmentValue?.status !== 'active'))
-          throw denied();
+        if (!head && issued.eligibility !== 'required') throw denied();
       } else {
         const assignment = await context.db.query(
           `SELECT a.member_id,a.program_id,a.version,p.archived_at FROM b2b_program_assignment a JOIN b2b_program p
