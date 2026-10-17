@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { createProductV2Client } from '@klisteniapp/b2b-client'
-import { ProductEndpoints } from '@klisteniapp/b2b-contracts/product-v2'
+import { ProductEndpoints, ProductErrorSchema } from '@klisteniapp/b2b-contracts/product-v2'
 import {
   canMoveOccurrence,
   isLateCorrectedWeek,
@@ -128,7 +128,20 @@ test('real product client preserves exact move payload and frozen structured con
       assert.equal(new Headers(init?.headers).get('Idempotency-Key'), 'stable-op')
       assert.deepEqual(JSON.parse(String(init?.body)), input)
       return new Response(
-        JSON.stringify({ code: 'REVISION_CONFLICT', message: 'Refresh the schedule', issues: [] }),
+        JSON.stringify(
+          ProductErrorSchema.parse({
+            code: 'REVISION_CONFLICT',
+            error: 'Refresh the schedule',
+            issues: [
+              {
+                code: 'conflict',
+                path: ['expectedRevision'],
+                stepId: null,
+                message: 'Reload the accepted revision',
+              },
+            ],
+          }),
+        ),
         { status: 409, headers: { 'Content-Type': 'application/json' } },
       )
     },
@@ -136,6 +149,14 @@ test('real product client preserves exact move payload and frozen structured con
   await assert.rejects(client.call('moveOccurrence', input), {
     status: 409,
     code: 'REVISION_CONFLICT',
+    issues: [
+      {
+        code: 'conflict',
+        path: ['expectedRevision'],
+        stepId: null,
+        message: 'Reload the accepted revision',
+      },
+    ],
   })
   assert.equal(sent, 1)
   assert.equal(original.revision, 1)
