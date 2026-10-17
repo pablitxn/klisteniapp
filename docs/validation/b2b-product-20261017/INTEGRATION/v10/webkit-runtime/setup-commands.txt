@@ -1,0 +1,8 @@
+# Existing exact Playwright Core 1.63 CLI; download only, no OS dependency install.
+# Host-native first download selected Debian13 and is not used inside Ubuntu24 image.
+PLAYWRIGHT_BROWSERS_PATH=/tmp/b2b-route-browser-setup/browsers node /tmp/b2b-route-browser-setup/driver-playwright-core/cli.js install webkit
+# Matching Ubuntu24 artifact in its own scoped cache:
+PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu24.04-x64 PLAYWRIGHT_BROWSERS_PATH=/tmp/b2b-route-browser-setup/webkit-ubuntu24-cache node /tmp/b2b-route-browser-setup/driver-playwright-core/cli.js install webkit
+# Public downloaded runtime assets must be readable/traversable by image pwuser.
+chmod -R a+rX /tmp/b2b-route-browser-setup/webkit-ubuntu24-cache
+/tmp/b2b-resume-webkit-runtime/run-loopback-smoke.sh > /tmp/b2b-resume-webkit-runtime/smoke-loopback.log 2>&1

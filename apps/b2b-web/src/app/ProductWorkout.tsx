@@ -95,6 +95,7 @@ export function ProductWorkoutHistory({
       {recoverable && (
         <button
           className="button"
+          style={{ minWidth: 0, maxWidth: '100%', whiteSpace: 'normal', overflowWrap: 'anywhere' }}
           onClick={() =>
             setSelection({
               id: recoverable.id,
