@@ -1,0 +1,40 @@
+$ node --test tests/*.test.ts
+✔ client operation IDs need only native CSPRNG and keep UUIDv4 version and variant bits (10.726483ms)
+✔ client IDs never substitute clock or weak randomness when native CSPRNG is unavailable (1.29615ms)
+✔ routine retry keys are per request headers and never change content or account/context guards (57.619086ms)
+✔ the public client API works without a browser or cross-tab notification support (1.565768ms)
+✔ named reads validate responses and keep each originating account bound to the request (1.703216ms)
+✔ catalog response validation rejects nested invalid media and missing required response fields (5.464242ms)
+✔ invalid JSON and unexpected empty successful responses are contract errors, not network errors (0.956661ms)
+✔ server conflict and session errors preserve status, code and safe message (2.476084ms)
+✔ writes use named route, validated input and the account guard (1.963796ms)
+✔ media sends raw bytes with encoded metadata and validates the stored asset (25.375502ms)
+✔ transport distinguishes failed connections from aborted deadlines (9.178805ms)
+✔ authentication notifies other tabs only when the server changed the session (1.114172ms)
+✔ an interrupted response body preserves timeout and connection errors after headers arrive (6.968535ms)
+✔ 401 and 403 still revoke protected views when their response body is interrupted (10.973951ms)
+✔ cancelling a scoped read preserves sibling requests and account binding (0.772929ms)
+✔ an already cancelled scope never sends a request (0.168925ms)
+✔ WL client scopes branch and role immutably through account and abort binding (0.470842ms)
+✔ WL departed context drops even a successful late response and refuses queued writes (0.424849ms)
+✔ WL accepting an invitation through credentials announces the changed session (18.393477ms)
+✔ named correction binding keeps revision zero separate from accepted state and retains unspecified load (133.552259ms)
+✔ adoption contract requires explicit source/shared confirmations and rejects ambiguous or duplicate targets (51.531741ms)
+✔ immutable publication reads retain the actual legacy discriminator through the public client (82.831941ms)
+✔ publication choice responses remain strict and cannot invent a v2 reference from a projected draft (4.525965ms)
+✔ product client explicitly binds identity, organization, branch and contract version (41.697612ms)
+✔ routine mutations preserve immutable retry payload and operation key and validate response (6.704165ms)
+✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (4.256549ms)
+✔ inactive export uses the restricted self namespace with selected organization (2.146078ms)
+✔ legacy clients retain their existing headers and strict schemas (2.050505ms)
+✔ structured activation issues survive transport with exact step and field paths (3.145116ms)
+✔ v2 role selection carries organization superadmin without changing the legacy role enum (1.496279ms)
+✔ withdrawn selection parses through the frozen error contract and client with its field issue retained (60.553383ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1335.517854

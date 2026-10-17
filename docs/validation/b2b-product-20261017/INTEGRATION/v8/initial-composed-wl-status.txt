@@ -1,0 +1,30 @@
+✔ composed unified-http serves activated synthetic planning, member history and export-only access (7651.094278ms)
+✖ composed white-label-http serves activated synthetic planning, member history and export-only access (10683.51176ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19165.317751
+
+✖ failing tests:
+
+test at scripts/b2b-product-composed-harness.test.mjs:67:3
+✖ composed white-label-http serves activated synthetic planning, member history and export-only access (10683.51176ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  404 !== 403
+  
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-composed-harness.test.mjs:142:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 404,
+    expected: 403,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

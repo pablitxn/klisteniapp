@@ -1,0 +1,23 @@
+✔ response-loss retry retains exact permission bytes and revision and blocks a new competing action (10.674266ms)
+✔ invitation retries reuse the original invitation and operation IDs, with no automatic retry (3.734781ms)
+✔ known role/CAS rejection leaves the loaded person untouched and does not enable blind retry (0.823984ms)
+✔ departed scope clears invitations/roster and discards a late mutation acknowledgement even if transport ignores abort (1.074521ms)
+✔ overlapping list reloads cannot restore a superseded roster (0.452522ms)
+✔ temporary stream loss hides private projections and retains the exact pending operation for explicit revalidation/retry (1.439678ms)
+✔ current tenant or selected-role denial hides protected data until an explicit fresh load succeeds (0.796023ms)
+✔ root first correction uses the authoritative original binding without supplement or alternatives reads (41.570928ms)
+✔ root resumes a chooser-created durable legacy ID only after an actual missing binding (6.774215ms)
+✔ root denial cannot fall back to a new legacy prescription or replace local data (6.4802ms)
+✔ missing original execution never creates a replacement session (1.99057ms)
+✔ temporary disconnect can reopen only a persisted authoritative binding in the current realm (5.398633ms)
+✔ temporary disconnect without a persisted binding never authorizes new work (2.518538ms)
+✔ pre-realm work is shown as an explicit recovery choice without mutation or send (10.599153ms)
+✔ new occurrence identity is stable and requires authoritative absence before immutable prescription reads (6.860029ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 499.500487
