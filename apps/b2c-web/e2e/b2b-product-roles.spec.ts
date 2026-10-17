@@ -190,3 +190,144 @@ test(scenarioTitle('B2BP-ROLES-007'), async ({ page, product }, info) => {
   ).toHaveCount(0)
   await assertProductViewport(page, info)
 })
+
+test(scenarioTitle('B2BP-ROLES-004'), async ({ page, product }, info) => {
+  const who = principal(product, 'superadmin', 'sur')
+  await login(page, who, info)
+  const paused: string[] = []
+  try {
+    const people = await api(page, who, 'people', {})
+    for (const person of people.filter(
+      (p) => p.active && p.role === 'superadmin' && p.userId !== who.actor.id,
+    )) {
+      await api(page, who, 'updateMember', {
+        memberId: person.userId,
+        expectedRevision: person.revision,
+        operationId: operation(),
+        active: false,
+      })
+      paused.push(person.userId)
+    }
+    const current = (await api(page, who, 'people', {})).find((p) => p.userId === who.actor.id)!
+    for (const change of [{ active: false }, { role: 'admin' as const }]) {
+      const denied = await raw(page, who, 'updateMember', {
+        memberId: who.actor.id,
+        expectedRevision: current.revision,
+        operationId: operation(),
+        ...change,
+      })
+      expect(denied.status()).toBe(409)
+      expect((await denied.json()).code).toBe('LAST_SUPERADMIN')
+    }
+    for (const role of ['platform-admin', 'operator']) {
+      const denied = await page.request.post(
+        `/api/b2b/orgs/${who.organization.id}/product/v2/people/${who.actor.id}`,
+        {
+          headers: {
+            Origin: new URL(page.url()).origin,
+            'X-Klisteni-B2B-Contract': '2',
+            'X-Klisteni-B2B-Account': who.actor.id,
+            'X-Klisteni-B2B-Branch': who.branchId,
+            'X-Klisteni-B2B-Role': who.role,
+          },
+          data: {
+            memberId: who.actor.id,
+            expectedRevision: current.revision,
+            operationId: operation(),
+            role,
+          },
+        },
+      )
+      expect(denied.status()).toBe(400)
+    }
+    expect(
+      (await api(page, who, 'people', {})).find((p) => p.userId === who.actor.id),
+    ).toMatchObject({ role: 'superadmin', active: true, revision: current.revision })
+    await open(page, product, info, 'people')
+    await expect(
+      page.getByRole('heading', { name: 'Personas del gimnasio', exact: true }),
+    ).toBeVisible()
+    await assertProductViewport(page, info)
+  } finally {
+    for (const id of paused) {
+      const current = (await api(page, who, 'people', {})).find((p) => p.userId === id)!
+      await api(page, who, 'updateMember', {
+        memberId: id,
+        expectedRevision: current.revision,
+        operationId: operation(),
+        active: true,
+      })
+    }
+  }
+})
+
+test(scenarioTitle('B2BP-ROLES-006'), async ({ page, product }, info) => {
+  const staff = principal(product, 'superadmin')
+  await login(page, staff, info)
+  const target = (await api(page, staff, 'people', {})).find(
+    (p) => p.userId === principal(product).actor.id,
+  )!
+  await open(page, product, info, 'people')
+  const trigger = page.getByRole('button', { name: `Ver cambios de ${target.name}`, exact: true })
+  await trigger.focus()
+  await page.keyboard.press('Enter')
+  const drawer = page.getByRole('dialog', { name: 'Cambios registrados', exact: true })
+  await expect(drawer).toBeVisible()
+  await expect(drawer.getByRole('button', { name: 'Cerrar cambios', exact: true })).toBeFocused()
+  expect(await drawer.innerText()).not.toMatch(
+    /weightKg|durationSeconds|performedSets|sessionRevisions|wp12-synthetic-measurement-source/,
+  )
+  const foreign = principal(product, 'member', 'sur')
+  expect((await raw(page, staff, 'audit', { id: foreign.actor.id })).ok()).toBe(false)
+  await page.keyboard.press('Escape')
+  await expect(drawer).toHaveCount(0)
+  await expect(trigger).toBeFocused()
+  await assertProductViewport(page, info)
+})
+
+test(scenarioTitle('B2BP-ROLES-009'), async ({ page, context, product }, info) => {
+  const coach = principal(product, 'cover-coach'),
+    other = principal(product, 'member', 'sur')
+  await login(page, coach, info)
+  const access = await api(page, coach, 'access', {})
+  expect(access.organizationId).toBe(coach.organization.id)
+  expect(
+    (
+      await raw(
+        page,
+        coach,
+        'people',
+        {},
+        { organizationId: other.organization.id, branchId: other.branchId },
+      )
+    ).ok(),
+  ).toBe(false)
+  const peer = await newPage(context, info)
+  try {
+    if (info.project.metadata.b2bProduct.mode !== 'unified-http') {
+      const foreignOrigin = `${new URL(page.url()).protocol}//sur.b2b.test`
+      const cookies = (await context.cookies()).map((c) => ({
+        name: c.name,
+        value: c.value,
+        expires: c.expires,
+        httpOnly: c.httpOnly,
+        secure: c.secure,
+        sameSite: c.sameSite,
+        url: `${foreignOrigin}/`,
+      }))
+      await peer.context.addCookies(cookies)
+      await peer.page.goto(`${foreignOrigin}/app`)
+      await expect(
+        peer.page.getByRole('navigation', { name: 'Secciones del gimnasio' }),
+      ).toHaveCount(0)
+      await expect(peer.page.getByLabel('Email', { exact: true })).toBeVisible()
+    }
+    await open(page, product, info, 'programming')
+    await expect(
+      page.getByRole('heading', { name: 'Rutinas y programas por objetivo', exact: true }),
+    ).toBeVisible()
+    await assertProductViewport(page, info)
+  } finally {
+    await peer.context.close()
+  }
+})

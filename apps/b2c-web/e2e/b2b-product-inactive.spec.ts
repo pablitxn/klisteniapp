@@ -13,11 +13,19 @@ import {
   prescribe,
   record,
   operation,
+  startWorkout,
+  latest,
+  publish,
+  dose,
   type Page,
 } from './fixtures/b2b-product/app-fixture'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
 import { importThroughUi, healthFile, grantThroughUi } from './fixtures/b2b-product/health-journey'
 import { PersonalExportSchema } from '../../../packages/b2b-contracts/src/product-v2.ts'
+import {
+  readTrainingInterchange,
+  writeTrainingInterchange,
+} from '../../b2b-web/src/features/membership/trainingInterchange.ts'
 async function restricted(page: Page) {
   await expect(
     page.getByRole('heading', { name: 'Tu membresía está inactiva', exact: true }),
@@ -44,6 +52,7 @@ test(scenarioTitle('B2BP-INACTIVE-001'), async ({ page, context, product }, info
   const peer = await newPage(context, info)
   try {
     const foreign = principal(product, 'member', 'sur')
+    await peer.page.goto(new URL('/app', page.url()).href)
     const denied = await peer.page.request.post(
       new URL('/api/b2b/auth/sign-in/email', page.url()).href,
       {
@@ -51,10 +60,22 @@ test(scenarioTitle('B2BP-INACTIVE-001'), async ({ page, context, product }, info
         data: { email: foreign.actor.email, password: 'b2b-product-synthetic-password-2026' },
       },
     )
-    expect(denied.ok()).toBe(false)
-    expect((await peer.context.cookies()).filter((cookie) => /session/i.test(cookie.name))).toEqual(
-      [],
-    )
+    if (info.project.metadata.b2bProduct.mode === 'unified-http') {
+      expect(denied.ok()).toBe(true)
+      const crossBrand = await raw(
+        peer.page,
+        foreign,
+        'sessions',
+        { memberId: inactive.actor.id },
+        { organizationId: inactive.organization.id, branchId: inactive.branchId },
+      )
+      expect([403, 404, 409]).toContain(crossBrand.status())
+    } else {
+      expect(denied.ok()).toBe(false)
+      expect(
+        (await peer.context.cookies()).filter((cookie) => /session/i.test(cookie.name)),
+      ).toEqual([])
+    }
   } finally {
     await peer.context.close()
   }
@@ -327,4 +348,185 @@ test(scenarioTitle('B2BP-INACTIVE-012'), async ({ page, product }, info) => {
   )
   expect(archive.ownerId).toBe(member.actor.id)
   await assertProductViewport(page, info)
+})
+
+test(scenarioTitle('B2BP-INACTIVE-005'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    other = principal(product, 'secondary-member', 'atlas', true),
+    staff = await staffSession(context, product, info)
+  try {
+    const own = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    const foreign = await prescribe(staff.page, { ...staff.who, branchId: other.branchId }, other, {
+      weekdays: [1],
+    })
+    const privateDraft = await api(staff.page, staff.who, 'saveRoutine', {
+      id: operation(),
+      expectedRevision: 0,
+      operationId: operation(),
+      content: {
+        name: `Unissued private staff material ${operation()}`,
+        description: 'Must not enter an owner archive',
+        steps: [],
+      },
+    })
+    await login(page, member, info)
+    const saved = await record(page, member, own.routine, own.occurrences[0]!)
+    const download = page.waitForEvent('download')
+    await page.getByRole('button', { name: 'Exportar mis registros', exact: true }).click()
+    const text = readFileSync((await (await download).path())!, 'utf8'),
+      archive = PersonalExportSchema.parse(JSON.parse(text))
+    expect(archive.ownerId).toBe(member.actor.id)
+    expect(text).toContain(saved.session.id)
+    for (const forbidden of [
+      other.actor.id,
+      foreign.routine.programId,
+      foreign.enrollment.id,
+      privateDraft.id,
+      privateDraft.name,
+      staff.who.actor.email,
+      principal(product, 'member', 'sur').actor.id,
+    ])
+      expect(text).not.toContain(forbidden)
+    expect(
+      archive.training.every(
+        (t) =>
+          t.ownerId === member.actor.id &&
+          t.scope.memberId === member.actor.id &&
+          t.scope.organizationId === member.organization.id,
+      ),
+    ).toBe(true)
+    expect((await raw(page, { ...member, actor: other.actor }, 'personalExport', {})).ok()).toBe(
+      false,
+    )
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-INACTIVE-006'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const id = await startWorkout(page, product, info, plan)
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }),
+    ).toBeVisible()
+    await page.route(`**/sessions/${id}/revisions`, (route) => route.abort('connectionfailed'))
+    const marker = `Local unaccepted bytes ${operation()}`
+    await page.getByLabel('Notas de la sesión').fill(marker)
+    await expect(
+      page.getByRole('status').filter({ hasText: /Falló la sincronización|Envío pendiente/ }),
+    ).toBeVisible()
+    const download = page.waitForEvent('download')
+    await page
+      .getByRole('button', { name: 'Exportar trabajo local sin confirmar', exact: true })
+      .click()
+    const local = JSON.parse(readFileSync((await (await download).path())!, 'utf8'))
+    expect(local).toMatchObject({
+      format: 'klisteniapp.local-workout-recovery',
+      version: 2,
+      serverConfirmed: false,
+      workout: { id, scope: { accountId: member.actor.id } },
+    })
+    expect(JSON.stringify(local)).toContain(marker)
+    expect(local.warning).toMatch(/separate from the server export/i)
+    const accepted = await api(page, member, 'personalExport', {})
+    expect(accepted.serverAcceptedOnly).toBe(true)
+    expect(JSON.stringify(accepted)).not.toContain(marker)
+    expect((await latest(page, member, plan.occurrences[0]!.id))!.content.notes).not.toBe(marker)
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-INACTIVE-010'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info)
+  try {
+    const catalog = await api(staff.page, staff.who, 'catalogExercises', {})
+    const routine = await publish(staff.page, staff.who, {
+      name: `WP12 lossless range ${operation()}`,
+      description: 'Keep units, ranges and issued source metadata',
+      steps: [
+        {
+          id: operation(),
+          exerciseId: catalog.find((e) => e.status === 'published' && !e.machineId)!.id,
+          substitutionPolicy: 'reviewed',
+          dose: dose({
+            mode: 'duration',
+            repetitions: null,
+            durationSeconds: { kind: 'range', min: 20, max: 40 },
+            sets: { kind: 'range', min: 1, max: 3 },
+            load: { mode: 'external', kilograms: { kind: 'range', min: 0, max: 5 } },
+            laterality: 'per-side',
+          }),
+        },
+      ],
+    })
+    const plan = await prescribe(staff.page, staff.who, member, { routine, weekdays: [1] })
+    await login(page, member, info)
+    await record(page, member, routine, plan.occurrences[0]!)
+    const download = page.waitForEvent('download')
+    await page.getByRole('button', { name: 'Exportar mis registros', exact: true }).click()
+    const archive = PersonalExportSchema.parse(
+      JSON.parse(readFileSync((await (await download).path())!, 'utf8')),
+    )
+    for (const branch of archive.training) {
+      const raw = writeTrainingInterchange(branch)
+      expect(readTrainingInterchange(raw)).toEqual(branch)
+      expect(() => readTrainingInterchange(JSON.stringify({ ...branch, version: 3 }))).toThrow()
+    }
+    const issued = archive.training
+      .flatMap((t) => t.routines)
+      .find((r) => r.snapshot.programId === routine.programId)!
+    expect(issued.schemaVersion).toBe(2)
+    if (issued.schemaVersion !== 2) throw new Error('Expected issued v2 range archive')
+    expect(issued.snapshot.steps[0]!.dose).toEqual(routine.steps[0]!.dose)
+    expect(issued.snapshot.relations).toEqual(routine.relations)
+    await assertProductViewport(page, info)
+  } finally {
+    await staff.context.close()
+  }
+})
+
+test(scenarioTitle('B2BP-INACTIVE-011'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info),
+    coach = await staffSession(context, product, info, 'cover-coach')
+  let paused = false
+  try {
+    const plan = await prescribe(staff.page, staff.who, member, { weekdays: [1] })
+    await login(page, member, info)
+    const actual = await record(page, member, plan.routine, plan.occurrences[0]!)
+    await importThroughUi(page, product, info, member)
+    await grantThroughUi(page)
+    expect(
+      (await raw(coach.page, coach.who, 'consentedHealth', { memberId: member.actor.id })).ok(),
+    ).toBe(true)
+    await updateActive(staff.page, staff.who, member, false)
+    paused = true
+    expect(
+      (await raw(coach.page, coach.who, 'consentedHealth', { memberId: member.actor.id })).ok(),
+    ).toBe(false)
+    await open(coach.page, product, info, 'reports')
+    await coach.page
+      .getByRole('combobox', { name: 'Persona', exact: true })
+      .selectOption(member.actor.id)
+    await expect(
+      coach.page.getByRole('heading').filter({ hasText: 'Membresía inactiva' }),
+    ).toBeVisible()
+    await expect(coach.page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText(
+      actual.session.id,
+    )
+    await expect(coach.page.getByRole('heading', { name: 'Medidas', exact: true })).toHaveCount(0)
+    await assertProductViewport(coach.page, info)
+  } finally {
+    if (paused) await updateActive(staff.page, staff.who, member, true)
+    await coach.context.close()
+    await staff.context.close()
+  }
 })
