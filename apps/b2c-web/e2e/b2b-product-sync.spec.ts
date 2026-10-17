@@ -800,7 +800,14 @@ test(scenarioTitle('B2BP-SYNC-012'), async ({ page, context, product }, info) =>
     paused = false
     expect((await raw(page, member, 'saveSession', queued)).status()).toBe(409)
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
+    const signedOut = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        new URL(response.url()).pathname.endsWith('/auth/sign-out'),
+    )
     await page.getByRole('button', { name: 'Salir', exact: true }).click()
+    expect((await signedOut).ok(), 'Actual sign-out must settle before fresh navigation').toBe(true)
+    await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
     await login(page, member, info)
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).toBe('void')
     await open(page, product, info, 'history')
