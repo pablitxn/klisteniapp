@@ -1,0 +1,88 @@
+{
+  "package": "WP04",
+  "revision": "v3",
+  "date": "2026-10-17",
+  "amendment_base": "04b2e036e6d9b5d8987c6d228ab92bf1a48827d1",
+  "source_sha": "27880a70ec1432699a057af8cf6073dcf3c55431",
+  "integration_inspected": "4954accaf0e4a0c88f8179b949886b1fcece8fa7",
+  "matching_pre_fix_module_blob": "b8c8779c658964d100868782844f2733605d18ad",
+  "frozen_implementation_base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "plan_sha": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlas_sha": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "runtime": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgres": "17.11"
+  },
+  "tests": {
+    "pre_fix_expected_failures": 1,
+    "targeted_api_passed": 7,
+    "full_api_passed": 99,
+    "final_failed": 0,
+    "final_skipped": 0,
+    "targeted_included_in_full": true,
+    "browser_executed": 0
+  },
+  "case_map": {
+    "positive": "v2-only member, zero legacy assignments, exact own required occurrence",
+    "negative": [
+      "foreign member",
+      "foreign branch",
+      "foreign tenant",
+      "unissued published routine",
+      "wrong published routine version",
+      "cancelled occurrence",
+      "export-only access",
+      "branch-hidden target",
+      "current target selection denial",
+      "current membership denial"
+    ]
+  },
+  "source_files": [
+    {
+      "path": "apps/b2b-api/src/catalog/reviewed-alternatives.ts",
+      "sha256": "d3339437d33f5cb31066e6931c5dec4f57b2ff6eb861b78054fe45e81c6926da"
+    },
+    {
+      "path": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "sha256": "0d8be8f1697997258943b2919de0b197f5728a253825c0295739d7d541993d0e"
+    }
+  ],
+  "logs": [
+    {
+      "path": "reproduction.log",
+      "raw_sha256": "d7afb00a6d5b5e25c6a7314b0a32e04c0c1b1f0b4a6c77decef4a7305707ba1c",
+      "sha256": "ff2697688756aa6416ce7f71a04464a75c202aaa7415f7e91ee64a2ee61820b1",
+      "expected_result": "failure reproduces reported 404"
+    },
+    {
+      "path": "targeted-api.log",
+      "raw_sha256": "dbe3f2937c9f98b0fb60669e114b6b8b2ceb6b1cd65aed270fa9cf8d7452bff0",
+      "sha256": "dbe3f2937c9f98b0fb60669e114b6b8b2ceb6b1cd65aed270fa9cf8d7452bff0",
+      "expected_result": "pass"
+    },
+    {
+      "path": "api.log",
+      "raw_sha256": "2f4ed0bf19d242a5e6a88c14d748f3e3df6793b8c87c3b85b414077bf82c0c57",
+      "sha256": "2f4ed0bf19d242a5e6a88c14d748f3e3df6793b8c87c3b85b414077bf82c0c57",
+      "expected_result": "pass"
+    },
+    {
+      "path": "lint.log",
+      "raw_sha256": "65179029347091d57cb01f1bb9e99d6329ffbe672cddb3bb889be89b1aad0864",
+      "sha256": "12c27df3d2510a84fe2e14f2f314a8b15a9ae26c9828f637b49c429955c410eb",
+      "expected_result": "pass"
+    },
+    {
+      "path": "typecheck.log",
+      "raw_sha256": "2b27f4ffbd3cd8c0e077adf144df9153ace794aab2db7fe1b836640e85af94b0",
+      "sha256": "cacf81e92e9ce8e68b8dfceb47f07b54929f1dffbadf96242d66ea34d1b783b1",
+      "expected_result": "pass"
+    }
+  ],
+  "normalization": "Only terminal trailing whitespace/blank EOF lines removed before first publication; raw and normalized log hashes retained.",
+  "remaining": [
+    "parent consume additive source on integrated candidate",
+    "affected composed HTTP/session/QA acceptance"
+  ]
+}
