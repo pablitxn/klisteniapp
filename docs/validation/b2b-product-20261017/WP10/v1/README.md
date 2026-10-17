@@ -118,7 +118,7 @@ does not establish a composed-tree pass.
 | `node scripts/check-b2b-boundaries.mjs` | Pass | [boundaries.log](boundaries.log) |
 | `pnpm build:b2b` | Pass; existing large-chunk warning retained | [build.log](build.log) |
 | `node /tmp/wp10-health-bundle.mjs` | Both unrouted UI modules and CSS compile, 131 modules | [health-module-build.log](health-module-build.log), [exact build script](build-health-modules.mjs) |
-| Atlas identity helper and engineering check | Pass; language/provenance still require human review | [identity.log](identity.log), [engineering-check.log](engineering-check.log) |
+| Atlas identity helper, engineering check and scoped commit check | Pass; language/provenance still require human review | [identity.log](identity.log), [engineering-check.log](engineering-check.log), [commit-check.log](commit-check.log) |
 
 Tests ran against an isolated local PostgreSQL container with tmpfs storage and
 localhost port 55410, image
@@ -136,6 +136,12 @@ zero cases; it is not counted. The initial WP05 run rejected the nonstandard
 synthetic database name at its fixture guard; the corrected isolated database
 run passed all 22 cases. No fixture/security guard was relaxed. Final logs above
 record the corrected executed cases.
+
+The Atlas commit helper CLI binds its own repository root, so a direct CLI call
+with the application base cannot resolve that revision there. The retained
+commit check imports the unmodified helper and calls
+`commits(Path('/workspace/wp10-health'), BASE_SHA)` with the application root.
+PR-text validation uses the helper CLI and the concrete prepared metadata.
 
 ## Remaining gates
 
