@@ -42,6 +42,9 @@ test(scenarioTitle('B2BP-SYNC-001'), async ({ page, context, product }, info) =>
     ).toBeVisible()
     await context.setOffline(false)
     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.
+    await page
+      .getByRole('button', { name: 'Retomar trabajo guardado en este dispositivo', exact: true })
+      .click()
     await expect(quantity(page)).toHaveValue('3')
     await expect(page.getByLabel('Notas de la sesión')).toHaveValue(
       'WP12 persisted during network loss',

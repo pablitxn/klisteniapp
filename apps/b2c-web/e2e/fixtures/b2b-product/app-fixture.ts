@@ -229,8 +229,22 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
       : who.role === 'superadmin' && options.includes(legacyAdmin)
         ? legacyAdmin
         : exact
-    if ((await selector.inputValue()) !== value) await selector.selectOption(value)
+    if ((await selector.inputValue()) !== value) {
+      const selectedRole = JSON.parse(value)[1] as string
+      const admitted = page.waitForResponse(
+        (response) =>
+          response.request().method() === 'GET' &&
+          new URL(response.url()).pathname.endsWith('/product/v2/access') &&
+          response.request().headers()['x-klisteni-b2b-branch'] === who.branchId &&
+          response.request().headers()['x-klisteni-b2b-role'] === selectedRole,
+      )
+      await selector.selectOption(value)
+      expect((await admitted).status(), 'Actual selected work context admission').toBe(200)
+    }
   }
+  await expect(
+    page.getByRole('navigation', { name: 'Secciones del gimnasio', exact: true }),
+  ).toBeVisible()
 }
 export async function open(
   page: Page,
