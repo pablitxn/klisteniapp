@@ -137,6 +137,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           Este acceso permite recuperar el trabajo propio. La edición y el envío están bloqueados.
         </Notice>
       )}
+      <Notice error>{session.validationError}</Notice>
       <Notice error>
         {session.closeError || session.error || session.storageError || recoveryError}
       </Notice>
