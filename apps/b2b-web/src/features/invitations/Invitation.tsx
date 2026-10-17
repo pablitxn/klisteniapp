@@ -14,9 +14,11 @@ function invitationToken() {
 export function Invitation({
   context,
   onAuthenticated,
+  replaceLocation,
 }: {
   context?: BrandContext
   onAuthenticated: () => void
+  replaceLocation: (href: string) => void
 }) {
   const [token, setToken] = useState(invitationToken)
   const [busy, setBusy] = useState(false)
@@ -43,9 +45,9 @@ export function Invitation({
   }, [token])
 
   function accepted() {
-    setDone(true)
-    history.replaceState(null, '', '/app/invite')
+    replaceLocation('/app/invite')
     setToken('')
+    setDone(true)
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {

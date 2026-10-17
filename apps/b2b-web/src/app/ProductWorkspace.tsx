@@ -1,5 +1,5 @@
 import { PeopleWorkspace } from '../features/people/PeopleWorkspace'
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createProductV2Client, type ProductV2Client } from '@klisteniapp/b2b-client'
 import type { OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2'
 import { AccountProvider, useLoad } from '@klisteniapp/b2b-react'
@@ -21,6 +21,8 @@ import { ProductHistoryReportsPage } from '../features/reports/ProductReportsPag
 import type { RoutineReference } from '../features/training/routine-history/model'
 import { HealthSettings } from '../features/health/HealthSettings'
 import type { HealthAccess } from '../features/health/healthAccess'
+import type { FlushLocalWorkout } from '../features/training/sync/localWorkoutFlush'
+import { registerNavigationGuard } from './navigation'
 
 export default function ProductWorkspace({ publicContent }: { publicContent?: ReactNode }) {
   const { session, href, navigate } = useApplication()
@@ -227,7 +229,7 @@ export default function ProductWorkspace({ publicContent }: { publicContent?: Re
     </Shell>
   )
 }
-function ProductViews({
+export function ProductViews({
   createClient,
   accessKey,
   context,
@@ -250,13 +252,44 @@ function ProductViews({
   organizationName: string
   branchName: string
   href: string
-  navigate: (href: string, replace?: boolean) => void
+  navigate: (href: string, replace?: boolean, options?: { resetView?: boolean }) => void
 }) {
   const page =
     new URL(href, location.origin).searchParams.get('view') ??
     (context.access?.role === 'member' ? 'history' : 'planning')
   const [reference, setReference] = useState<RoutineReference | null>(null)
   const [message, setMessage] = useState('')
+  const [navigationError, setNavigationError] = useState('')
+  const [workoutVisit, setWorkoutVisit] = useState(0)
+  const localFlush = useRef<FlushLocalWorkout | null>(null)
+  const registerLocalFlush = useCallback((flush: FlushLocalWorkout) => {
+    localFlush.current = flush
+    return () => {
+      if (localFlush.current === flush) localFlush.current = null
+    }
+  }, [])
+  useEffect(
+    () =>
+      registerNavigationGuard({
+        signal: context.signal,
+        beforeLeave: async () => {
+          const flush = localFlush.current
+          await flush?.()
+          if (localFlush.current !== flush)
+            throw new DOMException('Departed workout editor', 'AbortError')
+        },
+        departed: () => {
+          setReference(null)
+          setWorkoutVisit((value) => value + 1)
+          setNavigationError('')
+        },
+        failed: () =>
+          setNavigationError(
+            'No pudimos conservar todos los cambios locales. Reintentá desde la sesión o exportá tu trabajo.',
+          ),
+      }),
+    [context.signal, context.generation],
+  )
   const loadExercises = useCallback(
     (signal: AbortSignal) => createClient(signal).call('catalogExercises', {}),
     [createClient],
@@ -315,8 +348,7 @@ function ProductViews({
             aria-current={page === key ? 'page' : undefined}
             onClick={(e) => {
               e.preventDefault()
-              setReference(null)
-              navigate(`${route}?view=${key}`)
+              navigate(`${route}?view=${key}`, false, { resetView: true })
             }}
           >
             {label}
@@ -327,6 +359,7 @@ function ProductViews({
         </button>
       </nav>
       {message && <p role="status">{message}</p>}
+      {navigationError && <p role="alert">{navigationError}</p>}
       {reference ? (
         <ImmutableRoutine
           reference={reference}
@@ -373,6 +406,8 @@ function ProductViews({
         <People createClient={createClient} accessKey={accessKey} context={context} />
       ) : context.access?.role === 'member' ? (
         <ProductWorkoutHistory
+          key={workoutVisit}
+          registerLocalFlush={registerLocalFlush}
           context={context}
           createClient={createClient}
           store={store}
