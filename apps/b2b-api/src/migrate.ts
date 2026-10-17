@@ -8,6 +8,7 @@ import { createPool, SCHEMA, LIFECYCLE_SCHEMA, CONTENT_SCHEMA } from './database
 import { seedBaseCatalog } from './service.ts';
 import { WHITE_LABEL_SCHEMA, WHITE_LABEL_PROFILE_SCHEMA } from './white-label-schema.ts';
 import { PRODUCT_SCHEMA, PRODUCT_MIGRATION_ID } from './product-schema.ts';
+import { enrichReviewedCatalog, REVIEWED_CATALOG_REVISION } from './catalog/reviewed-projection.ts';
 export async function migrate(pool: Pool, auth: Auth) {
   const client = await pool.connect();
   try {
@@ -56,6 +57,19 @@ export async function migrate(pool: Pool, auth: Auth) {
     ) {
       await client.query(PRODUCT_SCHEMA);
       await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [PRODUCT_MIGRATION_ID]);
+    }
+    if (
+      !(await client.query("SELECT id FROM b2b_migration WHERE id='007-reviewed-catalog-v1'"))
+        .rowCount
+    ) {
+      if (
+        REVIEWED_CATALOG_REVISION !==
+        'fd0b7e52f7678c08c96d70fd71e40a11d87974cde87cca672f3b4e4c65f7a673'
+      ) {
+        throw new Error('Reviewed catalog migration input changed; CONTRACT amendment required');
+      }
+      await enrichReviewedCatalog(client);
+      await client.query("INSERT INTO b2b_migration(id) VALUES ('007-reviewed-catalog-v1')");
     }
     await client.query('COMMIT');
   } catch (error) {

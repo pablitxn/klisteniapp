@@ -368,7 +368,10 @@ test(
         version: otherVersion.version,
       });
       assert.equal((await training.assignments(context(db, center, 'coach')))[0].id, assignment.id);
-      assert.equal((await training.assignments(context(db, north, 'coach'))).length, 0);
+      assert.deepEqual(
+        (await training.assignments(context(db, north, 'coach'))).map((item) => item.id),
+        [northAssignment.id],
+      );
       assert.equal(northAssignment.branchId, north);
       const record = ExecutionInputSchema.parse({
         id: 'record',

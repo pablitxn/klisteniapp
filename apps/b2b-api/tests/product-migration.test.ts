@@ -113,7 +113,7 @@ test(
       await migrate(pool, auth);
       const before = (await pool.query('SELECT * FROM b2b_migration ORDER BY id')).rows;
       await migrate(pool, auth);
-      assert.equal(before.length, 6);
+      assert.equal(before.length, 7);
       assert.deepEqual((await pool.query('SELECT * FROM b2b_migration ORDER BY id')).rows, before);
       assert.equal((await pool.query('SELECT * FROM b2b_occurrence')).rowCount, 0);
     }, false);

@@ -40,10 +40,11 @@ import { createMediaStore, MEDIA_LIMITS } from './media.ts';
 import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
 import { productPeople, updateProductMember, inviteProductMember } from './auth/product-people.ts';
 import { readProductAudit } from './audit/product-audit.ts';
+import { HEALTH_RESPONSE_HEADERS } from './health/index.ts';
+import { assertProductMigrations } from './product-readiness.ts';
 
 const TOKEN = z.object({ token: z.string().min(32).max(200) }).strict();
-async function body(request: IncomingMessage): Promise<unknown> {
-  const maximum = 1024 * 1024;
+async function body(request: IncomingMessage, maximum = 1024 * 1024): Promise<unknown> {
   if (Number(request.headers['content-length']) > maximum) {
     request.resume();
     throw new HttpError(413, 'BODY_TOO_LARGE', 'La solicitud es demasiado grande.');
@@ -101,6 +102,14 @@ export function createApiServer({
     try {
       const url = new URL(request.url ?? '/', config.origin),
         method = request.method ?? 'GET';
+      // Apply private-cache policy before authentication/body parsing too.
+      if (
+        /^\/api\/b2b\/orgs\/[a-zA-Z0-9_-]+\/(?:product\/v2\/(?:health(?:\/.*)?|members\/[a-zA-Z0-9_-]+\/health)|self\/exports)$/.test(
+          url.pathname,
+        )
+      )
+        for (const [name, value] of Object.entries(HEALTH_RESPONSE_HEADERS))
+          response.setHeader(name, value);
       if (url.pathname === `${API_PREFIX}/healthz` && method === 'GET')
         return json(response, 200, { status: 'ok' });
       if (url.pathname === `${API_PREFIX}/readyz` && method === 'GET') {
@@ -109,6 +118,7 @@ export function createApiServer({
             'SELECT organization_id,member_id,assignment_id,data FROM b2b_execution LIMIT 0',
           );
           await pool.query('SELECT id FROM b2b_auth_user LIMIT 0');
+          await assertProductMigrations(pool);
           if (
             !(await pool.query("SELECT id FROM b2b_migration WHERE id='006-product-foundation'"))
               .rowCount
@@ -424,6 +434,9 @@ export function createApiServer({
           'updateMember',
           'inviteMember',
           'audit',
+          ...(Object.keys(service.productProducers) as ProductEndpoint[]).filter(
+            (name) => ProductEndpoints[name].scope === 'organization',
+          ),
         ];
         for (const key of owned) {
           const endpoint = ProductEndpoints[key];
@@ -438,14 +451,34 @@ export function createApiServer({
           const parameters = Object.fromEntries(
             names.map((name, index) => [name, match[index + 1]]),
           );
-          const raw = mutation ? await body(request) : Object.fromEntries(url.searchParams);
+          const healthRoute = [
+            'ownHealth',
+            'saveOwnHealth',
+            'previewHealthImport',
+            'applyHealthImport',
+            'healthConsents',
+            'grantHealthConsent',
+            'revokeHealthConsent',
+            'consentedHealth',
+          ].includes(key);
+          if (healthRoute)
+            for (const [name, value] of Object.entries(HEALTH_RESPONSE_HEADERS))
+              response.setHeader(name, value);
+          const raw = mutation
+            ? await body(request, healthRoute ? 5 * 1024 * 1024 : 1024 * 1024)
+            : Object.fromEntries(url.searchParams);
           if (!raw || typeof raw !== 'object' || Array.isArray(raw))
             throw new HttpError(400, 'INVALID_INPUT', 'Revisá los datos de la solicitud.');
           for (const [name, value] of Object.entries(parameters)) {
             if (name in raw && (raw as Record<string, unknown>)[name] !== value)
               throw new HttpError(400, 'INVALID_INPUT', 'La identidad de la ruta no coincide.');
           }
-          const data = { ...raw, ...parameters };
+          const data: Record<string, unknown> = { ...raw, ...parameters };
+          if (key === 'alternatives') {
+            if (typeof data.version !== 'string' || !/^[1-9][0-9]*$/.test(data.version))
+              throw new HttpError(400, 'INVALID_INPUT', 'La versión debe ser un entero positivo.');
+            data.version = Number(data.version);
+          }
           const contract =
             typeof request.headers['x-klisteni-b2b-contract'] === 'string'
               ? request.headers['x-klisteni-b2b-contract']
@@ -486,13 +519,18 @@ export function createApiServer({
                   case 'audit':
                     return readProductAudit(context, ProductEndpoints.audit.input.parse(parsed));
                   default:
-                    throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+                    return service.productProducer(context, key, parsed);
                 }
               })();
-              return endpoint.output.parse(result);
+              const output = endpoint.output.parse(result);
+              // Queue authorized health-read bytes while authority/consent locks
+              // are held; never dispatch a captured, delayed projection here.
+              if (healthRoute && method === 'GET') json(response, 200, output);
+              return output;
             },
             work,
           );
+          if (response.headersSent) return;
           return json(response, 200, result);
         }
         throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');

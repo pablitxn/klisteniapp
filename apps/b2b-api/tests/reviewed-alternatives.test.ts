@@ -262,7 +262,8 @@ test(
       await migrate(pool, createAuth(pool, config, { migrating: true }));
       const db = await pool.connect();
       try {
-        assert.equal(await enrichReviewedCatalog(db), 42);
+        // Registered migration 007 has already enriched the fresh schema.
+        assert.equal(await enrichReviewedCatalog(db), 0);
         assert.equal(await enrichReviewedCatalog(db), 0);
         await db.query('DELETE FROM b2b_reviewed_relation');
         const rowsBefore = (await db.query('SELECT id,data::text FROM b2b_exercise ORDER BY id'))

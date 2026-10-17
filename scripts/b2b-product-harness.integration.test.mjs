@@ -84,7 +84,7 @@ test(
           media: 2,
           grants: 32,
         })
-        assert.equal((await read('SELECT 1 FROM FIXTURE.b2b_migration')).rowCount, 6)
+        assert.equal((await read('SELECT 1 FROM FIXTURE.b2b_migration')).rowCount, 7)
         assert.equal(
           (await read('SELECT 1 FROM FIXTURE.b2b_organization WHERE product_active')).rowCount,
           0,

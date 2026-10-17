@@ -60,7 +60,7 @@ The fixture maps QA logical keys to persisted actor, organization and branch IDs
 - Two validated v2 range-prescription snapshots are unassigned in secondary
   branches. This deliberately exercises mixed-format storage while keeping the
   primary branch's legacy flows usable. Old secondary routine-list routes may
-  correctly return `426 CONTRACT_UPGRADE_REQUIRED`; do not interpret that as an
+  correctly return `426 UPGRADE_REQUIRED`; do not interpret that as an
   implemented v2 authoring route.
 - No health records, consent or provider connection is created. Goal/enrollment/
   occurrence/session-v2 scenarios await accepted producer services and fixtures.

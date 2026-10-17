@@ -1,7 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import type { PoolClient } from 'pg';
 import {
-  HealthConsentSchema,
   ProductMemberSchema,
   type OrganizationRoleV2,
   type ProductInput,
@@ -11,6 +10,7 @@ import type { AuthorizedProductContext } from '../product-context.ts';
 import { conflict, denied, HttpError, missing } from '../errors.ts';
 import { productOperation, writeProductAudit } from '../audit/product-audit.ts';
 import { mayManageRole } from './product-policy.ts';
+import { revokeHealthForInactiveMembership } from '../health/index.ts';
 
 type Grant = ProductOutput<'people'>[number]['branchGrants'][number];
 export async function productPeople(c: AuthorizedProductContext): Promise<ProductOutput<'people'>> {
@@ -80,34 +80,9 @@ export async function revokeMembershipConsents(
   organizationId: string,
   ownerId: string,
   actorId: string,
+  operationId: string,
 ) {
-  const revoked = (
-    await db.query(
-      `UPDATE b2b_health_consent SET revoked_at=clock_timestamp(),revision=revision+1
-     WHERE organization_id=$1 AND owner_id=$2 AND revoked_at IS NULL RETURNING *`,
-      [organizationId, ownerId],
-    )
-  ).rows;
-  for (const row of revoked) {
-    const snapshot = HealthConsentSchema.parse({
-      schemaVersion: 2,
-      id: row.id,
-      ownerId,
-      scope: { organizationId, branchId: row.branch_id },
-      revision: row.revision,
-      status: 'revoked',
-      categories: row.categories,
-      audience: row.audience,
-      disclosureVersion: row.disclosure_version,
-      grantedAt: row.granted_at.toISOString(),
-      revokedAt: row.revoked_at.toISOString(),
-    });
-    await db.query(
-      `INSERT INTO b2b_health_consent_revision(organization_id,branch_id,owner_id,
-       consent_id,revision,snapshot,actor_id,reason) VALUES($1,$2,$3,$4,$5,$6,$7,'membership-inactive')`,
-      [organizationId, row.branch_id, ownerId, row.id, row.revision, snapshot, actorId],
-    );
-  }
+  return revokeHealthForInactiveMembership({ db, organizationId, actorId }, ownerId, operationId);
 }
 
 export async function updateProductMember(
@@ -204,7 +179,14 @@ export async function updateProductMember(
         changedFields.includes('branchGrants'),
       ],
     );
-    if (!active) await revokeMembershipConsents(c.db, c.organizationId, input.memberId, c.actorId);
+    if (!active)
+      await revokeMembershipConsents(
+        c.db,
+        c.organizationId,
+        input.memberId,
+        c.actorId,
+        input.operationId,
+      );
     const response = (await productPeople(c)).find((member) => member.userId === input.memberId)!;
     if (changedFields.length)
       await writeProductAudit(c, {

@@ -27,6 +27,11 @@ import {
   type ProductServices,
 } from './product-context.ts';
 import type { OrganizationRoleV2, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2';
+import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
+import type { PlanningServices } from './product-context.ts';
+import { createHealthServices } from './health/index.ts';
+import { assertProductMigrations } from './product-readiness.ts';
+import { alternatives } from './catalog/reviewed-alternatives.ts';
 import {
   authorizeProductMember,
   mayManageRole,
@@ -142,7 +147,8 @@ export class B2BService {
       'capabilities' | 'access' | 'people' | 'updateMember' | 'inviteMember' | 'audit'
     >
   > = {};
-  constructor(pool: Pool, auth: Auth, config: Config) {
+  constructor(pool: Pool, auth: Auth, config: Config, planning?: PlanningServices) {
+    Object.assign(this.productProducers, planning ?? {}, createHealthServices(), { alternatives });
     this.pool = pool;
     this.auth = auth;
     this.config = config;
@@ -259,6 +265,7 @@ export class B2BService {
       contractHeader,
       async (db, org, membership) => {
         assertProductCapability(contractHeader, org.product_active);
+        await assertProductMigrations(db);
         const branchId =
           work.branchId ??
           (work.domain
@@ -357,6 +364,17 @@ export class B2BService {
         );
       return operation(db, org, membership);
     });
+  }
+  async productProducer(
+    c: AuthorizedProductContext,
+    key: ProductEndpoint,
+    input: unknown,
+  ): Promise<unknown> {
+    const handler = this.productProducers[key as keyof typeof this.productProducers] as
+      | ((context: AuthorizedProductContext, value: unknown) => Promise<unknown>)
+      | undefined;
+    if (!handler) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+    return handler(c, ProductEndpoints[key].input.parse(input));
   }
   async productAccess(c: AuthorizedProductContext): Promise<ProductOutput<'access'>> {
     const grants = (
@@ -510,7 +528,7 @@ export class B2BService {
       'UPDATE b2b_membership SET role=$3,active=$4 WHERE organization_id=$1 AND user_id=$2',
       [c.org.id, userId, role, active],
     );
-    if (!active) await revokeMembershipConsents(c.db, c.org.id, userId, c.actorId);
+    if (!active) await revokeMembershipConsents(c.db, c.org.id, userId, c.actorId, randomUUID());
     if (role !== previous.role || !active)
       await c.db.query(
         'DELETE FROM b2b_coach_assignment WHERE organization_id=$1 AND (coach_id=$2 OR member_id=$2)',
