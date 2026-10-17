@@ -7,7 +7,7 @@ import {
   type ProgramVersion,
 } from './training.ts'
 import { MemberScopeSchema, Sha256Schema } from './product-common.ts'
-import { RoutineVersionV2Schema, type AssignableRoutine } from './product-prescription.ts'
+import { RoutineVersionV2Schema, type RoutineDraftContent } from './product-prescription.ts'
 import { EnrollmentSchema, OccurrenceSchema } from './product-planning.ts'
 import { SessionRevisionSchema } from './product-sessions.ts'
 import { OwnHealthSchema } from './product-health.ts'
@@ -28,7 +28,7 @@ export function decodeLegacyRetry(value: unknown) {
 }
 /** Projection only. Never persist it over the source snapshot, infer a schedule,
  * infer bodyweight from null load, or carry legacy allowlists as reviewed links. */
-export function projectLegacyRoutine(value: ProgramVersion): AssignableRoutine {
+export function projectLegacyRoutine(value: ProgramVersion): RoutineDraftContent {
   const original = ProgramVersionSchema.parse(value)
   return {
     name: original.name,
@@ -48,7 +48,7 @@ export function projectLegacyRoutine(value: ProgramVersion): AssignableRoutine {
             ? { mode: 'unspecified' }
             : { mode: 'external', kilograms: { kind: 'fixed', value: step.loadKg } },
         restSeconds: { kind: 'fixed', value: step.restSeconds },
-        laterality: 'bilateral',
+        laterality: null,
         targetRpe: step.targetRpe,
         notes: step.notes,
       },
@@ -65,6 +65,7 @@ export const LegacyExecutionRecordSchema = z
     createdAt: TimestampSchema,
   })
   .strict()
+export const SessionRecordSchema = z.union([LegacyExecutionRecordSchema, SessionRevisionSchema])
 export const LegacySupplementSchema = z
   .object({
     schemaVersion: z.literal(2),

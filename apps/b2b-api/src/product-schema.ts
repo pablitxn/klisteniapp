@@ -40,6 +40,7 @@ BEGIN
 END $$;
 CREATE TRIGGER b2b_10_product_superadmin BEFORE UPDATE OR DELETE ON b2b_membership FOR EACH ROW EXECUTE FUNCTION b2b_product_last_superadmin();
 
+ALTER TABLE b2b_program ADD COLUMN archived_at timestamptz;
 ALTER TABLE b2b_program ADD COLUMN schema_version smallint NOT NULL DEFAULT 1 CHECK(schema_version IN (1,2));
 ALTER TABLE b2b_program_version ADD COLUMN schema_version smallint NOT NULL DEFAULT 1 CHECK(schema_version IN (1,2));
 ALTER TABLE b2b_execution ADD UNIQUE(organization_id,branch_id,id,member_id);
@@ -55,7 +56,7 @@ INSERT INTO b2b_audit(organization_id,action,resource_id,changed_fields)
 
 CREATE TABLE b2b_goal_program (
  organization_id text NOT NULL, branch_id text NOT NULL, member_id text NOT NULL, id text NOT NULL,
- content jsonb NOT NULL, revision integer NOT NULL DEFAULT 0 CHECK(revision>=0), archived_at timestamptz,
+ content jsonb NOT NULL, revision integer NOT NULL DEFAULT 0 CHECK(revision>=0), status text NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','active','archived')), archived_at timestamptz,
  PRIMARY KEY(organization_id,branch_id,id), UNIQUE(organization_id,branch_id,member_id,id),
  FOREIGN KEY(organization_id,branch_id) REFERENCES b2b_branch(organization_id,id),
  FOREIGN KEY(organization_id,member_id) REFERENCES b2b_membership(organization_id,user_id)
@@ -67,10 +68,11 @@ CREATE TABLE b2b_goal_program_revision (
  FOREIGN KEY(organization_id,branch_id,member_id,goal_program_id) REFERENCES b2b_goal_program(organization_id,branch_id,member_id,id)
 );
 CREATE TABLE b2b_enrollment (
- organization_id text NOT NULL, branch_id text NOT NULL, member_id text NOT NULL, id text NOT NULL, goal_program_id text NOT NULL,
+ organization_id text NOT NULL, branch_id text NOT NULL, member_id text NOT NULL, id text NOT NULL, goal_program_id text NOT NULL, issued_goal_revision integer NOT NULL,
  revision integer NOT NULL DEFAULT 0 CHECK(revision>=0), status text NOT NULL CHECK(status IN ('active','ended')), created_at timestamptz NOT NULL DEFAULT now(),
  PRIMARY KEY(organization_id,branch_id,id), UNIQUE(organization_id,branch_id,member_id,id),
- FOREIGN KEY(organization_id,branch_id,member_id,goal_program_id) REFERENCES b2b_goal_program(organization_id,branch_id,member_id,id)
+ FOREIGN KEY(organization_id,branch_id,member_id,goal_program_id) REFERENCES b2b_goal_program(organization_id,branch_id,member_id,id),
+ FOREIGN KEY(organization_id,branch_id,goal_program_id,issued_goal_revision) REFERENCES b2b_goal_program_revision(organization_id,branch_id,goal_program_id,revision)
 );
 CREATE TABLE b2b_enrollment_revision (
  organization_id text NOT NULL, branch_id text NOT NULL, member_id text NOT NULL, enrollment_id text NOT NULL,
@@ -187,6 +189,24 @@ DO $$ DECLARE table_name text; BEGIN
   EXECUTE format('CREATE TRIGGER product_append_only BEFORE UPDATE OR DELETE ON %I FOR EACH ROW EXECUTE FUNCTION b2b_product_append_only()',table_name);
  END LOOP;
 END $$;
+
+-- Bind the denormalized routine link to its original occurrence/assignment too.
+ALTER TABLE b2b_occurrence ADD UNIQUE(organization_id,branch_id,member_id,id,program_id,program_version);
+ALTER TABLE b2b_program_assignment ADD UNIQUE(organization_id,branch_id,member_id,id,program_id,version);
+ALTER TABLE b2b_execution ADD UNIQUE(organization_id,branch_id,member_id,id,assignment_id);
+ALTER TABLE b2b_training_session ADD FOREIGN KEY(organization_id,branch_id,member_id,occurrence_id,program_id,program_version) REFERENCES b2b_occurrence(organization_id,branch_id,member_id,id,program_id,program_version);
+ALTER TABLE b2b_training_session ADD FOREIGN KEY(organization_id,branch_id,member_id,legacy_assignment_id,program_id,program_version) REFERENCES b2b_program_assignment(organization_id,branch_id,member_id,id,program_id,version);
+ALTER TABLE b2b_training_session ADD FOREIGN KEY(organization_id,branch_id,member_id,legacy_execution_id,legacy_assignment_id) REFERENCES b2b_execution(organization_id,branch_id,member_id,id,assignment_id);
+CREATE FUNCTION b2b_product_session_identity() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+ IF (to_jsonb(NEW)-'revision') IS DISTINCT FROM (to_jsonb(OLD)-'revision') THEN
+  RAISE EXCEPTION 'Session original linkage is immutable' USING ERRCODE='23514';
+ END IF;
+ RETURN NEW;
+END $$;
+CREATE TRIGGER b2b_session_identity BEFORE UPDATE ON b2b_training_session FOR EACH ROW EXECUTE FUNCTION b2b_product_session_identity();
+CREATE TRIGGER b2b_session_preserve BEFORE DELETE ON b2b_training_session FOR EACH ROW EXECUTE FUNCTION b2b_product_append_only();
+
 CREATE INDEX b2b_occurrence_week ON b2b_occurrence(organization_id,branch_id,member_id,current_week_start);
 CREATE INDEX b2b_session_member ON b2b_training_session(organization_id,branch_id,member_id);
 `;

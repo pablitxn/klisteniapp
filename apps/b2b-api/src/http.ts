@@ -778,7 +778,11 @@ export function createApiServer({
             request.url?.split('?')[0] === `${API_PREFIX}/domain-entry`
             ? 403
             : error.status,
-          { code: error.code, error: error.message },
+          {
+            code: error.code,
+            error: error.message,
+            ...(error.issues ? { issues: error.issues } : {}),
+          },
         );
       if (error instanceof ZodError)
         return json(response, 400, {

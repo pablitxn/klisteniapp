@@ -12,7 +12,8 @@ import {
   type Role,
 } from '@klisteniapp/b2b-contracts';
 import { SCHEMA, LIFECYCLE_SCHEMA, CONTENT_SCHEMA } from '../src/database.ts';
-import { WHITE_LABEL_SCHEMA } from '../src/white-label-schema.ts';
+import { PRODUCT_SCHEMA } from '../src/product-schema.ts';
+import { WHITE_LABEL_SCHEMA, WHITE_LABEL_PROFILE_SCHEMA } from '../src/white-label-schema.ts';
 import { CatalogModule } from '../src/catalog/index.ts';
 import { EquipmentModule } from '../src/equipment/index.ts';
 import { TrainingModule } from '../src/training/index.ts';
@@ -44,6 +45,8 @@ async function fixture(run: (db: PoolClient) => Promise<void>) {
     await db.query(LIFECYCLE_SCHEMA);
     await db.query(CONTENT_SCHEMA);
     await db.query(WHITE_LABEL_SCHEMA);
+    await db.query(WHITE_LABEL_PROFILE_SCHEMA);
+    await db.query(PRODUCT_SCHEMA);
     await db.query(`
       INSERT INTO b2b_auth_user VALUES('admin','Admin'),('coach','Coach'),('member','Member'),('other','Other member');
       INSERT INTO b2b_organization(id,slug,brand) VALUES('atlas','atlas','{"name":"Atlas"}'),('sur','sur','{"name":"Sur"}');

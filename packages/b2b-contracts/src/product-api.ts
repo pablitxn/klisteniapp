@@ -1,3 +1,9 @@
+import {
+  ProductMemberSchema,
+  UpdateProductMemberSchema,
+  InviteProductMemberSchema,
+  ProductInvitationSchema,
+} from './product-access.ts'
 import { z } from 'zod'
 import { IdSchema, RevisionSchema } from './common.ts'
 import {
@@ -25,11 +31,7 @@ import {
   WeekSchema,
   WeekSummarySchema,
 } from './product-planning.ts'
-import {
-  SaveSessionSchema,
-  SessionReceiptSchema,
-  SessionRevisionSchema,
-} from './product-sessions.ts'
+import { SaveSessionSchema, SessionReceiptSchema } from './product-sessions.ts'
 import {
   ConsentedHealthSchema,
   GrantHealthConsentSchema,
@@ -39,7 +41,11 @@ import {
   NormalizedHealthSchema,
   OwnHealthSchema,
 } from './product-health.ts'
-import { B2CInvitationSchema, PersonalExportSchema } from './product-compatibility.ts'
+import {
+  B2CInvitationSchema,
+  PersonalExportSchema,
+  SessionRecordSchema,
+} from './product-compatibility.ts'
 
 const empty = z.object({}).strict()
 const id = z.object({ id: IdSchema }).strict()
@@ -50,14 +56,34 @@ function endpoint<I extends z.ZodType, O extends z.ZodType>(
   path: string,
   input: I,
   output: O,
+  scope: 'organization' | 'self' = 'organization',
 ) {
-  return { method, path: `/product/v2${path}`, input, output } as const
+  return {
+    method,
+    path: scope === 'self' ? `/self${path}` : `/product/v2${path}`,
+    scope,
+    input,
+    output,
+  } as const
 }
 /** Named static seams. WP00 installs no business routes; ACCESS registers these
  * only after a complete authorized service exists. Tenant comes from context. */
 export const ProductEndpoints = {
   capabilities: endpoint('GET', '/capabilities', empty, ProductCapabilitiesSchema),
   access: endpoint('GET', '/access', empty, ProductAccessSchema),
+  people: endpoint('GET', '/people', empty, z.array(ProductMemberSchema)),
+  updateMember: endpoint(
+    'POST',
+    '/people/:memberId',
+    UpdateProductMemberSchema,
+    ProductMemberSchema,
+  ),
+  inviteMember: endpoint(
+    'POST',
+    '/invitations/:id',
+    InviteProductMemberSchema,
+    ProductInvitationSchema,
+  ),
   audit: endpoint('GET', '/audit/:id', id, z.array(AuditChangeSchema)),
   routines: endpoint('GET', '/routines', empty, z.array(RoutineDraftV2Schema)),
   routine: endpoint('GET', '/routines/:id', id, RoutineDraftV2Schema),
@@ -67,6 +93,9 @@ export const ProductEndpoints = {
     operation.extend({ content: RoutineDraftContentSchema }),
     RoutineDraftV2Schema,
   ),
+  archiveRoutine: endpoint('POST', '/routines/:id/archive', operation, RoutineDraftV2Schema),
+  archiveGoal: endpoint('POST', '/goal-programs/:id/archive', operation, GoalProgramSchema),
+  endEnrollment: endpoint('POST', '/enrollments/:id/end', operation, EnrollmentSchema),
   publishRoutine: endpoint('POST', '/routines/:id/publish', operation, RoutineVersionV2Schema),
   alternatives: endpoint(
     'GET',
@@ -87,6 +116,7 @@ export const ProductEndpoints = {
     operation.extend({
       memberId: IdSchema,
       goalProgramId: IdSchema,
+      issuedGoalRevision: RevisionSchema,
       content: GoalProgramContentSchema,
     }),
     EnrollmentSchema,
@@ -122,8 +152,8 @@ export const ProductEndpoints = {
     member.extend({ weekStart: WeekSchema.shape.startDate, timeZone: WeekSchema.shape.timeZone }),
     WeekSummarySchema,
   ),
-  sessions: endpoint('GET', '/members/:memberId/sessions', member, z.array(SessionRevisionSchema)),
-  sessionRevisions: endpoint('GET', '/sessions/:id/revisions', id, z.array(SessionRevisionSchema)),
+  sessions: endpoint('GET', '/members/:memberId/sessions', member, z.array(SessionRecordSchema)),
+  sessionRevisions: endpoint('GET', '/sessions/:id/revisions', id, z.array(SessionRecordSchema)),
   saveSession: endpoint('POST', '/sessions/:id/revisions', SaveSessionSchema, SessionReceiptSchema),
   ownHealth: endpoint('GET', '/health/own', empty, OwnHealthSchema),
   saveOwnHealth: endpoint(
@@ -158,8 +188,8 @@ export const ProductEndpoints = {
     HealthConsentSchema,
   ),
   consentedHealth: endpoint('GET', '/members/:memberId/health', member, ConsentedHealthSchema),
-  personalExport: endpoint('GET', '/personal-export', empty, PersonalExportSchema),
-  b2cInvitation: endpoint('GET', '/b2c-invitation', empty, B2CInvitationSchema),
+  personalExport: endpoint('GET', '/exports', empty, PersonalExportSchema, 'self'),
+  b2cInvitation: endpoint('GET', '/b2c-invitation', empty, B2CInvitationSchema, 'self'),
   operationReceipt: endpoint('GET', '/operations/:id', id, OperationReceiptSchema),
 } as const
 export type ProductEndpoint = keyof typeof ProductEndpoints

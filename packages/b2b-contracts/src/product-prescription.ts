@@ -71,6 +71,9 @@ export const RoutineDraftContentSchema = z
 export const RoutineStepSchema = RoutineStepDraftSchema.extend({
   exerciseId: IdSchema,
   dose: DoseSchema,
+}).refine((step) => step.dose.load.mode !== 'unspecified', {
+  path: ['dose', 'load'],
+  message: 'Confirm bodyweight or external load before publication',
 })
 export const AssignableRoutineSchema = z
   .object({
@@ -80,12 +83,14 @@ export const AssignableRoutineSchema = z
   })
   .strict()
   .refine((v) => uniqueBy(v.steps, (s) => s.id), 'Step IDs must be unique')
+
 export const RoutineDraftV2Schema = RoutineDraftContentSchema.safeExtend({
   schemaVersion: z.literal(2),
   id: IdSchema,
   scope: ProductScopeSchema,
   revision: RevisionSchema,
   publishedVersion: VersionSchema.nullable(),
+  archivedAt: TimestampSchema.nullable(),
 })
 export type RoutineDraftContent = z.infer<typeof RoutineDraftContentSchema>
 export type AssignableRoutine = z.infer<typeof AssignableRoutineSchema>
@@ -137,6 +142,12 @@ export const ReviewedRelationSchema = z
   })
   .strict()
   .superRefine((v, ctx) => {
+    if (v.targetDose.load.mode === 'unspecified')
+      ctx.addIssue({
+        code: 'custom',
+        path: ['targetDose', 'load'],
+        message: 'Target load must be independently prescribed',
+      })
     if (v.sourceExerciseId === v.targetExerciseId || v.target.id !== v.targetExerciseId)
       ctx.addIssue({
         code: 'custom',

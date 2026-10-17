@@ -8,26 +8,35 @@ import { HttpError } from './errors.ts';
 
 /** ACCESS constructs this only inside its locked, authorized transaction. A
  * capability response or a caller-supplied role is never proof of access. */
-export type AuthorizedProductContext = {
+export type AuthorizedProductIdentityContext = {
   readonly db: PoolClient;
   readonly actorId: string;
   readonly organizationId: string;
-  readonly branchId: string;
-  readonly role: OrganizationRoleV2;
   readonly accessMode: ProductAccess['accessMode'];
   readonly accessRevision: number;
   readonly capabilities: ReadonlySet<ProductAccess['capabilities'][number]>;
+};
+export type AuthorizedProductContext = AuthorizedProductIdentityContext & {
+  readonly branchId: string;
+  readonly role: OrganizationRoleV2;
   /** Current-grant check; historical targets may be inactive, planning targets
    * must be active. Does not authorize viewing another identity's health. */
   authorizeMember(memberId: string, purpose: 'planning' | 'history'): Promise<void>;
 };
-export type ProductServices = ProductService<AuthorizedProductContext>;
+export type ProductServices = Omit<
+  ProductService<AuthorizedProductContext>,
+  'personalExport' | 'b2cInvitation'
+> &
+  Pick<ProductService<AuthorizedProductIdentityContext>, 'personalExport' | 'b2cInvitation'>;
 export type PlanningServices = Pick<
   ProductServices,
   | 'routines'
   | 'routine'
   | 'saveRoutine'
   | 'publishRoutine'
+  | 'archiveRoutine'
+  | 'archiveGoal'
+  | 'endEnrollment'
   | 'goals'
   | 'saveGoal'
   | 'enroll'

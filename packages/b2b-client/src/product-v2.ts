@@ -3,13 +3,27 @@ import {
   type ProductEndpoint,
   type ProductInput,
   type ProductOutput,
+  type OrganizationRoleV2,
 } from '@klisteniapp/b2b-contracts/product-v2'
 import { ApiError } from './errors.ts'
 import { createTransport, type ClientOptions, type Parser } from './transport.ts'
 
+export type ProductV2ClientOptions = Omit<ClientOptions, 'role' | 'contractVersion'> & {
+  role?: OrganizationRoleV2
+}
+
 /** Explicit opt-in; legacy callers never send a new version or receive new DTOs. */
-export function createProductV2Client(accountId: string, options: ClientOptions = {}) {
-  const request = createTransport(accountId, { ...options, contractVersion: 2 })
+export function createProductV2Client(
+  accountId: string,
+  organizationId: string,
+  options: ProductV2ClientOptions = {},
+) {
+  const request = createTransport(accountId, {
+    ...options,
+    role: undefined,
+    productRole: options.role,
+    contractVersion: 2,
+  })
   return {
     async call<K extends ProductEndpoint>(
       key: K,
@@ -29,8 +43,12 @@ export function createProductV2Client(accountId: string, options: ClientOptions 
         endpoint.method === 'GET'
           ? new URLSearchParams(Object.entries(data).map(([k, v]) => [k, String(v)])).toString()
           : ''
+      const scopedPath =
+        endpoint.scope === 'self' ? path : `/orgs/${encodeURIComponent(organizationId)}${path}`
+      const fullQuery =
+        endpoint.scope === 'self' ? new URLSearchParams({ organizationId }).toString() : query
       return request(
-        `${path}${query ? `?${query}` : ''}`,
+        `${scopedPath}${fullQuery ? `?${fullQuery}` : ''}`,
         endpoint.output as Parser<ProductOutput<K>>,
         endpoint.method,
         endpoint.method === 'POST' ? parsed.data : undefined,

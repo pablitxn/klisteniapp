@@ -18,13 +18,20 @@ export const ScheduleSlotSchema = z
     routine: RoutineReferenceSchema,
   })
   .strict()
+export const ScheduleSlotDraftSchema = z
+  .object({
+    id: IdSchema,
+    weekday: z.number().int().min(1).max(7).nullable(),
+    routine: RoutineReferenceSchema.nullable(),
+  })
+  .strict()
 export const StageDraftSchema = z
   .object({
     id: IdSchema,
     name: z.string().max(150),
     startDate: LocalDateSchema.nullable(),
     endDate: LocalDateSchema.nullable(),
-    slots: z.array(ScheduleSlotSchema).max(100),
+    slots: z.array(ScheduleSlotDraftSchema).max(100),
   })
   .strict()
 export const StageSchema = StageDraftSchema.extend({
@@ -72,6 +79,7 @@ export const GoalProgramSchema = GoalProgramDraftContentSchema.safeExtend({
   id: IdSchema,
   scope: MemberScopeSchema,
   revision: RevisionSchema,
+  status: z.enum(['draft', 'active', 'archived']),
   archivedAt: TimestampSchema.nullable(),
 })
 export const EnrollmentSchema = z
@@ -80,6 +88,7 @@ export const EnrollmentSchema = z
     id: IdSchema,
     scope: MemberScopeSchema,
     goalProgramId: IdSchema,
+    issuedGoalRevision: RevisionSchema,
     revision: RevisionSchema,
     status: z.enum(['active', 'ended']),
     content: GoalProgramContentSchema,
@@ -181,7 +190,7 @@ export const RoutineContinuitySchema = z
   .object({
     schemaVersion: z.literal(2),
     scope: MemberScopeSchema,
-    currentEnrollment: EnrollmentSchema.nullable(),
+    current: z.array(EnrollmentSchema),
     past: z.array(EnrollmentSchema),
     future: z.array(EnrollmentSchema),
     unscheduledLegacyAssignmentIds: z.array(IdSchema),

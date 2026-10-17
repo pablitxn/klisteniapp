@@ -19,6 +19,7 @@ import {
   type SetupProgress,
   type Theme,
 } from '@klisteniapp/b2b-contracts';
+import { assertLegacyProductAccess } from './product-context.ts';
 import type { Auth } from './auth.ts';
 import type { Config } from './config.ts';
 import { conflict, denied, HttpError, missing } from './errors.ts';
@@ -175,7 +176,7 @@ export class B2BService {
       if (work.domain && work.domain.organizationId !== orgId) throw missing();
       // Every B2B mutation takes this lock before checking membership/contract.
       // Revocation and writes cannot race past one another across API instances.
-      const found = await db.query<OrgRow>(
+      const found = await db.query<OrgRow & { product_active: boolean }>(
         `SELECT * FROM b2b_organization WHERE id=$1 ${write ? 'FOR UPDATE' : 'FOR SHARE'}`,
         [orgId],
       );
@@ -208,6 +209,7 @@ export class B2BService {
         write,
         work,
       );
+      assertLegacyProductAccess(org.product_active);
       return operation({ db, actorId, org, ...scope });
     });
   }

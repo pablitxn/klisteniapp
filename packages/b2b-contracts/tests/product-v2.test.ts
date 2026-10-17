@@ -327,7 +327,7 @@ test('consent is explicit, category-scoped and revocable; only supported manual 
 })
 test('all endpoint paths are versioned and route parameters are declared by their input schema', () => {
   for (const endpoint of Object.values(ProductEndpoints)) {
-    assert.ok(endpoint.path.startsWith('/product/v2/'))
+    assert.ok(endpoint.path.startsWith(endpoint.scope === 'self' ? '/self/' : '/product/v2/'))
     for (const match of endpoint.path.matchAll(/:([a-zA-Z]+)/g))
       assert.ok(match[1]! in endpoint.input.shape)
   }
