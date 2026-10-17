@@ -1,0 +1,17 @@
+{
+  "envSummary": {
+    "no_proxy": "route-proof.test,127.0.0.1,localhost",
+    "HTTP_PROXY": "<set>",
+    "http_proxy": "<set>",
+    "HTTPS_PROXY": "<set>",
+    "https_proxy": "<set>",
+    "NO_PROXY": "route-proof.test,127.0.0.1,localhost"
+  },
+  "browserVersion": "153.0.8010.12",
+  "routingArgs": [
+    "--host-resolver-rules=MAP route-proof.test 127.0.0.1",
+    "--proxy-bypass-list=route-proof.test"
+  ]
+}
+{"host":"127.0.0.1","body":"local-domain-proof","isSecureContext":true}
+{"host":"route-proof.test","body":"local-domain-proof","isSecureContext":false}

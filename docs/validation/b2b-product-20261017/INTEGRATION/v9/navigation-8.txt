@@ -1,0 +1,16 @@
+✔ ordinary navigation awaits durability and coalesces repeated clicks to one departure (1.493177ms)
+✔ a failed local flush retains the route and permits an explicit later retry (0.285477ms)
+✔ failed Back restores the original history entry without replacing either entry (0.879026ms)
+✔ rapid native Back and Forward share one flush and publish the latest native destination (0.628867ms)
+✔ revocation cancels a pending route immediately and stale completion cannot navigate a new owner (0.558493ms)
+✔ a request queued during history restoration cannot enter a replacement account (0.666725ms)
+✔ replacement before flush starts skips stale work and old unregister cannot remove its successor (1.933139ms)
+✔ no-op and hash navigation retain the editor; explicit same-view reset flushes without duplicate history (0.44665ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 142.165091
