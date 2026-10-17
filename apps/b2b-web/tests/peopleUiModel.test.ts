@@ -10,7 +10,7 @@ import {
   lastVisibleSuperadmin,
   peopleError,
 } from '../src/features/people/peopleModel.ts'
-import { admin, superadmin, member, context } from './people/fixture.ts'
+import { admin, superadmin, member, context, branchOptions } from './people/fixture.ts'
 
 test('selected-role restrictions remain exact even when broader capabilities are supplied', () => {
   assert.deepEqual(
@@ -57,42 +57,50 @@ test('selected-branch edits preserve every other active and revoked grant withou
   assert.deepEqual(member, original)
   assert.throws(() => replaceCurrentBranchGrants(member, '', { coach: false, member: false }))
 })
-test('invitations emit only supported single-branch roles or privileged roles with no extra grants', () => {
+test('invitations preserve explicit mixed roles, inactive grants and empty arrays without role-derived defaults', () => {
   const ids = { id: 'invite', operationId: 'operation' }
+  const grants = [
+    { branchId: 'atlas-north', role: 'member' as const, active: false },
+    { branchId: 'atlas-principal', role: 'coach' as const, active: true },
+  ]
   const input = invitationInput(
     admin,
     'atlas-principal',
-    { name: ' Person ', email: 'USER@example.test', role: 'coach' },
+    { name: ' Person ', email: 'USER@example.test', role: 'member', branchGrants: grants },
     ids,
+    branchOptions,
   )
   assert.equal(input.email, 'user@example.test')
   assert.equal(input.name, 'Person')
-  assert.deepEqual(input.branchGrants, [
-    { branchId: 'atlas-principal', role: 'coach', active: true },
-  ])
-  assert.deepEqual(
-    invitationInput(
-      superadmin,
-      'atlas-principal',
-      { name: 'Admin', email: 'admin@example.test', role: 'admin' },
-      ids,
-    ).branchGrants,
-    [],
-  )
+  assert.deepEqual(input.branchGrants, grants)
+  for (const role of ['member', 'coach', 'admin', 'superadmin'] as const) {
+    assert.deepEqual(
+      invitationInput(
+        superadmin,
+        'atlas-principal',
+        { name: 'Person', email: 'person@example.test', role, branchGrants: [] },
+        ids,
+        branchOptions,
+      ).branchGrants,
+      [],
+    )
+  }
   assert.throws(() =>
     invitationInput(
       admin,
       'atlas-principal',
-      { name: 'Admin', email: 'admin@example.test', role: 'admin' },
+      { name: 'Admin', email: 'admin@example.test', role: 'admin', branchGrants: [] },
       ids,
+      branchOptions,
     ),
   )
   assert.throws(() =>
     invitationInput(
       superadmin,
       '',
-      { name: 'Admin', email: 'admin@example.test', role: 'admin' },
+      { name: 'Admin', email: 'admin@example.test', role: 'admin', branchGrants: [] },
       ids,
+      branchOptions,
     ),
   )
 })

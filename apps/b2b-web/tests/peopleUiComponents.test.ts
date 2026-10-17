@@ -3,7 +3,7 @@ import { before, after, test } from 'node:test'
 import { createElement, type ComponentType } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { createServer, type ViteDevServer } from 'vite'
-import { admin, superadmin, member } from './people/fixture.ts'
+import { admin, superadmin, member, branchOptions } from './people/fixture.ts'
 let vite: ViteDevServer
 before(async () => {
   vite = await createServer({
@@ -33,6 +33,11 @@ const state = {
   retry: false,
   refresh: false,
   invitation: null,
+  invitationGrants: null,
+  branches: branchOptions,
+  branchesLoading: false,
+  branchesValid: true,
+  branchesError: '',
 }
 const props = {
   state,
@@ -52,7 +57,7 @@ function labelled(html: string) {
   for (const [, id] of html.matchAll(/\bfor="([^"]+)"/g)) assert.ok(ids.includes(id))
 }
 
-test('People editors have labelled role/grant controls, explicit saves and supported invitation scope', async () => {
+test('People editors have labelled role/grant controls, explicit saves and full explicit invitation scope', async () => {
   const html = await render('people/PeopleWorkspace', 'PeopleView', props)
   labelled(html)
   assert.match(html, /Rol en la marca de/)
@@ -60,7 +65,7 @@ test('People editors have labelled role/grant controls, explicit saves and suppo
   assert.match(html, /Socio en esta sede/)
   assert.match(html, /Guardar acceso de/)
   assert.match(html, /Los permisos de otras sedes se conservan/)
-  assert.match(html, /varias funciones o sedes todavía no están disponibles/)
+  assert.match(html, /combinar varias sedes/)
   assert.doesNotMatch(html, /<option[^>]*value="admin"/)
   assert.doesNotMatch(html, /<option[^>]*value="superadmin"/)
   assert.match(html, /Ver cambios de/)

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type FormEvent } from 'react'
-import type { ProductV2Client } from '@klisteniapp/b2b-client'
+import { productBootstrap, type ProductV2Client } from '@klisteniapp/b2b-client'
 import type { ProductAccess, ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
 import { Field } from '@klisteniapp/b2b-ui'
 import { AuditDrawer } from '../audit/AuditDrawer'
@@ -15,6 +15,8 @@ import {
   type PeopleContext,
   type Person,
 } from './peopleModel'
+import { InvitationGrantEditor } from './InvitationGrantEditor'
+import type { InvitationBranch, InvitationGrant } from './invitationGrants'
 import './people.css'
 
 type ClientFactory = (signal?: AbortSignal) => ProductV2Client
@@ -48,7 +50,12 @@ function ScopedPeople({
   const factory = useRef(createClient)
   factory.current = createClient
   const controller = useMemo(
-    () => new PeopleController(context, (signal) => factory.current(signal)),
+    () =>
+      new PeopleController(
+        context,
+        (signal) => factory.current(signal),
+        (signal) => productBootstrap({ signal, contextSignal: context.signal }),
+      ),
     [context],
   )
   const state = useSyncExternalStore(
@@ -247,11 +254,38 @@ export function PeopleView({
               disabled={disabled}
               onInvite={onInvite}
               completedId={state.invitation?.id}
+              branches={state.branches}
+              branchesLoading={state.branchesLoading}
+              branchesError={state.branchesError}
+              branchesValid={state.branchesValid}
+              onReloadBranches={onRefresh}
             />
           )}
           {state.invitation && (
             <section className="card people-card" aria-label="Invitación creada">
               <h2>Enlace privado de activación</h2>
+              <p>Funciones incluidas al crearla. La aceptación vuelve a validar estos permisos.</p>
+              {state.invitationGrants &&
+                (state.invitationGrants.length ? (
+                  <ul>
+                    {state.invitationGrants.map((grant) => (
+                      <li key={`${grant.branchId}/${grant.role}`}>
+                        {state.branches.find((branch) => branch.branchId === grant.branchId)
+                          ?.name ?? grant.branchId}{' '}
+                        · {grant.role === 'coach' ? 'Entrenador' : 'Socio'} ·{' '}
+                        {grant.active ? 'Activa' : 'Inactiva'}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No se agregaron funciones por sede.</p>
+                ))}
+
+              <p>
+                La persona debe aceptar con su propia identidad y consentimiento. Si ya tiene cuenta
+                B2B, usa su contraseña; si ya tiene membresía, gestioná su acceso desde Personas. La
+                invitación no promueve ni reactiva una membresía existente.
+              </p>
               <p>
                 Rol: {productRoleLabels[state.invitation.role]}. Vence:{' '}
                 <time dateTime={state.invitation.expiresAt}>
@@ -464,50 +498,68 @@ export function InvitationEditor({
   disabled,
   onInvite,
   completedId,
+  branches,
+  branchesLoading,
+  branchesError,
+  branchesValid,
+  onReloadBranches,
 }: {
   access: ProductAccess
   branchId: string
   disabled: boolean
   onInvite: ViewProps['onInvite']
   completedId?: string
+  branches: readonly InvitationBranch[]
+  branchesLoading: boolean
+  branchesError: string
+  branchesValid: boolean
+  onReloadBranches: () => void
 }) {
   const [name, setName] = useState(''),
     [email, setEmail] = useState(''),
     [role, setRole] = useState<Person['role']>('member'),
     [error, setError] = useState('')
+  const [grants, setGrants] = useState<InvitationGrant[]>([]),
+    [confirmEmpty, setConfirmEmpty] = useState(false)
   useEffect(() => {
     if (completedId) {
       setName('')
       setEmail('')
+      setGrants([])
+      setConfirmEmpty(false)
     }
   }, [completedId])
   async function submit(event: FormEvent) {
     event.preventDefault()
     setError('')
+    if (disabled || branchesLoading) return
     try {
-      const result = await onInvite(
+      if (!branchesValid) throw new Error('Validá las sedes antes de crear la invitación.')
+      if (!grants.length && !confirmEmpty)
+        throw new Error('Confirmá explícitamente que la invitación no tendrá funciones por sede.')
+      await onInvite(
         invitationInput(
           access,
           branchId,
-          { name, email, role },
+          { name, email, role, branchGrants: grants },
           { id: crypto.randomUUID(), operationId: crypto.randomUUID() },
+          branches,
         ),
       )
-      if (result) {
-        setName('')
-        setEmail('')
-      }
-    } catch {
-      setError('Revisá el nombre, email y rol permitido antes de crear la invitación.')
+    } catch (failure) {
+      setError(
+        failure instanceof Error
+          ? failure.message
+          : 'Revisá el nombre, email, rol y sedes antes de crear la invitación.',
+      )
     }
   }
   return (
     <form className="card people-card" onSubmit={submit} aria-label="Invitar persona">
       <h2>Invitar persona</h2>
       <p>
-        Entrenadores y socios reciben una sola función en esta sede. Administradores y
-        superadministradores reciben el rol de marca sin funciones de sede adicionales. Las
-        invitaciones con varias funciones o sedes todavía no están disponibles.
+        Elegí el rol en la marca y cada función por sede. Podés combinar varias sedes, funciones
+        activas o inactivas, o confirmar una invitación sin funciones por sede.
       </p>
       {error && <p role="alert">{error}</p>}
       <Field label="Nombre de la persona invitada">
@@ -516,7 +568,7 @@ export function InvitationEditor({
           value={name}
           maxLength={100}
           disabled={disabled}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(event) => setName(event.target.value)}
           autoComplete="name"
         />
       </Field>
@@ -527,7 +579,7 @@ export function InvitationEditor({
           value={email}
           maxLength={254}
           disabled={disabled}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
           autoComplete="email"
         />
       </Field>
@@ -535,7 +587,7 @@ export function InvitationEditor({
         <select
           value={role}
           disabled={disabled}
-          onChange={(e) => setRole(e.target.value as Person['role'])}
+          onChange={(event) => setRole(event.target.value as Person['role'])}
         >
           {creatableRoles(access).map((value) => (
             <option key={value} value={value}>
@@ -544,7 +596,51 @@ export function InvitationEditor({
           ))}
         </select>
       </Field>
-      <button className="button primary" disabled={disabled || !branchId}>
+      {branchesLoading && <p role="status">Validando sedes de esta organización…</p>}
+      {branchesError && <p role="alert">{branchesError}</p>}
+      <button
+        className="button"
+        type="button"
+        disabled={disabled || branchesLoading}
+        onClick={onReloadBranches}
+      >
+        Recargar sedes y validar acceso
+      </button>
+      <InvitationGrantEditor
+        branches={branches}
+        grants={grants}
+        disabled={disabled || branchesLoading || !branchesValid}
+        onChange={setGrants}
+      />
+      {!grants.length && (
+        <div>
+          <p>
+            Sin funciones por sede, una persona invitada como socio o entrenador no tendrá esas
+            funciones hasta que un administrador las otorgue. Un rol administrativo conserva sus
+            facultades de marca; no agrega funciones de entrenador/socio ni acceso a salud
+            compartida.
+          </p>
+          <label className="people-check">
+            <input
+              type="checkbox"
+              checked={confirmEmpty}
+              disabled={disabled}
+              onChange={(event) => setConfirmEmpty(event.target.checked)}
+            />
+            Confirmo que esta invitación no incluirá funciones por sede
+          </label>
+        </div>
+      )}
+      <button
+        className="button primary"
+        disabled={
+          disabled ||
+          !branchId ||
+          branchesLoading ||
+          !branchesValid ||
+          (!grants.length && !confirmEmpty)
+        }
+      >
         Crear invitación
       </button>
     </form>

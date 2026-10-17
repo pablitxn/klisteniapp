@@ -1,11 +1,21 @@
 import { ApiError, type ProductV2Client } from '@klisteniapp/b2b-client'
-import type { ProductInput, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
+import type {
+  ProductBootstrap,
+  ProductInput,
+  ProductOutput,
+} from '@klisteniapp/b2b-contracts/product-v2'
 import {
   peopleContextAllowed,
   peopleError,
   type PeopleContext,
   type Person,
 } from './peopleModel.ts'
+import {
+  invitationBranches,
+  invitationError,
+  type InvitationBranch,
+  type InvitationGrant,
+} from './invitationGrants.ts'
 import { canManagePerson, creatableRoles } from './peopleCapabilities.ts'
 
 type Pending =
@@ -21,6 +31,11 @@ export type PeopleState = {
   retry: boolean
   refresh: boolean
   invitation: ProductOutput<'inviteMember'> | null
+  invitationGrants: InvitationGrant[] | null
+  branches: InvitationBranch[]
+  branchesLoading: boolean
+  branchesValid: boolean
+  branchesError: string
 }
 /** Scoped in-memory operations only. A failed transport freezes the exact payload
  * until explicit retry; there is no background replay or cross-identity storage. */
@@ -35,15 +50,27 @@ export class PeopleController {
     retry: false,
     refresh: false,
     invitation: null,
+    invitationGrants: null,
+    branches: [],
+    branchesLoading: false,
+    branchesValid: false,
+    branchesError: '',
   }
   private listeners = new Set<() => void>()
   private lifetime = new AbortController()
   private read: AbortController | null = null
+  private branchRead: AbortController | null = null
+  private bootstrap?: (signal: AbortSignal) => Promise<ProductBootstrap>
   private pending: Pending | null = null
   private epoch = 0
   readonly context: PeopleContext
   private createClient: (signal?: AbortSignal) => ProductV2Client
-  constructor(context: PeopleContext, createClient: (signal?: AbortSignal) => ProductV2Client) {
+  constructor(
+    context: PeopleContext,
+    createClient: (signal?: AbortSignal) => ProductV2Client,
+    bootstrap?: (signal: AbortSignal) => Promise<ProductBootstrap>,
+  ) {
+    this.bootstrap = bootstrap
     this.context = context
     this.createClient = createClient
   }
@@ -85,10 +112,12 @@ export class PeopleController {
     this.epoch++
     this.lifetime.abort()
     this.read?.abort()
+    this.branchRead?.abort()
     this.pending = null
     this.set({
       people: [],
       invitation: null,
+      invitationGrants: null,
       error: '',
       message: '',
       loading: false,
@@ -96,6 +125,10 @@ export class PeopleController {
       retry: false,
       refresh: false,
       blocked: true,
+      branches: [],
+      branchesValid: false,
+      branchesLoading: false,
+      branchesError: '',
     })
   }
   suspend() {
@@ -105,10 +138,15 @@ export class PeopleController {
     this.set({
       people: [],
       invitation: null,
+      invitationGrants: null,
       loading: false,
       busy: false,
       blocked: true,
       retry: Boolean(this.pending),
+      branches: [],
+      branchesValid: false,
+      branchesLoading: false,
+      branchesError: '',
       message: '',
       error: 'La conexión de acceso se interrumpió. Volvé a validar antes de continuar.',
     })
@@ -127,8 +165,10 @@ export class PeopleController {
     try {
       const signal = this.signal(read.signal)
       const people = await this.createClient(signal).call('people', {})
-      if (this.current(epoch) && !signal.aborted && this.read === read)
+      if (this.current(epoch) && !signal.aborted && this.read === read) {
         this.set({ people, blocked: false })
+        await this.loadBranches()
+      }
     } catch (error) {
       if (this.current(epoch) && this.read === read) {
         const failure = peopleError(error)
@@ -138,11 +178,45 @@ export class PeopleController {
             : failure.message,
           people: [],
           invitation: null,
+          invitationGrants: null,
           blocked: true,
+          branches: [],
+          branchesValid: false,
+          branchesLoading: false,
         })
       }
     } finally {
       if (this.current(epoch) && this.read === read) this.set({ loading: false })
+    }
+  }
+  async loadBranches() {
+    if (
+      !this.bootstrap ||
+      !this.context.access ||
+      !creatableRoles(this.context.access).length ||
+      !peopleContextAllowed(this.context)
+    )
+      return
+    this.branchRead?.abort()
+    const request = new AbortController()
+    this.branchRead = request
+    const epoch = this.epoch
+    this.set({ branchesLoading: true, branchesError: '', branchesValid: false })
+    try {
+      const signal = this.signal(request.signal)
+      const options = invitationBranches(this.context, await this.bootstrap(signal))
+      if (this.current(epoch) && !signal.aborted && this.branchRead === request)
+        this.set({ branches: options, branchesValid: true })
+    } catch (error) {
+      if (this.current(epoch) && this.branchRead === request) {
+        const failure = peopleError(error)
+        if (error instanceof ApiError && [401, 403].includes(error.status)) {
+          this.clear()
+          this.set({ error: failure.message, branchesError: failure.message, refresh: true })
+        } else this.set({ branches: [], branchesValid: false, branchesError: failure.message })
+      }
+    } finally {
+      if (this.current(epoch) && this.branchRead === request) this.set({ branchesLoading: false })
     }
   }
   async update(input: Omit<ProductInput<'updateMember'>, 'operationId'>): Promise<Person | null> {
@@ -175,7 +249,7 @@ export class PeopleController {
     return (await this.send()) as ProductOutput<'inviteMember'> | null
   }
   retry = () => this.send()
-  dismissInvitation = () => this.set({ invitation: null })
+  dismissInvitation = () => this.set({ invitation: null, invitationGrants: null })
   private async send(): Promise<Person | ProductOutput<'inviteMember'> | null> {
     if (!this.pending || this.state.busy || !peopleContextAllowed(this.context)) return null
     const pending = this.pending,
@@ -193,6 +267,7 @@ export class PeopleController {
       if (pending.kind === 'inviteMember')
         this.set({
           invitation: result as ProductOutput<'inviteMember'>,
+          invitationGrants: pending.input.branchGrants.map((grant) => ({ ...grant })),
           message: 'Invitación creada. Compartí el enlace solo con la persona indicada.',
         })
       else {
@@ -206,14 +281,25 @@ export class PeopleController {
       return result
     } catch (error) {
       if (this.current(epoch)) {
-        const failure = peopleError(error)
+        const failure =
+          pending.kind === 'inviteMember' ? invitationError(error) : peopleError(error)
         if (!failure.uncertain) this.pending = null
         const lostAccess = error instanceof ApiError && [401, 403].includes(error.status)
         this.set({
           error: failure.message,
           retry: failure.uncertain,
           refresh: failure.refresh,
-          ...(lostAccess ? { people: [], invitation: null, blocked: true } : {}),
+          ...(lostAccess
+            ? {
+                people: [],
+                invitation: null,
+                invitationGrants: null,
+                blocked: true,
+                branches: [],
+                branchesValid: false,
+                branchesLoading: false,
+              }
+            : {}),
         })
       }
       return null
