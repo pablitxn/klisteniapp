@@ -1,4 +1,4 @@
-import type { ProductV2Client } from '@klisteniapp/b2b-client/product-v2'
+import type { ProductV2Client } from '@klisteniapp/b2b-client'
 import type { ProductInput, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
 import type { WorkoutTransport } from './workoutSync.ts'
 

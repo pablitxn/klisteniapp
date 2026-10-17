@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { createProductV2Client } from '@klisteniapp/b2b-client/product-v2'
+import { createProductV2Client } from '@klisteniapp/b2b-client'
 import { createWorkoutClient } from '../src/features/training/sync/workoutClient.ts'
 import { routine, access, draft, receipt } from './fixtures/workout.ts'
 
