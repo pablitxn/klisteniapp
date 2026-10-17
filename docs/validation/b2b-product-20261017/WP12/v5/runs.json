@@ -1,0 +1,872 @@
+[
+  {
+    "run": "candidate2d0-roles-history-r11",
+    "applicationSha": "2d0df2797d7876070372bc7808d582604ca3bbf0",
+    "qaSha": "8c191c0c86c3ce2a7f39ba017b20469e8f0998f4",
+    "counts": {
+      "failed": 4,
+      "notRun": 18,
+      "passed": 5
+    },
+    "rawStats": {
+      "startTime": "2026-10-17T16:15:45.462Z",
+      "duration": 155975.794,
+      "expected": 5,
+      "skipped": 18,
+      "unexpected": 4,
+      "flaky": 0
+    },
+    "topErrors": [],
+    "stoppedByQA": true,
+    "stopReason": "Repeated real sign-in429; stopped between completed cases to repair QA idle-window pacing",
+    "rawJsonSha256": "a92404776170dc05f767bcaa7339597fd8458fc825d1f4336335b683ec100022",
+    "decodedLogSha256": "96fc6ee2c8274d1ff8979b3e9a9703f2b72a7717ba1e940dd04b470300f7e90a",
+    "cells": [
+      {
+        "id": "B2BP-HISTORY-002",
+        "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 11185,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HISTORY-003",
+        "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 13631,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HISTORY-008",
+        "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 14952,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HISTORY-006",
+        "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 13566,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HISTORY-007",
+        "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 6454,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HISTORY-004",
+        "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 12057,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+              "column": 76,
+              "line": 203
+            },
+            "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:182:5"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-HISTORY-001",
+        "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 5190,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+              "column": 76,
+              "line": 203
+            },
+            "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:245:13"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-HISTORY-005",
+        "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 5785,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+              "column": 76,
+              "line": 203
+            },
+            "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:322:13"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-HISTORY-009",
+        "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 5528,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+              "column": 76,
+              "line": 203
+            },
+            "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:379:13"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-PROGRAMMING-002",
+        "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-011",
+        "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-008",
+        "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-005",
+        "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-006",
+        "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-007",
+        "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-004",
+        "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-010",
+        "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-PROGRAMMING-012",
+        "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-001",
+        "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-002",
+        "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-003",
+        "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-005",
+        "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-008",
+        "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-007",
+        "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-004",
+        "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-006",
+        "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-009",
+        "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      }
+    ]
+  },
+  {
+    "run": "candidate2d0-roles-health-inactive-r12",
+    "applicationSha": "2d0df2797d7876070372bc7808d582604ca3bbf0",
+    "qaSha": "ad488a02d7e3ab16e5c7278825c748f777903ada",
+    "counts": {
+      "failed": 5,
+      "notRun": 7,
+      "passed": 13,
+      "timedOut": 3
+    },
+    "rawStats": {
+      "startTime": "2026-10-17T16:19:22.236Z",
+      "duration": 656523.818,
+      "expected": 13,
+      "skipped": 7,
+      "unexpected": 8,
+      "flaky": 0
+    },
+    "topErrors": [
+      {
+        "message": "Testing stopped early after 8 maximum allowed failures."
+      }
+    ],
+    "stoppedByQA": false,
+    "stopReason": "Configured maximum of eight failures reached",
+    "rawJsonSha256": "67ddc66cbd5c3224473742f8b273469c6d8967c1fa226929fb66127d93f89f12",
+    "decodedLogSha256": "95a1289c750a6f7c80e5c59a9352a250aa341afb1ad5686d9a9730f9cf08010f",
+    "cells": [
+      {
+        "id": "B2BP-HEALTH-002",
+        "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 23048,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4556ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4912ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5114ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HEALTH-003",
+        "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 14928,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5071ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 3865ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HEALTH-005",
+        "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+        "project": "product-chromium-430",
+        "status": "timedOut",
+        "duration": 69049,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4003ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 2579ms for the unchanged database guard"
+          }
+        ],
+        "errors": [
+          {
+            "message": "\u001b[31mTest timeout of 68582ms exceeded.\u001b[39m"
+          },
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+              "column": 5,
+              "line": 237
+            },
+            "message": "Error: browserContext.close: Test ended.\nBrowser logs:\n\n<launching> /ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --user-data-dir=/tmp/playwright_chromiumdev_profile-eHRgPi --remote-debugging-pipe --no-startup-window\n<launched> pid=668\n[pid=668][err] [1017/162016.356266:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[pid=668][err] [1017/162016.356332:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\")\n[pid=668][err] [1017/162016.360780:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[pid=668][err] [1017/162016.360847:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[pid=668][err] [1017/162016.377421:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: \n[pid=668][err] [1017/162016.377732:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\")\n[pid=668][err] [1017/162016.377743:WARNING:device/bluetooth/dbus/bluez_dbus_manager.cc:209] Floss manager service not available, cannot set Floss enable/disable.\n[pid=668][err] [1017/162016.384628:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: \n[pid=668][err] [1017/162016.386209:WARNING:media/gpu/vaapi/vaapi_wrapper.cc:1660] drmGetDevices2() has not found any devices\n[pid=668][err] [1017/162016.390795:WARNING:sandbox/policy/linux/sandbox_linux.cc:405] InitializeSandbox() called with multiple threads in process gpu-process.\n[pid=668] <gracefully close start>\n\n  235 |     await assertProductViewport(peer.page, info)\n  236 |   } finally {\n> 237 |     await peer.context.close()\n      |     ^\n  238 |     await privateHealth(page, owner)\n  239 |   }\n  240 | })\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:237:5"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-HEALTH-007",
+        "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 3705,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HEALTH-008",
+        "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 65722,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 57276ms for the unchanged database guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+              "column": 47,
+              "line": 289
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('alert')\nExpected: not \u001b[32m0\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveCount\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    14 \u00d7 locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  287 |       buffer: Buffer.from(file.text),\n  288 |     })\n> 289 |     await expect(page.getByRole('alert')).not.toHaveCount(0)\n      |                                               ^\n  290 |     expect(await api(page, owner, 'ownHealth', {})).toEqual(before)\n  291 |     const confirm = page.getByRole('button', { name: 'Confirmar importaci\u00f3n' })\n  292 |     if (await confirm.count()) await expect(confirm).toBeDisabled()\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:289:47"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-HEALTH-006",
+        "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 19639,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5734ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 3295ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HEALTH-009",
+        "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 11560,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 1360ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5164ms for the unchanged database guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+              "column": 24,
+              "line": 380
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: \u001b[32m401\u001b[39m\nReceived array: \u001b[31m[403, 409]\u001b[39m\n\n  378 |       data: before.data,\n  379 |     })\n> 380 |     expect([403, 409]).toContain(denied.status())\n      |                        ^\n  381 |     expect((await raw(staff.page, impersonated, 'personalExport', {})).ok()).toBe(false)\n  382 |     const training = await api(staff.page, staff.who, 'sessions', { memberId: owner.actor.id })\n  383 |     const subjects = await api(staff.page, staff.who, 'historySubjects', {})\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:380:24"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-HEALTH-010",
+        "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 11913,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 2452ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 2040ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-HEALTH-011",
+        "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 8157,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4286ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-002",
+        "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 58879,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 57429ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-003",
+        "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 24031,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5480ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5183ms for the unchanged database guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+              "column": 5,
+              "line": 33
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true })\u001b[22m\n\n\n  31 |   await expect(\n  32 |     page.getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true }),\n> 33 |   ).toBeVisible()\n     |     ^\n  34 |   await expect(\n  35 |     page.getByRole('button', { name: 'Descargar mis registros', exact: true }),\n  36 |   ).toBeVisible()\n    at restricted (/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:33:5)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:143:13"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-INACTIVE-004",
+        "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 15043,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4464ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-007",
+        "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 10779,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 1942ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4472ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-009",
+        "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 7196,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5136ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-012",
+        "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 7434,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4844ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-005",
+        "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 67581,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 58048ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4384ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-006",
+        "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 21765,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 4863ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5645ms for the unchanged database guard"
+          }
+        ],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+              "column": 7,
+              "line": 426
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: /Fall\u00f3 la sincronizaci\u00f3n|Env\u00edo pendiente/ })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: /Fall\u00f3 la sincronizaci\u00f3n|Env\u00edo pendiente/ }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: /Fall\u00f3 la sincronizaci\u00f3n|Env\u00edo pendiente/ })\u001b[22m\n\n\n  424 |     await expect(\n  425 |       page.getByRole('status').filter({ hasText: /Fall\u00f3 la sincronizaci\u00f3n|Env\u00edo pendiente/ }),\n> 426 |     ).toBeVisible()\n      |       ^\n  427 |     const download = page.waitForEvent('download')\n  428 |     await page\n  429 |       .getByRole('button', { name: 'Exportar trabajo local sin confirmar', exact: true })\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:426:7"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-INACTIVE-010",
+        "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "duration": 8760,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5403ms for the unchanged database guard"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "id": "B2BP-INACTIVE-011",
+        "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+        "project": "product-chromium-430",
+        "status": "timedOut",
+        "duration": 79738,
+        "annotations": [
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5314ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5913ms for the unchanged database guard"
+          },
+          {
+            "type": "auth-pacing",
+            "description": "Real password admission waits 5133ms for the unchanged database guard"
+          }
+        ],
+        "errors": [
+          {
+            "message": "\u001b[31mTest timeout of 79360ms exceeded.\u001b[39m"
+          },
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+              "column": 23,
+              "line": 323
+            },
+            "message": "Error: apiRequestContext.fetch: Test ended.\nBrowser logs:\n\n<launching> /ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --user-data-dir=/tmp/playwright_chromiumdev_profile-eq3yTE --remote-debugging-pipe --no-startup-window\n<launched> pid=1457\n[pid=1457][err] [1017/162744.249330:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[pid=1457][err] [1017/162744.249419:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\")\n[pid=1457][err] [1017/162744.250687:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[pid=1457][err] [1017/162744.250752:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[pid=1457][err] [1017/162744.270277:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: \n[pid=1457][err] [1017/162744.270378:WARNING:device/bluetooth/dbus/bluez_dbus_manager.cc:209] Floss manager service not available, cannot set Floss enable/disable.\n[pid=1457][err] [1017/162744.270577:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\")\n[pid=1457][err] [1017/162744.270519:WARNING:media/gpu/vaapi/vaapi_wrapper.cc:1660] drmGetDevices2() has not found any devices\n[pid=1457][err] [1017/162744.272554:WARNING:sandbox/policy/linux/sandbox_linux.cc:405] InitializeSandbox() called with multiple threads in process gpu-process.\n[pid=1457][err] [1017/162744.275591:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: \n[pid=1457] <gracefully close start>\n\n   at fixtures/b2b-product/app-fixture.ts:323\n\n  321 |             : [],\n  322 |         )\n> 323 |   return page.request.fetch(\n      |                       ^\n  324 |     new URL(`/api/b2b${base}${query.size ? `?${query}` : ''}`, page.url()).href,\n  325 |     {\n  326 |       method: endpoint.method,\n    at raw (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:323:23)\n    at api (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:344:26)\n    at updateActive (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:550:26)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:532:23"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-ROLES-001",
+        "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+        "project": "product-chromium-430",
+        "status": "timedOut",
+        "duration": 60202,
+        "annotations": [],
+        "errors": [
+          {
+            "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+          },
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+              "column": 43,
+              "line": 26
+            },
+            "message": "Error: locator.fill: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Buscar persona')\u001b[22m\n\n\n  24 |   expect(target.coachIds).not.toContain(coach.actor.id)\n  25 |   await open(page, product, info, 'people')\n> 26 |   await page.getByLabel('Buscar persona').fill(member.actor.email)\n     |                                           ^\n  27 |   await expect(page.getByText(member.actor.email, { exact: true })).toBeVisible()\n  28 |   const plan = await prescribe(page, coach, member)\n  29 |   const peer = await newPage(context, info)\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:26:43"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-ROLES-002",
+        "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "duration": 1488,
+        "annotations": [],
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+              "column": 27,
+              "line": 73
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: \u001b[32m200\u001b[39m\nReceived array: \u001b[31m[400, 403, 409]\u001b[39m\n\n  71 |     },\n  72 |   )\n> 73 |   expect([400, 403, 409]).toContain(branchless.status())\n     |                           ^\n  74 |   await open(page, product, info, 'people')\n  75 |   await expect(page.getByText(foreign.actor.email, { exact: true })).toHaveCount(0)\n  76 |   await assertProductViewport(page, info)\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:73:27"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-ROLES-003",
+        "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-005",
+        "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-008",
+        "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-007",
+        "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-004",
+        "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-006",
+        "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-009",
+        "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+        "project": "product-chromium-430",
+        "status": "notRun",
+        "duration": null,
+        "annotations": [],
+        "errors": []
+      }
+    ]
+  }
+]
