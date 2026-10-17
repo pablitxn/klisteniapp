@@ -81,7 +81,8 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
   await login(page, superadmin, info)
   await open(page, product, info, 'people')
   const options = await page
-    .getByLabel('Rol en la marca', { exact: true })
+    .getByRole('form', { name: 'Invitar persona', exact: true })
+    .getByLabel('Rol de la persona invitada', { exact: true })
     .locator('option')
     .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value))
   for (const role of ['admin', 'coach', 'member']) expect(options).toContain(role)
@@ -91,7 +92,8 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
     await login(peer.page, admin, info)
     await open(peer.page, product, info, 'people')
     const allowed = await peer.page
-      .getByLabel('Rol en la marca')
+      .getByRole('form', { name: 'Invitar persona', exact: true })
+      .getByLabel('Rol de la persona invitada', { exact: true })
       .locator('option')
       .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value))
     expect(allowed.sort()).toEqual(['coach', 'member'])
