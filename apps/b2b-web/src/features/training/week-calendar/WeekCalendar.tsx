@@ -1,3 +1,4 @@
+import '../routine-history/routineHistory.css'
 import { useRef, useState, type ReactNode } from 'react'
 import { errorMessage } from '@klisteniapp/b2b-client'
 import type { Enrollment, Occurrence, ProductInput } from '@klisteniapp/b2b-contracts/product-v2'
@@ -61,7 +62,7 @@ export function WeekCalendar({
       item.currentWeek.timeZone === summary.week.timeZone,
   )
   return (
-    <section aria-label="Calendario semanal">
+    <section className="week-calendar" aria-label="Calendario semanal">
       <h2>Semana del {summary.week.startDate}</h2>
       <p>
         {summary.week.timeZone} · {summary.closed ? 'Semana cerrada' : 'Semana en curso'}
