@@ -1,0 +1,126 @@
+$ node --test --test-concurrency=1 tests/*.test.ts
+✔ entitlements expire at the exact boundary and missing rows fail closed (5.374182ms)
+Authentication operation failed
+▶ cloud entitlements and campaign invitations with PostgreSQL
+  ✔ bootstrap is lifetime; normal trials begin on activation and survive migration replay (198.840027ms)
+  ✔ operator creates credentials and 15-day trial together (384.409761ms)
+  ✔ legacy migration preserves accounts once and never overwrites explicit trials (346.540161ms)
+  ✔ expired accounts can read and delete but all cloud write paths roll back (302.106913ms)
+  ✔ expired health deletion permits only retained original values and checks revisions (230.010848ms)
+  ✔ lifetime is independent of admin role; revocation preserves paid/trial deadlines (511.74886ms)
+  ✔ named lifetime invitations preserve the entitlement through reissue (189.467161ms)
+  ✔ campaign tokens are hashed and final use is consumed atomically under concurrency (418.176317ms)
+  ✔ duplicate emails do not consume uses; campaign payload cannot request lifetime (425.191464ms)
+✔ cloud entitlements and campaign invitations with PostgreSQL (3987.10702ms)
+Authentication operation failed
+Authentication operation failed
+Authentication operation failed
+▶ account invitations, administration and recovery with PostgreSQL
+  ✔ upgrading an existing account database adds user roles without promoting or losing users (379.656537ms)
+  ✔ bootstrap is unique, creates an admin only through its one-time link and never shares a password (56.169258ms)
+  ✔ GET never consumes links, info is read-only, and activation is atomic under concurrent requests (549.416013ms)
+  ✔ admin metadata excludes tokens/passwords/progress and ordinary users cannot manage accounts (1076.239357ms)
+  ✔ reissue invalidates old links; revocation and expiry block activation without creating users (137.06241ms)
+  ✔ mail sends only on explicit request and reports SMTP acceptance separately from delivery (50.591111ms)
+  ✔ recovery lasts one hour, rotates credentials once and invalidates all old sessions (1095.879592ms)
+  ✔ management revokes sessions, disabled users cannot recover, and the last admin is protected in API and CLI (713.422841ms)
+  ✔ changing a password invalidates issued recovery links and public token routes reject bad origins (1038.598945ms)
+  ✔ public campaign HTTP flow creates a trial and enforces the cloud paywall with local export access (1096.137752ms)
+✔ account invitations, administration and recovery with PostgreSQL (8892.838891ms)
+✔ billing configuration defaults off and cannot enable live payments (8.149194ms)
+✔ monthly and yearly paid periods preserve UTC time and clamp calendar boundaries (0.560965ms)
+✔ webhook signatures reject tampering, missing secrets, duplicates and stale timestamps (1.752817ms)
+Authentication operation failed
+▶ PostgreSQL subscription billing
+  ✔ disabled billing and non-test/non-Argentina sellers never create a mandate (13.812177ms)
+  ✔ lifetime and disabled users cannot accidentally open a subscription (9.200833ms)
+  ✔ authorization without a payment leaves expired cloud access unchanged (19.460161ms)
+  ✔ monthly requires a canonical approved payment and grants one calendar period (42.051977ms)
+  ✔ yearly requires a canonical approved payment and grants one calendar period (29.547057ms)
+  ✔ reordered invoice notifications and concurrent refreshes never extend periods twice (78.968554ms)
+  ✔ reconciliation follows a smaller provider page size and refuses incomplete pagination (27.505024ms)
+  ✔ a pending payment does not grant paid access (17.364955ms)
+  ✔ a rejected payment does not grant paid access (20.239679ms)
+  ✔ a cancelled payment does not grant paid access (13.708799ms)
+  ✔ a charged_back payment does not grant paid access (10.531516ms)
+  ✔ a refund retracts paid access while cancellation alone preserves it (15.234439ms)
+  ✔ a payment with wrong reference cannot modify entitlement (6.93823ms)
+  ✔ a payment with wrong seller cannot modify entitlement (8.571382ms)
+  ✔ a payment with wrong currency cannot modify entitlement (7.637604ms)
+  ✔ a payment with wrong amount cannot modify entitlement (5.904582ms)
+  ✔ a payment with wrong live payment cannot modify entitlement (6.307085ms)
+  ✔ a payment with wrong future approval cannot modify entitlement (8.088817ms)
+  ✔ an incorrect subscription reference is rejected before reading its payments (6.835773ms)
+  ✔ one payment cannot be assigned to another account even without an external reference (14.608695ms)
+  ✔ a lost create response is recovered by reference without sending another POST (13.000035ms)
+  ✔ an unlocatable creation remains uncertain and never retries a remote creation (10.759032ms)
+  ✔ concurrent checkout clicks create only one remote subscription (8.252902ms)
+  ✔ HTTP webhooks validate signature and query/body agreement before canonical reconciliation (66.054624ms)
+✔ PostgreSQL subscription billing (682.110449ms)
+✔ configuration requires explicit credentials, exact origin, and production HTTPS (6.011488ms)
+✔ configuration errors never echo secrets (0.454818ms)
+✔ SMTP configuration is optional, requires paired secrets and never permits insecure certificate flags (1.666322ms)
+✔ subscriptions default off and cannot enable live mode or partially configured sandbox (1.256918ms)
+Authentication operation failed
+▶ PostgreSQL account API
+  ✔ yoga endpoint persists owner-scoped snapshots, rejects stale input and allows only deletion after expiry (1317.766899ms)
+  ✔ yoga HTTP accepts a history above the default body limit and rejects oversized bodies without changing state (1003.547208ms)
+  ✔ yoga imports roll back other observations on conflict and preserve yoga on legacy restore (301.770006ms)
+  ✔ health, readiness, private route authentication and no registration (28.586586ms)
+  ✔ readiness fails when application schema has not been migrated (14.538308ms)
+  ✔ cookies are HttpOnly and same-site, API has no-store and enforces mutation origin (419.056029ms)
+  ✔ account ownership and stale-tab guards never allow cross-account data access (462.063475ms)
+  ✔ log writes are idempotent, conflicting IDs fail, and tombstones block resurrection (310.343403ms)
+  ✔ workout log body limit accepts valid sessions above 32 KiB and rejects bodies above 64 KiB (293.729665ms)
+  ✔ concurrent devices append without loss and settings reject stale revisions (331.602288ms)
+  ✔ private health roundtrips with provenance, account isolation and revision conflicts (519.38842ms)
+  ✔ old settings and legacy backups cannot erase health or rewrite begun plans (287.600239ms)
+  ✔ health backup import merges observations idempotently and preserves profile/goals unless requested (284.190778ms)
+  ✔ health writes reject invalid, duplicate and future observations through every input route (354.312227ms)
+  ✔ activity may link only to this account workouts and links survive later workout deletion (483.191054ms)
+  ✔ export after workout deletion restores every health observation and repeat imports stay idempotent (700.401977ms)
+  ✔ import resolves links only against active own workouts and does not resurrect tombstones (484.785904ms)
+  ✔ individually valid backup imports cannot grow health beyond its editable size and fail atomically (756.337921ms)
+  ✔ legacy import merges atomically and reimport is idempotent (299.623069ms)
+  ✔ plan history cannot be rewritten and new plan changes start next week (244.307943ms)
+  ✔ explicit full restore accepts historical plans only into a pristine account (474.872679ms)
+  ✔ operator disable, enable, reset and revocation invalidate server sessions (799.379987ms)
+  ✔ password change and session controls revoke other devices (745.649824ms)
+  ✔ an overlapping password reset prevents a queued login using the previous password (565.54696ms)
+  ✔ production session cookies use Secure and have no cross-subdomain Domain (329.418304ms)
+  ✔ the server entrypoint starts and exits cleanly on SIGTERM (664.755613ms)
+  ✔ logout invalidates the previous cookie and login is rate limited in PostgreSQL (913.432899ms)
+✔ PostgreSQL account API (13683.984453ms)
+Authentication operation failed
+▶ public password recovery with PostgreSQL and an injected mail transport
+  ✔ HTTP finishes before account work and remains independent of a blocked SMTP operation (183.659744ms)
+  ✔ existing, missing, disabled, unavailable and failed SMTP paths share the same generic response (470.576512ms)
+  ✔ request schema, same origin, JSON and method rules are enforced without account registration (23.238123ms)
+  ✔ email cooldown is atomic across worker instances, rolling, persistent, and limited to three per hour (293.121359ms)
+  ✔ repeated public requests preserve a recent recovery link issued by an administrator (120.817189ms)
+  ✔ persistent IP throttling returns 429 regardless of whether an email belongs to anyone (175.844814ms)
+  ✔ full pending capacity is rejected before spending the email quota (27.316547ms)
+  ✔ an emailed link resets once, rejects replay and revokes every old session (657.065822ms)
+  ✔ only two mail operations run concurrently and shutdown drains admitted work before closing (234.352884ms)
+✔ public password recovery with PostgreSQL and an injected mail transport (2387.114359ms)
+Authentication operation failed
+Authentication operation failed
+API request failed
+✔ readiness includes cached auth schema failures after an external migration (265.366463ms)
+✔ server saves model preferences independently of health and rejects stale replacements (41.238847ms)
+✔ server legacy settings updates preserve health, language, theme and palette (44.190181ms)
+✔ server display saves reject stale revisions before changing any personal settings (2.46025ms)
+✔ yoga request requires bounded valid data and an explicit revision (27.72719ms)
+✔ settings preserve omitted yoga and reject stale revisions or rewritten snapshots (36.618951ms)
+✔ observation imports merge logs idempotently and restore practices only on explicit settings imports (1.377505ms)
+✔ the unpaid deletion exception admits only subsets of unchanged yoga data (0.945245ms)
+✔ repository yoga writes permit expired deletion and report stale retries before checking access (4.877312ms)
+✔ repository imports merge yoga observations without settings and legacy restores preserve the existing library (6.042147ms)
+ℹ tests 97
+ℹ suites 5
+ℹ pass 97
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37565.699034
