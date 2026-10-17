@@ -183,7 +183,7 @@ export async function pacePasswordAdmission(info: TestInfo) {
   // better-auth1.7.7 updates lastRequest on every accepted admission. A steady
   // seven-second cadence never expires its counter: reserve at most nine slots,
   // then allow a full idle minute plus margin. No credential/cookie is retained.
-  const gap = (previous.count ?? 1) >= 9 ? 61_000 : 7000
+  const gap = (previous.count ?? 1) >= 9 ? 61_000 : 0
   const wait = Math.max(0, Number(previous.at) + gap - Date.now())
   if (wait) {
     info.annotations.push({
