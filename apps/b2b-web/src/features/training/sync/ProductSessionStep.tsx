@@ -1,3 +1,4 @@
+import { newWorkoutId } from './workoutCrypto'
 import type { RoutineVersionV2, SessionContent } from '@klisteniapp/b2b-contracts/product-v2'
 import {
   emptyPerformedSet,
@@ -63,7 +64,7 @@ export function ProductSessionStep({
                 relation.id,
                 confirmed,
                 environment,
-                crypto.randomUUID(),
+                newWorkoutId(),
                 new Date().toISOString(),
               ),
             )
@@ -120,7 +121,7 @@ export function ProductSessionStep({
                       s.segmentId === segment.segmentId && s.ordinal === ordinal && s.side === side,
                   )
                   return changeWorkoutActual(c, {
-                    ...(existing ?? emptyPerformedSet(segment, crypto.randomUUID(), ordinal, side)),
+                    ...(existing ?? emptyPerformedSet(segment, newWorkoutId(), ordinal, side)),
                     ...patch,
                   })
                 })
@@ -240,7 +241,7 @@ export function ProductSessionStep({
                           (v, side) =>
                             changeWorkoutActual(
                               v,
-                              emptyPerformedSet(segment, crypto.randomUUID(), last + 1, side),
+                              emptyPerformedSet(segment, newWorkoutId(), last + 1, side),
                             ),
                           c,
                         )

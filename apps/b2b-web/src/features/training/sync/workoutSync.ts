@@ -1,3 +1,4 @@
+import { workoutContentHash } from './workoutCrypto.ts'
 import {
   ProductAccessSchema,
   SessionRevisionSchema,
@@ -41,7 +42,7 @@ export function canEditWorkout(scope: WorkoutScope, value: ProductAccess | null)
   )
 }
 export async function workoutRequestHash(scope: WorkoutScope, input: SaveWorkout): Promise<string> {
-  const bytes = new TextEncoder().encode(
+  return workoutContentHash(
     canonicalJson({
       organizationId: scope.organizationId,
       branchId: scope.branchId,
@@ -50,9 +51,6 @@ export async function workoutRequestHash(scope: WorkoutScope, input: SaveWorkout
       input,
     }),
   )
-  return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), (b) =>
-    b.toString(16).padStart(2, '0'),
-  ).join('')
 }
 export async function queueWorkout(
   document: WorkoutDocument,

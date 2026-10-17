@@ -1,3 +1,4 @@
+import { newWorkoutId } from './workoutCrypto'
 import { useEffect, useRef, useState } from 'react'
 import type {
   ProductAccess,
@@ -194,7 +195,7 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
       const queued = await queueWorkout(
         d,
         a.accessRevision,
-        crypto.randomUUID(),
+        newWorkoutId(),
         new Date().toISOString(),
       )
       if (queued !== d) await persist(queued)

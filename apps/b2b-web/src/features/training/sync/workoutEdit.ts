@@ -1,3 +1,4 @@
+import { workoutContentHash } from './workoutCrypto.ts'
 import {
   SessionContentSchema,
   minimumTarget,
@@ -178,7 +179,7 @@ export async function occurrenceWorkoutId(
   scope: WorkoutScope,
   occurrenceId: string,
 ): Promise<string> {
-  const bytes = new TextEncoder().encode(
+  const hash = workoutContentHash(
     JSON.stringify([
       'klisteni-session-v2',
       scope.organizationId,
@@ -187,8 +188,5 @@ export async function occurrenceWorkoutId(
       occurrenceId,
     ]),
   )
-  const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))
-  return `session-${Array.from(hash, (value) => value.toString(16).padStart(2, '0'))
-    .join('')
-    .slice(0, 40)}`
+  return `session-${hash.slice(0, 40)}`
 }
