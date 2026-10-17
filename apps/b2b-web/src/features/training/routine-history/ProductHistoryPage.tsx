@@ -1,3 +1,5 @@
+import type { Occurrence, ProductOutput } from '@klisteniapp/b2b-contracts/product-v2'
+import type { SessionRecord } from './model'
 import { useEffect, useRef, useState } from 'react'
 import { useLoad } from '@klisteniapp/b2b-react'
 import {
@@ -22,6 +24,9 @@ export type ProductHistoryProps = {
   createClient: HistoryClientFactory
   canReschedule: boolean
   onOpenRoutine?: (routine: RoutineReference) => void
+  onStartOccurrence?: (occurrence: Occurrence) => void
+  onStartLegacy?: (assignment: ProductOutput<'legacyAssignments'>[number]) => void
+  onEditSession?: (record: SessionRecord) => void
 }
 export function ProductHistoryPage(props: ProductHistoryProps) {
   return <ProductHistoryWorkspace key={JSON.stringify([props.accessKey, props.scope])} {...props} />
@@ -32,6 +37,9 @@ function ProductHistoryWorkspace({
   createClient,
   canReschedule,
   onOpenRoutine,
+  onStartOccurrence,
+  onStartLegacy,
+  onEditSession,
 }: ProductHistoryProps) {
   const [clock, setClock] = useState(() => new Date().toISOString())
   useEffect(() => {
@@ -52,13 +60,22 @@ function ProductHistoryWorkspace({
   const history = useLoad(
     async (signal) => {
       const client = createClient(signal)
-      const [continuity, records] = await Promise.all([
+      const [continuity, records, assignments] = await Promise.all([
         client.call('continuity', { memberId: scope.memberId }),
         client.call('sessions', { memberId: scope.memberId }),
+        client.call('legacyAssignments', { memberId: scope.memberId }),
       ])
       if (!inScope(continuity, scope))
         throw new Error('El historial no corresponde al contexto autorizado.')
-      return { continuity, records }
+      const ids = [
+        ...new Set(
+          records.flatMap((r) =>
+            r.schemaVersion === 2 && r.origin.kind === 'occurrence' ? [r.origin.occurrenceId] : [],
+          ),
+        ),
+      ]
+      const linked = await Promise.all(ids.map((id) => client.call('occurrence', { id })))
+      return { continuity, records, assignments, linked }
     },
     ownerKey,
     { refreshKey: refresh },
@@ -198,20 +215,49 @@ function ProductHistoryWorkspace({
               }}
             />
           )}
+          {onStartOccurrence &&
+            weekly.data?.occurrences
+              .filter((o) => o.eligibility === 'required')
+              .map((o) => (
+                <p key={o.id}>
+                  <button className="button" onClick={() => onStartOccurrence(o)}>
+                    Abrir sesión del {o.scheduledDate}
+                  </button>
+                </p>
+              ))}
+          {onStartLegacy &&
+            history.data.assignments.map((a) => (
+              <p key={a.id}>
+                {a.name} · {a.active ? 'Asignación vigente' : 'Asignación anterior'}
+                {a.active && !a.archivedAt && (
+                  <button className="button" onClick={() => onStartLegacy(a)}>
+                    Abrir registro de {a.name}
+                  </button>
+                )}
+              </p>
+            ))}
           <OriginalRoutines
             enrollments={plans}
+            references={history.data.assignments.map((a) => a.routine)}
             records={records}
-            occurrences={weekly.data?.occurrences ?? []}
+            occurrences={[
+              ...(weekly.data?.occurrences ?? []),
+              ...(history.data?.linked.map((x) => x.occurrence) ?? []),
+            ]}
             onOpenRoutine={onOpenRoutine}
           />
           <SessionHistory
             records={records}
             scope={scope}
-            occurrences={weekly.data?.occurrences ?? []}
-            enrollments={plans}
+            occurrences={[
+              ...(weekly.data?.occurrences ?? []),
+              ...(history.data?.linked.map((x) => x.occurrence) ?? []),
+            ]}
+            enrollments={[...plans, ...(history.data?.linked.map((x) => x.enrollment) ?? [])]}
             createClient={createClient}
             accessKey={accessKey}
             timeZone={zone}
+            onEditSession={onEditSession}
           />
         </>
       )}

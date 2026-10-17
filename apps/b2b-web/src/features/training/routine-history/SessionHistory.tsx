@@ -35,6 +35,7 @@ export function SessionHistory({
   createClient,
   accessKey,
   timeZone,
+  onEditSession,
 }: {
   records: SessionRecord[]
   scope: HistoryScope
@@ -43,6 +44,7 @@ export function SessionHistory({
   createClient: HistoryClientFactory
   accessKey: string
   timeZone: string | null
+  onEditSession?: (record: SessionRecord) => void
 }) {
   const latest = latestSessions(records, scope)
   return (
@@ -71,6 +73,11 @@ export function SessionHistory({
           </p>
           <p>{eligibility[actualEligibility(record, occurrences, enrollments)]}</p>
           <SessionActuals record={record} />
+          {onEditSession && (
+            <button className="button" onClick={() => onEditSession(record)}>
+              Editar mi registro
+            </button>
+          )}
           <RevisionHistory
             record={record}
             createClient={createClient}

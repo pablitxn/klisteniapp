@@ -5,10 +5,12 @@ import {
   ProductInvitationSchema,
 } from './product-access.ts'
 import { z } from 'zod'
-import { IdSchema, RevisionSchema } from './common.ts'
+import { IdSchema, RevisionSchema, TimestampSchema } from './common.ts'
 import { ExerciseSchema } from './catalog.ts'
 import {
   AuditChangeSchema,
+  MemberScopeSchema,
+  ProductScopeSchema,
   OperationSchema,
   OperationReceiptSchema,
   ProductAccessSchema,
@@ -88,6 +90,66 @@ export const ProductEndpoints = {
     ProductInvitationSchema,
   ),
   audit: endpoint('GET', '/audit/:id', id, z.array(AuditChangeSchema)),
+  workoutEquipment: endpoint(
+    'GET',
+    '/workout-equipment',
+    empty,
+    z.object({ activeMachineIds: z.array(IdSchema) }).strict(),
+  ),
+  routineSupplement: endpoint(
+    'GET',
+    '/routines/:id/versions/:version/supplement',
+    id.extend({ version: z.number().int().positive() }),
+    RoutineVersionV2Schema.nullable(),
+  ),
+  legacyAssignments: endpoint(
+    'GET',
+    '/members/:memberId/legacy-assignments',
+    member,
+    z.array(
+      z
+        .object({
+          schemaVersion: z.literal(2),
+          id: IdSchema,
+          scope: MemberScopeSchema,
+          active: z.boolean(),
+          assignedBy: IdSchema,
+          createdAt: TimestampSchema,
+          routine: RoutineReferenceSchema,
+          name: z.string(),
+          archivedAt: TimestampSchema.nullable(),
+        })
+        .strict(),
+    ),
+  ),
+  enrollmentRevision: endpoint(
+    'GET',
+    '/enrollments/:id/revisions/:revision',
+    id.extend({ revision: RevisionSchema }),
+    z
+      .object({ enrollment: EnrollmentSchema, actorId: IdSchema, recordedAt: TimestampSchema })
+      .strict(),
+  ),
+  occurrence: endpoint(
+    'GET',
+    '/occurrences/:id',
+    id,
+    z.object({ occurrence: OccurrenceSchema, enrollment: EnrollmentSchema }).strict(),
+  ),
+  historySubjects: endpoint(
+    'GET',
+    '/history-subjects',
+    empty,
+    z
+      .object({
+        schemaVersion: z.literal(2),
+        scope: ProductScopeSchema,
+        members: z.array(
+          z.object({ userId: IdSchema, name: z.string(), active: z.boolean() }).strict(),
+        ),
+      })
+      .strict(),
+  ),
   catalogExercises: endpoint('GET', '/catalog/exercises', empty, z.array(ExerciseSchema)),
   routinePublications: endpoint(
     'GET',

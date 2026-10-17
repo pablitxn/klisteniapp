@@ -9,12 +9,16 @@ export function ProductReportsPage({
   branchId,
   accessKey,
   createClient,
+  onOpenRoutine,
 }: {
-  members: ProductOutput<'people'>
+  members: (ProductOutput<'historySubjects'>['members'][number] | ProductOutput<'people'>[number])[]
   organizationId: string
   branchId: string
   accessKey: string
   createClient: HistoryClientFactory
+  onOpenRoutine?: import('../training/routine-history/model').RoutineReference extends infer T
+    ? (routine: T) => void
+    : never
 }) {
   // This list is the authorized people response. Historical inactive targets remain selectable.
   const [selected, setSelected] = useState('')
@@ -51,6 +55,7 @@ export function ProductReportsPage({
             accessKey={accessKey}
             createClient={createClient}
             canReschedule={false}
+            onOpenRoutine={onOpenRoutine}
           />
         </section>
       )}

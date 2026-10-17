@@ -1,4 +1,4 @@
-import { b2bClient } from '@klisteniapp/b2b-client'
+import { createB2BClient } from '@klisteniapp/b2b-client'
 import type { Membership, Role } from '@klisteniapp/b2b-contracts'
 import { AccountProvider } from '@klisteniapp/b2b-react'
 import { Empty, Login, Notice, Shell, WorkContextSelector } from '@klisteniapp/b2b-ui'
@@ -6,6 +6,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import { managementPageAllowed, managementPath, memberPath } from '../routes'
 import { useApplication } from './ApplicationProvider'
 
+const ProductWorkspace = lazy(() => import('./ProductWorkspace'))
 const ManagementWorkspace = lazy(() =>
   import('./ManagementWorkspace').then((module) => ({ default: module.ManagementWorkspace })),
 )
@@ -95,6 +96,7 @@ export default function Workspace() {
         <p role="status">Preparando tu espacio…</p>
       </Shell>
     )
+  if (session.bootstrap) return <ProductWorkspace />
   if (!me)
     return (
       <Shell
@@ -113,7 +115,7 @@ export default function Workspace() {
         <Login
           context={context ?? undefined}
           professional={!context && management}
-          onSignIn={b2bClient.auth.signIn}
+          onSignIn={createB2BClient(undefined, { contractVersion: 2 }).auth.signIn}
           onDone={() => void session.refresh()}
         />
       </Shell>

@@ -33,9 +33,21 @@ import { createHealthServices } from './health/index.ts';
 import { createProductPlanning } from './product-composition.ts';
 import { createPlanningSchedule } from './schedule/planning.ts';
 import { createRecordsServices } from './schedule/index.ts';
-import { catalogExercises, routinePublications, routineVersion } from './product-reads.ts';
+import {
+  catalogExercises,
+  routinePublications,
+  routineVersion,
+  routineSupplement,
+  workoutEquipment,
+} from './product-reads.ts';
 import { createPersonalExportServices } from './exports/index.ts';
 import { authorizeExportIdentity, inactiveAccess } from './membership/access.ts';
+import {
+  legacyAssignments,
+  enrollmentRevision,
+  occurrence,
+  historySubjects,
+} from './product-history.ts';
 import { requireIdentityRealm } from './product-identity.ts';
 import type { AuthorizedProductIdentityContext } from './product-context.ts';
 import { assertProductMigrations } from './product-readiness.ts';
@@ -165,7 +177,18 @@ export class B2BService {
       planning ?? createProductPlanning(createPlanningSchedule()),
       createRecordsServices(),
       createHealthServices(),
-      { alternatives, catalogExercises, routinePublications, routineVersion },
+      {
+        alternatives,
+        catalogExercises,
+        routinePublications,
+        routineVersion,
+        routineSupplement,
+        workoutEquipment,
+        legacyAssignments,
+        enrollmentRevision,
+        occurrence,
+        historySubjects,
+      },
     );
     this.pool = pool;
     this.auth = auth;
@@ -233,6 +256,8 @@ export class B2BService {
       // a queued request cannot outlive a session revoked while it waited.
       await this.requireSession(db, actorId, sessionId);
       if (work.domain) await requireBrandSession(db, actorId, sessionId, work.domain);
+      if (this.config.productUnified)
+        await requireIdentityRealm(db, actorId, sessionId, work.domain, this.config.origin);
       const membership = await db.query<{ role: Role; product_role: OrganizationRoleV2 }>(
         'SELECT role,product_role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active',
         [orgId, actorId],
@@ -365,6 +390,8 @@ export class B2BService {
       if (!org) throw missing();
       await this.requireSession(db, actorId, sessionId);
       if (work.domain) await requireBrandSession(db, actorId, sessionId, work.domain);
+      if (this.config.productUnified)
+        await requireIdentityRealm(db, actorId, sessionId, work.domain, this.config.origin);
       const membership = (
         await db.query<{ product_role: OrganizationRoleV2; access_revision: string }>(
           `SELECT product_role,access_revision FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active FOR SHARE`,
@@ -405,7 +432,13 @@ export class B2BService {
     return this.transaction(async (db) => {
       // Same lock order as operational ACCESS and the membership/health hooks.
       await db.query('SELECT id FROM b2b_organization WHERE id=$1 FOR SHARE', [organizationId]);
-      await requireIdentityRealm(db, actorId, sessionId, work.domain);
+      await requireIdentityRealm(
+        db,
+        actorId,
+        sessionId,
+        work.domain,
+        this.config.productUnified ? this.config.origin : undefined,
+      );
       const context = await authorizeExportIdentity(db, actorId, organizationId, sessionId, {
         contractHeader,
         whiteLabel: this.config.whiteLabel,

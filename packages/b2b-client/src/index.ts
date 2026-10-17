@@ -4,6 +4,7 @@ export type { ClientOptions } from './transport.ts'
 export { watchSessionChange } from './session-events.ts'
 export {
   createProductV2Client,
+  productBootstrap,
   type ProductV2Client,
   type ProductV2ClientOptions,
 } from './product-v2.ts'

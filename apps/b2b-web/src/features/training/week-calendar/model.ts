@@ -1,3 +1,4 @@
+import { isCompletionEligible } from '@klisteniapp/b2b-domain/schedule'
 import type {
   Enrollment,
   Occurrence,
@@ -47,7 +48,12 @@ export function canMoveOccurrence(
     enrollment?.status === 'active' &&
     enrollment.id === occurrence.enrollmentId &&
     inScope(enrollment, occurrence.scope) &&
-    !linkedSessions(occurrence, records).some((record) => record.content.status === 'completed')
+    !linkedSessions(occurrence, records).some(
+      (record) =>
+        record.content.status === 'completed' &&
+        record.content.explicitCompletion &&
+        isCompletionEligible(occurrence, enrollment, record.content.performedAt),
+    )
   )
 }
 export function moveRequest(

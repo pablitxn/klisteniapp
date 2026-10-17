@@ -1,5 +1,6 @@
 import {
   ProductEndpoints,
+  ProductBootstrapSchema,
   type ProductEndpoint,
   type ProductInput,
   type ProductOutput,
@@ -56,5 +57,11 @@ export function createProductV2Client(
       )
     },
   }
+}
+export function productBootstrap(options: ClientOptions = {}) {
+  return createTransport(undefined, { ...options, contractVersion: 2 })(
+    '/bootstrap/v2',
+    ProductBootstrapSchema,
+  )
 }
 export type ProductV2Client = ReturnType<typeof createProductV2Client>

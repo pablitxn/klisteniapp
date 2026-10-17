@@ -7,6 +7,11 @@ import { readConfig } from './config.ts';
 import { createPool, SCHEMA, LIFECYCLE_SCHEMA, CONTENT_SCHEMA } from './database.ts';
 import { seedBaseCatalog } from './service.ts';
 import { WHITE_LABEL_SCHEMA, WHITE_LABEL_PROFILE_SCHEMA } from './white-label-schema.ts';
+import {
+  PRODUCT_INVALIDATION_SCHEMA,
+  PRODUCT_INVALIDATION_MIGRATION_ID,
+} from './product-invalidation-schema.ts';
+import { PRODUCT_REALM_SCHEMA, PRODUCT_REALM_MIGRATION_ID } from './product-realm-schema.ts';
 import { PRODUCT_SCHEMA, PRODUCT_MIGRATION_ID } from './product-schema.ts';
 import { PRODUCT_AUDIT_SCHEMA, PRODUCT_AUDIT_MIGRATION_ID } from './product-audit-schema.ts';
 import { enrichReviewedCatalog, REVIEWED_CATALOG_REVISION } from './catalog/reviewed-projection.ts';
@@ -79,6 +84,26 @@ export async function migrate(pool: Pool, auth: Auth) {
     ) {
       await client.query(PRODUCT_AUDIT_SCHEMA);
       await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [PRODUCT_AUDIT_MIGRATION_ID]);
+    }
+    if (
+      !(
+        await client.query('SELECT id FROM b2b_migration WHERE id=$1', [PRODUCT_REALM_MIGRATION_ID])
+      ).rowCount
+    ) {
+      await client.query(PRODUCT_REALM_SCHEMA);
+      await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [PRODUCT_REALM_MIGRATION_ID]);
+    }
+    if (
+      !(
+        await client.query('SELECT id FROM b2b_migration WHERE id=$1', [
+          PRODUCT_INVALIDATION_MIGRATION_ID,
+        ])
+      ).rowCount
+    ) {
+      await client.query(PRODUCT_INVALIDATION_SCHEMA);
+      await client.query('INSERT INTO b2b_migration(id) VALUES ($1)', [
+        PRODUCT_INVALIDATION_MIGRATION_ID,
+      ]);
     }
     await client.query('COMMIT');
   } catch (error) {

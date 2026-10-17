@@ -44,6 +44,8 @@ import { HEALTH_RESPONSE_HEADERS } from './health/index.ts';
 import { assertProductMigrations } from './product-readiness.ts';
 import { bindInactiveBrandSession, inactiveRouteAllowed } from './membership/access.ts';
 import { PERSONAL_EXPORT_HEADERS } from './exports/index.ts';
+import { ProductEventHub, serveProductEvents } from './product-events.ts';
+import { productBootstrap } from './product-bootstrap.ts';
 import { requireIdentityRealm, selectedMembershipMode } from './product-identity.ts';
 
 const TOKEN = z.object({ token: z.string().min(32).max(200) }).strict();
@@ -96,6 +98,7 @@ export function createApiServer({
   service?: B2BService;
 }) {
   const mediaStore = config.mediaRoot ? createMediaStore(config.mediaRoot) : undefined;
+  const eventHub = new ProductEventHub(pool);
   let uploads = 0;
   const domainAuth = new Map<string, Auth>();
   const server = createServer(async (request, response) => {
@@ -143,8 +146,21 @@ export function createApiServer({
       if (!url.pathname.startsWith(`${API_PREFIX}/`))
         throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
       const domain = await resolveDomainContext(pool, config, request);
+      const unifiedPath = url.pathname.slice(API_PREFIX.length);
+      const unifiedAllowed =
+        config.productUnified &&
+        ([
+          '/context',
+          '/bootstrap/v2',
+          '/auth/sign-in/email',
+          '/auth/sign-out',
+          '/self/exports',
+          '/self/b2c-invitation',
+        ].includes(unifiedPath) ||
+          /^\/orgs\/[a-zA-Z0-9_-]+\/product\/v2(?:\/|$)/.test(unifiedPath));
       if (
         !domain &&
+        !unifiedAllowed &&
         (
           await pool.query(`SELECT 1 WHERE EXISTS(SELECT 1 FROM b2b_domain WHERE status IN ('active','verified'))
         OR EXISTS(SELECT 1 FROM b2b_branch GROUP BY organization_id HAVING count(*)>1)`)
@@ -154,6 +170,12 @@ export function createApiServer({
           503,
           'WHITE_LABEL_REQUIRED',
           'Esta instalación requiere acceso por el dominio de la marca.',
+        );
+      if (config.productUnified && !unifiedAllowed)
+        throw new HttpError(
+          503,
+          'WHITE_LABEL_REQUIRED',
+          'Esta ruta requiere el contexto de la marca.',
         );
       const origin = domain?.origin ?? config.origin;
       let requestAuth = auth;
@@ -233,11 +255,19 @@ export function createApiServer({
             selectedOrganization,
             currentSession.session.id,
             domain,
+            config.productUnified ? config.origin : undefined,
           ),
         );
         inactiveRequest = mode === 'export-only';
         if (
           inactiveRequest &&
+          !(
+            (path === '/bootstrap/v2' ||
+              /^\/orgs\/[a-zA-Z0-9_-]+\/product\/v2\/events$/.test(path)) &&
+            method === 'GET' &&
+            contractHeader === '2' &&
+            !request.headers.range
+          ) &&
           !inactiveRouteAllowed(
             method,
             url.pathname,
@@ -247,6 +277,32 @@ export function createApiServer({
           )
         )
           throw new HttpError(403, 'CONTEXT_REVOKED', 'Tu cuenta permite descargar tus registros.');
+      }
+      if (path === '/bootstrap/v2' && method === 'GET') {
+        if (!currentSession)
+          throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
+        if (contractHeader !== '2')
+          throw new HttpError(426, 'UPGRADE_REQUIRED', 'Actualizá la aplicación.');
+        if (
+          request.headers.range ||
+          url.search ||
+          (request.headers['x-klisteni-b2b-account'] &&
+            request.headers['x-klisteni-b2b-account'] !== currentSession.user.id)
+        )
+          throw new HttpError(400, 'INVALID_INPUT', 'Solicitud inválida.');
+        return await service.transaction(async (db) =>
+          json(
+            response,
+            200,
+            await productBootstrap(
+              db,
+              currentSession.user.id,
+              currentSession.session.id,
+              config,
+              domain,
+            ),
+          ),
+        );
       }
       if (path === '/context' && method === 'GET') {
         if (!domain)
@@ -273,6 +329,19 @@ export function createApiServer({
               await requireIdentityRealm(db, identity.user.id, identity.session.id, domain);
             else await requireBrandSession(db, identity.user.id, identity.session.id, domain);
           });
+        }
+        if (config.productUnified && path !== '/auth/sign-in/email') {
+          if (!currentSession)
+            throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
+          await service.transaction((db) =>
+            requireIdentityRealm(
+              db,
+              currentSession.user.id,
+              currentSession.session.id,
+              null,
+              config.origin,
+            ),
+          );
         }
         const value = mutation ? await body(request) : undefined;
         const invitationLogin =
@@ -376,6 +445,50 @@ export function createApiServer({
               'No pudimos iniciar sesión con esas credenciales en esta marca.',
             );
         }
+        if (config.productUnified && path === '/auth/sign-in/email' && result.ok) {
+          const payload = (await result.clone().json()) as {
+            token?: string;
+            user?: { id?: string };
+          };
+          try {
+            await service.transaction(async (db) => {
+              const identity = (
+                await db.query(
+                  'SELECT id FROM b2b_auth_session WHERE token=$1 AND "userId"=$2 FOR SHARE',
+                  [payload.token, payload.user?.id],
+                )
+              ).rows[0];
+              if (
+                !identity ||
+                !(
+                  await db.query('SELECT 1 FROM b2b_membership WHERE user_id=$1 FOR SHARE', [
+                    payload.user?.id,
+                  ])
+                ).rowCount
+              )
+                throw new HttpError(401, 'INVALID_CREDENTIALS', 'No pudimos iniciar sesión.');
+              if (
+                (
+                  await db.query('SELECT 1 FROM b2b_session_context WHERE session_id=$1', [
+                    identity.id,
+                  ])
+                ).rowCount
+              )
+                throw new HttpError(
+                  401,
+                  'UNIFIED_SESSION_REQUIRED',
+                  'Iniciá sesión en este espacio.',
+                );
+              await db.query(
+                'INSERT INTO b2b_unified_session_context(session_id,origin) VALUES($1,$2)',
+                [identity.id, config.origin],
+              );
+            });
+          } catch (error) {
+            await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
+            throw error;
+          }
+        }
         for (const [key, value] of result.headers)
           if (key !== 'set-cookie') response.setHeader(key, value);
         response.setHeader('set-cookie', result.headers.getSetCookie());
@@ -410,6 +523,10 @@ export function createApiServer({
           await service.requireSession(db, session.user.id, session.session.id);
           await requireBrandSession(db, session.user.id, session.session.id, domain);
         });
+      if (session && config.productUnified)
+        await service.transaction((db) =>
+          requireIdentityRealm(db, session.user.id, session.session.id, null, config.origin),
+        );
       const mediaPath = /^\/media\/([a-zA-Z0-9_-]+)$/.exec(path);
       if (mediaPath && ['GET', 'HEAD'].includes(method)) {
         if (!mediaStore)
@@ -457,6 +574,62 @@ export function createApiServer({
       )
         throw new HttpError(401, 'ACCOUNT_CHANGED', 'Actualizá tu sesión antes de guardar.');
       const actor = session.user.id;
+      const eventRoute = /^\/orgs\/([a-zA-Z0-9_-]+)\/product\/v2\/events$/.exec(path);
+      if (eventRoute) {
+        if (method !== 'GET' || request.headers.range || contractHeader !== '2')
+          throw new HttpError(400, 'INVALID_INPUT', 'Solicitud inválida.');
+        const memberIds = url.searchParams.getAll('memberId');
+        if (
+          memberIds.length > 1 ||
+          [...url.searchParams.keys()].some((k) => k !== 'memberId') ||
+          (memberIds[0] && !/^[a-zA-Z0-9_-]+$/.test(memberIds[0]))
+        )
+          throw new HttpError(400, 'INVALID_INPUT', 'Solicitud inválida.');
+        const memberId = memberIds[0];
+        if (inactiveRequest && memberId)
+          throw new HttpError(403, 'CONTEXT_REVOKED', 'El acceso cambió.');
+        const authorize = async () => {
+          if (inactiveRequest) {
+            await service.productIdentity(
+              actor,
+              eventRoute[1],
+              session.session.id,
+              contractHeader,
+              async (c) => {
+                if (c.accessMode !== 'export-only')
+                  throw new HttpError(403, 'CONTEXT_REVOKED', 'El acceso cambió.');
+              },
+              work,
+            );
+          } else
+            await service.productOrganization(
+              actor,
+              eventRoute[1],
+              session.session.id,
+              false,
+              contractHeader,
+              async (c) => {
+                if (memberId) await service.productProducer(c, 'consentedHealth', { memberId });
+              },
+              work,
+            );
+        };
+        await serveProductEvents(
+          eventHub,
+          request,
+          response,
+          {
+            actorId: actor,
+            organizationId: eventRoute[1],
+            branchId: work.branchId,
+            sessionId: session.session.id,
+            memberId,
+          },
+          authorize,
+        );
+        return;
+      }
+
       if (selfRoute) {
         if (method !== 'GET' || request.headers.range !== undefined)
           throw new HttpError(
@@ -582,10 +755,15 @@ export function createApiServer({
               throw new HttpError(400, 'INVALID_INPUT', 'La identidad de la ruta no coincide.');
           }
           const data: Record<string, unknown> = { ...raw, ...parameters };
-          if (key === 'alternatives' || key === 'routineVersion') {
+          if (key === 'alternatives' || key === 'routineVersion' || key === 'routineSupplement') {
             if (typeof data.version !== 'string' || !/^[1-9][0-9]*$/.test(data.version))
               throw new HttpError(400, 'INVALID_INPUT', 'La versión debe ser un entero positivo.');
             data.version = Number(data.version);
+          }
+          if (key === 'enrollmentRevision') {
+            if (typeof data.revision !== 'string' || !/^(0|[1-9][0-9]*)$/.test(data.revision))
+              throw new HttpError(400, 'INVALID_INPUT', 'Revisión inválida.');
+            data.revision = Number(data.revision);
           }
           const contract =
             typeof request.headers['x-klisteni-b2b-contract'] === 'string'
@@ -1054,5 +1232,6 @@ export function createApiServer({
   server.requestTimeout = 120000;
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
+  server.once('close', () => eventHub.close());
   return server;
 }

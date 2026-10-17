@@ -13,6 +13,7 @@ const Environment = z.object({
   B2B_MEDIA_ROOT: z.string().startsWith('/').optional(),
   B2B_MEDIA_QUOTA_MB: z.coerce.number().int().min(32).max(10240).default(256),
   B2B_DEMO_MODE: z.enum(['true', 'false']).default('false'),
+  B2B_PRODUCT_UNIFIED: z.enum(['true', 'false']).default('false'),
   B2B_WHITE_LABEL: z.enum(['true', 'false']).default('false'),
   B2B_PROXY_SECRET: z
     .string()
@@ -35,6 +36,8 @@ export type Config = {
   mediaQuotaMb?: number;
   /** Omitted/false preserves the explicit single-origin legacy deployment. */
   whiteLabel?: boolean;
+  /** Explicit product-only single-origin runtime; never inferred from an unbound session. */
+  productUnified?: boolean;
   proxySecret?: string;
   trustedProxyAddresses?: string[];
   domainProtocol?: 'http' | 'https';
@@ -73,6 +76,8 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const trustedProxyAddresses = input.B2B_TRUSTED_PROXY_ADDRESSES.split(',').map((v) => v.trim());
   if (!trustedProxyAddresses.length || trustedProxyAddresses.some((v) => !isIP(v)))
     throw new Error('B2B_TRUSTED_PROXY_ADDRESSES requires exact IP addresses');
+  if (input.B2B_PRODUCT_UNIFIED === 'true' && input.B2B_WHITE_LABEL === 'true')
+    throw new Error('Unified product and white-label runtime modes are exclusive');
   if (input.B2B_WHITE_LABEL === 'true') {
     if (!input.B2B_PROXY_SECRET || input.B2B_PROXY_SECRET.startsWith('replace-'))
       throw new Error('White-label B2B requires an independent B2B_PROXY_SECRET');
@@ -103,6 +108,7 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     demoMode: input.B2B_DEMO_MODE === 'true',
     ...(input.B2B_MEDIA_ROOT ? { mediaRoot: input.B2B_MEDIA_ROOT } : {}),
     mediaQuotaMb: input.B2B_MEDIA_QUOTA_MB,
+    productUnified: input.B2B_PRODUCT_UNIFIED === 'true',
     whiteLabel: input.B2B_WHITE_LABEL === 'true',
     proxySecret: input.B2B_PROXY_SECRET,
     trustedProxyAddresses,

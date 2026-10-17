@@ -12,14 +12,17 @@ export function OriginalRoutines({
   enrollments,
   records,
   occurrences = [],
+  references: issued = [],
   onOpenRoutine,
 }: {
   enrollments: Enrollment[]
   records: SessionRecord[]
   occurrences?: Occurrence[]
+  references?: RoutineReference[]
   onOpenRoutine?: (routine: RoutineReference) => void
 }) {
   const references = new Map<string, RoutineReference>()
+  for (const ref of issued) references.set(routineKey(ref), ref)
   for (const plan of enrollments)
     for (const stage of plan.content.stages)
       for (const slot of stage.slots) references.set(routineKey(slot.routine), slot.routine)

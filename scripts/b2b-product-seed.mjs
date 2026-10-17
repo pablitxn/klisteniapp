@@ -12,7 +12,7 @@ import {
 } from '../apps/b2b-api/src/white-label-schema.ts'
 import { migrate } from '../apps/b2b-api/src/migrate.ts'
 import { seedWhiteLabelDemo } from '../apps/b2b-api/src/white-label-demo.ts'
-import { createUser } from '../apps/b2b-api/src/service.ts'
+import { B2BService, createUser } from '../apps/b2b-api/src/service.ts'
 import { ExecutionInputSchema } from '../packages/b2b-contracts/src/training.ts'
 import {
   DoseSchema,
@@ -310,11 +310,124 @@ export async function seedProductHarness(pool, config, runKey) {
     ).rowCount,
     0,
   )
+  if (config.activateProductFixture === true) {
+    // This function has already proved the schema is fresh and task-owned, and
+    // preserved historical 001-005 rows through repeated normal migrations.
+    await pool.query('UPDATE b2b_organization SET product_active=true')
+    const service = new B2BService(pool, auth, {
+      ...config,
+      productUnified: false,
+      whiteLabel: false,
+    })
+    const today = new Date(),
+      monday = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
+    monday.setUTCDate(monday.getUTCDate() + 1 - (monday.getUTCDay() || 7))
+    const date = (offset) => {
+      const d = new Date(monday)
+      d.setUTCDate(d.getUTCDate() + offset)
+      return d.toISOString().slice(0, 10)
+    }
+    for (const resource of v2) {
+      const coach = Object.values(actors).find((a) =>
+        a.grants.some(
+          (g) =>
+            g.organizationId === resource.organizationId &&
+            g.branchId === resource.branchId &&
+            g.role === 'coach',
+        ),
+      )
+      const member = Object.values(actors).find(
+        (a) =>
+          a.grants.some(
+            (g) =>
+              g.organizationId === resource.organizationId &&
+              g.branchId === resource.branchId &&
+              g.role === 'member',
+          ) && a.memberships.some((m) => m.organizationId === resource.organizationId && m.active),
+      )
+      assert.ok(coach && member)
+      const sessionId = randomUUID()
+      await pool.query(
+        `INSERT INTO b2b_auth_session(id,"userId",token,"expiresAt","createdAt","updatedAt") VALUES($1,$2,$3,now()+interval '5 minutes',now(),now())`,
+        [sessionId, coach.id, randomUUID()],
+      )
+      try {
+        const reference = {
+          programId: resource.programId,
+          version: resource.version,
+          schemaVersion: 2,
+        }
+        const content = {
+          name: 'Synthetic goal program',
+          goal: 'Synthetic scheduled training',
+          timeZone: 'UTC',
+          stages: [
+            {
+              id: 'synthetic-stage',
+              name: 'Current stage',
+              startDate: date(0),
+              endDate: date(13),
+              slots: [
+                { id: 'monday', weekday: 1, routine: reference },
+                { id: 'wednesday', weekday: 3, routine: reference },
+                { id: 'friday', weekday: 5, routine: reference },
+              ],
+            },
+          ],
+        }
+        const execute = (operation) =>
+          service.productOrganization(
+            coach.id,
+            resource.organizationId,
+            sessionId,
+            true,
+            '2',
+            operation,
+            { branchId: resource.branchId, role: 'coach' },
+          )
+        const goal = await execute((c) =>
+          service.productProducers.saveGoal(c, {
+            id: randomUUID(),
+            memberId: member.id,
+            operationId: randomUUID(),
+            expectedRevision: 0,
+            content,
+          }),
+        )
+        const enrollment = await execute((c) =>
+          service.productProducers.enroll(c, {
+            id: randomUUID(),
+            memberId: member.id,
+            goalProgramId: goal.id,
+            issuedGoalRevision: goal.revision,
+            operationId: randomUUID(),
+            expectedRevision: 0,
+            content,
+          }),
+        )
+        Object.assign(resource, {
+          assigned: true,
+          memberId: member.id,
+          coachId: coach.id,
+          goalProgramId: goal.id,
+          enrollmentId: enrollment.id,
+          occurrenceIds: (
+            await pool.query(
+              'SELECT id FROM b2b_occurrence WHERE organization_id=$1 AND branch_id=$2 AND enrollment_id=$3 ORDER BY id',
+              [resource.organizationId, resource.branchId, enrollment.id],
+            )
+          ).rows.map((r) => r.id),
+        })
+      } finally {
+        await pool.query('DELETE FROM b2b_auth_session WHERE id=$1', [sessionId])
+      }
+    }
+  }
   return {
     fixtureVersion: 2,
     runKey,
-    phase: 'foundation-baseline',
-    featuresActivated: false,
+    phase: config.activateProductFixture ? 'composed-product' : 'foundation-baseline',
+    featuresActivated: Boolean(config.activateProductFixture),
     organizations,
     actors,
     resources: { legacy, v2 },
@@ -324,8 +437,10 @@ export async function seedProductHarness(pool, config, runKey) {
       counts: Object.fromEntries(Object.entries(before).map(([key, rows]) => [key, rows.length])),
     },
     featureGates: {
-      businessHandlers: 'not-integrated',
-      goalScheduleSeeds: 'awaiting-producer-fixtures',
+      businessHandlers: config.activateProductFixture ? 'composed-local-candidate' : 'inactive',
+      goalScheduleSeeds: config.activateProductFixture
+        ? 'production-service-synthetic'
+        : 'inactive',
       healthSharing: 'none',
     },
   }

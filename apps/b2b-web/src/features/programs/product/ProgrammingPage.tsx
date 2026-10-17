@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { createProductV2Client, type ProductV2Client } from '@klisteniapp/b2b-client'
+import { type ProductV2Client } from '@klisteniapp/b2b-client'
 import type { Exercise } from '@klisteniapp/b2b-contracts'
 import type {
   Enrollment,
@@ -8,7 +8,6 @@ import type {
 } from '@klisteniapp/b2b-contracts/product-v2'
 import { useAccountScope } from '@klisteniapp/b2b-react'
 import { Field } from '@klisteniapp/b2b-ui'
-import type { WorkspaceViewContext } from '../../../shared/SectionResources'
 import { GoalProgramEditor } from './GoalProgramEditor'
 import { PeriodImpactEditor } from './PeriodImpactEditor'
 import { RoutineEditorV2 } from './RoutineEditorV2'
@@ -26,21 +25,23 @@ type Loaded = {
 
 /** The integration owner selects this page only for the product-v2 programming route. */
 export function ProgrammingPage({
-  membership,
+  organizationId,
+  accessKey,
+  createClient,
   loadExercises,
   loadRoutineChoices,
-}: WorkspaceViewContext & {
+}: {
+  organizationId: string
+  accessKey: string
+  createClient: (signal?: AbortSignal) => ProductV2Client
   loadExercises: (signal: AbortSignal) => Promise<Exercise[]>
   loadRoutineChoices: (signal: AbortSignal) => Promise<RoutineChoice[]>
 }) {
-  const account = useAccountScope()
-  const orgId = membership.organization.id
-  // Scope is also a React key: departed account/branch state cannot render for a new scope.
-  const scopeKey = JSON.stringify([account.userId, orgId, account.branchId, account.role])
   return (
     <ScopedProgrammingPage
-      key={scopeKey}
-      orgId={orgId}
+      key={accessKey}
+      orgId={organizationId}
+      createClient={createClient}
       loadExercises={loadExercises}
       loadRoutineChoices={loadRoutineChoices}
     />
@@ -48,10 +49,12 @@ export function ProgrammingPage({
 }
 function ScopedProgrammingPage({
   orgId,
+  createClient,
   loadExercises,
   loadRoutineChoices,
 }: {
   orgId: string
+  createClient: (signal?: AbortSignal) => ProductV2Client
   loadExercises: (signal: AbortSignal) => Promise<Exercise[]>
   loadRoutineChoices: (signal: AbortSignal) => Promise<RoutineChoice[]>
 }) {
@@ -59,27 +62,11 @@ function ScopedProgrammingPage({
   const [loaded, setLoaded] = useState<Loaded | null>(null)
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
-  const controller = useMemo(
-    () => ({ controller: new AbortController(), retained: 0 }),
-    [orgId, account.userId, account.branchId, account.role],
-  )
-  const client = useMemo(
-    () =>
-      createProductV2Client(account.userId, orgId, {
-        branchId: account.branchId,
-        role: account.role,
-        contextSignal: controller.controller.signal,
-      }),
-    [account.userId, account.branchId, account.role, orgId, controller],
-  )
+  const client = useMemo(() => createClient(), [createClient])
   useEffect(() => {
     let current = true
     const abort = new AbortController()
-    const scoped = createProductV2Client(account.userId, orgId, {
-      branchId: account.branchId,
-      role: account.role,
-      contextSignal: abort.signal,
-    })
+    const scoped = createClient(abort.signal)
     async function load() {
       setLoaded(null)
       setError('')
@@ -115,16 +102,8 @@ function ScopedProgrammingPage({
     loadExercises,
     loadRoutineChoices,
     retry,
+    createClient,
   ])
-  useEffect(() => {
-    controller.retained++
-    return () => {
-      controller.retained--
-      queueMicrotask(() => {
-        if (controller.retained === 0) controller.controller.abort()
-      })
-    }
-  }, [controller])
   if (!account.branchId) return <p role="status">Seleccioná una sede para editar programación.</p>
   if (error)
     return (
@@ -305,10 +284,9 @@ export function ProgrammingWorkspace({
               .filter(
                 (p) =>
                   p.active &&
-                  (p.role === 'member' ||
-                    p.branchGrants.some(
-                      (g) => g.branchId === account.branchId && g.role === 'member' && g.active,
-                    )),
+                  p.branchGrants.some(
+                    (g) => g.branchId === account.branchId && g.role === 'member' && g.active,
+                  ),
               )
               .map((p) => (
                 <option value={p.userId} key={p.userId}>
