@@ -1,0 +1,137 @@
+{
+  "package": "WP08",
+  "date": "2026-10-17",
+  "status": "owned-modules-ready-full-acceptance-pending",
+  "baseSha": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "sourceHead": "29468c667db12ff887f938a51871df04573c6340",
+  "planSha": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlasSha": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "readDependencies": {
+    "WP02": "c6825101d6ac798437599062481adf2a79ac5f69",
+    "WP03": "d12b56b92304764f988b051350b6211b7f1e38ba"
+  },
+  "importedDependencySource": false,
+  "toolchain": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgres": "17.11",
+    "frozenInstall": true
+  },
+  "tests": [
+    {
+      "command": "pnpm --filter @klisteniapp/b2b-contracts test",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2b-domain test",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "unchanged frozen foundation"
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2b-web test",
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 21
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2b-api test",
+      "passed": 92,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "unchanged frozen foundation with disposable synthetic PostgreSQL"
+    }
+  ],
+  "checks": {
+    "pnpm typecheck": "14/14 pass (13 unchanged-package cache hits in final root run); final affected app rechecked",
+    "pnpm lint": "14/14 pass, final app rechecked; boundary and all B2B formatting pass",
+    "pnpm check:b2b:boundaries": "pass",
+    "pnpm build:b2b": "pass; retained >500kB chunk warning",
+    "git diff --check": "pass",
+    "effectiveGitIdentity": "Pablo Coronel <git@pablocoronel.com> author and committer",
+    "engineeringContentCheck": "176 Atlas files; human English/provenance review required",
+    "commitsCheck": "2 app source/test commits pass using official function with app root"
+  },
+  "browser": {
+    "executed": 0,
+    "passed": 0,
+    "blocked": "accepted composed head/routes, QA-owned specs and approved immutable history readers",
+    "matchingRuntimeReceiptSha": "e71c5c4273a9e18b7422a0250626729417de8a95",
+    "runtimeClaim": "instructions inspected; no runtime failure claimed"
+  },
+  "remaining": [
+    "Root/client lifetime/member/staff navigation composition (INTEGRATION)",
+    "Immutable original routine and enrollment revision reader (CONTRACT)",
+    "Occurrence-by-ID or authoritative inclusion metadata for unloaded moved sessions (CONTRACT)",
+    "Final WP02 effectiveAt and production API composition; real feature API acceptance",
+    "QA Chromium/WebKit mobile/desktop/keyboard/touch and member regressions on accepted composed head",
+    "Trusted HTTPS/Secure-cookie and physical acceptance unexecuted"
+  ],
+  "logNormalization": "terminal escape sequences and trailing whitespace/final blank lines only",
+  "logs": {
+    "install.log": {
+      "rawSha256": "3885dce1fed445857c42149c57d1a9b2f86c3dee8be4e0e6765303372d6ed4fb",
+      "sha256": "3885dce1fed445857c42149c57d1a9b2f86c3dee8be4e0e6765303372d6ed4fb"
+    },
+    "contracts.log": {
+      "rawSha256": "c06f913023c385e4a55e5be44bea83260a4c37c66df28e9000697cf2c81ba699",
+      "sha256": "c06f913023c385e4a55e5be44bea83260a4c37c66df28e9000697cf2c81ba699"
+    },
+    "domain.log": {
+      "rawSha256": "3831ac4b9826d01d907cc725d39a8994a1db19c1c180d0827ac91d4d44e89591",
+      "sha256": "3831ac4b9826d01d907cc725d39a8994a1db19c1c180d0827ac91d4d44e89591"
+    },
+    "web-tests.log": {
+      "rawSha256": "6e2586934982b4b464f082bad469baf3c37e33354cd4c9cc4afba3f44c30a692",
+      "sha256": "6e2586934982b4b464f082bad469baf3c37e33354cd4c9cc4afba3f44c30a692"
+    },
+    "api.log": {
+      "rawSha256": "64ab13d31f6303c1d8364d512a874300ad49eec1607079edc1adac88ac44e240",
+      "sha256": "64ab13d31f6303c1d8364d512a874300ad49eec1607079edc1adac88ac44e240"
+    },
+    "typecheck.log": {
+      "rawSha256": "48744183531b67b742a044757ca950fef1a11109c01e752c9cd315d463727478",
+      "sha256": "27090d658e97f11c3cb5abff8d72a95f27b06e6fe9dfed19268c903860f0f71d"
+    },
+    "web-typecheck.log": {
+      "rawSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "lint.log": {
+      "rawSha256": "25a9c1530020effbd20838601feb79e24c9ccb9934db5673e0d57a89d0feeced",
+      "sha256": "548ccb47b8fbb42508261dc5ccd95113aa88ee4b58d7a6edd71cd2b971c2aba6"
+    },
+    "web-lint.log": {
+      "rawSha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1",
+      "sha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1"
+    },
+    "boundaries.log": {
+      "rawSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+      "sha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758"
+    },
+    "build.log": {
+      "rawSha256": "0f8549daaf95f85f99ee3971c496f163439352957523a0da1c9e88edc00fec09",
+      "sha256": "ff25e68e411f855c318f8cd2b9ed0b974c45e9b5ae225fc218cdf9306bd81cba"
+    },
+    "identity.log": {
+      "rawSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212",
+      "sha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212"
+    },
+    "engineering.log": {
+      "rawSha256": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd",
+      "sha256": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd"
+    },
+    "commits.log": {
+      "rawSha256": "4a092b1f1746ee72e0cc34e14ecdf8c86f275968e354e5c79a2d703df8fb8570",
+      "sha256": "4a092b1f1746ee72e0cc34e14ecdf8c86f275968e354e5c79a2d703df8fb8570"
+    },
+    "commits-cli-limit.log": {
+      "rawSha256": "a4dd69aedb820a7730f954074befbe2ccb2e9d41a30b5bd34985429ee551453a",
+      "sha256": "a4dd69aedb820a7730f954074befbe2ccb2e9d41a30b5bd34985429ee551453a"
+    }
+  }
+}
