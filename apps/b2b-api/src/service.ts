@@ -34,6 +34,10 @@ import { createProductPlanning } from './product-composition.ts';
 import { createPlanningSchedule } from './schedule/planning.ts';
 import { createRecordsServices } from './schedule/index.ts';
 import { catalogExercises, routinePublications, routineVersion } from './product-reads.ts';
+import { createPersonalExportServices } from './exports/index.ts';
+import { authorizeExportIdentity, inactiveAccess } from './membership/access.ts';
+import { requireIdentityRealm } from './product-identity.ts';
+import type { AuthorizedProductIdentityContext } from './product-context.ts';
 import { assertProductMigrations } from './product-readiness.ts';
 import { alternatives } from './catalog/reviewed-alternatives.ts';
 import {
@@ -144,6 +148,7 @@ export class B2BService {
   readonly equipment: EquipmentModule;
   readonly training: TrainingModule;
   readonly whiteLabel: WhiteLabelService;
+  readonly productSelfServices: ReturnType<typeof createPersonalExportServices>;
   /** Reserved producer seams. Route activation stays with the integration owner. */
   readonly productProducers: Partial<
     Omit<
@@ -152,6 +157,9 @@ export class B2BService {
     >
   > = {};
   constructor(pool: Pool, auth: Auth, config: Config, planning?: PlanningServices) {
+    this.productSelfServices = createPersonalExportServices({
+      b2cInvitationUrl: config.b2cInvitationUrl ?? null,
+    });
     Object.assign(
       this.productProducers,
       planning ?? createProductPlanning(createPlanningSchedule()),
@@ -385,6 +393,35 @@ export class B2BService {
       | undefined;
     if (!handler) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
     return handler(c, ProductEndpoints[key].input.parse(input));
+  }
+  async productIdentity<T>(
+    actorId: string,
+    organizationId: string,
+    sessionId: string,
+    contractHeader: string | undefined,
+    operation: (context: AuthorizedProductIdentityContext) => Promise<T>,
+    work: WorkContext = {},
+  ): Promise<T> {
+    return this.transaction(async (db) => {
+      // Same lock order as operational ACCESS and the membership/health hooks.
+      await db.query('SELECT id FROM b2b_organization WHERE id=$1 FOR SHARE', [organizationId]);
+      await requireIdentityRealm(db, actorId, sessionId, work.domain);
+      const context = await authorizeExportIdentity(db, actorId, organizationId, sessionId, {
+        contractHeader,
+        whiteLabel: this.config.whiteLabel,
+        domain: work.domain,
+      });
+      return operation(context);
+    });
+  }
+  async restrictedProductAccess(context: AuthorizedProductIdentityContext) {
+    const member = (
+      await context.db.query<{ product_role: OrganizationRoleV2 }>(
+        'SELECT product_role FROM b2b_membership WHERE organization_id=$1 AND user_id=$2',
+        [context.organizationId, context.actorId],
+      )
+    ).rows[0];
+    return inactiveAccess(context, member.product_role);
   }
   async productAccess(c: AuthorizedProductContext): Promise<ProductOutput<'access'>> {
     const grants = (

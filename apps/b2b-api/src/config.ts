@@ -20,6 +20,7 @@ const Environment = z.object({
     .optional(),
   B2B_TRUSTED_PROXY_ADDRESSES: z.string().default('127.0.0.1,::1'),
   B2B_DOMAIN_PROTOCOL: z.enum(['http', 'https']).default('https'),
+  B2B_B2C_INVITATION_URL: z.url().optional(),
   NODE_ENV: z.enum(['production', 'development', 'test']).default('development'),
 });
 export type Config = {
@@ -37,6 +38,7 @@ export type Config = {
   proxySecret?: string;
   trustedProxyAddresses?: string[];
   domainProtocol?: 'http' | 'https';
+  b2cInvitationUrl?: string;
 };
 export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const result = Environment.safeParse(env);
@@ -46,6 +48,19 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     );
   const input = result.data;
   const origin = new URL(input.B2B_APP_ORIGIN);
+  if (input.B2B_B2C_INVITATION_URL) {
+    const invitation = new URL(input.B2B_B2C_INVITATION_URL);
+    if (
+      invitation.protocol !== 'https:' ||
+      invitation.username ||
+      invitation.password ||
+      invitation.search ||
+      invitation.hash
+    )
+      throw new Error(
+        'B2B_B2C_INVITATION_URL must be a separate HTTPS onboarding URL without transfer parameters',
+      );
+  }
   if (
     !['http:', 'https:'].includes(origin.protocol) ||
     origin.origin !== input.B2B_APP_ORIGIN ||
@@ -92,5 +107,6 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     proxySecret: input.B2B_PROXY_SECRET,
     trustedProxyAddresses,
     domainProtocol: input.B2B_DOMAIN_PROTOCOL,
+    ...(input.B2B_B2C_INVITATION_URL ? { b2cInvitationUrl: input.B2B_B2C_INVITATION_URL } : {}),
   };
 }
