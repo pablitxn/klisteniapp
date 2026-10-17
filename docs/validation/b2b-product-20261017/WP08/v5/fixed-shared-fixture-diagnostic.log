@@ -1,0 +1,19 @@
+PASS chromium 320 {"viewportExact":true,"fourThreeOne":true,"stableOccurrenceIds":true,"legacyControlVisible":true,"revisionsControlVisible":true,"sevenDayMoveControlVisible":true,"issuedPeriodExpanded":true,"allButtonTextWithinBounds":true,"keyboardMoveAcceptedAndFocusRestored":true}
+PASS chromium 430 {"viewportExact":true,"fourThreeOne":true,"stableOccurrenceIds":true,"legacyControlVisible":true,"revisionsControlVisible":true,"sevenDayMoveControlVisible":true,"issuedPeriodExpanded":true,"allButtonTextWithinBounds":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.selectOption: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })
+
+    at showWeek (/task/candidate/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:591:6)
+    at async file:///tmp/wp08-verify.mjs:37:5 {
+  log: [
+    "  - waiting for getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.20.0
