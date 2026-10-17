@@ -1,0 +1,768 @@
+{
+  "phase": "provisional-diagnostics-not-final-acceptance",
+  "sourceSha": "896ae6be0c51819af0de6c2202b6e5555d493449",
+  "runs": [
+    {
+      "name": "provisional-unified-critical",
+      "applicationCandidate": "04ac103046a2483b463584afc907e7088b04758c",
+      "qaSourceSha": null,
+      "qualification": "Initial working-tree selector diagnostic; not immutable acceptance",
+      "counts": {
+        "passed": 0,
+        "failed": 5,
+        "timedOut": 0,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 5,
+      "plannedCells": 5,
+      "reportSha256": "e6aa96b9c87f1f17c44e81e0af46caabe0750ed48d0bd2cae4bd0676bee6eade",
+      "logSha256": "e7c1a2b0b3f7a1de8aecae1705bbe2a6f63f818c84ff77b389171871773f68fe",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 7017
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 6132
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 6310
+        },
+        {
+          "id": "B2BP-ROLES-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 6172
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 5941
+        }
+      ]
+    },
+    {
+      "name": "provisional-unified-critical-r2",
+      "applicationCandidate": "04ac103046a2483b463584afc907e7088b04758c",
+      "qaSourceSha": null,
+      "qualification": "Initial native-offline and QA admission assumptions retained",
+      "counts": {
+        "passed": 1,
+        "failed": 2,
+        "timedOut": 2,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 4,
+      "plannedCells": 5,
+      "reportSha256": "2421a719b826a2355b8b131566678e95fbd13daa3ae850fc3fedc7645ac56333",
+      "logSha256": "414e8d6bacbd7a99d8528b1dbfbc97aecf0ffa8c0e382215762053c3ae101a65",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 6756
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 2484
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 2766
+        },
+        {
+          "id": "B2BP-ROLES-001",
+          "project": "product-chromium-320",
+          "status": "timedOut",
+          "durationMs": 45159
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-chromium-320",
+          "status": "timedOut",
+          "durationMs": 45721
+        }
+      ]
+    },
+    {
+      "name": "provisional-unified-critical-r3",
+      "applicationCandidate": "04ac103046a2483b463584afc907e7088b04758c",
+      "qaSourceSha": null,
+      "qualification": "Exact preserved task source files/hashes; not immutable final acceptance",
+      "counts": {
+        "passed": 3,
+        "failed": 1,
+        "timedOut": 1,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 2,
+      "plannedCells": 5,
+      "reportSha256": "bfd9f2956c5e13444642ba024a5056eecee07dacde104c93f0db32b6f9f63fa9",
+      "logSha256": "46fcc7cbefc0c4725ef29a503a4a63ecd3552c8f72d5972ae3a88b4036297ec1",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 1439
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 1966
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 1798
+        },
+        {
+          "id": "B2BP-ROLES-001",
+          "project": "product-chromium-320",
+          "status": "timedOut",
+          "durationMs": 45138
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 10746
+        }
+      ]
+    },
+    {
+      "name": "provisional-wl-webkit-r4",
+      "applicationCandidate": "04ac103046a2483b463584afc907e7088b04758c",
+      "qaSourceSha": "2a848e7d3467a8baba7cf91f9ff0e7d76e75e793",
+      "qualification": "Internal-network WebKit native offline; HTTP crypto and seeded-count diagnostics",
+      "counts": {
+        "passed": 0,
+        "failed": 4,
+        "timedOut": 0,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 4,
+      "plannedCells": 4,
+      "reportSha256": "9646abd39362337e08826c4a5441b7a254b271d046b44b99761e0d35e959b25d",
+      "logSha256": "e1541849113bd354c7c97036f52374d63b975e5efa95a11e1a4cef5a6af973bd",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-004",
+          "project": "product-webkit-320",
+          "status": "failed",
+          "durationMs": 7702
+        },
+        {
+          "id": "B2BP-INACTIVE-008",
+          "project": "product-webkit-320",
+          "status": "failed",
+          "durationMs": 9718
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-webkit-320",
+          "status": "failed",
+          "durationMs": 10546
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-320",
+          "status": "failed",
+          "durationMs": 10464
+        }
+      ]
+    },
+    {
+      "name": "provisional-unified-r5",
+      "applicationCandidate": "04ac103046a2483b463584afc907e7088b04758c",
+      "qaSourceSha": "164f870a5cd5558c9c784253c1bcd043b8b6d8ab",
+      "qualification": "Older candidate with explicit local source ledger",
+      "counts": {
+        "passed": 1,
+        "failed": 1,
+        "timedOut": 2,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 3,
+      "plannedCells": 4,
+      "reportSha256": "b070457358afe2c89fdb032a2e2cb36af3df0846d5e537eacac059ab83f4aeb6",
+      "logSha256": "81fe41f228377b3177ccb1973289c758ceb7ba8e841e0d2767bbbb59bb86b943",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-004",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 3960
+        },
+        {
+          "id": "B2BP-INACTIVE-008",
+          "project": "product-chromium-320",
+          "status": "timedOut",
+          "durationMs": 45367
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 12033
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-320",
+          "status": "timedOut",
+          "durationMs": 45325
+        }
+      ]
+    },
+    {
+      "name": "candidate591-unified-r6",
+      "applicationCandidate": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+      "qaSourceSha": "1ad40389a48f4b0f70a47ac03e2641a0a41a2a1b",
+      "qualification": "Initial new-candidate diagnostic; real failures plus corrected QA response/pacing assumptions",
+      "counts": {
+        "passed": 8,
+        "failed": 4,
+        "timedOut": 2,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 6,
+      "plannedCells": 14,
+      "reportSha256": "a6330e8c35c36329b83564fc9fc5baac206f863db497ca1bed021591ad92a98d",
+      "logSha256": "e055cec975edf495c60d13b331cefe00451c6ce9138a2f852665ab9fe66975e0",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 1984
+        },
+        {
+          "id": "B2BP-HEALTH-004",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 5587
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 4459
+        },
+        {
+          "id": "B2BP-HEALTH-004",
+          "project": "product-webkit-320",
+          "status": "timedOut",
+          "durationMs": 45221
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 1943
+        },
+        {
+          "id": "B2BP-INACTIVE-008",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 8398
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 2410
+        },
+        {
+          "id": "B2BP-INACTIVE-008",
+          "project": "product-webkit-320",
+          "status": "timedOut",
+          "durationMs": 45204
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 3265
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 3779
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 12395
+        },
+        {
+          "id": "B2BP-SYNC-010",
+          "project": "product-webkit-320",
+          "status": "failed",
+          "durationMs": 13142
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 1540
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-320",
+          "status": "failed",
+          "durationMs": 4325
+        }
+      ]
+    },
+    {
+      "name": "candidate591-unified-r7",
+      "applicationCandidate": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+      "qaSourceSha": "88cb270ce2df1bb35cba5878e89b852cb4fa2d0d",
+      "qualification": "Focused real committed-revocation/reactivation/week rerun",
+      "counts": {
+        "passed": 6,
+        "failed": 0,
+        "timedOut": 0,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 0,
+      "plannedCells": 6,
+      "reportSha256": "45c20076c9a9cd5c69c83c1cc0600ab51d3faf019ca434c289c503f16525ba12",
+      "logSha256": "cc15670e853f91f1770a6b4ce6e40dd235c4f05cc260cac8d7cece908c832baf",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-004",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 10138
+        },
+        {
+          "id": "B2BP-HEALTH-004",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 10130
+        },
+        {
+          "id": "B2BP-INACTIVE-008",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 18008
+        },
+        {
+          "id": "B2BP-INACTIVE-008",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 16539
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 19429
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 19830
+        }
+      ]
+    },
+    {
+      "name": "candidate591-wl-r8",
+      "applicationCandidate": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+      "qaSourceSha": "88cb270ce2df1bb35cba5878e89b852cb4fa2d0d",
+      "qualification": "Deliberately interrupted after diagnosing obsolete import-response wait; unrun cells retained",
+      "counts": {
+        "passed": 5,
+        "failed": 1,
+        "timedOut": 1,
+        "interrupted": 1,
+        "skipped": 0,
+        "notRun": 16
+      },
+      "failedIncludingTimeout": 2,
+      "plannedCells": 24,
+      "reportSha256": "412f9cac4436ea3912ad7f14c627a9cb9cde82019f8fb40010ead669737ebf00",
+      "logSha256": "a23f57107727434d71cc7502c42b912d400710be8d618fbe6298983ff1583a34",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-320",
+          "status": "timedOut",
+          "durationMs": 45217
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 4835
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-320",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-430",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 2226
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 6404
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-320",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-430",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 8210
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 6942
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-320",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-430",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 18679
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-430",
+          "status": "interrupted",
+          "durationMs": 8066
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-320",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-430",
+          "status": "notRun",
+          "durationMs": 0
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-desktop",
+          "status": "notRun",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "name": "candidate591-wl-r9",
+      "applicationCandidate": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+      "qaSourceSha": "896ae6be0c51819af0de6c2202b6e5555d493449",
+      "qualification": "Six-project unaffected subset; unchanged width assertion",
+      "counts": {
+        "passed": 23,
+        "failed": 1,
+        "timedOut": 0,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 1,
+      "plannedCells": 24,
+      "reportSha256": "e44e445e6fe8d35ad9e7170f730e12f89aa7ac5d4cd0cca147833b7432f08e5b",
+      "logSha256": "e914b3659d6f66c1fda9672692994e4e2c79cad108843234cdd1530469cb5fd4",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 3207
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 2879
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-chromium-desktop",
+          "status": "passed",
+          "durationMs": 4974
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 4757
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-430",
+          "status": "passed",
+          "durationMs": 4429
+        },
+        {
+          "id": "B2BP-HEALTH-001",
+          "project": "product-webkit-desktop",
+          "status": "passed",
+          "durationMs": 4830
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 5956
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 5914
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-chromium-desktop",
+          "status": "passed",
+          "durationMs": 6244
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 5619
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-430",
+          "status": "passed",
+          "durationMs": 6112
+        },
+        {
+          "id": "B2BP-INACTIVE-001",
+          "project": "product-webkit-desktop",
+          "status": "passed",
+          "durationMs": 7991
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-320",
+          "status": "passed",
+          "durationMs": 8366
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 8833
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-chromium-desktop",
+          "status": "passed",
+          "durationMs": 8808
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 8111
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-430",
+          "status": "passed",
+          "durationMs": 9373
+        },
+        {
+          "id": "B2BP-PROGRAMMING-003",
+          "project": "product-webkit-desktop",
+          "status": "passed",
+          "durationMs": 10473
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-320",
+          "status": "failed",
+          "durationMs": 19811
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-430",
+          "status": "passed",
+          "durationMs": 21303
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-chromium-desktop",
+          "status": "passed",
+          "durationMs": 21255
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-320",
+          "status": "passed",
+          "durationMs": 24736
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-430",
+          "status": "passed",
+          "durationMs": 20801
+        },
+        {
+          "id": "B2BP-WEEK-001",
+          "project": "product-webkit-desktop",
+          "status": "passed",
+          "durationMs": 21142
+        }
+      ]
+    },
+    {
+      "name": "candidate591-continuity-r10",
+      "applicationCandidate": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+      "qaSourceSha": "896ae6be0c51819af0de6c2202b6e5555d493449",
+      "qualification": "Bounded >91-second actual editor continuity and trainer conflict",
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "timedOut": 0,
+        "interrupted": 0,
+        "skipped": 0,
+        "notRun": 0
+      },
+      "failedIncludingTimeout": 0,
+      "plannedCells": 1,
+      "reportSha256": "bc843e9f76f9908f8b857270b9ba1ca23fb4fb617f50d61a3e30794f22a6300b",
+      "logSha256": "7ee656ae1bc2604b2d7c5f09bd4cc8ff587f414beff27b79a46d974fec3658d7",
+      "globalErrors": [],
+      "cells": [
+        {
+          "id": "B2BP-PROGRAMMING-009",
+          "project": "product-chromium-desktop",
+          "status": "passed",
+          "durationMs": 106522
+        }
+      ]
+    }
+  ]
+}
