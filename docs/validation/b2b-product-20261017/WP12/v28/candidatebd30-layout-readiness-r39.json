@@ -1,0 +1,509 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/qa-diagnostics/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--project=product-webkit-320",
+      "--grep=B2BP-(PROGRAMMING-00[478]|HISTORY-005|INACTIVE-001)",
+      "--timeout=180000",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/qa-diagnostics/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidatebd30-layout-readiness-r39/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 6100,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-layout-readiness-r39/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 6100,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-layout-readiness-r39/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 6100,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-layout-readiness-r39/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 6100,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-layout-readiness-r39/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 6100,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-layout-readiness-r39/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 6100,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/qa-diagnostics/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/qa-diagnostics/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "500"
+      },
+      "url": "http://127.0.0.1:6100/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-history.spec.ts",
+      "file": "b2b-product-history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6622,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:04.062Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-422468d7dd959e3345de",
+          "file": "b2b-product-history.spec.ts",
+          "line": 389,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-inactive.spec.ts",
+      "file": "b2b-product-inactive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2635,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:10.963Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-28aa86dbab0686f40c6e",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 42,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 11181,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at assertProductViewport (/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/qa-diagnostics/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:308:11",
+                    "location": {
+                      "file": "/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                      "column": 8,
+                      "line": 42
+                    },
+                    "snippet": "   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                        "column": 8,
+                        "line": 42
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/qa-diagnostics/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:308:11"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:13.625Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "actual-viewport-measurements",
+                      "contentType": "application/json",
+                      "body": "ewogICJpbm5lcldpZHRoIjogMzIwLAogICJzY3JvbGxYIjogMCwKICAidmlzdWFsVmlld3BvcnQiOiB7CiAgICAid2lkdGgiOiAzMjAsCiAgICAib2Zmc2V0TGVmdCI6IDAsCiAgICAicGFnZUxlZnQiOiAwLAogICAgInNjYWxlIjogMQogIH0sCiAgImRvY3VtZW50V2lkdGgiOiAzNzEsCiAgImRvY3VtZW50Q2xpZW50V2lkdGgiOiAzMjAsCiAgImJvZHlXaWR0aCI6IDM3MSwKICAiYm9keUNsaWVudFdpZHRoIjogMzIwLAogICJpbnRlcm5hbE92ZXJmbG93IjogWwogICAgewogICAgICAidGFnIjogIkRJViIsCiAgICAgICJpZCI6ICJyb290IiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM3MSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM3MSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM3MSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM3MSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJNQUlOIiwKICAgICAgImlkIjogIm1haW4iLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDMyMCwKICAgICAgInNjcm9sbFdpZHRoIjogMzcxLAogICAgICAid2lkdGgiOiAzMjAsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICIwcHgiCiAgICB9LAogICAgewogICAgICAidGFnIjogIk1BSU4iLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyODQsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM1MywKICAgICAgIndpZHRoIjogMjg0LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyODQsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM1MywKICAgICAgIndpZHRoIjogMjg0LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJGSUVMRFNFVCIsCiAgICAgICJpZCI6ICIiLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDI4MCwKICAgICAgInNjcm9sbFdpZHRoIjogMzUxLAogICAgICAid2lkdGgiOiAyODAsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICIwcHgiCiAgICB9LAogICAgewogICAgICAidGFnIjogIklOUFVUIiwKICAgICAgImlkIjogIl9yXzFfIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyNzgsCiAgICAgICJzY3JvbGxXaWR0aCI6IDMzMywKICAgICAgIndpZHRoIjogMjgwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJTRUNUSU9OIiwKICAgICAgImlkIjogIiIsCiAgICAgICJyb2xlIjogbnVsbCwKICAgICAgImNsaWVudFdpZHRoIjogMjc4LAogICAgICAic2Nyb2xsV2lkdGgiOiAzNTAsCiAgICAgICJ3aWR0aCI6IDI4MCwKICAgICAgIm92ZXJmbG93WCI6ICJ2aXNpYmxlIiwKICAgICAgIm1pbldpZHRoIjogImF1dG8iCiAgICB9LAogICAgewogICAgICAidGFnIjogIkRJViIsCiAgICAgICJpZCI6ICIiLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDIzOCwKICAgICAgInNjcm9sbFdpZHRoIjogMzMwLAogICAgICAid2lkdGgiOiAyMzgsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICJhdXRvIgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyMzgsCiAgICAgICJzY3JvbGxXaWR0aCI6IDMzMCwKICAgICAgIndpZHRoIjogMjM4LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiYXV0byIKICAgIH0sCiAgICB7CiAgICAgICJ0YWciOiAiU0VMRUNUIiwKICAgICAgImlkIjogIl9yXzhfIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyMzYsCiAgICAgICJzY3JvbGxXaWR0aCI6IDIzNywKICAgICAgIndpZHRoIjogMjM4LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfQogIF0sCiAgIm92ZXJmbG93aW5nIjogW10KfQ=="
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-d0da9-mic-with-expected-revisions-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-d0da9-mic-with-expected-revisions-product-webkit-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-d0da9-mic-with-expected-revisions-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-d0da9-mic-with-expected-revisions-product-webkit-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                    "column": 8,
+                    "line": 42
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-b7378c730b96577863fc",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 248,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5098,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:26.043Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-2f0ffab83a3949335d6b",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 423,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 11310,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at assertProductViewport (/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/qa-diagnostics/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:584:9",
+                    "location": {
+                      "file": "/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                      "column": 8,
+                      "line": 42
+                    },
+                    "snippet": "   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                        "column": 8,
+                        "line": 42
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/qa-diagnostics/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:584:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T20:58:31.305Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "actual-viewport-measurements",
+                      "contentType": "application/json",
+                      "body": "ewogICJpbm5lcldpZHRoIjogMzIwLAogICJzY3JvbGxYIjogMCwKICAidmlzdWFsVmlld3BvcnQiOiB7CiAgICAid2lkdGgiOiAzMjAsCiAgICAib2Zmc2V0TGVmdCI6IDAsCiAgICAicGFnZUxlZnQiOiAwLAogICAgInNjYWxlIjogMQogIH0sCiAgImRvY3VtZW50V2lkdGgiOiAzNTksCiAgImRvY3VtZW50Q2xpZW50V2lkdGgiOiAzMjAsCiAgImJvZHlXaWR0aCI6IDM1OSwKICAiYm9keUNsaWVudFdpZHRoIjogMzIwLAogICJpbnRlcm5hbE92ZXJmbG93IjogWwogICAgewogICAgICAidGFnIjogIkRJViIsCiAgICAgICJpZCI6ICJyb290IiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM1OSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM1OSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM1OSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAzMjAsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM1OSwKICAgICAgIndpZHRoIjogMzIwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJNQUlOIiwKICAgICAgImlkIjogIm1haW4iLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDMyMCwKICAgICAgInNjcm9sbFdpZHRoIjogMzU5LAogICAgICAid2lkdGgiOiAzMjAsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICIwcHgiCiAgICB9LAogICAgewogICAgICAidGFnIjogIk1BSU4iLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyODQsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM0MSwKICAgICAgIndpZHRoIjogMjg0LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyODQsCiAgICAgICJzY3JvbGxXaWR0aCI6IDM0MSwKICAgICAgIndpZHRoIjogMjg0LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJGT1JNIiwKICAgICAgImlkIjogIiIsCiAgICAgICJyb2xlIjogbnVsbCwKICAgICAgImNsaWVudFdpZHRoIjogMjg0LAogICAgICAic2Nyb2xsV2lkdGgiOiAzNDEsCiAgICAgICJ3aWR0aCI6IDI4NCwKICAgICAgIm92ZXJmbG93WCI6ICJ2aXNpYmxlIiwKICAgICAgIm1pbldpZHRoIjogImF1dG8iCiAgICB9LAogICAgewogICAgICAidGFnIjogIkZJRUxEU0VUIiwKICAgICAgImlkIjogIiIsCiAgICAgICJyb2xlIjogbnVsbCwKICAgICAgImNsaWVudFdpZHRoIjogMjgwLAogICAgICAic2Nyb2xsV2lkdGgiOiAzMzksCiAgICAgICJ3aWR0aCI6IDI4MCwKICAgICAgIm92ZXJmbG93WCI6ICJ2aXNpYmxlIiwKICAgICAgIm1pbldpZHRoIjogIjBweCIKICAgIH0sCiAgICB7CiAgICAgICJ0YWciOiAiSU5QVVQiLAogICAgICAiaWQiOiAiX3JfMV8iLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDI3OCwKICAgICAgInNjcm9sbFdpZHRoIjogMzgxLAogICAgICAid2lkdGgiOiAyODAsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICIwcHgiCiAgICB9LAogICAgewogICAgICAidGFnIjogIlNFQ1RJT04iLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyNzgsCiAgICAgICJzY3JvbGxXaWR0aCI6IDMzOCwKICAgICAgIndpZHRoIjogMjgwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiYXV0byIKICAgIH0sCiAgICB7CiAgICAgICJ0YWciOiAiRElWIiwKICAgICAgImlkIjogIiIsCiAgICAgICJyb2xlIjogbnVsbCwKICAgICAgImNsaWVudFdpZHRoIjogMjM4LAogICAgICAic2Nyb2xsV2lkdGgiOiAzMTgsCiAgICAgICJ3aWR0aCI6IDIzOCwKICAgICAgIm92ZXJmbG93WCI6ICJ2aXNpYmxlIiwKICAgICAgIm1pbldpZHRoIjogImF1dG8iCiAgICB9LAogICAgewogICAgICAidGFnIjogIkRJViIsCiAgICAgICJpZCI6ICIiLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDIzOCwKICAgICAgInNjcm9sbFdpZHRoIjogMzE4LAogICAgICAid2lkdGgiOiAyMzgsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICJhdXRvIgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJTRUxFQ1QiLAogICAgICAiaWQiOiAiX3JfOV8iLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDIzNiwKICAgICAgInNjcm9sbFdpZHRoIjogMjM3LAogICAgICAid2lkdGgiOiAyMzgsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICIwcHgiCiAgICB9LAogICAgewogICAgICAidGFnIjogIlNFQ1RJT04iLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyNzgsCiAgICAgICJzY3JvbGxXaWR0aCI6IDMzOCwKICAgICAgIndpZHRoIjogMjgwLAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiYXV0byIKICAgIH0sCiAgICB7CiAgICAgICJ0YWciOiAiSU5QVVQiLAogICAgICAiaWQiOiAiX3JfYV8iLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDIzNiwKICAgICAgInNjcm9sbFdpZHRoIjogMjU1LAogICAgICAid2lkdGgiOiAyMzgsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICIwcHgiCiAgICB9LAogICAgewogICAgICAidGFnIjogIkRJViIsCiAgICAgICJpZCI6ICIiLAogICAgICAicm9sZSI6IG51bGwsCiAgICAgICJjbGllbnRXaWR0aCI6IDIzOCwKICAgICAgInNjcm9sbFdpZHRoIjogMzE4LAogICAgICAid2lkdGgiOiAyMzgsCiAgICAgICJvdmVyZmxvd1giOiAidmlzaWJsZSIsCiAgICAgICJtaW5XaWR0aCI6ICJhdXRvIgogICAgfSwKICAgIHsKICAgICAgInRhZyI6ICJESVYiLAogICAgICAiaWQiOiAiIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyMzgsCiAgICAgICJzY3JvbGxXaWR0aCI6IDMxOCwKICAgICAgIndpZHRoIjogMjM4LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiYXV0byIKICAgIH0sCiAgICB7CiAgICAgICJ0YWciOiAiU0VMRUNUIiwKICAgICAgImlkIjogIl9yX2VfIiwKICAgICAgInJvbGUiOiBudWxsLAogICAgICAiY2xpZW50V2lkdGgiOiAyMzYsCiAgICAgICJzY3JvbGxXaWR0aCI6IDIzNywKICAgICAgIndpZHRoIjogMjM4LAogICAgICAib3ZlcmZsb3dYIjogInZpc2libGUiLAogICAgICAibWluV2lkdGgiOiAiMHB4IgogICAgfQogIF0sCiAgIm92ZXJmbG93aW5nIjogW10KfQ=="
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-f9bc4-f-order-stages-are-rejected-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-f9bc4-f-order-stages-are-rejected-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatebd30-layout-readiness-r39/artifacts/b2b-product-programming-B2-f9bc4-f-order-stages-are-rejected-product-webkit-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/qa-diagnostics/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                    "column": 8,
+                    "line": 42
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-c1873289b1673ac6b9bf",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 479,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T20:56:42.047Z",
+    "duration": 121650.918,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
