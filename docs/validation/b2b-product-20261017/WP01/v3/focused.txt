@@ -1,0 +1,24 @@
+✔ People editors have labelled role/grant controls, explicit saves and supported invitation scope (852.872117ms)
+✔ trainers cannot manage/invite even with a stale broad capability and can inspect scoped planning changes (2.244246ms)
+✔ last-superadmin safeguards are explicit and role/membership controls remain disabled (1.358593ms)
+✔ loading, blocked, empty, conflict and exact retry states announce outcomes without private stale data (5.690533ms)
+✔ audit presentation includes actual actor/resource/time/revisions and marks unknown historical metadata (6.233961ms)
+✔ response-loss retry retains exact permission bytes and revision and blocks a new competing action (6.272164ms)
+✔ invitation retries reuse the original invitation and operation IDs, with no automatic retry (4.542562ms)
+✔ known role/CAS rejection leaves the loaded person untouched and does not enable blind retry (0.609013ms)
+✔ departed scope clears invitations/roster and discards a late mutation acknowledgement even if transport ignores abort (0.520942ms)
+✔ overlapping list reloads cannot restore a superseded roster (0.345162ms)
+✔ temporary stream loss hides private projections and retains the exact pending operation for explicit revalidation/retry (0.457878ms)
+✔ current tenant or selected-role denial hides protected data until an explicit fresh load succeeds (0.62101ms)
+✔ selected-role restrictions remain exact even when broader capabilities are supplied (1.49818ms)
+✔ selected-branch edits preserve every other active and revoked grant without mutating the source (6.691265ms)
+✔ invitations emit only supported single-branch roles or privileged roles with no extra grants (3.238348ms)
+✔ last-superadmin and tenant/CAS denials have recoverable messages distinct from ambiguous transport (0.369588ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1128.337259
