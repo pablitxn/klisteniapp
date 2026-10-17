@@ -1,3 +1,4 @@
+import { validateWorkoutBinding, type WorkoutBinding } from '../sync/workoutPrescription.ts'
 import {
   LocalWorkoutConflict,
   sameScope,
@@ -48,6 +49,9 @@ export type WorkoutDocument = {
   generation: number
   content: SessionContent
   accepted: SessionRevision | null
+  /** Server-issued retained prescription; original revision zero remains separate. */
+  binding?: WorkoutBinding
+  legacyConfirmedSetKeys?: string[]
   operations: WorkoutOperation[]
   legacyDraft: { key: string; bytes: string } | null
   supersededOperationIds: string[]
@@ -57,7 +61,11 @@ export type WorkoutDocument = {
 }
 export interface WorkoutStore {
   read(key: string): Promise<WorkoutDocument | null>
-  compareAndSet(document: WorkoutDocument, expectedGeneration: number | null): Promise<void>
+  compareAndSet(
+    document: WorkoutDocument,
+    expectedGeneration: number | null,
+    signal?: AbortSignal,
+  ): Promise<void>
   preserveLegacy(key: string, bytes: string): Promise<void>
 }
 /** Stored bytes are untrusted and future versions must never be overwritten. */
@@ -113,6 +121,13 @@ export function parseWorkoutDocument(value: unknown): WorkoutDocument {
       typeof d.legacyDraft.bytes !== 'string')
   )
     throw new Error('Invalid preserved legacy draft')
+  if (d.binding !== undefined) validateWorkoutBinding(d, d.binding)
+  if (
+    d.legacyConfirmedSetKeys !== undefined &&
+    (!Array.isArray(d.legacyConfirmedSetKeys) ||
+      d.legacyConfirmedSetKeys.some((key) => typeof key !== 'string'))
+  )
+    throw new Error('Invalid legacy correction confirmations')
   d.recovery.forEach((v) => SessionContentSchema.parse(v))
   const ids = new Set<string>()
   for (const raw of d.operations) {
@@ -145,6 +160,11 @@ export function assertWorkoutTransition(previous: WorkoutDocument, next: Workout
     canonicalJson(previous.origin) !== canonicalJson(next.origin)
   )
     throw new Error('Local original workout identity cannot change')
+  if (
+    previous.binding?.original &&
+    canonicalJson(previous.binding.original) !== canonicalJson(next.binding?.original)
+  )
+    throw new Error('Retain original legacy revision zero evidence')
   if (previous.accepted && (!next.accepted || next.accepted.revision < previous.accepted.revision))
     throw new Error('Accepted workout revision cannot move backwards')
   for (let index = 0; index < previous.operations.length; index++) {
@@ -218,14 +238,30 @@ export class IndexedDBWorkoutStore implements WorkoutRecoveryStore {
       tx.onabort = () => reject(tx.error ?? new Error('Storage read aborted'))
     })
   }
-  async compareAndSet(document: WorkoutDocument, expectedGeneration: number | null) {
+  async compareAndSet(
+    document: WorkoutDocument,
+    expectedGeneration: number | null,
+    signal?: AbortSignal,
+  ) {
+    signal?.throwIfAborted()
     const value = parseWorkoutDocument(document)
     const db = await this.database
+    signal?.throwIfAborted()
     return new Promise<void>((resolve, reject) => {
       const tx = db.transaction('workouts-v2', 'readwrite')
       const store = tx.objectStore('workouts-v2')
       const request = store.get(value.key)
       let failure: unknown
+      const abort = () => {
+        failure = signal?.reason
+        try {
+          tx.abort()
+        } catch {
+          /* Already settled. */
+        }
+      }
+      const cleanup = () => signal?.removeEventListener('abort', abort)
+      signal?.addEventListener('abort', abort, { once: true })
       request.onsuccess = () => {
         try {
           const current = request.result === undefined ? null : parseWorkoutDocument(request.result)
@@ -241,9 +277,18 @@ export class IndexedDBWorkoutStore implements WorkoutRecoveryStore {
           tx.abort()
         }
       }
-      tx.oncomplete = () => resolve()
-      tx.onabort = () => reject(failure ?? tx.error ?? new Error('Storage write aborted'))
-      tx.onerror = () => reject(failure ?? tx.error)
+      tx.oncomplete = () => {
+        cleanup()
+        resolve()
+      }
+      tx.onabort = () => {
+        cleanup()
+        reject(failure ?? tx.error ?? new Error('Storage write aborted'))
+      }
+      tx.onerror = () => {
+        cleanup()
+        reject(failure ?? tx.error)
+      }
     })
   }
   async preserveLegacy(key: string, bytes: string) {

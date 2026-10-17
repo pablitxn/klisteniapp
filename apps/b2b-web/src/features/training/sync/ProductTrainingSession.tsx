@@ -1,3 +1,11 @@
+import {
+  workoutPrescription,
+  prescriptionDisplay,
+  unsupportedLegacySets,
+  legacySetKey,
+  hasExplicitLegacyEntry,
+  type WorkoutBinding,
+} from './workoutPrescription'
 import { canonicalJson } from '@klisteniapp/b2b-domain/sessions'
 import { useState } from 'react'
 import type { SessionRevision } from '@klisteniapp/b2b-contracts/product-v2'
@@ -11,6 +19,8 @@ export type ProductTrainingSessionProps = ProductWorkoutOptions & {
   onClose: () => void
   /** Authorized latest revision query; no reconstruction from mutable catalog. */
   loadRemote: () => Promise<SessionRevision>
+  /** Root binds accepted-session conflict reads to the authoritative prescription. */
+  loadRemoteBinding?: () => Promise<WorkoutBinding>
 }
 export function ProductTrainingSession(props: ProductTrainingSessionProps) {
   return <WorkoutForm key={props.initial.key} {...props} />
@@ -18,8 +28,11 @@ export function ProductTrainingSession(props: ProductTrainingSessionProps) {
 function WorkoutForm(props: ProductTrainingSessionProps) {
   const session = useProductTrainingSession(props)
   const [remote, setRemote] = useState<SessionRevision | null>(null)
+  const [remoteBinding, setRemoteBinding] = useState<WorkoutBinding | undefined>(undefined)
   const [recoveryError, setRecoveryError] = useState('')
   const d = session.document
+  const prescription = d?.binding?.prescription ?? workoutPrescription(props)
+  const display = prescriptionDisplay(prescription)
   function download() {
     try {
       const url = URL.createObjectURL(
@@ -91,7 +104,7 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
     <div className="workout-session">
       <div className="page-heading">
         <div>
-          <h1>{props.routine.name}</h1>
+          <h1>{display.name}</h1>
           <p>Registrá valores reales. Cada ejercicio usa su propia dosis y carga.</p>
         </div>
         <button className="button" onClick={props.onClose}>
@@ -131,6 +144,41 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           Reenviar datos corregidos con nueva operación
         </button>
       )}
+      {session.correctionProblem && <Notice>{session.correctionProblem}</Notice>}
+      {d.binding?.original && (
+        <details>
+          <summary>Registro original conservado · revisión cero</summary>
+          <pre>{JSON.stringify(d.binding.original, null, 2)}</pre>
+        </details>
+      )}
+      {!d.accepted &&
+        d.binding &&
+        unsupportedLegacySets(d.binding).map((set) => {
+          const key = legacySetKey(set)
+          const confirmed =
+            d.legacyConfirmedSetKeys?.includes(key) && hasExplicitLegacyEntry(d, key)
+          return (
+            <section className="card" key={key}>
+              <h2>Serie original sin vínculo compatible</h2>
+              <p>
+                Ejercicio {set.exerciseId} · paso {set.stepId} · serie {set.set}. Conservamos sus
+                valores originales; registrá una corrección explícita en el paso correspondiente.
+              </p>
+              <pre>{JSON.stringify(set, null, 2)}</pre>
+              <button
+                className="button"
+                disabled={
+                  !session.editable || !hasExplicitLegacyEntry(d, key) || Boolean(confirmed)
+                }
+                onClick={() => void session.confirmLegacyCorrection(key)}
+              >
+                {confirmed
+                  ? 'Corrección explícita confirmada'
+                  : 'Confirmar los valores corregidos que registré para esta serie'}
+              </button>
+            </section>
+          )
+        })}
       {d.legacyDraft && (
         <details>
           <summary>Borrador original conservado</summary>
@@ -147,10 +195,20 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
             className="button"
             disabled={!session.editable}
             onClick={() => {
-              void props
-                .loadRemote()
-                .then(setRemote)
-                .catch((e) => setRecoveryError(String(e)))
+              setRemote(null)
+              setRemoteBinding(undefined)
+              void (
+                props.loadRemoteBinding
+                  ? props.loadRemoteBinding().then((binding) => {
+                      if (!binding.accepted)
+                        throw new Error(
+                          'El servidor todavía conserva solo la revisión original. Tu trabajo local no se reemplazó.',
+                        )
+                      setRemoteBinding(binding)
+                      setRemote(binding.accepted)
+                    })
+                  : props.loadRemote().then(setRemote)
+              ).catch((e) => setRecoveryError(String(e)))
             }}
           >
             Cargar revisión del servidor
@@ -161,10 +219,16 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
                 <summary>Comparar registros</summary>
                 <pre>{JSON.stringify({ local: d.content, server: remote.content }, null, 2)}</pre>
               </details>
-              <button className="button" onClick={() => void session.recover(remote, 'server')}>
+              <button
+                className="button"
+                onClick={() => void session.recover(remote, 'server', remoteBinding)}
+              >
                 Usar servidor y archivar copia local
               </button>
-              <button className="button" onClick={() => void session.recover(remote, 'local')}>
+              <button
+                className="button"
+                onClick={() => void session.recover(remote, 'local', remoteBinding)}
+              >
                 Reaplicar mi trabajo como nueva revisión
               </button>
             </>
@@ -181,10 +245,10 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
           }}
         />
       </Field>
-      {props.routine.steps.map((step) => (
+      {display.steps.map((step) => (
         <ProductSessionStep
           key={step.id}
-          routine={props.routine}
+          prescription={prescription}
           step={step}
           content={d.content}
           environment={props.environment}
@@ -253,7 +317,8 @@ function WorkoutForm(props: ProductTrainingSessionProps) {
             session.busy ||
             !session.online ||
             !props.integrationAccepted ||
-            Boolean(session.storageError)
+            Boolean(session.storageError) ||
+            Boolean(session.correctionProblem)
           }
           onClick={() => void session.synchronize()}
         >

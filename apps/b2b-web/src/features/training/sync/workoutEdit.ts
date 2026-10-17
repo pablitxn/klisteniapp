@@ -14,7 +14,7 @@ import {
   restoreEffectiveSegment,
   type AlternativeEnvironment,
 } from '@klisteniapp/b2b-domain/alternatives'
-import { sessionIssues } from '@klisteniapp/b2b-domain/sessions'
+import { sessionIssues, type SessionPrescription } from '@klisteniapp/b2b-domain/sessions'
 import {
   parseWorkoutDocument,
   workoutKey,
@@ -127,7 +127,7 @@ export function restoreWorkoutSegment(content: SessionContent, id: string) {
 }
 export function prepareWorkoutContent(
   document: WorkoutDocument,
-  routine: RoutineVersionV2,
+  routine: SessionPrescription,
   complete: boolean | 'void',
 ): SessionContent {
   const content = SessionContentSchema.parse(

@@ -1,5 +1,10 @@
+import { workoutPrescription, prescriptionDisplay } from './workoutPrescription'
 import { newWorkoutId } from './workoutCrypto'
-import type { RoutineVersionV2, SessionContent } from '@klisteniapp/b2b-contracts/product-v2'
+import type {
+  RoutineVersionV2,
+  SessionContent,
+  SessionPrescriptionBinding,
+} from '@klisteniapp/b2b-contracts/product-v2'
 import {
   emptyPerformedSet,
   targetEquipmentAvailable,
@@ -20,6 +25,7 @@ type Actual = SessionContent['sets'][number]
 export function ProductSessionStep({
   step,
   routine,
+  prescription,
   content,
   environment,
   disabled,
@@ -28,7 +34,8 @@ export function ProductSessionStep({
   onArchiveTarget,
 }: {
   step: RoutineVersionV2['steps'][number]
-  routine: RoutineVersionV2
+  routine?: RoutineVersionV2
+  prescription?: SessionPrescriptionBinding
   content: SessionContent
   environment: AlternativeEnvironment
   disabled: boolean
@@ -36,44 +43,53 @@ export function ProductSessionStep({
   onArchiveTarget: (id: string) => void
   onEdit: (change: (c: SessionContent) => SessionContent) => void
 }) {
+  const binding = workoutPrescription({ routine, prescription })
+  const display = prescriptionDisplay(binding)
   const selected = content.selectedSegments.find((s) => s.originalStepId === step.id)?.segmentId
   const segments = content.segments.filter((s) => s.originalStepId === step.id)
   const unavailableIds = new Set(
-    routine.relations
+    display.relations
       .filter((r) => !targetEquipmentAvailable(r.target, environment))
       .map((r) => r.id),
   )
   return (
     <section
       className="card workout-step"
-      aria-label={routine.exercises.find((e) => e.id === step.exerciseId)?.name ?? step.exerciseId}
+      aria-label={display.exercises.find((e) => e.id === step.exerciseId)?.name ?? step.exerciseId}
     >
-      <h2>{routine.exercises.find((e) => e.id === step.exerciseId)?.name ?? step.exerciseId}</h2>
+      <h2>{display.exercises.find((e) => e.id === step.exerciseId)?.name ?? step.exerciseId}</h2>
       <fieldset disabled={disabled}>
         <legend>Prescripción y alternativas</legend>
-        <ReviewedAlternatives
-          step={step}
-          relations={routine.relations}
-          unavailableIds={unavailableIds}
-          onSelect={(relation, confirmed) =>
-            onEdit((c) =>
-              selectWorkoutAlternative(
-                c,
-                routine,
-                step.id,
-                relation.id,
-                confirmed,
-                environment,
-                newWorkoutId(),
-                new Date().toISOString(),
-              ),
-            )
-          }
-        />
+        {binding.kind === 'reviewed' ? (
+          <ReviewedAlternatives
+            step={step}
+            relations={binding.routine.relations}
+            unavailableIds={unavailableIds}
+            onSelect={(relation, confirmed) =>
+              onEdit((c) =>
+                selectWorkoutAlternative(
+                  c,
+                  binding.routine,
+                  step.id,
+                  relation.id,
+                  confirmed,
+                  environment,
+                  newWorkoutId(),
+                  new Date().toISOString(),
+                ),
+              )
+            }
+          />
+        ) : (
+          <p>
+            Prescripción histórica compatible; no es una publicación revisada ni una confirmación de
+            lateralidad. Las variantes manuales originales se conservan por separado.
+          </p>
+        )}
         {segments.map((segment) => (
           <section key={segment.segmentId} className="subtle workout-segment">
             <h3>
-              {routine.exercises.find((e) => e.id === segment.exerciseId)?.name ??
+              {display.exercises.find((e) => e.id === segment.exerciseId)?.name ??
                 segment.relation?.target.name ??
                 segment.exerciseId}{' '}
               · {segment.segmentId === selected ? 'Objetivo actual' : 'Trabajo conservado'}
@@ -164,8 +180,14 @@ export function ProductSessionStep({
                         }
                       />
                     </Field>
-                    {segment.dose.load.mode === 'external' && (
-                      <Field label="Carga realizada kg">
+                    {segment.dose.load.mode !== 'bodyweight' && (
+                      <Field
+                        label={
+                          segment.dose.load.mode === 'unspecified'
+                            ? 'Carga realizada kg (opcional; carga prescrita sin especificar)'
+                            : 'Carga realizada kg'
+                        }
+                      >
                         <input
                           type="number"
                           inputMode="decimal"
