@@ -38,7 +38,13 @@ export default function App() {
         <p role="status">Conociendo tu gimnasio…</p>
       </Shell>
     )
-  if (brand.error && !session.bootstrap && !['login', 'member', 'management'].includes(route.kind))
+  // A bound inactive session cannot read brand context, but its unknown public
+  // route needs no private data. Host, session-binding and other errors stay denied.
+  const restrictedPublicNotFound =
+    route.kind === 'notFound' &&
+    brand.errorResponse?.status === 403 &&
+    brand.errorResponse.code === 'CONTEXT_REVOKED'
+  if (brand.error && !session.bootstrap && !isWorkspaceRoute(route) && !restrictedPublicNotFound)
     return (
       <Shell eyebrow="ACCESO">
         <Notice error>{brand.error}</Notice>

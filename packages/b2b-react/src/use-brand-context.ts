@@ -8,7 +8,8 @@ export function useBrandContext() {
     context: BrandContext | null
     loading: boolean
     error: string
-  }>({ context: null, loading: true, error: '' })
+    errorResponse: { status: number; code: string } | null
+  }>({ context: null, loading: true, error: '', errorResponse: null })
   const [revision, setRevision] = useState(0)
   const generation = useRef(0)
   const refresh = useCallback(() => setRevision((value) => value + 1), [])
@@ -21,20 +22,24 @@ export function useBrandContext() {
       .then(
         (context) => {
           if (!controller.signal.aborted && current === generation.current)
-            setState({ context, loading: false, error: '' })
+            setState({ context, loading: false, error: '', errorResponse: null })
         },
         (error) => {
-          if (!controller.signal.aborted && current === generation.current)
+          if (!controller.signal.aborted && current === generation.current) {
+            const legacy =
+              error instanceof ApiError &&
+              error.status === 404 &&
+              error.code === 'WHITE_LABEL_DISABLED'
             setState({
               context: null,
               loading: false,
-              error:
-                error instanceof ApiError &&
-                error.status === 404 &&
-                error.code === 'WHITE_LABEL_DISABLED'
-                  ? ''
-                  : errorMessage(error),
+              error: legacy ? '' : errorMessage(error),
+              errorResponse:
+                !legacy && error instanceof ApiError
+                  ? { status: error.status, code: error.code }
+                  : null,
             })
+          }
         },
       )
     return () => controller.abort()
