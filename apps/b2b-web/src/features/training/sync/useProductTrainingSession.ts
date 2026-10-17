@@ -31,6 +31,8 @@ export type ProductWorkoutOptions = {
   transport: WorkoutTransport
   /** Parent enables only after composed WP06 authorization acceptance. */
   integrationAccepted?: boolean
+  /** Called only after a real owner document is durably loaded or created. */
+  onDocumentReady?: (document: WorkoutDocument) => void | Promise<void>
 }
 export function useProductTrainingSession(options: ProductWorkoutOptions) {
   const { initial, routine, store, access, transport, integrationAccepted = false } = options
@@ -48,6 +50,8 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
   const accessRef = useRef(access)
   accessRef.current = access
   const runnerRef = useRef<WorkoutSync | null>(null)
+  const onDocumentReady = useRef(options.onDocumentReady)
+  onDocumentReady.current = options.onDocumentReady
   const editable = canEditWorkout(initial.scope, access)
   const accessIdentity = canonicalJson(access)
   useEffect(() => {
@@ -79,7 +83,12 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
       try {
         let d = await store.read(initial.key)
         if (epoch !== generation.current) return
-        if (d && canonicalJson(d.origin) !== canonicalJson(initial.origin))
+        if (
+          d &&
+          (d.key !== initial.key ||
+            canonicalJson(d.scope) !== canonicalJson(initial.scope) ||
+            canonicalJson(d.origin) !== canonicalJson(initial.origin))
+        )
           throw new Error(
             'Stored workout has a different issued origin; the original is preserved.',
           )
@@ -91,6 +100,12 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         current.current = d
         setDocument(d)
         setRecovered(d !== initial)
+        try {
+          await onDocumentReady.current?.(d)
+        } catch (error) {
+          if (epoch === generation.current)
+            setStorageError(`No pudimos conservar la selección de recuperación: ${String(error)}`)
+        }
       } catch (e) {
         if (epoch === generation.current) {
           setStorageError(String(e))
@@ -331,6 +346,8 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         if (epoch !== generation.current) return
         current.current = recovered
         setDocument(recovered)
+        await onDocumentReady.current?.(recovered)
+        if (epoch !== generation.current) return
         setStorageError('')
         setError('')
         return
@@ -350,6 +367,8 @@ export function useProductTrainingSession(options: ProductWorkoutOptions) {
         current.current = latest
         setDocument(latest)
       }
+      await onDocumentReady.current?.(current.current!)
+      if (epoch !== generation.current) return
       setStorageError('')
       setError('')
     })
