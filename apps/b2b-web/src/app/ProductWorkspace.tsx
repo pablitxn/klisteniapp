@@ -14,6 +14,7 @@ import { useApplication } from './ApplicationProvider'
 import { MembershipAccessBoundary } from '../features/membership/RestrictedMembership'
 import { personalExportDownload } from '../features/membership/trainingInterchange'
 import { ProgrammingPage } from '../features/programs/product/ProgrammingPage'
+import { LegacyAdoptionAssignments } from '../features/programs/legacy-adoption/LegacyAdoptionAssignments'
 import { ProductHistoryReportsPage } from '../features/reports/ProductReportsPage'
 import type { RoutineReference } from '../features/training/routine-history/model'
 import { HealthSettings } from '../features/health/HealthSettings'
@@ -284,6 +285,9 @@ function ProductViews({
         {(staff
           ? [
               ['planning', 'Programación'],
+              ...(context.access?.capabilities.includes('edit-planning')
+                ? [['legacy-review', 'Revisar rutinas anteriores']]
+                : []),
               ['reports', 'Historial'],
               ['people', 'Personas'],
               ['health', 'Mi salud'],
@@ -334,6 +338,18 @@ function ProductViews({
           createClient={createClient}
           loadExercises={loadExercises}
           loadRoutineChoices={loadChoices}
+        />
+      ) : staff &&
+        page === 'legacy-review' &&
+        context.access?.capabilities.includes('edit-planning') ? (
+        <LegacyAdoptionAssignments
+          accountId={context.accountId}
+          branchId={context.branchId}
+          access={context.access}
+          accessKey={accessKey}
+          contextSignal={context.signal}
+          createClient={createClient}
+          onClose={() => navigate(`${route}?view=planning`)}
         />
       ) : staff && page === 'reports' ? (
         <Reports
