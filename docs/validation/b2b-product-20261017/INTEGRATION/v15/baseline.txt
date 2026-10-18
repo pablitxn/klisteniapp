@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:108:1 › an unrelated production chunk cannot hold the authorized shell or initial feature (6.1s)
+
+
+  1) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:108:1 › an unrelated production chunk cannot hold the authorized shell or initial feature 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('combobox', { name: 'Organización', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('combobox', { name: 'Organización', exact: true }) with timeout 5000ms
+      - waiting for getByRole('combobox', { name: 'Organización', exact: true })
+
+
+      50 |
+      51 | async function shell(page: Page) {
+    > 52 |   await expect(page.getByRole('combobox', { name: 'Organización', exact: true })).toBeVisible()
+         |                                                                                   ^
+      53 |   await expect(page.getByRole('combobox', { name: 'Organización', exact: true })).toHaveValue('org-fixture')
+      54 |   await expect(page.getByRole('combobox', { name: 'Sede y función', exact: true })).toBeVisible()
+      55 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:52:83)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:111:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/baseline-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/baseline-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/baseline-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/baseline-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:108:1 › an unrelated production chunk cannot hold the authorized shell or initial feature 

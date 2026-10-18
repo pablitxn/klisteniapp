@@ -1,0 +1,564 @@
+
+Running 14 tests using 1 worker
+
+  ✘   1 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:97:1 › an unrelated production chunk cannot hold the authorized shell or initial feature (5.7s)
+  ✘   2 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:108:1 › a delayed selected chunk leaves navigation usable and loads when explicitly released (6.1s)
+  ✘   3 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:127:1 › a rejected selected chunk reports a scoped error and another section still works (5.7s)
+  ✘   4 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:144:1 › a branch and role change while planning is delayed cannot fetch or reveal old privileged data (5.7s)
+  ✘   5 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:162:1 › revoking consent during a delayed shared-health import cannot mount or fetch the old projection (5.8s)
+  ✘   6 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:182:1 › consent denial prevents importing or reading shared health (5.6s)
+  ✘   7 [chromium430] › test/workspace-loading/workspace-loading.spec.ts:193:1 › inactive membership remains export-only even when a health route is requested (5.5s)
+  ✘   8 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:97:1 › an unrelated production chunk cannot hold the authorized shell or initial feature (6.1s)
+  ✘   9 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:108:1 › a delayed selected chunk leaves navigation usable and loads when explicitly released (5.4s)
+  ✘  10 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:127:1 › a rejected selected chunk reports a scoped error and another section still works (6.2s)
+  ✘  11 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:144:1 › a branch and role change while planning is delayed cannot fetch or reveal old privileged data (6.1s)
+  ✘  12 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:162:1 › revoking consent during a delayed shared-health import cannot mount or fetch the old projection (5.8s)
+  ✘  13 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:182:1 › consent denial prevents importing or reading shared health (5.6s)
+  ✘  14 [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:193:1 › inactive membership remains export-only even when a health route is requested (5.5s)
+
+
+  1) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:97:1 › an unrelated production chunk cannot hold the authorized shell or initial feature 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      46 |
+      47 | async function shell(page: Page) {
+    > 48 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+         |                                                                  ^
+      49 |   await expect(page.getByLabel('Organización', { exact: true })).toHaveValue('org-fixture')
+      50 |   await expect(page.getByLabel('Sede y función', { exact: true })).toBeVisible()
+      51 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:48:66)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:100:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:108:1 › a delayed selected chunk leaves navigation usable and loads when explicitly released 
+
+    Error: Production ProgrammingPage chunk requested
+
+    Production ProgrammingPage chunk requested
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      74 |   return {
+      75 |     requests,
+    > 76 |     async requested() { await expect.poll(() => requests.length, `Production ${name} chunk requested`).toBeGreaterThan(0) },
+         |                                                                                                        ^
+      77 |     release() { mark(phases, 'chunk-released'); release() },
+      78 |     fail() { reject = true; mark(phases, 'chunk-rejected'); release() },
+      79 |     async evaluated() {
+        at Object.requested (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:76:104)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:111:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:127:1 › a rejected selected chunk reports a scoped error and another section still works 
+
+    Error: Production ProgrammingPage chunk requested
+
+    Production ProgrammingPage chunk requested
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      74 |   return {
+      75 |     requests,
+    > 76 |     async requested() { await expect.poll(() => requests.length, `Production ${name} chunk requested`).toBeGreaterThan(0) },
+         |                                                                                                        ^
+      77 |     release() { mark(phases, 'chunk-released'); release() },
+      78 |     fail() { reject = true; mark(phases, 'chunk-rejected'); release() },
+      79 |     async evaluated() {
+        at Object.requested (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:76:104)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:130:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:144:1 › a branch and role change while planning is delayed cannot fetch or reveal old privileged data 
+
+    Error: Production ProgrammingPage chunk requested
+
+    Production ProgrammingPage chunk requested
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      74 |   return {
+      75 |     requests,
+    > 76 |     async requested() { await expect.poll(() => requests.length, `Production ${name} chunk requested`).toBeGreaterThan(0) },
+         |                                                                                                        ^
+      77 |     release() { mark(phases, 'chunk-released'); release() },
+      78 |     fail() { reject = true; mark(phases, 'chunk-rejected'); release() },
+      79 |     async evaluated() {
+        at Object.requested (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:76:104)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:147:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:162:1 › revoking consent during a delayed shared-health import cannot mount or fetch the old projection 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      46 |
+      47 | async function shell(page: Page) {
+    > 48 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+         |                                                                  ^
+      49 |   await expect(page.getByLabel('Organización', { exact: true })).toHaveValue('org-fixture')
+      50 |   await expect(page.getByLabel('Sede y función', { exact: true })).toBeVisible()
+      51 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:48:66)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:165:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:182:1 › consent denial prevents importing or reading shared health 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      46 |
+      47 | async function shell(page: Page) {
+    > 48 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+         |                                                                  ^
+      49 |   await expect(page.getByLabel('Organización', { exact: true })).toHaveValue('org-fixture')
+      50 |   await expect(page.getByLabel('Sede y función', { exact: true })).toBeVisible()
+      51 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:48:66)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:185:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [chromium430] › test/workspace-loading/workspace-loading.spec.ts:193:1 › inactive membership remains export-only even when a health route is requested 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      194 |   const health = await chunkGate(page, 'HealthSettings', phases)
+      195 |   await start(page, { inactive: true }, 'admin', 'health')
+    > 196 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+          |                                                                  ^
+      197 |   await expect(page.getByRole('heading', { name: 'Tu membresía está inactiva', exact: true })).toBeVisible()
+      198 |   await expect(page.getByRole('button', { name: 'Descargar mis registros', exact: true })).toBeVisible()
+      199 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toHaveCount(0)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:196:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium430/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium430/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium430/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium430/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:97:1 › an unrelated production chunk cannot hold the authorized shell or initial feature 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      46 |
+      47 | async function shell(page: Page) {
+    > 48 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+         |                                                                  ^
+      49 |   await expect(page.getByLabel('Organización', { exact: true })).toHaveValue('org-fixture')
+      50 |   await expect(page.getByLabel('Sede y función', { exact: true })).toBeVisible()
+      51 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:48:66)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:100:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-an-unrel-a2ccd-ed-shell-or-initial-feature-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:108:1 › a delayed selected chunk leaves navigation usable and loads when explicitly released 
+
+    Error: Production ProgrammingPage chunk requested
+
+    Production ProgrammingPage chunk requested
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      74 |   return {
+      75 |     requests,
+    > 76 |     async requested() { await expect.poll(() => requests.length, `Production ${name} chunk requested`).toBeGreaterThan(0) },
+         |                                                                                                        ^
+      77 |     release() { mark(phases, 'chunk-released'); release() },
+      78 |     fail() { reject = true; mark(phases, 'chunk-rejected'); release() },
+      79 |     async evaluated() {
+        at Object.requested (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:76:104)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:111:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-delaye-b6529-ds-when-explicitly-released-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:127:1 › a rejected selected chunk reports a scoped error and another section still works 
+
+    Error: Production ProgrammingPage chunk requested
+
+    Production ProgrammingPage chunk requested
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      74 |   return {
+      75 |     requests,
+    > 76 |     async requested() { await expect.poll(() => requests.length, `Production ${name} chunk requested`).toBeGreaterThan(0) },
+         |                                                                                                        ^
+      77 |     release() { mark(phases, 'chunk-released'); release() },
+      78 |     fail() { reject = true; mark(phases, 'chunk-rejected'); release() },
+      79 |     async evaluated() {
+        at Object.requested (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:76:104)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:130:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-reject-9da0d-another-section-still-works-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:144:1 › a branch and role change while planning is delayed cannot fetch or reveal old privileged data 
+
+    Error: Production ProgrammingPage chunk requested
+
+    Production ProgrammingPage chunk requested
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      74 |   return {
+      75 |     requests,
+    > 76 |     async requested() { await expect.poll(() => requests.length, `Production ${name} chunk requested`).toBeGreaterThan(0) },
+         |                                                                                                        ^
+      77 |     release() { mark(phases, 'chunk-released'); release() },
+      78 |     fail() { reject = true; mark(phases, 'chunk-rejected'); release() },
+      79 |     async evaluated() {
+        at Object.requested (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:76:104)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:147:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-a-branch-e00dd--reveal-old-privileged-data-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:162:1 › revoking consent during a delayed shared-health import cannot mount or fetch the old projection 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      46 |
+      47 | async function shell(page: Page) {
+    > 48 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+         |                                                                  ^
+      49 |   await expect(page.getByLabel('Organización', { exact: true })).toHaveValue('org-fixture')
+      50 |   await expect(page.getByLabel('Sede y función', { exact: true })).toBeVisible()
+      51 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:48:66)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:165:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-revoking-a39a8-or-fetch-the-old-projection-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:182:1 › consent denial prevents importing or reading shared health 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      46 |
+      47 | async function shell(page: Page) {
+    > 48 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+         |                                                                  ^
+      49 |   await expect(page.getByLabel('Organización', { exact: true })).toHaveValue('org-fixture')
+      50 |   await expect(page.getByLabel('Sede y función', { exact: true })).toBeVisible()
+      51 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toBeVisible()
+        at shell (/task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:48:66)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:185:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-consent--30ac2-ng-or-reading-shared-health-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:193:1 › inactive membership remains export-only even when a health route is requested 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Organización', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Organización', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Organización', { exact: true })
+
+
+      194 |   const health = await chunkGate(page, 'HealthSettings', phases)
+      195 |   await start(page, { inactive: true }, 'admin', 'health')
+    > 196 |   await expect(page.getByLabel('Organización', { exact: true })).toBeVisible()
+          |                                                                  ^
+      197 |   await expect(page.getByRole('heading', { name: 'Tu membresía está inactiva', exact: true })).toBeVisible()
+      198 |   await expect(page.getByRole('button', { name: 'Descargar mis registros', exact: true })).toBeVisible()
+      199 |   await expect(page.getByRole('navigation', { name: 'Secciones del gimnasio' })).toHaveCount(0)
+        at /task/app/apps/b2c-web/test/workspace-loading/workspace-loading.spec.ts:196:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../tmp/loading-evidence/candidate-results/workspace-loading-inactive-435de-a-health-route-is-requested-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14 failed
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:97:1 › an unrelated production chunk cannot hold the authorized shell or initial feature 
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:108:1 › a delayed selected chunk leaves navigation usable and loads when explicitly released 
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:127:1 › a rejected selected chunk reports a scoped error and another section still works 
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:144:1 › a branch and role change while planning is delayed cannot fetch or reveal old privileged data 
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:162:1 › revoking consent during a delayed shared-health import cannot mount or fetch the old projection 
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:182:1 › consent denial prevents importing or reading shared health 
+    [chromium430] › test/workspace-loading/workspace-loading.spec.ts:193:1 › inactive membership remains export-only even when a health route is requested 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:97:1 › an unrelated production chunk cannot hold the authorized shell or initial feature 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:108:1 › a delayed selected chunk leaves navigation usable and loads when explicitly released 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:127:1 › a rejected selected chunk reports a scoped error and another section still works 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:144:1 › a branch and role change while planning is delayed cannot fetch or reveal old privileged data 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:162:1 › revoking consent during a delayed shared-health import cannot mount or fetch the old projection 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:182:1 › consent denial prevents importing or reading shared health 
+    [chromium-desktop] › test/workspace-loading/workspace-loading.spec.ts:193:1 › inactive membership remains export-only even when a health route is requested 
