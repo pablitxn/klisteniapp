@@ -1,0 +1,589 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--timeout=180000",
+      "--reporter=list,json",
+      "--grep=B2BP-HISTORY-002",
+      "--project=product-chromium-320",
+      "--project=product-chromium-430",
+      "--project=product-chromium-desktop",
+      "--project=product-webkit-320",
+      "--project=product-webkit-430",
+      "--project=product-webkit-desktop"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/history-d2-all-contexts-r63/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-all-contexts-r63/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-all-contexts-r63/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-all-contexts-r63/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-all-contexts-r63/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-all-contexts-r63/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-history.spec.ts",
+      "file": "b2b-product-history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":277,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":233,\"reservedSlots\":2}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6093,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:55:17.422Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":277,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":233,\"reservedSlots\":2}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-ffa4d06d-0b89-4cd5-b4cb-dfcf1ab2cc6c",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoxMjYsInJlZ2lvbldhaXRNcyI6OTc2LCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjo0MDQsImVsYXBzZWRNcyI6MTM1fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MTU2fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjIyfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NDk3fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTMyfSx7ImVuZHBvaW50IjoiY29udGludWl0eSIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU4N30seyJlbmRwb2ludCI6InNlc3Npb25zIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTkxfSx7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY2Nn0seyJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjcxfV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-2724cb8744a030785031",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":217,\"reservedSlots\":3}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":271,\"reservedSlots\":4}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5545,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:55:25.071Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":217,\"reservedSlots\":3}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":271,\"reservedSlots\":4}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-66c94e6a-fb6b-4e88-b100-9e01be1583d8",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoxNTMsInJlZ2lvbldhaXRNcyI6OTA3LCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjo0MDQsImVsYXBzZWRNcyI6MTY4fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjA4fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjgzfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTI1fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTUxfSx7ImVuZHBvaW50IjoiY29udGludWl0eSIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU5N30seyJlbmRwb2ludCI6InNlc3Npb25zIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjAzfSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2NTd9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjY1fV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-551a40e9f89b3b67f6af",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":265,\"reservedSlots\":5}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":291,\"reservedSlots\":6}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6585,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:55:32.111Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":265,\"reservedSlots\":5}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":291,\"reservedSlots\":6}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-9d41d849-3c30-4034-af18-339501987682",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoxMzIsInJlZ2lvbldhaXRNcyI6MTM1NiwicmVzcG9uc2VUaW1pbmciOiJCcm93c2VyIHJlc3BvbnNlIGV2ZW50czsgYm9keSBjb21wbGV0aW9uIGlzIG5vdCBpbmZlcnJlZC4iLCJyZXNwb25zZXMiOlt7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6NDA0LCJlbGFwc2VkTXMiOjE1Nn0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjI3Mn0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjYzOX0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjc3Mn0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjc5Mn0seyJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo4NTZ9LHsiZW5kcG9pbnQiOiJzZXNzaW9ucyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjg2NH0seyJlbmRwb2ludCI6IndlZWsiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo5NzJ9LHsiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjEwMDB9XX0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-f912f361aacfa21a9811",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":408,\"reservedSlots\":7}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":288,\"reservedSlots\":8}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6943,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:55:39.956Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":408,\"reservedSlots\":7}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":288,\"reservedSlots\":8}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-58a38839-fb9f-484e-9c86-2d64c968d581",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoxMTIsInJlZ2lvbldhaXRNcyI6OTIzLCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjo0MDQsImVsYXBzZWRNcyI6MTI4fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjAxfSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjMxfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTYzfSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTc0fSx7ImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2MTJ9LHsiZW5kcG9pbnQiOiJjb250aW51aXR5Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjE0fSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2NzN9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6Njg3fV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-f207da0e85c21022365d",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 239870,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":246,\"reservedSlots\":9}"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 58870ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":675,\"reservedSlots\":1}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 66664,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:55:47.970Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":246,\"reservedSlots\":9}"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 58870ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":675,\"reservedSlots\":1}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-7dffc190-6c82-4ac0-9b98-aa0eb5ed97f4",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjozNDUsInJlZ2lvbldhaXRNcyI6OTg0LCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzF9LHsiZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjo0MDQsImVsYXBzZWRNcyI6MzY1fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NDAwfSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NDUyfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzU1fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzY5fSx7ImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo3OTl9LHsiZW5kcG9pbnQiOiJjb250aW51aXR5Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6ODA0fSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo4NTN9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6ODcxfV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-4fd74d20bbb056e54393",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":346,\"reservedSlots\":2}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":369,\"reservedSlots\":3}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7050,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:56:55.786Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":346,\"reservedSlots\":2}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":369,\"reservedSlots\":3}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-2eff1652-3f52-4948-a997-e50b6b1d2e43",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoyMDMsInJlZ2lvbldhaXRNcyI6MTExMCwicmVzcG9uc2VUaW1pbmciOiJCcm93c2VyIHJlc3BvbnNlIGV2ZW50czsgYm9keSBjb21wbGV0aW9uIGlzIG5vdCBpbmZlcnJlZC4iLCJyZXNwb25zZXMiOlt7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6NDA0LCJlbGFwc2VkTXMiOjIyNn0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjI5OH0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjM4Mn0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjc0NX0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjc5Mn0seyJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo4Mzd9LHsiZW5kcG9pbnQiOiJzZXNzaW9ucyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjg0MX0seyJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6OTE0fSx7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjkxNH1dfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-96b1e5ad804ff2ba8e16",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T15:54:33.302Z",
+    "duration": 151263.277,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

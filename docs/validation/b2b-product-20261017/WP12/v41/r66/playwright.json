@@ -1,0 +1,403 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.b2b-product-wl-http.config.ts",
+      "--timeout=180000",
+      "--reporter=list,json",
+      "--grep=B2BP-HISTORY-002",
+      "--project=product-chromium-desktop",
+      "--repeat-each=3"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-wl-http.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/history-d2-chromium1440-repeats-r66/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-chromium1440-repeats-r66/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-chromium1440-repeats-r66/artifacts",
+        "repeatEach": 3,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-chromium1440-repeats-r66/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-chromium1440-repeats-r66/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/history-d2-chromium1440-repeats-r66/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "white-label-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5700/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-history.spec.ts",
+      "file": "b2b-product-history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":484,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":294,\"reservedSlots\":2}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6221,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:57:58.313Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":484,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":294,\"reservedSlots\":2}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-c31c664a-1c6a-4561-abc7-8d9ba6a1f1c3",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoyMTEsInJlZ2lvbldhaXRNcyI6OTk1LCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjQwfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MzA1fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NDI0fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjMyfSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjY4fSx7ImVuZHBvaW50IjoiY29udGludWl0eSIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjcyOX0seyJlbmRwb2ludCI6InNlc3Npb25zIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzM2fSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo4Mjd9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6ODI4fV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-f912f361aacfa21a9811",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":329,\"reservedSlots\":3}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":311,\"reservedSlots\":4}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5384,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:58:05.763Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":329,\"reservedSlots\":3}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":311,\"reservedSlots\":4}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-404837e9-b74e-4e5d-878c-c5d00d47d405",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoxNTAsInJlZ2lvbldhaXRNcyI6OTM2LCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MTcxfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjI4fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjcyfSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTY0fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjA2fSx7ImVuZHBvaW50IjoiY29udGludWl0eSIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY3Mn0seyJlbmRwb2ludCI6InNlc3Npb25zIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6Njg1fSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo3MzZ9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzU2fV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-90ed3c9ea9790ded9dcb",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":246,\"reservedSlots\":5}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":248,\"reservedSlots\":6}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5296,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T15:58:12.175Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":246,\"reservedSlots\":5}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":248,\"reservedSlots\":6}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-continuity-readiness-06741d92-c64d-4a5a-92e6-23939ac11427",
+                      "contentType": "application/json",
+                      "body": "eyJyZWdpb25WaXNpYmxlIjp0cnVlLCJtYXhpbXVtUmVnaW9uV2FpdE1zIjozMDAwMCwibmF2aWdhdGlvbk1zIjoyMTUsInJlZ2lvbldhaXRNcyI6OTAyLCJyZXNwb25zZVRpbWluZyI6IkJyb3dzZXIgcmVzcG9uc2UgZXZlbnRzOyBib2R5IGNvbXBsZXRpb24gaXMgbm90IGluZmVycmVkLiIsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjM2fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MzAwfSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MzU3fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NTk1fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjE0fSx7ImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2NzJ9LHsiZW5kcG9pbnQiOiJjb250aW51aXR5Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6Njc2fSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo3MjN9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzQwfV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-f5616410477075d6fc8d",
+          "file": "b2b-product-history.spec.ts",
+          "line": 23,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T15:57:10.401Z",
+    "duration": 68017.769,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
