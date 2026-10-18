@@ -1,0 +1,353 @@
+[
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-HEALTH-010",
+    "project": "product-chromium-430",
+    "engine": "chromium",
+    "width": 430,
+    "status": "timedOut",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+      },
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+          "column": 25,
+          "line": 445
+        },
+        "message": "Error: page.waitForResponse: Test timeout of 180000ms exceeded.\n\n  443 |   await grantThroughUi(page, owner)\n  444 |   const revoke = page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true })\n> 445 |   const accepted = page.waitForResponse(\n      |                         ^\n  446 |     (r) =>\n  447 |       r.request().method() === 'POST' &&\n  448 |       /\\/health\\/consents\\/[^/]+\\/revoke$/.test(new URL(r.url()).pathname),\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:445:25"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-HEALTH-010",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "timedOut",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+      },
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+          "column": 25,
+          "line": 445
+        },
+        "message": "Error: page.waitForResponse: Test timeout of 180000ms exceeded.\n\n  443 |   await grantThroughUi(page, owner)\n  444 |   const revoke = page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true })\n> 445 |   const accepted = page.waitForResponse(\n      |                         ^\n  446 |     (r) =>\n  447 |       r.request().method() === 'POST' &&\n  448 |       /\\/health\\/consents\\/[^/]+\\/revoke$/.test(new URL(r.url()).pathname),\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:445:25"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-HEALTH-005",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 31,
+          "line": 241
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:241\n\n  239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n> 241 |   await expect(organizations).toBeVisible()\n      |                               ^\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n  243 |     await organizations.selectOption(who.organization.id)\n  244 |   const access = await api(page, who, 'access', {})\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:241:31)\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:195:5"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-HISTORY-005",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 31,
+          "line": 241
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:241\n\n  239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n> 241 |   await expect(organizations).toBeVisible()\n      |                               ^\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n  243 |     await organizations.selectOption(who.organization.id)\n  244 |   const access = await api(page, who, 'access', {})\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:241:31)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:685:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:391:13"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-chromium-320",
+    "engine": "chromium",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 7,
+          "line": 149
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\u001b[22m\n\n\n  147 |     await expect(\n  148 |       page.getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }),\n> 149 |     ).toBeVisible()\n      |       ^\n  150 |     await expect(\n  151 |       page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),\n  152 |     ).toHaveCount(0)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:149:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-chromium-430",
+    "engine": "chromium",
+    "width": 430,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 7,
+          "line": 149
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\u001b[22m\n\n\n  147 |     await expect(\n  148 |       page.getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }),\n> 149 |     ).toBeVisible()\n      |       ^\n  150 |     await expect(\n  151 |       page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),\n  152 |     ).toHaveCount(0)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:149:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-chromium-desktop",
+    "engine": "chromium",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 7,
+          "line": 149
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\u001b[22m\n\n\n  147 |     await expect(\n  148 |       page.getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }),\n> 149 |     ).toBeVisible()\n      |       ^\n  150 |     await expect(\n  151 |       page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),\n  152 |     ).toHaveCount(0)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:149:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-001",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 31,
+          "line": 241
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:241\n\n  239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n> 241 |   await expect(organizations).toBeVisible()\n      |                               ^\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n  243 |     await organizations.selectOption(who.organization.id)\n  244 |   const access = await api(page, who, 'access', {})\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:241:31)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:44:3"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 7,
+          "line": 149
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\u001b[22m\n\n\n  147 |     await expect(\n  148 |       page.getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }),\n> 149 |     ).toBeVisible()\n      |       ^\n  150 |     await expect(\n  151 |       page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),\n  152 |     ).toHaveCount(0)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:149:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-webkit-430",
+    "engine": "webkit",
+    "width": 430,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 7,
+          "line": 149
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\u001b[22m\n\n\n  147 |     await expect(\n  148 |       page.getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }),\n> 149 |     ).toBeVisible()\n      |       ^\n  150 |     await expect(\n  151 |       page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),\n  152 |     ).toHaveCount(0)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:149:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-008",
+    "project": "product-webkit-430",
+    "engine": "webkit",
+    "width": 430,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts",
+          "column": 5,
+          "line": 76
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/Revisi\u00f3n de tus datos: 12\\./)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/Revisi\u00f3n de tus datos: 12\\./) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/Revisi\u00f3n de tus datos: 12\\./)\u001b[22m\n\n\n   at fixtures/b2b-product/health-journey.ts:76\n\n  74 |   await expect(\n  75 |     page.getByText(new RegExp(`Revisi\u00f3n de tus datos: ${accepted.revision}\\\\.`)),\n> 76 |   ).toBeVisible()\n     |     ^\n  77 |   return file\n  78 | }\n  79 | export async function grantThroughUi(page: Page, owner: Principal) {\n    at importThroughUi (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts:76:5)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:250:5"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 7,
+          "line": 149
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true })\u001b[22m\n\n\n  147 |     await expect(\n  148 |       page.getByRole('heading', { name: 'Esta p\u00e1gina no existe', exact: true }),\n> 149 |     ).toBeVisible()\n      |       ^\n  150 |     await expect(\n  151 |       page.getByRole('region', { name: 'Sesiones realizadas', exact: true }),\n  152 |     ).toHaveCount(0)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:149:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-009",
+    "project": "product-chromium-430",
+    "engine": "chromium",
+    "width": 430,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 31,
+          "line": 241
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:241\n\n  239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n> 241 |   await expect(organizations).toBeVisible()\n      |                               ^\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n  243 |     await organizations.selectOption(who.organization.id)\n  244 |   const access = await api(page, who, 'access', {})\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:241:31)\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:185:5"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-008",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+          "column": 8,
+          "line": 42
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:308:11"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r35",
+    "mode": "white-label-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-004",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+          "column": 8,
+          "line": 42
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:584:9"
+      }
+    ],
+    "originalOutcomePreserved": true
+  }
+]
