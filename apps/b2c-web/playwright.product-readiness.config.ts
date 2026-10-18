@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test'
 // Synthetic DOM contracts only: no product server, database or full-matrix fixtures.
 export default defineConfig({
   testDir: './e2e/support',
-  testMatch: 'product-readiness.contract.spec.ts',
+  testMatch: 'b2b-readiness.contract.spec.ts',
   fullyParallel: false,
   workers: 1,
   retries: 0,
