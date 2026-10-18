@@ -1,3 +1,4 @@
+import { reloadHistory } from './fixtures/b2b-product/readiness'
 import {
   test,
   expect,
@@ -282,7 +283,7 @@ test(scenarioTitle('B2BP-WEEK-009'), async ({ page, context, product }, info) =>
     const revisions = await api(page, member, 'sessionRevisions', { id: saved.session.id })
     expect(revisions).toHaveLength(3)
     expect(revisions[0]).toMatchObject({ origin: saved.session.origin })
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText('Anulada')
     await assertProductViewport(page, info)
   } finally {

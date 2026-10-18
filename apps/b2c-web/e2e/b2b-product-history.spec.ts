@@ -1,3 +1,4 @@
+import { reloadHistory, waitForHistoryReady } from './fixtures/b2b-product/readiness'
 import type { Response } from '@playwright/test'
 import {
   test,
@@ -417,7 +418,7 @@ test(scenarioTitle('B2BP-HISTORY-001'), async ({ page, context, product }, info)
     await expect(plan).toContainText('Past phase')
     await expect(plan).toContainText('Future phase')
     await page.clock.setFixedTime(new Date(`${addDays(start, 9)}T12:00:00Z`))
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(
       plan.getByRole('status').filter({ hasText: 'Hoy no hay una etapa prescrita' }),
     ).toBeVisible()
@@ -493,10 +494,11 @@ test(scenarioTitle('B2BP-HISTORY-009'), async ({ page, context, product }, info)
     const saved = await record(page, member, plan.routine, plan.occurrences[0]!)
     await open(page, product, info, 'history')
     await page.getByRole('link', { name: `Ver sesión ${saved.session.id}`, exact: true }).click()
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(page.locator(`[id="actual-session-${saved.session.id}"]`)).toBeVisible()
     await open(page, product, info, 'health')
     await page.goBack()
+    await waitForHistoryReady(page, info)
     await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText(
       saved.session.id,
     )
@@ -508,7 +510,7 @@ test(scenarioTitle('B2BP-HISTORY-009'), async ({ page, context, product }, info)
     await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
     await login(page, principal(product, 'secondary-member', 'atlas', true), info)
     await open(page, product, info, 'history')
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).not.toContainText(
       saved.session.id,
     )

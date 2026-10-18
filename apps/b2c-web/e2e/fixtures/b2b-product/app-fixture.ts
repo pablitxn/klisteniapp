@@ -22,6 +22,13 @@ import {
   type Occurrence,
   type SessionContent,
 } from '../../../../../packages/b2b-contracts/src/product-v2.ts'
+import {
+  observeReadiness,
+  waitForWorkspaceReady,
+  waitForHistoryReady,
+  waitForWeekReady,
+  reloadHistory,
+} from './readiness'
 export { expect }
 export type { Page, TestInfo, BrowserContext }
 
@@ -264,8 +271,8 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   if (access.accessMode === 'export-only') return
   expect(access.accessMode).toBe('active')
   const selector = page.getByRole('combobox', { name: 'Sede y función', exact: true })
-  await expect(selector).toBeVisible()
-  {
+  await waitForWorkspaceReady(page, info, async (remaining) => {
+    await expect(selector).toBeVisible({ timeout: remaining() })
     const exact = JSON.stringify([who.branchId, who.role])
     const options = await selector
       .locator('option')
@@ -284,14 +291,15 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
           new URL(response.url()).pathname.endsWith('/product/v2/access') &&
           response.request().headers()['x-klisteni-b2b-branch'] === who.branchId &&
           response.request().headers()['x-klisteni-b2b-role'] === selectedRole,
+        { timeout: remaining() },
       )
-      await selector.selectOption(value)
+      void admitted.catch(() => {}) // Keep teardown safe if selection fails before the response.
+      await selector.selectOption(value, { timeout: remaining() })
       expect((await admitted).status(), 'Actual selected work context admission').toBe(200)
     }
-  }
-  await expect(
-    page.getByRole('navigation', { name: 'Secciones del gimnasio', exact: true }),
-  ).toBeVisible()
+    await expect(selector).toHaveValue(value, { timeout: remaining() })
+    await expect(organizations).toHaveValue(who.organization.id, { timeout: remaining() })
+  })
 }
 export async function open(
   page: Page,
@@ -324,6 +332,7 @@ export async function open(
         .getByRole('combobox', { name: 'Persona', exact: true })
         .selectOption(values.memberId!)
     }
+    if (route === 'history') await waitForHistoryReady(page, info)
     return
   }
   const path = template.replace(/\{(\w+)\}/g, (_, key) => {
@@ -332,6 +341,7 @@ export async function open(
   })
   expect(path.startsWith('/') && !path.startsWith('//')).toBe(true)
   await page.goto(new URL(path, page.url()).href)
+  if (route === 'history') await waitForHistoryReady(page, info)
   if (route === 'trainerHealth') {
     expect(values.memberId, 'An actual member must be selected for trainer health').toBeTruthy()
     await page
@@ -633,55 +643,18 @@ export async function showWeek(
   week: string,
   timeZone = 'UTC',
 ) {
-  const started = performance.now()
-  let headingWaitStarted: number | undefined
-  let headingVisible = false
-  const responses: Array<{ endpoint: string; status: number; elapsedMs: number }> = []
-  const recordResponse = (response: Response) => {
-    const endpoint = new URL(response.url()).pathname.match(
-      /\/(context|bootstrap\/v2|access|continuity|sessions|week|occurrences)$/,
-    )?.[1]
-    if (endpoint)
-      responses.push({
-        endpoint,
-        status: response.status(),
-        elapsedMs: Math.round(performance.now() - started),
-      })
-  }
-  page.on('response', recordResponse)
-  try {
-    await open(page, product, info, 'history')
-    headingWaitStarted = performance.now()
-    await expect(
-      page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
-    ).toBeVisible({ timeout: 30000 })
-    headingVisible = true
-  } finally {
-    page.off('response', recordResponse)
-    await info.attach(`history-page-readiness-${operation()}`, {
-      body: Buffer.from(
-        JSON.stringify({
-          headingVisible,
-          maximumHeadingWaitMs: 30000,
-          navigationMs:
-            headingWaitStarted === undefined ? null : Math.round(headingWaitStarted - started),
-          headingWaitMs:
-            headingWaitStarted === undefined
-              ? null
-              : Math.round(performance.now() - headingWaitStarted),
-          responses,
-        }),
-      ),
-      contentType: 'application/json',
-    })
-  }
+  await open(page, product, info, 'history')
+  await expect(
+    page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+  ).toBeVisible()
   // Offset the calendar while wall time keeps advancing, so real retry deadlines
   // can expire. Authoritative server asOf/closed responses remain unmodified.
   await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))
-  await page.reload()
+  await reloadHistory(page, info)
   await page
     .getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })
     .selectOption(timeZone)
+  await waitForWeekReady(page, info, week, timeZone)
   await expect(page.getByRole('heading', { name: `Semana del ${week}`, exact: true })).toBeVisible()
 }
 export async function startWorkout(
@@ -692,16 +665,21 @@ export async function startWorkout(
   sessionId = operation(),
 ) {
   const occurrence = plan.occurrences[0]!
-  const accepted = page.waitForResponse((r) => {
-    if (
-      r.request().method() !== 'POST' ||
-      !/\/sessions\/[^/]+\/revisions$/.test(new URL(r.url()).pathname)
-    )
-      return false
-    return r.request().postDataJSON()?.origin?.occurrenceId === occurrence.id
-  })
-  void accepted.catch(() => {}) // A failed UI assertion must not leave an unhandled waiter at teardown.
+  const observeInitialDraft = () => {
+    const response = page.waitForResponse((r) => {
+      if (
+        r.request().method() !== 'POST' ||
+        !/\/sessions\/[^/]+\/revisions$/.test(new URL(r.url()).pathname)
+      )
+        return false
+      return r.request().postDataJSON()?.origin?.occurrenceId === occurrence.id
+    })
+    void response.catch(() => {}) // A failed entry action must not leave an unhandled waiter.
+    return response
+  }
+  let accepted: Promise<Response>
   if (product.routes?.workout) {
+    accepted = observeInitialDraft()
     await open(page, product, info, 'workout', {
       occurrenceId: occurrence.id,
       sessionId,
@@ -710,6 +688,7 @@ export async function startWorkout(
     })
   } else {
     await showWeek(page, product, info, plan.weekStart)
+    accepted = observeInitialDraft()
     if (product.entryPoints?.workoutButtonName) {
       await page
         .locator(`[id="scheduled-occurrence-${occurrence.id}"]`)
@@ -723,12 +702,35 @@ export async function startWorkout(
   }
   await expect(page.getByRole('heading', { name: plan.routine.name, exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Guardar parcial', exact: true })).toBeVisible()
-  await page
-    .getByLabel('Fecha y hora realizada (ISO con zona)', { exact: true })
-    .fill(`${occurrence.scheduledDate}T10:00:00Z`)
+  // Observe the initial immutable autosave; do not race it with an unrelated timestamp edit.
   const response = await accepted
   expect(response.ok(), 'The real issued workout must acknowledge its initial draft').toBe(true)
-  return (await response.json()).session.id as string
+  const sent = response.request().postDataJSON() as ProductInput<'saveSession'>
+  const { session } = (await response.json()) as ProductOutput<'saveSession'>
+  expect(sent.expectedRevision).toBe(0)
+  expect(session).toMatchObject({
+    id: sent.id,
+    revision: 1,
+    origin: { kind: 'occurrence', occurrenceId: occurrence.id },
+  })
+  expect(session.content).toEqual(sent.content)
+  expect(session.content).toMatchObject({
+    status: 'draft',
+    explicitCompletion: false,
+    correctionReason: '',
+    sets: [],
+  })
+  if (!product.routes?.workout)
+    expect(session.content.performedAt.slice(0, 10)).toBe(occurrence.scheduledDate)
+  await observeReadiness(page, info, 'initial-draft-commit', async (remaining) => {
+    await expect(
+      page.getByLabel('Fecha y hora realizada (ISO con zona)', { exact: true }),
+    ).toHaveValue(session.content.performedAt, { timeout: remaining() })
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }),
+    ).toBeVisible({ timeout: remaining() })
+  })
+  return session.id
 }
 export async function staffSession(
   context: BrowserContext,
