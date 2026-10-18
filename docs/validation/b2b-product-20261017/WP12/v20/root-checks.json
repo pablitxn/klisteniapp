@@ -1,0 +1,72 @@
+{
+  "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+  "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+  "commands": [
+    {
+      "name": "bd30-root-script-tests",
+      "command": "node --test --test-concurrency=1 scripts/preview-provenance.test.mjs scripts/preview-workspace-relocation.test.mjs scripts/b2b-boundaries.test.mjs scripts/dev-environment.test.mjs scripts/b2b-gateway.test.mjs",
+      "exitCode": 0,
+      "times": [
+        "2026-10-17T18:55:08Z",
+        "2026-10-17T18:55:09Z"
+      ],
+      "decodedLogSha256": "a8b974655b78447adac97d6e38c0ea454360df83595a2e457da40f285c2cfd08",
+      "logReceipt": "bd30-root-script-tests.log.b64"
+    },
+    {
+      "name": "bd30-root-boundaries",
+      "command": "pnpm check:b2b:boundaries",
+      "exitCode": 0,
+      "times": [
+        "2026-10-17T18:55:10Z",
+        "2026-10-17T18:55:12Z"
+      ],
+      "decodedLogSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+      "logReceipt": "bd30-root-boundaries.log.b64"
+    },
+    {
+      "name": "bd30-root-typecheck-retry1",
+      "command": "pnpm typecheck --concurrency=1",
+      "exitCode": 0,
+      "times": [
+        "2026-10-17T19:00:15Z",
+        "2026-10-17T19:01:33Z"
+      ],
+      "decodedLogSha256": "9049a81c3bef2e5d8b6a36935ee0a20ba6daeef92123d3f9135afbe37a6300fc",
+      "logReceipt": "bd30-root-typecheck-retry1.log.b64"
+    },
+    {
+      "name": "bd30-root-lint-retry1",
+      "command": "pnpm exec turbo run lint --concurrency=1 --force",
+      "exitCode": 0,
+      "times": [
+        "2026-10-17T19:01:33Z",
+        "2026-10-17T19:02:32Z"
+      ],
+      "decodedLogSha256": "c6489bca9a03ea0167ab6a89916977a2b7d87585449e03e677f86bbb94489c20",
+      "logReceipt": "bd30-root-lint-retry1.log.b64"
+    },
+    {
+      "name": "bd30-root-format",
+      "command": "pnpm format:b2b:check",
+      "exitCode": 0,
+      "times": [
+        "2026-10-17T18:55:13Z",
+        "2026-10-17T18:55:24Z"
+      ],
+      "decodedLogSha256": "796ca6dd5a18c3a87969350f3cd236123bd63bd3c4382075395d4597e7ae9356",
+      "logReceipt": "bd30-root-format.log.b64"
+    },
+    {
+      "name": "bd30-root-build-retry1",
+      "command": "pnpm build --concurrency=1",
+      "exitCode": 0,
+      "times": [
+        "2026-10-17T19:02:32Z",
+        "2026-10-17T19:02:37Z"
+      ],
+      "decodedLogSha256": "cbc72b51c79f1e66e2269744e24ae9688c046b8195f8bc059849ae30b7fb2209",
+      "logReceipt": "bd30-root-build-retry1.log.b64"
+    }
+  ]
+}

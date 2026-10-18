@@ -1,0 +1,178 @@
+{
+  "qualification": "Interpretation of preserved original failures, not replacement statuses. Later passing regressions never turn an original failed cell green. No private-data defect is inferred solely from a positive readiness timeout or an admission guard rejection.",
+  "classCounts": {
+    "awaited-revoke-response-canceled-after-commit": 2,
+    "positive-workspace-readiness-deadline": 4,
+    "public-unknown-route-recovery-defect": 6,
+    "positive-import-revision-acknowledgment-deadline": 1,
+    "planning-viewport-overflow": 2
+  },
+  "unclassifiedCount": 0,
+  "cells": [
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-HEALTH-010",
+      "project": "product-chromium-430",
+      "originalStatus": "timedOut",
+      "failureClass": "awaited-revoke-response-canceled-after-commit",
+      "basis": "Verified original committed revocation/native private state; prospective full R37 and R41/R42 cases use actual state",
+      "followupOwnerOrEvidence": "WP12 guarded response observation correction",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-HEALTH-010",
+      "project": "product-webkit-320",
+      "originalStatus": "timedOut",
+      "failureClass": "awaited-revoke-response-canceled-after-commit",
+      "basis": "Verified original committed revocation/native private state; prospective full R37 and R41/R42 cases use actual state",
+      "followupOwnerOrEvidence": "WP12 guarded response observation correction",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-HEALTH-005",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "positive-workspace-readiness-deadline",
+      "basis": "Observed positive login selector deadline",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-HISTORY-005",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "positive-workspace-readiness-deadline",
+      "basis": "Observed positive login selector deadline",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-320",
+      "originalStatus": "failed",
+      "failureClass": "public-unknown-route-recovery-defect",
+      "basis": "Observed retry-only page; confirmed all six White Label contexts; no private disclosure in inspected snapshots",
+      "followupOwnerOrEvidence": "Accepted application223 fix; separate R41/R42 regressions",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-430",
+      "originalStatus": "failed",
+      "failureClass": "public-unknown-route-recovery-defect",
+      "basis": "Observed retry-only page; confirmed all six White Label contexts; no private disclosure in inspected snapshots",
+      "followupOwnerOrEvidence": "Accepted application223 fix; separate R41/R42 regressions",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-desktop",
+      "originalStatus": "failed",
+      "failureClass": "public-unknown-route-recovery-defect",
+      "basis": "Observed retry-only page; confirmed all six White Label contexts; no private disclosure in inspected snapshots",
+      "followupOwnerOrEvidence": "Accepted application223 fix; separate R41/R42 regressions",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-001",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "positive-workspace-readiness-deadline",
+      "basis": "Observed positive login selector deadline",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "public-unknown-route-recovery-defect",
+      "basis": "Observed retry-only page; confirmed all six White Label contexts; no private disclosure in inspected snapshots",
+      "followupOwnerOrEvidence": "Accepted application223 fix; separate R41/R42 regressions",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "originalStatus": "failed",
+      "failureClass": "public-unknown-route-recovery-defect",
+      "basis": "Observed retry-only page; confirmed all six White Label contexts; no private disclosure in inspected snapshots",
+      "followupOwnerOrEvidence": "Accepted application223 fix; separate R41/R42 regressions",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-008",
+      "project": "product-webkit-430",
+      "originalStatus": "failed",
+      "failureClass": "positive-import-revision-acknowledgment-deadline",
+      "basis": "Original render root cause unresolved; separate complete-case deadline diagnostic passed",
+      "followupOwnerOrEvidence": "WP12 prospective acknowledgment patch",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "public-unknown-route-recovery-defect",
+      "basis": "Observed retry-only page; confirmed all six White Label contexts; no private disclosure in inspected snapshots",
+      "followupOwnerOrEvidence": "Accepted application223 fix; separate R41/R42 regressions",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-PROGRAMMING-009",
+      "project": "product-chromium-430",
+      "originalStatus": "failed",
+      "failureClass": "positive-workspace-readiness-deadline",
+      "basis": "Observed positive login selector deadline",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "planning-viewport-overflow",
+      "basis": "Original and fresh R39/R40 viewport failures; semantics reached before unchanged geometry assertion",
+      "followupOwnerOrEvidence": "WP07 application layout fix",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r35",
+      "mode": "white-label-http",
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "planning-viewport-overflow",
+      "basis": "Original and fresh R39/R40 viewport failures; semantics reached before unchanged geometry assertion",
+      "followupOwnerOrEvidence": "WP07 application layout fix",
+      "originalOutcomePreserved": true
+    }
+  ]
+}

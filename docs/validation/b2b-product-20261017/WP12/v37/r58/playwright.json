@@ -1,0 +1,585 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.b2b-product-wl-http.config.ts",
+      "--timeout=180000",
+      "--reporter=list,json",
+      "--grep=B2BP-ALTERNATIVES-(005|009)",
+      "--repeat-each=3",
+      "--project=product-webkit-desktop"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-wl-http.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/corrected-d2-webkit-desktop-repeats-r58/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/corrected-d2-webkit-desktop-repeats-r58/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/corrected-d2-webkit-desktop-repeats-r58/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/corrected-d2-webkit-desktop-repeats-r58/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/corrected-d2-webkit-desktop-repeats-r58/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/corrected-d2-webkit-desktop-repeats-r58/artifacts",
+        "repeatEach": 3,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "white-label-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5700/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-alternatives.spec.ts",
+      "file": "b2b-product-alternatives.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":514,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":250,\"reservedSlots\":2}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8624,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:26:21.703Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":514,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":250,\"reservedSlots\":2}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-page-readiness-87c4f722-737c-48d5-885b-695a715d6ff3",
+                      "contentType": "application/json",
+                      "body": "eyJoZWFkaW5nVmlzaWJsZSI6dHJ1ZSwibWF4aW11bUhlYWRpbmdXYWl0TXMiOjMwMDAwLCJuYXZpZ2F0aW9uTXMiOjk4LCJoZWFkaW5nV2FpdE1zIjo5NjAsInJlc3BvbnNlcyI6W3siZW5kcG9pbnQiOiJjb250ZXh0Iiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MTE4fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MjY2fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6MzI1fSx7ImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjM5fSx7ImVuZHBvaW50IjoiYWNjZXNzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjU0fSx7ImVuZHBvaW50IjoiY29udGludWl0eSIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY4NH0seyJlbmRwb2ludCI6InNlc3Npb25zIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzA0fSx7ImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo3NDB9LHsiZW5kcG9pbnQiOiJ3ZWVrIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzUxfV19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-3c6fdfc96e6fe24ea4bf",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 337,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":224,\"reservedSlots\":3}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":196,\"reservedSlots\":4}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11051,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:26:30.498Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":224,\"reservedSlots\":3}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":196,\"reservedSlots\":4}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-page-readiness-76e10449-0e2f-4496-8db3-c6ba4a25bb58",
+                      "contentType": "application/json",
+                      "body": "eyJoZWFkaW5nVmlzaWJsZSI6dHJ1ZSwibWF4aW11bUhlYWRpbmdXYWl0TXMiOjMwMDAwLCJuYXZpZ2F0aW9uTXMiOjEyMSwiaGVhZGluZ1dhaXRNcyI6OTcyLCJyZXNwb25zZXMiOlt7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjEzNn0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjE4MH0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjIwN30seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU4MH0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjYwOH0seyJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2NjB9LHsiZW5kcG9pbnQiOiJzZXNzaW9ucyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY2MX0seyJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzM5fSx7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjc1MH1dfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-558a233dd2269618a434",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":327,\"reservedSlots\":5}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":412,\"reservedSlots\":6}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9818,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:26:42.643Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":327,\"reservedSlots\":5}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":412,\"reservedSlots\":6}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-page-readiness-21b43115-5730-4bef-9178-94aa90eac902",
+                      "contentType": "application/json",
+                      "body": "eyJoZWFkaW5nVmlzaWJsZSI6dHJ1ZSwibWF4aW11bUhlYWRpbmdXYWl0TXMiOjMwMDAwLCJuYXZpZ2F0aW9uTXMiOjE3NiwiaGVhZGluZ1dhaXRNcyI6OTY0LCJyZXNwb25zZXMiOlt7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjIyN30seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjI2NX0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjMwMX0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjYyMH0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjYzMX0seyJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2Njh9LHsiZW5kcG9pbnQiOiJzZXNzaW9ucyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY3N30seyJlbmRwb2ludCI6IndlZWsiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo4MTB9LHsiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjgxOH1dfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-235632c724155d300127",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 337,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":252,\"reservedSlots\":7}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":263,\"reservedSlots\":8}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11063,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:26:52.651Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":252,\"reservedSlots\":7}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":263,\"reservedSlots\":8}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-page-readiness-f927b545-25b7-4703-9b0a-dbba0b6c29dc",
+                      "contentType": "application/json",
+                      "body": "eyJoZWFkaW5nVmlzaWJsZSI6dHJ1ZSwibWF4aW11bUhlYWRpbmdXYWl0TXMiOjMwMDAwLCJuYXZpZ2F0aW9uTXMiOjEyNSwiaGVhZGluZ1dhaXRNcyI6OTkyLCJyZXNwb25zZXMiOlt7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjE3fSx7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjE1MX0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjIzMX0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjI1Nn0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU5Nn0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjYxMX0seyJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2NTd9LHsiZW5kcG9pbnQiOiJzZXNzaW9ucyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY1N30seyJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzI1fSx7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjczNn1dfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-da6147c7f16cc175e4f7",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240657,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":203,\"reservedSlots\":9}"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 59657ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":430,\"reservedSlots\":1}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67669,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:27:04.708Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":203,\"reservedSlots\":9}"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 59657ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":430,\"reservedSlots\":1}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-page-readiness-7ec8592b-51a7-4b16-ac08-e5a2c12f404d",
+                      "contentType": "application/json",
+                      "body": "eyJoZWFkaW5nVmlzaWJsZSI6dHJ1ZSwibWF4aW11bUhlYWRpbmdXYWl0TXMiOjMwMDAwLCJuYXZpZ2F0aW9uTXMiOjEyOCwiaGVhZGluZ1dhaXRNcyI6OTc1LCJyZXNwb25zZXMiOlt7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjE0M30seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjE5MX0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjIzM30seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU2OX0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU4MH0seyJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJzdGF0dXMiOjIwMCwiZWxhcHNlZE1zIjo2NDd9LHsiZW5kcG9pbnQiOiJzZXNzaW9ucyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjY0OX0seyJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6Nzg4fSx7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjgxNX1dfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-a2858b6ec173e66fb4fe",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 337,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":234,\"reservedSlots\":2}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":205,\"reservedSlots\":3}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10538,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T12:28:12.577Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":234,\"reservedSlots\":2}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":205,\"reservedSlots\":3}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "history-page-readiness-0097e1a5-f499-44cd-9c99-1610202b0e0d",
+                      "contentType": "application/json",
+                      "body": "eyJoZWFkaW5nVmlzaWJsZSI6dHJ1ZSwibWF4aW11bUhlYWRpbmdXYWl0TXMiOjMwMDAwLCJuYXZpZ2F0aW9uTXMiOjExNCwiaGVhZGluZ1dhaXRNcyI6OTMyLCJyZXNwb25zZXMiOlt7ImVuZHBvaW50IjoiY29udGV4dCIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjEwOX0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjEzNn0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjE5MH0seyJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjUyNX0seyJlbmRwb2ludCI6ImFjY2VzcyIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjU0MX0seyJlbmRwb2ludCI6InNlc3Npb25zIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NjAwfSx7ImVuZHBvaW50IjoiY29udGludWl0eSIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjYwMX0seyJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwic3RhdHVzIjoyMDAsImVsYXBzZWRNcyI6NzgyfSx7ImVuZHBvaW50Ijoid2VlayIsInN0YXR1cyI6MjAwLCJlbGFwc2VkTXMiOjc4NH1dfQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-f538ebf4bd3ed0b0e2cc",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T12:25:48.538Z",
+    "duration": 155346.622,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

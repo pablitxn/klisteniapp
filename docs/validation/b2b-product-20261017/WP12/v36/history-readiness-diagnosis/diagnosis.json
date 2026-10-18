@@ -1,0 +1,77 @@
+{
+  "run": 55,
+  "id": "B2BP-ALTERNATIVES-005",
+  "project": "product-webkit-desktop",
+  "classification": "Five-second positive history-readiness timeout during bootstrap; no functional defect established",
+  "assertionStart": 9004021.567,
+  "assertionEnd": 9009045.426,
+  "bootstrapCompleted": 9009053.748,
+  "lastHistoryReadCompleted": 9009471.779,
+  "unexpectedHttpStatuses": [
+    {
+      "file": "3-trace.network",
+      "time": 8989916.053,
+      "method": "GET",
+      "path": "/api/b2b/context",
+      "status": 404,
+      "duration": 212.734,
+      "failure": null
+    },
+    {
+      "file": "3-trace.network",
+      "time": 8989943.89,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 401,
+      "duration": 3.3179999999999996,
+      "failure": null
+    },
+    {
+      "file": "3-trace.network",
+      "time": 8996817.057,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": -1,
+      "duration": 4.240000000223517,
+      "failure": null
+    },
+    {
+      "file": "3-trace.network",
+      "time": 9004306.406,
+      "method": "GET",
+      "path": "/api/b2b/context",
+      "status": 404,
+      "duration": 464.896,
+      "failure": null
+    },
+    {
+      "file": "1-trace.network",
+      "time": 8975337.184,
+      "method": "GET",
+      "path": "/api/b2b/context",
+      "status": 404,
+      "duration": 2.598,
+      "failure": null
+    },
+    {
+      "file": "1-trace.network",
+      "time": 8975341.401,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 401,
+      "duration": 2.987,
+      "failure": null
+    },
+    {
+      "file": "1-trace.network",
+      "time": 8975909.685,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": -1,
+      "duration": 0.20999999903142452,
+      "failure": null
+    }
+  ],
+  "eventualHeadingObserved": false,
+  "sourceChanged": false
+}

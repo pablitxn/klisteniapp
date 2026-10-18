@@ -1,0 +1,587 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--project=product-chromium-320",
+      "--grep=B2BP-(PROGRAMMING-004|ROLES-003|ROLES-006|SYNC-001|SYNC-011|WEEK-008)",
+      "--timeout=90000",
+      "--max-failures=6",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 6,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidate00b9-qa-corrections-r17/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/tmp/candidate00b9-qa-corrections-r17/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/tmp/candidate00b9-qa-corrections-r17/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/tmp/candidate00b9-qa-corrections-r17/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/tmp/candidate00b9-qa-corrections-r17/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/tmp/candidate00b9-qa-corrections-r17/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5850,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:36:38.068Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-b0ff12793855fc0acefe",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 479,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-roles.spec.ts",
+      "file": "b2b-product-roles.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6602,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\u001b[22m\n\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:160:80",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                      "column": 80,
+                      "line": 160
+                    },
+                    "snippet": "  158 |   await open(page, product, info, 'people')\n  159 |   const form = page.getByRole('form', { name: 'Invitar persona', exact: true })\n> 160 |   await expect(form.getByLabel('Rol de la persona invitada', { exact: true })).toBeVisible()\n      |                                                                                ^\n  161 |   const options = await form\n  162 |     .getByLabel('Rol de la persona invitada')\n  163 |     .locator('option')"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                        "column": 80,
+                        "line": 160
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\u001b[22m\n\n\n  158 |   await open(page, product, info, 'people')\n  159 |   const form = page.getByRole('form', { name: 'Invitar persona', exact: true })\n> 160 |   await expect(form.getByLabel('Rol de la persona invitada', { exact: true })).toBeVisible()\n      |                                                                                ^\n  161 |   const options = await form\n  162 |     .getByLabel('Rol de la persona invitada')\n  163 |     .locator('option')\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:160:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:36:44.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-roles-B2BP-ROL-d8167--members-no-self-escalation-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-roles-B2BP-ROL-d8167--members-no-self-escalation-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-roles-B2BP-ROL-d8167--members-no-self-escalation-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                    "column": 80,
+                    "line": 160
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-e91b949c1e5c854a53f5",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 154,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2913,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:36:51.866Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-4b5d6de89a8b54137a09",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 526,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 12199,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('spinbutton', { name: /cantidad$/ }).first()\nExpected: \u001b[32m\"3\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByRole('spinbutton', { name: /cantidad$/ }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('spinbutton', { name: /cantidad$/ }).first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('spinbutton', { name: /cantidad$/ }).first()\nExpected: \u001b[32m\"3\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByRole('spinbutton', { name: /cantidad$/ }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('spinbutton', { name: /cantidad$/ }).first()\u001b[22m\n\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:45:34",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                      "column": 34,
+                      "line": 45
+                    },
+                    "snippet": "  43 |     await context.setOffline(false)\n  44 |     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.\n> 45 |     await expect(quantity(page)).toHaveValue('3')\n     |                                  ^\n  46 |     await expect(page.getByLabel('Notas de la sesión')).toHaveValue(\n  47 |       'WP12 persisted during network loss',\n  48 |     )"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                        "column": 34,
+                        "line": 45
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('spinbutton', { name: /cantidad$/ }).first()\nExpected: \u001b[32m\"3\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByRole('spinbutton', { name: /cantidad$/ }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('spinbutton', { name: /cantidad$/ }).first()\u001b[22m\n\n\n  43 |     await context.setOffline(false)\n  44 |     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.\n> 45 |     await expect(quantity(page)).toHaveValue('3')\n     |                                  ^\n  46 |     await expect(page.getByLabel('Notas de la sesión')).toHaveValue(\n  47 |       'WP12 persisted during network loss',\n  48 |     )\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:45:34"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:36:55.002Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                    "column": 34,
+                    "line": 45
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-3dddfca197dff7779587",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13749,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:37:08.456Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-704ed011e4df7a3f0a36",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 468,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-week.spec.ts",
+      "file": "b2b-product-week.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 9922,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"completed\"\u001b[39m\nReceived: \u001b[31m\"draft\"\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"completed\"\u001b[39m\nReceived: \u001b[31m\"draft\"\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:671:8",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts",
+                      "column": 8,
+                      "line": 671
+                    },
+                    "snippet": "  669 |     await expect\n  670 |       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)\n> 671 |       .toBe('completed')\n      |        ^\n  672 |     const accepted = (await latest(page, member, plan.occurrences[0]!.id))!\n  673 |     expect(accepted.content.performedAt.slice(0, 10)).toBe(plan.weekStart)\n  674 |     expect(Date.parse(accepted.acceptedAt)).toBeGreaterThan("
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts",
+                        "column": 8,
+                        "line": 671
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"completed\"\u001b[39m\nReceived: \u001b[31m\"draft\"\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  669 |     await expect\n  670 |       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)\n> 671 |       .toBe('completed')\n      |        ^\n  672 |     const accepted = (await latest(page, member, plan.occurrences[0]!.id))!\n  673 |     expect(accepted.content.performedAt.slice(0, 10)).toBe(plan.weekStart)\n  674 |     expect(Date.parse(accepted.acceptedAt)).toBeGreaterThan(\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:671:8"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T17:37:22.430Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-week-B2BP-WEEK-be031-h-affected-closed-summaries-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-week-B2BP-WEEK-be031-h-affected-closed-summaries-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-week-B2BP-WEEK-be031-h-affected-closed-summaries-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidate00b9-qa-corrections-r17/artifacts/b2b-product-week-B2BP-WEEK-be031-h-affected-closed-summaries-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts",
+                    "column": 8,
+                    "line": 671
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-0149b2b6d51a17989313",
+          "file": "b2b-product-week.spec.ts",
+          "line": 646,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T17:36:04.456Z",
+    "duration": 88913.752,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

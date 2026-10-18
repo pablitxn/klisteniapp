@@ -1,0 +1,103 @@
+diff --git a/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts b/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts
+index 12c1122..a9eb2b8 100644
+--- a/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts
++++ b/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts
+@@ -585,15 +585,29 @@ test(scenarioTitle('B2BP-ALTERNATIVES-009'), async ({ page, context, product },
+         exact: true,
+       }),
+     })
+-    for (const input of await target.getByRole('spinbutton', { name: / left cantidad$/ }).all())
+-      await input.fill('1')
++    const minimum =
++      relation.targetDose.sets.kind === 'fixed'
++        ? relation.targetDose.sets.value
++        : relation.targetDose.sets.min
++    expect(minimum).toBeGreaterThan(0)
++    const leftInputs = target.getByRole('spinbutton', { name: / left cantidad$/ })
++    const rightInputs = target.getByRole('spinbutton', { name: / right cantidad$/ })
++    await expect(leftInputs).toHaveCount(minimum)
++    await expect(rightInputs).toHaveCount(minimum)
++    for (let index = 0; index < minimum; index++) await leftInputs.nth(index).fill('1')
++    for (let index = 0; index < minimum; index++) {
++      await expect(leftInputs.nth(index)).toHaveValue('1')
++      await expect(rightInputs.nth(index)).toHaveValue('')
++    }
+     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
+     await expect(page.getByRole('alert')).not.toHaveCount(0)
+     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).not.toBe(
+       'completed',
+     )
+-    for (const input of await target.getByRole('spinbutton', { name: / right cantidad$/ }).all())
+-      await input.fill('1')
++    await expect(rightInputs).toHaveCount(minimum)
++    for (let index = 0; index < minimum; index++) await rightInputs.nth(index).fill('1')
++    for (let index = 0; index < minimum; index++)
++      await expect(rightInputs.nth(index)).toHaveValue('1')
+     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
+     await expect
+       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)
+diff --git a/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts b/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts
+index e15b746..62d3ed9 100644
+--- a/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts
++++ b/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts
+@@ -3,6 +3,7 @@ import {
+   expect,
+   type BrowserContext,
+   type Page,
++  type Response,
+   type TestInfo,
+ } from '@playwright/test'
+ import { get } from 'node:http'
+@@ -632,10 +633,48 @@ export async function showWeek(
+   week: string,
+   timeZone = 'UTC',
+ ) {
+-  await open(page, product, info, 'history')
+-  await expect(
+-    page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+-  ).toBeVisible()
++  const started = performance.now()
++  let headingWaitStarted: number | undefined
++  let headingVisible = false
++  const responses: Array<{ endpoint: string; status: number; elapsedMs: number }> = []
++  const recordResponse = (response: Response) => {
++    const endpoint = new URL(response.url()).pathname.match(
++      /\/(context|bootstrap\/v2|access|continuity|sessions|week|occurrences)$/,
++    )?.[1]
++    if (endpoint)
++      responses.push({
++        endpoint,
++        status: response.status(),
++        elapsedMs: Math.round(performance.now() - started),
++      })
++  }
++  page.on('response', recordResponse)
++  try {
++    await open(page, product, info, 'history')
++    headingWaitStarted = performance.now()
++    await expect(
++      page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
++    ).toBeVisible({ timeout: 30000 })
++    headingVisible = true
++  } finally {
++    page.off('response', recordResponse)
++    await info.attach(`history-page-readiness-${operation()}`, {
++      body: Buffer.from(
++        JSON.stringify({
++          headingVisible,
++          maximumHeadingWaitMs: 30000,
++          navigationMs:
++            headingWaitStarted === undefined ? null : Math.round(headingWaitStarted - started),
++          headingWaitMs:
++            headingWaitStarted === undefined
++              ? null
++              : Math.round(performance.now() - headingWaitStarted),
++          responses,
++        }),
++      ),
++      contentType: 'application/json',
++    })
++  }
+   // Offset the calendar while wall time keeps advancing, so real retry deadlines
+   // can expire. Authoritative server asOf/closed responses remain unmodified.
+   await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))

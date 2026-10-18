@@ -1,0 +1,1987 @@
+{
+  "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+  "unitReceiptSha": "beda751558c79895eec0cceaccc24b7a22d5199b",
+  "qualification": "Traceability reconciliation to existing completed package receipts, not a new execution or additional test total. Reserved B2BP scenario titles are acceptance labels; actual owner test titles are recorded separately. Sources are read at the accepted application SHA. A single actual test can support multiple assertions; references must not be summed.",
+  "scenarios": [
+    {
+      "id": "B2BP-COMPATIBILITY-001",
+      "assertion": "Draft and activation schemas accept unfinished drafts and return structured activation issues",
+      "target": "packages/b2b-contracts/tests/product-v2.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-001 Draft and activation schemas accept unfinished drafts and return structured activation issues",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/b2b-contracts/tests/product-v2.test.ts",
+          "sourceSha256": "ea49db80beb9fb81712d6a9b81e12ceadc0326a050eb68446b2a53443ca0f012",
+          "testTitle": "incomplete drafts persist but activation reports exact missing step fields",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/b2b-contracts:test: ✔ incomplete drafts persist but activation reports exact missing step fields (11.338299ms)",
+          "package": "@klisteniapp/b2b-contracts",
+          "packageMetrics": {
+            "tests": 22,
+            "pass": 22,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/b2b-client/tests/product-v2.test.ts",
+          "sourceSha256": "858cd2745b7851c4f394a4f21f463d5fc2e21e5d258e46e7a07dbfa96f9a221d",
+          "testTitle": "structured activation issues survive transport with exact step and field paths",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-client-continuation.log.b64",
+          "passedLogLine": "✔ structured activation issues survive transport with exact step and field paths (3.125737ms)",
+          "package": "@klisteniapp/b2b-client",
+          "packageMetrics": {
+            "tests": 31,
+            "pass": 31,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-002",
+      "assertion": "Legacy fixed snapshots, original execution IDs and pending POST retries decode unchanged",
+      "target": "packages/b2b-contracts/tests/legacy-product-compatibility.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-002 Legacy fixed snapshots, original execution IDs and pending POST retries decode unchanged",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/b2b-contracts/tests/legacy-product-compatibility.test.ts",
+          "sourceSha256": "05f0f258cf66fc9bdf26c94a87c74b7ff8691ee0bd1b18b2712564bb1b386ebf",
+          "testTitle": "legacy fixed-dose snapshots and pending create retry decode without modifying original payload bytes",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/b2b-contracts:test: ✔ legacy fixed-dose snapshots and pending create retry decode without modifying original payload bytes (34.644279ms)",
+          "package": "@klisteniapp/b2b-contracts",
+          "packageMetrics": {
+            "tests": 22,
+            "pass": 22,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-003",
+      "assertion": "Version discriminator prevents strict v1 clients receiving mixed v2 payloads; explicit upgrade required",
+      "target": "packages/b2b-contracts/tests/legacy-product-compatibility.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-003 Version discriminator prevents strict v1 clients receiving mixed v2 payloads; explicit upgrade required",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/b2b-contracts/tests/legacy-product-compatibility.test.ts",
+          "sourceSha256": "05f0f258cf66fc9bdf26c94a87c74b7ff8691ee0bd1b18b2712564bb1b386ebf",
+          "testTitle": "lossless interchange round-trips both versions and rejects a flattened or unversioned prescription",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/b2b-contracts:test: ✔ lossless interchange round-trips both versions and rejects a flattened or unversioned prescription (12.478097ms)",
+          "package": "@klisteniapp/b2b-contracts",
+          "packageMetrics": {
+            "tests": 22,
+            "pass": 22,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "v2 rows are fenced before legacy decoding or update and old clients get explicit version errors",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (747.199266ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/b2b-client/tests/product-v2.test.ts",
+          "sourceSha256": "858cd2745b7851c4f394a4f21f463d5fc2e21e5d258e46e7a07dbfa96f9a221d",
+          "testTitle": "invalid product responses and old-tab upgrade responses fail explicitly without losing input",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-client-continuation.log.b64",
+          "passedLogLine": "✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (3.558286ms)",
+          "package": "@klisteniapp/b2b-client",
+          "packageMetrics": {
+            "tests": 31,
+            "pass": 31,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/b2b-client/tests/product-v2.test.ts",
+          "sourceSha256": "858cd2745b7851c4f394a4f21f463d5fc2e21e5d258e46e7a07dbfa96f9a221d",
+          "testTitle": "legacy clients retain their existing headers and strict schemas",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-client-continuation.log.b64",
+          "passedLogLine": "✔ legacy clients retain their existing headers and strict schemas (12.785801ms)",
+          "package": "@klisteniapp/b2b-client",
+          "packageMetrics": {
+            "tests": 31,
+            "pass": 31,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-004",
+      "assertion": "Legacy full admins and pending admin invitations preserve issued capabilities without platform authority",
+      "target": "apps/b2b-api/tests/product-migration.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-004 Legacy full admins and pending admin invitations preserve issued capabilities without platform authority",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (765.390738ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (713.232111ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-005",
+      "assertion": "New install, 001-005 upgrade and repeat migration preserve counts, IDs, FKs, audit/media links and historical JSON hashes",
+      "target": "apps/b2b-api/tests/product-migration.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-005 New install, 001-005 upgrade and repeat migration preserve counts, IDs, FKs, audit/media links and historical JSON hashes",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "product migration installs into an empty database and repeats without rewriting rows",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ product migration installs into an empty database and repeats without rewriting rows (863.276403ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (765.390738ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-006",
+      "assertion": "Cross-tenant/member FKs and anomalous legacy rows fail closed; no guessed schedule backfill",
+      "target": "apps/b2b-api/tests/product-migration.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-006 Cross-tenant/member FKs and anomalous legacy rows fail closed; no guessed schedule backfill",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (765.390738ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (851.197816ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/white-label-migration.test.ts",
+          "sourceSha256": "3d0a0c44fca2f58b0671e5946ebc83b3fbb43087d7cd9e24fb9e2ac73d2186aa",
+          "testTitle": "WL-1 anomalous execution ownership aborts atomically instead of relabeling history",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ WL-1 anomalous execution ownership aborts atomically instead of relabeling history (277.252869ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-007",
+      "assertion": "Stable occurrence/segment identities and health normalized adapter boundary compile for consumers",
+      "target": "packages/b2b-contracts/tests/product-v2.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-007 Stable occurrence/segment identities and health normalized adapter boundary compile for consumers",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/b2b-contracts/tests/product-v2.test.ts",
+          "sourceSha256": "ea49db80beb9fb81712d6a9b81e12ceadc0326a050eb68446b2a53443ca0f012",
+          "testTitle": "sessions preserve additional segments and reject implicit completion and dangling actuals",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/b2b-contracts:test: ✔ sessions preserve additional segments and reject implicit completion and dangling actuals (10.341126ms)",
+          "package": "@klisteniapp/b2b-contracts",
+          "packageMetrics": {
+            "tests": 22,
+            "pass": 22,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/b2b-domain/tests/schedule.test.ts",
+          "sourceSha256": "57470ebd9c2e1ffbd9cfa4c5341bbf1f13ef57eb568b9cc03a5d0752207fe89d",
+          "testTitle": "weekday edits preserve occurrence identity and a later period includes an accepted user move override",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-domain-continuation.log.b64",
+          "passedLogLine": "✔ weekday edits preserve occurrence identity and a later period includes an accepted user move override (8.62462ms)",
+          "package": "@klisteniapp/b2b-domain",
+          "packageMetrics": {
+            "tests": 34,
+            "pass": 34,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/b2b-domain/tests/sessions.test.ts",
+          "sourceSha256": "a4e9d034175ccea24fd6d49ba39c58e7016421ea445b496030c5ddde1801b470",
+          "testTitle": "segment identity is immutable and switching must retain actuals; unreviewed and forged target doses fail",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-domain-continuation.log.b64",
+          "passedLogLine": "✔ segment identity is immutable and switching must retain actuals; unreviewed and forged target doses fail (1.654213ms)",
+          "package": "@klisteniapp/b2b-domain",
+          "packageMetrics": {
+            "tests": 34,
+            "pass": 34,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "adapter exposes exactly the reserved manual-only capabilities under Node",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ adapter exposes exactly the reserved manual-only capabilities under Node (0.42931ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-008",
+      "assertion": "Versioned interchange preserves ranges, units and provenance or rejects unsupported fields explicitly",
+      "target": "packages/b2b-contracts/tests/product-v2.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-008 Versioned interchange preserves ranges, units and provenance or rejects unsupported fields explicitly",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/b2b-contracts/tests/legacy-product-compatibility.test.ts",
+          "sourceSha256": "05f0f258cf66fc9bdf26c94a87c74b7ff8691ee0bd1b18b2712564bb1b386ebf",
+          "testTitle": "lossless interchange round-trips both versions and rejects a flattened or unversioned prescription",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/b2b-contracts:test: ✔ lossless interchange round-trips both versions and rejects a flattened or unversioned prescription (12.478097ms)",
+          "package": "@klisteniapp/b2b-contracts",
+          "packageMetrics": {
+            "tests": 22,
+            "pass": 22,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "apps/b2b-web/tests/trainingInterchange.test.ts",
+          "sourceSha256": "27a25554849a729e5245e6014346dd82297bc16d5d487f9e1caeb0d3338ca0cb",
+          "testTitle": "interchange archives every branch/revision, original actuals, ranges, units and reviewed provenance",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-web-continuation.log.b64",
+          "passedLogLine": "✔ interchange archives every branch/revision, original actuals, ranges, units and reviewed provenance (164.948997ms)",
+          "package": "@klisteniapp/b2b-web",
+          "packageMetrics": {
+            "tests": 299,
+            "pass": 299,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-web/tests/trainingInterchange.test.ts",
+          "sourceSha256": "27a25554849a729e5245e6014346dd82297bc16d5d487f9e1caeb0d3338ca0cb",
+          "testTitle": "user-managed routine archive preserves both original and range semantics without normalizing issued strings",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-web-continuation.log.b64",
+          "passedLogLine": "✔ user-managed routine archive preserves both original and range semantics without normalizing issued strings (20.841547ms)",
+          "package": "@klisteniapp/b2b-web",
+          "packageMetrics": {
+            "tests": 299,
+            "pass": 299,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-web/tests/trainingInterchange.test.ts",
+          "sourceSha256": "27a25554849a729e5245e6014346dd82297bc16d5d487f9e1caeb0d3338ca0cb",
+          "testTitle": "unknown versions and unsupported fields return explicit schema issues, never flattened content",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-web-continuation.log.b64",
+          "passedLogLine": "✔ unknown versions and unsupported fields return explicit schema issues, never flattened content (15.221025ms)",
+          "package": "@klisteniapp/b2b-web",
+          "packageMetrics": {
+            "tests": 299,
+            "pass": 299,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-web/tests/trainingInterchange.test.ts",
+          "sourceSha256": "27a25554849a729e5245e6014346dd82297bc16d5d487f9e1caeb0d3338ca0cb",
+          "testTitle": "export rejects foreign owner, health, tenant, branch and nested revision scopes",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-web-continuation.log.b64",
+          "passedLogLine": "✔ export rejects foreign owner, health, tenant, branch and nested revision scopes (35.615978ms)",
+          "package": "@klisteniapp/b2b-web",
+          "packageMetrics": {
+            "tests": 299,
+            "pass": 299,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-COMPATIBILITY-009",
+      "assertion": "Old tab identity/capability negotiation, client strict responses and readiness-before-DDL are explicit",
+      "target": "packages/b2b-contracts/tests/legacy-product-compatibility.test.ts",
+      "testTitle": "B2BP-COMPATIBILITY-009 Old tab identity/capability negotiation, client strict responses and readiness-before-DDL are explicit",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "v2 rows are fenced before legacy decoding or update and old clients get explicit version errors",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (747.199266ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "activation and old-tab guards fail closed with explicit recoverable codes",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ activation and old-tab guards fail closed with explicit recoverable codes (0.666898ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-migration.test.ts",
+          "sourceSha256": "db12a91004804a6e82059488d6035d6fbd2d700139225aee417fc88de599c7b8",
+          "testTitle": "activated organizations reject every legacy callback after current authorization checks",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ activated organizations reject every legacy callback after current authorization checks (667.755293ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/b2b-client/tests/product-v2.test.ts",
+          "sourceSha256": "858cd2745b7851c4f394a4f21f463d5fc2e21e5d258e46e7a07dbfa96f9a221d",
+          "testTitle": "product client explicitly binds identity, organization, branch and contract version",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-client-continuation.log.b64",
+          "passedLogLine": "✔ product client explicitly binds identity, organization, branch and contract version (60.978639ms)",
+          "package": "@klisteniapp/b2b-client",
+          "packageMetrics": {
+            "tests": 31,
+            "pass": 31,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/b2b-client/tests/product-v2.test.ts",
+          "sourceSha256": "858cd2745b7851c4f394a4f21f463d5fc2e21e5d258e46e7a07dbfa96f9a221d",
+          "testTitle": "invalid product responses and old-tab upgrade responses fail explicitly without losing input",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-client-continuation.log.b64",
+          "passedLogLine": "✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (3.558286ms)",
+          "package": "@klisteniapp/b2b-client",
+          "packageMetrics": {
+            "tests": 31,
+            "pass": 31,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/b2b-client/tests/product-v2.test.ts",
+          "sourceSha256": "858cd2745b7851c4f394a4f21f463d5fc2e21e5d258e46e7a07dbfa96f9a221d",
+          "testTitle": "legacy clients retain their existing headers and strict schemas",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-client-continuation.log.b64",
+          "passedLogLine": "✔ legacy clients retain their existing headers and strict schemas (12.785801ms)",
+          "package": "@klisteniapp/b2b-client",
+          "packageMetrics": {
+            "tests": 31,
+            "pass": 31,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/product-composition.test.ts",
+          "sourceSha256": "7a88e17d7bd5453a8f500b8b1d20c92d53ff98b1df38df1eb11118b5a6ac214d",
+          "testTitle": "product authorization and publication fail closed when catalog migration receipt is missing",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ product authorization and publication fail closed when catalog migration receipt is missing (667.734197ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2b-api/tests/readiness.test.ts",
+          "sourceSha256": "8153dbcd45e1f0b44a39f0bf6ef5508b24f554db7373a7567147dfa677add124",
+          "testTitle": "readiness includes cached auth schema failures after an external migration",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2b-api-continuation.log.b64",
+          "passedLogLine": "✔ readiness includes cached auth schema failures after an external migration (954.107419ms)",
+          "package": "@klisteniapp/b2b-api",
+          "packageMetrics": {
+            "tests": 244,
+            "pass": 244,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-IMPORT-001",
+      "assertion": "Extracted pure parser normalized bytes/errors/dedup/conflict behavior match retained B2C fixtures",
+      "target": "packages/scene-schema/tests/health-import.test.ts",
+      "testTitle": "B2BP-IMPORT-001 Extracted pure parser normalized bytes/errors/dedup/conflict behavior match retained B2C fixtures",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "parity fixtures identify the original importer and use synthetic records only",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ parity fixtures identify the original importer and use synthetic records only (3.663064ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "adapter exposes exactly the reserved manual-only capabilities under Node",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ adapter exposes exactly the reserved manual-only capabilities under Node (0.42931ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "template bytes and exact shape match the original importer without fabricated records",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ template bytes and exact shape match the original importer without fabricated records (2.118615ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "timestamp offset and key order equivalence includes sleep intervals and modified timestamps",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ timestamp offset and key order equivalence includes sleep intervals and modified timestamps (8.129617ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "timezone fallback remains deterministic across DST and local midnight",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ timezone fallback remains deterministic across DST and local midnight (4.589803ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "raw character and UTF-8 byte bounds reject oversized input",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ raw character and UTF-8 byte bounds reject oversized input (22.850487ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "record limits accept 10000 rows and reject per-category and aggregate overflow",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ record limits accept 10000 rows and reject per-category and aggregate overflow (4632.823308ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "merged-state limits reject atomically after otherwise valid new rows",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ merged-state limits reject atomically after otherwise valid new rows (611.234735ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: all categories retain normalized units, provenance, false and zero values",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: all categories retain normalized units, provenance, false and zero values (106.690383ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: equivalent timestamp offsets and local IDs deduplicate within the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: equivalent timestamp offsets and local IDs deduplicate within the file (5.085048ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: reimport deduplicates against current records",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: reimport deduplicates against current records (2.677021ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: source conflict after a new row rejects the whole file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: source conflict after a new row rejects the whole file (2.154602ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: local ID cannot belong to another source",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: local ID cannot belong to another source (1.628884ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: category is part of source identity",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: category is part of source identity (3.058973ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: source kind is part of source identity",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: source kind is part of source identity (2.150124ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: file timezone fallback accepts the next local day",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: file timezone fallback accepts the next local day (2.42597ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: explicit timezone overrides the file fallback",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: explicit timezone overrides the file fallback (1.579823ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: unknown format rejects normalized-looking records",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: unknown format rejects normalized-looking records (1.540828ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: unknown version rejects normalized-looking records",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: unknown version rejects normalized-looking records (0.848479ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: unknown record fields reject the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: unknown record fields reject the file (2.233125ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: impossible calendar dates reject the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: impossible calendar dates reject the file (21.532815ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: missing stable source ID rejects the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: missing stable source ID rejects the file (0.671636ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: empty template has no importable records",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: empty template has no importable records (0.467593ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: malformed JSON rejects the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: malformed JSON rejects the file (2.062951ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: Samsung CSV is explicitly unsupported",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: Samsung CSV is explicitly unsupported (0.312077ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: Health Connect ZIP is explicitly unsupported",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: Health Connect ZIP is explicitly unsupported (3.82335ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: raw vendor JSON is unsupported",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: raw vendor JSON is unsupported (0.795148ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: future export rejects the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: future export rejects the file (2.447647ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: future recordedAt rejects the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: future recordedAt rejects the file (1.54538ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: future modifiedAt rejects the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: future modifiedAt rejects the file (4.793782ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: future sleep interval rejects the file",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: future sleep interval rejects the file (1.144234ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: invalid current state rejects before merging",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: invalid current state rejects before merging (0.63574ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: invalid clock rejects before parsing",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: invalid clock rejects before parsing (0.183614ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-IMPORT-002",
+      "assertion": "Node synthetic bytes require no browser/store/credential and unsupported formats remain listed",
+      "target": "packages/scene-schema/tests/health-import.test.ts",
+      "testTitle": "B2BP-IMPORT-002 Node synthetic bytes require no browser/store/credential and unsupported formats remain listed",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "adapter exposes exactly the reserved manual-only capabilities under Node",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ adapter exposes exactly the reserved manual-only capabilities under Node (0.42931ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: Samsung CSV is explicitly unsupported",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: Samsung CSV is explicitly unsupported (0.312077ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: Health Connect ZIP is explicitly unsupported",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: Health Connect ZIP is explicitly unsupported (3.82335ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health-import.test.ts",
+          "sourceSha256": "a1a2dec3f866fbaf5704050a35eda1b3f8f13855a4c46b488decc6f6a1fd2255",
+          "testTitle": "original importer byte parity: raw vendor JSON is unsupported",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ original importer byte parity: raw vendor JSON is unsupported (0.795148ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        }
+      ]
+    },
+    {
+      "id": "B2BP-IMPORT-003",
+      "assertion": "B2C importer wrapper, health store, schema and current UX regressions retained",
+      "target": "apps/b2c-web/test/health-import.test.ts",
+      "testTitle": "B2BP-IMPORT-003 B2C importer wrapper, health store, schema and current UX regressions retained",
+      "state": "supported-by-completed-owner-tests",
+      "actualTests": [
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "B2C compatibility entrypoint re-exports shared parser symbols by identity",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ B2C compatibility entrypoint re-exports shared parser symbols by identity (2.73117ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "empty template downloads without fabricated personal data and requires real records",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ empty template downloads without fabricated personal data and requires real records (37.927899ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "preview preserves all categories, provenance and explicit units without mutating existing data",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ preview preserves all categories, provenance and explicit units without mutating existing data (30.179178ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "reimport and duplicates within one file are idempotent even when local ID and timestamp offset differ",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ reimport and duplicates within one file are idempotent even when local ID and timestamp offset differ (22.819712ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "changed source payload rejects the entire file and leaves current data untouched",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ changed source payload rejects the entire file and leaves current data untouched (3.869984ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "two origins cannot reuse a local ID in a file or collide with a saved record",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ two origins cannot reuse a local ID in a file or collide with a saved record (6.074243ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "the same external ID can exist in distinct sources without being collapsed",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ the same external ID can exist in distinct sources without being collapsed (2.448017ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "unknown fields, wrong units, impossible dates and missing source identity are rejected",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ unknown fields, wrong units, impossible dates and missing source identity are rejected (5.025421ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "future export, observation and record timestamps reject the entire import",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ future export, observation and record timestamps reject the entire import (3.681543ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "manual correction timestamps are preserved and normalized for comparison without overwriting corrections",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ manual correction timestamps are preserved and normalized for comparison without overwriting corrections (4.23002ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "explicit record timezone wins over file timezone and is persisted",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ explicit record timezone wins over file timezone and is persisted (2.476052ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "invalid sleep windows and stages do not become apparently valid summaries",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ invalid sleep windows and stages do not become apparently valid summaries (1.451014ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "raw Samsung/Health Connect exports are not accepted as normalized records",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ raw Samsung/Health Connect exports are not accepted as normalized records (1.898939ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-import.test.ts",
+          "sourceSha256": "d021901c97b8ac627fb48d017c7301ca7dc4a54bf2b0cc03b6f91ff22e406299",
+          "testTitle": "UTF-8 byte bound and total-record bound fail before processing records",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ UTF-8 byte bound and total-record bound fail before processing records (345.216642ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "health saves require its captured revision and exports include confirmed server data",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ health saves require its captured revision and exports include confirmed server data (60.757613ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "failed health saves never pretend to be saved or spill into local demo/pending storage",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ failed health saves never pretend to be saved or spill into local demo/pending storage (8.71708ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "health conflict refreshes current state while rejecting the stale write",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ health conflict refreshes current state while rejecting the stale write (7.505791ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "an in-flight health response cannot restore private data after logout",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ an in-flight health response cannot restore private data after logout (18.342929ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "anonymous and invalid health changes do not reach the API",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ anonymous and invalid health changes do not reach the API (6.785872ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "a local routine import omits health so legacy preferences cannot erase it",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ a local routine import omits health so legacy preferences cannot erase it (12.183977ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "free local health persists separately and restores after account logout without uploading it",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ free local health persists separately and restores after account logout without uploading it (9.677821ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "an exported account including health and plans can be imported and exported in free local mode",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ an exported account including health and plans can be imported and exported in free local mode (7.699707ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "unreadable local personal copies are preserved and can be downloaded for recovery",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ unreadable local personal copies are preserved and can be downloaded for recovery (2.223089ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "apps/b2c-web/test/health-store.test.ts",
+          "sourceSha256": "f2800031131916e259f836ed8e048b668c9ebe42684bc685cb005432ee6a456d",
+          "testTitle": "expired cloud access blocks health edits but permits explicit deletion requests for server validation",
+          "observed": "passed",
+          "receipt": "v20/bd30-unit-b2c-web-continuation.log.b64",
+          "passedLogLine": "✔ expired cloud access blocks health edits but permits explicit deletion requests for server validation (4.145891ms)",
+          "package": "@klisteniapp/b2c-web",
+          "packageMetrics": {
+            "tests": 204,
+            "pass": 204,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "legacy account documents remain valid without silently inventing stored health",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ legacy account documents remain valid without silently inventing stored health (109.301754ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "all observations require provenance, actual values and finite bounded units",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ all observations require provenance, actual values and finite bounded units (39.630135ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "sleep intervals require offsets, paired timestamps and plausible consistent duration",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ sleep intervals require offsets, paired timestamps and plausible consistent duration (4.667783ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "supplement logs record user-selected doses with explicit units, not prescriptions",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ supplement logs record user-selected doses with explicit units, not prescriptions (2.189158ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "duplicate IDs across categories and repeated provider identities are rejected",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ duplicate IDs across categories and repeated provider identities are rejected (1.605184ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "future observations use server instant and recorded source timezone",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ future observations use server instant and recorded source timezone (2.78509ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "goal targets validate their metric and never infer a target from a profile",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ goal targets validate their metric and never infer a target from a profile (2.463007ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "metric progress sorts observation dates and excludes earlier baselines and future data",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ metric progress sorts observation dates and excludes earlier baselines and future data (2.255257ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "sleep goals aggregate night and nap duration by observation date",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ sleep goals aggregate night and nap duration by observation date (1.132531ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "overlapping or untimed sleep sources cannot inflate daily summaries or earn a goal",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ overlapping or untimed sleep sources cannot inflate daily summaries or earn a goal (1.236646ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "weekly training goals count distinct days of this calendar week only",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ weekly training goals count distinct days of this calendar week only (0.718693ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        },
+        {
+          "path": "packages/scene-schema/tests/health.test.ts",
+          "sourceSha256": "6ac46f7c35e44a9a6236dcb9ceddaf72a8232c08c534978da7e4e45d70dfabe1",
+          "testTitle": "the cumulative health limit counts UTF-8 bytes and leaves room below the request limit",
+          "observed": "passed",
+          "receipt": "v19/bd30-api-database-guard-failure.log.b64",
+          "passedLogLine": "@klisteniapp/scene-schema:test: ✔ the cumulative health limit counts UTF-8 bytes and leaves room below the request limit (255.632473ms)",
+          "package": "@klisteniapp/scene-schema",
+          "packageMetrics": {
+            "tests": 79,
+            "pass": 79,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed."
+        }
+      ]
+    }
+  ]
+}

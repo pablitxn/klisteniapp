@@ -1,0 +1,1282 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--grep=B2BP-SYNC-(001|009|012)",
+      "--timeout=180000",
+      "--max-failures=8",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 8,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidatea1ade-close-matrix-r26/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-matrix-r26/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-matrix-r26/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-matrix-r26/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-matrix-r26/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-matrix-r26/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12693,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2120
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2102
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:08:35.067Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTNmZDBmYmQ4MGE4ZTY4ZGEzNWNlNjE4Yzk5ZTcyMDU0YjE0MTlkYzkiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTNmZDBmYmQ4MGE4ZTY4ZGEzNWNlNjE4Yzk5ZTcyMDU0YjE0MTlkYzkiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTNmZDBmYmQ4MGE4ZTY4ZGEzNWNlNjE4Yzk5ZTcyMDU0YjE0MTlkYzkiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-3dddfca197dff7779587",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 12380,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:681:13",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                      "column": 8,
+                      "line": 42
+                    },
+                    "snippet": "   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                        "column": 8,
+                        "line": 42
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:681:13"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:08:47.888Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "actual-viewport-measurements",
+                      "contentType": "application/json",
+                      "body": "ewogICJpbm5lcldpZHRoIjogMzQ1LAogICJkb2N1bWVudFdpZHRoIjogMzQ1LAogICJib2R5V2lkdGgiOiAzNDUsCiAgIm92ZXJmbG93aW5nIjogW10KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tZjY0ZTJlNmFiMzg2MDNmMGUwN2NhMTIyNDM3OGNkYTEyNjQ5NzMwNSIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                    "column": 8,
+                    "line": 42
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-1f8ed3063aa9ef7e6e6e",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16238,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 3207
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:09:01.375Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tZDBkNmMwYTlkOGIxYTE5MDA5M2EwODI4YTE2ODJkYTA0ZDU4NjI5YSIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-7ad10bdb133951fcbd51",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 739,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240578,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 59578ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 71735,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2099
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2046
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:09:18.573Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 59578ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTJiNGNlMGRkOTI5YmQ4Nzc3MTA2ZWI3YmFmZGNhNDdkMzI3NWM3OTQiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTJiNGNlMGRkOTI5YmQ4Nzc3MTA2ZWI3YmFmZGNhNDdkMzI3NWM3OTQiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTJiNGNlMGRkOTI5YmQ4Nzc3MTA2ZWI3YmFmZGNhNDdkMzI3NWM3OTQiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-1f83c0935a782331258d",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5976,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:10:30.441Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tMjM1NGJhNGE5YjZjNzg5NWEyMDQwMjc4OTg4OTc4ODkyMGFhYzIzMCIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-53f076c8eab48eac8024",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14081,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 3660
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:10:36.431Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tNmY5MDc0NjFmMThjYjY2YjNkNGQ0ZjU0ZWFmMmRjNjQ1OWFlOWU2OCIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-0d4c27af88bca1c226e8",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 739,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13054,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2121
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2103
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:10:51.352Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTFjYTA0Y2VlYTk5MThkMTc3NTEwMzQwMjc3ZmRiNDAyMDJlOGI0MjgiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTFjYTA0Y2VlYTk5MThkMTc3NTEwMzQwMjc3ZmRiNDAyMDJlOGI0MjgiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTFjYTA0Y2VlYTk5MThkMTc3NTEwMzQwMjc3ZmRiNDAyMDJlOGI0MjgiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-3f93059a2de87233592d",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 231526,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 50526ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 58088,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:11:04.547Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 50526ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tNmUwNjhkMjk2ODYzNzAxN2JhMzc3Mjk4OGFkZTdlM2YwNGE0YzRkYSIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-d53d9285d3ef389b52e6",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14514,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 3218
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:12:02.652Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tM2NmZjgyYTBlMGQ0Y2Q1YTMyOTFhZDMzZGVjNWE4NGZmMWI1ZTcwMCIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-78016e804181f6948528",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 739,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15035,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2736
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2463
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:12:18.740Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWRjNTgxNjQ1OTI1MzYzZjE0NTIwMjBiYzFiYzQ1MTA1OTZiYmJjODYiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWRjNTgxNjQ1OTI1MzYzZjE0NTIwMjBiYzFiYzQ1MTA1OTZiYmJjODYiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWRjNTgxNjQ1OTI1MzYzZjE0NTIwMjBiYzFiYzQ1MTA1OTZiYmJjODYiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-19fb22fe772aee49cd7a",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 239963,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 58963ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 71388,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:681:13",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                      "column": 8,
+                      "line": 42
+                    },
+                    "snippet": "   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                        "column": 8,
+                        "line": 42
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:681:13"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:12:33.985Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 58963ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "actual-viewport-measurements",
+                      "contentType": "application/json",
+                      "body": "ewogICJpbm5lcldpZHRoIjogMzIwLAogICJkb2N1bWVudFdpZHRoIjogMzQ1LAogICJib2R5V2lkdGgiOiAzNDUsCiAgIm92ZXJmbG93aW5nIjogW10KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tZjAyMjYwMjNkZWZjNjBkYjBhN2U2YWI2MWU1NTk3NDZmZjgzYWI4YSIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-webkit-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-webkit-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+                    "column": 8,
+                    "line": 42
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-2b5bec6f4b531d90b5d8",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18115,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 3903
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:13:46.878Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tOGUwZTkxMjVlOTU3NDhlMzYyODRlYWQwZWVjMGFiYTUwZDkyYmU1YyIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-90948455e9a9acdcd3ff",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 739,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16184,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2427
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2261
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:14:06.014Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWEyOTlkZWM4ZDhjNzBkODVmYTI4ZWVjOTM1ZDhkZmE0MzZjNmVjZTIiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWEyOTlkZWM4ZDhjNzBkODVmYTI4ZWVjOTM1ZDhkZmE0MzZjNmVjZTIiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWEyOTlkZWM4ZDhjNzBkODVmYTI4ZWVjOTM1ZDhkZmE0MzZjNmVjZTIiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-714d6b63b836458a0f59",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8124,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:14:22.376Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tY2YxMjgxYWI5YWY4YzMyMDZmOWE2YjY5MzI5MTM3ZjYxYWNkZWExZiIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-3f51d749c41c7ea2f884",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 235973,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 54973ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 73880,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual sign-out cancels a Close barrier before its native write",
+                      "duration": 3991
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:14:30.515Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 54973ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-revocation-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tNDJmMTBkODdiYjMwY2QxN2U3OGVhYWNlMTg2NzUzMGE3NTQzMThlNCIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-24713be7cf57a650ff47",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 739,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14767,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2357
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2253
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:15:45.314Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTI2OGQwMTQ1ZDNjMWUyNGJkM2NiNTRmZjY1OTdiZTA4NDE1YzQ0ODYiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTI2OGQwMTQ1ZDNjMWUyNGJkM2NiNTRmZjY1OTdiZTA4NDE1YzQ0ODYiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLTI2OGQwMTQ1ZDNjMWUyNGJkM2NiNTRmZjY1OTdiZTA4NDE1YzQ0ODYiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-2c3a26f060573141332d",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7582,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:16:00.215Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tY2FkNTFkNTQyNGU5ODI2NjQ3MmY4NmUyMTI0OTVkOTQ2OWNiM2ViYiIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-ec0574feff203d02e458",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240583,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 59583ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 241161,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 240583ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 240583ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 240583ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 51,
+                        "line": 203
+                      },
+                      "message": "Error: locator.fill: Test timeout of 240583ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Email', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |       : `${mode === 'white-label-http' ? 'http' : 'https'}://${who.organization.host}`\n  202 |   await page.goto(`${origin}/app`)\n> 203 |   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)\n      |                                                   ^\n  204 |   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')\n  205 |   await pacePasswordAdmission(info)\n  206 |   const response = page.waitForResponse(\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:51)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:804:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:16:07.809Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 59583ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef019-ly-authorize-pending-writes-product-webkit-desktop/test-failed-2.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef019-ly-authorize-pending-writes-product-webkit-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef019-ly-authorize-pending-writes-product-webkit-desktop/test-failed-3.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef019-ly-authorize-pending-writes-product-webkit-desktop/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatea1ade-close-matrix-r26/artifacts/b2b-product-sync-B2BP-SYNC-ef019-ly-authorize-pending-writes-product-webkit-desktop/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-2ee654487151a9765817",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 739,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T18:07:58.870Z",
+    "duration": 731604.181,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

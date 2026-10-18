@@ -1,0 +1,191 @@
+{
+  "qualification": "Interpretation of preserved original failures, not replacement statuses. Later passing regressions never turn an original failed cell green. No private-data defect is inferred solely from a positive readiness timeout or an admission guard rejection.",
+  "classCounts": {
+    "awaited-revoke-response-canceled-after-commit": 1,
+    "positive-health-heading-deadline": 2,
+    "positive-inactive-bootstrap-deadline": 1,
+    "password-admission-429": 8,
+    "planning-viewport-overflow": 2,
+    "positive-original-history-readiness-deadline": 1,
+    "qa-request-forwarding-socket-error": 1
+  },
+  "unclassifiedCount": 0,
+  "cells": [
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-HEALTH-010",
+      "project": "product-webkit-430",
+      "originalStatus": "timedOut",
+      "failureClass": "awaited-revoke-response-canceled-after-commit",
+      "basis": "Verified original committed revocation/native private state; prospective full R37 and R41/R42 cases use actual state",
+      "followupOwnerOrEvidence": "WP12 guarded response observation correction",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-011",
+      "project": "product-chromium-320",
+      "originalStatus": "failed",
+      "failureClass": "positive-health-heading-deadline",
+      "basis": "Observed positive health heading deadline",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "positive-inactive-bootstrap-deadline",
+      "basis": "Observed bootstrap loading snapshot; actual access response followed deadline",
+      "followupOwnerOrEvidence": "WP12 prospective inactive heading patch",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-004",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "positive-health-heading-deadline",
+      "basis": "Observed positive health heading deadline",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-007",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-009",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-012",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-005",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-006",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-010",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-INACTIVE-011",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "planning-viewport-overflow",
+      "basis": "Original and fresh R39/R40 viewport failures; semantics reached before unchanged geometry assertion",
+      "followupOwnerOrEvidence": "WP07 application layout fix",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-PROGRAMMING-007",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "positive-original-history-readiness-deadline",
+      "basis": "Original selector deadline; complete R39/R40 cases passed prospectively",
+      "followupOwnerOrEvidence": "WP12 bounded readiness",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-320",
+      "originalStatus": "failed",
+      "failureClass": "planning-viewport-overflow",
+      "basis": "Original and fresh R39/R40 viewport failures; semantics reached before unchanged geometry assertion",
+      "followupOwnerOrEvidence": "WP07 application layout fix",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-PROGRAMMING-001",
+      "project": "product-webkit-desktop",
+      "originalStatus": "failed",
+      "failureClass": "password-admission-429",
+      "basis": "Observed request status; case cannot establish downstream feature behavior",
+      "followupOwnerOrEvidence": "WP12 pacing proposal",
+      "originalOutcomePreserved": true
+    },
+    {
+      "run": "candidatebd30-full-r34",
+      "mode": "unified-http",
+      "id": "B2BP-SYNC-002",
+      "project": "product-chromium-320",
+      "originalStatus": "failed",
+      "failureClass": "qa-request-forwarding-socket-error",
+      "basis": "Original route.fetch forwarding socket failure; separate native held-request R36 case passed",
+      "followupOwnerOrEvidence": "WP12 native request hold correction",
+      "originalOutcomePreserved": true
+    }
+  ]
+}

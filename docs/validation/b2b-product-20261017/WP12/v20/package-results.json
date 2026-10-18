@@ -1,0 +1,261 @@
+{
+  "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+  "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+  "qualification": "Per-package results on one exact application/QA source, not a claim that the earlier failed root Turbo invocation passed. Counts remain separate by package and execution; no grand test total is invented.",
+  "packages": [
+    {
+      "package": "@klisteniapp/anatomy-viewer",
+      "command": "pnpm --filter @klisteniapp/anatomy-viewer test",
+      "metrics": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:25.529775+00:00",
+      "finishedAt": "2026-10-17T19:03:26.064266+00:00",
+      "decodedLogSha256": "876e7169b89e48bcf2da2aea347eba0f3874a211bd6d9b03fdf9f6fd487cf8c8",
+      "logReceipt": "bd30-unit-anatomy-viewer-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2b-api",
+      "command": "pnpm --filter @klisteniapp/b2b-api test",
+      "metrics": {
+        "tests": 244,
+        "pass": 244,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:05:34.682566+00:00",
+      "finishedAt": "2026-10-17T19:09:27.682817+00:00",
+      "decodedLogSha256": "2c5cb347b9562135609f606479bb9370a840ed366ae767713d93a3839cf85f1b",
+      "logReceipt": "bd30-unit-b2b-api-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2b-client",
+      "command": "pnpm --filter @klisteniapp/b2b-client test",
+      "metrics": {
+        "tests": 31,
+        "pass": 31,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:26.064791+00:00",
+      "finishedAt": "2026-10-17T19:03:27.244301+00:00",
+      "decodedLogSha256": "2a8a4a406307f812ab8981d6360a933b51fc3f974e2daa479dda75b9f6a49b14",
+      "logReceipt": "bd30-unit-b2b-client-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2b-contracts",
+      "command": "pnpm --filter @klisteniapp/b2b-contracts test (Turbo child)",
+      "metrics": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed.",
+      "logReceipt": "../v19/bd30-api-database-guard-failure.log.b64"
+    },
+    {
+      "package": "@klisteniapp/b2b-domain",
+      "command": "pnpm --filter @klisteniapp/b2b-domain test",
+      "metrics": {
+        "tests": 34,
+        "pass": 34,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:27.245247+00:00",
+      "finishedAt": "2026-10-17T19:03:28.253801+00:00",
+      "decodedLogSha256": "a4f12f25704801dd1131cb47e60f9ac816fcda054c0c97ef3e042d9e935074ca",
+      "logReceipt": "bd30-unit-b2b-domain-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2b-react",
+      "command": "pnpm --filter @klisteniapp/b2b-react test",
+      "metrics": {
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:28.254483+00:00",
+      "finishedAt": "2026-10-17T19:03:28.859569+00:00",
+      "decodedLogSha256": "6ed855ad99dff9625e5d726f3f22d975be6f515fe618284cda92971826da8e85",
+      "logReceipt": "bd30-unit-b2b-react-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2b-ui",
+      "command": "pnpm --filter @klisteniapp/b2b-ui test",
+      "metrics": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:28.860470+00:00",
+      "finishedAt": "2026-10-17T19:03:29.179278+00:00",
+      "decodedLogSha256": "d111a071f3fb225002e5e96db3abc48352d4fc8ecca61302c053a6b266e450ff",
+      "logReceipt": "bd30-unit-b2b-ui-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2b-web",
+      "command": "pnpm --filter @klisteniapp/b2b-web test",
+      "metrics": {
+        "tests": 299,
+        "pass": 299,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:29.180410+00:00",
+      "finishedAt": "2026-10-17T19:03:44.128018+00:00",
+      "decodedLogSha256": "cb4301406d5cc30e87b43e396e81cb7892db2375d77bad598625ad3bf1ed3de3",
+      "logReceipt": "bd30-unit-b2b-web-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2c-api",
+      "command": "pnpm --filter @klisteniapp/b2c-api test",
+      "metrics": {
+        "tests": 97,
+        "pass": 97,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:03:44.128904+00:00",
+      "finishedAt": "2026-10-17T19:04:14.400769+00:00",
+      "decodedLogSha256": "289089aa379e1baf8582333269494bccf3256ce3b2c3b8e1bc7a30863c294643",
+      "logReceipt": "bd30-unit-b2c-api-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/b2c-web",
+      "command": "pnpm --filter @klisteniapp/b2c-web test",
+      "metrics": {
+        "tests": 204,
+        "pass": 204,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:04:14.401773+00:00",
+      "finishedAt": "2026-10-17T19:05:33.429746+00:00",
+      "decodedLogSha256": "d8f50e04a5f1aba3661ef2dbaf01b990999f303792de2652e5242798befd2d6a",
+      "logReceipt": "bd30-unit-b2c-web-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/catalog-base",
+      "command": "pnpm --filter @klisteniapp/catalog-base test",
+      "metrics": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:05:33.437695+00:00",
+      "finishedAt": "2026-10-17T19:05:34.147897+00:00",
+      "decodedLogSha256": "ad535713201f345a05b5ed6220c041e6df31d83098a742ee911df448588f26d7",
+      "logReceipt": "bd30-unit-catalog-base-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/geometry",
+      "command": "pnpm --filter @klisteniapp/geometry test",
+      "metrics": {
+        "tests": 33,
+        "pass": 33,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-17T19:05:34.148890+00:00",
+      "finishedAt": "2026-10-17T19:05:34.680590+00:00",
+      "decodedLogSha256": "65c3e6b0bc941093e96c9c4572ecdfa487eecd0c80516abdda0475d25935d835",
+      "logReceipt": "bd30-unit-geometry-continuation.log.b64",
+      "executionQualification": "Independent unchanged package script; B2B API uses the exact guarded basename in the task-owned PostgreSQL."
+    },
+    {
+      "package": "@klisteniapp/model-assets",
+      "command": "pnpm --filter @klisteniapp/model-assets test (Turbo child)",
+      "metrics": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed.",
+      "logReceipt": "../v19/bd30-api-database-guard-failure.log.b64"
+    },
+    {
+      "package": "@klisteniapp/scene-schema",
+      "command": "pnpm --filter @klisteniapp/scene-schema test (Turbo child)",
+      "metrics": {
+        "tests": 79,
+        "pass": 79,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "result": "passed",
+      "executionQualification": "Completed package test script in the preserved root Turbo attempt that later failed another package database guard. The global Turbo attempt remains failed.",
+      "logReceipt": "../v19/bd30-api-database-guard-failure.log.b64"
+    }
+  ]
+}
