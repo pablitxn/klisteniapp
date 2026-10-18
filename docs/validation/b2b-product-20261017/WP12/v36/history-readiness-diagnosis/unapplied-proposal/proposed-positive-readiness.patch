@@ -1,0 +1,11 @@
+--- a/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts
++++ b/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts
+@@ -635,7 +635,7 @@
+   await open(page, product, info, 'history')
+   await expect(
+     page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+-  ).toBeVisible()
++  ).toBeVisible({ timeout: 30000 })
+   // Offset the calendar while wall time keeps advancing, so real retry deadlines
+   // can expire. Authoritative server asOf/closed responses remain unmodified.
+   await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))
