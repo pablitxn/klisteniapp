@@ -1,0 +1,50 @@
+{
+  "run": 56,
+  "project": "product-chromium-desktop",
+  "id": "B2BP-ALTERNATIVES-009",
+  "observations": [
+    {
+      "type": "before",
+      "callId": "pw:api@146",
+      "startTime": 3754683.541,
+      "method": "pw:api"
+    },
+    {
+      "type": "after",
+      "callId": "pw:api@146",
+      "endTime": 3754687.921
+    },
+    {
+      "type": "inputFill",
+      "selector": "internal:role=spinbutton[name=/cantidad$/] >> nth=0",
+      "value": "3",
+      "at": 3753351.85
+    },
+    {
+      "type": "before",
+      "callId": "call@1999",
+      "startTime": 3754683.832,
+      "method": "queryCount"
+    },
+    {
+      "type": "after",
+      "callId": "call@1999",
+      "endTime": 3754686.697,
+      "result": {
+        "value": 0
+      }
+    },
+    {
+      "type": "inputFill",
+      "selector": ".workout-segment >> internal:has=\"internal:role=heading[name=\\\"Elevaci\u00f3n de tal\u00f3n a una pierna \u00b7 Objetivo actual\\\"s]\" >> internal:role=spinbutton[name=/ right cantidad$/] >> nth=0",
+      "value": "1",
+      "at": 3754816.894
+    },
+    {
+      "type": "inputFill",
+      "selector": ".workout-segment >> internal:has=\"internal:role=heading[name=\\\"Elevaci\u00f3n de tal\u00f3n a una pierna \u00b7 Objetivo actual\\\"s]\" >> internal:role=spinbutton[name=/ right cantidad$/] >> nth=1",
+      "value": "1",
+      "at": 3754848.273
+    }
+  ]
+}
