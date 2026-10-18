@@ -2,13 +2,13 @@
 // Production uses docker/nginx.b2b.conf with the same route layout.
 import http from 'node:http';
 import https from 'node:https';
-import { createReadStream, existsSync, statSync, readFileSync } from 'node:fs';
-import { extname, resolve, sep } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { extname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { normalizeDomainHost } from '../apps/b2b-api/src/domain-context.ts';
+import { serveBuiltFile } from './b2b-static-files.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.glb': 'model/gltf-binary', '.gltf': 'model/gltf+json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webm': 'video/webm', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.mp4': 'video/mp4', '.woff2': 'font/woff2' };
 
 export function createGateway({ apiPort = 4201, webPort = 4210, built = false, builtDirectory,
   whiteLabel = process.env.B2B_WHITE_LABEL === 'true', proxySecret = process.env.B2B_PROXY_SECRET,
@@ -89,21 +89,7 @@ export function createGateway({ apiPort = 4201, webPort = 4210, built = false, b
     if (!built) { proxy(request, response, webPort); return; }
     if (!['GET', 'HEAD'].includes(request.method ?? '')) { response.writeHead(405); response.end(); return; }
     const directory = resolve(builtDirectory ?? resolve(root, 'apps/b2b-web/dist'));
-    let relative;
-    try { relative = decodeURIComponent(pathname.slice(1)); }
-    catch { response.writeHead(400); response.end(); return; }
-    if (relative.includes('\0') || relative.split('/').some(part => part.startsWith('.'))) { response.writeHead(404); response.end(); return; }
-    let filename = resolve(directory, relative || 'index.html');
-    if (filename !== directory && !filename.startsWith(`${directory}${sep}`)) { response.writeHead(404); response.end(); return; }
-    if (!existsSync(filename) || !statSync(filename).isFile()) {
-      // A missing media/script URL must never return SPA HTML.
-      if (extname(relative) || /^(assets|models|previews)\//.test(relative)) { response.writeHead(404); response.end(); return; }
-      filename = resolve(directory, 'index.html');
-    }
-    if (!existsSync(filename)) { response.writeHead(503); response.end('Build B2B before starting this gateway.'); return; }
-    response.writeHead(200, { 'Content-Type': types[extname(filename)] ?? 'application/octet-stream',
-      'Content-Length': statSync(filename).size, 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer' });
-    if (request.method === 'HEAD') response.end(); else createReadStream(filename).pipe(response);
+    await serveBuiltFile(request, response, { directory, pathname });
   };
   const server = tls ? https.createServer(tls, handler) : http.createServer(handler);
   server.on('upgrade', (request, socket, head) => {
