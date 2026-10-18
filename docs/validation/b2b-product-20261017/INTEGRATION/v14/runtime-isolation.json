@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-18T19:28:13.263157+00:00",
+  "containerUser": "pwuser",
+  "privileged": false,
+  "networkMode": "klisteni-readiness-network-v1",
+  "publishedPorts": {},
+  "noNewPrivileges": true,
+  "seccompMatchesExistingProfile": true,
+  "seccompFileSha256": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849",
+  "mounts": [
+    {
+      "destination": "/task/app",
+      "writable": false
+    },
+    {
+      "destination": "/runtime",
+      "writable": false
+    },
+    {
+      "destination": "/tmp/readiness-evidence",
+      "writable": true
+    }
+  ],
+  "databaseNetworkMode": "container:fd77a5c7807ffb353dd8a32820e2a109d0053cf0aa08f3734980b3bd4d600521",
+  "databaseTmpfs": {
+    "/var/lib/postgresql/data": "rw,size=768m"
+  },
+  "databasePublishedPorts": {},
+  "qualification": "Container inspection during targeted runs. Chromium sandbox is required by the hash-verified product config. No TLS exceptions, trust mutations or host network. Ordinary Docker bridge is not an egress isolation claim."
+}

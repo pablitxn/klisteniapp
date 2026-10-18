@@ -1,0 +1,1821 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--grep",
+      "(B2BP-SYNC-002|B2BP-HEALTH-002|B2BP-WEEK-009) ",
+      "--workers=1",
+      "--retries=0",
+      "--project=product-chromium-320",
+      "--project=product-chromium-430",
+      "--project=product-chromium-desktop",
+      "--project=product-webkit-320",
+      "--project=product-webkit-430",
+      "--project=product-webkit-desktop",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/readiness-evidence/affected-r1-unified/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/readiness-evidence/affected-r1-unified/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/readiness-evidence/affected-r1-unified/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/readiness-evidence/affected-r1-unified/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/readiness-evidence/affected-r1-unified/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/readiness-evidence/affected-r1-unified/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-health.spec.ts",
+      "file": "b2b-product-health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":204,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":200,\"reservedSlots\":2}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":193,\"reservedSlots\":3}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":164,\"reservedSlots\":4}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8285,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:24:19.573Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":204,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":200,\"reservedSlots\":2}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":193,\"reservedSlots\":3}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":164,\"reservedSlots\":4}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjExOSwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEzMSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozN31dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5MiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo4Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjk3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEwNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTA2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTI3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMjd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNTUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE1OX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE4MCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEwNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTEyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTI4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEzNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTM3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTQ3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNDd9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-d22dc60ef90af5578674",
+          "file": "b2b-product-health.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 239416,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":208,\"reservedSlots\":9}"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 58416ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":146,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":149,\"reservedSlots\":2}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":212,\"reservedSlots\":3}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 65604,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:24:40.112Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":208,\"reservedSlots\":9}"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 58416ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":146,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":149,\"reservedSlots\":2}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":212,\"reservedSlots\":3}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjExMCwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEwMiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoyMX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE2NywiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjg4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjoxMjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTM0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMzV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNDUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE0NX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5OSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjExNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTE5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTQxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE0Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTQ4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTYxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNjR9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-2f1cf340ee6cbeeaf78a",
+          "file": "b2b-product-health.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 239460,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":229,\"reservedSlots\":8}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":211,\"reservedSlots\":9}"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 58460ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":164,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":164,\"reservedSlots\":2}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67138,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:26:01.323Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":229,\"reservedSlots\":8}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":211,\"reservedSlots\":9}"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 58460ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":164,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":164,\"reservedSlots\":2}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEyOCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjIzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjoyM30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjoyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjI4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozM31dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEzMCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0NX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE1OSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEwOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTExfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTIxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEzNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTM3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTQ3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNDh9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE0NCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjY3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjg3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEwMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTA2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNDAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE0MH1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-6438f65c82a401c80f9e",
+          "file": "b2b-product-health.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240748,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":267,\"reservedSlots\":7}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":193,\"reservedSlots\":8}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":169,\"reservedSlots\":9}"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 59748ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":179,\"reservedSlots\":1}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 68209,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:27:21.465Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":267,\"reservedSlots\":7}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":193,\"reservedSlots\":8}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":169,\"reservedSlots\":9}"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 59748ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":179,\"reservedSlots\":1}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjkyLCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjExNiwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjIyOCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjkyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjEwNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMjEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEyMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE0NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTQ0fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE4MywiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEwNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTEzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTMzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE0Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTQ3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTY0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNjR9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-215e3237ddf75898678a",
+          "file": "b2b-product-health.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":170,\"reservedSlots\":6}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":160,\"reservedSlots\":7}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":213,\"reservedSlots\":8}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":163,\"reservedSlots\":9}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:28:46.096Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":170,\"reservedSlots\":6}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":160,\"reservedSlots\":7}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":213,\"reservedSlots\":8}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":163,\"reservedSlots\":9}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE0NSwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEzOSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQ0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0NH1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5NiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEwOSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTE0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTM2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE1Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTUzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTU2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNTZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxODcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE4N31dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5NCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEwNywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTE0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTQzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE0OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTQ4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTU4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNTh9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+          "file": "b2b-product-health.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":247,\"reservedSlots\":5}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":264,\"reservedSlots\":6}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":241,\"reservedSlots\":7}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":262,\"reservedSlots\":8}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9852,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:30:10.520Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":247,\"reservedSlots\":5}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":264,\"reservedSlots\":6}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":241,\"reservedSlots\":7}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":262,\"reservedSlots\":8}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjIxOCwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjI3MCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjI0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoyNH1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjIzMCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjExMSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTE5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTM3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE2NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTcxfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTgwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxODB9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjI2OCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEzNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTQxfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MTYzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE4Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTgyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MjMwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoyMzB9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-1298652f1630577728f8",
+          "file": "b2b-product-health.spec.ts",
+          "line": 72,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":178,\"reservedSlots\":5}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":196,\"reservedSlots\":6}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6468,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:24:27.999Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":178,\"reservedSlots\":5}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":196,\"reservedSlots\":6}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEzOCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjY4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjg5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEwMSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTAyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTEyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMTN9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjcyLCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NDYzLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjgsInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjoxOH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjMxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjg5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjMyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMzQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjMzNX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM0OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MzQ5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6Mzg2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozODYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4Nn0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6Mzg2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozOTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6MzkzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0MjgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDMzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjQzNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjQzNH1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NDY2LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE3LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo1NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NTV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6ODN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozMzMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzQwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNDF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNTAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM1MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozNzQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozNzV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjM3OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozNzh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjozODMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0MTIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0MTN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQyMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0MjN9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NDEsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-initial-draft-commit",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6ImluaXRpYWwtZHJhZnQtY29tbWl0IiwicmVhZHkiOnRydWUsImJ1ZGdldE1zIjozMDAwMCwiZWxhcHNlZE1zIjoyMSwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-73827bd133f0e2298a88",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 532,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":157,\"reservedSlots\":4}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":152,\"reservedSlots\":5}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7264,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:25:45.927Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":157,\"reservedSlots\":4}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":152,\"reservedSlots\":5}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5MSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjg3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5M30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjExOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMzUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEzN30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE1Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTU2fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEyOCwiZXZlbnRzIjpbeyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjU2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NTh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjY1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjY1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjY1fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjY2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjEyMiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjEyMn1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTMxLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MjEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjIzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NTcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MzQzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM2Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzY3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6Mzc5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozODB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQxMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0MTd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDI0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQyNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQyNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0MjV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ1Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0NTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDYzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDYzfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTI3LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjI3LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6Mjd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjExOX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjMzNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNDAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM0MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM0OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MzQ5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozNzQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzc3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjM4NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjM4N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6Mzg4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0OTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDkzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUwMiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUwNn1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MzcsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-initial-draft-commit",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6ImluaXRpYWwtZHJhZnQtY29tbWl0IiwicmVhZHkiOnRydWUsImJ1ZGdldE1zIjozMDAwMCwiZWxhcHNlZE1zIjo0MiwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-e021f996216375df641c",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 532,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":151,\"reservedSlots\":3}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":176,\"reservedSlots\":4}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6658,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:27:08.622Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":151,\"reservedSlots\":3}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":176,\"reservedSlots\":4}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE3NCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjg2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjExMSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMTksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEyMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEzNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTM3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTY4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNjh9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE2NywiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NTQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjU3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjU3fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo1N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjc2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo3N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6MTI0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjEyOH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjoxMzQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjoxMzR9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTY4LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE4LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mzh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTAyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MzMyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM0Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzY3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6Mzk3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozOTd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDU0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ1NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ1OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ1OH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NTh9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0NTl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ4Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0ODd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDg4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDkzfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NDQ1LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE0LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoyOSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6ODZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozMjYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzM0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMzh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNTIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM1NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM3Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6Mzc3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjM4Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjM4Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzg5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjM4OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDE2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQxN30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0MjksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0MzB9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NDEsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-initial-draft-commit",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6ImluaXRpYWwtZHJhZnQtY29tbWl0IiwicmVhZHkiOnRydWUsImJ1ZGdldE1zIjozMDAwMCwiZWxhcHNlZE1zIjozNSwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-ecd82da9d4dbac2ff8a0",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 532,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":158,\"reservedSlots\":2}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":152,\"reservedSlots\":3}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7800,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:28:30.672Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":158,\"reservedSlots\":2}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":152,\"reservedSlots\":3}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE0MCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjk2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEwNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTA1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTE0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMTR9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjc0LCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTY2LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjgsInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjo4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjI1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NzQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MzkwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjQwOSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDA5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDE3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MTd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NDAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ0MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NDUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0NDYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NDZ9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0NTF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDg5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDg5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0OTAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDkwfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MTAxMCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjoyMSwic3RhdHVzIjo0MDR9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjIyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NzAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjcwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTAzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjo0MjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDM1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MzZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0NTIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQ1Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ4Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDg3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0OTAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDkwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ5Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ5Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTQ5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjU0OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1NTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1NTN9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NjEsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-initial-draft-commit",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6ImluaXRpYWwtZHJhZnQtY29tbWl0IiwicmVhZHkiOnRydWUsImJ1ZGdldE1zIjozMDAwMCwiZWxhcHNlZE1zIjoyMiwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-cbb511d8a690f700c160",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 532,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 239878,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 58878ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":192,\"reservedSlots\":1}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":197,\"reservedSlots\":2}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67152,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:28:54.885Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 58878ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":192,\"reservedSlots\":1}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":197,\"reservedSlots\":2}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE2MCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjgyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo4NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjk4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEyNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTI1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTI3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMjd9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjI5MiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjUxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo1MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NTIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NTJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjI0Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjoyNDJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6MjUyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6MjUyfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTYzLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjExLCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo2MSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NjF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6OTZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjo0MDIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDE0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQyNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NTV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NTcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ1N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDYzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ2NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1MDMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1MDR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjUwNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1MDV9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTI3LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjksInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjo5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjMxfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NzksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MzcyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM4Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzgzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MzkyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozOTN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDE5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDE5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDIzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0MjN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQyNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0MjZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDY2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDY2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0NzAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDcwfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MzQsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-initial-draft-commit",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6ImluaXRpYWwtZHJhZnQtY29tbWl0IiwicmVhZHkiOnRydWUsImJ1ZGdldE1zIjozMDAwMCwiZWxhcHNlZE1zIjozMCwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 532,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240695,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":251,\"reservedSlots\":9}"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 59695ms for the unchanged database guard"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":193,\"reservedSlots\":1}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 68087,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:30:20.852Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":251,\"reservedSlots\":9}"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 59695ms for the unchanged database guard"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":193,\"reservedSlots\":1}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjIwMiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjkxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjExNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxNTksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE1OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE2NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTY1fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjkyLCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTg1LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjQsInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjo0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NzksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6Mzg4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjQwNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDA2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDA3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MDd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDQ3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDQ3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDU0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ1NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0NTV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjUwMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1MDN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTE4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTE4fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTQ4LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjI1LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MjV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NzJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozNzQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mzk0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozOTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MDEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQwMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0MzYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0Mzd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0MzcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQzN30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDM3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQzN30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDc1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ3NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0OTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0OTF9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTIsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-initial-draft-commit",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6ImluaXRpYWwtZHJhZnQtY29tbWl0IiwicmVhZHkiOnRydWUsImJ1ZGdldE1zIjozMDAwMCwiZWxhcHNlZE1zIjozNCwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-8f8456b1166c4d8c3294",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 532,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-week.spec.ts",
+      "file": "b2b-product-week.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":160,\"reservedSlots\":7}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":188,\"reservedSlots\":8}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4832,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:24:34.488Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":160,\"reservedSlots\":7}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":188,\"reservedSlots\":8}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE0OSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjg3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo4OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjEwMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMTUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjExN30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEyNywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTI3fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjEyOSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1M31dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTcxLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjEwLCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo2Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NzF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozMjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzQxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNDJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM1M30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM3Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6Mzc3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozOTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6MzkyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQwMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQwMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQyOSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDMyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDQwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0NDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ5OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0OTl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTA3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTA4fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTI3LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjgsInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjoyMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjY1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo2Nn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEzMSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTMzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6Mzc3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM5OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mzk4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDEyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MTN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDUzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDYwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDYwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NjB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ2MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0NjB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0NzYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ3Nn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ3Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDc2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1MDcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTE0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUzMiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUzOX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MzksImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTI4LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjgsInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjo4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MjcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjI3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6OTAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjk3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MzI1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjMzOSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzM5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MzUwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNTF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjozODIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzg0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozODQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzg1fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozODV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0MDgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQwOH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQxNiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDE2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0NTUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDU2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjQ4NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjQ4NH1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-d7e1faccbad9ce941b14",
+          "file": "b2b-product-week.spec.ts",
+          "line": 241,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":145,\"reservedSlots\":6}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":166,\"reservedSlots\":7}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7143,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:25:53.231Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":145,\"reservedSlots\":6}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":166,\"reservedSlots\":7}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5OSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjkzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5Nn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjEyNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxNDIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjE0NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE1OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTU4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTg4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxOTN9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE2NSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6MTgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6MjF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo1OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NjN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjk5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjEwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjoxMjEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjoxMjF9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTExLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjEzLCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoyNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mjd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6OTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozMTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzIxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMjV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozMzUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM0MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozNzcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozODJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjozODIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzk0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjM5Nn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQyNywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDMzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDMzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0MzN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ3Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0ODB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDg2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDg2fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NjQ2LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE2LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTEyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6MzM3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM1MSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzUzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MzY2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNjh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQwMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0MDZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDE4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQxOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQyMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0MjB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0NjksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ3MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ4NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDg3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1NzIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTcyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjU3Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjU3M31dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NzgsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MTAwNiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjoxMiwic3RhdHVzIjo0MDR9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NzUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjc1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MjM5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoyNTl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozODIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDIyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MjN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0NjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQ4Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo1OTksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo1OTl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjYxOSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo2MTksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NjE5fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjYyMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjc0Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo3NDYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjc0Nn0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo3NDZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6OTMzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6OTM4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo5MzgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6OTQyfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-9ae0aec3e748b8678377",
+          "file": "b2b-product-week.spec.ts",
+          "line": 241,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":165,\"reservedSlots\":5}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":178,\"reservedSlots\":6}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5498,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:27:15.310Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":165,\"reservedSlots\":5}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":178,\"reservedSlots\":6}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE5NSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjc0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo4Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjEwMiwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMTYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjExNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEyNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTI1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTQxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNDF9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE1NSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjMwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjozMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo3Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjc5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo4Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo4Mn1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NDc5LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjEyLCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoyNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mjh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6ODF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozMjIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzI4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMzN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNDEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM0NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozNjYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjozNjZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjozODMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjozODMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4M30seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjM4M30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQxMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDEwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDE4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0MTh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ0MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0NDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDQ0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDQ1fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTEyLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjEwLCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6Nzd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozMzMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzQzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNDN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozNTAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM1MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzc2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6MzgxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6MzgyfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6MzgyfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM4Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQwNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDA1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDA2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0MDh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQyNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0MjZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDMxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NDMyfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTYsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTU5LCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE1LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEyMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjMzMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNDIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjM0Mn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM1NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MzU2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjM5MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjM5NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjM5NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjM5Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6Mzk4fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6Mzk4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDE1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0MTZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0MTgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQxOX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NDUwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ1MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0NjQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo0NjR9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-61865483e70f7cb055c9",
+          "file": "b2b-product-week.spec.ts",
+          "line": 241,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":151,\"reservedSlots\":4}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":152,\"reservedSlots\":5}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6929,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:28:38.494Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":151,\"reservedSlots\":4}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":152,\"reservedSlots\":5}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE2NSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjY0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo2N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjgzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjk0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo5NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjExMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTEzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTU0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNTV9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjgyLCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTMzLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjEwLCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mjl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6Nzh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozODQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzkzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozOTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQxMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDM3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0MzcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDM5fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0Mzl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ1MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ3MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDcwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDg1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0ODV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTI3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTI3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1MzAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTMwfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTcwLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE1LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozMSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo2Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NjN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozNzgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzkwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozOTB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MDYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQwNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0MzMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0MzN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQzNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0MzV9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0MzUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQzNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ1OSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDU5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDY2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0NjZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTQ1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTQ2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1NTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTUzfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NjMsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTczLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjI4LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6Mjh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo2Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NjJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEwNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjQxMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MTYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjQxNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQyNSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDI1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ1NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ1Nn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDU2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ1N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ3NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDc0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDg2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0ODZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0OTcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ5N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTQ2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjU0N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1NjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1Njh9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-fbb422acb35d6f42f88c",
+          "file": "b2b-product-week.spec.ts",
+          "line": 241,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":211,\"reservedSlots\":3}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":205,\"reservedSlots\":4}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7479,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:30:02.079Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":211,\"reservedSlots\":3}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":205,\"reservedSlots\":4}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjI0MiwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjk2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjoxMjQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MTM4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMzh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxNTgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjE1OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjIyMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MjIwfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjI2MSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo1MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NzMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NzN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjoxMzAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjEzMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjoyNDcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjoyNDd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjI0Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjoyNDd9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTgzLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjYsInN0YXR1cyI6NDA0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjo2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6MzMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjMzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6ODksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjg5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6NDA0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjQxMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDEwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDIxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MjF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0NDQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ0NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDU0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NTQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDU0fSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo0NTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0NzIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ3M30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ3Niwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDc2fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1MjAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTIwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUzMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjUzMX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MTAyNywiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjoxMywic3RhdHVzIjo0MDR9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjEzfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NzgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjc5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTMzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMzN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjo0MzUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDUyLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0NTJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0NzEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQ3MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjUwNywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NTA3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjUyMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjUyMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NTIxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjUyMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjU0Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NTQ0fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NTQ4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo1NDh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjU5NSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1OTd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NjA1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NjA1fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MzIsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6OTkwLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE2LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTZ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMDEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjEwMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEzMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTM1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImV2ZW50cyIsImVsYXBzZWRNcyI6NDI4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjQ0Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDQ3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDczLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0NzN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo1MTksInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjUxOX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo1MjgsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo1MzIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo1MzJ9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo1MzJ9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo1NjUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NTY4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo1Njh9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NTY4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjYyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjYyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6IndlZWsiLCJlbGFwc2VkTXMiOjYyOX0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjYyOX1dLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+          "file": "b2b-product-week.spec.ts",
+          "line": 241,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":263,\"reservedSlots\":2}"
+                },
+                {
+                  "type": "auth-admission-completed",
+                  "description": "{\"afterReservationMs\":199,\"reservedSlots\":3}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7057,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:31:28.976Z",
+                  "annotations": [
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":263,\"reservedSlots\":2}"
+                    },
+                    {
+                      "type": "auth-admission-completed",
+                      "description": "{\"afterReservationMs\":199,\"reservedSlots\":3}"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjE4MCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjcwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3M30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjEwMywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjoxMTYsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjExNn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjEyNCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTI0fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjM1OCwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250aW51aXR5IiwiZWxhcHNlZE1zIjo3OCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjc4fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo5MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo5MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjEzMCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6MTMxfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6MTU0LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjoxNTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjI3Mywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjoyNzR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6Mjg1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6Mjg1fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MTAzNSwiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjo3LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjUwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo1MH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjk2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo5Nn0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJldmVudHMiLCJlbGFwc2VkTXMiOjQyOCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MzEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjQzMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQ0MCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6NDQxfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6InNlc3Npb25zIiwiZWxhcHNlZE1zIjo0ODEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDgxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ4MX0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0ODF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDk3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDk3fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NTA4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo1MDh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo1MTEsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjUxMX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTQxLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjU0MX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1NjAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJ3ZWVrIiwiZWxhcHNlZE1zIjo1NjB9XSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTUzLCJldmVudHMiOlt7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjE0LCJzdGF0dXMiOjQwNH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiY29udGV4dCIsImVsYXBzZWRNcyI6MTR9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDd9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo3OSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6Nzl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjozNjcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6Mzc4LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjozNzh9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjozOTQsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjM5NH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDIzLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQyM30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ0NCwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImxlZ2FjeS1hc3NpZ25tZW50cyIsImVsYXBzZWRNcyI6NDQ1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ0Nywic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ0N30seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ1OSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDU5fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2UtY29udGV4dCIsImVsYXBzZWRNcyI6NDYwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0NjF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZXMiLCJlbGFwc2VkTXMiOjQ5OSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo0OTl9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTA2LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTEyfV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-selected-week-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InNlbGVjdGVkLXdlZWstZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTAsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    },
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MTAxNywiZXZlbnRzIjpbeyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJjb250ZXh0IiwiZWxhcHNlZE1zIjoyMiwic3RhdHVzIjo0MDR9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRleHQiLCJlbGFwc2VkTXMiOjIyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NzIsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJib290c3RyYXAvdjIiLCJlbGFwc2VkTXMiOjcyfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImFjY2VzcyIsImVsYXBzZWRNcyI6MTAwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjoxMDF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiZXZlbnRzIiwiZWxhcHNlZE1zIjo0MjAsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6ImJvb3RzdHJhcC92MiIsImVsYXBzZWRNcyI6NDMwLCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoiYm9vdHN0cmFwL3YyIiwiZWxhcHNlZE1zIjo0MzF9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiYWNjZXNzIiwiZWxhcHNlZE1zIjo0MzcsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJhY2Nlc3MiLCJlbGFwc2VkTXMiOjQzOH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJzZXNzaW9ucyIsImVsYXBzZWRNcyI6NDY3LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJsZWdhY3ktYXNzaWdubWVudHMiLCJlbGFwc2VkTXMiOjQ2OSwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50IjoiY29udGludWl0eSIsImVsYXBzZWRNcyI6NDY5LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoic2Vzc2lvbnMiLCJlbGFwc2VkTXMiOjQ2OX0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50IjoibGVnYWN5LWFzc2lnbm1lbnRzIiwiZWxhcHNlZE1zIjo0Njl9LHsiZXZlbnQiOiJyZXF1ZXN0ZmluaXNoZWQiLCJlbmRwb2ludCI6ImNvbnRpbnVpdHkiLCJlbGFwc2VkTXMiOjQ2OX0seyJldmVudCI6InJlc3BvbnNlIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ5Miwic3RhdHVzIjoyMDB9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0OTMsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlLWNvbnRleHQiLCJlbGFwc2VkTXMiOjQ5M30seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoib2NjdXJyZW5jZS1jb250ZXh0IiwiZWxhcHNlZE1zIjo0OTN9LHsiZXZlbnQiOiJyZXNwb25zZSIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTc1LCJzdGF0dXMiOjIwMH0seyJldmVudCI6InJlcXVlc3RmaW5pc2hlZCIsImVuZHBvaW50Ijoid2VlayIsImVsYXBzZWRNcyI6NTc1fSx7ImV2ZW50IjoicmVzcG9uc2UiLCJlbmRwb2ludCI6Im9jY3VycmVuY2VzIiwiZWxhcHNlZE1zIjo1NzUsInN0YXR1cyI6MjAwfSx7ImV2ZW50IjoicmVxdWVzdGZpbmlzaGVkIiwiZW5kcG9pbnQiOiJvY2N1cnJlbmNlcyIsImVsYXBzZWRNcyI6NTc1fV0sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-f82f24b588ce34a90953",
+          "file": "b2b-product-week.spec.ts",
+          "line": 241,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T19:23:48.408Z",
+    "duration": 468452.468,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

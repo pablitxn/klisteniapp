@@ -1,0 +1,70 @@
+{
+  "candidateSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "capturedAt": "2026-10-18T19:40:26.682076+00:00",
+  "regression": {
+    "tests": 61,
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "command": "node --test scripts/b2b-product-harness.test.mjs scripts/b2b-product-stream-lifecycle.test.mjs apps/b2b-web/tests/routineHistoryReads.test.ts apps/b2b-web/tests/sessionDraft.test.ts apps/b2b-web/tests/sessionEdit.test.ts apps/b2b-web/tests/workoutClient.test.ts packages/b2b-domain/tests/sessions.test.ts",
+    "executionPin": "92a7c3ba0805a870cdecc47a81666b76fafbc221",
+    "unchangedTestFiles": [
+      {
+        "path": "scripts/b2b-product-harness.test.mjs",
+        "sha256": "1fdd6610eb96866cce7f3f7abb3dee91968b24a1fa0f83bad8782e0a94f91ec9"
+      },
+      {
+        "path": "scripts/b2b-product-stream-lifecycle.test.mjs",
+        "sha256": "acd21eb6f7cf67e76bbd5b6c3090d979e280c4ad332a4bf190b379eb024057f0"
+      },
+      {
+        "path": "apps/b2b-web/tests/routineHistoryReads.test.ts",
+        "sha256": "e95ba97ce0752dcf30887358629e825c69cbb4e1a15bc44cad81e486f266930b"
+      },
+      {
+        "path": "apps/b2b-web/tests/sessionDraft.test.ts",
+        "sha256": "efe387f1fbbd95328e7e4f4b6c3b5ffd29d9fb240ccd62f59e98072df11f7cd8"
+      },
+      {
+        "path": "apps/b2b-web/tests/sessionEdit.test.ts",
+        "sha256": "185e79471a2aeb3f7f5f36317642dfa34944d9aa6d16f6169c94d92034a40d94"
+      },
+      {
+        "path": "apps/b2b-web/tests/workoutClient.test.ts",
+        "sha256": "021075691d05be4203e1bcc8771b70f2553a5cbce66120d2baa4491a1799369e"
+      },
+      {
+        "path": "packages/b2b-domain/tests/sessions.test.ts",
+        "sha256": "966069e3e84520686ea3dc224b4b45fc082ba6a67ebfb348487e73a07e28751b"
+      }
+    ],
+    "applicability": "Test bodies and production runtime inputs unchanged at final candidate; retained actual prior execution, not a new final-pin execution."
+  },
+  "typecheck": {
+    "command": "tsc --noEmit",
+    "cwd": "apps/b2c-web",
+    "exitCode": 0,
+    "executionPin": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7"
+  },
+  "scopedLint": {
+    "command": "node ../../node_modules/eslint/bin/eslint.js e2e/fixtures/b2b-product/readiness.ts e2e/fixtures/b2b-product/app-fixture.ts e2e/b2b-product-week.spec.ts e2e/b2b-product-history.spec.ts test/browser-readiness/readiness.spec.ts playwright.product-readiness.config.ts",
+    "cwd": "apps/b2c-web",
+    "exitCode": 0,
+    "executionPin": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7"
+  },
+  "logs": [
+    {
+      "path": "static/regression.log",
+      "sha256": "5de2d9bbd3b3d5e5343aedf7d277e39534c384c5cf79fadcc86e8c6c06777e87"
+    },
+    {
+      "path": "static/final-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "static/final-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

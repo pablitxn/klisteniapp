@@ -1,0 +1,419 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.product-readiness.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/tmp/readiness-evidence/contract-final-source/apps/b2c-web/playwright.product-readiness.config.ts",
+    "rootDir": "/tmp/readiness-evidence/contract-final-source/apps/b2c-web/e2e/support",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/klisteni-product-readiness-4351",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "readiness-chromium-430",
+        "name": "readiness-chromium-430",
+        "testDir": "/tmp/readiness-evidence/contract-final-source/apps/b2c-web/e2e/support",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-readiness.contract.spec.ts"
+        ],
+        "timeout": 40000
+      },
+      {
+        "outputDir": "/tmp/klisteni-product-readiness-4351",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "readiness-webkit-430",
+        "name": "readiness-webkit-430",
+        "testDir": "/tmp/readiness-evidence/contract-final-source/apps/b2c-web/e2e/support",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-readiness.contract.spec.ts"
+        ],
+        "timeout": 40000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "b2b-readiness.contract.spec.ts",
+      "file": "b2b-readiness.contract.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "positive workspace admission accepts navigation rendered after five seconds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6093,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:03.616Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjU4OTgsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-31afc88d8e24b2902255",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 33,
+          "column": 5
+        },
+        {
+          "title": "history waits for semantic regions, loading completion and absence of alerts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 680,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:09.871Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NTc2LCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-d9877686abdf1ace4c81",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 65,
+          "column": 5
+        },
+        {
+          "title": "a predicate failure propagates unchanged and removes its observation listeners",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 81,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:10.561Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-predicate-failure",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InByZWRpY2F0ZS1mYWlsdXJlIiwicmVhZHkiOmZhbHNlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MSwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-c88e8cda9e0d3d0f17f1",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 115,
+          "column": 5
+        },
+        {
+          "title": "history has one thirty-second budget across delayed predicates and retains timeout failure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 30102,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:10.656Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5IjpmYWxzZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjMwMDA5LCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-a60cc77791d40402daaf",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 136,
+          "column": 5
+        },
+        {
+          "title": "positive workspace admission accepts navigation rendered after five seconds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6051,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:41.248Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-workspace-admission",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6IndvcmtzcGFjZS1hZG1pc3Npb24iLCJyZWFkeSI6dHJ1ZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjU3MTMsImV2ZW50cyI6W10sInF1YWxpZmljYXRpb24iOiJSZXNwb25zZSBldmVudHMgZG8gbm90IGltcGx5IGJvZHkgY29tcGxldGlvbjsgcmVxdWVzdGZpbmlzaGVkIGRvZXMgbm90IGltcGx5IHJlbmRlcmVkIFVJLiBPbmx5IHRoZSBuYW1lZCBVSSBwcmVkaWNhdGVzIGVzdGFibGlzaCByZWFkaW5lc3MuIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-b8d6f8697418f1f71110",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 33,
+          "column": 5
+        },
+        {
+          "title": "history waits for semantic regions, loading completion and absence of alerts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 841,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:47.630Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5Ijp0cnVlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6NjA2LCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-f369b7d1b69ffb40d944",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 65,
+          "column": 5
+        },
+        {
+          "title": "a predicate failure propagates unchanged and removes its observation listeners",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 259,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:48.486Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-predicate-failure",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6InByZWRpY2F0ZS1mYWlsdXJlIiwicmVhZHkiOmZhbHNlLCJidWRnZXRNcyI6MzAwMDAsImVsYXBzZWRNcyI6MSwiZXZlbnRzIjpbXSwicXVhbGlmaWNhdGlvbiI6IlJlc3BvbnNlIGV2ZW50cyBkbyBub3QgaW1wbHkgYm9keSBjb21wbGV0aW9uOyByZXF1ZXN0ZmluaXNoZWQgZG9lcyBub3QgaW1wbHkgcmVuZGVyZWQgVUkuIE9ubHkgdGhlIG5hbWVkIFVJIHByZWRpY2F0ZXMgZXN0YWJsaXNoIHJlYWRpbmVzcy4ifQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-3cb99721d29ae46c37cd",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 115,
+          "column": 5
+        },
+        {
+          "title": "history has one thirty-second budget across delayed predicates and retains timeout failure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 30333,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T19:29:48.753Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "product-readiness-history-data",
+                      "contentType": "application/json",
+                      "body": "eyJwaGFzZSI6Imhpc3RvcnktZGF0YSIsInJlYWR5IjpmYWxzZSwiYnVkZ2V0TXMiOjMwMDAwLCJlbGFwc2VkTXMiOjMwMDMyLCJldmVudHMiOltdLCJxdWFsaWZpY2F0aW9uIjoiUmVzcG9uc2UgZXZlbnRzIGRvIG5vdCBpbXBseSBib2R5IGNvbXBsZXRpb247IHJlcXVlc3RmaW5pc2hlZCBkb2VzIG5vdCBpbXBseSByZW5kZXJlZCBVSS4gT25seSB0aGUgbmFtZWQgVUkgcHJlZGljYXRlcyBlc3RhYmxpc2ggcmVhZGluZXNzLiJ9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "74c17c50b499285f9ca0-363957deb1103ae2e7ac",
+          "file": "b2b-readiness.contract.spec.ts",
+          "line": 136,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T19:29:03.081Z",
+    "duration": 76091.115,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
