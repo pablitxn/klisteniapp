@@ -1,0 +1,35 @@
+{
+  "candidateSha": "92a7c3ba0805a870cdecc47a81666b76fafbc221",
+  "capturedAt": "2026-10-18T19:34:11.853879+00:00",
+  "regression": {
+    "tests": 61,
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "command": "node --test scripts/b2b-product-harness.test.mjs scripts/b2b-product-stream-lifecycle.test.mjs apps/b2b-web/tests/routineHistoryReads.test.ts apps/b2b-web/tests/sessionDraft.test.ts apps/b2b-web/tests/sessionEdit.test.ts apps/b2b-web/tests/workoutClient.test.ts packages/b2b-domain/tests/sessions.test.ts"
+  },
+  "typecheck": {
+    "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+    "exitCode": 0
+  },
+  "scopedLint": {
+    "command": "node ../../node_modules/eslint/bin/eslint.js e2e/fixtures/b2b-product/readiness.ts e2e/fixtures/b2b-product/app-fixture.ts e2e/b2b-product-week.spec.ts e2e/b2b-product-history.spec.ts e2e/support/b2b-readiness.contract.spec.ts playwright.product-readiness.config.ts",
+    "cwd": "apps/b2c-web",
+    "exitCode": 0
+  },
+  "logs": [
+    {
+      "path": "static/lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "static/typecheck.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "static/regression.log",
+      "sha256": "5de2d9bbd3b3d5e5343aedf7d277e39534c384c5cf79fadcc86e8c6c06777e87"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "capturedAt": "2026-10-18T19:53:31.933173+00:00",
+  "remainingBrowserSchemas": 0,
+  "schemaInventoryTiming": "After all eight product runs finished and before task database removal; no manual schema drop",
+  "remainingTaskContainers": [],
+  "remainingTaskNetworks": [],
+  "removedTaskContainers": [
+    {
+      "id": "2d4f6c7aee54d2bdca301549bd15003c4bfb6b0db4aaa5e9683db423d71ce166",
+      "name": "/klisteni-readiness-pg-v1",
+      "running": true
+    },
+    {
+      "id": "fd77a5c7807ffb353dd8a32820e2a109d0053cf0aa08f3734980b3bd4d600521",
+      "name": "/klisteni-readiness-browser-v1",
+      "running": true
+    }
+  ],
+  "nonTaskContainersBefore": [
+    {
+      "id": "b8803f56973923cf3fbe937892a4df1530468842f2f50c4a31cd1c7acee68020",
+      "name": "/klisteni-integration-postgres",
+      "running": false
+    },
+    {
+      "id": "fb2aa276c098c49d1f79cbb54234a7dbdd0540501638ae45f18e3f31fb001813",
+      "name": "/klisteni-setup-20261015",
+      "running": false
+    },
+    {
+      "id": "a5c354d6886ece7eefab23ea7a2d9dde186a9d55bfbd5e46fb8c6780b3271b23",
+      "name": "/klisteni-dev-db-1",
+      "running": false
+    },
+    {
+      "id": "7c75ca796e9a6d1253ab106b1d3aa6ee6905e63a7cc05e34d710a853f8c0fbec",
+      "name": "/klisteni-dev-b2b-db-1",
+      "running": false
+    }
+  ],
+  "nonTaskContainersAfter": [
+    {
+      "id": "b8803f56973923cf3fbe937892a4df1530468842f2f50c4a31cd1c7acee68020",
+      "name": "/klisteni-integration-postgres",
+      "running": false
+    },
+    {
+      "id": "fb2aa276c098c49d1f79cbb54234a7dbdd0540501638ae45f18e3f31fb001813",
+      "name": "/klisteni-setup-20261015",
+      "running": false
+    },
+    {
+      "id": "a5c354d6886ece7eefab23ea7a2d9dde186a9d55bfbd5e46fb8c6780b3271b23",
+      "name": "/klisteni-dev-db-1",
+      "running": false
+    },
+    {
+      "id": "7c75ca796e9a6d1253ab106b1d3aa6ee6905e63a7cc05e34d710a853f8c0fbec",
+      "name": "/klisteni-dev-b2b-db-1",
+      "running": false
+    }
+  ],
+  "nonTaskContainerIdsPreserved": true,
+  "cleanupCommandTargets": [
+    "klisteni-readiness-pg-v1",
+    "klisteni-readiness-browser-v1",
+    "klisteni-readiness-network-v1"
+  ],
+  "operations": [
+    {
+      "args": [
+        "docker",
+        "rm",
+        "-f",
+        "klisteni-readiness-pg-v1",
+        "klisteni-readiness-browser-v1"
+      ],
+      "exitCode": 0,
+      "stdout": "klisteni-readiness-pg-v1\nklisteni-readiness-browser-v1",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "docker",
+        "network",
+        "rm",
+        "klisteni-readiness-network-v1"
+      ],
+      "exitCode": 0,
+      "stdout": "klisteni-readiness-network-v1",
+      "stderr": ""
+    }
+  ],
+  "qualification": "Cleanup targets only task-owned containers/network. Original and unrelated container IDs are retained; no claim about independently changing unrelated workloads."
+}

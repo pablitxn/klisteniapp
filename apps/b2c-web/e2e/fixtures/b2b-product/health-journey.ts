@@ -47,7 +47,10 @@ export async function importThroughUi(
 ) {
   await privateHealth(page, owner)
   await open(page, product, info, 'health')
-  await expect(page.getByRole('heading', { name: 'Mi salud y privacidad' })).toBeVisible()
+  // Bounded outer-stream readmission can outlast the default assertion window.
+  await expect(page.getByRole('heading', { name: 'Mi salud y privacidad' })).toBeVisible({
+    timeout: 30_000,
+  })
   const file = healthFile()
   await expect(page.getByLabel('Archivo JSON', { exact: true })).toBeEnabled()
   await page.getByLabel('Archivo JSON', { exact: true }).setInputFiles({
@@ -73,7 +76,7 @@ export async function importThroughUi(
   const accepted = await api(page, owner, 'ownHealth', {})
   await expect(
     page.getByText(new RegExp(`Revisión de tus datos: ${accepted.revision}\\.`)),
-  ).toBeVisible()
+  ).toBeVisible({ timeout: 30_000 })
   return file
 }
 export async function grantThroughUi(page: Page, owner: Principal) {

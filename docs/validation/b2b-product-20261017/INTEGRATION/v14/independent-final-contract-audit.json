@@ -1,0 +1,218 @@
+{
+  "auditedAt": "2026-10-18T19:39:43.776510+00:00",
+  "scope": "Read-only receipt/source verification; no test or runtime mutation",
+  "finalCandidateSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "productExecutionSha": "c8a5aaa5fab4206a646a644601481713d42f4a65",
+  "contractV2": {
+    "rawReportSha256": "baa0dfdb5bba13e0cc09a47a61bdb8e47664110f9697f4a7495e4ce75665a65d",
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "timedOut": 0,
+    "retries": 0,
+    "workers": 1,
+    "maxFailures": 0,
+    "forbidOnly": true,
+    "testTimeoutMs": 40000,
+    "helperBudgetMs": 30000,
+    "cells": [
+      {
+        "title": "positive workspace admission accepts navigation rendered after five seconds",
+        "project": "readiness-chromium-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 6182,
+        "observation": {
+          "phase": "workspace-admission",
+          "ready": true,
+          "budgetMs": 30000,
+          "elapsedMs": 5817,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "history waits for semantic regions, loading completion and absence of alerts",
+        "project": "readiness-chromium-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 766,
+        "observation": {
+          "phase": "history-data",
+          "ready": true,
+          "budgetMs": 30000,
+          "elapsedMs": 550,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "a predicate failure propagates unchanged and removes its observation listeners",
+        "project": "readiness-chromium-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 130,
+        "observation": {
+          "phase": "predicate-failure",
+          "ready": false,
+          "budgetMs": 30000,
+          "elapsedMs": 2,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "history has one thirty-second budget across delayed predicates and retains timeout failure",
+        "project": "readiness-chromium-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 30105,
+        "observation": {
+          "phase": "history-data",
+          "ready": false,
+          "budgetMs": 30000,
+          "elapsedMs": 30014,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "positive workspace admission accepts navigation rendered after five seconds",
+        "project": "readiness-webkit-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 6150,
+        "observation": {
+          "phase": "workspace-admission",
+          "ready": true,
+          "budgetMs": 30000,
+          "elapsedMs": 5779,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "history waits for semantic regions, loading completion and absence of alerts",
+        "project": "readiness-webkit-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 867,
+        "observation": {
+          "phase": "history-data",
+          "ready": true,
+          "budgetMs": 30000,
+          "elapsedMs": 626,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "a predicate failure propagates unchanged and removes its observation listeners",
+        "project": "readiness-webkit-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 287,
+        "observation": {
+          "phase": "predicate-failure",
+          "ready": false,
+          "budgetMs": 30000,
+          "elapsedMs": 1,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      },
+      {
+        "title": "history has one thirty-second budget across delayed predicates and retains timeout failure",
+        "project": "readiness-webkit-430",
+        "status": "passed",
+        "retry": 0,
+        "durationMs": 30291,
+        "observation": {
+          "phase": "history-data",
+          "ready": false,
+          "budgetMs": 30000,
+          "elapsedMs": 30012,
+          "events": [],
+          "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+        }
+      }
+    ],
+    "sourceChecks": [
+      {
+        "path": "apps/b2c-web/playwright.product-readiness.config.ts",
+        "sha256": "e9d1fb7e414ef314847f6d2eea3b83679d0e3289fd56f59dbfbf597bafc0e24e",
+        "bytes": 894,
+        "matchesGit": true
+      },
+      {
+        "path": "apps/b2c-web/test/browser-readiness/readiness.spec.ts",
+        "sha256": "fd2701ceddd0e55b22d7b0c016c320987f3eb33521ab333dc0234579f9b487cc",
+        "bytes": 7229,
+        "matchesGit": true
+      },
+      {
+        "path": "apps/b2c-web/e2e/fixtures/b2b-product/readiness.ts",
+        "sha256": "8b58748c755d09a05ea7f0152f22037ecdbdb9f3b6797848b9a4fcdf2227f81b",
+        "bytes": 5142,
+        "matchesGit": true
+      }
+    ]
+  },
+  "staticReceipt": {
+    "recordedCandidateSha": "92a7c3ba0805a870cdecc47a81666b76fafbc221",
+    "regression": {
+      "tests": 61,
+      "passed": 61,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "command": "node --test scripts/b2b-product-harness.test.mjs scripts/b2b-product-stream-lifecycle.test.mjs apps/b2b-web/tests/routineHistoryReads.test.ts apps/b2b-web/tests/sessionDraft.test.ts apps/b2b-web/tests/sessionEdit.test.ts apps/b2b-web/tests/workoutClient.test.ts packages/b2b-domain/tests/sessions.test.ts"
+    },
+    "typecheck": {
+      "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+      "exitCode": 0
+    },
+    "scopedLint": {
+      "command": "node ../../node_modules/eslint/bin/eslint.js e2e/fixtures/b2b-product/readiness.ts e2e/fixtures/b2b-product/app-fixture.ts e2e/b2b-product-week.spec.ts e2e/b2b-product-history.spec.ts e2e/support/b2b-readiness.contract.spec.ts playwright.product-readiness.config.ts",
+      "cwd": "apps/b2c-web",
+      "exitCode": 0
+    },
+    "logChecks": [
+      {
+        "path": "static/lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "matchesReceipt": true
+      },
+      {
+        "path": "static/typecheck.log",
+        "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+        "bytes": 15,
+        "matchesReceipt": true
+      },
+      {
+        "path": "static/regression.log",
+        "sha256": "5de2d9bbd3b3d5e5343aedf7d277e39534c384c5cf79fadcc86e8c6c06777e87",
+        "bytes": 6498,
+        "matchesReceipt": true
+      }
+    ]
+  },
+  "sourceApplicability": {
+    "contractBodyUnchangedExceptRelativeImport": true,
+    "readinessHelperMatchesProductExecutionAndFinal": true,
+    "gitDiffQualification": "c8a5aaa..8312034 changes only standalone contract file location/relative import and standalone testDir/testMatch",
+    "limits": [
+      "Product execution remains pinned to c8a5aaa, not a direct8312034 product run.",
+      "Existing contracts-final-summary/static-validation/source-applicability/assertion-preservation/runtime-identity/discovery-isolation receipts pin earlier92a7c3b; preserve as historical or produce explicit final applicability.",
+      "Static checks were not rerun by this independent audit; prior lint scope names the old standalone spec path."
+    ]
+  },
+  "privacy": {
+    "privateConnectionFileOpened": false,
+    "contractObservationsContainOnlyPhaseReadyBudgetTimingAndEmptyEvents": true,
+    "readinessRecorderStoresEndpointClassesNotURLsHeadersCookiesOrBodies": true,
+    "rawProductArtifactsNotClearedForPublicationByThisReview": true
+  },
+  "ongoingProductValidation": "Only completed round1 both18/18 checked at this audit; r2/r3/regression status must be collected separately by parent."
+}

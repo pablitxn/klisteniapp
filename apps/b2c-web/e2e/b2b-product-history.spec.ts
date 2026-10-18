@@ -1,3 +1,5 @@
+import { reloadHistory, waitForHistoryReady } from './fixtures/b2b-product/readiness'
+import type { Response } from '@playwright/test'
 import {
   test,
   expect,
@@ -25,8 +27,48 @@ test(scenarioTitle('B2BP-HISTORY-002'), async ({ page, context, product }, info)
   try {
     const plan = await prescribe(staff.page, staff.who, member)
     await login(page, member, info)
-    await open(page, product, info, 'history')
     const continuity = page.getByRole('region', { name: 'Continuidad de la rutina' })
+    const started = performance.now()
+    let regionWaitStarted: number | undefined
+    let regionVisible = false
+    const responses: Array<{ endpoint: string; status: number; elapsedMs: number }> = []
+    const recordResponse = (response: Response) => {
+      const endpoint = new URL(response.url()).pathname.match(
+        /\/(context|bootstrap\/v2|access|continuity|sessions|week|occurrences)$/,
+      )?.[1]
+      if (endpoint)
+        responses.push({
+          endpoint,
+          status: response.status(),
+          elapsedMs: Math.round(performance.now() - started),
+        })
+    }
+    page.on('response', recordResponse)
+    try {
+      await open(page, product, info, 'history')
+      regionWaitStarted = performance.now()
+      await expect(continuity).toBeVisible({ timeout: 30000 })
+      regionVisible = true
+    } finally {
+      page.off('response', recordResponse)
+      await info.attach(`history-continuity-readiness-${operation()}`, {
+        body: Buffer.from(
+          JSON.stringify({
+            regionVisible,
+            maximumRegionWaitMs: 30000,
+            navigationMs:
+              regionWaitStarted === undefined ? null : Math.round(regionWaitStarted - started),
+            regionWaitMs:
+              regionWaitStarted === undefined
+                ? null
+                : Math.round(performance.now() - regionWaitStarted),
+            responseTiming: 'Browser response events; body completion is not inferred.',
+            responses,
+          }),
+        ),
+        contentType: 'application/json',
+      })
+    }
     await expect(continuity).toContainText(plan.enrollment.content.name)
     await expect(continuity).toContainText(plan.enrollment.content.goal)
     await expect(continuity).toContainText(plan.enrollment.content.stages[0]!.name)
@@ -376,7 +418,7 @@ test(scenarioTitle('B2BP-HISTORY-001'), async ({ page, context, product }, info)
     await expect(plan).toContainText('Past phase')
     await expect(plan).toContainText('Future phase')
     await page.clock.setFixedTime(new Date(`${addDays(start, 9)}T12:00:00Z`))
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(
       plan.getByRole('status').filter({ hasText: 'Hoy no hay una etapa prescrita' }),
     ).toBeVisible()
@@ -452,10 +494,11 @@ test(scenarioTitle('B2BP-HISTORY-009'), async ({ page, context, product }, info)
     const saved = await record(page, member, plan.routine, plan.occurrences[0]!)
     await open(page, product, info, 'history')
     await page.getByRole('link', { name: `Ver sesión ${saved.session.id}`, exact: true }).click()
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(page.locator(`[id="actual-session-${saved.session.id}"]`)).toBeVisible()
     await open(page, product, info, 'health')
     await page.goBack()
+    await waitForHistoryReady(page, info)
     await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText(
       saved.session.id,
     )
@@ -464,9 +507,10 @@ test(scenarioTitle('B2BP-HISTORY-009'), async ({ page, context, product }, info)
       page.getByRole('heading', { name: 'Mi salud y privacidad', exact: true }),
     ).toBeVisible()
     await page.getByRole('button', { name: 'Salir', exact: true }).click()
+    await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
     await login(page, principal(product, 'secondary-member', 'atlas', true), info)
     await open(page, product, info, 'history')
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).not.toContainText(
       saved.session.id,
     )

@@ -1,0 +1,905 @@
+{
+  "sealedAt": "2026-10-18T09:14:41.609994+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "ff78328cf499c5f5efddf5383f226aa75e4fb74b",
+  "integrationEvidenceSha": "a7abf9c8123d070e8e5b029dbed0571434462c8d",
+  "targetedCounts": {
+    "unified-http": {
+      "passed": 18
+    },
+    "white-label-http": {
+      "passed": 18
+    }
+  },
+  "runs": [
+    {
+      "run": 51,
+      "mode": "unified-http",
+      "phase": "webkit320",
+      "counts": {
+        "passed": 3
+      },
+      "cells": 3,
+      "manifestSha256": "6c1e92031f84bebae1d299df965fa8de80315c5226e4e30c7e380a7e324f45a9"
+    },
+    {
+      "run": 52,
+      "mode": "white-label-http",
+      "phase": "webkit320",
+      "counts": {
+        "passed": 3
+      },
+      "cells": 3,
+      "manifestSha256": "45d6e6c39d7f57470058c0e32d390da1e4f6e2b8f76a0135aa88a33d9a5d6eff"
+    },
+    {
+      "run": 53,
+      "mode": "unified-http",
+      "phase": "remaining-contexts",
+      "counts": {
+        "passed": 15
+      },
+      "cells": 15,
+      "manifestSha256": "d76ac2f3701b0ef329ea891611a884c0fc5b9cf47505b745fa2d9b0d79f1c230"
+    },
+    {
+      "run": 54,
+      "mode": "white-label-http",
+      "phase": "remaining-contexts",
+      "counts": {
+        "passed": 15
+      },
+      "cells": 15,
+      "manifestSha256": "dd8501bd6ed98193566f2b1a5f7eeb31130a85f714fd72dc0498baf06b350940"
+    }
+  ],
+  "cells": [
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-320",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:08:42.740Z",
+      "durationMs": 16577,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":335,\"reservedSlots\":1}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":238,\"reservedSlots\":2}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-320",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:08:59.695Z",
+      "durationMs": 11024,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":372,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":457,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-320",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:09:10.767Z",
+      "durationMs": 11565,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":401,\"reservedSlots\":5}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-320",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:08:41.405Z",
+      "durationMs": 18549,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":752,\"reservedSlots\":1}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":657,\"reservedSlots\":2}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-320",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:09:00.346Z",
+      "durationMs": 10009,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":354,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":327,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-320",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:09:10.388Z",
+      "durationMs": 12146,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":472,\"reservedSlots\":5}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-320",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:23.542Z",
+      "durationMs": 11126,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":192,\"reservedSlots\":1}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":435,\"reservedSlots\":2}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-430",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:49.536Z",
+      "durationMs": 11181,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":371,\"reservedSlots\":6}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":327,\"reservedSlots\":7}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-desktop",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:12.307Z",
+      "durationMs": 9068,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":249,\"reservedSlots\":2}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":181,\"reservedSlots\":3}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:33.677Z",
+      "durationMs": 11432,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":239,\"reservedSlots\":7}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":180,\"reservedSlots\":8}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-desktop",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:13:57.076Z",
+      "durationMs": 12499,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":405,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":296,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-chromium-320",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:34.925Z",
+      "durationMs": 5059,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":216,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":181,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-chromium-320",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:40.012Z",
+      "durationMs": 8459,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":222,\"reservedSlots\":5}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-chromium-430",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:11:01.064Z",
+      "durationMs": 4939,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":189,\"reservedSlots\":8}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":191,\"reservedSlots\":9}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-chromium-430",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:11:06.014Z",
+      "durationMs": 65404,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-pacing",
+          "description": "Real password admission waits 58512ms for the unchanged database guard"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":228,\"reservedSlots\":1}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-chromium-desktop",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:21.559Z",
+      "durationMs": 5153,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":207,\"reservedSlots\":4}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":207,\"reservedSlots\":5}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-chromium-desktop",
+      "mode": "unified-http",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:26.727Z",
+      "durationMs": 6298,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":203,\"reservedSlots\":6}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-430",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:45.374Z",
+      "durationMs": 64681,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":176,\"reservedSlots\":9}"
+        },
+        {
+          "type": "auth-pacing",
+          "description": "Real password admission waits 59462ms for the unchanged database guard"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":159,\"reservedSlots\":1}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-430",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:13:50.076Z",
+      "durationMs": 6270,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":183,\"reservedSlots\":2}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-desktop",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:14:09.774Z",
+      "durationMs": 5854,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":255,\"reservedSlots\":5}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":308,\"reservedSlots\":6}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-desktop",
+      "mode": "unified-http",
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:14:15.653Z",
+      "durationMs": 7839,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":206,\"reservedSlots\":7}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-320",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:16.204Z",
+      "durationMs": 14101,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":216,\"reservedSlots\":1}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":312,\"reservedSlots\":2}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-430",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:45.652Z",
+      "durationMs": 13825,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":466,\"reservedSlots\":6}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":181,\"reservedSlots\":7}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-chromium-desktop",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:10.602Z",
+      "durationMs": 11388,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":244,\"reservedSlots\":2}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":196,\"reservedSlots\":3}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:34.305Z",
+      "durationMs": 12906,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":237,\"reservedSlots\":7}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":216,\"reservedSlots\":8}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-desktop",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:13:59.557Z",
+      "durationMs": 11984,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":292,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":199,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-chromium-320",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:30.539Z",
+      "durationMs": 6859,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":254,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":253,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-chromium-320",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:37.426Z",
+      "durationMs": 7324,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":219,\"reservedSlots\":5}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-chromium-430",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:10:59.733Z",
+      "durationMs": 5282,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":181,\"reservedSlots\":8}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":178,\"reservedSlots\":9}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-chromium-430",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:11:05.032Z",
+      "durationMs": 64362,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-pacing",
+          "description": "Real password admission waits 57932ms for the unchanged database guard"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":204,\"reservedSlots\":1}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-chromium-desktop",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:22.211Z",
+      "durationMs": 4375,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":210,\"reservedSlots\":4}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":193,\"reservedSlots\":5}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-chromium-desktop",
+      "mode": "white-label-http",
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:26.604Z",
+      "durationMs": 6842,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":249,\"reservedSlots\":6}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-430",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:12:47.393Z",
+      "durationMs": 64946,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":193,\"reservedSlots\":9}"
+        },
+        {
+          "type": "auth-pacing",
+          "description": "Real password admission waits 59687ms for the unchanged database guard"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":257,\"reservedSlots\":1}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-430",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T09:13:52.357Z",
+      "durationMs": 6496,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":199,\"reservedSlots\":2}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "project": "product-webkit-desktop",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:14:11.790Z",
+      "durationMs": 5853,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":301,\"reservedSlots\":5}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":242,\"reservedSlots\":6}"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "project": "product-webkit-desktop",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1000,
+      "touch": false,
+      "status": "passed",
+      "startTime": "2026-10-18T09:14:17.660Z",
+      "durationMs": 7790,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":276,\"reservedSlots\":7}"
+        }
+      ]
+    }
+  ],
+  "originalWavePublication": [
+    {
+      "version": "v31",
+      "manifestSha256": "b47708f5a394b83d3c968142bbad9b964b3644bcd828d4863c4ea54e7a6ed460",
+      "qualification": "Original failed receipt bytes promoted unchanged after publication hold was explicitly lifted; historical local-only/hold wording remains as captured."
+    },
+    {
+      "version": "v32",
+      "manifestSha256": "9b37985600ed226e004a83f448b902415404f134d5700dc8cd4e9e8176f962bd",
+      "qualification": "Original failed receipt bytes promoted unchanged after publication hold was explicitly lifted; historical local-only/hold wording remains as captured."
+    }
+  ],
+  "fullAcceptanceClaimed": false,
+  "httpsExecuted": false,
+  "qualification": "Two independent18-cell targeted matrices, WebKit320 first and five remaining contexts afterward. No separate pass is added to a full wave. Source and bundle hashes and all owned cleanup verified. Original failed waves preserved unchanged."
+}

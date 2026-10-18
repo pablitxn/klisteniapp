@@ -3,6 +3,7 @@ import {
   expect,
   type BrowserContext,
   type Page,
+  type Response,
   type TestInfo,
 } from '@playwright/test'
 import { get } from 'node:http'
@@ -21,6 +22,13 @@ import {
   type Occurrence,
   type SessionContent,
 } from '../../../../../packages/b2b-contracts/src/product-v2.ts'
+import {
+  observeReadiness,
+  waitForWorkspaceReady,
+  waitForHistoryReady,
+  waitForWeekReady,
+  reloadHistory,
+} from './readiness'
 export { expect }
 export type { Page, TestInfo, BrowserContext }
 
@@ -38,6 +46,34 @@ type RouteName =
   | 'people'
   | 'workout'
   | 'reports'
+export type ReviewedDurationManifest = {
+  fixtureKey: 'b2bp-alternatives-011-duration-v1'
+  kind: 'synthetic-contract-fixture'
+  scenarioId: 'B2BP-ALTERNATIVES-011'
+  organizationId: string
+  branchId: string
+  programId: string
+  version: 1
+  schemaVersion: 2
+  stepId: string
+  relationId: string
+  canonicalDirectedPair: {
+    relationId: string
+    relationHash: string
+    catalogRevision: string
+    sourceExerciseId: 'calf-raise'
+    targetExerciseId: 'single-leg-calf-raise'
+    sourceContentHash: string
+    targetContentHash: string
+  }
+  syntheticTargetDose: {
+    provenance: 'independent-synthetic-test-prescription'
+    reviewScope: 'contract-and-ui-test-only'
+    disclaimer: string
+    hash: string
+  }
+  routineHash: string
+}
 export type ProductFixture = {
   fixtureVersion: number
   phase: string
@@ -47,6 +83,7 @@ export type ProductFixture = {
   actors: Record<string, Actor>
   preservation: { beforeSha256: string; afterSha256: string; counts: Record<string, number> }
   resources: {
+    reviewedDuration?: ReviewedDurationManifest[]
     legacy: Array<{
       organizationId: string
       branchId: string
@@ -126,22 +163,7 @@ export const test = base.extend<{ product: ProductFixture }>({
     const product = await fixtureMap(info)
     if (!product.featuresActivated)
       unavailable(info, `Real fixture phase ${product.phase} has product activation disabled`)
-    // Existing HTTP QA convention: cryptographic UUIDs only; this does not make a
-    // fictitious HTTP origin secure, alter TLS trust, or change cookie rules.
-    if (info.project.metadata.b2bProduct?.mode === 'white-label-http') {
-      await context.addInitScript(() => {
-        if (!crypto.randomUUID)
-          Object.defineProperty(crypto, 'randomUUID', {
-            value: () => {
-              const bytes = crypto.getRandomValues(new Uint8Array(16))
-              bytes[6] = (bytes[6]! & 15) | 64
-              bytes[8] = (bytes[8]! & 63) | 128
-              const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
-              return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
-            },
-          })
-      })
-    }
+    expect(context.browser()?.browserType().name()).toBe(info.project.use.browserName)
     await use(product)
   },
 })
@@ -208,6 +230,20 @@ export async function pacePasswordAdmission(info: TestInfo) {
     { mode: 0o600 },
   )
 }
+/** Anchor the unchanged idle window after the actual auth response, not before the UI click. */
+export function completePasswordAdmission(info: TestInfo) {
+  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
+  const previous = JSON.parse(readFileSync(pacePath, 'utf8')) as { at: number; count: number }
+  const now = Date.now()
+  writeFileSync(pacePath, JSON.stringify({ ...previous, at: now }), { mode: 0o600 })
+  info.annotations.push({
+    type: 'auth-admission-completed',
+    description: JSON.stringify({
+      afterReservationMs: now - previous.at,
+      reservedSlots: previous.count,
+    }),
+  })
+}
 export async function login(page: Page, who: Principal, info: TestInfo) {
   const mode = info.project.metadata.b2bProduct.mode
   const origin =
@@ -218,13 +254,16 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)
   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')
   await pacePasswordAdmission(info)
-  const response = page.waitForResponse(
-    (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
-  )
+  const response = page
+    .waitForResponse(
+      (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
+    )
+    .finally(() => completePasswordAdmission(info))
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
   expect((await response).status(), 'Real composed UI password admission').toBe(200)
   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })
-  await expect(organizations).toBeVisible()
+  // Cold workspace chunks may still be loading after real password admission.
+  await expect(organizations).toBeVisible({ timeout: 30_000 })
   if ((await organizations.inputValue()) !== who.organization.id)
     await organizations.selectOption(who.organization.id)
   const access = await api(page, who, 'access', {})
@@ -232,8 +271,8 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   if (access.accessMode === 'export-only') return
   expect(access.accessMode).toBe('active')
   const selector = page.getByRole('combobox', { name: 'Sede y función', exact: true })
-  await expect(selector).toBeVisible()
-  {
+  await waitForWorkspaceReady(page, info, async (remaining) => {
+    await expect(selector).toBeVisible({ timeout: remaining() })
     const exact = JSON.stringify([who.branchId, who.role])
     const options = await selector
       .locator('option')
@@ -244,8 +283,23 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
       : who.role === 'superadmin' && options.includes(legacyAdmin)
         ? legacyAdmin
         : exact
-    if ((await selector.inputValue()) !== value) await selector.selectOption(value)
-  }
+    if ((await selector.inputValue()) !== value) {
+      const selectedRole = JSON.parse(value)[1] as string
+      const admitted = page.waitForResponse(
+        (response) =>
+          response.request().method() === 'GET' &&
+          new URL(response.url()).pathname.endsWith('/product/v2/access') &&
+          response.request().headers()['x-klisteni-b2b-branch'] === who.branchId &&
+          response.request().headers()['x-klisteni-b2b-role'] === selectedRole,
+        { timeout: remaining() },
+      )
+      void admitted.catch(() => {}) // Keep teardown safe if selection fails before the response.
+      await selector.selectOption(value, { timeout: remaining() })
+      expect((await admitted).status(), 'Actual selected work context admission').toBe(200)
+    }
+    await expect(selector).toHaveValue(value, { timeout: remaining() })
+    await expect(organizations).toHaveValue(who.organization.id, { timeout: remaining() })
+  })
 }
 export async function open(
   page: Page,
@@ -278,6 +332,7 @@ export async function open(
         .getByRole('combobox', { name: 'Persona', exact: true })
         .selectOption(values.memberId!)
     }
+    if (route === 'history') await waitForHistoryReady(page, info)
     return
   }
   const path = template.replace(/\{(\w+)\}/g, (_, key) => {
@@ -286,6 +341,7 @@ export async function open(
   })
   expect(path.startsWith('/') && !path.startsWith('//')).toBe(true)
   await page.goto(new URL(path, page.url()).href)
+  if (route === 'history') await waitForHistoryReady(page, info)
   if (route === 'trainerHealth') {
     expect(values.memberId, 'An actual member must be selected for trainer health').toBeTruthy()
     await page
@@ -571,19 +627,6 @@ export async function newPage(context: BrowserContext, info: TestInfo, timezoneI
     timezoneId,
     ignoreHTTPSErrors: false,
   })
-  if (info.project.metadata.b2bProduct?.mode === 'white-label-http')
-    await separate.addInitScript(() => {
-      if (!crypto.randomUUID)
-        Object.defineProperty(crypto, 'randomUUID', {
-          value: () => {
-            const bytes = crypto.getRandomValues(new Uint8Array(16))
-            bytes[6] = (bytes[6]! & 15) | 64
-            bytes[8] = (bytes[8]! & 63) | 128
-            const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
-            return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
-          },
-        })
-    })
   return { context: separate, page: await separate.newPage() }
 }
 export type Prescription = {
@@ -604,13 +647,14 @@ export async function showWeek(
   await expect(
     page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
   ).toBeVisible()
-  // Date-only clock controls the requested calendar week; authoritative server
-  // asOf/closed counts remain unmodified real responses. No mocked DTO is used.
-  await page.clock.setFixedTime(new Date(`${week}T12:00:00Z`))
-  await page.reload()
+  // Offset the calendar while wall time keeps advancing, so real retry deadlines
+  // can expire. Authoritative server asOf/closed responses remain unmodified.
+  await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))
+  await reloadHistory(page, info)
   await page
     .getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })
     .selectOption(timeZone)
+  await waitForWeekReady(page, info, week, timeZone)
   await expect(page.getByRole('heading', { name: `Semana del ${week}`, exact: true })).toBeVisible()
 }
 export async function startWorkout(
@@ -621,16 +665,21 @@ export async function startWorkout(
   sessionId = operation(),
 ) {
   const occurrence = plan.occurrences[0]!
-  const accepted = page.waitForResponse((r) => {
-    if (
-      r.request().method() !== 'POST' ||
-      !/\/sessions\/[^/]+\/revisions$/.test(new URL(r.url()).pathname)
-    )
-      return false
-    return r.request().postDataJSON()?.origin?.occurrenceId === occurrence.id
-  })
-  void accepted.catch(() => {}) // A failed UI assertion must not leave an unhandled waiter at teardown.
+  const observeInitialDraft = () => {
+    const response = page.waitForResponse((r) => {
+      if (
+        r.request().method() !== 'POST' ||
+        !/\/sessions\/[^/]+\/revisions$/.test(new URL(r.url()).pathname)
+      )
+        return false
+      return r.request().postDataJSON()?.origin?.occurrenceId === occurrence.id
+    })
+    void response.catch(() => {}) // A failed entry action must not leave an unhandled waiter.
+    return response
+  }
+  let accepted: Promise<Response>
   if (product.routes?.workout) {
+    accepted = observeInitialDraft()
     await open(page, product, info, 'workout', {
       occurrenceId: occurrence.id,
       sessionId,
@@ -639,6 +688,7 @@ export async function startWorkout(
     })
   } else {
     await showWeek(page, product, info, plan.weekStart)
+    accepted = observeInitialDraft()
     if (product.entryPoints?.workoutButtonName) {
       await page
         .locator(`[id="scheduled-occurrence-${occurrence.id}"]`)
@@ -652,12 +702,35 @@ export async function startWorkout(
   }
   await expect(page.getByRole('heading', { name: plan.routine.name, exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Guardar parcial', exact: true })).toBeVisible()
-  await page
-    .getByLabel('Fecha y hora realizada (ISO con zona)', { exact: true })
-    .fill(`${occurrence.scheduledDate}T10:00:00Z`)
+  // Observe the initial immutable autosave; do not race it with an unrelated timestamp edit.
   const response = await accepted
   expect(response.ok(), 'The real issued workout must acknowledge its initial draft').toBe(true)
-  return (await response.json()).session.id as string
+  const sent = response.request().postDataJSON() as ProductInput<'saveSession'>
+  const { session } = (await response.json()) as ProductOutput<'saveSession'>
+  expect(sent.expectedRevision).toBe(0)
+  expect(session).toMatchObject({
+    id: sent.id,
+    revision: 1,
+    origin: { kind: 'occurrence', occurrenceId: occurrence.id },
+  })
+  expect(session.content).toEqual(sent.content)
+  expect(session.content).toMatchObject({
+    status: 'draft',
+    explicitCompletion: false,
+    correctionReason: '',
+    sets: [],
+  })
+  if (!product.routes?.workout)
+    expect(session.content.performedAt.slice(0, 10)).toBe(occurrence.scheduledDate)
+  await observeReadiness(page, info, 'initial-draft-commit', async (remaining) => {
+    await expect(
+      page.getByLabel('Fecha y hora realizada (ISO con zona)', { exact: true }),
+    ).toHaveValue(session.content.performedAt, { timeout: remaining() })
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesión.' }),
+    ).toBeVisible({ timeout: remaining() })
+  })
+  return session.id
 }
 export async function staffSession(
   context: BrowserContext,

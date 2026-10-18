@@ -1,0 +1,898 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--project=product-chromium-320",
+      "--project=product-webkit-desktop",
+      "--grep=B2BP-(ROLES-002|ROLES-004|ROLES-006|PROGRAMMING-004|PROGRAMMING-006|ALTERNATIVES-001|ALTERNATIVES-004|HISTORY-006)",
+      "--timeout=180000",
+      "--max-failures=6",
+      "--config=playwright.b2b-product-wl-http.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-wl-http.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 6,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidatea1ade-wl-scope-r31/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-wl-scope-r31/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-wl-scope-r31/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-wl-scope-r31/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-wl-scope-r31/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-wl-scope-r31/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "white-label-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5700/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-alternatives.spec.ts",
+      "file": "b2b-product-alternatives.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7971,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:43:02.610Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-731dc89ea579673527a6",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 63,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8396,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:43:10.812Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 294,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8535,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:44:42.157Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-71a0b5a3760949560ef0",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 63,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9480,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:44:50.843Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-c08c3b94c034d009c093",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 294,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-history.spec.ts",
+      "file": "b2b-product-history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4843,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:43:19.253Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-6dc93dc275ff134c9d20",
+          "file": "b2b-product-history.spec.ts",
+          "line": 143,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240143,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 59143ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 65106,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:45:00.356Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 59143ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-4be8a87a249cd7b4985b",
+          "file": "b2b-product-history.spec.ts",
+          "line": 143,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6275,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:43:24.172Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-b6674a52cef8c0f22308",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 392,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6734,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:43:30.480Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-b0ff12793855fc0acefe",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 479,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6067,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:46:05.518Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-9e4a39ca4c407cfc8fbb",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 392,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6992,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:46:11.599Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-e5fb7a89fb3663e62011",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 479,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-roles.spec.ts",
+      "file": "b2b-product-roles.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 235530,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 54530ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 58327,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:43:37.247Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 54530ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-9b81706c88e62751d8b7",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 51,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1756,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m403\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:503:31",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                      "column": 31,
+                      "line": 503
+                    },
+                    "snippet": "  501 |         },\n  502 |       )\n> 503 |       expect(denied.status()).toBe(400)\n      |                               ^\n  504 |     }\n  505 |     expect(\n  506 |       (await api(page, who, 'people', {})).find((p) => p.userId === who.actor.id),"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                        "column": 31,
+                        "line": 503
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n\n  501 |         },\n  502 |       )\n> 503 |       expect(denied.status()).toBe(400)\n      |                               ^\n  504 |     }\n  505 |     expect(\n  506 |       (await api(page, who, 'people', {})).find((p) => p.userId === who.actor.id),\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:503:31"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:44:35.583Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-wl-scope-r31/artifacts/b2b-product-roles-B2BP-ROL-f89ce-erator-promotion-are-denied-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatea1ade-wl-scope-r31/artifacts/b2b-product-roles-B2BP-ROL-f89ce-erator-promotion-are-denied-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatea1ade-wl-scope-r31/artifacts/b2b-product-roles-B2BP-ROL-f89ce-erator-promotion-are-denied-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                    "column": 31,
+                    "line": 503
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-61dc0b9da52f3c2a6e64",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2711,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:44:38.405Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-4b5d6de89a8b54137a09",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 526,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4682,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:46:18.629Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-8b7970e9d912b7db9009",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 51,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2255,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m403\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:503:31",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                      "column": 31,
+                      "line": 503
+                    },
+                    "snippet": "  501 |         },\n  502 |       )\n> 503 |       expect(denied.status()).toBe(400)\n      |                               ^\n  504 |     }\n  505 |     expect(\n  506 |       (await api(page, who, 'people', {})).find((p) => p.userId === who.actor.id),"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                        "column": 31,
+                        "line": 503
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n\n  501 |         },\n  502 |       )\n> 503 |       expect(denied.status()).toBe(400)\n      |                               ^\n  504 |     }\n  505 |     expect(\n  506 |       (await api(page, who, 'people', {})).find((p) => p.userId === who.actor.id),\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:503:31"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:46:23.331Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/candidatea1ade-wl-scope-r31/artifacts/b2b-product-roles-B2BP-ROL-f89ce-erator-promotion-are-denied-product-webkit-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/candidatea1ade-wl-scope-r31/artifacts/b2b-product-roles-B2BP-ROL-f89ce-erator-promotion-are-denied-product-webkit-desktop/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/candidatea1ade-wl-scope-r31/artifacts/b2b-product-roles-B2BP-ROL-f89ce-erator-promotion-are-denied-product-webkit-desktop/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+                    "column": 31,
+                    "line": 503
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-4816edc63aa643612caa",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3587,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:46:26.653Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-89aab212193afdee1a94",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 526,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T18:42:23.353Z",
+    "duration": 247980.595,
+    "expected": 14,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "sealedAt": "2026-10-18T15:46:15.643663+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "92d951c2a6de3b954ef617ecabd3d02e245c46e8",
+  "integrationEvidenceSha": "a7abf9c8123d070e8e5b029dbed0571434462c8d",
+  "browserScenarioIds": 88,
+  "fullHttpCells": 1056,
+  "runs": [
+    {
+      "run": "corrected-d2-full-r61",
+      "number": 61,
+      "mode": "unified-http",
+      "counts": {
+        "passed": 528
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T12:39:34.864Z",
+        "duration": 10995390.912,
+        "expected": 528,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "exitCode": 0,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 6
+    },
+    {
+      "run": "corrected-d2-full-r62",
+      "number": 62,
+      "mode": "white-label-http",
+      "counts": {
+        "passed": 527,
+        "failed": 1
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T12:39:34.877Z",
+        "duration": 11162338.542,
+        "expected": 527,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 0
+    }
+  ],
+  "globalBrowserSchemasRemaining": 0,
+  "blockedHttpsPlannedCells": 528,
+  "blockedHttpsExecutedCells": 0,
+  "fullHttpAllPassed": false,
+  "references": [
+    {
+      "version": "v38",
+      "manifestSha256": "89b070cc7702a3806462edabe27f8bcacfd37558d8a064e5ac6019b8de0af360"
+    },
+    {
+      "version": "v39",
+      "manifestSha256": "16b1e8b46bbecdcd8e046cb5e0164da0ea852888581247ee75c6827b3df34a93"
+    }
+  ],
+  "qualification": "Two complete corrected-QA full HTTP matrices on unchanged accepted app d2adf75 and one frozen QA pin. Targeted, historical, component and repeated diagnostic passes are not added to these counts. All original R34/R35 failures remain unchanged.",
+  "nonpassingCells": [
+    {
+      "run": 62,
+      "id": "B2BP-HISTORY-002",
+      "mode": "white-label-http",
+      "project": "product-chromium-desktop",
+      "status": "failed"
+    }
+  ],
+  "historyReadiness": {
+    "observations": 456,
+    "headingVisibleCount": 456,
+    "notObservedReadyCount": 0,
+    "minimumObservedWaitMs": 352,
+    "maximumObservedWaitMs": 1767,
+    "acknowledgmentsOver5000ms": 0,
+    "maximumAllowedHeadingWaitMs": 30000,
+    "qualification": "Actual heading acknowledgments on this source pair; not extra test passes and no historical root-cause inference."
+  }
+}

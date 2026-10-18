@@ -1,0 +1,251 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/klisteni-readiness/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.product-readiness.config.ts",
+      "--list",
+      "--reporter=json"
+    ],
+    "configFile": "/workspace/klisteni-readiness/apps/b2c-web/playwright.product-readiness.config.ts",
+    "rootDir": "/workspace/klisteni-readiness/apps/b2c-web/test/browser-readiness",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/klisteni-product-readiness-24525",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "readiness-chromium-430",
+        "name": "readiness-chromium-430",
+        "testDir": "/workspace/klisteni-readiness/apps/b2c-web/test/browser-readiness",
+        "testIgnore": [],
+        "testMatch": [
+          "readiness.spec.ts"
+        ],
+        "timeout": 40000
+      },
+      {
+        "outputDir": "/tmp/klisteni-product-readiness-24525",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "readiness-webkit-430",
+        "name": "readiness-webkit-430",
+        "testDir": "/workspace/klisteni-readiness/apps/b2c-web/test/browser-readiness",
+        "testIgnore": [],
+        "testMatch": [
+          "readiness.spec.ts"
+        ],
+        "timeout": 40000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "readiness.spec.ts",
+      "file": "readiness.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "positive workspace admission accepts navigation rendered after five seconds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-635408d8ea19adccf2cf",
+          "file": "readiness.spec.ts",
+          "line": 33,
+          "column": 1
+        },
+        {
+          "title": "history waits for semantic regions, loading completion and absence of alerts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-e67d64baca17e0a018b1",
+          "file": "readiness.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "a predicate failure propagates unchanged and removes its observation listeners",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-9d9409f50139bb09c3d5",
+          "file": "readiness.spec.ts",
+          "line": 115,
+          "column": 1
+        },
+        {
+          "title": "history has one thirty-second budget across delayed predicates and retains timeout failure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-chromium-430",
+              "projectName": "readiness-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-4a28129480e59fbacb03",
+          "file": "readiness.spec.ts",
+          "line": 136,
+          "column": 1
+        },
+        {
+          "title": "positive workspace admission accepts navigation rendered after five seconds",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-58950bd0c64babb641db",
+          "file": "readiness.spec.ts",
+          "line": 33,
+          "column": 1
+        },
+        {
+          "title": "history waits for semantic regions, loading completion and absence of alerts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-766e1a10e538a3edc620",
+          "file": "readiness.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "a predicate failure propagates unchanged and removes its observation listeners",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-c885e5415eb8f80b5313",
+          "file": "readiness.spec.ts",
+          "line": 115,
+          "column": 1
+        },
+        {
+          "title": "history has one thirty-second budget across delayed predicates and retains timeout failure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 40000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "readiness-webkit-430",
+              "projectName": "readiness-webkit-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "ed8fb6c90a074cb4e48e-acaa330741e5462230a6",
+          "file": "readiness.spec.ts",
+          "line": 136,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T19:35:53.731Z",
+    "duration": 90.10699999999997,
+    "expected": 0,
+    "skipped": 8,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

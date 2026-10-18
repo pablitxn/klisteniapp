@@ -116,6 +116,22 @@ test('segment identity is immutable and switching must retain actuals; unreviewe
   removed.correctionReason = 'Fix'
   assert.ok(sessionIssues(removed, prescription, before).length)
 })
+test('changing an accepted draft timestamp requires a reason while an unchanged timestamp remains valid', () => {
+  const before = content()
+  before.status = 'draft'
+  before.explicitCompletion = false
+  before.sets = []
+  const after = structuredClone(before)
+  assert.deepEqual(sessionIssues(after, prescription, before), [])
+  after.performedAt = '2026-10-22T11:00:00Z'
+  assert.ok(
+    sessionIssues(after, prescription, before).some(
+      (issue) => issue.message === 'Explain the correction to accepted work',
+    ),
+  )
+  after.correctionReason = 'Correct the recorded time'
+  assert.deepEqual(sessionIssues(after, prescription, before), [])
+})
 test('completed-to-partial and void corrections require an explanation', () => {
   const before = content(),
     after = content()

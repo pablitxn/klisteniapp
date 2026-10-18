@@ -1,0 +1,71 @@
+{
+  "names": {
+    "network": "klisteni-readiness-network-v1",
+    "browser": "klisteni-readiness-browser-v1",
+    "postgres": "klisteni-readiness-pg-v1"
+  },
+  "containerIds": {
+    "browser": "fd77a5c7807ffb353dd8a32820e2a109d0053cf0aa08f3734980b3bd4d600521",
+    "postgres": "2d4f6c7aee54d2bdca301549bd15003c4bfb6b0db4aaa5e9683db423d71ce166"
+  },
+  "networkId": "3815135fedf50a45e8f890c5c478e1dc790414d690f0597b8cc72c8a81e705e1",
+  "databaseVersion": "PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "databaseLoopbackPort": 5432,
+  "publishedPorts": [],
+  "databaseStorage": "task tmpfs768m",
+  "appMount": "/task/app (readonly)",
+  "runtimeMount": "/runtime (readonly)",
+  "evidenceMount": "/tmp/readiness-evidence (writable task-only)",
+  "passwordHandling": "task-only private-connection.json mode0600; no values in command logs",
+  "status": "containers ready; no tests/browser launch performed",
+  "qualification": "Ordinary task bridge has Docker outbound capability; no egress-firewall claim. Existing containers/databases untouched.",
+  "verification": {
+    "uid": 1001,
+    "node": "v24.18.0",
+    "playwright": "1.63.0",
+    "driver": "1.63.0",
+    "b2bBuildReadable": true,
+    "b2cBuildReadable": true,
+    "database": {
+      "database": "klisteni_b2b_readiness_test",
+      "address": "127.0.0.1/32",
+      "fixture_schemas": "0"
+    },
+    "testsRun": 0
+  },
+  "sourceFreeze": "PENDING parent final QA source refresh; no tests have started",
+  "builds": [
+    {
+      "app": "b2b-web",
+      "command": [
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "build"
+      ],
+      "cwd": "/tmp/klisteni-readiness-runtime/app/apps/b2b-web",
+      "exitCode": 0,
+      "durationSeconds": 2.126,
+      "node": "v24.19.0",
+      "buildMode": "instance; repository example public profile",
+      "productionMatches": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+      "outputFiles": 438,
+      "qualification": "Fresh task snapshot build only; QA source remains provisional until parent freeze/refresh."
+    },
+    {
+      "app": "b2c-web",
+      "command": [
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "build"
+      ],
+      "cwd": "/tmp/klisteni-readiness-runtime/app/apps/b2c-web",
+      "exitCode": 0,
+      "durationSeconds": 1.504,
+      "node": "v24.19.0",
+      "buildMode": "instance; repository example public profile",
+      "productionMatches": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+      "outputFiles": 409,
+      "qualification": "Fresh task snapshot build only; QA source remains provisional until parent freeze/refresh."
+    }
+  ]
+}

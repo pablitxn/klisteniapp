@@ -1,0 +1,214 @@
+[
+  {
+    "run": "candidate00b9-qa-corrections-r17",
+    "applicationSha": "00b9f855746a7dd8c8ddfc97991e3a2163fa5ac8",
+    "qaSha": "13ae7f226fff29871a82170c1763e7382db4975b",
+    "stats": {
+      "startTime": "2026-10-17T17:36:04.456Z",
+      "duration": 88913.752,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 3,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 3,
+      "failed": 3
+    },
+    "runErrors": [],
+    "exitCode": 1,
+    "wrapperTimes": [
+      "2026-10-17T17:36:03Z",
+      "2026-10-17T17:37:33Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "8bae15c1709cecf025d4196aec05ed77de430104156e7bff7b601c5e89a3c371",
+    "decodedLogSha256": "d1a082c9ed5d81437a3eeecf3e645a98b761075c531a2090ff243f5d16ad9034",
+    "cells": [
+      {
+        "id": "B2BP-PROGRAMMING-004",
+        "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-ROLES-003",
+        "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+        "project": "product-chromium-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+              "column": 80,
+              "line": 160
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('form', { name: 'Invitar persona', exact: true }).getByLabel('Rol de la persona invitada', { exact: true })\u001b[22m\n\n\n  158 |   await open(page, product, info, 'people')\n  159 |   const form = page.getByRole('form', { name: 'Invitar persona', exact: true })\n> 160 |   await expect(form.getByLabel('Rol de la persona invitada', { exact: true })).toBeVisible()\n      |                                                                                ^\n  161 |   const options = await form\n  162 |     .getByLabel('Rol de la persona invitada')\n  163 |     .locator('option')\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:160:80"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-ROLES-006",
+        "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+        "project": "product-chromium-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+              "column": 34,
+              "line": 45
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('spinbutton', { name: /cantidad$/ }).first()\nExpected: \u001b[32m\"3\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByRole('spinbutton', { name: /cantidad$/ }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('spinbutton', { name: /cantidad$/ }).first()\u001b[22m\n\n\n  43 |     await context.setOffline(false)\n  44 |     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.\n> 45 |     await expect(quantity(page)).toHaveValue('3')\n     |                                  ^\n  46 |     await expect(page.getByLabel('Notas de la sesi\u00f3n')).toHaveValue(\n  47 |       'WP12 persisted during network loss',\n  48 |     )\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:45:34"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-SYNC-011",
+        "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-WEEK-008",
+        "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+        "project": "product-chromium-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts",
+              "column": 8,
+              "line": 671
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"completed\"\u001b[39m\nReceived: \u001b[31m\"draft\"\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  669 |     await expect\n  670 |       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)\n> 671 |       .toBe('completed')\n      |        ^\n  672 |     const accepted = (await latest(page, member, plan.occurrences[0]!.id))!\n  673 |     expect(accepted.content.performedAt.slice(0, 10)).toBe(plan.weekStart)\n  674 |     expect(Date.parse(accepted.acceptedAt)).toBeGreaterThan(\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:671:8"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "run": "candidate00b9-context-resume-r18",
+    "applicationSha": "00b9f855746a7dd8c8ddfc97991e3a2163fa5ac8",
+    "qaSha": "386e2de020a186d29e53cd2afa66ea35bd8063d6",
+    "stats": {
+      "startTime": "2026-10-17T17:38:27.380Z",
+      "duration": 67510.917,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 2
+    },
+    "runErrors": [],
+    "exitCode": 0,
+    "wrapperTimes": [
+      "2026-10-17T17:38:26Z",
+      "2026-10-17T17:39:34Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "7c7d0762bccbf759ff0b0df66d89e77d8bf263153cade07d453c23bb08497bde",
+    "decodedLogSha256": "8e58b8533f98a309136b13e9b03f9acd26b24799ac391262c89df91888695c87",
+    "cells": [
+      {
+        "id": "B2BP-ROLES-003",
+        "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "run": "candidate00b9-advancing-reconnect-r19",
+    "applicationSha": "00b9f855746a7dd8c8ddfc97991e3a2163fa5ac8",
+    "qaSha": "63d0b51f6199cee31137d92859d90d2ac91d59dd",
+    "stats": {
+      "startTime": "2026-10-17T17:40:20.236Z",
+      "duration": 94149.146,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 2,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 2,
+      "failed": 2
+    },
+    "runErrors": [],
+    "exitCode": 1,
+    "wrapperTimes": [
+      "2026-10-17T17:40:19Z",
+      "2026-10-17T17:41:54Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "082a2da34a8320fb538796b6cde84ed2a26088b2cb42210dd7241d7028fe9b64",
+    "decodedLogSha256": "fcffe00b05469500762344f1e4dcd98a112d931ed0ed7da6b1d6c61df0616f7b",
+    "cells": [
+      {
+        "id": "B2BP-SYNC-008",
+        "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-008",
+        "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+        "project": "product-webkit-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-WEEK-008",
+        "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+        "project": "product-chromium-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+              "column": 8,
+              "line": 42
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:703:11"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-WEEK-008",
+        "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+        "project": "product-webkit-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+              "column": 8,
+              "line": 42
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:703:11"
+          }
+        ]
+      }
+    ]
+  }
+]

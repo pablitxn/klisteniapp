@@ -1,0 +1,202 @@
+[
+  {
+    "run": "candidatea1ade-close-matrix-r26",
+    "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+    "qaSha": "217733d14cd773e620c3e2d3a9bb9e4c9aa82447",
+    "stats": {
+      "startTime": "2026-10-17T18:07:58.870Z",
+      "duration": 731604.181,
+      "expected": 15,
+      "skipped": 0,
+      "unexpected": 3,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 15,
+      "failed": 2,
+      "timedOut": 1
+    },
+    "runErrors": [],
+    "exitCode": 1,
+    "wrapperTimes": [
+      "2026-10-17T18:07:57Z",
+      "2026-10-17T18:20:10Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "d907f9a89c6dcf7a843fc7eda4c0ebedf9d99b5e1ee8f821d657235014742dab",
+    "decodedLogSha256": "f48cf70e2cb0767b051598ddf93a1f2a60118694bc8a2d0f7e0776c3ad460d6e",
+    "cells": [
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-chromium-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+              "column": 8,
+              "line": 42
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:681:13"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-desktop",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-chromium-desktop",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-chromium-desktop",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-webkit-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-webkit-320",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+              "column": 8,
+              "line": 42
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:681:13"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-webkit-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-webkit-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-webkit-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-webkit-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-webkit-desktop",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-webkit-desktop",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-webkit-desktop",
+        "status": "timedOut",
+        "errors": [
+          {
+            "message": "\u001b[31mTest timeout of 240583ms exceeded.\u001b[39m"
+          },
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+              "column": 51,
+              "line": 203
+            },
+            "message": "Error: locator.fill: Test timeout of 240583ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Email', { exact: true })\u001b[22m\n\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |       : `${mode === 'white-label-http' ? 'http' : 'https'}://${who.organization.host}`\n  202 |   await page.goto(`${origin}/app`)\n> 203 |   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)\n      |                                                   ^\n  204 |   await page.getByLabel('Contrase\u00f1a', { exact: true }).fill('b2b-product-synthetic-password-2026')\n  205 |   await pacePasswordAdmission(info)\n  206 |   const response = page.waitForResponse(\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:51)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:804:5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "run": "candidatea1ade-signout-r27",
+    "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+    "qaSha": "0fcf2dac94f472f64f2adb036eacaf60c3198213",
+    "stats": {
+      "startTime": "2026-10-17T18:21:21.719Z",
+      "duration": 64008.039,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 1
+    },
+    "runErrors": [],
+    "exitCode": 0,
+    "wrapperTimes": [
+      "2026-10-17T18:21:20Z",
+      "2026-10-17T18:22:25Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "f6bb0b42d39b5858987001bbaf5b712ed6ff21b149d91523d06a515702d25e03",
+    "decodedLogSha256": "1b4c841639993e4695597a9582799c4041c18eb68ad19f055f8df884b0456434",
+    "cells": [
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-webkit-desktop",
+        "status": "passed",
+        "errors": []
+      }
+    ]
+  }
+]

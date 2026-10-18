@@ -1,0 +1,67 @@
+{
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "92d951c2a6de3b954ef617ecabd3d02e245c46e8",
+  "run": 62,
+  "scenario": "B2BP-HISTORY-002",
+  "context": "product-chromium-desktop",
+  "assertionStart": 4038108.629,
+  "assertionEnd": 4043156.839,
+  "timeoutMs": 5000,
+  "actualState": "Region absent; current-access verification pending",
+  "network": [
+    {
+      "time": 4042710.092,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 200,
+      "durationMs": 943.133,
+      "offsetFromAssertionEndMs": -446.747
+    },
+    {
+      "time": 4043189.173,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "status": 200,
+      "durationMs": 40.021,
+      "offsetFromAssertionEndMs": 32.334
+    },
+    {
+      "time": 4043236.711,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/continuity",
+      "status": 200,
+      "durationMs": 225.615,
+      "offsetFromAssertionEndMs": 79.872
+    },
+    {
+      "time": 4043245.109,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/sessions",
+      "status": 200,
+      "durationMs": 221.134,
+      "offsetFromAssertionEndMs": 88.27
+    },
+    {
+      "time": 4043835.031,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/week",
+      "status": 200,
+      "durationMs": 205.392,
+      "offsetFromAssertionEndMs": 678.192
+    }
+  ],
+  "lastMemberPageFrame": {
+    "at": 4043190.016,
+    "headings": [
+      [
+        "H1",
+        {
+          "id": "membership-access-title"
+        },
+        "Acceso al gimnasio"
+      ]
+    ]
+  },
+  "classification": "Cause unresolved; neither app defect nor test race established",
+  "qualification": "Trace fields are retained as recorded. Network timestamps are not relabeled as completed-response times; durations are not added to infer ordering. No later retained DOM proves eventual history readiness."
+}

@@ -1,0 +1,99 @@
+{
+  "sealedAt": "2026-10-18T12:16:53.270914+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "ff78328cf499c5f5efddf5383f226aa75e4fb74b",
+  "integrationEvidenceSha": "a7abf9c8123d070e8e5b029dbed0571434462c8d",
+  "browserScenarioIds": 88,
+  "fullHttpCells": 1056,
+  "runs": [
+    {
+      "run": "accepted-d2-full-r55",
+      "number": 55,
+      "mode": "unified-http",
+      "counts": {
+        "passed": 526,
+        "failed": 2
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T09:14:30.322Z",
+        "duration": 10744421.192,
+        "expected": 526,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 6
+    },
+    {
+      "run": "accepted-d2-full-r56",
+      "number": 56,
+      "mode": "white-label-http",
+      "counts": {
+        "passed": 526,
+        "failed": 2
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T09:14:30.419Z",
+        "duration": 10891948.484000001,
+        "expected": 526,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 0
+    }
+  ],
+  "globalBrowserSchemasRemaining": 0,
+  "blockedHttpsPlannedCells": 528,
+  "blockedHttpsExecutedCells": 0,
+  "fullHttpAllPassed": false,
+  "references": [
+    {
+      "version": "v34",
+      "manifestSha256": "2fb378d048fae09a14ff83dfe11b064d2c8084911dda629c108856bd77b734a5"
+    },
+    {
+      "version": "v35",
+      "manifestSha256": "aa499e68ea0034302800f76d9a7fb19f52101182497fb4335ccc0a1f8ad1a244"
+    }
+  ],
+  "qualification": "Two complete full HTTP matrices on one frozen accepted source pair. Targeted, historical, component and repeated diagnostic passes are not added to these counts. All original R34/R35 failures remain unchanged.",
+  "nonpassingCells": [
+    {
+      "run": 55,
+      "id": "B2BP-ALTERNATIVES-009",
+      "mode": "unified-http",
+      "project": "product-chromium-430",
+      "status": "failed"
+    },
+    {
+      "run": 55,
+      "id": "B2BP-ALTERNATIVES-005",
+      "mode": "unified-http",
+      "project": "product-webkit-desktop",
+      "status": "failed"
+    },
+    {
+      "run": 56,
+      "id": "B2BP-ALTERNATIVES-009",
+      "mode": "white-label-http",
+      "project": "product-chromium-430",
+      "status": "failed"
+    },
+    {
+      "run": 56,
+      "id": "B2BP-ALTERNATIVES-009",
+      "mode": "white-label-http",
+      "project": "product-chromium-desktop",
+      "status": "failed"
+    }
+  ]
+}

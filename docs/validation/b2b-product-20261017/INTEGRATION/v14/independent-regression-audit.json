@@ -1,0 +1,173 @@
+{
+  "auditedAt": "2026-10-18T19:54:09.985904+00:00",
+  "scope": "Read-only separate supporting regression and terminal audit. Prior108 audit untouched; no tests, database queries, runtime or repository changes.",
+  "productExecutionSha": "c8a5aaa5fab4206a646a644601481713d42f4a65",
+  "finalCandidateSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "sourceApplicabilityQualification": "Execution pin remains c8a5aaa;8312034 changes only standalone contract location/import/config. This audit does not relabel132 product executions as direct8312034 execution.",
+  "supportingRegressionRuns": [
+    {
+      "label": "regression-unified",
+      "candidateSha": "c8a5aaa5fab4206a646a644601481713d42f4a65",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "timedOut": 0,
+      "retries": 0,
+      "rawTuplesMatchCells": true,
+      "uniqueWithinRunInstances": 12,
+      "scenarioIds": [
+        "B2BP-HISTORY-001",
+        "B2BP-HISTORY-002",
+        "B2BP-HISTORY-009",
+        "B2BP-INACTIVE-003",
+        "B2BP-SYNC-006",
+        "B2BP-WEEK-008"
+      ],
+      "projectCounts": {
+        "product-chromium-desktop": 6,
+        "product-webkit-430": 6
+      },
+      "rawReportSha256": "8732d43b0b22daab2bbdae79e218d648c79fe077ac13ea3e577b62042f818f0f",
+      "rawLogSha256": "0c29f5e8a931c3730bad4c2efd7815239f676a9ed5dd118f0991cd961b28f8fa",
+      "sourceVerifications": [
+        {
+          "moment": "before",
+          "checked": 2132,
+          "mismatches": []
+        },
+        {
+          "moment": "after",
+          "checked": 2132,
+          "mismatches": []
+        }
+      ],
+      "liveSchemas": [
+        "b2b_product_browser_fa57612deff049b9a50ffbfa8ceca860",
+        "b2b_product_browser_c52c4de836df4c6bbc5ced872d035086",
+        "b2b_product_browser_50b27ded1ea94fdeac5bb26d4842f054",
+        "b2b_product_browser_b5fe2b460a5442a4aa5bfac3b405727c",
+        "b2b_product_browser_8790a861d33541cbb5b2d118884a0a80",
+        "b2b_product_browser_0586df140e9846adbf0f4a691b2466b6"
+      ],
+      "ownedCleanupReceipt": {
+        "at": "2026-10-18T19:53:19.881759+00:00",
+        "owned": [
+          "b2b_product_browser_0586df140e9846adbf0f4a691b2466b6",
+          "b2b_product_browser_50b27ded1ea94fdeac5bb26d4842f054",
+          "b2b_product_browser_8790a861d33541cbb5b2d118884a0a80",
+          "b2b_product_browser_b5fe2b460a5442a4aa5bfac3b405727c",
+          "b2b_product_browser_c52c4de836df4c6bbc5ced872d035086",
+          "b2b_product_browser_fa57612deff049b9a50ffbfa8ceca860"
+        ],
+        "ownedRemaining": [],
+        "allBrowserSchemaCount": 6,
+        "manualCleanup": false
+      }
+    },
+    {
+      "label": "regression-wl-http",
+      "candidateSha": "c8a5aaa5fab4206a646a644601481713d42f4a65",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "timedOut": 0,
+      "retries": 0,
+      "rawTuplesMatchCells": true,
+      "uniqueWithinRunInstances": 12,
+      "scenarioIds": [
+        "B2BP-HISTORY-001",
+        "B2BP-HISTORY-002",
+        "B2BP-HISTORY-009",
+        "B2BP-INACTIVE-003",
+        "B2BP-SYNC-006",
+        "B2BP-WEEK-008"
+      ],
+      "projectCounts": {
+        "product-chromium-desktop": 6,
+        "product-webkit-430": 6
+      },
+      "rawReportSha256": "15d85935be6a335d7287405ff418f32aba4ed9ea1570acf5e027da31412d77c8",
+      "rawLogSha256": "8733f6cc32f75f1e40ecccab9b041050143c9d2c711b9421d29ecaeeedc2725f",
+      "sourceVerifications": [
+        {
+          "moment": "before",
+          "checked": 2132,
+          "mismatches": []
+        },
+        {
+          "moment": "after",
+          "checked": 2132,
+          "mismatches": []
+        }
+      ],
+      "liveSchemas": [
+        "b2b_product_browser_f7a61719e61a43c7b95a9c2e5ec4aaa1",
+        "b2b_product_browser_915d192ff9fc468d9fa9c60ce04c6ef2",
+        "b2b_product_browser_3f5c2da4f1174bcf8625e461381b8ba9",
+        "b2b_product_browser_db092dbff4074b96bffd80ca5f6cbf55",
+        "b2b_product_browser_ae5fa1d0fa3d4d7990bf1828808f765d",
+        "b2b_product_browser_d9009ae2421c4178869db940155f73bd"
+      ],
+      "ownedCleanupReceipt": {
+        "at": "2026-10-18T19:53:23.113957+00:00",
+        "owned": [
+          "b2b_product_browser_3f5c2da4f1174bcf8625e461381b8ba9",
+          "b2b_product_browser_915d192ff9fc468d9fa9c60ce04c6ef2",
+          "b2b_product_browser_ae5fa1d0fa3d4d7990bf1828808f765d",
+          "b2b_product_browser_d9009ae2421c4178869db940155f73bd",
+          "b2b_product_browser_db092dbff4074b96bffd80ca5f6cbf55",
+          "b2b_product_browser_f7a61719e61a43c7b95a9c2e5ec4aaa1"
+        ],
+        "ownedRemaining": [],
+        "allBrowserSchemaCount": 0,
+        "manualCleanup": false
+      }
+    }
+  ],
+  "supportingRegressionTotals": {
+    "runs": 2,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "timedOut": 0,
+    "retries": 0
+  },
+  "terminalVerification": {
+    "path": "/tmp/klisteni-readiness-runtime/evidence/terminal-summary.json",
+    "sha256": "2447eb2291fc2e7d8b12f48ce42431c030ab6c0234263db3b6de488d46bfa42e",
+    "status": "complete",
+    "runCount": 8,
+    "passed": 132,
+    "failed": 0,
+    "skipped": 0,
+    "timedOut": 0,
+    "retries": 0,
+    "eachEntryMatchesOwnSummary": true,
+    "affectedPassed": 108,
+    "supportingRegressionPassed": 24
+  },
+  "prior108Audit": {
+    "path": "/tmp/klisteni-readiness-independent-product-audit.json",
+    "sha256": "08d9e26cc4610438f19ebe88d7b635abe881f480b948a2e14b02268ff9d21e1b",
+    "unchanged": true
+  },
+  "schemaQualification": "Each supporting run prepared six distinct live fixture schemas although only two browser projects executed; all six owned schemas were absent at that run cleanup. Parallel other-run schema count is preserved, not misreported as leak. No fresh live DB query performed.",
+  "latestCleanupReceipt": {
+    "at": "2026-10-18T19:53:23.113957+00:00",
+    "owned": [
+      "b2b_product_browser_3f5c2da4f1174bcf8625e461381b8ba9",
+      "b2b_product_browser_915d192ff9fc468d9fa9c60ce04c6ef2",
+      "b2b_product_browser_ae5fa1d0fa3d4d7990bf1828808f765d",
+      "b2b_product_browser_d9009ae2421c4178869db940155f73bd",
+      "b2b_product_browser_db092dbff4074b96bffd80ca5f6cbf55",
+      "b2b_product_browser_f7a61719e61a43c7b95a9c2e5ec4aaa1"
+    ],
+    "ownedRemaining": [],
+    "allBrowserSchemaCount": 0,
+    "manualCleanup": false
+  },
+  "limits": [
+    "132 targeted/repeated/supporting cells are not full same-pin HTTP matrix acceptance or trusted HTTPS execution.",
+    "Task-only container/network removal is parent-owned and not independently attested here."
+  ]
+}

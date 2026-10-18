@@ -1,3 +1,4 @@
+import { reloadHistory } from './fixtures/b2b-product/readiness'
 import {
   test,
   expect,
@@ -282,7 +283,7 @@ test(scenarioTitle('B2BP-WEEK-009'), async ({ page, context, product }, info) =>
     const revisions = await api(page, member, 'sessionRevisions', { id: saved.session.id })
     expect(revisions).toHaveLength(3)
     expect(revisions[0]).toMatchObject({ origin: saved.session.origin })
-    await page.reload()
+    await reloadHistory(page, info)
     await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText('Anulada')
     await assertProductViewport(page, info)
   } finally {
@@ -660,7 +661,10 @@ test(scenarioTitle('B2BP-WEEK-008'), async ({ page, context, product }, info) =>
       .fill('1')
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
     await expect(
-      page.getByRole('status').filter({ hasText: /Sin conexión|pendiente|local/i }),
+      page
+        .locator('.workout-session')
+        .getByRole('status')
+        .filter({ hasText: /Sin conexión|pendiente|local/i }),
     ).toBeVisible()
     await context.setOffline(false)
     await expect
