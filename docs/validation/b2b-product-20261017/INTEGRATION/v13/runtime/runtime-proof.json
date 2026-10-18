@@ -1,0 +1,82 @@
+{
+  "preparedAt": "2026-10-18T08:57:12.377894+00:00",
+  "driver": "1.63.0",
+  "image": "sha256:fb70e03db1c00327d2a5626fa6eea50ef9adc333e90c415b104722bb53df58d5",
+  "seccompPath": "/workspace/.onboarding/browser-support/seccomp_profile.json",
+  "seccompSha256": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849",
+  "browserCache": "/tmp/b2b-integration-v13/browser-runtime/browsers",
+  "webkitPlatform": "Ubuntu24.04 x64; README builder Ubuntu24.04.4LTS",
+  "command": "bash /tmp/b2b-integration-v13/browser-runtime/run-smoke.sh",
+  "exitCode": 0,
+  "results": [
+    {
+      "engine": "chromium",
+      "driverVersion": "1.63.0",
+      "browserVersion": "153.0.8010.12",
+      "nodeVersion": "v24.18.0",
+      "uid": 1001,
+      "chromiumSandbox": true,
+      "noSandboxArgument": false,
+      "executablePath": "/runtime/browsers/chromium-1243/chrome-linux64/chrome",
+      "network": "none; native loopback only",
+      "record": "native-roundtrip",
+      "width": 320,
+      "isSecureContext": true,
+      "nativeOnline": false
+    },
+    {
+      "engine": "chromium",
+      "driverVersion": "1.63.0",
+      "browserVersion": "153.0.8010.12",
+      "nodeVersion": "v24.18.0",
+      "uid": 1001,
+      "chromiumSandbox": true,
+      "noSandboxArgument": false,
+      "executablePath": "/runtime/browsers/chromium-1243/chrome-linux64/chrome",
+      "network": "none; native loopback only",
+      "record": "native-roundtrip",
+      "width": 1440,
+      "isSecureContext": true,
+      "nativeOnline": false
+    },
+    {
+      "engine": "webkit",
+      "driverVersion": "1.63.0",
+      "browserVersion": "26.6",
+      "nodeVersion": "v24.18.0",
+      "uid": 1001,
+      "executablePath": "/runtime/browsers/webkit-2359/pw_run.sh",
+      "network": "none; native loopback only",
+      "record": "native-roundtrip",
+      "width": 320,
+      "isSecureContext": true,
+      "nativeOnline": false
+    },
+    {
+      "engine": "webkit",
+      "driverVersion": "1.63.0",
+      "browserVersion": "26.6",
+      "nodeVersion": "v24.18.0",
+      "uid": 1001,
+      "executablePath": "/runtime/browsers/webkit-2359/pw_run.sh",
+      "network": "none; native loopback only",
+      "record": "native-roundtrip",
+      "width": 1440,
+      "isSecureContext": true,
+      "nativeOnline": false
+    }
+  ],
+  "sha256": {
+    "driver-playwright-core/package.json": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b",
+    "driver-playwright-core/browsers.json": "545d52f8382c391e605562c330e9c1c534a16045898203037a49bb8bd769a946",
+    "browsers/chromium-1243/chrome-linux64/chrome": "8c599d43aec53f2460a31ae2f4af6bd863f8258b34ff519564bc5d4726bfaa1e",
+    "browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e",
+    "browsers/webkit-2359/pw_run.sh": "a85baad3d8c07173ac387a59b41500c382b21ed692afe0964d29aac247ccc63b",
+    "browsers/webkit-2359/minibrowser-wpe/bin/MiniBrowser": "7c71efed38fb0d916f5edb7db9a98cdf218642dd8dce02375730eb9ad5510751",
+    "runtime-smoke.mjs": "758432239e00045ea311be3bf121555b9d58d9f815b88ca33e8a88bceaa282fb",
+    "run-smoke.sh": "aa3d6be9e7f67733c4588f96f88d089458e19d81f741769838017a06a40febdd",
+    "install.log": "82d01b95ed1621079a94890df9e8388484998248c38aa6247c66b89b7992c537",
+    "smoke.log": "0f0fab602d0348ce711d3b4580445c794ff3f98d8fbc28f031a96784b9c791ed"
+  },
+  "qualification": "Native runtime and IndexedDB smoke only; no product component, API/DB, full-browser matrix, offline/reconnect, TLS/production claim. Native loopback is secure; networknone gives navigator.onLine=false. No tracked files/dependencies/lockfiles, DB containers or security policies changed."
+}
