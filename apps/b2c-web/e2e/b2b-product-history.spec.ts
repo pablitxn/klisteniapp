@@ -1,3 +1,4 @@
+import type { Response } from '@playwright/test'
 import {
   test,
   expect,
@@ -25,8 +26,48 @@ test(scenarioTitle('B2BP-HISTORY-002'), async ({ page, context, product }, info)
   try {
     const plan = await prescribe(staff.page, staff.who, member)
     await login(page, member, info)
-    await open(page, product, info, 'history')
     const continuity = page.getByRole('region', { name: 'Continuidad de la rutina' })
+    const started = performance.now()
+    let regionWaitStarted: number | undefined
+    let regionVisible = false
+    const responses: Array<{ endpoint: string; status: number; elapsedMs: number }> = []
+    const recordResponse = (response: Response) => {
+      const endpoint = new URL(response.url()).pathname.match(
+        /\/(context|bootstrap\/v2|access|continuity|sessions|week|occurrences)$/,
+      )?.[1]
+      if (endpoint)
+        responses.push({
+          endpoint,
+          status: response.status(),
+          elapsedMs: Math.round(performance.now() - started),
+        })
+    }
+    page.on('response', recordResponse)
+    try {
+      await open(page, product, info, 'history')
+      regionWaitStarted = performance.now()
+      await expect(continuity).toBeVisible({ timeout: 30000 })
+      regionVisible = true
+    } finally {
+      page.off('response', recordResponse)
+      await info.attach(`history-continuity-readiness-${operation()}`, {
+        body: Buffer.from(
+          JSON.stringify({
+            regionVisible,
+            maximumRegionWaitMs: 30000,
+            navigationMs:
+              regionWaitStarted === undefined ? null : Math.round(regionWaitStarted - started),
+            regionWaitMs:
+              regionWaitStarted === undefined
+                ? null
+                : Math.round(performance.now() - regionWaitStarted),
+            responseTiming: 'Browser response events; body completion is not inferred.',
+            responses,
+          }),
+        ),
+        contentType: 'application/json',
+      })
+    }
     await expect(continuity).toContainText(plan.enrollment.content.name)
     await expect(continuity).toContainText(plan.enrollment.content.goal)
     await expect(continuity).toContainText(plan.enrollment.content.stages[0]!.name)
