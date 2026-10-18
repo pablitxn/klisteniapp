@@ -1,0 +1,1105 @@
+{
+  "qualification": "Named positive phase observations; not additional test passes. HTTP events are not rendered readiness. Continuity region timing may follow shared history readiness and is not total history load time.",
+  "observations": [
+    {
+      "instanceId": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 378,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 194,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 199
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 245,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 283,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 288
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 317,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 323
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 155,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 5,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 13
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 712,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 19,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 19
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 49,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 49
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 85,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 98
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 130,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 170,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 189
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 213,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 227
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 586,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 588,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 591,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 596
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 596
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 596
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 643,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 644
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 664,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 664
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 964,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 27,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 31
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 66,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 77
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 109,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 112
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 356,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 393,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 394
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 414,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 416
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 750,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 750
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 757,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 759
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 759,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 767
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 820,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 820
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 830,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 830
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-selected-week-data",
+      "observed": {
+        "phase": "selected-week-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 46,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-2b4f4275cf36d02d679b",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-initial-draft-commit",
+      "observed": {
+        "phase": "initial-draft-commit",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 60,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-9fae0015409047d0f61c",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 226,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 113,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 118
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 143,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 167,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 167
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 187,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 187
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-9fae0015409047d0f61c",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 87,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-9fae0015409047d0f61c",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 640,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 21,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 21
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 60,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 61
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 86,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 86
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 117,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 138,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 139
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 149,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 149
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 488,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 489
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 499,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 502
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 505,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 507
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 565,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 565,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 565
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 573
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-9fae0015409047d0f61c",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 618,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 32,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 34
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 81,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 81
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 110,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 110
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 128,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 148,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 149
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 162,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 162
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 506,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 506
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 515,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 515
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 530,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 531
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 553,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 557
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 567,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 568
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-9fae0015409047d0f61c",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-selected-week-data",
+      "observed": {
+        "phase": "selected-week-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 40,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "cbe399052b54fdca6c2a-9fae0015409047d0f61c",
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-initial-draft-commit",
+      "observed": {
+        "phase": "initial-draft-commit",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 19,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-e91b949c1e5c854a53f5",
+      "id": "B2BP-ROLES-003",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 274,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 113,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 121
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 169,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 210,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 210
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 219,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 220
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-e91b949c1e5c854a53f5",
+      "id": "B2BP-ROLES-003",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 193,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 70,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 73
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 97,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 130,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 131
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 157,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 157
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-e91b949c1e5c854a53f5",
+      "id": "B2BP-ROLES-003",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 212,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 92,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 96
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 125,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 141,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 144
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 159,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 160
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-6df1fa372b687c2f0e62",
+      "id": "B2BP-ROLES-009",
+      "project": "product-chromium-320",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 150,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-1c73df93a6a926ca7e56",
+      "id": "B2BP-ROLES-003",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 210,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 97,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 101
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 132,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 148,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 148
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 165,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 168
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-1c73df93a6a926ca7e56",
+      "id": "B2BP-ROLES-003",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 200,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 80,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 82
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 114,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 136,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 136
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 155,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 168
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-1c73df93a6a926ca7e56",
+      "id": "B2BP-ROLES-003",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 305,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 131,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 141
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 185,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 209,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 222
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 240,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 241
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8fe356fb91e1b83afa44-949c8ae9e19e905a647e",
+      "id": "B2BP-ROLES-009",
+      "project": "product-chromium-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 104,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    }
+  ]
+}

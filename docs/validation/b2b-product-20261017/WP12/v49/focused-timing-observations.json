@@ -1,0 +1,137 @@
+{
+  "positivePhases": [
+    {
+      "run": 74,
+      "phase": "history-data",
+      "observations": 4,
+      "ready": 4,
+      "notReady": 0,
+      "minimumElapsedMs": 580,
+      "maximumElapsedMs": 775,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 74,
+      "phase": "initial-draft-commit",
+      "observations": 2,
+      "ready": 2,
+      "notReady": 0,
+      "minimumElapsedMs": 24,
+      "maximumElapsedMs": 59,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 74,
+      "phase": "selected-week-data",
+      "observations": 2,
+      "ready": 2,
+      "notReady": 0,
+      "minimumElapsedMs": 36,
+      "maximumElapsedMs": 60,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 74,
+      "phase": "workspace-admission",
+      "observations": 12,
+      "ready": 12,
+      "notReady": 0,
+      "minimumElapsedMs": 87,
+      "maximumElapsedMs": 336,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 75,
+      "phase": "history-data",
+      "observations": 4,
+      "ready": 4,
+      "notReady": 0,
+      "minimumElapsedMs": 618,
+      "maximumElapsedMs": 964,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 75,
+      "phase": "initial-draft-commit",
+      "observations": 2,
+      "ready": 2,
+      "notReady": 0,
+      "minimumElapsedMs": 19,
+      "maximumElapsedMs": 60,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 75,
+      "phase": "selected-week-data",
+      "observations": 2,
+      "ready": 2,
+      "notReady": 0,
+      "minimumElapsedMs": 40,
+      "maximumElapsedMs": 46,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 75,
+      "phase": "workspace-admission",
+      "observations": 12,
+      "ready": 12,
+      "notReady": 0,
+      "minimumElapsedMs": 87,
+      "maximumElapsedMs": 378,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 76,
+      "phase": "workspace-admission",
+      "observations": 6,
+      "ready": 6,
+      "notReady": 0,
+      "minimumElapsedMs": 124,
+      "maximumElapsedMs": 349,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "run": 77,
+      "phase": "workspace-admission",
+      "observations": 6,
+      "ready": 6,
+      "notReady": 0,
+      "minimumElapsedMs": 175,
+      "maximumElapsedMs": 518,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    }
+  ],
+  "authPacing": [
+    {
+      "run": 74,
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "testDurationMs": 66762,
+      "annotation": {
+        "type": "auth-pacing",
+        "description": "Real password admission waits 58933ms for the unchanged database guard"
+      }
+    },
+    {
+      "run": 75,
+      "id": "B2BP-ALTERNATIVES-004",
+      "project": "product-chromium-430",
+      "testDurationMs": 67834,
+      "annotation": {
+        "type": "auth-pacing",
+        "description": "Real password admission waits 59235ms for the unchanged database guard"
+      }
+    }
+  ],
+  "qualification": "Observed targeted phase acknowledgment timing, not broad performance certification or historical causality. Auth waits preserve the existing password limiter."
+}

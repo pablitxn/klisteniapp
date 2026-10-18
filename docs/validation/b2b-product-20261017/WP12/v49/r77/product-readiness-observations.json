@@ -1,0 +1,227 @@
+{
+  "qualification": "Named positive phase observations; not additional test passes. HTTP events are not rendered readiness. Continuity region timing may follow shared history readiness and is not total history load time.",
+  "observations": [
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 175,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 210,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 319,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 159,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 165
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 197,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 223,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 223
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 252,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 253
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 440,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 176,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 182
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 243,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 283,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 283
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 320,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 327
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "e192ae9fc200babd30f3-bf05d1a7499a9241246a",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 518,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 265,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 270
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 294,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 433,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 433
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 468,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 470
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "e192ae9fc200babd30f3-bf05d1a7499a9241246a",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 188,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 10,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 13
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    }
+  ]
+}
