@@ -1,10 +1,13 @@
+import type { ProductIssue } from '@klisteniapp/b2b-contracts/product-v2';
 export class HttpError extends Error {
   status: number;
   code: string;
-  constructor(status: number, code: string, message: string) {
+  issues?: ProductIssue[];
+  constructor(status: number, code: string, message: string, issues?: ProductIssue[]) {
     super(message);
     this.status = status;
     this.code = code;
+    this.issues = issues;
   }
 }
 

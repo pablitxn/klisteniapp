@@ -13,6 +13,7 @@ const Environment = z.object({
   B2B_MEDIA_ROOT: z.string().startsWith('/').optional(),
   B2B_MEDIA_QUOTA_MB: z.coerce.number().int().min(32).max(10240).default(256),
   B2B_DEMO_MODE: z.enum(['true', 'false']).default('false'),
+  B2B_PRODUCT_UNIFIED: z.enum(['true', 'false']).default('false'),
   B2B_WHITE_LABEL: z.enum(['true', 'false']).default('false'),
   B2B_PROXY_SECRET: z
     .string()
@@ -20,6 +21,7 @@ const Environment = z.object({
     .optional(),
   B2B_TRUSTED_PROXY_ADDRESSES: z.string().default('127.0.0.1,::1'),
   B2B_DOMAIN_PROTOCOL: z.enum(['http', 'https']).default('https'),
+  B2B_B2C_INVITATION_URL: z.url().optional(),
   NODE_ENV: z.enum(['production', 'development', 'test']).default('development'),
 });
 export type Config = {
@@ -34,9 +36,12 @@ export type Config = {
   mediaQuotaMb?: number;
   /** Omitted/false preserves the explicit single-origin legacy deployment. */
   whiteLabel?: boolean;
+  /** Explicit product-only single-origin runtime; never inferred from an unbound session. */
+  productUnified?: boolean;
   proxySecret?: string;
   trustedProxyAddresses?: string[];
   domainProtocol?: 'http' | 'https';
+  b2cInvitationUrl?: string;
 };
 export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const result = Environment.safeParse(env);
@@ -46,6 +51,19 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     );
   const input = result.data;
   const origin = new URL(input.B2B_APP_ORIGIN);
+  if (input.B2B_B2C_INVITATION_URL) {
+    const invitation = new URL(input.B2B_B2C_INVITATION_URL);
+    if (
+      invitation.protocol !== 'https:' ||
+      invitation.username ||
+      invitation.password ||
+      invitation.search ||
+      invitation.hash
+    )
+      throw new Error(
+        'B2B_B2C_INVITATION_URL must be a separate HTTPS onboarding URL without transfer parameters',
+      );
+  }
   if (
     !['http:', 'https:'].includes(origin.protocol) ||
     origin.origin !== input.B2B_APP_ORIGIN ||
@@ -58,6 +76,8 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const trustedProxyAddresses = input.B2B_TRUSTED_PROXY_ADDRESSES.split(',').map((v) => v.trim());
   if (!trustedProxyAddresses.length || trustedProxyAddresses.some((v) => !isIP(v)))
     throw new Error('B2B_TRUSTED_PROXY_ADDRESSES requires exact IP addresses');
+  if (input.B2B_PRODUCT_UNIFIED === 'true' && input.B2B_WHITE_LABEL === 'true')
+    throw new Error('Unified product and white-label runtime modes are exclusive');
   if (input.B2B_WHITE_LABEL === 'true') {
     if (!input.B2B_PROXY_SECRET || input.B2B_PROXY_SECRET.startsWith('replace-'))
       throw new Error('White-label B2B requires an independent B2B_PROXY_SECRET');
@@ -88,9 +108,11 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): Config {
     demoMode: input.B2B_DEMO_MODE === 'true',
     ...(input.B2B_MEDIA_ROOT ? { mediaRoot: input.B2B_MEDIA_ROOT } : {}),
     mediaQuotaMb: input.B2B_MEDIA_QUOTA_MB,
+    productUnified: input.B2B_PRODUCT_UNIFIED === 'true',
     whiteLabel: input.B2B_WHITE_LABEL === 'true',
     proxySecret: input.B2B_PROXY_SECRET,
     trustedProxyAddresses,
     domainProtocol: input.B2B_DOMAIN_PROTOCOL,
+    ...(input.B2B_B2C_INVITATION_URL ? { b2cInvitationUrl: input.B2B_B2C_INVITATION_URL } : {}),
   };
 }

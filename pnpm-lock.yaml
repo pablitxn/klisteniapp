@@ -239,6 +239,9 @@ importers:
       '@klisteniapp/catalog-base':
         specifier: workspace:*
         version: link:../../packages/catalog-base
+      '@klisteniapp/scene-schema':
+        specifier: workspace:*
+        version: link:../../packages/scene-schema
       better-auth:
         specifier: 1.7.7
         version: 1.7.7(pg@8.23.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -258,6 +261,9 @@ importers:
 
   apps/b2b-web:
     dependencies:
+      '@noble/hashes':
+        specifier: 2.4.0
+        version: 2.4.0
       '@klisteniapp/anatomy-viewer':
         specifier: workspace:*
         version: link:../../packages/anatomy-viewer

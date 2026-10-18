@@ -1,0 +1,75 @@
+✖ six isolated white-label HTTP environments preserve old records and compose actual auth/API/frontend (20923.092223ms)
+B2B authentication failed
+✖ unified baseline reports the current white-label guard without changing access policy (4762.057026ms)
+✔ HTTPS startup fails closed without pre-provisioned certificates (1.049615ms)
+✔ aborted startup removes only its own schema and media directory (4836.876148ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31494.410815
+
+✖ failing tests:
+
+test at scripts/b2b-product-harness.integration.test.mjs:47:1
+✖ six isolated white-label HTTP environments preserve old records and compose actual auth/API/frontend (20923.092223ms)
+  error: schema "wp05_6cfb07a467c24dae803d379630663a34" does not exist
+      at /workspace/klisteniapp/node_modules/.pnpm/pg@8.23.1/node_modules/pg/lib/client.js:694:17
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async PostgresConnection.executeQuery (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/dialect/postgres/postgres-driver.js:113:28)
+      at async file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/query-executor/query-executor-base.js:39:24
+      at async DefaultConnectionProvider.provideConnection (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/driver/default-connection-provider.js:10:20)
+      at async DefaultQueryExecutor.executeQuery (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/query-executor/query-executor-base.js:38:28)
+      at async SelectQueryBuilderImpl.execute (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/query-builder/select-query-builder.js:318:24)
+      at async PostgresIntrospector.getTables (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/dialect/postgres/postgres-introspector.js:66:28)
+      at async getMigrations (file:///workspace/klisteniapp/node_modules/.pnpm/better-auth@1.7.7_pg@8.23.1_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules/better-auth/dist/db/get-migration.mjs:362:27)
+      at async seedProductHarness (file:///workspace/klisteniapp/scripts/b2b-product-seed.mjs:56:10)
+      at PostgresConnection.executeQuery (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/dialect/postgres/postgres-driver.js:126:41)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/query-executor/query-executor-base.js:39:24
+      at async DefaultConnectionProvider.provideConnection (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/driver/default-connection-provider.js:10:20)
+      at async DefaultQueryExecutor.executeQuery (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/query-executor/query-executor-base.js:38:28)
+      at async SelectQueryBuilderImpl.execute (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/query-builder/select-query-builder.js:318:24)
+      at async PostgresIntrospector.getTables (file:///workspace/klisteniapp/node_modules/.pnpm/kysely@0.29.6/node_modules/kysely/dist/dialect/postgres/postgres-introspector.js:66:28)
+      at async getMigrations (file:///workspace/klisteniapp/node_modules/.pnpm/better-auth@1.7.7_pg@8.23.1_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules/better-auth/dist/db/get-migration.mjs:362:27)
+      at async seedProductHarness (file:///workspace/klisteniapp/scripts/b2b-product-seed.mjs:56:10)
+      at async startProductHarness (file:///workspace/klisteniapp/scripts/b2b-product-e2e-server.mjs:141:23) {
+    length: 127,
+    severity: 'ERROR',
+    code: '3F000',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'namespace.c',
+    line: '3545',
+    routine: 'get_namespace_oid'
+  }
+
+test at scripts/b2b-product-harness.integration.test.mjs:237:1
+✖ unified baseline reports the current white-label guard without changing access policy (4762.057026ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  503 !== 200
+  
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-harness.integration.test.mjs:250:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 503,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

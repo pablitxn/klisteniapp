@@ -1,0 +1,38 @@
+{
+  "qaSourceSha": "e3dc9ae7ad6d3a72c1ba44b10f022f5610268d9a",
+  "typecheck": {
+    "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+    "exitCode": 0,
+    "output": "final-typecheck.log"
+  },
+  "eslint": {
+    "command": "pnpm exec eslint <all eight owned specs and three owned fixture helpers>",
+    "exitCode": 0,
+    "output": "final-eslint.log"
+  },
+  "boundaries": {
+    "command": "node scripts/check-b2b-boundaries.mjs",
+    "exitCode": 0,
+    "output": "final-boundaries.log"
+  },
+  "format": {
+    "command": "pnpm exec prettier --check <same eleven owned source files>",
+    "exitCode": 0,
+    "output": "final-format.log"
+  },
+  "gitIdentity": {
+    "command": "python3 ../sysadmin-workspace/tools/cloud_git_identity.py --repo .",
+    "exitCode": 0,
+    "output": "final-identity.log"
+  },
+  "build": {
+    "applicationSha": "2d0df2797d7876070372bc7808d582604ca3bbf0",
+    "command": "node node_modules/vite/bin/vite.js build (actual locked B2B snapshot)",
+    "exitCode": 0,
+    "outputBase64": "build.log.b64",
+    "qualification": "Existing large-chunk warning retained"
+  },
+  "newBrowserRuns": ["candidate2d0-roles-history-r11", "candidate2d0-roles-health-inactive-r12"],
+  "collectorRerun": false,
+  "qualification": "Unchanged collector was not rerun; parent v7 totals remain independent. Corrected QA browser assertions have not rerun."
+}

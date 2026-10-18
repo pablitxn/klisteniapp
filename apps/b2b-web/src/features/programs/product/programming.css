@@ -1,0 +1,49 @@
+.programming {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.programming :is(input, select, textarea, button) {
+  max-width: 100%;
+  min-width: 0;
+}
+.programming :is(button, select, input:not([type='checkbox'])) {
+  min-height: 44px;
+}
+.programming button {
+  white-space: normal;
+}
+.programming fieldset {
+  min-width: 0;
+}
+.programming-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+.programming-grid > * {
+  min-width: 0;
+}
+/* Native select layout overflow must not escape its field; paint remains uncontained. */
+.programming-grid > .field {
+  contain: layout;
+}
+.programming-target {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--border, #b3b3b3);
+  border-radius: 12px;
+  padding: 12px;
+}
+.programming .row {
+  flex-wrap: wrap;
+}
+.programming pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 20rem;
+  overflow: auto;
+}
+.programming :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}

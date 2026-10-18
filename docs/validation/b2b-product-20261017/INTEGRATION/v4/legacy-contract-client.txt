@@ -1,0 +1,70 @@
+Scope: 2 of 15 workspace projects
+$ node --test tests/*.test.ts
+✔ untrusted catalog media cannot supply script or protocol-relative URLs (8.052166ms)
+✔ program steps and executed sets cannot duplicate their identifiers (5.201172ms)
+✔ request defaults stay optional while current responses require complete nested content (4.076083ms)
+✔ immutable machine snapshots from before catalog migrations remain readable without weakening current responses (25.966282ms)
+✔ legacy fixed-dose snapshots and pending create retry decode without modifying original payload bytes (26.038261ms)
+✔ lossless interchange round-trips both versions and rejects a flattened or unversioned prescription (9.080454ms)
+✔ incomplete drafts persist but activation reports exact missing step fields (8.412573ms)
+✔ fixed and range targets retain units and reject reversed ranges and ambiguous dose (1.785076ms)
+✔ stage boundaries are inclusive, sequential and allow gaps and multiple same-day slots (32.226299ms)
+✔ export-only access cannot carry operational capabilities or an invented role (1.189227ms)
+✔ relation vocabulary is directed and requires an independent target dose (5.433588ms)
+✔ sessions preserve additional segments and reject implicit completion and dangling actuals (10.146259ms)
+✔ outbox transport receipt does not change the explicit session status (4.045891ms)
+✔ Monday-Sunday summaries count four/three/one once; partial remains an absence after close (2.626848ms)
+✔ consent is explicit, category-scoped and revocable; only supported manual JSON is accepted (3.880547ms)
+✔ all endpoint paths are versioned and route parameters are declared by their input schema (0.768463ms)
+✔ floor plans require bounded unique unit points and an image, and decode old websites (5.069229ms)
+✔ prescriptions distinguish timed and repetition sets and keep historical snapshots readable (3.644104ms)
+✔ actual duration and RPE remain explicit observations and old retries normalize identically (2.510629ms)
+✔ WL branch grants have an explicit scope and never accept brand administration (3.730318ms)
+✔ WL theme and branch input allow only supported values and safe media (41.824519ms)
+✔ WL historical branch adapter copies relational context without modifying original JSON (1.31766ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 780.262752
+$ node --test tests/*.test.ts
+✔ routine retry keys are per request headers and never change content or account/context guards (84.733054ms)
+✔ the public client API works without a browser or cross-tab notification support (8.3021ms)
+✔ named reads validate responses and keep each originating account bound to the request (1.592434ms)
+✔ catalog response validation rejects nested invalid media and missing required response fields (6.51812ms)
+✔ invalid JSON and unexpected empty successful responses are contract errors, not network errors (0.9574ms)
+✔ server conflict and session errors preserve status, code and safe message (3.47731ms)
+✔ writes use named route, validated input and the account guard (2.221822ms)
+✔ media sends raw bytes with encoded metadata and validates the stored asset (13.074155ms)
+✔ transport distinguishes failed connections from aborted deadlines (5.81212ms)
+✔ authentication notifies other tabs only when the server changed the session (1.17356ms)
+✔ an interrupted response body preserves timeout and connection errors after headers arrive (6.052795ms)
+✔ 401 and 403 still revoke protected views when their response body is interrupted (27.394671ms)
+✔ cancelling a scoped read preserves sibling requests and account binding (1.143375ms)
+✔ an already cancelled scope never sends a request (0.269705ms)
+✔ WL client scopes branch and role immutably through account and abort binding (1.279419ms)
+✔ WL departed context drops even a successful late response and refuses queued writes (1.331412ms)
+✔ WL accepting an invitation through credentials announces the changed session (2.394455ms)
+✔ named correction binding keeps revision zero separate from accepted state and retains unspecified load (71.309201ms)
+✔ adoption contract requires explicit source/shared confirmations and rejects ambiguous or duplicate targets (14.828696ms)
+✔ immutable publication reads retain the actual legacy discriminator through the public client (117.818488ms)
+✔ publication choice responses remain strict and cannot invent a v2 reference from a projected draft (3.652764ms)
+✔ product client explicitly binds identity, organization, branch and contract version (36.735615ms)
+✔ routine mutations preserve immutable retry payload and operation key and validate response (6.552765ms)
+✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (13.509942ms)
+✔ inactive export uses the restricted self namespace with selected organization (1.417614ms)
+✔ legacy clients retain their existing headers and strict schemas (1.632188ms)
+✔ structured activation issues survive transport with exact step and field paths (2.453643ms)
+✔ v2 role selection carries organization superadmin without changing the legacy role enum (0.898795ms)
+✔ withdrawn selection parses through the frozen error contract and client with its field issue retained (55.586409ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 979.100853

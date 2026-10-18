@@ -1,0 +1,270 @@
+{
+  "content": {
+    "name": "SYNTHETIC TEST ONLY: repetitions-to-duration prescription",
+    "description": "SYNTHETIC TEST ONLY: the directed exercise pair and exercise identity come from the canonical catalog. The timed target dose is an independent contract/UI test prescription, without catalog, editorial or clinical dose review. It is not derived from source repetitions and asserts no real-world dose equivalence.",
+    "steps": [
+      {
+        "id": "synthetic-repetitions-source",
+        "exerciseId": "calf-raise",
+        "dose": {
+          "mode": "repetitions",
+          "sets": {
+            "kind": "fixed",
+            "value": 1
+          },
+          "repetitions": {
+            "kind": "fixed",
+            "value": 5
+          },
+          "durationSeconds": null,
+          "load": {
+            "mode": "bodyweight"
+          },
+          "restSeconds": {
+            "kind": "fixed",
+            "value": 60
+          },
+          "laterality": "bilateral",
+          "targetRpe": null,
+          "notes": "SYNTHETIC TEST ONLY: independent source prescription for unit-switch coverage."
+        },
+        "substitutionPolicy": "reviewed"
+      }
+    ]
+  },
+  "snapshot": {
+    "name": "SYNTHETIC TEST ONLY: repetitions-to-duration prescription",
+    "description": "SYNTHETIC TEST ONLY: the directed exercise pair and exercise identity come from the canonical catalog. The timed target dose is an independent contract/UI test prescription, without catalog, editorial or clinical dose review. It is not derived from source repetitions and asserts no real-world dose equivalence.",
+    "steps": [
+      {
+        "id": "synthetic-repetitions-source",
+        "exerciseId": "calf-raise",
+        "dose": {
+          "mode": "repetitions",
+          "sets": {
+            "kind": "fixed",
+            "value": 1
+          },
+          "repetitions": {
+            "kind": "fixed",
+            "value": 5
+          },
+          "durationSeconds": null,
+          "load": {
+            "mode": "bodyweight"
+          },
+          "restSeconds": {
+            "kind": "fixed",
+            "value": 60
+          },
+          "laterality": "bilateral",
+          "targetRpe": null,
+          "notes": "SYNTHETIC TEST ONLY: independent source prescription for unit-switch coverage."
+        },
+        "substitutionPolicy": "reviewed"
+      }
+    ],
+    "schemaVersion": 2,
+    "programId": "synthetic-duration-routine",
+    "version": 1,
+    "scope": {
+      "organizationId": "synthetic-org",
+      "branchId": "synthetic-main"
+    },
+    "publishedAt": "2026-10-17T12:00:00Z",
+    "exercises": [
+      {
+        "name": "Elevación de talones",
+        "description": "Trabajá la pantorrilla al elevar el talón y controlar la vuelta al suelo.",
+        "instructions": [
+          "De pie, pies paralelos al ancho de las caderas.",
+          "Si necesitás equilibrio, apoyá los dedos en una pared firme.",
+          "Elevá los talones lentamente.",
+          "Hacé una pausa sobre la base de los dedos.",
+          "Bajá ambos talones con control.",
+          "Subí recto, sin volcar los tobillos.",
+          "Conservá las rodillas extendidas sin forzarlas."
+        ],
+        "equipment": "none",
+        "machineId": null,
+        "compatibleMachineIds": [],
+        "pattern": "Tobillo",
+        "muscles": [
+          "calves"
+        ],
+        "animationId": "calf-raise",
+        "assets": [
+          {
+            "id": "base-calf-raise-poster-v1",
+            "kind": "image",
+            "url": "/previews/calf-raise-poster.webp",
+            "label": "Elevación de talones",
+            "attribution": "Klisteni exercise preview; see /models/NOTICE.md for anatomical model attribution."
+          }
+        ],
+        "baseExerciseId": null,
+        "id": "calf-raise",
+        "scope": "base",
+        "status": "published",
+        "version": 1,
+        "revision": 0
+      },
+      {
+        "name": "Elevación de talón a una pierna",
+        "description": "Elevá y bajá un talón mientras mantenés el equilibrio sobre esa pierna.",
+        "instructions": [
+          "De pie, descargá una pierna y dejá ese pie elevado.",
+          "Conservá la rodilla de apoyo extendida sin forzarla.",
+          "Elevá lentamente el talón del pie apoyado.",
+          "Mantené la pelvis nivelada.",
+          "Bajá el talón hasta el suelo sin rebotar.",
+          "Presioná la base de los dedos.",
+          "Frená si perdés el equilibrio."
+        ],
+        "equipment": "none",
+        "machineId": null,
+        "compatibleMachineIds": [],
+        "pattern": "Tobillo",
+        "muscles": [
+          "calves"
+        ],
+        "animationId": "single-leg-calf-raise",
+        "assets": [
+          {
+            "id": "base-single-leg-calf-raise-poster-v1",
+            "kind": "image",
+            "url": "/previews/single-leg-calf-raise-poster.webp",
+            "label": "Elevación de talón a una pierna",
+            "attribution": "Klisteni exercise preview; see /models/NOTICE.md for anatomical model attribution."
+          }
+        ],
+        "baseExerciseId": null,
+        "id": "single-leg-calf-raise",
+        "scope": "base",
+        "status": "published",
+        "version": 1,
+        "revision": 0
+      }
+    ],
+    "machines": [],
+    "relations": [
+      {
+        "id": "synthetic-b2bp-alternatives-011-duration-v1",
+        "sourceExerciseId": "calf-raise",
+        "targetExerciseId": "single-leg-calf-raise",
+        "type": "progression",
+        "conditions": [
+          "target-requirements-confirmed",
+          "use-target-dose",
+          "accept-higher-demand",
+          "accept-different-supports",
+          "accept-different-balance",
+          "accept-different-laterality"
+        ],
+        "rationale": "SYNTHETIC TEST ONLY: the directed exercise pair and exercise identity come from the canonical catalog. The timed target dose is an independent contract/UI test prescription, without catalog, editorial or clinical dose review. It is not derived from source repetitions and asserts no real-world dose equivalence.",
+        "catalogRevision": "fd0b7e52f7678c08c96d70fd71e40a11d87974cde87cca672f3b4e4c65f7a673",
+        "sourceContentHash": "f688633921b873c30d2b0085d13b12a0c0f7e247be56f4609ea725d93f366a33",
+        "targetContentHash": "45fba3f193ce7f819a8a5a4df935fb5d1637828077b2fe51fa716bc0d0575076",
+        "requirements": [
+          "position:standing",
+          "support:forefeet",
+          "balance:reduced-support",
+          "capability:single-leg-balance",
+          "laterality:unilateral",
+          "count:per-side",
+          "preserves-role:ankle-strength",
+          "fixture:b2bp-alternatives-011-duration-v1",
+          "dose-provenance:independent-synthetic-test-prescription",
+          "review-scope:contract-and-ui-test-only"
+        ],
+        "target": {
+          "name": "Elevación de talón a una pierna",
+          "description": "Elevá y bajá un talón mientras mantenés el equilibrio sobre esa pierna.",
+          "instructions": [
+            "De pie, descargá una pierna y dejá ese pie elevado.",
+            "Conservá la rodilla de apoyo extendida sin forzarla.",
+            "Elevá lentamente el talón del pie apoyado.",
+            "Mantené la pelvis nivelada.",
+            "Bajá el talón hasta el suelo sin rebotar.",
+            "Presioná la base de los dedos.",
+            "Frená si perdés el equilibrio."
+          ],
+          "equipment": "none",
+          "machineId": null,
+          "compatibleMachineIds": [],
+          "pattern": "Tobillo",
+          "muscles": [
+            "calves"
+          ],
+          "animationId": "single-leg-calf-raise",
+          "assets": [
+            {
+              "id": "base-single-leg-calf-raise-poster-v1",
+              "kind": "image",
+              "url": "/previews/single-leg-calf-raise-poster.webp",
+              "label": "Elevación de talón a una pierna",
+              "attribution": "Klisteni exercise preview; see /models/NOTICE.md for anatomical model attribution."
+            }
+          ],
+          "baseExerciseId": null,
+          "id": "single-leg-calf-raise",
+          "scope": "base",
+          "status": "published",
+          "version": 1,
+          "revision": 0
+        },
+        "targetDose": {
+          "mode": "duration",
+          "sets": {
+            "kind": "fixed",
+            "value": 2
+          },
+          "repetitions": null,
+          "durationSeconds": {
+            "kind": "range",
+            "min": 20,
+            "max": 30
+          },
+          "load": {
+            "mode": "bodyweight"
+          },
+          "restSeconds": {
+            "kind": "fixed",
+            "value": 90
+          },
+          "laterality": "per-side",
+          "targetRpe": null,
+          "notes": "SYNTHETIC TEST ONLY: the directed exercise pair and exercise identity come from the canonical catalog. The timed target dose is an independent contract/UI test prescription, without catalog, editorial or clinical dose review. It is not derived from source repetitions and asserts no real-world dose equivalence."
+        }
+      }
+    ]
+  },
+  "manifest": {
+    "fixtureKey": "b2bp-alternatives-011-duration-v1",
+    "kind": "synthetic-contract-fixture",
+    "scenarioId": "B2BP-ALTERNATIVES-011",
+    "organizationId": "synthetic-org",
+    "branchId": "synthetic-main",
+    "programId": "synthetic-duration-routine",
+    "version": 1,
+    "schemaVersion": 2,
+    "stepId": "synthetic-repetitions-source",
+    "relationId": "synthetic-b2bp-alternatives-011-duration-v1",
+    "canonicalDirectedPair": {
+      "relationId": "reviewed-calf-raise-single-leg-calf-raise-fd0b7e52f767",
+      "relationHash": "3a81e5df20af9af66fccbf536cc3bad549b614553ec14157049d224822621fb8",
+      "catalogRevision": "fd0b7e52f7678c08c96d70fd71e40a11d87974cde87cca672f3b4e4c65f7a673",
+      "sourceExerciseId": "calf-raise",
+      "targetExerciseId": "single-leg-calf-raise",
+      "sourceContentHash": "f688633921b873c30d2b0085d13b12a0c0f7e247be56f4609ea725d93f366a33",
+      "targetContentHash": "45fba3f193ce7f819a8a5a4df935fb5d1637828077b2fe51fa716bc0d0575076"
+    },
+    "syntheticTargetDose": {
+      "provenance": "independent-synthetic-test-prescription",
+      "reviewScope": "contract-and-ui-test-only",
+      "disclaimer": "SYNTHETIC TEST ONLY: the directed exercise pair and exercise identity come from the canonical catalog. The timed target dose is an independent contract/UI test prescription, without catalog, editorial or clinical dose review. It is not derived from source repetitions and asserts no real-world dose equivalence.",
+      "hash": "5b5e8dd42e86710e4d18e09896a9c159e7eabf79a78616d6f1c67eb925ce195e"
+    },
+    "routineHash": "63d50e0e6f3fc226d114bbe4acf1e1dea8a10a05b48b91850547c62f691f9223"
+  }
+}

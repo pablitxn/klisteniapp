@@ -1,0 +1,42 @@
+{
+  "sourceHead": "c569d109572c09ec5e587c5f66548672ba38f8d8",
+  "composedHead": "05d8c2a3d477dd38510efebdba3e957c97ad950a",
+  "APIRegression": {
+    "passed": 138,
+    "failed": 0,
+    "skipped": 0,
+    "WP03CasesIncluded": 21,
+    "WP02DefaultFixture": "original synthetic regression fixture"
+  },
+  "WP02ProductionAdapter": {
+    "passed": 18,
+    "failed": 1,
+    "skipped": 0,
+    "assertionsModified": false,
+    "failure": "period-history.test.ts:400 assumes replacement slots create no new obligations"
+  },
+  "domainComposed": {
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0
+  },
+  "contracts": {
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0
+  },
+  "static": {
+    "packageLint": "14 passed",
+    "format": "passed",
+    "composedAPITypecheckWithExplicitExportSeams": "passed",
+    "ordinaryBranchStatic": "not green: producer composition and reserved exports pending"
+  },
+  "blocked": [
+    "WP02 deterministic effectiveAt for end",
+    "WP02 production fixture and slot assertion update",
+    "CONTRACT reviewed-target error enum",
+    "ACCESS/INTEGRATION registration and exports",
+    "Astra review",
+    "new HTTP/browser/build acceptance"
+  ]
+}

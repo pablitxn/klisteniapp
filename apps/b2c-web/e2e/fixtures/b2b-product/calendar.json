@@ -1,0 +1,31 @@
+{
+  "note": "Acceptance oracles and logical references only; WP00 owns transport fixtures and SQL mapping.",
+  "fourThreeOne": {
+    "timezone": "UTC",
+    "weekStartDate": "2026-10-12",
+    "weekEndExclusiveDate": "2026-10-19",
+    "openObservation": "2026-10-17T12:00:00Z",
+    "closedObservation": "2026-10-19T00:00:00Z",
+    "obligations": [
+      { "key": "slot-a", "day": "2026-10-12", "intent": "explicit-completed" },
+      { "key": "slot-b", "day": "2026-10-14", "intent": "explicit-completed" },
+      { "key": "slot-c", "day": "2026-10-14", "intent": "explicit-completed" },
+      { "key": "slot-d", "day": "2026-10-16", "intent": "partial" }
+    ],
+    "expectedOpen": { "required": 4, "completed": 3, "pending": 1, "missed": 0 },
+    "expectedClosed": { "required": 4, "completed": 3, "pending": 0, "missed": 1 },
+    "moves": [
+      { "key": "slot-d", "to": "2026-10-18", "expected": "same-week-preserves-identity" },
+      { "key": "slot-d", "to": "2026-10-19", "expected": "deny-next-week" }
+    ]
+  },
+  "dstWeeks": [
+    { "timezone": "Europe/Madrid", "monday": "2026-03-23", "nextMonday": "2026-03-30", "startInstant": "2026-03-22T23:00:00Z", "endExclusiveInstant": "2026-03-29T22:00:00Z", "hours": 167 },
+    { "timezone": "Europe/Madrid", "monday": "2026-10-19", "nextMonday": "2026-10-26", "startInstant": "2026-10-18T22:00:00Z", "endExclusiveInstant": "2026-10-25T23:00:00Z", "hours": 169 }
+  ],
+  "periodMove": {
+    "originalStageEnd": "2026-10-14",
+    "acceptedSameWeekOverride": "2026-10-18",
+    "requiredPreviewAssertions": ["override remains eligible", "original stage and routine version unchanged", "new period revision", "no actual deletion", "stale preview conflicts", "both affected weeks recomputed on cross-week change"]
+  }
+}

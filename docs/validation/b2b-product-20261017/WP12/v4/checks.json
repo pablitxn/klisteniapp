@@ -1,0 +1,33 @@
+{
+  "sourceSha": "896ae6be0c51819af0de6c2202b6e5555d493449",
+  "typecheck": {
+    "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+    "exitCode": 0,
+    "output": "typecheck.log"
+  },
+  "eslint": {
+    "command": "pnpm exec eslint <all eight owned specs and three owned fixture helpers>",
+    "exitCode": 0,
+    "output": "eslint.log"
+  },
+  "boundaries": {
+    "command": "node scripts/check-b2b-boundaries.mjs",
+    "exitCode": 0
+  },
+  "collector": {
+    "command": "node --test apps/b2c-web/e2e/fixtures/b2b-product/report-validation.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "output": "collector.tap"
+  },
+  "build": {
+    "command": "node node_modules/vite/bin/vite.js build (apps/b2b-web)",
+    "exitCode": 0,
+    "originalOutputSha256": "bbf35a8a82364259be896219a365b152f40870300dd5e1dc3dff7d62e68da400",
+    "base64Output": "build.log.b64",
+    "qualification": "Actual candidate591 source build; pre-existing chunk-size warning retained"
+  },
+  "identity": "Pablo Coronel <git@pablocoronel.com>, author and committer guard passed",
+  "gitPush": "A transient failure without supported environment activation was resolved by sourcing the existing activation script; no credential changes"
+}

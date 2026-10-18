@@ -1,0 +1,68 @@
+✖ six isolated white-label HTTP environments preserve old records and compose actual auth/API/frontend (223.070497ms)
+✖ unified baseline reports the current white-label guard without changing access policy (1.469909ms)
+✔ HTTPS startup fails closed without pre-provisioned certificates (1.065106ms)
+✖ aborted startup removes only its own schema and media directory (77.333857ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2085.698074
+
+✖ failing tests:
+
+test at scripts/b2b-product-harness.integration.test.mjs:47:1
+✖ six isolated white-label HTTP environments preserve old records and compose actual auth/API/frontend (223.070497ms)
+  Error: ENOENT, No such file or directory '/tmp/klisteni-b2b-product-WeG0F0/build/previews/female'
+      at copyDir (node:internal/fs/cp/cp-sync:145:22)
+      at onDir (node:internal/fs/cp/cp-sync:136:25)
+      at getStats (node:internal/fs/cp/cp-sync:68:12)
+      at cpSyncFn (node:internal/fs/cp/cp-sync:58:10)
+      at cpSync (node:fs:3219:3)
+      at startProductHarness (file:///workspace/klisteniapp/scripts/b2b-product-e2e-server.mjs:106:5)
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-harness.integration.test.mjs:54:23)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17) {
+    errno: 2,
+    code: 'ENOENT',
+    path: '/tmp/klisteni-b2b-product-WeG0F0/build/previews/female',
+    syscall: 'cp'
+  }
+
+test at scripts/b2b-product-harness.integration.test.mjs:237:1
+✖ unified baseline reports the current white-label guard without changing access policy (1.469909ms)
+  Error: Build the candidate B2B frontend before harness startup
+      at startProductHarness (file:///workspace/klisteniapp/scripts/b2b-product-e2e-server.mjs:67:11)
+      at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-harness.integration.test.mjs:241:27)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at scripts/b2b-product-harness.integration.test.mjs:271:1
+✖ aborted startup removes only its own schema and media directory (77.333857ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Synthetic startup cancellation/. Input:
+  
+  'Error: Build the candidate B2B frontend before harness startup'
+  
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-harness.integration.test.mjs:288:7)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: Build the candidate B2B frontend before harness startup
+        at startProductHarness (file:///workspace/klisteniapp/scripts/b2b-product-e2e-server.mjs:67:11)
+        at TestContext.<anonymous> (file:///workspace/klisteniapp/scripts/b2b-product-harness.integration.test.mjs:289:9)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /Synthetic startup cancellation/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

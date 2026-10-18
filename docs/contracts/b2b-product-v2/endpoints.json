@@ -1,0 +1,333 @@
+{
+  "contractVersion": 2,
+  "header": "X-Klisteni-B2B-Contract",
+  "activationDefault": false,
+  "endpoints": [
+    {
+      "name": "capabilities",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/capabilities",
+      "inputFields": []
+    },
+    {
+      "name": "access",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/access",
+      "inputFields": []
+    },
+    {
+      "name": "people",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/people",
+      "inputFields": []
+    },
+    {
+      "name": "invitationBranches",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/invitation-branches",
+      "inputFields": []
+    },
+    {
+      "name": "updateMember",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/people/:memberId",
+      "inputFields": [
+        "operationId",
+        "expectedRevision",
+        "memberId",
+        "role",
+        "active",
+        "branchGrants"
+      ]
+    },
+    {
+      "name": "inviteMember",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/invitations/:id",
+      "inputFields": [
+        "operationId",
+        "expectedRevision",
+        "id",
+        "email",
+        "name",
+        "role",
+        "branchGrants"
+      ]
+    },
+    {
+      "name": "audit",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/audit/:id",
+      "inputFields": ["id"]
+    },
+    {
+      "name": "routines",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/routines",
+      "inputFields": []
+    },
+    {
+      "name": "routine",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/routines/:id",
+      "inputFields": ["id"]
+    },
+    {
+      "name": "saveRoutine",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/routines/:id",
+      "inputFields": ["operationId", "expectedRevision", "id", "content"]
+    },
+    {
+      "name": "archiveRoutine",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/routines/:id/archive",
+      "inputFields": ["operationId", "expectedRevision", "id"]
+    },
+    {
+      "name": "archiveGoal",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/goal-programs/:id/archive",
+      "inputFields": ["operationId", "expectedRevision", "id"]
+    },
+    {
+      "name": "endEnrollment",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/enrollments/:id/end",
+      "inputFields": ["operationId", "expectedRevision", "id"]
+    },
+    {
+      "name": "publishRoutine",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/routines/:id/publish",
+      "inputFields": ["operationId", "expectedRevision", "id"]
+    },
+    {
+      "name": "alternatives",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/routines/:id/alternatives/:stepId",
+      "inputFields": ["id", "stepId", "version"]
+    },
+    {
+      "name": "goals",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/goals",
+      "inputFields": ["memberId"]
+    },
+    {
+      "name": "saveGoal",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/goals/:id",
+      "inputFields": ["operationId", "expectedRevision", "id", "memberId", "content"]
+    },
+    {
+      "name": "enroll",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/enrollments/:id",
+      "inputFields": [
+        "operationId",
+        "expectedRevision",
+        "id",
+        "memberId",
+        "goalProgramId",
+        "issuedGoalRevision",
+        "content"
+      ]
+    },
+    {
+      "name": "continuity",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/continuity",
+      "inputFields": ["memberId"]
+    },
+    {
+      "name": "periodPreview",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/enrollments/:id/period-preview",
+      "inputFields": ["id", "expectedRevision", "proposed"]
+    },
+    {
+      "name": "applyPeriod",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/enrollments/:enrollmentId/period",
+      "inputFields": ["operationId", "expectedRevision", "enrollmentId", "proposed", "previewHash"]
+    },
+    {
+      "name": "occurrences",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/occurrences",
+      "inputFields": ["memberId", "weekStart", "timeZone"]
+    },
+    {
+      "name": "moveOccurrence",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/occurrences/:id/move",
+      "inputFields": ["operationId", "expectedRevision", "id", "scheduledDate"]
+    },
+    {
+      "name": "week",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/week",
+      "inputFields": ["memberId", "weekStart", "timeZone"]
+    },
+    {
+      "name": "sessions",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/sessions",
+      "inputFields": ["memberId"]
+    },
+    {
+      "name": "sessionRevisions",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/sessions/:id/revisions",
+      "inputFields": ["id"]
+    },
+    {
+      "name": "saveSession",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/sessions/:id/revisions",
+      "inputFields": ["operationId", "expectedRevision", "id", "origin", "content"]
+    },
+    {
+      "name": "ownHealth",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/own",
+      "inputFields": []
+    },
+    {
+      "name": "saveOwnHealth",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/own",
+      "inputFields": ["operationId", "expectedRevision", "data"]
+    },
+    {
+      "name": "previewHealthImport",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/import-preview",
+      "inputFields": ["operationId", "expectedRevision", "format", "version", "raw"]
+    },
+    {
+      "name": "applyHealthImport",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/import",
+      "inputFields": ["operationId", "expectedRevision", "format", "version", "raw", "previewHash"]
+    },
+    {
+      "name": "healthConsents",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/consents",
+      "inputFields": []
+    },
+    {
+      "name": "grantHealthConsent",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/consents/:id",
+      "inputFields": [
+        "operationId",
+        "expectedRevision",
+        "id",
+        "categories",
+        "audience",
+        "disclosureVersion"
+      ]
+    },
+    {
+      "name": "revokeHealthConsent",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/health/consents/:id/revoke",
+      "inputFields": ["operationId", "expectedRevision", "id"]
+    },
+    {
+      "name": "consentedHealth",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/members/:memberId/health",
+      "inputFields": ["memberId"]
+    },
+    {
+      "name": "personalExport",
+      "method": "GET",
+      "scope": "self",
+      "path": "/api/b2b/self/exports",
+      "inputFields": []
+    },
+    {
+      "name": "b2cInvitation",
+      "method": "GET",
+      "scope": "self",
+      "path": "/api/b2b/self/b2c-invitation",
+      "inputFields": []
+    },
+    {
+      "name": "operationReceipt",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/operations/:id",
+      "inputFields": ["id"]
+    },
+    {
+      "name": "legacySupplementPreview",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/legacy-assignments/:id/supplement-preview",
+      "inputFields": ["id"]
+    },
+    {
+      "name": "adoptLegacySupplement",
+      "method": "POST",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/legacy-assignments/:id/supplement",
+      "inputFields": [
+        "operationId",
+        "expectedRevision",
+        "id",
+        "sourceSnapshotHash",
+        "sourceSteps",
+        "sourceDosesConfirmed",
+        "sharedVersionConfirmed",
+        "targetConfirmations"
+      ]
+    },
+    {
+      "name": "sessionBinding",
+      "method": "GET",
+      "scope": "organization",
+      "path": "/api/b2b/orgs/:organizationId/product/v2/sessions/:id/binding",
+      "inputFields": ["id"]
+    }
+  ]
+}

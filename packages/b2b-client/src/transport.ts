@@ -1,3 +1,4 @@
+import { ProductErrorSchema, type OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2'
 import { API_PREFIX } from '@klisteniapp/b2b-contracts/common'
 import type { Role } from '@klisteniapp/b2b-contracts/common'
 import { ApiError } from './errors.ts'
@@ -8,6 +9,7 @@ export type Parser<T> = {
   safeParse(value: unknown): { success: true; data: T } | { success: false; error: unknown }
 }
 export type ClientOptions = {
+  contractVersion?: 2
   signal?: AbortSignal
   contextSignal?: AbortSignal
   branchId?: string
@@ -29,7 +31,10 @@ function errorDetails(value: unknown): { message?: string; code?: string } {
   return { message, code }
 }
 
-export function createTransport(accountId?: string, options: ClientOptions = {}) {
+export function createTransport(
+  accountId?: string,
+  options: ClientOptions & { productRole?: OrganizationRoleV2 } = {},
+) {
   async function request<T>(
     path: string,
     schema: Parser<T>,
@@ -56,9 +61,16 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
         signal: controller.signal,
         headers: {
           Accept: 'application/json',
+          ...(options.contractVersion
+            ? { 'X-Klisteni-B2B-Contract': String(options.contractVersion) }
+            : {}),
           ...(accountId ? { 'X-Klisteni-B2B-Account': accountId } : {}),
           ...(options.branchId ? { 'X-Klisteni-B2B-Branch': options.branchId } : {}),
-          ...(options.role ? { 'X-Klisteni-B2B-Role': options.role } : {}),
+          ...(options.contractVersion === 2 && options.productRole
+            ? { 'X-Klisteni-B2B-Role': options.productRole }
+            : options.role
+              ? { 'X-Klisteni-B2B-Role': options.role }
+              : {}),
           ...(requestId ? { 'Idempotency-Key': requestId } : {}),
           ...(body === undefined
             ? {}
@@ -103,6 +115,9 @@ export function createTransport(accountId?: string, options: ClientOptions = {})
               : 'No pudimos completar la solicitud.'),
           response.status,
           error.code,
+          options.contractVersion === 2
+            ? ProductErrorSchema.safeParse(result).data?.issues
+            : undefined,
         )
       }
       if (options.signal?.aborted || options.contextSignal?.aborted)

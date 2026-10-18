@@ -1,0 +1,991 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/candidate591/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.b2b-product-unified.config.ts",
+      "--project",
+      "product-chromium-320",
+      "--project",
+      "product-webkit-320",
+      "--grep",
+      "B2BP-(PROGRAMMING-003|HEALTH-001|HEALTH-004|WEEK-001|SYNC-010|INACTIVE-001|INACTIVE-008)",
+      "--timeout",
+      "45000",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/candidate591/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/candidate591/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/wp12-candidate591-unified-r6/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-unified-r6/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-unified-r6/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-unified-r6/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-unified-r6/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate591-unified-r6/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/candidate591/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/candidate591/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-health.spec.ts",
+      "file": "b2b-product-health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1984,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:15.700Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-6d0db340a91d5b6fb398",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5587,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:17.825Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-9eb42e212a262f5ec133",
+          "file": "b2b-product-health.spec.ts",
+          "line": 119,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4459,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:55.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-30747d793f4a1f4c49c6",
+          "file": "b2b-product-health.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 45221,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts",
+                        "column": 25,
+                        "line": 72
+                      },
+                      "message": "Error: page.waitForResponse: Test timeout of 45000ms exceeded.\n\n   at fixtures/b2b-product/health-journey.ts:72\n\n  70 |   await panel.getByRole('checkbox', { name: 'Medidas', exact: true }).check()\n  71 |   await panel.getByRole('checkbox', { name: /Entiendo el público dinámico/ }).check()\n> 72 |   const response = page.waitForResponse(\n     |                         ^\n  73 |     (r) =>\n  74 |       r.request().method() === 'POST' &&\n  75 |       /\\/health\\/consents\\/[^/]+$/.test(new URL(r.url()).pathname),\n    at grantThroughUi (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts:72:25)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-health.spec.ts:123:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:59.891Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-health-B2BP-HE-b0230-opulate-app-controlled-view-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-health-B2BP-HE-b0230-opulate-app-controlled-view-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-health-B2BP-HE-b0230-opulate-app-controlled-view-product-webkit-320/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-8e0ace62935435843ab0",
+          "file": "b2b-product-health.spec.ts",
+          "line": 119,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-inactive.spec.ts",
+      "file": "b2b-product-inactive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1943,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:23.467Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-7aaf5590134df7cc9e0d",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8398,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:25.439Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-2022e7ac1b99dd7d165f",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 231,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2410,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:49:46.018Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-28aa86dbab0686f40c6e",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 45204,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts",
+                        "column": 22,
+                        "line": 61
+                      },
+                      "message": "Error: page.waitForResponse: Test timeout of 45000ms exceeded.\n\n   at fixtures/b2b-product/health-journey.ts:61\n\n  59 |   const confirm = page.getByRole('button', { name: 'Confirmar importación', exact: true })\n  60 |   await expect(confirm).toBeEnabled()\n> 61 |   const write = page.waitForResponse(\n     |                      ^\n  62 |     (r) => r.request().method() === 'POST' && new URL(r.url()).pathname.endsWith('/health/import'),\n  63 |   )\n  64 |   await confirm.click()\n    at importThroughUi (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts:61:22)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:239:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:49:48.565Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-inactive-B2BP--ea7bb-atic-queue-replay-authority-product-webkit-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-inactive-B2BP--ea7bb-atic-queue-replay-authority-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-inactive-B2BP--ea7bb-atic-queue-replay-authority-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-inactive-B2BP--ea7bb-atic-queue-replay-authority-product-webkit-320/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e192ae9fc200babd30f3-68f651d0d4e921becb94",
+          "file": "b2b-product-inactive.spec.ts",
+          "line": 231,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3265,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:33.867Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-4d9e0c34453445a2a832",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3779,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:50:34.877Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-1b610af240925b2ca2bb",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 103,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 12395,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Motivo de corrección')\nExpected: \u001b[32m\"Truthful completion corrected to partial\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Motivo de corrección') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Motivo de corrección')\u001b[22m\n\u001b[2m    14 × locator resolved to <textarea id=\"_r_8_\" maxlength=\"1000\"></textarea>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Motivo de corrección')\nExpected: \u001b[32m\"Truthful completion corrected to partial\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Motivo de corrección') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Motivo de corrección')\u001b[22m\n\u001b[2m    14 × locator resolved to <textarea id=\"_r_8_\" maxlength=\"1000\"></textarea>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts:284:59",
+                    "location": {
+                      "file": "/task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                      "column": 59,
+                      "line": 284
+                    },
+                    "snippet": "  282 |     await expect(synchronized(page)).toBeVisible()\n  283 |     await page.getByLabel('Motivo de corrección').fill('Truthful completion corrected to partial')\n> 284 |     await expect(page.getByLabel('Motivo de corrección')).toHaveValue(\n      |                                                           ^\n  285 |       'Truthful completion corrected to partial',\n  286 |     )\n  287 |     await page.getByRole('button', { name: 'Guardar parcial' }).click()"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                        "column": 59,
+                        "line": 284
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Motivo de corrección')\nExpected: \u001b[32m\"Truthful completion corrected to partial\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Motivo de corrección') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Motivo de corrección')\u001b[22m\n\u001b[2m    14 × locator resolved to <textarea id=\"_r_8_\" maxlength=\"1000\"></textarea>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  282 |     await expect(synchronized(page)).toBeVisible()\n  283 |     await page.getByLabel('Motivo de corrección').fill('Truthful completion corrected to partial')\n> 284 |     await expect(page.getByLabel('Motivo de corrección')).toHaveValue(\n      |                                                           ^\n  285 |       'Truthful completion corrected to partial',\n  286 |     )\n  287 |     await page.getByRole('button', { name: 'Guardar parcial' }).click()\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts:284:59"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:37.156Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                    "column": 59,
+                    "line": 284
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-eb9cd55a1ebd8c876322",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 265,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 13142,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Motivo de corrección')\nExpected: \u001b[32m\"Truthful completion corrected to partial\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Motivo de corrección') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Motivo de corrección')\u001b[22m\n\u001b[2m    14 × locator resolved to <textarea id=\"_r_8_\" maxlength=\"1000\"></textarea>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Motivo de corrección')\nExpected: \u001b[32m\"Truthful completion corrected to partial\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Motivo de corrección') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Motivo de corrección')\u001b[22m\n\u001b[2m    14 × locator resolved to <textarea id=\"_r_8_\" maxlength=\"1000\"></textarea>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts:284:59",
+                    "location": {
+                      "file": "/task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                      "column": 59,
+                      "line": 284
+                    },
+                    "snippet": "  282 |     await expect(synchronized(page)).toBeVisible()\n  283 |     await page.getByLabel('Motivo de corrección').fill('Truthful completion corrected to partial')\n> 284 |     await expect(page.getByLabel('Motivo de corrección')).toHaveValue(\n      |                                                           ^\n  285 |       'Truthful completion corrected to partial',\n  286 |     )\n  287 |     await page.getByRole('button', { name: 'Guardar parcial' }).click()"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                        "column": 59,
+                        "line": 284
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Motivo de corrección')\nExpected: \u001b[32m\"Truthful completion corrected to partial\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Motivo de corrección') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Motivo de corrección')\u001b[22m\n\u001b[2m    14 × locator resolved to <textarea id=\"_r_8_\" maxlength=\"1000\"></textarea>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  282 |     await expect(synchronized(page)).toBeVisible()\n  283 |     await page.getByLabel('Motivo de corrección').fill('Truthful completion corrected to partial')\n> 284 |     await expect(page.getByLabel('Motivo de corrección')).toHaveValue(\n      |                                                           ^\n  285 |       'Truthful completion corrected to partial',\n  286 |     )\n  287 |     await page.getByRole('button', { name: 'Guardar parcial' }).click()\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts:284:59"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:50:38.868Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-webkit-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-sync-B2BP-SYNC-1d4ff-rs-cannot-edit-measurements-product-webkit-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/candidate591/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+                    "column": 59,
+                    "line": 284
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-dec22a88260c238298da",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 265,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-week.spec.ts",
+      "file": "b2b-product-week.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1540,
+                  "error": {
+                    "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                    "stack": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at login (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:188:76)\n    at staffSession (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:633:3)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-week.spec.ts:26:17",
+                    "location": {
+                      "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 76,
+                      "line": 188
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:188\n\n  186 |   )\n  187 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 188 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  189 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  190 |   await expect(organizations).toBeVisible()\n  191 |   if ((await organizations.inputValue()) !== who.organization.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 76,
+                        "line": 188
+                      },
+                      "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:188\n\n  186 |   )\n  187 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 188 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  189 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  190 |   await expect(organizations).toBeVisible()\n  191 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:188:76)\n    at staffSession (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:633:3)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-week.spec.ts:26:17"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:48:50.588Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-chromium-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 76,
+                    "line": 188
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-91d52adb710cc8dec5c0",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4325,
+                  "error": {
+                    "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                    "stack": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at login (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:188:76)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-week.spec.ts:29:5",
+                    "location": {
+                      "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 76,
+                      "line": 188
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:188\n\n  186 |   )\n  187 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 188 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  189 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  190 |   await expect(organizations).toBeVisible()\n  191 |   if ((await organizations.inputValue()) !== who.organization.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 76,
+                        "line": 188
+                      },
+                      "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:188\n\n  186 |   )\n  187 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 188 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  189 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  190 |   await expect(organizations).toBeVisible()\n  191 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:188:76)\n    at /task/candidate591/apps/b2c-web/e2e/b2b-product-week.spec.ts:29:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T15:50:53.165Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-webkit-320/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-webkit-320/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-webkit-320/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate591-unified-r6/artifacts/b2b-product-week-B2BP-WEEK-4346f-se-before-close-one-pending-product-webkit-320/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/candidate591/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 76,
+                    "line": 188
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f9bc955b7d51a8ef01b5-271c7796dfbb6e6cd427",
+          "file": "b2b-product-week.spec.ts",
+          "line": 24,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T15:47:06.562Z",
+    "duration": 232534.979,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

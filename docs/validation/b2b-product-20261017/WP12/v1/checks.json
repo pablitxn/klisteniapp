@@ -1,0 +1,142 @@
+{
+  "reportVersion": 1,
+  "date": "2026-10-17",
+  "phase": "preparation",
+  "baseSha": "d65261d18de4522fb9a66104aabb5750104fb8b8",
+  "testedCodeSha": "402e5c9af2b37b7fd16c0ddf9f3b8c31842840f3",
+  "planSha": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlasSha": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "counts": {
+    "newCollectorNodeTests": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "retainedHealthNodeTests": {
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    "syntheticHealthFixtureChecks": {
+      "passed": 5,
+      "failed": 0
+    },
+    "productBrowserScenarios": {
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "blocked": 88
+    },
+    "environmentSmoke": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "commands": [
+    {
+      "command": "node apps/b2c-web/e2e/fixtures/b2b-product/validate-preparation.mjs",
+      "result": "passed",
+      "scope": "108 unique scenario obligations; all WP00-WP15/C01-C08 mapped; two brands/four branches/22 actors; disjoint run namespaces and calendar oracles. No product tests executed."
+    },
+    {
+      "command": "node --test apps/b2c-web/e2e/fixtures/b2b-product/report-validation.test.mjs",
+      "result": "passed",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Collector rejects missing/repeated/wrong matrix cells, global errors and false green skipped/flaky/interrupted outcomes."
+    },
+    {
+      "command": "node --test apps/b2c-web/test/health-import.test.ts packages/scene-schema/tests/health.test.ts",
+      "result": "passed",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Retained baseline pure import/schema regression; no B2B health service/consent assertion."
+    },
+    {
+      "command": "Inline Node assertion check with previewHealthImport and health/synthetic-v1.json",
+      "result": "passed",
+      "checks": 5,
+      "scope": "Two-record preview, repeat dedup, changed-provenance-payload conflict, CSV rejection, raw ZIP rejection; current data unchanged."
+    },
+    {
+      "command": "pnpm --filter @klisteniapp/b2c-web typecheck",
+      "result": "passed",
+      "scope": "Includes new e2e TypeScript helpers. Initial syntax error in browser-assertions corrected before commit and passing rerun."
+    },
+    {
+      "command": "pnpm exec eslint apps/b2c-web/e2e/fixtures/b2b-product/*.ts apps/b2c-web/e2e/fixtures/b2b-product/*.mjs",
+      "result": "passed",
+      "scope": "Scoped owned harness files; initial parsing error corrected."
+    },
+    {
+      "command": "node --check apps/b2c-web/e2e/fixtures/b2b-product/run-browser.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm check:b2b:boundaries",
+      "result": "passed",
+      "scope": "Existing boundary checker; no production imports/dependencies changed."
+    },
+    {
+      "command": "run-browser.mjs --output=/tmp/wp12-preflight-rejection",
+      "result": "expected-blocked",
+      "exitCode": 2,
+      "scope": "No parent-accepted SHA supplied; zero execution and no false pass."
+    },
+    {
+      "command": "run-browser.mjs with current commit as negative-test input, unified-http and planned config path",
+      "result": "expected-blocked",
+      "exitCode": 2,
+      "scope": "Owner config absent; no dependency/DB/browser work. Current SHA supplied only to test refusal path, not represented as parent acceptance."
+    },
+    {
+      "command": "python3 /workspace/.onboarding/browser-support/local-smoke.py chromium 48712",
+      "result": "passed",
+      "scope": "Supported cached Playwright1.62 runtime; task-owned synthetic HTTP page only."
+    },
+    {
+      "command": "python3 /workspace/.onboarding/browser-support/local-smoke.py webkit 48712",
+      "result": "passed",
+      "scope": "Supported cached Playwright1.62 runtime; task-owned synthetic HTTP page only."
+    },
+    {
+      "command": "python3 /workspace/sysadmin-workspace/tools/cloud_git_identity.py --repo /workspace/klisteniapp",
+      "result": "passed",
+      "scope": "Effective author and committer Pablo Coronel <git@pablocoronel.com>; no identity write."
+    },
+    {
+      "command": "python3 /workspace/sysadmin-workspace/tools/check_engineering_content.py check",
+      "result": "passed",
+      "scope": "176 Atlas allowlisted files only; does not certify application prose."
+    },
+    {
+      "command": "Atlas check_engineering_content.py commits CLI from app checkout",
+      "result": "inapplicable-cli-error",
+      "scope": "CLI hardcodes Atlas root and cannot resolve the app base there; not counted as pass."
+    },
+    {
+      "command": "Official Atlas module commits(Path('/workspace/klisteniapp'), BASE_SHA) via runpy",
+      "result": "passed",
+      "scope": "Same unchanged official function accepts explicit app root; one new commit checked at tested code SHA."
+    },
+    {
+      "command": "git diff --check and git diff --cached --check",
+      "result": "passed"
+    },
+    {
+      "command": "python3 /workspace/sysadmin-workspace/tools/check_engineering_content.py pr --title-file /tmp/wp12-pr-title.txt --body-file /tmp/wp12-pr-body.md",
+      "result": "passed",
+      "scope": "Five required nonempty sections and scoped Conventional Commit title; human English/provenance review remains necessary."
+    }
+  ],
+  "unrun": [
+    "WP00 DTO/migration/API and combined WP01-WP11 acceptance: parent-accepted dependency heads not supplied.",
+    "Full U/API/STATIC/build/browser matrix: deferred to accepted combined head; no disposable DB was created for preparation.",
+    "Locked app Playwright1.63 full-stack browser flows: supported1.62 smoke is incompatible; exact runtime/transport request delivered.",
+    "Trusted HTTPS/Secure-cookie, physical-device, provider, release/deployment: no acceptance claim.",
+    "Yoga preview/provenance and historical browser counts: unchanged baseline, not rerun."
+  ]
+}

@@ -274,3 +274,12 @@ export function discardConfirmedSession(
   }
   if (isRecord(value) && value.id === executionId) storage.removeItem(key)
 }
+
+// Product v2 editor. Legacy draft/retry bytes above retain their original decoder.
+export {
+  createWorkoutDocument,
+  changeWorkoutActual,
+  selectWorkoutAlternative,
+  restoreWorkoutSegment,
+  prepareWorkoutContent,
+} from './sync/workoutEdit.ts'

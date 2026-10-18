@@ -30,16 +30,24 @@ export function createGateway({ apiPort = 4201, webPort = 4210, built = false, b
     return headers;
   }
   function proxy(request, response, port) {
+    let upstreamResponse;
     const upstream = http.request({ hostname: '127.0.0.1', port, path: request.url, method: request.method,
       headers: forwardedHeaders(request, port) }, result => {
+      upstreamResponse = result;
+      if (response.destroyed) { result.destroy(); return; }
+      result.on('error', () => response.destroy());
       response.writeHead(result.statusCode ?? 502, result.headers);
       result.pipe(response);
     });
     upstream.on('error', () => {
+      if (response.destroyed) return;
+      if (response.headersSent) { response.destroy(); return; }
       if (!response.headersSent) response.writeHead(502, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
       response.end(JSON.stringify({ error: 'El servicio está iniciando o no está disponible.', code: 'UPSTREAM_UNAVAILABLE' }));
     });
-    request.on('aborted', () => upstream.destroy());
+    const close = () => { upstreamResponse?.destroy(); upstream.destroy(); };
+    response.once('close', close);
+    request.once('aborted', close);
     request.pipe(upstream);
   }
   function domainEntry(request, response) {

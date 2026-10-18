@@ -1,0 +1,176 @@
+$ node --test --test-concurrency=1 tests/*.test.ts
+B2B authentication failed
+▶ Anonymous white-label publication regressions
+  ✔ branch website and QR return only published branch contact, never live drafts (57.067516ms)
+  ✔ root-only published media supports GET HEAD Range and remains brand isolated (69.324882ms)
+  ✔ brand publication is independent of public branches, and unpublish revokes root media (54.483352ms)
+  ✔ missing published profile denies direct unit URL as well as branch page (9.286654ms)
+✔ Anonymous white-label publication regressions (1687.799105ms)
+✔ extracted catalogue and equipment modules reject unauthorized writes before touching dependencies (6.123313ms)
+✔ B2B requires dedicated configuration and cannot inherit consumer credentials (7.461123ms)
+✔ white-label mode requires its own proxy boundary and HTTPS in production (1.622086ms)
+✔ strict host normalization rejects ambiguous authority syntax (1.225989ms)
+✔ only the authenticated peer can provide a host; ordinary proxy headers cannot override it (1.286842ms)
+✔ origins compare exactly with the resolved brand, including duplicate rejection (0.547181ms)
+✔ domain registry is consulted for every request and has no default organization (1.038905ms)
+✔ canonical URLs come from the verified registry; alias redirects cannot transfer secrets (0.503909ms)
+✔ activation evidence requires ownership, exclusive correct DNS and an unexpired certificate (1.590546ms)
+✔ domain lifecycle verifies every stage, revokes immediately and prevents automatic reassignment (487.978633ms)
+✔ unspecified load differs from bodyweight and zero external load; explicit rest default is retained (509.238856ms)
+✔ drafts can reference unpublished exercises; publication and assignment recheck current branch equipment (470.081638ms)
+✔ draft stage dates and identities remain consistent without requiring unfinished fields (447.27942ms)
+✔ planning persists empty and partially configured drafts; publication reports exact missing fields (450.442303ms)
+✔ fixed/range publication freezes immutable versions; legacy readers reject v2 before strict parsing (507.744854ms)
+✔ exact replay returns its original response after successors; payload reuse and stale trainer edits conflict (476.223897ms)
+✔ goal drafts retain unfinished dates and references; activation binds the exact saved complete revision (455.528992ms)
+✔ two same-day slots and two stages reuse one immutable routine; gaps are explicit and overlaps fail (588.147382ms)
+✔ archive blocks new reuse and retains issued versions, enrollments, revision references and active continuity (529.814934ms)
+✔ tenant/branch/member boundaries, unavailable resources and inactive replay fail before writes (435.555936ms)
+✔ planning CAS serializes two trainers and exact concurrent retries append once (466.053631ms)
+▶ B2B independent PostgreSQL API
+  ✔ independent auth, exact origin, safe cookies and absence of B2C tables (100.627292ms)
+  ✔ tenant IDs never grant access; staff and assigned-member scope are enforced (70.135798ms)
+  ✔ machine models are reusable but physical units and published QR output are tenant scoped (45.971308ms)
+  ✔ model adaptations and unit edits preserve base data, reject stale changes and hide withdrawn/public-private units (149.906021ms)
+  ✔ publishing and optimistic edits preserve immutable assigned exercise/program snapshots (123.341503ms)
+  ✔ executions validate assigned sets and substitutions; exact replay is idempotent and histories immutable (105.339887ms)
+  ✔ gym contract gates writes independently while allowing own history reads (26.336469ms)
+  ✔ new prescriptions require active compatible units; archived machines preserve old snapshots and exact execution retries (226.226904ms)
+  ✔ machine exercise templates require local adaptation and explicit review; edits invalidate approval (81.8173ms)
+  ✔ unit batches are atomic, scoped and idempotent even after response loss (35.010209ms)
+  ✔ timed prescriptions retain actual dose, RPE, immutable history and normalized legacy replays (137.262303ms)
+  ✔ floor plans publish snapshots, reject foreign units and remove revoked markers immediately (79.261672ms)
+  ✔ website drafts preserve public snapshots, explicit publication and derived completion (99.86989ms)
+  ✔ uploaded media remains tenant-private, validates every reference and preserves authorized historical access (379.985125ms)
+  ✔ website floor plan images and spatial models reject another gym’s uploaded media without changing either snapshot (180.055739ms)
+  ✔ membership revocation during an upload prevents its commit and cleans the unreferenced file (174.348464ms)
+  ✔ new invitation is one-use; an existing B2B identity joins another gym without password reset (129.862232ms)
+  ✔ membership suspension and role changes revoke capabilities immediately, last admin protected (72.111795ms)
+  ✔ an unassigned coach covers another coach student within the authorized Principal branch (173.176506ms)
+  ✔ a write queued behind a suspension rechecks membership after acquiring the organization lock (20.429197ms)
+  ✔ operator adds gyms to an existing installation idempotently without resetting an existing identity (135.518579ms)
+  ✔ a session revoked while a write waits cannot authorize the queued mutation (30.945864ms)
+  ✔ demo reset requires explicit mode, marker and confirmation; leaves unrelated tables untouched (57.361896ms)
+✔ B2B independent PostgreSQL API (4334.589923ms)
+✔ binary media profile rejects type spoofing, corrupt PNG, SVG, oversized dimensions and incomplete containers (5.054713ms)
+✔ MP4 and WebM require video container structure and reject external MP4 data references (1.506464ms)
+✔ static GLB accepts an embedded triangle and rejects external/data resources, extensions, animation and cyclic nodes (2.296361ms)
+✔ uploaded object is immutable, persists across store instances and supports bounded byte ranges (18.160972ms)
+✔ failed, interrupted and oversized uploads leave no object or temporary file; symlinks cannot be served (13.364505ms)
+✔ legacy draft projection requires explicit load/laterality confirmation and never rewrites issued versions or actuals (522.563851ms)
+✔ competing period applies accept one revision and deny foreign branch, member writes and inactive replay (520.415404ms)
+✔ period preview/apply before and after logged work preserves original versions, assignment IDs and actual bytes (525.068437ms)
+✔ removing a period slot previews exclusion, keeps linked actual work and ends enrollment without deletion (515.906351ms)
+✔ preview binds actor, proposed content, occurrence revision, accepted date override and server expiry (467.520467ms)
+✔ actual correction after preview invalidates apply even when enrollment and schedule revisions match (437.604973ms)
+✔ schedule failure rolls back enrollment/stage revisions, receipts and audit in the authorized transaction (441.438891ms)
+✔ continuity projects simultaneous current/past/future enrollments in their local timezone and leaves legacy work unscheduled (533.458814ms)
+✔ unassigned trainers read all training in their authorized branch across two tenants/four branches (523.664242ms)
+✔ legacy facade explicitly requests retained history and still requires active planning for assignment (443.49259ms)
+✔ member reads preserve self-only tenant scope while staff history flags cannot expose other members (438.6154ms)
+✔ publication resolver receives all authorized published target candidates rather than source steps only (480.285212ms)
+✔ publication freezes eligible target content and rejects a resolver returning hidden, foreign or changed targets (426.011849ms)
+✔ operation hashing sorts object keys while preserving arrays and actual scalar values (1.222691ms)
+✔ audit records actor/branch/server time and immutable revisions exactly once; failure rolls back audit and receipt (477.279348ms)
+✔ audit projects only current tenant/branch planning scope; legacy absent metadata stays unknown (436.687714ms)
+✔ invitation exact retries preserve the private URL and role; accepting narrower admin never creates a superadmin (505.322518ms)
+✔ deactivation atomically appends consent revocation and reactivation never restores it (423.818832ms)
+✔ unrepresentable invitation grants fail atomically and revoked issuers cannot grant pending invitations (420.123255ms)
+✔ v2 reads and retries queued behind revocation recheck session, membership, branch and host generation (3442.116918ms)
+✔ HTTP mounts only owned v2 handlers, validates path IDs and versions, and keeps activation disabled (679.902143ms)
+✔ product role capabilities preserve hierarchy without platform or health bypass powers (0.273479ms)
+✔ unassigned trainers share only the selected authorized branch; inactive history is distinct from planning (426.421017ms)
+✔ admin cannot create or promote privileged roles; superadmin promotion preserves branch grants (473.291164ms)
+✔ permission retries return original receipts after successors; branch changes advance revisions and reject foreign grants (465.193051ms)
+✔ competing superadmin removals serialize and preserve the last active superadmin (409.533303ms)
+✔ B2B mapping preserves canonical normalized JSON, provenance and adapter preview bytes (23.585316ms)
+✔ B2B semantic boundary rejects invalid measurements and unsupported vendor formats without importing (1.155516ms)
+✔ product migration installs into an empty database and repeats without rewriting rows (504.5423ms)
+✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (466.988768ms)
+✔ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (416.351748ms)
+✔ competing superadmin deactivations serialize and retain one active administrator (419.803037ms)
+✔ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (463.066826ms)
+✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (430.220085ms)
+✔ activation and old-tab guards fail closed with explicit recoverable codes (0.419033ms)
+✔ activated organizations reject every legacy callback after current authorization checks (419.259511ms)
+B2B authentication failed
+B2B request failed
+✔ readiness includes cached auth schema failures after an external migration (542.775826ms)
+✔ routine references are deduplicated across steps without allowing repeated alternatives within one step (5.672703ms)
+✔ execution validation accepts complete prescribed and substituted sets without mutating their snapshot (2.149357ms)
+✔ execution clock tolerance accepts five minutes but rejects later completion timestamps (0.837559ms)
+✔ execution sets must belong to the assigned step and stay inside its prescribed series count (0.591001ms)
+✔ substitutions need both snapshot permission and a nonblank reason (0.804387ms)
+✔ complete sessions require positive repetitions for every prescribed series in every step (0.792066ms)
+✔ assignments accept available alternatives and textual equipment requirements but reject entirely unavailable steps (0.533175ms)
+✔ new executions check the equipment of the selected exercise, independently of permitted alternatives (0.450323ms)
+✔ training reports aggregate only active member summaries while preserving authorized execution history and member order (1.523591ms)
+✔ training authorization rejects members and staff before touching forbidden dependencies (1.675699ms)
+▶ WL revocation, branch publication and capabilities
+  ✔ WL mode refuses organization-only service access without verified domain context (5.567058ms)
+  ✔ D07 queued mutation rechecks a revoked branch grant after its lock is released (19.879113ms)
+  ✔ D07 queued mutation rechecks domain generation and host deactivation (5.38937ms)
+  ✔ D07 session and TLS expiry are checked at execution time after a queue wait (311.9163ms)
+  ✔ D08 queued invitation cannot grant access after domain authority changes (32.759769ms)
+  ✔ D12 active assignments block archive and transfer; explicit retirement preserves historical snapshots (40.674181ms)
+  ✔ D09 unpublished profile changes and branch website disablement never leak through public context (36.134694ms)
+  ✔ D15 branch preferences cannot elevate brand/platform capabilities; dependencies and direct writes use the same policy (55.703598ms)
+  ✔ D14 theme contrast, revision checks and explicit publish/restore preserve drafts and version history (26.466227ms)
+  ✔ D10 private media ownership cannot be bypassed with absolute, encoded, or other-brand local media URLs (41.449823ms)
+  ✔ D10 visible published catalog authorizes associated media without assignments, with explicit cross-branch sharing (62.950401ms)
+  ✔ D05 administration and explicit training grants remain distinct selectable roles (7.083542ms)
+✔ WL revocation, branch publication and capabilities (2119.2836ms)
+B2B authentication failed
+▶ WL domain and branch HTTP authorization
+  ✔ D01/D02 published identity by trusted host; unknown/unverified/spoofed host and direct API fail closed (54.981848ms)
+  ✔ legacy runtime cannot bypass branch authorization after white-label data exists (24.182131ms)
+  ✔ D03-D07 login belongs to host; roles/sedes are explicit and copied tokens and cross origins fail (315.384137ms)
+  ✔ D09/D14 independent branch publication and identity draft/publish/restore (194.338294ms)
+  ✔ D08 new and existing invitations bind one branch, explicit consent, expiry and one-use (376.876728ms)
+  ✔ D10 private media requires branch reference for GET HEAD Range and never crosses brands (502.95882ms)
+  ✔ D11/D12/D15/D17 record in four branches, coach isolation, exact retry, capabilities and preserved own history (999.192993ms)
+  ✔ duplicate branch slug is a recoverable conflict and never inserts a second branch (100.305108ms)
+✔ WL domain and branch HTTP authorization (4004.770196ms)
+✔ WL-1 profile migration freezes existing public metadata without changing historical JSON (236.841809ms)
+✔ WL-1 migration preserves legacy IDs, immutable JSON, invitation expiry and Principal-only grants (227.099056ms)
+✔ WL-1 composite constraints reject cross-brand branches and cross-branch prescriptions and executions (260.947307ms)
+✔ WL-1 empty migration supports legacy writes and explicit scoped membership without privilege expansion (226.445617ms)
+✔ WL-1 anomalous execution ownership aborts atomically instead of relabeling history (166.848829ms)
+✔ routine creation and prescription retries keep one row and reject changed actors, content and contexts (404.231138ms)
+✔ WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits (367.416516ms)
+✔ WL physical inventory and idempotent batches remain scoped even with identical labels and batch IDs (373.968945ms)
+✖ WL prescriptions, coach relations, execution retries and own history preserve branch isolation (390.19153ms)
+ℹ tests 129
+ℹ suites 4
+ℹ pass 128
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46330.40013
+
+✖ failing tests:
+
+test at tests/white-label-training.test.ts:332:1
+✖ WL prescriptions, coach relations, execution retries and own history preserve branch isolation (390.19153ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  1 !== 0
+
+      at file:///workspace/wp02-validation/apps/b2b-api/tests/white-label-training.test.ts:371:14
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///workspace/wp02-validation/apps/b2b-api/tests/white-label-training.test.ts:61:5)
+      at async TestContext.<anonymous> (file:///workspace/wp02-validation/apps/b2b-api/tests/white-label-training.test.ts:336:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /workspace/wp02-validation/apps/b2b-api

@@ -1,0 +1,108 @@
+{
+  "source_sha": "e4680efd476be513329e6733cf1267fabd473dee",
+  "unit_api_cases": [
+    {
+      "id": "WP04-A01",
+      "acceptance": "37 exercises / 42 directed relations / all types / 9 empty lists",
+      "test_file": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "test_name_prefix": "canonical projection retains exactly 37",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A02",
+      "acceptance": "exact canonical provenance, local adaptation denied, no inferred links",
+      "test_file": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "test_name_prefix": "proven canonical content requires",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A03",
+      "acceptance": "independent target dose and laterality; source/target mode switches",
+      "test_file": "packages/b2b-domain/tests/alternatives.test.ts",
+      "test_name_prefix": "switching reps to timed/per-side; timed source to reps target",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A04",
+      "acceptance": "per-step block versus no reviewed options, legacy authorization label",
+      "test_file": "apps/b2b-web/tests/alternativePresentation.test.ts",
+      "test_name_prefix": "blocked and no-reviewed-option; manual legacy authorizations",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A05",
+      "acceptance": "condition acknowledgments / current generic equipment and machine inventory",
+      "test_file": "packages/b2b-domain/tests/alternatives.test.ts",
+      "test_name_prefix": "all relation kinds; machine compatibility; server selection checks",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A06",
+      "acceptance": "segment identities, exact restore, prior actual retention and no source credit",
+      "test_file": "packages/b2b-domain/tests/alternatives.test.ts",
+      "test_name_prefix": "explicit restore; target minimum sets; forged relation/dose",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A07",
+      "acceptance": "fresh/existing/repeated enrichment and historical JSON stability",
+      "test_file": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "test_name_prefix": "synthetic PostgreSQL",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A08",
+      "acceptance": "concurrent supplement replay, single audit and immutable adoption",
+      "test_file": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "test_name_prefix": "synthetic PostgreSQL",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A09",
+      "acceptance": "legacy/v2 blocked reads, tenant/branch/member/inactive denial, later catalog edit",
+      "test_file": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "test_name_prefix": "synthetic PostgreSQL",
+      "result": "passed"
+    },
+    {
+      "id": "WP04-A10",
+      "acceptance": "source snapshots/manual IDs survive publication and future catalog changes",
+      "test_file": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "test_name_prefix": "publication snapshots survive",
+      "result": "passed"
+    }
+  ],
+  "browser": {
+    "owner": "WP12 with WP09 composition",
+    "spec": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+    "result": "not-executed-awaiting-composed-head",
+    "viewports": [
+      "320x740",
+      "430x932 touch",
+      "1440x1000"
+    ],
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "scenarios": [
+      "reviewed / explicit block / empty / legacy labels",
+      "all directed relation kinds with target requirements and condition confirmation",
+      "unavailable generic equipment and machine selection denied",
+      "repetitions to timed/per-side target with no carried load/RPE",
+      "target to original explicit exact restore; earlier actuals retained",
+      "minimum per-side coverage and explicit completion; no source credit",
+      "save/reload/offline replay keeps segment and set identities",
+      "account/tenant/branch switch and revocation clear stale choices",
+      "keyboard focus, checkbox labels, live status, 44px touch targets, no 320px overflow"
+    ]
+  },
+  "owner_integration_cases_pending": [
+    "successor migration registry/readiness on empty and installed DB",
+    "public domain export wiring",
+    "locked v2 HTTP route registration and activation gates",
+    "WP02 publication and explicit legacy adoption workflow",
+    "WP03 server new-segment/current-inventory check integration",
+    "WP07/WP09 UI composition and QA browser assertions"
+  ]
+}

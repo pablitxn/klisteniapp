@@ -1,0 +1,45 @@
+import http from 'node:http'
+import { createGateway } from './app/scripts/b2b-gateway.mjs'
+const clients = new Set()
+const upstream = http.createServer((req, res) => {
+  clients.add(res)
+  res.once('close', () => clients.delete(res))
+  res.writeHead(200, { 'content-type': 'text/event-stream' })
+  res.write('event: ready\ndata: {}\n\n')
+})
+const listen = (server) => new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+const pause = () => new Promise((resolve) => setTimeout(resolve, 200))
+let gateway
+try {
+  await listen(upstream)
+  gateway = createGateway({ apiPort: upstream.address().port, whiteLabel: false, built: true })
+  await listen(gateway)
+  const disconnect = (port) => new Promise((resolve, reject) => {
+    const request = http.get(`http://127.0.0.1:${port}/api/b2b/orgs/synthetic/product/v2/events`, (response) => {
+      response.once('data', () => { response.destroy(); resolve() })
+    })
+    request.setTimeout(5000, () => request.destroy(new Error('Probe timed out')))
+    request.once('error', reject)
+  })
+  await disconnect(upstream.address().port)
+  await pause()
+  const directAfterDisconnect = clients.size
+  const proxiedAfterDisconnect = []
+  for (let i = 0; i < 3; i++) {
+    await disconnect(gateway.address().port)
+    await pause()
+    proxiedAfterDisconnect.push(clients.size)
+  }
+  console.log(JSON.stringify({
+    qualification: 'Transport lifecycle diagnostic using actual gateway and a synthetic SSE producer; not product/browser acceptance',
+    applicationSha: '2d0df2797d7876070372bc7808d582604ca3bbf0',
+    directAfterDisconnect,
+    proxiedAfterDisconnect,
+    expectedAfterEachDisconnect: 0,
+  }, null, 2))
+} finally {
+  for (const client of clients) client.destroy()
+  gateway?.closeAllConnections()
+  upstream.closeAllConnections()
+  await Promise.all([gateway, upstream].filter(Boolean).map((s) => new Promise((resolve) => s.close(resolve))))
+}

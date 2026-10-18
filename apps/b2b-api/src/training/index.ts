@@ -31,7 +31,11 @@ import {
 type TrainingDependencies = {
   catalog: Pick<CatalogModule, 'resolveExercises' | 'resolvePublishedMachines'>;
   equipment: Pick<EquipmentModule, 'activeModels'>;
-  memberAccess: (context: Context, memberId: string) => Promise<void>;
+  memberAccess: (
+    context: Context,
+    memberId: string,
+    purpose?: 'planning' | 'history',
+  ) => Promise<void>;
   members: (context: Context) => Promise<Member[]>;
 };
 
@@ -143,7 +147,7 @@ export class TrainingModule {
   }
 
   async assignments(context: Context, memberId?: string): Promise<Assignment[]> {
-    if (memberId) await this.dependencies.memberAccess(context, memberId);
+    if (memberId) await this.dependencies.memberAccess(context, memberId, 'history');
     const rows = await new TrainingRepository(context).assignments(memberId);
     const models = await this.dependencies.equipment.activeModels(context);
     return rows.map((row) => ({
@@ -206,7 +210,8 @@ export class TrainingModule {
 
   async executions(context: Context, memberId?: string): Promise<Execution[]> {
     if (context.history && memberId && memberId !== context.actorId) throw denied();
-    if (memberId && !context.history) await this.dependencies.memberAccess(context, memberId);
+    if (memberId && !context.history)
+      await this.dependencies.memberAccess(context, memberId, 'history');
     return new TrainingRepository(context).executions(memberId);
   }
 

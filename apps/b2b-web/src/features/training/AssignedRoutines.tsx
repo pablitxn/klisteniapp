@@ -92,3 +92,5 @@ export function AssignedRoutines({
     </>
   )
 }
+
+export { RoutineContinuity as ProductAssignedRoutines } from './routine-history/RoutineContinuity'

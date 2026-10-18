@@ -1,0 +1,158 @@
+{
+  "appRoot": "/workspace/klisteniapp",
+  "appRevision": "d65261d18de4522fb9a66104aabb5750104fb8b8",
+  "branch": "docs/b2b-development-plan-v1",
+  "atlasRevision": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "capturedAt": "2026-10-17T12:57:36.064678+00:00",
+  "node": "24.19.0",
+  "primaryPnpm": "11.25.0",
+  "additionalPnpm": "12.7.0",
+  "packageVersions": {
+    "typescript": "6.0.3",
+    "turbo": "2.11.3",
+    "playwright": "1.63.0"
+  },
+  "testCounts": {
+    "root": 26,
+    "@klisteniapp/b2b-contracts": 10,
+    "@klisteniapp/scene-schema": 46,
+    "@klisteniapp/model-assets": 3,
+    "@klisteniapp/b2b-api": 82,
+    "@klisteniapp/b2b-client": 17,
+    "@klisteniapp/b2b-domain": 9,
+    "@klisteniapp/catalog-base": 2,
+    "@klisteniapp/geometry": 33,
+    "@klisteniapp/b2b-react": 12,
+    "@klisteniapp/anatomy-viewer": 4,
+    "@klisteniapp/b2c-api": 97,
+    "@klisteniapp/b2b-ui": 2,
+    "@klisteniapp/b2b-web": 56,
+    "@klisteniapp/b2c-web": 203
+  },
+  "testTotal": 602,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    {
+      "name": "tests",
+      "command": [
+        "pnpm",
+        "test",
+        "--force",
+        "--concurrency=2"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:53:54Z",
+      "durationSeconds": 170.529,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "pnpm",
+        "exec",
+        "turbo",
+        "run",
+        "typecheck",
+        "--force",
+        "--concurrency=2"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:53:59Z",
+      "durationSeconds": 77.702,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "lint",
+      "command": [
+        "pnpm",
+        "lint",
+        "--force",
+        "--concurrency=2"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:53:59Z",
+      "durationSeconds": 31.27,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "lint-uncached",
+      "command": [
+        "pnpm",
+        "exec",
+        "turbo",
+        "run",
+        "lint",
+        "--force",
+        "--concurrency=2"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:54:52Z",
+      "durationSeconds": 57.444,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "build",
+      "command": [
+        "pnpm",
+        "exec",
+        "turbo",
+        "run",
+        "build",
+        "--force",
+        "--concurrency=1"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:54:54Z",
+      "durationSeconds": 114.925,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "previews",
+      "command": [
+        "pnpm",
+        "previews:check"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-10-17T12:53:59Z",
+      "durationSeconds": 7.596,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "pnpm12-b2b-packages",
+      "command": [
+        "/workspace/.onboarding/tools/node_modules/.bin/pnpm",
+        "--filter",
+        "@klisteniapp/b2b-contracts",
+        "--filter",
+        "@klisteniapp/b2b-domain",
+        "--filter",
+        "@klisteniapp/b2b-client",
+        "--filter",
+        "@klisteniapp/b2b-react",
+        "--filter",
+        "@klisteniapp/b2b-ui",
+        "test"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:56:20Z",
+      "durationSeconds": 2.6,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    },
+    {
+      "name": "browser-probe",
+      "command": [
+        "node",
+        "/tmp/klisteni-baseline-20261017/browser-probe.cjs"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-17T12:54:19Z",
+      "durationSeconds": 2.011,
+      "environment": "sanitized; local synthetic PostgreSQL 17.11 on 127.0.0.1:55439; no providers"
+    }
+  ],
+  "gitStatus": "",
+  "browserStatus": "BLOCKED; native Chromium sandbox helper configuration; local WebKit missing libharfbuzz-icu.so.0; cached Docker Playwright1.62 runtimes differ from app-locked1.63",
+  "previewFailure": "Pre-existing Yoga extraction receipt mismatch; exercise74/body24 pass",
+  "scope": "Local synthetic data only; disposable PostgreSQL17.11 task container on 127.0.0.1:55439; separate B2C/B2B DBs; sanitized environment; no provider/production requests or TLS changes"
+}

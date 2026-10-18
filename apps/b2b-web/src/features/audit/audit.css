@@ -1,0 +1,50 @@
+.audit-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  width: min(36rem, 100vw);
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  border: 0;
+  padding: 1.25rem;
+  overflow: auto;
+  box-sizing: border-box;
+  color: var(--surface-ink, var(--ink, #17241c));
+  background: var(--surface, #fff);
+  overflow-wrap: anywhere;
+}
+.audit-drawer::backdrop {
+  background: #10251cb3;
+}
+.audit-drawer header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.audit-drawer header h2 {
+  flex: 1 1 12rem;
+  margin-top: 0;
+}
+.audit-drawer button {
+  min-height: 44px;
+}
+.audit-events {
+  padding-left: 1.25rem;
+}
+.audit-events li {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #bdc9c1;
+}
+.audit-events dl {
+  display: grid;
+  gap: 0.5rem;
+}
+.audit-events dt {
+  font-weight: 700;
+}
+.audit-events dd {
+  margin: 0.2rem 0 0;
+}

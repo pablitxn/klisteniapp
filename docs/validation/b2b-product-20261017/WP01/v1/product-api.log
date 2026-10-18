@@ -1,0 +1,21 @@
+✔ operation hashing sorts object keys while preserving arrays and actual scalar values (1.664615ms)
+✔ audit records actor/branch/server time and immutable revisions exactly once; failure rolls back audit and receipt (762.777755ms)
+✔ audit projects only current tenant/branch planning scope; legacy absent metadata stays unknown (512.913109ms)
+✔ invitation exact retries preserve the private URL and role; accepting narrower admin never creates a superadmin (649.587847ms)
+✔ deactivation atomically appends consent revocation and reactivation never restores it (453.620456ms)
+✔ unrepresentable invitation grants fail atomically and revoked issuers cannot grant pending invitations (493.543576ms)
+✔ v2 reads and retries queued behind revocation recheck session, membership, branch and host generation (3824.200378ms)
+✔ HTTP mounts only owned v2 handlers, validates path IDs and versions, and keeps activation disabled (602.868133ms)
+✔ product role capabilities preserve hierarchy without platform or health bypass powers (0.359642ms)
+✔ unassigned trainers share only the selected authorized branch; inactive history is distinct from planning (370.821175ms)
+✔ admin cannot create or promote privileged roles; superadmin promotion preserves branch grants (368.352343ms)
+✔ permission retries return original receipts after successors; branch changes advance revisions and reject foreign grants (374.456338ms)
+✔ competing superadmin removals serialize and preserve the last active superadmin (348.791564ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6385.094173

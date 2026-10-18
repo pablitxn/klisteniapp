@@ -1,0 +1,707 @@
+{
+  "provenance": {
+    "sourceCommit": "d65261d18de4522fb9a66104aabb5750104fb8b8",
+    "sourcePath": "apps/b2c-web/src/lib/health-import.ts",
+    "syntheticOnly": true
+  },
+  "cases": [
+    {
+      "name": "all categories retain normalized units, provenance, false and zero values",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5,\"notes\":\"  Synthetic fixture é  \"}],\"sleep\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-sleep\",\"durationMinutes\":420,\"deepMinutes\":70,\"remMinutes\":90,\"awakeMinutes\":60,\"startAt\":\"2026-10-02T23:00:00+02:00\",\"endAt\":\"2026-10-03T07:00:00+02:00\"}],\"activity\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"health-connect\",\"externalId\":\"synthetic-activity\"},\"id\":\"synthetic-activity\",\"steps\":0,\"activeEnergyKcal\":0,\"timeZone\":\"UTC\"}],\"nutrition\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-nutrition\",\"meal\":\"  Synthetic meal  \",\"proteinG\":30,\"fatG\":0}],\"supplements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"samsung-health\",\"externalId\":\"synthetic-supplement\",\"device\":\"Synthetic watch\"},\"id\":\"synthetic-supplement\",\"name\":\"  Synthetic supplement  \",\"dose\":2,\"unit\":\"  g  \",\"taken\":false}]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":true,\"health\":{\"version\":1,\"profile\":{\"context\":\"Synthetic private context\"},\"measurements\":[{\"id\":\"synthetic-weight\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"notes\":\"Synthetic fixture é\",\"weightKg\":81.5}],\"sleep\":[{\"id\":\"synthetic-sleep\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"durationMinutes\":420,\"startAt\":\"2026-10-02T23:00:00+02:00\",\"endAt\":\"2026-10-03T07:00:00+02:00\",\"deepMinutes\":70,\"remMinutes\":90,\"awakeMinutes\":60}],\"activity\":[{\"id\":\"synthetic-activity\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"health-connect\",\"externalId\":\"synthetic-activity\"},\"timeZone\":\"UTC\",\"steps\":0,\"activeEnergyKcal\":0}],\"nutrition\":[{\"id\":\"synthetic-nutrition\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"meal\":\"Synthetic meal\",\"proteinG\":30,\"fatG\":0}],\"supplements\":[{\"id\":\"synthetic-supplement\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"samsung-health\",\"device\":\"Synthetic watch\",\"externalId\":\"synthetic-supplement\"},\"timeZone\":\"Europe/Paris\",\"name\":\"Synthetic supplement\",\"dose\":2,\"unit\":\"g\",\"taken\":false}],\"goals\":[{\"id\":\"synthetic-goal\",\"title\":\"Synthetic goal\",\"metric\":\"waistCm\",\"target\":85,\"startDate\":\"2026-10-01\"}]},\"counts\":{\"added\":5,\"duplicates\":0,\"total\":5},\"byCategory\":{\"measurements\":{\"added\":1,\"duplicates\":0},\"sleep\":{\"added\":1,\"duplicates\":0},\"activity\":{\"added\":1,\"duplicates\":0},\"nutrition\":{\"added\":1,\"duplicates\":0},\"supplements\":{\"added\":1,\"duplicates\":0}},\"range\":{\"from\":\"2026-10-03\",\"to\":\"2026-10-03\"},\"sources\":[\"health-connect\",\"manual\",\"samsung-health\"]}"
+    },
+    {
+      "name": "equivalent timestamp offsets and local IDs deduplicate within the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5},{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T07:00:00Z\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-copy\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":true,\"health\":{\"version\":1,\"profile\":{\"context\":\"Synthetic private context\"},\"measurements\":[{\"id\":\"synthetic-weight\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[],\"goals\":[{\"id\":\"synthetic-goal\",\"title\":\"Synthetic goal\",\"metric\":\"waistCm\",\"target\":85,\"startDate\":\"2026-10-01\"}]},\"counts\":{\"added\":1,\"duplicates\":1,\"total\":2},\"byCategory\":{\"measurements\":{\"added\":1,\"duplicates\":1},\"sleep\":{\"added\":0,\"duplicates\":0},\"activity\":{\"added\":0,\"duplicates\":0},\"nutrition\":{\"added\":0,\"duplicates\":0},\"supplements\":{\"added\":0,\"duplicates\":0}},\"range\":{\"from\":\"2026-10-03\",\"to\":\"2026-10-03\"},\"sources\":[\"manual\"]}"
+    },
+    {
+      "name": "reimport deduplicates against current records",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T07:00:00Z\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-copy\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [
+          {
+            "id": "synthetic-weight",
+            "date": "2026-10-03",
+            "recordedAt": "2026-10-03T09:00:00+02:00",
+            "source": {
+              "kind": "manual",
+              "externalId": "synthetic-origin"
+            },
+            "timeZone": "Europe/Paris",
+            "weightKg": 81.5
+          }
+        ],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":true,\"health\":{\"version\":1,\"profile\":{\"context\":\"Synthetic private context\"},\"measurements\":[{\"id\":\"synthetic-weight\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[],\"goals\":[{\"id\":\"synthetic-goal\",\"title\":\"Synthetic goal\",\"metric\":\"waistCm\",\"target\":85,\"startDate\":\"2026-10-01\"}]},\"counts\":{\"added\":0,\"duplicates\":1,\"total\":1},\"byCategory\":{\"measurements\":{\"added\":0,\"duplicates\":1},\"sleep\":{\"added\":0,\"duplicates\":0},\"activity\":{\"added\":0,\"duplicates\":0},\"nutrition\":{\"added\":0,\"duplicates\":0},\"supplements\":{\"added\":0,\"duplicates\":0}},\"range\":{\"from\":\"2026-10-03\",\"to\":\"2026-10-03\"},\"sources\":[\"manual\"]}"
+    },
+    {
+      "name": "source conflict after a new row rejects the whole file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"new\"},\"id\":\"new\",\"weightKg\":81.5},{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":80}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [
+          {
+            "id": "synthetic-weight",
+            "date": "2026-10-03",
+            "recordedAt": "2026-10-03T09:00:00+02:00",
+            "source": {
+              "kind": "manual",
+              "externalId": "synthetic-origin"
+            },
+            "timeZone": "Europe/Paris",
+            "weightKg": 81.5
+          }
+        ],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"El origen repite un identificador con contenido diferente (medidas, registro 2). Revisá la corrección antes de importar; no se reemplazó ningún dato.\"}"
+    },
+    {
+      "name": "local ID cannot belong to another source",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"health-connect\",\"externalId\":\"other\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [
+          {
+            "id": "synthetic-weight",
+            "date": "2026-10-03",
+            "recordedAt": "2026-10-03T09:00:00+02:00",
+            "source": {
+              "kind": "manual",
+              "externalId": "synthetic-origin"
+            },
+            "timeZone": "Europe/Paris",
+            "weightKg": 81.5
+          }
+        ],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"El identificador local ya pertenece a otro registro (medidas, registro 1). No se reemplazó ningún dato.\"}"
+    },
+    {
+      "name": "category is part of source identity",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-activity\",\"steps\":1}],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":true,\"health\":{\"version\":1,\"profile\":{\"context\":\"Synthetic private context\"},\"measurements\":[{\"id\":\"synthetic-weight\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[{\"id\":\"synthetic-activity\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"steps\":1}],\"nutrition\":[],\"supplements\":[],\"goals\":[{\"id\":\"synthetic-goal\",\"title\":\"Synthetic goal\",\"metric\":\"waistCm\",\"target\":85,\"startDate\":\"2026-10-01\"}]},\"counts\":{\"added\":2,\"duplicates\":0,\"total\":2},\"byCategory\":{\"measurements\":{\"added\":1,\"duplicates\":0},\"sleep\":{\"added\":0,\"duplicates\":0},\"activity\":{\"added\":1,\"duplicates\":0},\"nutrition\":{\"added\":0,\"duplicates\":0},\"supplements\":{\"added\":0,\"duplicates\":0}},\"range\":{\"from\":\"2026-10-03\",\"to\":\"2026-10-03\"},\"sources\":[\"manual\"]}"
+    },
+    {
+      "name": "source kind is part of source identity",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5},{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"health-connect\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-other\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":true,\"health\":{\"version\":1,\"profile\":{\"context\":\"Synthetic private context\"},\"measurements\":[{\"id\":\"synthetic-weight\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"weightKg\":81.5},{\"id\":\"synthetic-other\",\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"health-connect\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Europe/Paris\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[],\"goals\":[{\"id\":\"synthetic-goal\",\"title\":\"Synthetic goal\",\"metric\":\"waistCm\",\"target\":85,\"startDate\":\"2026-10-01\"}]},\"counts\":{\"added\":2,\"duplicates\":0,\"total\":2},\"byCategory\":{\"measurements\":{\"added\":2,\"duplicates\":0},\"sleep\":{\"added\":0,\"duplicates\":0},\"activity\":{\"added\":0,\"duplicates\":0},\"nutrition\":{\"added\":0,\"duplicates\":0},\"supplements\":{\"added\":0,\"duplicates\":0}},\"range\":{\"from\":\"2026-10-03\",\"to\":\"2026-10-03\"},\"sources\":[\"health-connect\",\"manual\"]}"
+    },
+    {
+      "name": "file timezone fallback accepts the next local day",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Pacific/Kiritimati\",\"records\":{\"measurements\":[{\"date\":\"2026-10-05\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":true,\"health\":{\"version\":1,\"profile\":{\"context\":\"Synthetic private context\"},\"measurements\":[{\"id\":\"synthetic-weight\",\"date\":\"2026-10-05\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"timeZone\":\"Pacific/Kiritimati\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[],\"goals\":[{\"id\":\"synthetic-goal\",\"title\":\"Synthetic goal\",\"metric\":\"waistCm\",\"target\":85,\"startDate\":\"2026-10-01\"}]},\"counts\":{\"added\":1,\"duplicates\":0,\"total\":1},\"byCategory\":{\"measurements\":{\"added\":1,\"duplicates\":0},\"sleep\":{\"added\":0,\"duplicates\":0},\"activity\":{\"added\":0,\"duplicates\":0},\"nutrition\":{\"added\":0,\"duplicates\":0},\"supplements\":{\"added\":0,\"duplicates\":0}},\"range\":{\"from\":\"2026-10-05\",\"to\":\"2026-10-05\"},\"sources\":[\"manual\"]}"
+    },
+    {
+      "name": "explicit timezone overrides the file fallback",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Pacific/Kiritimati\",\"records\":{\"measurements\":[{\"date\":\"2026-10-05\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5,\"timeZone\":\"UTC\"}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Hay una fecha futura en medidas, registro 1. No se importó ningún registro.\"}"
+    },
+    {
+      "name": "unknown format rejects normalized-looking records",
+      "raw": "{\"format\":\"vendor.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Formato de salud inválido (format): Invalid input: expected \\\"klisteniapp.health\\\". No se importó ningún registro.\"}"
+    },
+    {
+      "name": "unknown version rejects normalized-looking records",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":2,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Formato de salud inválido (version): Invalid input: expected 1. No se importó ningún registro.\"}"
+    },
+    {
+      "name": "unknown record fields reject the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5,\"weightLb\":170}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Formato de salud inválido (records.measurements.0): Unrecognized key: \\\"weightLb\\\". No se importó ningún registro.\"}"
+    },
+    {
+      "name": "impossible calendar dates reject the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-02-30\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Formato de salud inválido (records.measurements.0.date): Fecha de calendario inválida. No se importó ningún registro.\"}"
+    },
+    {
+      "name": "missing stable source ID rejects the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Falta source.externalId en medidas, registro 1. Se necesita un identificador estable para evitar duplicados.\"}"
+    },
+    {
+      "name": "empty template has no importable records",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"La plantilla está vacía. Agregá registros reales antes de importarla.\"}"
+    },
+    {
+      "name": "malformed JSON rejects the file",
+      "raw": "{",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"El archivo no es JSON válido. Los CSV de Samsung y los ZIP de Health Connect todavía no son compatibles.\"}"
+    },
+    {
+      "name": "Samsung CSV is explicitly unsupported",
+      "raw": "uuid,start_time,weight\nsynthetic,123,81",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"El archivo no es JSON válido. Los CSV de Samsung y los ZIP de Health Connect todavía no son compatibles.\"}"
+    },
+    {
+      "name": "Health Connect ZIP is explicitly unsupported",
+      "raw": "PK\u0003\u0004synthetic-health-connect-backup",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"El archivo no es JSON válido. Los CSV de Samsung y los ZIP de Health Connect todavía no son compatibles.\"}"
+    },
+    {
+      "name": "raw vendor JSON is unsupported",
+      "raw": "{\"com.samsung.health.weight\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}]}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Formato de salud inválido (format): Invalid input: expected \\\"klisteniapp.health\\\". No se importó ningún registro.\"}"
+    },
+    {
+      "name": "future export rejects the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-05T00:00:00Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"La fecha de exportación está en el futuro. Revisá el reloj del dispositivo.\"}"
+    },
+    {
+      "name": "future recordedAt rejects the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-04T12:00:01Z\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Hay una fecha futura en medidas, registro 1. No se importó ningún registro.\"}"
+    },
+    {
+      "name": "future modifiedAt rejects the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5,\"modifiedAt\":\"2026-10-04T12:00:01Z\"}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Hay una fecha futura en medidas, registro 1. No se importó ningún registro.\"}"
+    },
+    {
+      "name": "future sleep interval rejects the file",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[],\"sleep\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-sleep\",\"durationMinutes\":60,\"startAt\":\"2026-10-04T11:30:00Z\",\"endAt\":\"2026-10-04T12:30:00Z\"}],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Hay una fecha futura en sueño, registro 1. No se importó ningún registro.\"}"
+    },
+    {
+      "name": "invalid current state rejects before merging",
+      "raw": "{\"format\":\"klisteniapp.health\",\"version\":1,\"exportedAt\":\"2026-10-04T12:00:00.000Z\",\"timeZone\":\"Europe/Paris\",\"records\":{\"measurements\":[{\"date\":\"2026-10-03\",\"recordedAt\":\"2026-10-03T09:00:00+02:00\",\"source\":{\"kind\":\"manual\",\"externalId\":\"synthetic-origin\"},\"id\":\"synthetic-weight\",\"weightKg\":81.5}],\"sleep\":[],\"activity\":[],\"nutrition\":[],\"supplements\":[]}}",
+      "current": {
+        "version": 1,
+        "profile": {
+          "heightCm": -1
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "2026-10-04T12:00:00.000Z",
+      "expected": "{\"ok\":false,\"error\":\"Los datos actuales no son válidos. Exportalos antes de intentar una importación.\"}"
+    },
+    {
+      "name": "invalid clock rejects before parsing",
+      "raw": "{",
+      "current": {
+        "version": 1,
+        "profile": {
+          "context": "Synthetic private context"
+        },
+        "measurements": [],
+        "sleep": [],
+        "activity": [],
+        "nutrition": [],
+        "supplements": [],
+        "goals": [
+          {
+            "id": "synthetic-goal",
+            "title": "Synthetic goal",
+            "metric": "waistCm",
+            "target": 85,
+            "startDate": "2026-10-01"
+          }
+        ]
+      },
+      "now": "invalid",
+      "expected": "{\"ok\":false,\"error\":\"No se pudo verificar la fecha actual.\"}"
+    }
+  ],
+  "templates": [
+    {
+      "now": "2026-10-04T12:00:00.000Z",
+      "timeZone": "UTC",
+      "expected": "{\n  \"format\": \"klisteniapp.health\",\n  \"version\": 1,\n  \"exportedAt\": \"2026-10-04T12:00:00.000Z\",\n  \"timeZone\": \"UTC\",\n  \"records\": {\n    \"measurements\": [],\n    \"sleep\": [],\n    \"activity\": [],\n    \"nutrition\": [],\n    \"supplements\": []\n  }\n}"
+    },
+    {
+      "now": "2026-10-04T12:00:00.000Z",
+      "timeZone": "Europe/Paris",
+      "expected": "{\n  \"format\": \"klisteniapp.health\",\n  \"version\": 1,\n  \"exportedAt\": \"2026-10-04T12:00:00.000Z\",\n  \"timeZone\": \"Europe/Paris\",\n  \"records\": {\n    \"measurements\": [],\n    \"sleep\": [],\n    \"activity\": [],\n    \"nutrition\": [],\n    \"supplements\": []\n  }\n}"
+    }
+  ]
+}

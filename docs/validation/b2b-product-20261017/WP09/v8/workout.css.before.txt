@@ -1,0 +1,32 @@
+.workout-session,
+.workout-step,
+.workout-segment {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.workout-session fieldset {
+  min-width: 0;
+  margin-block: 1rem;
+}
+.workout-session input,
+.workout-session textarea,
+.workout-session button {
+  max-width: 100%;
+  min-height: 44px;
+}
+.workout-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: 12px;
+}
+.workout-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block: 1rem;
+}
+.workout-session pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}

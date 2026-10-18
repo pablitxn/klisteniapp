@@ -1,0 +1,10 @@
+file:///harness/run.mjs:32
+ const completed=await page.evaluate(()=>window.correctionProbe.read());const completedOperations=JSON.stringify(completed.operations),completedRevision=completed.accepted.revision
+                                                                                                                                                                            ^
+
+TypeError: Cannot read properties of null (reading 'revision')
+    at file:///harness/run.mjs:32:173
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:472:9)
+
+Node.js v24.18.0

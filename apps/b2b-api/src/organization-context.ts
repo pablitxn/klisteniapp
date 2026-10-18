@@ -1,5 +1,6 @@
 import type { PoolClient } from 'pg';
 import type { Asset, Brand, Role } from '@klisteniapp/b2b-contracts';
+import type { OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2';
 import { denied } from './errors.ts';
 import type { DomainContext } from './domain-context.ts';
 
@@ -19,6 +20,7 @@ export type Context = {
   actorId: string;
   org: OrgRow;
   role: Role;
+  productRole?: OrganizationRoleV2;
   branchId?: string;
   domain?: DomainContext;
   /** Own historical records only; this never grants operational branch access. */
@@ -36,7 +38,7 @@ export function admin(context: Context) {
 
 export async function audit(context: Context, action: string, resourceId: string) {
   await context.db.query(
-    'INSERT INTO b2b_audit(organization_id,actor_id,action,resource_id) VALUES($1,$2,$3,$4)',
-    [context.org.id, context.actorId, action, resourceId],
+    'INSERT INTO b2b_audit(organization_id,actor_id,action,resource_id,branch_id) VALUES($1,$2,$3,$4,$5)',
+    [context.org.id, context.actorId, action, resourceId, context.branchId ?? null],
   );
 }

@@ -1,0 +1,15 @@
+✔ concurrent subscriptions cannot pass the unfinished LISTEN initialization barrier (6.075936ms)
+✔ one actor cannot exhaust the global stream budget by changing sessions (1.601273ms)
+✔ healthy streams survive ninety seconds and hub shutdown terminates the response (1.87818ms)
+✔ a backpressured ready frame closes before any heartbeat timer is installed (0.870051ms)
+✔ startup timeout ends a response even while subscription is still opening (0.354032ms)
+✔ committed invalidations reach independent API listeners; rollback, foreign scope and unrelated updates do not (971.433887ms)
+✔ listener failure invalidates dependent views and new subscriptions establish a fresh LISTEN baseline (1040.593493ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2731.553018

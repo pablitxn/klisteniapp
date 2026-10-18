@@ -1,0 +1,168 @@
+{
+  "workPackage": "WP07 legacy adoption",
+  "plan": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "atlas": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "frozenCandidate": "efbed2dd1c7ed06092463a3eec4531c2a3e10075",
+  "source": "1fb3ab34c95780fb4a1cd8711dcde31820fc623a",
+  "branch": "feat/b2b-legacy-adoption-ui-v1",
+  "sourceSha256": {
+    "apps/b2b-web/src/features/programs/legacy-adoption/LegacyAdoption.tsx": "f39f9677e4d636c62d56f47ac26e21f0ef8cd41a434a35c84959eed7709e6f3e",
+    "apps/b2b-web/src/features/programs/legacy-adoption/LegacyAdoptionAssignments.tsx": "b1bfe2c6ca76138a085484190175d4480a5792722b233abfb1413a49a5c0fafb",
+    "apps/b2b-web/src/features/programs/legacy-adoption/LegacyAdoptionReview.tsx": "d50e037d0fdb7f67c7c41011e202a4612c7dad07d73112250ade2790b1e7fdaa",
+    "apps/b2b-web/src/features/programs/legacy-adoption/legacyAdoption.css": "71faca1a2b42dfbff2cd200c94e409078f52e414cecbec810b7f47a8d294efc4",
+    "apps/b2b-web/src/features/programs/legacy-adoption/legacyAdoptionModel.ts": "c3a23a59301bd5458333aae544e870ff62eeafd30aae85a25c95f358a3c08788",
+    "apps/b2b-web/tests/buildLegacyAdoptionHarness.mjs": "5e2178cf4b40095e9d6f7ebacfa1b5b422f5ba0ded16ea4f5b9be5a6c1ffd126",
+    "apps/b2b-web/tests/legacyAdoption.test.ts": "3b4bc4b1769396235ede32bd8458a584fe5cbc4c26c6ec67515dac18e47bc738",
+    "apps/b2b-web/tests/legacyAdoptionComponents.test.ts": "cd88e6e655944cad48c6679b3bf35b20cb656ecce6448964aeccf95ec710589c",
+    "apps/b2b-web/tests/legacyAdoptionFixture.ts": "5694af28d2cb35257eb3938764f64771a486f3fa9480a641c846d6ce285bae69",
+    "apps/b2b-web/tests/legacyAdoptionHarness.html": "915d32ffd7413d1261745469c50822b21aa515450a7ed0a672f54a1dfbafef36",
+    "apps/b2b-web/tests/legacyAdoptionHarness.tsx": "8ed859c2303ed76f786f463ba38bce597d0f98cf1bdbc1b86d5b5b8d09b65272",
+    "docs/validation/b2b-product-20261017/WP07/v3/legacyAdoptionComponentBrowser.mjs": "46c2b9bf00f2359a3b70fcaeb678c106579be120bf0784dc5eefddf213458f13"
+  },
+  "runtime": {
+    "node": "24.19.0",
+    "pnpm": "12.7.0",
+    "postgresql": "17.11",
+    "browserNode": "24.20.0",
+    "playwright": "1.63.0",
+    "officialImageDigest": "sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27",
+    "seccompSha256": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849"
+  },
+  "finalSuites": {
+    "contracts": {
+      "pass": 22,
+      "fail": 0,
+      "skip": 0
+    },
+    "domain": {
+      "pass": 34,
+      "fail": 0,
+      "skip": 0
+    },
+    "web": {
+      "pass": 200,
+      "fail": 0,
+      "skip": 0,
+      "newDedicatedCases": 15
+    },
+    "api": {
+      "pass": 236,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "finalTotalSuitePass": 492,
+  "componentBrowser": {
+    "profiles": 6,
+    "passGroups": 72,
+    "failGroups": 0,
+    "skipGroups": 0,
+    "scope": "Bundled actual feature and frozen client, synthetic fetch; no full application route/API database browser acceptance"
+  },
+  "static": {
+    "typecheck": "14/14 pass",
+    "lint": "14/14 plus complete B2B formatting and boundaries pass",
+    "buildB2B": "pass with existing chunk-size warning"
+  },
+  "iterationFailures": {
+    "initialBrowser": {
+      "passGroups": 71,
+      "failGroups": 1,
+      "skipGroups": 0,
+      "cause": "WebKit 320 selected native option overflow; fixed without weakening assertions"
+    },
+    "initialAPI": {
+      "pass": 206,
+      "fail": 30,
+      "skip": 0,
+      "cause": "WP05 safety guard requires the exact disposable database name klisteni_b2b_test; rerun uses that name in task-owned container"
+    },
+    "initialLint": "Standalone component runner placed under app tests with /harness imports; relocated to this isolated evidence runtime without changing manifests or boundaries"
+  },
+  "logNormalization": "Trailing spaces before newlines and blank EOF lines removed before first publication; raw and published hashes recorded. No substantive output changed.",
+  "logs": {
+    "atlas-content.log": {
+      "rawSha256": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd",
+      "publishedSha256": "e0b3113d9f9cac24e397f1068571f8598fb81b1a4d298ad20048ee50849c9dcd"
+    },
+    "identity.log": {
+      "rawSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212",
+      "publishedSha256": "c0bb115a808324a64a2247aadad52540a55d845fe4c10df274c4e22285966212"
+    },
+    "build-final.log": {
+      "rawSha256": "a3689bad7128fe29fe7e5a72407fce72817998e764a299321db411cd8f84654f",
+      "publishedSha256": "7c8a356b70a38f3db491234322a7e3e25d408ad0844462dd7d2e192a4bd04529"
+    },
+    "typecheck-final.log": {
+      "rawSha256": "631765c73ad3eabeaa9331f64d509240769c4791bf7f5aa2b3bd84ef385c31d3",
+      "publishedSha256": "3cd8b1ac6bccc95cee0ed806e29c19ee7a05da2fcf20607eef2e7344659480cc"
+    },
+    "web-final.log": {
+      "rawSha256": "7fe611a11a4a95f78da7c39152e5d75fc66cf2b64f557b149228bb519977cbfe",
+      "publishedSha256": "7fe611a11a4a95f78da7c39152e5d75fc66cf2b64f557b149228bb519977cbfe"
+    },
+    "lint-final.log": {
+      "rawSha256": "bc2eff08a6842770cb92ab234d8563da829542b2e4f0ba2ccd0ee85ebbf063a2",
+      "publishedSha256": "bc2eff08a6842770cb92ab234d8563da829542b2e4f0ba2ccd0ee85ebbf063a2"
+    },
+    "api-initial-database-name.log": {
+      "rawSha256": "f501409f281e48bd48d2aa52ace504cfc863f1fd8dd3e2d52cbb30991c27851e",
+      "publishedSha256": "a27f235b68d2b22a26dd3b75599ce637c4b9a5ff80133281b37c06d89e510d54"
+    },
+    "build.log": {
+      "rawSha256": "40724385964def2f0bfdd8e984ba55c59b2b591aee8f3241c417e5031061c754",
+      "publishedSha256": "93cfa7b233460f79568277ac9ffb398dda9ee0ca7c4f1b411afbeaadf06e2a6f"
+    },
+    "lint.log": {
+      "rawSha256": "279bc50ca12ebb1eda84b7b01a60488b1e32a284740b9094922b0cc283ab2c4a",
+      "publishedSha256": "da23d623ef6f0ca0113362c1fb555b0f5be5d3cd3d17440d4044b2c4dadb9c31"
+    },
+    "typecheck.log": {
+      "rawSha256": "85cbdc6fd79f2d57a674df40186f6d919d76e4f392d1cce2ee61b79c56268f89",
+      "publishedSha256": "3283a098d3819bcffdaa37c858c904714f5e633841e7da638d6639a27c097e39"
+    },
+    "api.log": {
+      "rawSha256": "a62568cd72478372a30ed14337b8e72ec8ddfe47df3ac8427bc66a004a95d163",
+      "publishedSha256": "a62568cd72478372a30ed14337b8e72ec8ddfe47df3ac8427bc66a004a95d163"
+    },
+    "domain.log": {
+      "rawSha256": "5efcb95dde61acbe324e656e55d6091cb3b05dd7cdf97568d51c8d260e1b25e6",
+      "publishedSha256": "5efcb95dde61acbe324e656e55d6091cb3b05dd7cdf97568d51c8d260e1b25e6"
+    },
+    "contracts.log": {
+      "rawSha256": "e6ef09ef05901f79c4918c6e01eb854989cf3b3cf65c7df7be1ba2b72834fa65",
+      "publishedSha256": "e6ef09ef05901f79c4918c6e01eb854989cf3b3cf65c7df7be1ba2b72834fa65"
+    },
+    "web.log": {
+      "rawSha256": "be15ad0745b9b81e4567cfb362a41f5130cf71c9377c61838a008854e99b420c",
+      "publishedSha256": "be15ad0745b9b81e4567cfb362a41f5130cf71c9377c61838a008854e99b420c"
+    },
+    "wp07-adoption-install.log": {
+      "rawSha256": "6a593fe9697df221c268bf8ec95fe6e4c9afa921276f2d69272dfff0a5c1350b",
+      "publishedSha256": "6a593fe9697df221c268bf8ec95fe6e4c9afa921276f2d69272dfff0a5c1350b"
+    },
+    "wp07-adoption-harness-build.log": {
+      "rawSha256": "b1285b6e7e3850d69ed93f1cbb3e72a9875044eeacae6f2936aa7ab40d8bad66",
+      "publishedSha256": "b1285b6e7e3850d69ed93f1cbb3e72a9875044eeacae6f2936aa7ab40d8bad66"
+    },
+    "wp07-adoption-browser-image.log": {
+      "rawSha256": "0fc66b4f456c6d6f72c64fe9031c0eacb833009815470568e6d03751a0cd85ac",
+      "publishedSha256": "0fc66b4f456c6d6f72c64fe9031c0eacb833009815470568e6d03751a0cd85ac"
+    }
+  },
+  "remaining": [
+    "INTEGRATION owns root ProductWorkspace patch application/reconciliation",
+    "QA owns final composed application browser acceptance and sessionBinding correction UI",
+    "No trusted HTTPS/Secure-cookie or physical-device acceptance"
+  ],
+  "screenshotSha256": {
+    "webkit-430-review.png": "1162622430929012f8ab25f7133ad18246225505ff755914c5aba082d8cfda5e",
+    "chromium-430-review.png": "83bfb8cb18f8edb40289828a879477575523f2e40d28f792572ea059bf811dce",
+    "chromium-1440-review.png": "542bacce844dbcb4a871a976696fb97213178c04a742b19251f23816ffde2723",
+    "chromium-320-review.png": "42fac292680c403d4bf563591d6cf5444b2920b42826c8618504bd1de3bbf329",
+    "before-webkit-320-overflow.png": "fe0861e995ae393f243486daf88983a8bdb44f34308296099cb5b36d9bf6fabd",
+    "webkit-1440-review.png": "bbedd02bcac4d381e148135e2b0290dd09e3e9522845461646d9f004852103ad",
+    "webkit-320-review.png": "a678ae5d33c60aea8a439d332490a27b63b7f72b441166916f18744a14650c34"
+  },
+  "apiApplicability": "Suite started before the UI-only narrow-layout/runtime-driver change; API/contracts/domain source and tests are byte-identical through final source."
+}

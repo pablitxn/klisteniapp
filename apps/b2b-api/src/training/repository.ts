@@ -7,10 +7,12 @@ import type {
 import type { Context } from '../organization-context.ts';
 import { ExecutionSchema, ProgramSchema, ProgramVersionSchema } from '@klisteniapp/b2b-contracts';
 import { HttpError } from '../errors.ts';
+import { assertLegacyFormat } from '../product-context.ts';
 import type { ProgramInput } from './rules.ts';
 
 type ProgramRow = {
   id: string;
+  schema_version: number;
   data: ProgramInput;
   published_version: number | null;
   revision: number;
@@ -24,6 +26,7 @@ export type AssignmentRow = {
   assigned_by: string;
   created_at: Date;
   snapshot: ProgramVersion;
+  schema_version: number;
   branch_id: string;
   active: boolean;
 };
@@ -34,17 +37,20 @@ type ExecutionRow = {
   name: string;
   created_at: Date;
   snapshot: ProgramVersion;
+  schema_version: number;
   branch_id: string;
 };
 
-const programDTO = (row: ProgramRow): Program =>
-  ProgramSchema.parse({
+const programDTO = (row: ProgramRow): Program => {
+  assertLegacyFormat(row.schema_version);
+  return ProgramSchema.parse({
     ...row.data,
     id: row.id,
     publishedVersion: row.published_version,
     revision: row.revision,
     branchId: row.branch_id,
   });
+};
 
 /** All queries reuse the authorized organization's existing transaction. This
  * repository neither acquires connections nor chooses its tenant from input. */
@@ -101,7 +107,7 @@ export class TrainingRepository {
   ): Promise<Program | undefined> {
     const { db, org, branchId } = this.context;
     const found = await db.query<ProgramRow>(
-      'UPDATE b2b_program SET data=$3,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$4 AND ($5::text IS NULL OR branch_id=$5) RETURNING *',
+      'UPDATE b2b_program SET data=$3,revision=revision+1 WHERE organization_id=$1 AND id=$2 AND revision=$4 AND schema_version=1 AND ($5::text IS NULL OR branch_id=$5) RETURNING *',
       [org.id, id, input, revision, branchId ?? null],
     );
     return found.rows[0] ? programDTO(found.rows[0]) : undefined;
@@ -121,10 +127,15 @@ export class TrainingRepository {
 
   async programVersion(id: string, version: number): Promise<ProgramVersion | undefined> {
     const { db, org, branchId } = this.context;
-    const found = await db.query<{ snapshot: ProgramVersion; branch_id: string }>(
-      'SELECT snapshot,branch_id FROM b2b_program_version WHERE organization_id=$1 AND program_id=$2 AND version=$3 AND ($4::text IS NULL OR branch_id=$4)',
+    const found = await db.query<{
+      snapshot: ProgramVersion;
+      branch_id: string;
+      schema_version: number;
+    }>(
+      'SELECT snapshot,branch_id,schema_version FROM b2b_program_version WHERE organization_id=$1 AND program_id=$2 AND version=$3 AND ($4::text IS NULL OR branch_id=$4)',
       [org.id, id, version, branchId ?? null],
     );
+    if (found.rows[0]) assertLegacyFormat(found.rows[0].schema_version);
     return found.rows[0]
       ? ProgramVersionSchema.parse({ ...found.rows[0].snapshot, branchId: found.rows[0].branch_id })
       : undefined;
@@ -133,25 +144,24 @@ export class TrainingRepository {
   async assignments(memberId?: string): Promise<AssignmentRow[]> {
     const { db, org, actorId, role, branchId } = this.context;
     const found = await db.query<AssignmentRow>(
-      `SELECT a.*,u.name,v.snapshot
+      `SELECT a.*,u.name,v.snapshot,v.schema_version
        FROM b2b_program_assignment a
        JOIN b2b_auth_user u ON u.id=a.member_id
        JOIN b2b_program_version v ON v.organization_id=a.organization_id AND v.program_id=a.program_id AND v.version=a.version
        WHERE a.organization_id=$1 AND ($4::text IS NULL OR a.member_id=$4)
        AND ($5::text IS NULL OR a.branch_id=$5)
        AND ($3='admin' OR ($3='member' AND a.member_id=$2)
-         OR ($3='coach' AND EXISTS(
-           SELECT 1 FROM b2b_coach_assignment ca
-           WHERE ca.organization_id=a.organization_id AND ca.member_id=a.member_id AND ca.coach_id=$2
-           AND ($5::text IS NULL OR ca.branch_id=a.branch_id)
-         )))
+         OR ($3='coach' AND $5::text IS NOT NULL AND a.branch_id=$5))
        ORDER BY a.created_at DESC,a.id`,
       [org.id, actorId, role, memberId ?? null, branchId ?? null],
     );
-    return found.rows.map((row) => ({
-      ...row,
-      snapshot: ProgramVersionSchema.parse({ ...row.snapshot, branchId: row.branch_id }),
-    }));
+    return found.rows.map((row) => {
+      assertLegacyFormat(row.schema_version);
+      return {
+        ...row,
+        snapshot: ProgramVersionSchema.parse({ ...row.snapshot, branchId: row.branch_id }),
+      };
+    });
   }
 
   async assignProgram(
@@ -169,7 +179,7 @@ export class TrainingRepository {
   async executions(memberId?: string): Promise<Execution[]> {
     const { db, org, actorId, role, branchId } = this.context;
     const found = await db.query<ExecutionRow>(
-      `SELECT e.*,u.name,v.snapshot
+      `SELECT e.*,u.name,v.snapshot,CASE WHEN EXISTS(SELECT 1 FROM b2b_training_session ps WHERE ps.organization_id=e.organization_id AND ps.branch_id=e.branch_id AND ps.legacy_execution_id=e.id AND ps.revision>0) THEN 2 ELSE v.schema_version END AS schema_version
        FROM b2b_execution e
        JOIN b2b_auth_user u ON u.id=e.member_id
        JOIN b2b_program_assignment a ON a.organization_id=e.organization_id AND a.id=e.assignment_id
@@ -178,11 +188,7 @@ export class TrainingRepository {
        AND ($5::text IS NULL OR e.branch_id=$5)
        AND (NOT $6::boolean OR e.member_id=$2)
        AND ($3='admin' OR ($3='member' AND e.member_id=$2)
-         OR ($3='coach' AND EXISTS(
-           SELECT 1 FROM b2b_coach_assignment ca
-           WHERE ca.organization_id=e.organization_id AND ca.member_id=e.member_id AND ca.coach_id=$2
-           AND ($5::text IS NULL OR ca.branch_id=e.branch_id)
-         )))
+         OR ($3='coach' AND $5::text IS NOT NULL AND e.branch_id=$5))
        ORDER BY e.created_at DESC,e.id`,
       [
         org.id,
@@ -193,16 +199,17 @@ export class TrainingRepository {
         this.context.history ?? false,
       ],
     );
-    return found.rows.map((row) =>
-      ExecutionSchema.parse({
+    return found.rows.map((row) => {
+      assertLegacyFormat(row.schema_version);
+      return ExecutionSchema.parse({
         ...row.data,
         memberId: row.member_id,
         memberName: row.name,
         createdAt: row.created_at.toISOString(),
         branchId: row.branch_id,
         program: { ...row.snapshot, branchId: row.branch_id },
-      }),
-    );
+      });
+    });
   }
 
   async priorExecution(

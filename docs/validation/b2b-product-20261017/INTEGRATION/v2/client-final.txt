@@ -1,0 +1,36 @@
+$ node --test tests/*.test.ts
+✔ routine retry keys are per request headers and never change content or account/context guards (51.378018ms)
+✔ the public client API works without a browser or cross-tab notification support (1.955256ms)
+✔ named reads validate responses and keep each originating account bound to the request (17.941529ms)
+✔ catalog response validation rejects nested invalid media and missing required response fields (17.734198ms)
+✔ invalid JSON and unexpected empty successful responses are contract errors, not network errors (1.537165ms)
+✔ server conflict and session errors preserve status, code and safe message (3.634967ms)
+✔ writes use named route, validated input and the account guard (3.19272ms)
+✔ media sends raw bytes with encoded metadata and validates the stored asset (16.357736ms)
+✔ transport distinguishes failed connections from aborted deadlines (6.746442ms)
+✔ authentication notifies other tabs only when the server changed the session (3.069564ms)
+✔ an interrupted response body preserves timeout and connection errors after headers arrive (6.945641ms)
+✔ 401 and 403 still revoke protected views when their response body is interrupted (14.366031ms)
+✔ cancelling a scoped read preserves sibling requests and account binding (2.736887ms)
+✔ an already cancelled scope never sends a request (0.44632ms)
+✔ WL client scopes branch and role immutably through account and abort binding (1.259283ms)
+✔ WL departed context drops even a successful late response and refuses queued writes (1.006507ms)
+✔ WL accepting an invitation through credentials announces the changed session (2.629988ms)
+✔ immutable publication reads retain the actual legacy discriminator through the public client (72.693409ms)
+✔ publication choice responses remain strict and cannot invent a v2 reference from a projected draft (3.757254ms)
+✔ product client explicitly binds identity, organization, branch and contract version (73.585733ms)
+✔ routine mutations preserve immutable retry payload and operation key and validate response (7.064139ms)
+✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (14.948134ms)
+✔ inactive export uses the restricted self namespace with selected organization (1.391154ms)
+✔ legacy clients retain their existing headers and strict schemas (1.602934ms)
+✔ structured activation issues survive transport with exact step and field paths (2.177653ms)
+✔ v2 role selection carries organization superadmin without changing the legacy role enum (0.641892ms)
+✔ withdrawn selection parses through the frozen error contract and client with its field issue retained (45.52833ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 849.255725

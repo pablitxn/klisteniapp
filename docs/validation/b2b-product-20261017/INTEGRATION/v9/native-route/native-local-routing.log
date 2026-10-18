@@ -1,0 +1,17 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.goto: net::ERR_PROXY_CONNECTION_FAILED at http://route-proof.test:38715/?config=%7B%22forward%22%3Afalse%7D
+Call log:
+  - navigating to "http://route-proof.test:38715/?config=%7B%22forward%22%3Afalse%7D", waiting until "load"
+
+    at start (/harness/run.mjs:19:13)
+    at async file:///harness/run.mjs:50:14 {
+  log: [
+    '  - navigating to "http://route-proof.test:38715/?config=%7B%22forward%22%3Afalse%7D", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+Node.js v24.18.0

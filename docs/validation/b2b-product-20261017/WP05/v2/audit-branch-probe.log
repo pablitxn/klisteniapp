@@ -1,0 +1,3 @@
+{"result":"frozen index rejects inactivity transaction","code":"23505","constraint":"b2b_product_audit_operation"}
+Frozen-index failure rolls back membership, both consent revisions and audit atomically.
+Proposed schema-local branch-aware index: one inactivity transaction revokes both same-ID branch grants; exactly two audits share the parent operation; retry adds none.

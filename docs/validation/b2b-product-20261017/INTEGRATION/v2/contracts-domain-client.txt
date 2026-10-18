@@ -1,0 +1,112 @@
+Scope: 3 of 15 workspace projects
+packages/b2b-contracts test$ node --test tests/*.test.ts
+packages/b2b-contracts test: ✔ untrusted catalog media cannot supply script or protocol-relative URLs (8.372966ms)
+packages/b2b-contracts test: ✔ program steps and executed sets cannot duplicate their identifiers (16.301063ms)
+packages/b2b-contracts test: ✔ request defaults stay optional while current responses require complete nested content (11.139789ms)
+packages/b2b-contracts test: ✔ immutable machine snapshots from before catalog migrations remain readable without weakening current responses (33.698582ms)
+packages/b2b-contracts test: ✔ legacy fixed-dose snapshots and pending create retry decode without modifying original payload bytes (38.404234ms)
+packages/b2b-contracts test: ✔ lossless interchange round-trips both versions and rejects a flattened or unversioned prescription (47.374592ms)
+packages/b2b-contracts test: ✔ incomplete drafts persist but activation reports exact missing step fields (28.769557ms)
+packages/b2b-contracts test: ✔ fixed and range targets retain units and reject reversed ranges and ambiguous dose (7.638828ms)
+packages/b2b-contracts test: ✔ stage boundaries are inclusive, sequential and allow gaps and multiple same-day slots (35.919358ms)
+packages/b2b-contracts test: ✔ export-only access cannot carry operational capabilities or an invented role (1.38928ms)
+packages/b2b-contracts test: ✔ relation vocabulary is directed and requires an independent target dose (26.078718ms)
+packages/b2b-contracts test: ✔ sessions preserve additional segments and reject implicit completion and dangling actuals (16.946568ms)
+packages/b2b-contracts test: ✔ outbox transport receipt does not change the explicit session status (7.850754ms)
+packages/b2b-contracts test: ✔ Monday-Sunday summaries count four/three/one once; partial remains an absence after close (5.772151ms)
+packages/b2b-contracts test: ✔ consent is explicit, category-scoped and revocable; only supported manual JSON is accepted (9.243158ms)
+packages/b2b-contracts test: ✔ all endpoint paths are versioned and route parameters are declared by their input schema (1.024322ms)
+packages/b2b-contracts test: ✔ floor plans require bounded unique unit points and an image, and decode old websites (17.15076ms)
+packages/b2b-contracts test: ✔ prescriptions distinguish timed and repetition sets and keep historical snapshots readable (15.999073ms)
+packages/b2b-contracts test: ✔ actual duration and RPE remain explicit observations and old retries normalize identically (8.074949ms)
+packages/b2b-contracts test: ✔ WL branch grants have an explicit scope and never accept brand administration (4.805249ms)
+packages/b2b-contracts test: ✔ WL theme and branch input allow only supported values and safe media (65.123411ms)
+packages/b2b-contracts test: ✔ WL historical branch adapter copies relational context without modifying original JSON (2.487742ms)
+packages/b2b-contracts test: ℹ tests 22
+packages/b2b-contracts test: ℹ suites 0
+packages/b2b-contracts test: ℹ pass 22
+packages/b2b-contracts test: ℹ fail 0
+packages/b2b-contracts test: ℹ cancelled 0
+packages/b2b-contracts test: ℹ skipped 0
+packages/b2b-contracts test: ℹ todo 0
+packages/b2b-contracts test: ℹ duration_ms 1389.430935
+packages/b2b-contracts test: Done
+packages/b2b-domain test$ node --test tests/*.test.ts
+packages/b2b-client test$ node --test tests/*.test.ts
+packages/b2b-client test: ✔ routine retry keys are per request headers and never change content or account/context guards (136.805185ms)
+packages/b2b-client test: ✔ the public client API works without a browser or cross-tab notification support (1.289126ms)
+packages/b2b-client test: ✔ named reads validate responses and keep each originating account bound to the request (86.331859ms)
+packages/b2b-client test: ✔ catalog response validation rejects nested invalid media and missing required response fields (10.668506ms)
+packages/b2b-client test: ✔ invalid JSON and unexpected empty successful responses are contract errors, not network errors (5.576888ms)
+packages/b2b-client test: ✔ server conflict and session errors preserve status, code and safe message (5.421319ms)
+packages/b2b-client test: ✔ writes use named route, validated input and the account guard (6.016158ms)
+packages/b2b-client test: ✔ media sends raw bytes with encoded metadata and validates the stored asset (38.098597ms)
+packages/b2b-client test: ✔ transport distinguishes failed connections from aborted deadlines (15.199411ms)
+packages/b2b-client test: ✔ authentication notifies other tabs only when the server changed the session (9.392332ms)
+packages/b2b-client test: ✔ an interrupted response body preserves timeout and connection errors after headers arrive (13.659199ms)
+packages/b2b-client test: ✔ 401 and 403 still revoke protected views when their response body is interrupted (27.936913ms)
+packages/b2b-client test: ✔ cancelling a scoped read preserves sibling requests and account binding (35.235221ms)
+packages/b2b-client test: ✔ an already cancelled scope never sends a request (0.200142ms)
+packages/b2b-client test: ✔ WL client scopes branch and role immutably through account and abort binding (0.546277ms)
+packages/b2b-client test: ✔ WL departed context drops even a successful late response and refuses queued writes (0.376494ms)
+packages/b2b-client test: ✔ WL accepting an invitation through credentials announces the changed session (1.109043ms)
+packages/b2b-client test: ✔ product client explicitly binds identity, organization, branch and contract version (171.470676ms)
+packages/b2b-client test: ✔ routine mutations preserve immutable retry payload and operation key and validate response (18.626649ms)
+packages/b2b-client test: ✔ invalid product responses and old-tab upgrade responses fail explicitly without losing input (2.606256ms)
+packages/b2b-client test: ✔ inactive export uses the restricted self namespace with selected organization (5.153759ms)
+packages/b2b-client test: ✔ legacy clients retain their existing headers and strict schemas (1.870139ms)
+packages/b2b-client test: ✔ structured activation issues survive transport with exact step and field paths (59.818476ms)
+packages/b2b-client test: ✔ v2 role selection carries organization superadmin without changing the legacy role enum (0.654829ms)
+packages/b2b-client test: ✔ withdrawn selection parses through the frozen error contract and client with its field issue retained (335.531924ms)
+packages/b2b-client test: ℹ tests 25
+packages/b2b-client test: ℹ suites 0
+packages/b2b-client test: ℹ pass 25
+packages/b2b-client test: ℹ fail 0
+packages/b2b-client test: ℹ cancelled 0
+packages/b2b-client test: ℹ skipped 0
+packages/b2b-client test: ℹ todo 0
+packages/b2b-client test: ℹ duration_ms 1820.673991
+packages/b2b-client test: Done
+packages/b2b-domain test: ✔ directed reviewed options distinguish explicit per-step block and honest empty (7.297928ms)
+packages/b2b-domain test: ✔ all relation kinds require every frozen condition and available target equipment (26.924174ms)
+packages/b2b-domain test: ✔ machine compatibility needs an active inventory model even with generic confirmation (55.837132ms)
+packages/b2b-domain test: ✔ switching reps to timed/per-side uses target sets/rest/load and retains original actuals (82.026958ms)
+packages/b2b-domain test: ✔ explicit restore requires exact frozen prescription and cannot reuse segment identity for changed dose (201.269232ms)
+packages/b2b-domain test: ✔ target minimum sets require each side, accept truthful below-target duration and reject source credit (22.04462ms)
+packages/b2b-domain test: ✔ forged relation/dose, changed block, wrong side, missing selection and duplicate set identity fail (30.101845ms)
+packages/b2b-domain test: ✔ timed source to reps target resets measurements; external target actual load must be independently entered (1.179128ms)
+packages/b2b-domain test: ✔ server selection checks current equipment for new segments while retaining historical work (50.722908ms)
+packages/b2b-domain test: ✔ model compatibility includes explicit alternatives, without inferring it from equipment labels (10.560574ms)
+packages/b2b-domain test: ✔ availability distinguishes compatible inventory, textual requirements and bodyweight exercises (0.685719ms)
+packages/b2b-domain test: ✔ assigned snapshot availability follows current inventory while preserving each permitted alternative and historical content (2.274894ms)
+packages/b2b-domain test: ✔ empty and incomplete drafts remain saveable; completeness reports stable step IDs and exact fields (23.751462ms)
+packages/b2b-domain test: ✔ fixed and range targets retain boundaries, units, zero distinctions and existing maxima (3.777051ms)
+packages/b2b-domain test: ✔ repetition, timed, per-side, bodyweight and zero external load prescriptions are complete without balance scoring (7.028389ms)
+packages/b2b-domain test: ✔ activation requires dates, timezone and slots; same-day slots and explicit stage gaps remain distinct (55.816042ms)
+packages/b2b-domain test: ✔ Monday–Sunday calendar boundaries use enrollment timezone across spring and autumn DST (187.803781ms)
+packages/b2b-domain test: ✔ generation is stable on retry, two slots on one day stay separate and gaps invent no obligations (93.488051ms)
+packages/b2b-domain test: ✔ same-week move retains stage and routine and explicitly permits a date across a midweek stage edge (53.789466ms)
+packages/b2b-domain test: ✔ period translations preserve identity and original links and extensions never renumber ordinals (52.326877ms)
+packages/b2b-domain test: ✔ weekday edits preserve occurrence identity and a later period includes an accepted user move override (67.756604ms)
+packages/b2b-domain test: ✔ four/three/one, partial-only, repeated work, late correction and void derive once per occurrence (394.720558ms)
+packages/b2b-domain test: ✔ explicit completion requires range-minimum sets and positive actuals, while truthful below-target reps are valid (65.705716ms)
+packages/b2b-domain test: ✔ target duration and per-side requirements use their own dose and cannot consume source sets (4.069659ms)
+packages/b2b-domain test: ✔ segment identity is immutable and switching must retain actuals; unreviewed and forged target doses fail (8.546623ms)
+packages/b2b-domain test: ✔ completed-to-partial and void corrections require an explanation (13.356532ms)
+packages/b2b-domain test: ✔ operation canonicalization sorts objects and preserves array order and actual scalar values (4.446422ms)
+packages/b2b-domain test: ✔ alternating coverage needs both sides, ranged maxima bound extra sets and bodyweight has no external load (2.821555ms)
+packages/b2b-domain test: ✔ catalog references retain stable order and alternatives must be distinct within their step (3.531463ms)
+packages/b2b-domain test: ✔ editable set references accept permitted alternatives without requiring a reason yet (0.524126ms)
+packages/b2b-domain test: ✔ submitted substitutions require both permission and a reason with stable error categories (0.758393ms)
+packages/b2b-domain test: ✔ completion checks prescribed identities and positive repetitions, not just row counts (0.42981ms)
+packages/b2b-domain test: ✔ valid execution checks preserve both the historical snapshot and the recorded payload (0.886878ms)
+packages/b2b-domain test: ✔ timed completion uses actual positive seconds and cannot change the prescribed unit (3.165721ms)
+packages/b2b-domain test: ℹ tests 34
+packages/b2b-domain test: ℹ suites 0
+packages/b2b-domain test: ℹ pass 34
+packages/b2b-domain test: ℹ fail 0
+packages/b2b-domain test: ℹ cancelled 0
+packages/b2b-domain test: ℹ skipped 0
+packages/b2b-domain test: ℹ todo 0
+packages/b2b-domain test: ℹ duration_ms 3675.375813
+packages/b2b-domain test: Done

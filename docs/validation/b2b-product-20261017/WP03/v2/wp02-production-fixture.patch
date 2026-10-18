@@ -1,0 +1,36 @@
+--- a/apps/b2b-api/tests/wp02/fixture.ts
++++ b/apps/b2b-api/tests/wp02/fixture.ts
+@@ -1,3 +1,4 @@
++import { createPlanningSchedule } from '../../src/schedule/planning.ts';
+ import assert from 'node:assert/strict';
+ import { randomUUID } from 'node:crypto';
+ import { readFileSync } from 'node:fs';
+@@ -209,7 +210,7 @@
+ };
+ export async function fixture(
+   run: (fixture: Fixture) => Promise<void>,
+-  schedule = syntheticSchedule,
++  schedule = createPlanningSchedule(),
+ ) {
+   assert.ok(
+     databaseUrl,
+--- a/apps/b2b-api/tests/period-history.test.ts
++++ b/apps/b2b-api/tests/period-history.test.ts
+@@ -397,11 +397,12 @@
+         }),
+       );
+       assert.deepEqual(await originalHistory(f), before);
+-      assert.ok(
+-        (await occurrenceRows(f)).every(
+-          (occurrence) => occurrence.eligibility === 'cancelled' && occurrence.cancellationReason,
+-        ),
+-      );
++      const reconciled = await occurrenceRows(f);
++      const removedIds = new Set(preview.impacts.map((impact) => impact.occurrenceId));
++      assert.ok(reconciled.filter((occurrence) => removedIds.has(occurrence.id)).every(
++        (occurrence) => occurrence.eligibility === 'cancelled' && occurrence.cancellationReason,
++      ));
++      assert.ok(reconciled.some((occurrence) => occurrence.slotId === 'new-slot' && occurrence.eligibility === 'required'));
+       const ended = await f.transaction((context) =>
+         f.module.endEnrollment(context, { id: issued.id, expectedRevision: 2, operationId: 'end' }),
+       );

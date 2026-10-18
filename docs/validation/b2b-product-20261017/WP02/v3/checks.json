@@ -1,0 +1,97 @@
+{
+  "previousPrHead": "c6825101d6ac798437599062481adf2a79ac5f69",
+  "source": "39ae769ec63932a11dd1eb32bfab57d15263895e",
+  "base": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "dependencies": {
+    "WP01": "af1fef78f912d746f79a00c52c261f03b58b4fe9",
+    "WP03": "d12b56b92304764f988b051350b6211b7f1e38ba",
+    "WP04": "04b2e036e6d9b5d8987c6d228ab92bf1a48827d1"
+  },
+  "validation": {
+    "fullApiCommit": "690615f4dc0a28e0501833789b1e7786f5b1ecfb",
+    "fullApiTree": "2a70ee2a355d8355f4961ce2c8e1e8c1aa9599ee",
+    "finalCommit": "ac2f8b71acb9e9f8f035881a561e6fae9768c5c1",
+    "finalTree": "540d9530933fc975e59398d77bfc397ed9171a66"
+  },
+  "results": {
+    "focused": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "defaultSchedule": "real createPlanningSchedule; no synthetic scheduler implementation remains"
+    },
+    "fullApi": {
+      "passed": 156,
+      "failed": 2,
+      "skipped": 0,
+      "failures": [
+        "production-schedule.test.ts:84 still expects repaired end handler to reject missing metadata",
+        "white-label-training.test.ts:371 retains the superseded zero authorized North assignment expectation"
+      ]
+    },
+    "contracts": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "domain": {
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0
+    },
+    "client": {
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    "apiTypecheckWithActualSourcePaths": "passed",
+    "packageLint": {
+      "successful": 14,
+      "total": 14,
+      "cached": 13
+    },
+    "formatting": "passed after one owned test indentation fix",
+    "ordinaryTypecheck": {
+      "exitCode": 2,
+      "successful": 12,
+      "total": 14,
+      "api": "failed due pending domain exports",
+      "web": "interrupted"
+    },
+    "ordinaryLint": {
+      "exitCode": 1,
+      "reason": "pending public domain subpath exports"
+    },
+    "initialSetupAttempt": {
+      "passed": 2,
+      "failed": 3,
+      "skipped": 0,
+      "reason": "test files started before frozen install finished linking; not counted as final feature validation"
+    }
+  },
+  "hook": "resolve-only actual-source domain exports; no load/fixture/DTO/SQL/assertion replacement",
+  "rawLogSha256": {
+    "focused-final.log": "74b904075f2c65cac9e8b7b86dc1c67ff2f48ae9105b32cc2dd523fe7aa90d45",
+    "full-api.log": "2781c8fdbb4225e5b59cf7344dab8da4249c815dd7d77a4021d4641f6c8dab35",
+    "contracts.log": "9be510677183d2165fc0acb0de339e98dadaa258ecf10c049e594477ce3ca892",
+    "domain.log": "47d0d3f8df93816040703c1033b33741f9d4ea32a51053e46b26e47eb10f4491",
+    "client.log": "d7d727b170fc24cb1dd9eaf34088d1324fa4bbad3412e8a8d4af29ef785a8e19",
+    "api-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "package-lint.log": "426adb218ca68091ff0b0ac61ee1d06d611c217df5b649b159d8ee81510ef695",
+    "format-final.log": "796ca6dd5a18c3a87969350f3cd236123bd63bd3c4382075395d4597e7ae9356",
+    "ordinary-typecheck.log": "3ef84e1cde1af250304cd78724f3bf56c67fd777fe524c79819a5d00ad3cdcbb",
+    "ordinary-lint.log": "f09c66cf619826bf75f29f4a1190e39a43d5f1de4c58c08fd956e1f85c5b710c",
+    "frozen-install.log": "fb750408b2e0b0baed6e2f91f7f517fd787ff12c29ab3bc05e57a8a6895dc261",
+    "setup-attempt.log": "28c09d2bce3ff357e8fd2f0f133257d35d72d6a4854b69c74599812dcd6fed93",
+    "format-initial.log": "7c4196e1c7eadc6766404a71458bd17cab4d6d8a06252e6b6d3216daa8b32264"
+  },
+  "logNormalization": "Trailing whitespace and final empty lines only; original output hashes retained.",
+  "sharedFilesEdited": [],
+  "ownerPatchesApplied": false,
+  "remaining": [
+    "WP03 negative adapter guard test update",
+    "INTEGRATION North identity assertion update",
+    "INTEGRATION domain exports and ordinary checks without hook",
+    "shared service/HTTP registration and browser/composed build acceptance"
+  ]
+}

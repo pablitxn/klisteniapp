@@ -1,0 +1,7 @@
+--- a/apps/b2b-api/tests/white-label-training.test.ts
++++ b/apps/b2b-api/tests/white-label-training.test.ts
+@@ -370,3 +370,3 @@
+       assert.equal((await training.assignments(context(db, center, 'coach')))[0].id, assignment.id);
+-      assert.equal((await training.assignments(context(db, north, 'coach'))).length, 0);
++      assert.equal((await training.assignments(context(db, north, 'coach')))[0].id, northAssignment.id);
+       assert.equal(northAssignment.branchId, north);

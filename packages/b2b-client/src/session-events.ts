@@ -1,3 +1,4 @@
+import { createClientId } from './client-id.ts'
 const storageKey = 'klisteni.b2b.auth-change'
 const channelName = 'klisteni.b2b.auth'
 
@@ -12,7 +13,7 @@ function openChannel(): BroadcastChannel | null {
 
 export function broadcastSessionChange(): void {
   try {
-    localStorage.setItem(storageKey, crypto.randomUUID())
+    localStorage.setItem(storageKey, createClientId())
   } catch {
     // The channel remains independent of storage availability.
   }

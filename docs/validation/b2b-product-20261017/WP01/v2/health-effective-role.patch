@@ -1,0 +1,11 @@
+--- a/apps/b2b-api/src/health/access.ts
++++ b/apps/b2b-api/src/health/access.ts
+@@ -45,5 +45,7 @@
+     !identity.service_enabled ||
+     !identity.service_current ||
+-    identity.product_role !== context.role ||
++    (['admin', 'superadmin'].includes(context.role) &&
++      identity.product_role !== context.role &&
++      !(identity.product_role === 'superadmin' && context.role === 'admin')) ||
+     !context.capabilities.has(capability)
+   )

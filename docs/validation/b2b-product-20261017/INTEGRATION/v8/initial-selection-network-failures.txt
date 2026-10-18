@@ -1,0 +1,49 @@
+✔ root first correction uses the authoritative original binding without supplement or alternatives reads (58.350478ms)
+✔ root resumes a chooser-created durable legacy ID only after an actual missing binding (5.745611ms)
+✔ root denial cannot fall back to a new legacy prescription or replace local data (4.843621ms)
+✔ missing original execution never creates a replacement session (2.45087ms)
+✖ temporary disconnect can reopen only a persisted authoritative binding in the current realm (3.624325ms)
+✖ temporary disconnect without a persisted binding never authorizes new work (3.1116ms)
+✔ pre-realm work is shown as an explicit recovery choice without mutation or send (3.445683ms)
+✔ new occurrence identity is stable and requires authoritative absence before immutable prescription reads (6.985765ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 430.028745
+
+✖ failing tests:
+
+test at tests/workoutSelection.test.ts:104:1
+✖ temporary disconnect can reopen only a persisted authoritative binding in the current realm (3.624325ms)
+  Error [ApiError]: No pudimos conectar con el gimnasio. Tus cambios sin enviar se conservan en pantalla.
+      at request (file:///workspace/klisteniapp/packages/b2b-client/src/transport.ts:144:13) {
+    status: 0,
+    code: 'NETWORK_ERROR',
+    issues: undefined
+  }
+
+test at tests/workoutSelection.test.ts:126:1
+✖ temporary disconnect without a persisted binding never authorizes new work (3.1116ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /No retained session binding/. Input:
+  
+  'ApiError: No pudimos conectar con el gimnasio. Tus cambios sin enviar se conservan en pantalla.'
+  
+      at async TestContext.<anonymous> (file:///workspace/klisteniapp/apps/b2b-web/tests/workoutSelection.test.ts:135:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: ApiError: No pudimos conectar con el gimnasio. Tus cambios sin enviar se conservan en pantalla.
+        at request (file:///workspace/klisteniapp/packages/b2b-client/src/transport.ts:144:13),
+    expected: /No retained session binding/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+Error: ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+
+  × "pnpm recursive exec" failed in /workspace/klisteniapp/apps/b2b-web
+

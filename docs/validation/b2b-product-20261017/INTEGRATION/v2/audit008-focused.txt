@@ -1,0 +1,37 @@
+✔ private by default for coach/admin/superadmin; consent exposes precisely its category without profile or goals (900.613546ms)
+✔ wrong audience/category/scope and owner override are rejected; dynamic audience requires a current branch trainer grant (813.860094ms)
+✔ consent revisions/CAS/replay are atomic; stale grant retry cannot resurrect revoked sharing (831.9661ms)
+✔ settings list is scoped to owner/brand and consent IDs cannot overwrite another owner (814.358554ms)
+✔ stale role, revision, archived branch, inactive member and revoked target grant deny health (708.570627ms)
+✔ inactivity hook revokes every owner grant in that gym atomically, leaves other gyms intact, and reactivation never restores consent (976.863908ms)
+✔ owner export includes private profile/categories/goals independent of consent; no staff can select an owner (884.406094ms)
+✔ 008 upgrades the old index without changing historical audit rows and repeats safely (958.77626ms)
+✔ 008 treats nullable identity keys consistently and retains branch-distinct operations (858.973852ms)
+✔ 008 refuses nullable historical collisions atomically without deleting or rewriting evidence (754.960223ms)
+✔ membership deactivation revokes same-ID consents in two branches atomically, retries once and never restores consent (783.834896ms)
+✔ operation hashing sorts object keys while preserving arrays and actual scalar values (1.071079ms)
+✔ audit records actor/branch/server time and immutable revisions exactly once; failure rolls back audit and receipt (930.586459ms)
+✔ audit projects only current tenant/branch planning scope; legacy absent metadata stays unknown (997.286908ms)
+✔ invitation exact retries preserve the private URL and role; accepting narrower admin never creates a superadmin (881.997774ms)
+✔ deactivation atomically appends consent revocation and reactivation never restores it (831.678468ms)
+✔ unrepresentable invitation grants fail atomically and revoked issuers cannot grant pending invitations (829.241963ms)
+✔ registered migration 007 populates fresh canonical review and repeats without rewriting stored rows (939.076703ms)
+✔ installed 006 state enriches unchanged rows only and preserves unrelated historical snapshot bytes (841.554507ms)
+✔ planning publication freezes actual reviewed targets and own doses with current branch exclusions (813.724841ms)
+✔ product authorization and publication fail closed when catalog migration receipt is missing (714.310377ms)
+✔ product migration installs into an empty database and repeats without rewriting rows (858.266362ms)
+✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (904.64818ms)
+✔ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (669.853564ms)
+✔ competing superadmin deactivations serialize and retain one active administrator (774.738518ms)
+✔ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (744.499711ms)
+✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (660.970873ms)
+✔ activation and old-tab guards fail closed with explicit recoverable codes (0.569992ms)
+✔ activated organizations reject every legacy callback after current authorization checks (675.486865ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25895.468676

@@ -1,0 +1,138 @@
+{
+  "package": "WP08",
+  "amendment": 5,
+  "issue": "QA WP12/v4 white-label history overflow",
+  "sourceHead": "a9e80bf0267a7c11598db48b8b1e513b50080c9e",
+  "previousHead": "bbc7a9d0038cfb27b20b404a32b0b34cb28118a0",
+  "candidate": "591feb1fd6a29306b5dc08a70ae5335a0ce01422",
+  "qaReceipt": "1aa6b375149a3da90a56fe833fbfd953ee745d8b",
+  "scope": "three owned history/calendar files; no shared styles/root edits",
+  "before": {
+    "requestedWidth": 320,
+    "innerWidth": 343,
+    "documentWidth": 343,
+    "bodyWidth": 343,
+    "provenOffenders": [
+      "legacy start button: width324.765625, right342.765625",
+      "original/revisions buttons: width289.78125, right328.78125"
+    ],
+    "headingWrapOnly": "still343px; rejected as cause/fix"
+  },
+  "finalBrowserDiagnostic": {
+    "engines": [
+      "chromium",
+      "webkit"
+    ],
+    "widths": [
+      320,
+      430,
+      1440
+    ],
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "requestedWidthAssertUnchanged": true,
+    "controlsPreserved": true,
+    "stableIdsPreserved": true,
+    "fourThreeOnePreserved": true,
+    "keyboardMoveAndFocusPassed": true,
+    "fixtureIsolation": "six actual harness schemas/projects"
+  },
+  "otherChecks": {
+    "webTests": {
+      "passed": 204,
+      "failed": 0,
+      "skipped": 0
+    },
+    "webTypecheck": "passed",
+    "webLint": "passed",
+    "boundaries": "passed",
+    "cssPrettier": "passed",
+    "build": "passed; existing chunk warning"
+  },
+  "diagnostics": {
+    "firstSharedFixtureProbe": {
+      "passed": 2,
+      "failed": 1,
+      "unexecuted": 3,
+      "failure": "desktop history did not load timezone selector; preserved, not counted as pass",
+      "resolution": "final rerun used QA six-project schema isolation; no source/assertion change"
+    },
+    "startup": "public snapshot dist/dependency readability repaired only on task-owned copies before browser cases"
+  },
+  "security": {
+    "officialImage": "mcr.microsoft.com/playwright@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27",
+    "playwright": "1.63.0",
+    "node": "24.20.0",
+    "user": "pwuser (1001)",
+    "chromiumSandbox": true,
+    "ignoreHTTPSErrors": false,
+    "normalDockerBridge": true,
+    "hostPortsPublished": false,
+    "hostNetwork": false,
+    "privileged": false,
+    "credentialMounts": false,
+    "securityTrustChanges": false,
+    "database": "new PostgreSQL17.11 tmpfs, loopback in browser namespace"
+  },
+  "limits": [
+    "focused real HTTP diagnostic, not the full QA88-ID acceptance matrix",
+    "valid-trust HTTPS and physical checks not executed",
+    "API full suite not rerun for CSS-only fix; actual layout probe used real API/PostgreSQL"
+  ],
+  "logs": {
+    "baseline-build.log": {
+      "rawSha256": "448ed3f6a4ed1a1ddacfb6976a6ed75465e4578a6a1cedb3ce59fe932cb4ad6b",
+      "sha256": "5e84ff1df5bcf90458794164cb15c5f19c1fa39d58d6f50ea979052d99cebba6"
+    },
+    "fixed-build.log": {
+      "rawSha256": "aed66d5ae0595a8d656488077544a083abea0c37c54b58fce3a3ae68338ea9cf",
+      "sha256": "c8d4cf76d013bd15923ce682c034abfaca951b65c88e0baf8b64c84a2e4e34d6"
+    },
+    "baseline-probe.log": {
+      "rawSha256": "f39b941a0b51f5727340a4eab7bbb76a8761a990a863053fb7e1b6724065d6c1",
+      "sha256": "f39b941a0b51f5727340a4eab7bbb76a8761a990a863053fb7e1b6724065d6c1"
+    },
+    "fixed-probe.log": {
+      "rawSha256": "cd828e129676a4ec1aac4e1ea98db6b78807092b06beefb80b9b01422e75c6d5",
+      "sha256": "cd828e129676a4ec1aac4e1ea98db6b78807092b06beefb80b9b01422e75c6d5"
+    },
+    "baseline-startup-diagnostic.log": {
+      "rawSha256": "1f69877787e58bf370b24360a2c62c9b78cbe7ab260b61c9c1e553dca9167a92",
+      "sha256": "1f69877787e58bf370b24360a2c62c9b78cbe7ab260b61c9c1e553dca9167a92"
+    },
+    "fixed-module-permission-diagnostic.log": {
+      "rawSha256": "c2a8af8b791a205fe21089d39ec4623fef9ddd0bf53ed353a795e87caad67bfa",
+      "sha256": "c2a8af8b791a205fe21089d39ec4623fef9ddd0bf53ed353a795e87caad67bfa"
+    },
+    "fixed-shared-fixture-diagnostic.log": {
+      "rawSha256": "1f7c8e03af3ba656130626e5c70f7f66a78ae31d73a9c4cfaf8596c2ebcfa9f0",
+      "sha256": "1f7c8e03af3ba656130626e5c70f7f66a78ae31d73a9c4cfaf8596c2ebcfa9f0"
+    },
+    "web-tests.log": {
+      "rawSha256": "59ce1defc29b8d587eaf04be95ca106954a8a90981c155b895f191bf759e2407",
+      "sha256": "59ce1defc29b8d587eaf04be95ca106954a8a90981c155b895f191bf759e2407"
+    },
+    "web-typecheck.log": {
+      "rawSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "web-lint.log": {
+      "rawSha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1",
+      "sha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1"
+    },
+    "boundaries.log": {
+      "rawSha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758",
+      "sha256": "c1f0c6991f9278f01c8719081eab6bab6733c580b697aeda08c3b676b69b5758"
+    },
+    "css-format.log": {
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    }
+  },
+  "cleanup": {
+    "browserContainerRemoved": true,
+    "postgresTmpfsContainerRemoved": true,
+    "harnessSchemasAndServersClosed": true
+  }
+}

@@ -1,0 +1,22 @@
+Owned commit text: 1 checked; passed
+Prepared PR metadata: passed
+Command: python3 /workspace/sysadmin-workspace/tools/cloud_git_identity.py --repo /workspace/klisteniapp
+Author and committer verified: Pablo Coronel <git@pablocoronel.com>
+Exit: 0
+Command: git diff 2d0df2797d7876070372bc7808d582604ca3bbf0..HEAD --check
+Exit: 0
+Command: sha256sum --check docs/validation/b2b-product-20261017/WP01/v5/code-files.sha256
+apps/b2b-web/src/features/people/InvitationGrantEditor.tsx: OK
+apps/b2b-web/src/features/people/PeopleWorkspace.tsx: OK
+apps/b2b-web/src/features/people/invitationGrants.ts: OK
+apps/b2b-web/src/features/people/people.css: OK
+apps/b2b-web/src/features/people/peopleController.ts: OK
+apps/b2b-web/src/features/people/peopleModel.ts: OK
+apps/b2b-web/tests/invitationGrants.test.ts: OK
+apps/b2b-web/tests/people/fixture.ts: OK
+apps/b2b-web/tests/peopleUiComponents.test.ts: OK
+apps/b2b-web/tests/peopleUiController.test.ts: OK
+apps/b2b-web/tests/peopleUiModel.test.ts: OK
+Exit: 0
+Reserved/shared changes: none
+Heuristic language/metadata checks retain human scope/provenance limits. No API/DB/browser acceptance was executed by this UI-only amendment.

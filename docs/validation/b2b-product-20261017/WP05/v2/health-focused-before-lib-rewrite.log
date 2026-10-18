@@ -1,0 +1,38 @@
+✔ private by default for coach/admin/superadmin; consent exposes precisely its category without profile or goals (751.280628ms)
+✔ wrong audience/category/scope and owner override are rejected; dynamic audience requires a current branch trainer grant (719.631096ms)
+✔ consent revisions/CAS/replay are atomic; stale grant retry cannot resurrect revoked sharing (779.510321ms)
+✔ settings list is scoped to owner/brand and consent IDs cannot overwrite another owner (748.833114ms)
+✔ stale role, revision, archived branch, inactive member and revoked target grant deny health (784.84242ms)
+✔ inactivity hook revokes every owner grant in that gym atomically, leaves other gyms intact, and reactivation never restores consent (955.1454ms)
+✔ owner export includes private profile/categories/goals independent of consent; no staff can select an owner (740.055051ms)
+✔ organization member selecting a live branch coach grant can manage own health and read only consented target health (846.452788ms)
+✔ superadmin selecting a member grant retains owner health but cannot regain trainer disclosure through organization authority (918.090183ms)
+✔ administrative contexts match current organization authority with only explicit superadmin to admin downgrade (890.331816ms)
+✔ revoked selected coach or member grant fails even if organization authority, another grant and access revision remain unchanged (785.146693ms)
+✔ organization downgrade invalidates captured context revision; fresh selected coach still needs the retained current coach grant (745.582212ms)
+✔ selected coach requires current capability and active membership despite its live grant (838.519705ms)
+✔ queued effective coach disclosure observes live selected-grant revocation before returning health (819.058302ms)
+✔ one inactivity hook call records each branch revocation once in the membership transaction and retries add no audit (831.198577ms)
+✔ manual preview writes nothing; confirm stores owner data and provenance without consent or gym audit payload (836.207135ms)
+✔ exact response-loss retries survive ticket expiry and later edits; operation ID reuse conflicts (703.762923ms)
+✔ reimport deduplicates equivalent source records and rejects the complete file on conflict (820.112599ms)
+✔ preview is owner/revision/input/expiry bound and survives a rolled-back confirmation (1018.11896ms)
+✔ malformed, CSV, ZIP, wrong version, future, invalid units and oversized imports produce no writes (956.475718ms)
+✔ owner edits use canonical medical-unit/duplicate/future validation and cannot override owner identity (719.902632ms)
+✔ accumulated 4 MiB limit fails atomically and explicitly zoned observations use their local calendar (766.06682ms)
+✔ two concurrent confirmations serialize once; concurrent independent stale edits conflict (710.891396ms)
+✔ queued trainer read cannot disclose after a preceding revocation commits (844.852753ms)
+✔ captured in-flight projection is discarded after revoke or replacement; final dispatch refreshes owner edits (1288.63397ms)
+✔ role/grant changes while a read is queued are rechecked rather than trusting captured capabilities (951.490637ms)
+✔ queued import and captured owner export context lose operational authority after inactivity; fresh export remains available (1249.327188ms)
+✔ revoke serializes before queued consent update and prevents stale grant response replay (1173.263552ms)
+✔ queued trainer disclosure and final guard fail after target membership deactivation even with a retained stale consent (934.52852ms)
+✔ two owners racing on an absent consent ID cannot overwrite or share the other owner health (1090.32421ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28797.095263

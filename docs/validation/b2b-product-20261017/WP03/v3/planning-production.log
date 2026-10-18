@@ -1,0 +1,54 @@
+✔ unspecified load differs from bodyweight and zero external load; explicit rest default is retained (854.065214ms)
+✔ drafts can reference unpublished exercises; publication and assignment recheck current branch equipment (1183.701961ms)
+✔ draft stage dates and identities remain consistent without requiring unfinished fields (816.239415ms)
+✔ planning persists empty and partially configured drafts; publication reports exact missing fields (805.131089ms)
+✔ fixed/range publication freezes immutable versions; legacy readers reject v2 before strict parsing (1007.364824ms)
+✔ exact replay returns its original response after successors; payload reuse and stale trainer edits conflict (742.790298ms)
+✔ goal drafts retain unfinished dates and references; activation binds the exact saved complete revision (999.962499ms)
+✔ two same-day slots and two stages reuse one immutable routine; gaps are explicit and overlaps fail (970.592047ms)
+✔ archive blocks new reuse and retains issued versions, enrollments, revision references and active continuity (1242.218617ms)
+✔ tenant/branch/member boundaries, unavailable resources and inactive replay fail before writes (742.824729ms)
+✔ planning CAS serializes two trainers and exact concurrent retries append once (765.969705ms)
+✔ legacy draft projection requires explicit load/laterality confirmation and never rewrites issued versions or actuals (788.455453ms)
+✔ competing period applies accept one revision and deny foreign branch, member writes and inactive replay (1277.938997ms)
+✔ period preview/apply before and after logged work preserves original versions, assignment IDs and actual bytes (1014.990652ms)
+✖ removing a period slot previews exclusion, keeps linked actual work and ends enrollment without deletion (1428.967867ms)
+✔ preview binds actor, proposed content, occurrence revision, accepted date override and server expiry (970.342049ms)
+✔ actual correction after preview invalidates apply even when enrollment and schedule revisions match (1455.713105ms)
+✔ schedule failure rolls back enrollment/stage revisions, receipts and audit in the authorized transaction (1642.377191ms)
+✔ continuity projects simultaneous current/past/future enrollments in their local timezone and leaves legacy work unscheduled (1313.005912ms)
+✔ unassigned trainers read all training in their authorized branch across two tenants/four branches (835.693438ms)
+✔ legacy facade explicitly requests retained history and still requires active planning for assignment (834.725925ms)
+✔ member reads preserve self-only tenant scope while staff history flags cannot expose other members (866.571142ms)
+✔ publication resolver receives all authorized published target candidates rather than source steps only (793.583674ms)
+✔ publication freezes eligible target content and rejects a resolver returning hidden, foreign or changed targets (877.374102ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 23
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27576.010027
+
+✖ failing tests:
+
+test at apps/b2b-api/tests/period-history.test.ts:370:1
+✖ removing a period slot previews exclusion, keeps linked actual work and ends enrollment without deletion (1428.967867ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(
+  
+      at file:///tmp/wp03-composed/apps/b2b-api/tests/period-history.test.ts:400:14
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///tmp/wp03-composed/apps/b2b-api/tests/wp02/fixture.ts:343:5)
+      at async TestContext.<anonymous> (file:///tmp/wp03-composed/apps/b2b-api/tests/period-history.test.ts:374:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

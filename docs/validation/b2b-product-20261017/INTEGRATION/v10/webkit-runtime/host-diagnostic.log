@@ -1,0 +1,11 @@
+hostsProofLine [ '127.0.0.1\troute-proof.test' ]
+nssHosts [ 'hosts:          files dns' ]
+nodeDns { address: '127.0.0.1', family: 4 }
+proxyEnvKeys [
+  'no_proxy',
+  'HTTP_PROXY',
+  'http_proxy',
+  'HTTPS_PROXY',
+  'https_proxy',
+  'NO_PROXY'
+]

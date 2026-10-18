@@ -1,0 +1,53 @@
+$ turbo run typecheck
+• turbo 2.11.3
+
+   • Packages in scope: @klisteniapp/anatomy-viewer, @klisteniapp/b2b-api, @klisteniapp/b2b-client, @klisteniapp/b2b-contracts, @klisteniapp/b2b-domain, @klisteniapp/b2b-react, @klisteniapp/b2b-ui, @klisteniapp/b2b-web, @klisteniapp/b2c-api, @klisteniapp/b2c-web, @klisteniapp/catalog-base, @klisteniapp/geometry, @klisteniapp/model-assets, @klisteniapp/scene-schema
+   • Running typecheck in 14 packages
+   • Remote caching disabled, using shared worktree cache
+
+@klisteniapp/model-assets:typecheck: cache miss, executing d5b530045c6a1c18
+@klisteniapp/b2b-contracts:typecheck: cache miss, executing 09b7c5e3db09bbbf
+@klisteniapp/scene-schema:typecheck: cache miss, executing b9fa873cf41e3a40
+@klisteniapp/scene-schema:typecheck: $ tsc --noEmit
+@klisteniapp/model-assets:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-contracts:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-api:typecheck: cache miss, executing 93b196c2a7f14a6b
+@klisteniapp/geometry:typecheck: cache miss, executing 369e44d29a271363
+@klisteniapp/catalog-base:typecheck: cache miss, executing f25daf81c2a14946
+@klisteniapp/b2c-api:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-client:typecheck: cache miss, executing 99658de24dec2d79
+@klisteniapp/b2b-domain:typecheck: cache miss, executing 267ac8583c43c806
+@klisteniapp/geometry:typecheck: $ tsc --noEmit
+@klisteniapp/catalog-base:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-client:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-domain:typecheck: $ tsc --noEmit
+@klisteniapp/anatomy-viewer:typecheck: cache miss, executing 8a9c3fc18b1b1e0f
+@klisteniapp/anatomy-viewer:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-api:typecheck: cache miss, executing cee2ce5d461baa1f
+@klisteniapp/b2b-react:typecheck: cache miss, executing dd5a70aa56e24e4e
+@klisteniapp/b2b-api:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-react:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:typecheck: cache miss, executing e69e1571a83452ed
+@klisteniapp/b2b-ui:typecheck: cache miss, executing 0b2f570ffc5b6db8
+@klisteniapp/b2b-ui:typecheck: $ tsc --noEmit
+@klisteniapp/b2c-web:typecheck: $ tsc --noEmit
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(9,8): error TS2307: Cannot find module '../planning/schedule-change.ts' or its corresponding type declarations.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(44,36): error TS7006: Parameter 'before' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(46,45): error TS7006: Parameter 's' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(47,48): error TS7006: Parameter 'head' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(62,38): error TS7006: Parameter 's' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(69,17): error TS7006: Parameter 'context' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(69,26): error TS7006: Parameter 'change' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: src/schedule/planning.ts(69,34): error TS7006: Parameter 'impacts' implicitly has an 'any' type.
+@klisteniapp/b2b-api:typecheck: [ELIFECYCLE] Command failed with exit code 2.
+@klisteniapp/b2b-ui:typecheck: [ELIFECYCLE] Command failed.
+@klisteniapp/b2c-web:typecheck: [ELIFECYCLE] Command failed.
+@klisteniapp/b2b-api#typecheck:  ERROR  command (/workspace/wp09-validation/apps/b2b-api) /opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback/pnpm run typecheck exited (2)
+
+ Tasks:    10 successful, 13 total
+Cached:    0 cached, 13 total
+  Time:    18.169s 
+Failed:    @klisteniapp/b2b-api#typecheck
+
+ ERROR  run failed: command  exited (2)
+[ELIFECYCLE] Command failed with exit code 2.

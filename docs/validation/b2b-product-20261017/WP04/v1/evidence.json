@@ -1,0 +1,119 @@
+{
+  "package": "WP04",
+  "date": "2026-10-17",
+  "branch": "feat/b2b-reviewed-alternatives-v1",
+  "plan_sha": "447d77ebb5587e319018e7b56003f0ef7299bb6c",
+  "base_sha": "0b611064a91b87b3a17274cabca5415bcf1d7d55",
+  "atlas_sha": "ce45d206a2ed4035f8003a3303abd1fff98e09b8",
+  "source_sha": "e4680efd476be513329e6733cf1267fabd473dee",
+  "node": "24.19.0",
+  "pnpm": "12.7.0",
+  "postgres": "17.11",
+  "reviewed_catalog_revision": "fd0b7e52f7678c08c96d70fd71e40a11d87974cde87cca672f3b4e4c65f7a673",
+  "catalog_counts": {
+    "exercises": 37,
+    "directed_relations": 42,
+    "alternative": 8,
+    "progression": 17,
+    "regression": 17,
+    "empty_reviewed_lists": 9
+  },
+  "tests": {
+    "contracts": 22,
+    "domain": 18,
+    "api": 97,
+    "web": 60,
+    "catalog": 2,
+    "scene": 79,
+    "total": 278,
+    "failed": 0,
+    "skipped": 0,
+    "browser_executed": 0
+  },
+  "source_files": [
+    {
+      "path": "apps/b2b-api/src/catalog/reviewed-alternatives.ts",
+      "sha256": "5cb1738489438f06034c61e19629fe5fd6ca92fc45ab79e73bf92abd347f3633"
+    },
+    {
+      "path": "apps/b2b-api/src/catalog/reviewed-projection.ts",
+      "sha256": "b40bdcb1b3a12b8b30070242e192d8415bd491837774ed77ff33ee291cf4b34d"
+    },
+    {
+      "path": "apps/b2b-api/src/catalog/seed.ts",
+      "sha256": "7caf09bd364627ae1545fa89995b6080ff4b4e3c2436ecb7fa03a98c93cba992"
+    },
+    {
+      "path": "apps/b2b-api/tests/reviewed-alternatives.test.ts",
+      "sha256": "aac489f8f1cf6c0b374b50d98405ff72cb50c1abecd6e8415a80a9626c48708e"
+    },
+    {
+      "path": "apps/b2b-web/src/features/alternatives/ReviewedAlternatives.tsx",
+      "sha256": "7ab53c3e66feda660c15d43e2a8646ea91ec7c103d06938e377c4858d8698fe8"
+    },
+    {
+      "path": "apps/b2b-web/src/features/alternatives/alternativePresentation.ts",
+      "sha256": "a7fa9aec9ac658e96a55e713040aae43ec933240a7db1a29b4abae88b36d751c"
+    },
+    {
+      "path": "apps/b2b-web/tests/alternativePresentation.test.ts",
+      "sha256": "9762752e062c5998fed69524489617509ef639cf84c2d3eea690d3d5235c29b3"
+    },
+    {
+      "path": "packages/b2b-domain/src/alternatives.ts",
+      "sha256": "5c08a72a417bab7d5d51711e0260c1dd93acd7bff2759927a89fd1a9818b1a00"
+    },
+    {
+      "path": "packages/b2b-domain/tests/alternatives.test.ts",
+      "sha256": "b487c50500ad7668ee18ea9e2c9e636af833cc2fbb776634de794250ccab7f29"
+    }
+  ],
+  "logs": [
+    {
+      "path": "api.log",
+      "sha256": "d8205314ea5a9780cfddf888d04e36a2d6d23a625b1e5db42f54689f0a6eb19d",
+      "raw_sha256": "d8205314ea5a9780cfddf888d04e36a2d6d23a625b1e5db42f54689f0a6eb19d"
+    },
+    {
+      "path": "domain.log",
+      "sha256": "5178762c9a361fda8d325724f6611c4279045ed84ad972c3bf4746938180651d",
+      "raw_sha256": "5178762c9a361fda8d325724f6611c4279045ed84ad972c3bf4746938180651d"
+    },
+    {
+      "path": "web.log",
+      "sha256": "02f0c8b11f41cfe5a1bd1a43437e3ed4a86ed1251bb43f021532c051500e7b93",
+      "raw_sha256": "02f0c8b11f41cfe5a1bd1a43437e3ed4a86ed1251bb43f021532c051500e7b93"
+    },
+    {
+      "path": "contracts.log",
+      "sha256": "32af3d9ab9f28a3504066b9414b10967d0690b53f255695de88c466d9eb31a7c",
+      "raw_sha256": "32af3d9ab9f28a3504066b9414b10967d0690b53f255695de88c466d9eb31a7c"
+    },
+    {
+      "path": "catalog.log",
+      "sha256": "bf919b2b4443a6bdb556c6c3518aa00b59b63718fb1abbbcd8e4dc85f4224c64",
+      "raw_sha256": "bf919b2b4443a6bdb556c6c3518aa00b59b63718fb1abbbcd8e4dc85f4224c64"
+    },
+    {
+      "path": "scene.log",
+      "sha256": "0ac38ea8f5f874c6876bdd33a21df85b7310b187b67db27798944e78f171fe30",
+      "raw_sha256": "0ac38ea8f5f874c6876bdd33a21df85b7310b187b67db27798944e78f171fe30"
+    },
+    {
+      "path": "lint.log",
+      "sha256": "7d8e86851b64e665ed08bb588b2cc38c31301708332519fe41e320bf33180815",
+      "raw_sha256": "0f3942d10a1301b53ebb118e89955ab8a0c368e5c5550b93793a94a4a9271159"
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "bbaaad3c266c5e98634a87ddde1141370d21deb3c59313ac8734b6ecbf6e8a7a",
+      "raw_sha256": "bb0e447534143874d928205d2d8c7438e3cefa30eecf67c83b9d0e49cef92723"
+    },
+    {
+      "path": "build-b2b.log",
+      "sha256": "11e26fb8568a8b39a3d0bbef9b2cf02d8386fa75a904e5c5bdfc4ed01f158087",
+      "raw_sha256": "e5ac527da890c33c5aad67f7736723781dbe999a75d2147a556b5c1939640ade"
+    }
+  ],
+  "log_normalization": "Trailing whitespace and terminal blank EOF lines removed before first publication; raw and normalized SHA-256 recorded."
+}

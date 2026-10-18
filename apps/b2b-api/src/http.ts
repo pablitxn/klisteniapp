@@ -37,10 +37,25 @@ import type { Config } from './config.ts';
 import { B2BService } from './service.ts';
 import { HttpError } from './errors.ts';
 import { createMediaStore, MEDIA_LIMITS } from './media.ts';
+import { ProductEndpoints, type ProductEndpoint } from '@klisteniapp/b2b-contracts/product-v2';
+import {
+  productPeople,
+  updateProductMember,
+  inviteProductMember,
+  invitationBranches,
+} from './auth/product-people.ts';
+import { readProductAudit } from './audit/product-audit.ts';
+import { HEALTH_RESPONSE_HEADERS } from './health/index.ts';
+import { authorizeHealthDisclosure } from './health/consent.ts';
+import { assertProductMigrations } from './product-readiness.ts';
+import { bindInactiveBrandSession, inactiveRouteAllowed } from './membership/access.ts';
+import { PERSONAL_EXPORT_HEADERS } from './exports/index.ts';
+import { ProductEventHub, serveProductEvents } from './product-events.ts';
+import { productBootstrap } from './product-bootstrap.ts';
+import { requireIdentityRealm, selectedMembershipMode } from './product-identity.ts';
 
 const TOKEN = z.object({ token: z.string().min(32).max(200) }).strict();
-async function body(request: IncomingMessage): Promise<unknown> {
-  const maximum = 1024 * 1024;
+async function body(request: IncomingMessage, maximum = 1024 * 1024): Promise<unknown> {
   if (Number(request.headers['content-length']) > maximum) {
     request.resume();
     throw new HttpError(413, 'BODY_TOO_LARGE', 'La solicitud es demasiado grande.');
@@ -89,6 +104,7 @@ export function createApiServer({
   service?: B2BService;
 }) {
   const mediaStore = config.mediaRoot ? createMediaStore(config.mediaRoot) : undefined;
+  const eventHub = new ProductEventHub(pool);
   let uploads = 0;
   const domainAuth = new Map<string, Auth>();
   const server = createServer(async (request, response) => {
@@ -98,6 +114,19 @@ export function createApiServer({
     try {
       const url = new URL(request.url ?? '/', config.origin),
         method = request.method ?? 'GET';
+      // Apply private-cache policy before authentication/body parsing too.
+      if (
+        url.pathname === `${API_PREFIX}/self/exports` ||
+        url.pathname === `${API_PREFIX}/self/b2c-invitation` ||
+        /^\/api\/b2b\/orgs\/[a-zA-Z0-9_-]+\/(?:product\/v2\/(?:health(?:\/.*)?|members\/[a-zA-Z0-9_-]+\/health)|self\/exports)$/.test(
+          url.pathname,
+        )
+      )
+        for (const [name, value] of Object.entries(HEALTH_RESPONSE_HEADERS))
+          response.setHeader(name, value);
+      if (url.pathname === `${API_PREFIX}/self/exports`)
+        for (const [name, value] of Object.entries(PERSONAL_EXPORT_HEADERS))
+          response.setHeader(name, value);
       if (url.pathname === `${API_PREFIX}/healthz` && method === 'GET')
         return json(response, 200, { status: 'ok' });
       if (url.pathname === `${API_PREFIX}/readyz` && method === 'GET') {
@@ -106,12 +135,10 @@ export function createApiServer({
             'SELECT organization_id,member_id,assignment_id,data FROM b2b_execution LIMIT 0',
           );
           await pool.query('SELECT id FROM b2b_auth_user LIMIT 0');
+          await assertProductMigrations(pool);
           if (
-            !(
-              await pool.query(
-                "SELECT id FROM b2b_migration WHERE id='005-branch-publication-profile'",
-              )
-            ).rowCount
+            !(await pool.query("SELECT id FROM b2b_migration WHERE id='006-product-foundation'"))
+              .rowCount
           )
             throw new Error('Missing migration');
           // Auth retains schema mismatches from startup until this process is
@@ -125,8 +152,25 @@ export function createApiServer({
       if (!url.pathname.startsWith(`${API_PREFIX}/`))
         throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
       const domain = await resolveDomainContext(pool, config, request);
+      const unifiedPath = url.pathname.slice(API_PREFIX.length);
+      const unifiedAllowed =
+        config.productUnified &&
+        ([
+          '/context',
+          '/bootstrap/v2',
+          '/auth/sign-in/email',
+          '/auth/sign-out',
+          '/self/exports',
+          '/self/b2c-invitation',
+        ].includes(unifiedPath) ||
+          (method === 'POST' &&
+            ['/invitations/accept', '/invitations/sign-in', '/invitations/join'].includes(
+              unifiedPath,
+            )) ||
+          /^\/orgs\/[a-zA-Z0-9_-]+\/product\/v2(?:\/|$)/.test(unifiedPath));
       if (
         !domain &&
+        !unifiedAllowed &&
         (
           await pool.query(`SELECT 1 WHERE EXISTS(SELECT 1 FROM b2b_domain WHERE status IN ('active','verified'))
         OR EXISTS(SELECT 1 FROM b2b_branch GROUP BY organization_id HAVING count(*)>1)`)
@@ -136,6 +180,12 @@ export function createApiServer({
           503,
           'WHITE_LABEL_REQUIRED',
           'Esta instalación requiere acceso por el dominio de la marca.',
+        );
+      if (config.productUnified && !unifiedAllowed)
+        throw new HttpError(
+          503,
+          'WHITE_LABEL_REQUIRED',
+          'Esta ruta requiere el contexto de la marca.',
         );
       const origin = domain?.origin ?? config.origin;
       let requestAuth = auth;
@@ -179,11 +229,6 @@ export function createApiServer({
         response.end();
         return;
       }
-      if (path === '/context' && method === 'GET') {
-        if (!domain)
-          throw new HttpError(404, 'WHITE_LABEL_DISABLED', 'Contexto por dominio no habilitado.');
-        return json(response, 200, await service.whiteLabel.context(domain));
-      }
       const mutation = !['GET', 'HEAD', 'OPTIONS'].includes(method);
       const upload =
         method === 'POST' && /^\/orgs\/[a-zA-Z0-9_-]+\/(?:media|brand-media)$/.test(path);
@@ -196,7 +241,85 @@ export function createApiServer({
           throw new HttpError(415, 'INVALID_CONTENT_TYPE', 'La solicitud debe usar JSON.');
       }
       const requestHeaders = headers(request);
-      if (path.startsWith('/auth/') || (path === '/invitations/sign-in' && domain)) {
+      const contractHeader =
+        typeof request.headers['x-klisteni-b2b-contract'] === 'string'
+          ? request.headers['x-klisteni-b2b-contract']
+          : undefined;
+      const currentSession = await requestAuth.api.getSession({ headers: requestHeaders });
+      const selfRoute = path === '/self/exports' || path === '/self/b2c-invitation';
+      const selectedOrganization =
+        domain?.organizationId ??
+        /^\/orgs\/([a-zA-Z0-9_-]+)(?:\/|$)/.exec(path)?.[1] ??
+        (selfRoute ? (url.searchParams.get('organizationId') ?? undefined) : undefined);
+      let inactiveRequest = false;
+      if (
+        currentSession &&
+        selectedOrganization &&
+        path !== '/auth/sign-in/email' &&
+        path !== '/invitations/sign-in'
+      ) {
+        const mode = await service.transaction((db) =>
+          selectedMembershipMode(
+            db,
+            currentSession.user.id,
+            selectedOrganization,
+            currentSession.session.id,
+            domain,
+            config.productUnified ? config.origin : undefined,
+          ),
+        );
+        inactiveRequest = mode === 'export-only';
+        if (
+          inactiveRequest &&
+          !(
+            (path === '/bootstrap/v2' ||
+              /^\/orgs\/[a-zA-Z0-9_-]+\/product\/v2\/events$/.test(path)) &&
+            method === 'GET' &&
+            contractHeader === '2' &&
+            !request.headers.range
+          ) &&
+          !inactiveRouteAllowed(
+            method,
+            url.pathname,
+            selectedOrganization,
+            contractHeader,
+            request.headers.range,
+          )
+        )
+          throw new HttpError(403, 'CONTEXT_REVOKED', 'Tu cuenta permite descargar tus registros.');
+      }
+      if (path === '/bootstrap/v2' && method === 'GET') {
+        if (!currentSession)
+          throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
+        if (contractHeader !== '2')
+          throw new HttpError(426, 'UPGRADE_REQUIRED', 'Actualizá la aplicación.');
+        if (
+          request.headers.range ||
+          url.search ||
+          (request.headers['x-klisteni-b2b-account'] &&
+            request.headers['x-klisteni-b2b-account'] !== currentSession.user.id)
+        )
+          throw new HttpError(400, 'INVALID_INPUT', 'Solicitud inválida.');
+        return await service.transaction(async (db) =>
+          json(
+            response,
+            200,
+            await productBootstrap(
+              db,
+              currentSession.user.id,
+              currentSession.session.id,
+              config,
+              domain,
+            ),
+          ),
+        );
+      }
+      if (path === '/context' && method === 'GET') {
+        if (!domain)
+          throw new HttpError(404, 'WHITE_LABEL_DISABLED', 'Contexto por dominio no habilitado.');
+        return json(response, 200, await service.whiteLabel.context(domain));
+      }
+      if (path.startsWith('/auth/') || path === '/invitations/sign-in') {
         const routes = new Map([
           ['/auth/sign-in/email', 'POST'],
           ['/invitations/sign-in', 'POST'],
@@ -207,13 +330,32 @@ export function createApiServer({
         if (routes.get(path) !== method)
           throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
         if (domain && path !== '/auth/sign-in/email' && path !== '/invitations/sign-in') {
-          const identity = await requestAuth.api.getSession({ headers: requestHeaders });
+          const identity = currentSession;
           if (!identity)
             throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
           await service.transaction(async (db) => {
             await service.requireSession(db, identity.user.id, identity.session.id);
-            await requireBrandSession(db, identity.user.id, identity.session.id, domain);
+            if (path === '/auth/sign-out')
+              await requireIdentityRealm(db, identity.user.id, identity.session.id, domain);
+            else await requireBrandSession(db, identity.user.id, identity.session.id, domain);
           });
+        }
+        if (
+          config.productUnified &&
+          path !== '/auth/sign-in/email' &&
+          path !== '/invitations/sign-in'
+        ) {
+          if (!currentSession)
+            throw new HttpError(401, 'UNAUTHENTICATED', 'Iniciá sesión para continuar.');
+          await service.transaction((db) =>
+            requireIdentityRealm(
+              db,
+              currentSession.user.id,
+              currentSession.session.id,
+              null,
+              config.origin,
+            ),
+          );
         }
         const value = mutation ? await body(request) : undefined;
         const invitationLogin =
@@ -238,60 +380,134 @@ export function createApiServer({
             },
           ),
         );
-        if (domain && (path === '/auth/sign-in/email' || invitationLogin) && result.ok) {
+        if (invitationLogin && result.ok) {
           const payload = (await result.clone().json()) as {
             token?: string;
             user?: { id?: string };
           };
-          if (invitationLogin) {
+          try {
             const identity = (
-              await pool.query<{ id: string }>('SELECT id FROM b2b_auth_session WHERE token=$1', [
-                payload.token,
-              ])
+              await pool.query<{ id: string }>(
+                'SELECT id FROM b2b_auth_session WHERE token=$1 AND "userId"=$2',
+                [payload.token, payload.user?.id],
+              )
             ).rows[0];
-            try {
-              if (!identity || !payload.user?.id)
-                throw new HttpError(401, 'INVALID_INVITATION', 'Invitación inválida o vencida.');
-              await service.acceptInvitation(
-                invitationLogin.token,
-                undefined,
-                { userId: payload.user.id, sessionId: identity.id },
-                domain,
-              );
-            } catch (error) {
-              await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
-              throw error;
-            }
+            if (!identity || !payload.user?.id)
+              throw new HttpError(401, 'INVALID_INVITATION', 'Invitación inválida o vencida.');
+            await service.acceptInvitation(
+              invitationLogin.token,
+              undefined,
+              { userId: payload.user.id, sessionId: identity.id },
+              domain,
+              { sessionPurpose: 'fresh-invitation-login' },
+            );
+          } catch (error) {
+            await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
+            throw error;
           }
-          const admitted = await service.transaction(async (db) => {
-            await db.query('SELECT id FROM b2b_organization WHERE id=$1 FOR SHARE', [
-              domain.organizationId,
-            ]);
-            const member = await db.query(
-              'SELECT 1 FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 AND active FOR SHARE',
-              [domain.organizationId, payload.user?.id],
-            );
-            const current = await db.query(
-              `SELECT host FROM b2b_domain WHERE host=$1 AND organization_id=$2 AND generation=$3 AND status='active' AND tls_expires_at>now() FOR SHARE`,
-              [domain.host, domain.organizationId, domain.generation],
-            );
-            if (!member.rowCount || !current.rowCount) {
-              await db.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
-              return false;
-            }
-            await db.query(
-              `INSERT INTO b2b_session_context(session_id,organization_id,domain_host,domain_generation)
+        }
+        if (domain && path === '/auth/sign-in/email' && result.ok) {
+          const payload = (await result.clone().json()) as {
+            token?: string;
+            user?: { id?: string };
+          };
+          let admitted = false;
+          try {
+            admitted = await service.transaction(async (db) => {
+              await db.query('SELECT id FROM b2b_organization WHERE id=$1 FOR SHARE', [
+                domain.organizationId,
+              ]);
+              const member = await db.query<{ active: boolean }>(
+                'SELECT active FROM b2b_membership WHERE organization_id=$1 AND user_id=$2 FOR SHARE',
+                [domain.organizationId, payload.user?.id],
+              );
+              const identity = (
+                await db.query<{ id: string }>(
+                  'SELECT id FROM b2b_auth_session WHERE token=$1 AND "userId"=$2',
+                  [payload.token, payload.user?.id],
+                )
+              ).rows[0];
+              const current = await db.query(
+                `SELECT host FROM b2b_domain WHERE host=$1 AND organization_id=$2 AND generation=$3 AND status='active' AND tls_expires_at>now() FOR SHARE`,
+                [domain.host, domain.organizationId, domain.generation],
+              );
+              if (!member.rowCount || !current.rowCount || !identity || !payload.user?.id)
+                return false;
+              if (!member.rows[0].active) {
+                await bindInactiveBrandSession(
+                  db,
+                  payload.user.id,
+                  identity.id,
+                  domain,
+                  contractHeader,
+                );
+                return true;
+              }
+              await db.query(
+                `INSERT INTO b2b_session_context(session_id,organization_id,domain_host,domain_generation)
               SELECT id,$2,$3,$4 FROM b2b_auth_session WHERE token=$1`,
-              [payload.token, domain.organizationId, domain.host, domain.generation],
-            );
-            return true;
-          });
+                [payload.token, domain.organizationId, domain.host, domain.generation],
+              );
+              return true;
+            });
+          } catch (error) {
+            // Admission rolled back; cleanup must commit separately or the fresh
+            // password session would survive a failed inactive/domain binding.
+            await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
+            throw error;
+          }
+          if (!admitted)
+            await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
           if (!admitted)
             throw new HttpError(
               401,
               'INVALID_CREDENTIALS',
               'No pudimos iniciar sesión con esas credenciales en esta marca.',
             );
+        }
+        if (config.productUnified && path === '/auth/sign-in/email' && result.ok) {
+          const payload = (await result.clone().json()) as {
+            token?: string;
+            user?: { id?: string };
+          };
+          try {
+            await service.transaction(async (db) => {
+              const identity = (
+                await db.query(
+                  'SELECT id FROM b2b_auth_session WHERE token=$1 AND "userId"=$2 FOR SHARE',
+                  [payload.token, payload.user?.id],
+                )
+              ).rows[0];
+              if (
+                !identity ||
+                !(
+                  await db.query('SELECT 1 FROM b2b_membership WHERE user_id=$1 FOR SHARE', [
+                    payload.user?.id,
+                  ])
+                ).rowCount
+              )
+                throw new HttpError(401, 'INVALID_CREDENTIALS', 'No pudimos iniciar sesión.');
+              if (
+                (
+                  await db.query('SELECT 1 FROM b2b_session_context WHERE session_id=$1', [
+                    identity.id,
+                  ])
+                ).rowCount
+              )
+                throw new HttpError(
+                  401,
+                  'UNIFIED_SESSION_REQUIRED',
+                  'Iniciá sesión en este espacio.',
+                );
+              await db.query(
+                'INSERT INTO b2b_unified_session_context(session_id,origin) VALUES($1,$2)',
+                [identity.id, config.origin],
+              );
+            });
+          } catch (error) {
+            await pool.query('DELETE FROM b2b_auth_session WHERE token=$1', [payload.token]);
+            throw error;
+          }
         }
         for (const [key, value] of result.headers)
           if (key !== 'set-cookie') response.setHeader(key, value);
@@ -321,12 +537,16 @@ export function createApiServer({
           await service.acceptInvitation(input.token, input, undefined, domain),
         );
       }
-      const session = await requestAuth.api.getSession({ headers: requestHeaders });
-      if (session && domain)
+      const session = currentSession;
+      if (session && domain && !inactiveRequest)
         await service.transaction(async (db) => {
           await service.requireSession(db, session.user.id, session.session.id);
           await requireBrandSession(db, session.user.id, session.session.id, domain);
         });
+      if (session && config.productUnified)
+        await service.transaction((db) =>
+          requireIdentityRealm(db, session.user.id, session.session.id, null, config.origin),
+        );
       const mediaPath = /^\/media\/([a-zA-Z0-9_-]+)$/.exec(path);
       if (mediaPath && ['GET', 'HEAD'].includes(method)) {
         if (!mediaStore)
@@ -374,6 +594,97 @@ export function createApiServer({
       )
         throw new HttpError(401, 'ACCOUNT_CHANGED', 'Actualizá tu sesión antes de guardar.');
       const actor = session.user.id;
+      const eventRoute = /^\/orgs\/([a-zA-Z0-9_-]+)\/product\/v2\/events$/.exec(path);
+      if (eventRoute) {
+        if (method !== 'GET' || request.headers.range || contractHeader !== '2')
+          throw new HttpError(400, 'INVALID_INPUT', 'Solicitud inválida.');
+        const memberIds = url.searchParams.getAll('memberId');
+        if (
+          memberIds.length > 1 ||
+          [...url.searchParams.keys()].some((k) => k !== 'memberId') ||
+          (memberIds[0] && !/^[a-zA-Z0-9_-]+$/.test(memberIds[0]))
+        )
+          throw new HttpError(400, 'INVALID_INPUT', 'Solicitud inválida.');
+        const memberId = memberIds[0];
+        if (inactiveRequest && memberId)
+          throw new HttpError(403, 'CONTEXT_REVOKED', 'El acceso cambió.');
+        const authorize = async () => {
+          if (inactiveRequest) {
+            await service.productIdentity(
+              actor,
+              eventRoute[1],
+              session.session.id,
+              contractHeader,
+              async (c) => {
+                if (c.accessMode !== 'export-only')
+                  throw new HttpError(403, 'CONTEXT_REVOKED', 'El acceso cambió.');
+              },
+              work,
+            );
+          } else
+            await service.productOrganization(
+              actor,
+              eventRoute[1],
+              session.session.id,
+              false,
+              contractHeader,
+              async (c) => {
+                if (memberId) await authorizeHealthDisclosure(c, memberId);
+              },
+              work,
+            );
+        };
+        await serveProductEvents(
+          eventHub,
+          request,
+          response,
+          {
+            actorId: actor,
+            organizationId: eventRoute[1],
+            branchId: work.branchId,
+            sessionId: session.session.id,
+            memberId,
+          },
+          authorize,
+        );
+        return;
+      }
+
+      if (selfRoute) {
+        if (method !== 'GET' || request.headers.range !== undefined)
+          throw new HttpError(
+            403,
+            'CONTEXT_REVOKED',
+            'Descargá el archivo completo desde tu cuenta.',
+          );
+        const selectors = url.searchParams.getAll('organizationId');
+        if (
+          selectors.length !== 1 ||
+          !/^[a-zA-Z0-9_-]+$/.test(selectors[0]) ||
+          [...url.searchParams.keys()].some((key) => key !== 'organizationId')
+        )
+          throw new HttpError(
+            400,
+            'INVALID_INPUT',
+            'Elegí un único gimnasio para descargar tus registros.',
+          );
+        const key = path === '/self/exports' ? 'personalExport' : 'b2cInvitation';
+        const endpoint = ProductEndpoints[key];
+        await service.productIdentity(
+          actor,
+          selectors[0],
+          session.session.id,
+          contractHeader,
+          async (context) => {
+            const output = endpoint.output.parse(
+              await service.productSelfServices[key](context, endpoint.input.parse({})),
+            );
+            json(response, 200, output);
+          },
+          work,
+        );
+        return;
+      }
       if (path === '/me' && method === 'GET')
         return json(
           response,
@@ -414,6 +725,147 @@ export function createApiServer({
       if (!orgPath) throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
       const orgId = orgPath[1],
         route = orgPath[2];
+      // Only ACCESS-owned, complete handlers are registered here. Producer
+      // endpoints remain unavailable until their owner supplies reviewed wiring.
+      if (route.startsWith('/product/v2/')) {
+        const owned: ProductEndpoint[] = [
+          'capabilities',
+          'access',
+          'people',
+          'invitationBranches',
+          'updateMember',
+          'inviteMember',
+          'audit',
+          ...(Object.keys(service.productProducers) as ProductEndpoint[]).filter(
+            (name) => ProductEndpoints[name].scope === 'organization',
+          ),
+        ];
+        for (const key of owned) {
+          const endpoint = ProductEndpoints[key];
+          if (method !== endpoint.method) continue;
+          const names: string[] = [];
+          const pattern = endpoint.path.replace(/:([a-zA-Z]+)/g, (_match, name: string) => {
+            names.push(name);
+            return '([a-zA-Z0-9_-]+)';
+          });
+          const match = new RegExp(`^${pattern}$`).exec(route);
+          if (!match) continue;
+          const parameters = Object.fromEntries(
+            names.map((name, index) => [name, match[index + 1]]),
+          );
+          const healthRoute = [
+            'ownHealth',
+            'saveOwnHealth',
+            'previewHealthImport',
+            'applyHealthImport',
+            'healthConsents',
+            'grantHealthConsent',
+            'revokeHealthConsent',
+            'consentedHealth',
+          ].includes(key);
+          if (healthRoute)
+            for (const [name, value] of Object.entries(HEALTH_RESPONSE_HEADERS))
+              response.setHeader(name, value);
+          const raw = mutation
+            ? await body(request, healthRoute ? 5 * 1024 * 1024 : 1024 * 1024)
+            : Object.fromEntries(url.searchParams);
+          if (!raw || typeof raw !== 'object' || Array.isArray(raw))
+            throw new HttpError(400, 'INVALID_INPUT', 'Revisá los datos de la solicitud.');
+          for (const [name, value] of Object.entries(parameters)) {
+            if (name in raw && (raw as Record<string, unknown>)[name] !== value)
+              throw new HttpError(400, 'INVALID_INPUT', 'La identidad de la ruta no coincide.');
+          }
+          const data: Record<string, unknown> = { ...raw, ...parameters };
+          if (key === 'alternatives' || key === 'routineVersion' || key === 'routineSupplement') {
+            if (typeof data.version !== 'string' || !/^[1-9][0-9]*$/.test(data.version))
+              throw new HttpError(400, 'INVALID_INPUT', 'La versión debe ser un entero positivo.');
+            data.version = Number(data.version);
+          }
+          if (key === 'enrollmentRevision') {
+            if (typeof data.revision !== 'string' || !/^(0|[1-9][0-9]*)$/.test(data.revision))
+              throw new HttpError(400, 'INVALID_INPUT', 'Revisión inválida.');
+            data.revision = Number(data.revision);
+          }
+          const contract =
+            typeof request.headers['x-klisteni-b2b-contract'] === 'string'
+              ? request.headers['x-klisteni-b2b-contract']
+              : undefined;
+          const parsed = endpoint.input.parse(data);
+          if (inactiveRequest && (key === 'access' || key === 'capabilities')) {
+            await service.productIdentity(
+              actor,
+              orgId,
+              session.session.id,
+              contract,
+              async (context) => {
+                const output =
+                  key === 'access'
+                    ? await service.restrictedProductAccess(context)
+                    : {
+                        schemaVersion: 2,
+                        minimumClientVersion: 2,
+                        activated: true,
+                        migration: '006-product-foundation',
+                      };
+                json(response, 200, endpoint.output.parse(output));
+              },
+              work,
+            );
+            return;
+          }
+          if (key === 'capabilities')
+            return json(
+              response,
+              200,
+              endpoint.output.parse(
+                await service.productDiscovery(actor, orgId, session.session.id, contract, work),
+              ),
+            );
+          const result = await service.productOrganization(
+            actor,
+            orgId,
+            session.session.id,
+            mutation,
+            contract,
+            async (context) => {
+              const result = await (async () => {
+                switch (key) {
+                  case 'access':
+                    return service.productAccess(context);
+                  case 'people':
+                    return productPeople(context);
+                  case 'invitationBranches':
+                    return invitationBranches(context);
+                  case 'updateMember':
+                    return updateProductMember(
+                      context,
+                      ProductEndpoints.updateMember.input.parse(parsed),
+                    );
+                  case 'inviteMember':
+                    return inviteProductMember(
+                      context,
+                      ProductEndpoints.inviteMember.input.parse(parsed),
+                      domain?.canonicalOrigin ?? config.origin,
+                    );
+                  case 'audit':
+                    return readProductAudit(context, ProductEndpoints.audit.input.parse(parsed));
+                  default:
+                    return service.productProducer(context, key, parsed);
+                }
+              })();
+              const output = endpoint.output.parse(result);
+              // Queue authorized health-read bytes while authority/consent locks
+              // are held; never dispatch a captured, delayed projection here.
+              if (healthRoute && method === 'GET') json(response, 200, output);
+              return output;
+            },
+            work,
+          );
+          if (response.headersSent) return;
+          return json(response, 200, result);
+        }
+        throw new HttpError(404, 'NOT_FOUND', 'Ruta no encontrada.');
+      }
       const brandRoute =
         /^\/(branches(?:\/[^/]+)?|grants|theme(?:\/(?:publish|restore|versions))?|modules\/brand|members(?:\/[^/]+)?|history\/executions|brand-media|brand)$/.test(
           route,
@@ -526,7 +978,7 @@ export function createApiServer({
             }
             if (route === '/grants' && method === 'GET') return service.whiteLabel.grants(context);
             if (route === '/grants' && method === 'PUT')
-              return service.whiteLabel.grant(context, BranchGrantInputSchema.parse(input));
+              return service.updateBranchGrant(context, BranchGrantInputSchema.parse(input));
             if (route === '/theme' && method === 'GET')
               return { theme: await service.whiteLabel.theme(context) };
             if (route === '/theme' && method === 'PUT') {
@@ -781,7 +1233,11 @@ export function createApiServer({
             request.url?.split('?')[0] === `${API_PREFIX}/domain-entry`
             ? 403
             : error.status,
-          { code: error.code, error: error.message },
+          {
+            code: error.code,
+            error: error.message,
+            ...(error.issues ? { issues: error.issues } : {}),
+          },
         );
       if (error instanceof ZodError)
         return json(response, 400, {
@@ -799,5 +1255,11 @@ export function createApiServer({
   server.requestTimeout = 120000;
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
+  // SSE responses must end before server.close can finish draining requests.
+  const close = server.close.bind(server);
+  server.close = (callback) => {
+    eventHub.close();
+    return close(callback);
+  };
   return server;
 }

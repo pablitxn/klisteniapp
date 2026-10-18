@@ -1,0 +1,942 @@
+$ node --test --test-concurrency=1 tests/*.test.ts
+B2B authentication failed
+▶ Anonymous white-label publication regressions
+  ✔ branch website and QR return only published branch contact, never live drafts (106.150128ms)
+  ✔ root-only published media supports GET HEAD Range and remains brand isolated (65.18731ms)
+  ✔ brand publication is independent of public branches, and unpublish revokes root media (146.025321ms)
+  ✔ missing published profile denies direct unit URL as well as branch page (122.005571ms)
+✔ Anonymous white-label publication regressions (2529.12781ms)
+✔ new alternatives require published, currently authorized source and target catalog rows; retained segments survive disablement (918.292263ms)
+✔ concurrent catalog disable insertion or source unpublication commits before selection and denies acceptance atomically (905.62786ms)
+✔ accepted target selection serializes before a concurrent disable and remains a retained historical segment (349.312217ms)
+✔ extracted catalogue and equipment modules reject unauthorized writes before touching dependencies (4.979149ms)
+✔ B2B requires dedicated configuration and cannot inherit consumer credentials (7.699166ms)
+✔ white-label mode requires its own proxy boundary and HTTPS in production (1.645526ms)
+✔ strict host normalization rejects ambiguous authority syntax (1.270478ms)
+✔ only the authenticated peer can provide a host; ordinary proxy headers cannot override it (1.391662ms)
+✔ origins compare exactly with the resolved brand, including duplicate rejection (0.684121ms)
+✔ domain registry is consulted for every request and has no default organization (1.096744ms)
+✔ canonical URLs come from the verified registry; alias redirects cannot transfer secrets (1.973712ms)
+✔ activation evidence requires ownership, exclusive correct DNS and an unexpired certificate (0.249227ms)
+✔ domain lifecycle verifies every stage, revokes immediately and prevents automatic reassignment (320.203872ms)
+✔ unspecified load differs from bodyweight and zero external load; explicit rest default is retained (273.524646ms)
+✔ drafts can reference unpublished exercises; publication and assignment recheck current branch equipment (287.539426ms)
+✔ draft stage dates and identities remain consistent without requiring unfinished fields (369.386864ms)
+✔ planning persists empty and partially configured drafts; publication reports exact missing fields (231.817097ms)
+✔ fixed/range publication freezes immutable versions; legacy readers reject v2 before strict parsing (314.981545ms)
+✔ exact replay returns its original response after successors; payload reuse and stale trainer edits conflict (298.650955ms)
+✔ goal drafts retain unfinished dates and references; activation binds the exact saved complete revision (318.565098ms)
+✔ two same-day slots and two stages reuse one immutable routine; gaps are explicit and overlaps fail (340.151178ms)
+✔ archive blocks new reuse and retains issued versions, enrollments, revision references and active continuity (240.71386ms)
+✔ tenant/branch/member boundaries, unavailable resources and inactive replay fail before writes (188.385101ms)
+✔ planning CAS serializes two trainers and exact concurrent retries append once (201.896259ms)
+✖ private by default for coach/admin/superadmin; consent exposes precisely its category without profile or goals (1.988791ms)
+✖ wrong audience/category/scope and owner override are rejected; dynamic audience requires a current branch trainer grant (0.346108ms)
+✖ consent revisions/CAS/replay are atomic; stale grant retry cannot resurrect revoked sharing (0.271321ms)
+✖ settings list is scoped to owner/brand and consent IDs cannot overwrite another owner (0.385402ms)
+✖ stale role, revision, archived branch, inactive member and revoked target grant deny health (0.26536ms)
+✖ inactivity hook revokes every owner grant in that gym atomically, leaves other gyms intact, and reactivation never restores consent (0.205775ms)
+✖ owner export includes private profile/categories/goals independent of consent; no staff can select an owner (0.277988ms)
+✖ organization member selecting a live branch coach grant can manage own health and read only consented target health (1.625777ms)
+✖ superadmin selecting a member grant retains owner health but cannot regain trainer disclosure through organization authority (0.451342ms)
+✖ administrative contexts match current organization authority with only explicit superadmin to admin downgrade (0.215513ms)
+✖ revoked selected coach or member grant fails even if organization authority, another grant and access revision remain unchanged (0.195578ms)
+✖ organization downgrade invalidates captured context revision; fresh selected coach still needs the retained current coach grant (0.339739ms)
+✖ selected coach requires current capability and active membership despite its live grant (0.23703ms)
+✖ queued effective coach disclosure observes live selected-grant revocation before returning health (0.211764ms)
+✖ one inactivity hook call records each branch revocation once in the membership transaction and retries add no audit (0.291205ms)
+✖ manual preview writes nothing; confirm stores owner data and provenance without consent or gym audit payload (1.561284ms)
+✖ exact response-loss retries survive ticket expiry and later edits; operation ID reuse conflicts (0.326088ms)
+✖ reimport deduplicates equivalent source records and rejects the complete file on conflict (0.22569ms)
+✖ preview is owner/revision/input/expiry bound and survives a rolled-back confirmation (0.190587ms)
+✖ malformed, CSV, ZIP, wrong version, future, invalid units and oversized imports produce no writes (0.380882ms)
+✖ owner edits use canonical medical-unit/duplicate/future validation and cannot override owner identity (0.251141ms)
+✖ accumulated 4 MiB limit fails atomically and explicitly zoned observations use their local calendar (0.219566ms)
+✖ two concurrent confirmations serialize once; concurrent independent stale edits conflict (0.443792ms)
+✖ queued trainer read cannot disclose after a preceding revocation commits (1.572075ms)
+✖ captured in-flight projection is discarded after revoke or replacement; final dispatch refreshes owner edits (0.35477ms)
+✖ role/grant changes while a read is queued are rechecked rather than trusting captured capabilities (0.246021ms)
+✖ queued import and captured owner export context lose operational authority after inactivity; fresh export remains available (0.286656ms)
+✖ revoke serializes before queued consent update and prevents stale grant response replay (0.262216ms)
+✖ queued trainer disclosure and final guard fail after target membership deactivation even with a retained stale consent (0.160997ms)
+✖ two owners racing on an absent consent ID cannot overwrite or share the other owner health (0.217803ms)
+✔ WP06 inactive identity is export-only without weakening operational brand authorization (283.635525ms)
+✔ WP06 inactive allowlist denies every operational endpoint, media, HEAD, range, mutation and encoded deep link (0.723619ms)
+✔ WP06 identity rejects missing/foreign memberships, copied cookies, generation changes and expired sessions (240.991429ms)
+✔ WP06 inactive and active memberships stay tenant-specific and activation/version fences remain strict (230.540986ms)
+✔ WP06 inactive login admission binds only its verified host and cannot rebind a copied session (195.134865ms)
+▶ B2B independent PostgreSQL API
+  ✔ independent auth, exact origin, safe cookies and absence of B2C tables (121.24577ms)
+  ✔ tenant IDs never grant access; staff and assigned-member scope are enforced (66.925524ms)
+  ✔ machine models are reusable but physical units and published QR output are tenant scoped (45.073957ms)
+  ✔ model adaptations and unit edits preserve base data, reject stale changes and hide withdrawn/public-private units (141.856488ms)
+  ✔ publishing and optimistic edits preserve immutable assigned exercise/program snapshots (136.275983ms)
+  ✔ executions validate assigned sets and substitutions; exact replay is idempotent and histories immutable (123.664469ms)
+  ✔ gym contract gates writes independently while allowing own history reads (33.293308ms)
+  ✔ new prescriptions require active compatible units; archived machines preserve old snapshots and exact execution retries (282.106589ms)
+  ✔ machine exercise templates require local adaptation and explicit review; edits invalidate approval (105.009049ms)
+  ✔ unit batches are atomic, scoped and idempotent even after response loss (40.928567ms)
+  ✔ timed prescriptions retain actual dose, RPE, immutable history and normalized legacy replays (132.952653ms)
+  ✔ floor plans publish snapshots, reject foreign units and remove revoked markers immediately (98.082419ms)
+  ✔ website drafts preserve public snapshots, explicit publication and derived completion (102.5241ms)
+  ✔ uploaded media remains tenant-private, validates every reference and preserves authorized historical access (405.337849ms)
+  ✔ website floor plan images and spatial models reject another gym’s uploaded media without changing either snapshot (187.66532ms)
+  ✔ membership revocation during an upload prevents its commit and cleans the unreferenced file (193.170565ms)
+  ✔ new invitation is one-use; an existing B2B identity joins another gym without password reset (159.268486ms)
+  ✔ membership suspension and role changes revoke capabilities immediately, last admin protected (84.62523ms)
+  ✔ an unassigned coach covers another coach student within the authorized Principal branch (197.295553ms)
+  ✔ a write queued behind a suspension rechecks membership after acquiring the organization lock (22.306128ms)
+  ✔ operator adds gyms to an existing installation idempotently without resetting an existing identity (127.934736ms)
+  ✔ a session revoked while a write waits cannot authorize the queued mutation (29.910907ms)
+  ✔ demo reset requires explicit mode, marker and confirmation; leaves unrelated tables untouched (31.410969ms)
+✔ B2B independent PostgreSQL API (4297.583985ms)
+✔ binary media profile rejects type spoofing, corrupt PNG, SVG, oversized dimensions and incomplete containers (5.959929ms)
+✔ MP4 and WebM require video container structure and reject external MP4 data references (1.42803ms)
+✔ static GLB accepts an embedded triangle and rejects external/data resources, extensions, animation and cyclic nodes (2.543135ms)
+✔ uploaded object is immutable, persists across store instances and supports bounded byte ranges (17.266137ms)
+✔ failed, interrupted and oversized uploads leave no object or temporary file; symlinks cannot be served (17.809317ms)
+✔ endEnrollment supplies immutable server time, cancels future local dates only and preserves accepted history (667.535977ms)
+✔ production period preview stays valid as server time advances within its expiry bucket (428.746796ms)
+✔ legacy draft projection requires explicit load/laterality confirmation and never rewrites issued versions or actuals (364.518832ms)
+✔ competing period applies accept one revision and deny foreign branch, member writes and inactive replay (491.798532ms)
+✔ period preview/apply before and after logged work preserves original versions, assignment IDs and actual bytes (479.314565ms)
+✔ removing a period slot previews exclusion, keeps linked actual work and ends enrollment without deletion (446.940828ms)
+✔ preview binds actor, proposed content, occurrence revision, accepted date override and server expiry (259.003343ms)
+✔ actual correction after preview invalidates apply even when enrollment and schedule revisions match (230.397607ms)
+✔ schedule failure rolls back enrollment/stage revisions, receipts and audit in the authorized transaction (223.22332ms)
+✔ continuity projects simultaneous current/past/future enrollments in their local timezone and leaves legacy work unscheduled (269.553825ms)
+✔ WP06 own export retains legacy originals, every correction, ranges and units without staff/other-member material (306.610633ms)
+✔ WP06 interchange includes issued v2 lineage, all period/schedule revisions and reviewed target provenance (249.040747ms)
+✔ WP06 export rejects caller member overrides and stale context; other tenant never supplies training (230.869768ms)
+✔ WP06 separate invitation is optional, validates destination and performs no mutation (214.225698ms)
+✔ WP06 export fails as a whole when accepted current history is incomplete (215.503032ms)
+✔ WP06 queued export reauthorizes after an atomic inactivity commit (293.316394ms)
+✔ WP06 legacy supplement export retains original hash and independent ranged target dose (216.935418ms)
+✔ unassigned trainers read all training in their authorized branch across two tenants/four branches (292.403705ms)
+✔ legacy facade explicitly requests retained history and still requires active planning for assignment (218.091987ms)
+✔ member reads preserve self-only tenant scope while staff history flags cannot expose other members (233.365576ms)
+✔ publication resolver receives all authorized published target candidates rather than source steps only (260.137429ms)
+✔ publication freezes eligible target content and rejects a resolver returning hidden, foreign or changed targets (216.626766ms)
+✔ 008 upgrades the old index without changing historical audit rows and repeats safely (300.892801ms)
+✔ 008 treats nullable identity keys consistently and retains branch-distinct operations (222.50574ms)
+✔ 008 refuses nullable historical collisions atomically without deleting or rewriting evidence (218.782178ms)
+✔ membership deactivation revokes same-ID consents in two branches atomically, retries once and never restores consent (202.593004ms)
+✔ operation hashing sorts object keys while preserving arrays and actual scalar values (0.982773ms)
+✔ audit records actor/branch/server time and immutable revisions exactly once; failure rolls back audit and receipt (288.400271ms)
+✔ audit projects only current tenant/branch planning scope; legacy absent metadata stays unknown (199.019732ms)
+✔ invitation exact retries preserve the private URL and role; accepting narrower admin never creates a superadmin (290.334534ms)
+✔ deactivation atomically appends consent revocation and reactivation never restores it (203.621626ms)
+✔ unrepresentable invitation grants fail atomically and revoked issuers cannot grant pending invitations (219.285245ms)
+✔ v2 reads and retries queued behind revocation recheck session, membership, branch and host generation (2310.857742ms)
+✔ HTTP mounts composed v2 handlers, validates path IDs and versions, and keeps activation disabled (475.478578ms)
+✔ product role capabilities preserve hierarchy without platform or health bypass powers (0.258753ms)
+✔ unassigned trainers share only the selected authorized branch; inactive history is distinct from planning (204.032605ms)
+✔ admin cannot create or promote privileged roles; superadmin promotion preserves branch grants (211.592952ms)
+✔ permission retries return original receipts after successors; branch changes advance revisions and reject foreign grants (199.377321ms)
+✔ competing superadmin removals serialize and preserve the last active superadmin (198.744858ms)
+✔ explicit unified bootstrap preserves full topology and requires a positive origin session (735.46308ms)
+✔ registered migration 007 populates fresh canonical review and repeats without rewriting stored rows (309.677397ms)
+✔ installed 006 state enriches unchanged rows only and preserves unrelated historical snapshot bytes (257.553503ms)
+✔ planning publication freezes actual reviewed targets and own doses with current branch exclusions (212.099162ms)
+✔ product authorization and publication fail closed when catalog migration receipt is missing (203.606523ms)
+✔ concurrent subscriptions cannot pass the unfinished LISTEN initialization barrier (4.448224ms)
+✔ one actor cannot exhaust the global stream budget by changing sessions (0.96612ms)
+✔ healthy streams survive ninety seconds and hub shutdown terminates the response (1.606433ms)
+✔ startup timeout ends a response even while subscription is still opening (0.283995ms)
+✔ committed invalidations reach independent API listeners; rollback, foreign scope and unrelated updates do not (399.870896ms)
+✔ listener failure invalidates dependent views and new subscriptions establish a fresh LISTEN baseline (247.256675ms)
+✔ B2B mapping preserves canonical normalized JSON, provenance and adapter preview bytes (25.132168ms)
+✔ B2B semantic boundary rejects invalid measurements and unsupported vendor formats without importing (1.167208ms)
+✔ composed HTTP health uses current selected roles, private cache headers and revocable category consent (789.31715ms)
+✔ history readers retain retired archived inactive subjects without broader branch or member enumeration (301.802604ms)
+✔ inactive correct-host login admits only own complete export/discovery/invitation and denies gym, media and retry routes (801.477936ms)
+✔ failed inactive or foreign login cleans the fresh session and returns no cookie (600.721018ms)
+✔ stale active cookies become export-only atomically and reactivation restores history without consent or revoked grants (862.407052ms)
+✔ product migration installs into an empty database and repeats without rewriting rows (373.549259ms)
+✔ 001-005 upgrade preserves historical JSON hashes, IDs, assignments, grants, audit and media across two brands/four branches (237.999854ms)
+✔ new role mappings preserve legacy writes, constrain mappings and prevent the last superadmin loss (176.548198ms)
+✔ competing superadmin deactivations serialize and retain one active administrator (230.412526ms)
+✔ tenant/member/branch FKs reject foreign linkage and historical identities and revisions cannot be overwritten (200.972375ms)
+✔ v2 rows are fenced before legacy decoding or update and old clients get explicit version errors (168.046949ms)
+✔ activation and old-tab guards fail closed with explicit recoverable codes (0.771215ms)
+✔ activated organizations reject every legacy callback after current authorization checks (172.808139ms)
+✔ published choices use actual v1/v2 immutable discriminators and current catalog scope (637.74519ms)
+✔ real enrollment issues immutable own version reads without legacy assignments and preserves denied foreign scope (536.278599ms)
+✔ production planning callback enrolls stable occurrences and member moves invalidate WP02 previews (414.019713ms)
+✔ repaired end handler deterministically cancels future local dates, preserves actual linkage and replays its exact receipt (316.304555ms)
+✔ direct adapter rejects malformed end input that omits immutable effectiveAt (0.737341ms)
+✔ explicit effectiveAt end metadata reconciles only future obligations through the production adapter (244.271109ms)
+✔ WP06 atomic inactivity revokes each branch consent once; gym historical training and other tenant consent survive (337.177268ms)
+✔ WP06 reactivation restores retained records/current grants without reviving revoked branch or health consent (264.355738ms)
+✔ WP06 failed deactivation rolls back membership, consent revisions and audit together (198.480376ms)
+B2B authentication failed
+B2B request failed
+✔ readiness includes cached auth schema failures after an external migration (373.399781ms)
+✔ retired assignments reject fresh legacy sessions without receipts while original history stays readable (327.53097ms)
+✔ retirement preserves existing-session corrections and exact accepted receipts but never bypasses current user authorization (265.140847ms)
+✔ first correction of a verified legacy execution remains permitted after retirement and preserves revision zero (240.138688ms)
+✔ a retirement committed before fresh acceptance wins the PostgreSQL race and leaves no session or receipt (215.766541ms)
+✔ fresh acceptance first holds retirement until commit and its later exact replay stays authorized and idempotent (217.252358ms)
+✔ raw legacy fixtures omit defaulted fields without changing their adoption identity or bytes (19.301965ms)
+✔ canonical projection retains exactly 37 exercises, 42 directed links, every kind and nine honest empty lists (24.952406ms)
+✔ proven canonical content requires base scope, exact ID/version/revision/content; adaptation IDs and animation matches never suffice (1.26519ms)
+✔ each target uses its own sets/reps/rest/bodyweight/laterality and confirmed requirements (1.485003ms)
+✔ publication snapshots survive later catalog edits and do not mutate source snapshots/manual legacy permissions (10.728244ms)
+✔ synthetic PostgreSQL: fresh/repeated/installed enrichment, unchanged historical JSON, supplement replay, scoped reads and immutable adoption (511.786712ms)
+✔ v2-only members read alternatives only through exact own required occurrence linkage (311.083595ms)
+✔ WP04 equipment checks cannot admit a target without current canonical review (754.917864ms)
+✔ empty unselected draft remains empty after WP04 validation and cannot complete work (373.661008ms)
+✔ reviewed source-to-target duration/per-side segments retain all source actuals and restore the original segment without changing issued JSON (363.435444ms)
+✔ exact accepted receipt survives successors; changed create payload and stale revisions conflict without extra audit (244.674586ms)
+✔ legacy revision zero and original bytes/IDs survive first correction and retained history stays unscheduled (261.100201ms)
+✔ revoked/inactive current access rejects new and replayed operations; trainer cannot edit member actuals (233.828753ms)
+✔ future actuals, implicit completion and foreign-branch reads fail; empty draft saves without completion (233.790009ms)
+✔ PostgreSQL concurrent exact create accepts once and returns identical immutable receipts (357.876542ms)
+✔ PostgreSQL two-device CAS accepts one different edit and rejects the stale writer without partial audit or receipt (287.359572ms)
+✔ PostgreSQL simultaneous changed-payload operation reuse conflicts, and rollback leaves no accepted record (253.749061ms)
+✔ routine references are deduplicated across steps without allowing repeated alternatives within one step (5.899482ms)
+✔ execution validation accepts complete prescribed and substituted sets without mutating their snapshot (2.208398ms)
+✔ execution clock tolerance accepts five minutes but rejects later completion timestamps (0.770912ms)
+✔ execution sets must belong to the assigned step and stay inside its prescribed series count (0.661358ms)
+✔ substitutions need both snapshot permission and a nonblank reason (0.671025ms)
+✔ complete sessions require positive repetitions for every prescribed series in every step (0.998964ms)
+✔ assignments accept available alternatives and textual equipment requirements but reject entirely unavailable steps (0.46075ms)
+✔ new executions check the equipment of the selected exercise, independently of permitted alternatives (0.501149ms)
+✔ training reports aggregate only active member summaries while preserving authorized execution history and member order (1.340107ms)
+✔ training authorization rejects members and staff before touching forbidden dependencies (1.91991ms)
+✔ ending an enrollment cancels future obligations while authorized late submission can still record past work (352.895252ms)
+✔ midweek stage boundary retains accepted same-week override and same-day slots remain separate in PostgreSQL (262.371608ms)
+✔ four/three/one, duplicate retries/repeated sessions, partial-only, late void and correction revise closed weeks (392.142004ms)
+✔ same-week move is receipted, a midweek override is completion-eligible and completed moves are denied (299.085441ms)
+✔ period reconciliation moves stable obligations across weeks, preserves actuals and cancels removed work without extra absences (273.427928ms)
+▶ WL revocation, branch publication and capabilities
+  ✔ WL mode refuses organization-only service access without verified domain context (5.235982ms)
+  ✔ D07 queued mutation rechecks a revoked branch grant after its lock is released (34.545815ms)
+  ✔ D07 queued mutation rechecks domain generation and host deactivation (6.887151ms)
+  ✔ D07 session and TLS expiry are checked at execution time after a queue wait (312.191808ms)
+  ✔ D08 queued invitation cannot grant access after domain authority changes (33.10286ms)
+  ✔ D12 active assignments block archive and transfer; explicit retirement preserves historical snapshots (41.540897ms)
+  ✔ D09 unpublished profile changes and branch website disablement never leak through public context (36.57597ms)
+  ✔ D15 branch preferences cannot elevate brand/platform capabilities; dependencies and direct writes use the same policy (62.293399ms)
+  ✔ D14 theme contrast, revision checks and explicit publish/restore preserve drafts and version history (27.447711ms)
+  ✔ D10 private media ownership cannot be bypassed with absolute, encoded, or other-brand local media URLs (33.604648ms)
+  ✔ D10 visible published catalog authorizes associated media without assignments, with explicit cross-branch sharing (61.969847ms)
+  ✔ D05 administration and explicit training grants remain distinct selectable roles (7.576306ms)
+✔ WL revocation, branch publication and capabilities (1973.235764ms)
+B2B authentication failed
+▶ WL domain and branch HTTP authorization
+  ✔ D01/D02 published identity by trusted host; unknown/unverified/spoofed host and direct API fail closed (77.679601ms)
+  ✔ legacy runtime cannot bypass branch authorization after white-label data exists (22.394892ms)
+  ✔ D03-D07 login belongs to host; roles/sedes are explicit and copied tokens and cross origins fail (476.488944ms)
+  ✔ D09/D14 independent branch publication and identity draft/publish/restore (271.075397ms)
+  ✔ D08 new and existing invitations bind one branch, explicit consent, expiry and one-use (508.917595ms)
+  ✔ D10 private media requires branch reference for GET HEAD Range and never crosses brands (658.913495ms)
+  ✔ D11/D12/D15/D17 record in four branches, coach isolation, exact retry, capabilities and preserved own history (1276.587754ms)
+  ✔ duplicate branch slug is a recoverable conflict and never inserts a second branch (99.455225ms)
+✔ WL domain and branch HTTP authorization (4689.799107ms)
+✔ WL-1 profile migration freezes existing public metadata without changing historical JSON (101.163626ms)
+✔ WL-1 migration preserves legacy IDs, immutable JSON, invitation expiry and Principal-only grants (90.327954ms)
+✔ WL-1 composite constraints reject cross-brand branches and cross-branch prescriptions and executions (108.726776ms)
+✔ WL-1 empty migration supports legacy writes and explicit scoped membership without privilege expansion (100.285738ms)
+✔ WL-1 anomalous execution ownership aborts atomically instead of relabeling history (71.414738ms)
+✔ routine creation and prescription retries keep one row and reject changed actors, content and contexts (190.213975ms)
+✔ WL catalog isolates private branches, allows explicit sharing and preserves ownership on edits (145.933916ms)
+✔ WL physical inventory and idempotent batches remain scoped even with identical labels and batch IDs (139.605395ms)
+✔ WL prescriptions, coach relations, execution retries and own history preserve branch isolation (191.471392ms)
+ℹ tests 232
+ℹ suites 4
+ℹ pass 202
+ℹ fail 30
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 73615.309273
+
+✖ failing tests:
+
+test at tests/health-consent.test.ts:17:1
+✖ private by default for coach/admin/superadmin; consent exposes precisely its category without profile or goals (1.988791ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-consent.test.ts:80:1
+✖ wrong audience/category/scope and owner override are rejected; dynamic audience requires a current branch trainer grant (0.346108ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:81:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-consent.test.ts:134:1
+✖ consent revisions/CAS/replay are atomic; stale grant retry cannot resurrect revoked sharing (0.271321ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:135:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-consent.test.ts:190:1
+✖ settings list is scoped to owner/brand and consent IDs cannot overwrite another owner (0.385402ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:191:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-consent.test.ts:210:1
+✖ stale role, revision, archived branch, inactive member and revoked target grant deny health (0.26536ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:211:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-consent.test.ts:244:1
+✖ inactivity hook revokes every owner grant in that gym atomically, leaves other gyms intact, and reactivation never restores consent (0.205775ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:245:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-consent.test.ts:316:1
+✖ owner export includes private profile/categories/goals independent of consent; no staff can select an owner (0.277988ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-consent.test.ts:317:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:32:1
+✖ organization member selecting a live branch coach grant can manage own health and read only consented target health (1.625777ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:33:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:76:1
+✖ superadmin selecting a member grant retains owner health but cannot regain trainer disclosure through organization authority (0.451342ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:77:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:124:1
+✖ administrative contexts match current organization authority with only explicit superadmin to admin downgrade (0.215513ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:125:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:163:1
+✖ revoked selected coach or member grant fails even if organization authority, another grant and access revision remain unchanged (0.195578ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:164:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:200:1
+✖ organization downgrade invalidates captured context revision; fresh selected coach still needs the retained current coach grant (0.339739ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:201:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:235:1
+✖ selected coach requires current capability and active membership despite its live grant (0.23703ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:236:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:269:1
+✖ queued effective coach disclosure observes live selected-grant revocation before returning health (0.211764ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:270:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-effective-role.test.ts:298:1
+✖ one inactivity hook call records each branch revocation once in the membership transaction and retries add no audit (0.291205ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-effective-role.test.ts:299:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:13:1
+✖ manual preview writes nothing; confirm stores owner data and provenance without consent or gym audit payload (1.561284ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:14:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:48:1
+✖ exact response-loss retries survive ticket expiry and later edits; operation ID reuse conflicts (0.326088ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:49:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:83:1
+✖ reimport deduplicates equivalent source records and rejects the complete file on conflict (0.22569ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:84:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:136:1
+✖ preview is owner/revision/input/expiry bound and survives a rolled-back confirmation (0.190587ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:137:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:188:1
+✖ malformed, CSV, ZIP, wrong version, future, invalid units and oversized imports produce no writes (0.380882ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:189:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:233:1
+✖ owner edits use canonical medical-unit/duplicate/future validation and cannot override owner identity (0.251141ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:234:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:283:1
+✖ accumulated 4 MiB limit fails atomically and explicitly zoned observations use their local calendar (0.219566ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:284:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-import.test.ts:313:1
+✖ two concurrent confirmations serialize once; concurrent independent stale edits conflict (0.443792ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-import.test.ts:314:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:22:1
+✖ queued trainer read cannot disclose after a preceding revocation commits (1.572075ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:23:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:49:1
+✖ captured in-flight projection is discarded after revoke or replacement; final dispatch refreshes owner edits (0.35477ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:50:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:106:1
+✖ role/grant changes while a read is queued are rechecked rather than trusting captured capabilities (0.246021ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:107:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:135:1
+✖ queued import and captured owner export context lose operational authority after inactivity; fresh export remains available (0.286656ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:136:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:200:1
+✖ revoke serializes before queued consent update and prevents stale grant response replay (0.262216ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:201:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:238:1
+✖ queued trainer disclosure and final guard fail after target membership deactivation even with a retained stale consent (0.160997ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:239:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/health-revocation-races.test.ts:260:1
+✖ two owners racing on an absent consent ID cannot overwrite or share the other owner health (0.217803ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\/klisteni_b2b_test$/. Input:
+  
+  '/b2b_wp09_test'
+  
+      at healthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:64:10)
+      at withHealthFixture (file:///workspace/wp09-candidate591/apps/b2b-api/tests/fixtures/health.ts:182:25)
+      at TestContext.<anonymous> (file:///workspace/wp09-candidate591/apps/b2b-api/tests/health-revocation-races.test.ts:261:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/b2b_wp09_test',
+    expected: /^\/klisteni_b2b_test$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in /workspace/wp09-candidate591/apps/b2b-api
+

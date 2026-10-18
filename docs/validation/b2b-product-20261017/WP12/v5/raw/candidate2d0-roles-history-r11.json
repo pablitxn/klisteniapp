@@ -1,0 +1,1214 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "b2b-product-(roles|history|programming).spec.ts",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--project=product-chromium-430",
+      "--grep-invert=B2BP-PROGRAMMING-(001|003|009)",
+      "--timeout=45000",
+      "--max-failures=10",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 10,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-history.spec.ts",
+      "file": "b2b-product-history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11185,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:16:46.635Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-551a40e9f89b3b67f6af",
+          "file": "b2b-product-history.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13631,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:16:58.197Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-238b43e1a321a74573c2",
+          "file": "b2b-product-history.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14952,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:17:11.846Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-eda2ccbdb76278597fb4",
+          "file": "b2b-product-history.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13566,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:17:26.813Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-b3b87249e78b7980f453",
+          "file": "b2b-product-history.spec.ts",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6454,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:17:40.395Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-ba8988a2437769b04f6a",
+          "file": "b2b-product-history.spec.ts",
+          "line": 161,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                },
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 12057,
+                  "error": {
+                    "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                    "stack": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:182:5",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 76,
+                      "line": 203
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 76,
+                        "line": 203
+                      },
+                      "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:182:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:17:46.862Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    },
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-96909-ine-assignment-version-link-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-96909-ine-assignment-version-link-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-96909-ine-assignment-version-link-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-96909-ine-assignment-version-link-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 76,
+                    "line": 203
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-6db6c33363c06c08ffae",
+          "file": "b2b-product-history.spec.ts",
+          "line": 177,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5190,
+                  "error": {
+                    "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                    "stack": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:245:13",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 76,
+                      "line": 203
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 76,
+                        "line": 203
+                      },
+                      "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:245:13"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:18:00.327Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-88c5f-est-gap-and-no-stage-states-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-88c5f-est-gap-and-no-stage-states-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-88c5f-est-gap-and-no-stage-states-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-88c5f-est-gap-and-no-stage-states-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 76,
+                    "line": 203
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-a442fafb7c20f33087d3",
+          "file": "b2b-product-history.spec.ts",
+          "line": 243,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5785,
+                  "error": {
+                    "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                    "stack": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:322:13",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 76,
+                      "line": 203
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 76,
+                        "line": 203
+                      },
+                      "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:322:13"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:18:06.781Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-b7d10--fulfill-another-occurrence-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-b7d10--fulfill-another-occurrence-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-b7d10--fulfill-another-occurrence-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-b7d10--fulfill-another-occurrence-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 76,
+                    "line": 203
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-bc33f2d34fa9626a31d4",
+          "file": "b2b-product-history.spec.ts",
+          "line": 320,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5528,
+                  "error": {
+                    "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m",
+                    "stack": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:379:13",
+                    "location": {
+                      "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                      "column": 76,
+                      "line": 203
+                    },
+                    "snippet": "   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                        "column": 76,
+                        "line": 203
+                      },
+                      "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:203\n\n  201 |   )\n  202 |   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()\n> 203 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  204 |   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })\n  205 |   await expect(organizations).toBeVisible()\n  206 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:203:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:648:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-history.spec.ts:379:13"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T16:18:14.091Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission paced to preserve the unchanged 10/minute guard"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-04ef6-gation-retain-correct-scope-product-chromium-430/test-failed-2.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-04ef6-gation-retain-correct-scope-product-chromium-430/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-04ef6-gation-retain-correct-scope-product-chromium-430/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/wp12-candidate2d0-roles-history-r11/artifacts/b2b-product-history-B2BP-H-04ef6-gation-retain-correct-scope-product-chromium-430/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+                    "column": 76,
+                    "line": 203
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8b5a036b8d9515c35caa-14b7e4beb635c0da6e0a",
+          "file": "b2b-product-history.spec.ts",
+          "line": 377,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-programming.spec.ts",
+      "file": "b2b-product-programming.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-5a5f5205899b059eb1ea",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-719570b22614e639bb51",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 214,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-2bca82f095313df467c9",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 248,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-1b2d8f2ef18c2fb469a2",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 314,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-339abb8b8431662c497d",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 392,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-9d815a791a1677696c8d",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 423,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-0b3aa46add6df2697d35",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 479,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-3c97ab563f60014f0263",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 562,
+          "column": 1
+        },
+        {
+          "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "e0ac618c93eab3e4228a-cc712effa216836bb3f1",
+          "file": "b2b-product-programming.spec.ts",
+          "line": 613,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-roles.spec.ts",
+      "file": "b2b-product-roles.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-7aafa0da48e5c72eff34",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-a5c1a56da27e76a1850e",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 45,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-1c73df93a6a926ca7e56",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-75929c36e96bc418b45d",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 130,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-0d3ceea8af9d643168ba",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 166,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-c1654f5a43da7bb800db",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 255,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-aaa5d907834db1159416",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 267,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-737243fb3af68b2839dd",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 337,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-949c8ae9e19e905a647e",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 361,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T16:15:45.462Z",
+    "duration": 155975.794,
+    "expected": 5,
+    "skipped": 18,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}
