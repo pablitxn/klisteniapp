@@ -47,6 +47,8 @@ The domain regression verifies that changing an accepted draft timestamp require
 | Final typecheck, scoped ESLint and discovery isolation | Passed; product 528/demo 101/legacy 540 exclude the eight dedicated contracts | Final `8312034` |
 | Source/build verification and schema teardown | **0 mismatches**, 2,132 files checked before/after every product run; 48 distinct fresh schemas, all removed | `c8a5aaa` runtime |
 
+Raw build logs retain their original ANSI sequences and trailing spaces; the four generated-log whitespace diagnostics are preserved to keep receipt hashes exact.
+
 Actual result tuples and original reports/logs are retained in [actual-instances.json](actual-instances.json) and `runs/`; [validation-summary.json](validation-summary.json) provides totals. [source-applicability.json](source-applicability.json) distinguishes the frozen product execution from the final standalone-discovery follow-up. The intermediate `92a7c3b` standalone eight-case run is retained separately and is not counted again.
 
 The task-owned database ended with zero browser schemas before its container was removed. Task containers and network were removed; existing containers were untouched. See [terminal-cleanup.json](terminal-cleanup.json).
