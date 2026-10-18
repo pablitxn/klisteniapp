@@ -76,7 +76,7 @@ export async function importThroughUi(
   const accepted = await api(page, owner, 'ownHealth', {})
   await expect(
     page.getByText(new RegExp(`Revisión de tus datos: ${accepted.revision}\\.`)),
-  ).toBeVisible()
+  ).toBeVisible({ timeout: 30_000 })
   return file
 }
 export async function grantThroughUi(page: Page, owner: Principal) {

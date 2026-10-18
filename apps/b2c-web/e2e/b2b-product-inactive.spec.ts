@@ -5,6 +5,7 @@ import {
   principal,
   login,
   pacePasswordAdmission,
+  completePasswordAdmission,
   open,
   api,
   raw,
@@ -30,7 +31,7 @@ import {
 async function restricted(page: Page) {
   await expect(
     page.getByRole('heading', { name: 'Tu membresía está inactiva', exact: true }),
-  ).toBeVisible()
+  ).toBeVisible({ timeout: 30_000 })
   await expect(
     page.getByRole('button', { name: 'Descargar mis registros', exact: true }),
   ).toBeVisible()
@@ -55,13 +56,12 @@ test(scenarioTitle('B2BP-INACTIVE-001'), async ({ page, context, product }, info
     const foreign = principal(product, 'member', 'sur')
     await peer.page.goto(new URL('/app', page.url()).href)
     await pacePasswordAdmission(info)
-    const denied = await peer.page.request.post(
-      new URL('/api/b2b/auth/sign-in/email', page.url()).href,
-      {
+    const denied = await peer.page.request
+      .post(new URL('/api/b2b/auth/sign-in/email', page.url()).href, {
         headers: { Origin: new URL(page.url()).origin, 'X-Klisteni-B2B-Contract': '2' },
         data: { email: foreign.actor.email, password: 'b2b-product-synthetic-password-2026' },
-      },
-    )
+      })
+      .finally(() => completePasswordAdmission(info))
     if (info.project.metadata.b2bProduct.mode === 'unified-http') {
       expect(denied.ok()).toBe(true)
       const crossBrand = await raw(

@@ -222,6 +222,20 @@ export async function pacePasswordAdmission(info: TestInfo) {
     { mode: 0o600 },
   )
 }
+/** Anchor the unchanged idle window after the actual auth response, not before the UI click. */
+export function completePasswordAdmission(info: TestInfo) {
+  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
+  const previous = JSON.parse(readFileSync(pacePath, 'utf8')) as { at: number; count: number }
+  const now = Date.now()
+  writeFileSync(pacePath, JSON.stringify({ ...previous, at: now }), { mode: 0o600 })
+  info.annotations.push({
+    type: 'auth-admission-completed',
+    description: JSON.stringify({
+      afterReservationMs: now - previous.at,
+      reservedSlots: previous.count,
+    }),
+  })
+}
 export async function login(page: Page, who: Principal, info: TestInfo) {
   const mode = info.project.metadata.b2bProduct.mode
   const origin =
@@ -232,9 +246,11 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)
   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')
   await pacePasswordAdmission(info)
-  const response = page.waitForResponse(
-    (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
-  )
+  const response = page
+    .waitForResponse(
+      (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
+    )
+    .finally(() => completePasswordAdmission(info))
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
   expect((await response).status(), 'Real composed UI password admission').toBe(200)
   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })

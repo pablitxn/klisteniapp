@@ -12,6 +12,7 @@ import {
   newPage,
   staffSession,
   pacePasswordAdmission,
+  completePasswordAdmission,
   type Page,
   type Principal,
 } from './fixtures/b2b-product/app-fixture'
@@ -223,10 +224,12 @@ test(scenarioTitle('B2BP-ROLES-003'), async ({ page, context, product }, info) =
     await activated.page.getByLabel('Email', { exact: true }).fill(mixed.email)
     await activated.page.getByLabel('Contraseña', { exact: true }).fill(password)
     await pacePasswordAdmission(info)
-    const admitted = activated.page.waitForResponse(
-      (response) =>
-        response.request().method() === 'POST' && response.url().endsWith('/auth/sign-in/email'),
-    )
+    const admitted = activated.page
+      .waitForResponse(
+        (response) =>
+          response.request().method() === 'POST' && response.url().endsWith('/auth/sign-in/email'),
+      )
+      .finally(() => completePasswordAdmission(info))
     await activated.page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
     const admission = await admitted
     expect(admission.status()).toBe(200)
