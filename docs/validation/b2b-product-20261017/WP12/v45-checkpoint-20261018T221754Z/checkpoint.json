@@ -1,0 +1,104 @@
+{
+  "at": "2026-10-18T22:17:54.823537+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "runs": [
+    {
+      "run": 71,
+      "state": "executing",
+      "pass": 371,
+      "nonpass": 1,
+      "pendingOrRunning": 156,
+      "last": {
+        "number": 372,
+        "project": "product-webkit-430",
+        "id": "B2BP-HEALTH-009",
+        "observed": "passed"
+      },
+      "nonpasses": [
+        {
+          "number": 152,
+          "project": "product-chromium-430",
+          "id": "B2BP-ROLES-009",
+          "observed": "nonpassing"
+        }
+      ],
+      "schemasCaptured": true
+    },
+    {
+      "run": 72,
+      "state": "executing",
+      "pass": 362,
+      "nonpass": 2,
+      "pendingOrRunning": 164,
+      "last": {
+        "number": 364,
+        "project": "product-webkit-430",
+        "id": "B2BP-HEALTH-001",
+        "observed": "passed"
+      },
+      "nonpasses": [
+        {
+          "number": 6,
+          "project": "product-chromium-320",
+          "id": "B2BP-ALTERNATIVES-004",
+          "observed": "nonpassing"
+        },
+        {
+          "number": 146,
+          "project": "product-chromium-430",
+          "id": "B2BP-ROLES-003",
+          "observed": "nonpassing"
+        }
+      ],
+      "schemasCaptured": true
+    }
+  ],
+  "processHealth": [
+    {
+      "run": 71,
+      "hostPid": 267764,
+      "hostProcessAlive": true,
+      "startedAt": "2026-10-18T20:06:07.761392+00:00",
+      "state": "executing",
+      "logBytes": 79434,
+      "logModifiedAt": "2026-10-18T22:17:51.823885+00:00",
+      "terminalReportPresent": false,
+      "blockerPresent": false,
+      "actualSchemaIdsCaptured": 6
+    },
+    {
+      "run": 72,
+      "hostPid": 267696,
+      "hostProcessAlive": true,
+      "startedAt": "2026-10-18T20:06:07.590573+00:00",
+      "state": "executing",
+      "logBytes": 77740,
+      "logModifiedAt": "2026-10-18T22:17:11.613625+00:00",
+      "terminalReportPresent": false,
+      "blockerPresent": false,
+      "actualSchemaIdsCaptured": 6
+    }
+  ],
+  "containers": [
+    {
+      "name": "wp12-v11-browser",
+      "Status": "running",
+      "Running": true,
+      "OOMKilled": false,
+      "ExitCode": 0
+    },
+    {
+      "name": "wp12-v11-postgres",
+      "Status": "running",
+      "Running": true,
+      "OOMKilled": false,
+      "ExitCode": 0
+    }
+  ],
+  "sourceAndBuiltFilesChecked": 2106,
+  "sourceMismatches": [],
+  "sourceManifestSha256": "a01421e79b313cbc4d0e0b54fcdf687a5b7ae9378eeea155e413b1571fbb24c4",
+  "buildManifestSha256": "6d7d41793a70a98aa75f867eda3490b6f4de5e1448f6cbfd798ea46f62de1865",
+  "qualification": "Timestamped provisional CLI checkpoint. Pending cells are not passes. Full terminal reports and owned cleanup remain authoritative. Independent focused12instances and helper contracts remain separate and all original failures stay immutable."
+}
