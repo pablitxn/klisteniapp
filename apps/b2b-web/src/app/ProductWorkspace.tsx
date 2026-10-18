@@ -1,28 +1,57 @@
-import { PeopleWorkspace } from '../features/people/PeopleWorkspace'
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { lazy, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createProductV2Client, type ProductV2Client } from '@klisteniapp/b2b-client'
 import type { OrganizationRoleV2 } from '@klisteniapp/b2b-contracts/product-v2'
 import { AccountProvider, useLoad } from '@klisteniapp/b2b-react'
 import { Shell } from '@klisteniapp/b2b-ui'
 import { doseLabel } from '../features/alternatives/alternativePresentation'
-import { ProductWorkoutHistory, type SelectedRecovery } from './ProductWorkout'
+import type { SelectedRecovery } from './ProductWorkout'
 import { IndexedDBWorkoutStore } from '../features/training/storage/workoutStore'
 import type { WorkoutDocument } from '../features/training/storage/workoutStore'
 import { useSelectedWorkoutRecovery } from '../features/training/storage/useSelectedWorkoutRecovery'
 import type { WorkoutRecoveryContext } from '../features/training/storage/selectedWorkoutRecovery'
 import { useProductStream } from './productStream'
-import { TrainerHealthView } from '../features/health/TrainerHealthView'
 import { useApplication } from './ApplicationProvider'
 import { MembershipAccessBoundary } from '../features/membership/RestrictedMembership'
 import { personalExportDownload } from '../features/membership/trainingInterchange'
-import { ProgrammingPage } from '../features/programs/product/ProgrammingPage'
-import { LegacyAdoptionAssignments } from '../features/programs/legacy-adoption/LegacyAdoptionAssignments'
-import { ProductHistoryReportsPage } from '../features/reports/ProductReportsPage'
 import type { RoutineReference } from '../features/training/routine-history/model'
-import { HealthSettings } from '../features/health/HealthSettings'
 import type { HealthAccess } from '../features/health/healthAccess'
 import type { FlushLocalWorkout } from '../features/training/sync/localWorkoutFlush'
 import { registerNavigationGuard } from './navigation'
+import { WorkspaceFeatureBoundary } from './WorkspaceFeatureBoundary'
+
+const PeopleWorkspace = lazy(() =>
+  import('../features/people/PeopleWorkspace').then((module) => ({
+    default: module.PeopleWorkspace,
+  })),
+)
+const ProductWorkoutHistory = lazy(() =>
+  import('./ProductWorkout').then((module) => ({ default: module.ProductWorkoutHistory })),
+)
+const TrainerHealthView = lazy(() =>
+  import('../features/health/TrainerHealthView').then((module) => ({
+    default: module.TrainerHealthView,
+  })),
+)
+const ProgrammingPage = lazy(() =>
+  import('../features/programs/product/ProgrammingPage').then((module) => ({
+    default: module.ProgrammingPage,
+  })),
+)
+const LegacyAdoptionAssignments = lazy(() =>
+  import('../features/programs/legacy-adoption/LegacyAdoptionAssignments').then((module) => ({
+    default: module.LegacyAdoptionAssignments,
+  })),
+)
+const ProductHistoryReportsPage = lazy(() =>
+  import('../features/reports/ProductReportsPage').then((module) => ({
+    default: module.ProductHistoryReportsPage,
+  })),
+)
+const HealthSettings = lazy(() =>
+  import('../features/health/HealthSettings').then((module) => ({
+    default: module.HealthSettings,
+  })),
+)
 
 export default function ProductWorkspace({ publicContent }: { publicContent?: ReactNode }) {
   const { session, href, navigate } = useApplication()
@@ -377,32 +406,38 @@ export function ProductViews({
           branchName={branchName}
         />
       ) : page === 'health' ? (
-        <HealthSettings
-          context={context}
-          organizationName={organizationName}
-          branchName={branchName}
-          onExportOwnRecords={() => void exportOwn()}
-        />
+        <WorkspaceFeatureBoundary contextKey={accessKey} name="tu salud">
+          <HealthSettings
+            context={context}
+            organizationName={organizationName}
+            branchName={branchName}
+            onExportOwnRecords={() => void exportOwn()}
+          />
+        </WorkspaceFeatureBoundary>
       ) : staff && page === 'planning' ? (
-        <ProgrammingPage
-          organizationId={context.organizationId}
-          accessKey={accessKey}
-          createClient={createClient}
-          loadExercises={loadExercises}
-          loadRoutineChoices={loadChoices}
-        />
+        <WorkspaceFeatureBoundary contextKey={accessKey} name="programación">
+          <ProgrammingPage
+            organizationId={context.organizationId}
+            accessKey={accessKey}
+            createClient={createClient}
+            loadExercises={loadExercises}
+            loadRoutineChoices={loadChoices}
+          />
+        </WorkspaceFeatureBoundary>
       ) : staff &&
         page === 'legacy-review' &&
         context.access?.capabilities.includes('edit-planning') ? (
-        <LegacyAdoptionAssignments
-          accountId={context.accountId}
-          branchId={context.branchId}
-          access={context.access}
-          accessKey={accessKey}
-          contextSignal={context.signal}
-          createClient={createClient}
-          onClose={() => navigate(`${route}?view=planning`)}
-        />
+        <WorkspaceFeatureBoundary contextKey={accessKey} name="las rutinas anteriores">
+          <LegacyAdoptionAssignments
+            accountId={context.accountId}
+            branchId={context.branchId}
+            access={context.access}
+            accessKey={accessKey}
+            contextSignal={context.signal}
+            createClient={createClient}
+            onClose={() => navigate(`${route}?view=planning`)}
+          />
+        </WorkspaceFeatureBoundary>
       ) : staff && page === 'reports' ? (
         <Reports
           createClient={createClient}
@@ -413,17 +448,19 @@ export function ProductViews({
       ) : staff && page === 'people' ? (
         <People createClient={createClient} accessKey={accessKey} context={context} />
       ) : context.access?.role === 'member' ? (
-        <ProductWorkoutHistory
-          key={workoutVisit}
-          registerLocalFlush={registerLocalFlush}
-          context={context}
-          createClient={createClient}
-          store={store}
-          onSelected={onSelected}
-          recoveryContext={recoveryContext}
-          recoverable={recoverable}
-          onOpenRoutine={setReference}
-        />
+        <WorkspaceFeatureBoundary contextKey={accessKey} name="tu rutina e historial">
+          <ProductWorkoutHistory
+            key={workoutVisit}
+            registerLocalFlush={registerLocalFlush}
+            context={context}
+            createClient={createClient}
+            store={store}
+            onSelected={onSelected}
+            recoveryContext={recoveryContext}
+            recoverable={recoverable}
+            onOpenRoutine={setReference}
+          />
+        </WorkspaceFeatureBoundary>
       ) : (
         <p role="status">Elegí una sección autorizada.</p>
       )}
@@ -507,13 +544,15 @@ function Reports({
   onOpenRoutine: (r: RoutineReference) => void
 }) {
   return (
-    <ProductHistoryReportsPage
-      organizationId={context.organizationId}
-      branchId={context.branchId}
-      accessKey={accessKey}
-      createClient={createClient}
-      onOpenRoutine={onOpenRoutine}
-    />
+    <WorkspaceFeatureBoundary contextKey={accessKey} name="el historial">
+      <ProductHistoryReportsPage
+        organizationId={context.organizationId}
+        branchId={context.branchId}
+        accessKey={accessKey}
+        createClient={createClient}
+        onOpenRoutine={onOpenRoutine}
+      />
+    </WorkspaceFeatureBoundary>
   )
 }
 
@@ -526,7 +565,11 @@ function People({
   accessKey: string
   context: HealthAccess
 }) {
-  return <PeopleWorkspace createClient={createClient} accessKey={accessKey} context={context} />
+  return (
+    <WorkspaceFeatureBoundary contextKey={accessKey} name="personas">
+      <PeopleWorkspace createClient={createClient} accessKey={accessKey} context={context} />
+    </WorkspaceFeatureBoundary>
+  )
 }
 
 function SharedHealth({
@@ -632,11 +675,13 @@ function TrainerHealthGate({
       </section>
     )
   return (
-    <TrainerHealthView
-      context={scoped}
-      memberId={memberId}
-      memberName={memberName}
-      branchName={branchName}
-    />
+    <WorkspaceFeatureBoundary contextKey={scoped.generation} name="la salud compartida">
+      <TrainerHealthView
+        context={scoped}
+        memberId={memberId}
+        memberName={memberName}
+        branchName={branchName}
+      />
+    </WorkspaceFeatureBoundary>
   )
 }

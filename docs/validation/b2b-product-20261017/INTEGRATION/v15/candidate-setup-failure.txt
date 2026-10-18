@@ -1,0 +1,16 @@
+[WebServer] node:internal/fs/promises:1038
+[WebServer]   const result = await PromisePrototypeThen(
+[WebServer]                  ^
+[WebServer] 
+[WebServer] Error: EACCES: permission denied, stat '/candidate-dist/index.html'
+[WebServer]     at async stat (node:internal/fs/promises:1038:18)
+[WebServer]     at async file:///task/app/apps/b2c-web/test/workspace-loading/server.mjs:29:1 {
+[WebServer]   errno: -13,
+[WebServer]   code: 'EACCES',
+[WebServer]   syscall: 'stat',
+[WebServer]   path: '/candidate-dist/index.html'
+[WebServer] }
+[WebServer] 
+[WebServer] Node.js v24.18.0
+Error: Process from config.webServer was not able to start. Exit code: 1
+

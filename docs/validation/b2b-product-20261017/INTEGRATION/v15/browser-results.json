@@ -1,0 +1,461 @@
+{
+  "sourceCommit": "3f8ccba573c08045c809dc73c186158878a2dafa",
+  "qualification": "Final candidate14/14; baseline is an expected negative control. Earlier setup/offline/locator failures retained and not counted as passes. Synthetic API fixture, not full-product acceptance.",
+  "runs": [
+    {
+      "name": "candidate",
+      "rawReportSha256": "8f623f2c25e5fa9ffd78c23209928216039037b5ce360b83c0a9be9d6daf9b84",
+      "stats": {
+        "startTime": "2026-10-18T21:50:40.889Z",
+        "duration": 24416.432,
+        "expected": 14,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [],
+      "cases": [
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1303
+        },
+        {
+          "title": "a delayed selected chunk leaves navigation usable and loads when explicitly released",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 2294
+        },
+        {
+          "title": "a rejected selected chunk reports a scoped error and another section still works",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1510
+        },
+        {
+          "title": "a branch and role change while planning is delayed cannot fetch or reveal old privileged data",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 873
+        },
+        {
+          "title": "revoking consent during a delayed shared-health import cannot mount or fetch the old projection",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1419
+        },
+        {
+          "title": "consent denial prevents importing or reading shared health",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1487
+        },
+        {
+          "title": "inactive membership remains export-only even when a health route is requested",
+          "project": "chromium430",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1516
+        },
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1213
+        },
+        {
+          "title": "a delayed selected chunk leaves navigation usable and loads when explicitly released",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1701
+        },
+        {
+          "title": "a rejected selected chunk reports a scoped error and another section still works",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 2106
+        },
+        {
+          "title": "a branch and role change while planning is delayed cannot fetch or reveal old privileged data",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 2550
+        },
+        {
+          "title": "revoking consent during a delayed shared-health import cannot mount or fetch the old projection",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1505
+        },
+        {
+          "title": "consent denial prevents importing or reading shared health",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1539
+        },
+        {
+          "title": "inactive membership remains export-only even when a health route is requested",
+          "project": "chromium-desktop",
+          "status": "passed",
+          "retry": 0,
+          "durationMs": 1233
+        }
+      ]
+    },
+    {
+      "name": "baseline",
+      "rawReportSha256": "22dc02941782ca4034bdbb20ea6ee2bf672a8177acb4a35570533737134eb0b6",
+      "stats": {
+        "startTime": "2026-10-18T21:52:35.112Z",
+        "duration": 7154.367,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "errors": [],
+      "cases": [
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6062,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true }) with timeout 5000ms\n  - waiting for getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n"
+        }
+      ]
+    },
+    {
+      "name": "candidate-setup-failure",
+      "rawReportSha256": "c859855020f61494b2410a5ae833514a781a0b41c75469c89e9ab1afa30989c9",
+      "stats": {
+        "startTime": "2026-10-18T21:43:51.565Z",
+        "duration": 423.00299999999993,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": [
+        {
+          "message": "Error: Process from config.webServer was not able to start. Exit code: 1",
+          "stack": "Error: Process from config.webServer was not able to start. Exit code: 1"
+        }
+      ],
+      "cases": []
+    },
+    {
+      "name": "offline-runtime",
+      "rawReportSha256": "3a8193f04c9774754c40d3fa192635695e4c7284e72ae116fc348561fd209285",
+      "stats": {
+        "startTime": "2026-10-18T21:44:23.554Z",
+        "duration": 91299.525,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 14,
+        "flaky": 0
+      },
+      "errors": [],
+      "cases": [
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5728,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a delayed selected chunk leaves navigation usable and loads when explicitly released",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6088,
+          "error": "Error: Production ProgrammingPage chunk requested\n\nProduction ProgrammingPage chunk requested\n\nexpect(received).toBeGreaterThan(expected)\n\nExpected: > 0\nReceived:   0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        },
+        {
+          "title": "a rejected selected chunk reports a scoped error and another section still works",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5733,
+          "error": "Error: Production ProgrammingPage chunk requested\n\nProduction ProgrammingPage chunk requested\n\nexpect(received).toBeGreaterThan(expected)\n\nExpected: > 0\nReceived:   0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        },
+        {
+          "title": "a branch and role change while planning is delayed cannot fetch or reveal old privileged data",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5722,
+          "error": "Error: Production ProgrammingPage chunk requested\n\nProduction ProgrammingPage chunk requested\n\nexpect(received).toBeGreaterThan(expected)\n\nExpected: > 0\nReceived:   0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        },
+        {
+          "title": "revoking consent during a delayed shared-health import cannot mount or fetch the old projection",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5841,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "consent denial prevents importing or reading shared health",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5588,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "inactive membership remains export-only even when a health route is requested",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5538,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6125,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a delayed selected chunk leaves navigation usable and loads when explicitly released",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5362,
+          "error": "Error: Production ProgrammingPage chunk requested\n\nProduction ProgrammingPage chunk requested\n\nexpect(received).toBeGreaterThan(expected)\n\nExpected: > 0\nReceived:   0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        },
+        {
+          "title": "a rejected selected chunk reports a scoped error and another section still works",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6156,
+          "error": "Error: Production ProgrammingPage chunk requested\n\nProduction ProgrammingPage chunk requested\n\nexpect(received).toBeGreaterThan(expected)\n\nExpected: > 0\nReceived:   0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        },
+        {
+          "title": "a branch and role change while planning is delayed cannot fetch or reveal old privileged data",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6128,
+          "error": "Error: Production ProgrammingPage chunk requested\n\nProduction ProgrammingPage chunk requested\n\nexpect(received).toBeGreaterThan(expected)\n\nExpected: > 0\nReceived:   0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        },
+        {
+          "title": "revoking consent during a delayed shared-health import cannot mount or fetch the old projection",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5826,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "consent denial prevents importing or reading shared health",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5557,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "inactive membership remains export-only even when a health route is requested",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5550,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        }
+      ]
+    },
+    {
+      "name": "locator-diagnosis",
+      "rawReportSha256": "688ecda19204208f9e93e5f1cf2678b12bb691ac191e28c4c4235fa56f3a4a01",
+      "stats": {
+        "startTime": "2026-10-18T21:47:58.639Z",
+        "duration": 91560.435,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 14,
+        "flaky": 0
+      },
+      "errors": [],
+      "cases": [
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5508,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a delayed selected chunk leaves navigation usable and loads when explicitly released",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6086,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a rejected selected chunk reports a scoped error and another section still works",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6171,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a branch and role change while planning is delayed cannot fetch or reveal old privileged data",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5937,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "revoking consent during a delayed shared-health import cannot mount or fetch the old projection",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5526,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "consent denial prevents importing or reading shared health",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5531,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "inactive membership remains export-only even when a health route is requested",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5762,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5809,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a delayed selected chunk leaves navigation usable and loads when explicitly released",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6380,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a rejected selected chunk reports a scoped error and another section still works",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6409,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "a branch and role change while planning is delayed cannot fetch or reveal old privileged data",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6201,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "revoking consent during a delayed shared-health import cannot mount or fetch the old projection",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5487,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "consent denial prevents importing or reading shared health",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5848,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        },
+        {
+          "title": "inactive membership remains export-only even when a health route is requested",
+          "project": "chromium-desktop",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5545,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        }
+      ]
+    },
+    {
+      "name": "baseline-offline-runtime",
+      "rawReportSha256": "0f37f5d28cb0462cad44bc5229d93f949d0077a4b56aadc31387cf80f9f41f62",
+      "stats": {
+        "startTime": "2026-10-18T21:43:32.198Z",
+        "duration": 7584.378000000001,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "errors": [],
+      "cases": [
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 6351,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        }
+      ]
+    },
+    {
+      "name": "baseline-label-query",
+      "rawReportSha256": "78dc3cb59396a920122a6e205a66370e675d9e0ffcaf9e21b9b0badd8a66fe5d",
+      "stats": {
+        "startTime": "2026-10-18T21:47:32.770Z",
+        "duration": 6886.089,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "errors": [],
+      "cases": [
+        {
+          "title": "an unrelated production chunk cannot hold the authorized shell or initial feature",
+          "project": "chromium430",
+          "status": "failed",
+          "retry": 0,
+          "durationMs": 5808,
+          "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByLabel('Organizaci\u00f3n', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByLabel('Organizaci\u00f3n', { exact: true }) with timeout 5000ms\n  - waiting for getByLabel('Organizaci\u00f3n', { exact: true })\n"
+        }
+      ]
+    }
+  ]
+}

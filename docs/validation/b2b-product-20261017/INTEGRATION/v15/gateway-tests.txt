@@ -1,0 +1,31 @@
+✔ member, gym staff and Vite resources use one B2B development server (55.747423ms)
+✔ gateway strips spoofed forwarding identity and authenticates the actual host (13.379588ms)
+✔ HTTPS mode cannot start with a plaintext gateway or absent shared secret (1.183097ms)
+✔ document entry checks the registry before serving HTML and preserves safe alias responses (9.745206ms)
+✔ built fixture serves its fixed snapshot after the shared build is replaced (45.883461ms)
+✔ built GET bytes and HEAD metadata preserve MIME and security headers (34.096837ms)
+✔ built routes retain method, malformed path, dotfile, asset and SPA fallback behavior (23.625972ms)
+✔ repeated client disconnects close every static source and return file descriptors to baseline (197.419021ms)
+✔ paused clients apply backpressure and close their sources on disconnect (119.522574ms)
+✔ HEAD closes its open handle without creating a source (4.376336ms)
+▶ disconnects during pending open or metadata close the handle without starting a source
+  ✔ open (16.523333ms)
+  ✔ stat (13.236006ms)
+✔ disconnects during pending open or metadata close the handle without starting a source (30.38584ms)
+✔ metadata and body use the same open file when the path is replaced (3.965361ms)
+▶ open, stat, stream creation and read failures are contained and close handles
+  ✔ open (4.917125ms)
+  ✔ stat-missing (5.082147ms)
+  ✔ stat (4.31008ms)
+  ✔ create (4.440621ms)
+  ✔ first-read (5.276035ms)
+  ✔ later-read (5.519327ms)
+✔ open, stat, stream creation and read failures are contained and close handles (30.874703ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 730.213433
