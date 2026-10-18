@@ -3,6 +3,7 @@ import {
   expect,
   type BrowserContext,
   type Page,
+  type Response,
   type TestInfo,
 } from '@playwright/test'
 import { get } from 'node:http'
@@ -632,10 +633,48 @@ export async function showWeek(
   week: string,
   timeZone = 'UTC',
 ) {
-  await open(page, product, info, 'history')
-  await expect(
-    page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
-  ).toBeVisible()
+  const started = performance.now()
+  let headingWaitStarted: number | undefined
+  let headingVisible = false
+  const responses: Array<{ endpoint: string; status: number; elapsedMs: number }> = []
+  const recordResponse = (response: Response) => {
+    const endpoint = new URL(response.url()).pathname.match(
+      /\/(context|bootstrap\/v2|access|continuity|sessions|week|occurrences)$/,
+    )?.[1]
+    if (endpoint)
+      responses.push({
+        endpoint,
+        status: response.status(),
+        elapsedMs: Math.round(performance.now() - started),
+      })
+  }
+  page.on('response', recordResponse)
+  try {
+    await open(page, product, info, 'history')
+    headingWaitStarted = performance.now()
+    await expect(
+      page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+    ).toBeVisible({ timeout: 30000 })
+    headingVisible = true
+  } finally {
+    page.off('response', recordResponse)
+    await info.attach(`history-page-readiness-${operation()}`, {
+      body: Buffer.from(
+        JSON.stringify({
+          headingVisible,
+          maximumHeadingWaitMs: 30000,
+          navigationMs:
+            headingWaitStarted === undefined ? null : Math.round(headingWaitStarted - started),
+          headingWaitMs:
+            headingWaitStarted === undefined
+              ? null
+              : Math.round(performance.now() - headingWaitStarted),
+          responses,
+        }),
+      ),
+      contentType: 'application/json',
+    })
+  }
   // Offset the calendar while wall time keeps advancing, so real retry deadlines
   // can expire. Authoritative server asOf/closed responses remain unmodified.
   await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))

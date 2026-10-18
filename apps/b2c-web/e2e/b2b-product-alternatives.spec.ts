@@ -585,15 +585,29 @@ test(scenarioTitle('B2BP-ALTERNATIVES-009'), async ({ page, context, product }, 
         exact: true,
       }),
     })
-    for (const input of await target.getByRole('spinbutton', { name: / left cantidad$/ }).all())
-      await input.fill('1')
+    const minimum =
+      relation.targetDose.sets.kind === 'fixed'
+        ? relation.targetDose.sets.value
+        : relation.targetDose.sets.min
+    expect(minimum).toBeGreaterThan(0)
+    const leftInputs = target.getByRole('spinbutton', { name: / left cantidad$/ })
+    const rightInputs = target.getByRole('spinbutton', { name: / right cantidad$/ })
+    await expect(leftInputs).toHaveCount(minimum)
+    await expect(rightInputs).toHaveCount(minimum)
+    for (let index = 0; index < minimum; index++) await leftInputs.nth(index).fill('1')
+    for (let index = 0; index < minimum; index++) {
+      await expect(leftInputs.nth(index)).toHaveValue('1')
+      await expect(rightInputs.nth(index)).toHaveValue('')
+    }
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
     await expect(page.getByRole('alert')).not.toHaveCount(0)
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).not.toBe(
       'completed',
     )
-    for (const input of await target.getByRole('spinbutton', { name: / right cantidad$/ }).all())
-      await input.fill('1')
+    await expect(rightInputs).toHaveCount(minimum)
+    for (let index = 0; index < minimum; index++) await rightInputs.nth(index).fill('1')
+    for (let index = 0; index < minimum; index++)
+      await expect(rightInputs.nth(index)).toHaveValue('1')
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
     await expect
       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)
