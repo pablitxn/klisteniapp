@@ -1,0 +1,28 @@
+--- a/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts
++++ b/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts
+@@ -585,15 +585,21 @@
+         exact: true,
+       }),
+     })
+-    for (const input of await target.getByRole('spinbutton', { name: / left cantidad$/ }).all())
+-      await input.fill('1')
++    const minimum =
++      relation.targetDose.sets.kind === 'fixed'
++        ? relation.targetDose.sets.value
++        : relation.targetDose.sets.min
++    const leftInputs = target.getByRole('spinbutton', { name: / left cantidad$/ })
++    const rightInputs = target.getByRole('spinbutton', { name: / right cantidad$/ })
++    await expect(leftInputs).toHaveCount(minimum)
++    await expect(rightInputs).toHaveCount(minimum)
++    for (const input of await leftInputs.all()) await input.fill('1')
+     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
+     await expect(page.getByRole('alert')).not.toHaveCount(0)
+     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).not.toBe(
+       'completed',
+     )
+-    for (const input of await target.getByRole('spinbutton', { name: / right cantidad$/ }).all())
+-      await input.fill('1')
++    for (const input of await rightInputs.all()) await input.fill('1')
+     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
+     await expect
+       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)

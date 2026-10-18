@@ -1,0 +1,13 @@
+import datetime,hashlib,json,runpy,subprocess
+from pathlib import Path
+R=Path('/workspace/wp12-runtime-v11');E=R/'evidence';repo=Path('/workspace/klisteniapp');base=repo/'docs/validation/b2b-product-20261017/WP12';assert not any((E/f'r{n}.state').exists() for n in [71,72]);ns=runpy.run_path(str(R/'run-accepted.py'))
+for n in [69,70]:
+ x=json.loads((E/f'r{n}-summary.json').read_text());assert (E/f'r{n}.state').read_text().strip()=='complete' and x['counts']=={'passed':6} and x['qaSha']==ns['QA']
+assert json.loads((E/'helper-contracts-summary.json').read_text())['counts']=={'passed':8};assert json.loads((E/'independent-session-guard-summary.json').read_text())['passed']==7
+assert json.loads((base/'v45/summary.json').read_text())['sourceReview']=='accepted';ns['prove'](75,'full-start')
+preserved=[]
+for v in ['v40','v41','v44','v45']:
+ p=base/v;m=json.loads((p/'manifest.json').read_text());assert all(hashlib.sha256((p/f['path']).read_bytes()).hexdigest()==f['sha256'] for f in m['files']);preserved.append({'version':v,'manifestSha256':hashlib.sha256((p/'manifest.json').read_bytes()).hexdigest(),'filesVerified':len(m['files'])})
+count=int(subprocess.check_output(['docker','exec','wp12-v11-postgres','psql','-U','wp12','-d','wp12_b2b_test','-Atc',"select count(*) from information_schema.schemata where schema_name like 'b2b_product_browser_%'"],text=True));assert count==0
+x={'at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'applicationSha':ns['APP'],'qaSha':ns['QA'],'acceptedIntegrationEvidenceSha':'f89edc6bf78d91f01d29ac9c34c6f25587d7a526','independentReviewPublicationSha':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'independentFocusedPasses':12,'independentHelperContractPasses':8,'independentDomainGuardPasses':7,'preservedEvidence':preserved,'initialGlobalBrowserSchemas':0,'sourceManifestSha256':hashlib.sha256((E/'source-proof.json').read_bytes()).hexdigest(),'buildManifestSha256':hashlib.sha256((E/'fresh-build-proof.json').read_bytes()).hexdigest(),'runnerSha256':hashlib.sha256((R/'run-accepted.py').read_bytes()).hexdigest(),'expectedUniqueCellsPerMode':528,'retries':0,'failureCap':None,'authorization':'Parent conditionally authorized direct full execution after sound independent review and applicable verification. Both conditions passed; no further confirmation needed.','qualification':'Full source/builds frozen after independent focused verification. All earlier failures and counts preserved. New fixtures; no pooling, source swaps, security or TLS exceptions.'};(E/'full-start-provenance.json').write_text(json.dumps(x,indent=2)+'\n');print(json.dumps(x),flush=True)
+raise SystemExit(subprocess.call(['python3',str(R/'run-accepted.py'),'full']))

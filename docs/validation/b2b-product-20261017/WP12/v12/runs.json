@@ -1,0 +1,186 @@
+[
+  {
+    "run": "candidate7dc-critical-r20",
+    "applicationSha": "7dcf45753591da83ee0bfbde2e2c50dca218ff9b",
+    "qaSha": "1abbf34b37d4747c5a66db10455d9265b79de1d5",
+    "stats": {
+      "startTime": "2026-10-17T17:50:22.154Z",
+      "duration": 129922.50499999999,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 4
+    },
+    "runErrors": [],
+    "exitCode": 0,
+    "wrapperTimes": [
+      "2026-10-17T17:50:20Z",
+      "2026-10-17T17:52:32Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "84dbbf587397a17ef4b541636264c2c49b07aaa4671512a42dffae5a60cdfee7",
+    "decodedLogSha256": "360a99dc950a882104af54fc7059161ea243aada26fab6f8a45197fb01525fb1",
+    "cells": [
+      {
+        "id": "B2BP-INACTIVE-011",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": []
+      },
+      {
+        "id": "B2BP-INACTIVE-011",
+        "project": "product-webkit-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": []
+      },
+      {
+        "id": "B2BP-ROLES-001",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": []
+      },
+      {
+        "id": "B2BP-ROLES-001",
+        "project": "product-webkit-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": []
+      }
+    ]
+  },
+  {
+    "run": "candidate7dc-close-r21",
+    "applicationSha": "7dcf45753591da83ee0bfbde2e2c50dca218ff9b",
+    "qaSha": "7843a86de94697a2e9b13fb44463038df18e209d",
+    "stats": {
+      "startTime": "2026-10-17T17:52:52.601Z",
+      "duration": 150697.72100000002,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 2,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 3,
+      "failed": 2
+    },
+    "runErrors": [],
+    "exitCode": 1,
+    "wrapperTimes": [
+      "2026-10-17T17:52:51Z",
+      "2026-10-17T17:55:23Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "13dbe9b10e3492eae92ff846d004b9a07fa5b92d86b4044354921fa70c55ab0d",
+    "decodedLogSha256": "68bc77e429508581b47fe5f9c089d068188cbae9832bb3303782634bb4cc6bfc",
+    "cells": [
+      {
+        "id": "B2BP-ALTERNATIVES-007",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": []
+      },
+      {
+        "id": "B2BP-ROLES-003",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": []
+      },
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+              "column": 35,
+              "line": 78
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"documentGeneration\": 6,\u001b[39m\n\u001b[31m+   \"documentGeneration\": 0,\u001b[39m\n\u001b[2m    \"documentKey\": \"[\\\"http://127.0.0.1:5613\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"atlas-demo\\\",\\\"atlas-demo-principal\\\",\\\"483f1cc2-a83b-4b5b-9336-eeb44188c0cd\\\",\\\"realm-v1\\\",\\\"unified\\\",\\\"4784d4f36dd62ddb92717046a56cd705cf7aeddd72dffbb61c02580689272afe\\\",\\\"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\\\"]\",\u001b[22m\n\u001b[2m    \"id\": \"session-27ec7f48518ab319e73a980493ebe0e4bb73d1c6\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  76 |         expect(saved.document.operations).toEqual(before.document.operations)\n  77 |         expect(saved.pointers).toHaveLength(1)\n> 78 |         expect(saved.pointers[0]).toMatchObject({\n     |                                   ^\n  79 |           id,\n  80 |           documentKey: saved.document.key,\n  81 |           documentGeneration: saved.document.generation,\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:78:35\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7"
+          }
+        ],
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/test-failed-1.png"
+          },
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/test-failed-2.png"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-8ccfa-ithout-automatic-completion-product-chromium-430/trace.zip"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+              "column": 51,
+              "line": 679
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m5\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\n  677 |     expect(saved.document.accepted).toEqual(before.document.accepted)\n  678 |     expect(saved.document.operations).toEqual(before.document.operations)\n> 679 |     expect(saved.pointers[0]?.documentGeneration).toBe(saved.document.generation)\n      |                                                   ^\n  680 |     await info.attach('authenticated-close-quota-retry-evidence', {\n  681 |       body: JSON.stringify({\n  682 |         id,\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:679:51"
+          }
+        ],
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/test-failed-1.png"
+          },
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/test-failed-2.png"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/tmp/candidate7dc-close-r21/artifacts/b2b-product-sync-B2BP-SYNC-ef2dd-aft-bytes-survive-migration-product-chromium-430/trace.zip"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": [],
+        "attachments": [
+          {
+            "name": "authenticated-close-revocation-evidence",
+            "contentType": "application/json",
+            "body": "eyJpZCI6InNlc3Npb24tMWM0OTYwODc1ZDUxZDMyMmU5NzVlZWFkNTEyOTEyZDkxZDA4NzBjZSIsIm5hdGl2ZVRyYW5zYWN0aW9uQWJvcnRlZCI6dHJ1ZSwiZ2VuZXJhdGlvbkJlZm9yZSI6NCwiZ2VuZXJhdGlvbkFmdGVyIjo0LCJjYXB0dXJlZEFuZFF1ZXVlZFdyaXRlc0NhbmNlbGxlZCI6dHJ1ZSwicHJpdmF0ZUVkaXRvckhpZGRlbkJlZm9yZVJlbGVhc2UiOnRydWV9"
+          }
+        ]
+      }
+    ]
+  }
+]

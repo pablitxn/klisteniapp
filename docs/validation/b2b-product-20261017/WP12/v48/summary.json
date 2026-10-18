@@ -1,0 +1,194 @@
+{
+  "sealedAt": "2026-10-18T23:17:47.050829+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "integrationEvidenceSha": "f89edc6bf78d91f01d29ac9c34c6f25587d7a526",
+  "browserScenarioIds": 88,
+  "fullHttpCells": 1056,
+  "uniqueFullHttpCells": 1056,
+  "runs": [
+    {
+      "run": "readiness-full-r71",
+      "number": 71,
+      "mode": "unified-http",
+      "counts": {
+        "passed": 527,
+        "failed": 1
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T20:06:08.579Z",
+        "duration": 11240038.507,
+        "expected": 527,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 6
+    },
+    {
+      "run": "readiness-full-r72",
+      "number": 72,
+      "mode": "white-label-http",
+      "counts": {
+        "passed": 526,
+        "failed": 2
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T20:06:08.333Z",
+        "duration": 11461436.392,
+        "expected": 526,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 0
+    }
+  ],
+  "totalCounts": {
+    "passed": 1053,
+    "failed": 3
+  },
+  "globalBrowserSchemasRemaining": 0,
+  "sourceAndBuiltFilesReverified": 2106,
+  "blockedHttpsPlannedCells": 528,
+  "blockedHttpsExecutedCells": 0,
+  "fullHttpAllPassed": false,
+  "nonpassingCells": [
+    {
+      "run": 71,
+      "id": "B2BP-ROLES-009",
+      "mode": "unified-http",
+      "project": "product-chromium-430",
+      "status": "failed"
+    },
+    {
+      "run": 72,
+      "id": "B2BP-ALTERNATIVES-004",
+      "mode": "white-label-http",
+      "project": "product-chromium-320",
+      "status": "failed"
+    },
+    {
+      "run": 72,
+      "id": "B2BP-ROLES-003",
+      "mode": "white-label-http",
+      "project": "product-chromium-430",
+      "status": "failed"
+    }
+  ],
+  "references": [
+    {
+      "version": "v46",
+      "manifestSha256": "e4e3ade887bb447cc5e9676cd7bb14e8af7b0b977c578f0850b858b6abaa1609"
+    },
+    {
+      "version": "v47",
+      "manifestSha256": "8f648556c55a74861d8ea9cc62151667074ad460564d5858a0d2d3388d050d6b"
+    }
+  ],
+  "preservedEarlierEvidence": [
+    {
+      "version": "v40",
+      "manifestSha256": "8b1dff1bc32dc107a5a8594b82b6cd75eb66a046f85ded514c6bb5b2d9019374",
+      "filesVerified": 9,
+      "unchanged": true
+    },
+    {
+      "version": "v41",
+      "manifestSha256": "7469ac48db5e8607285d7b933bdd7568737619d2be2b713ea4ab4ed7e51b9c24",
+      "filesVerified": 111,
+      "unchanged": true
+    },
+    {
+      "version": "v44",
+      "manifestSha256": "c6148e4338b88b739bb8772775ca901e48f619e492d1e4464441d0acd29e8a8d",
+      "filesVerified": 13,
+      "unchanged": true
+    },
+    {
+      "version": "v45",
+      "manifestSha256": "e99de0e8df5735d11937bdc71271d8cbca86b62a5eec5697e784883ef05c90d3",
+      "filesVerified": 86,
+      "unchanged": true
+    }
+  ],
+  "independentReviewVersion": "v45",
+  "newFullFailureDiagnoses": [
+    {
+      "sha": "99f3167914dba9b4741a91e3b7630debb7270a0e",
+      "version": "v45-failure-r72-alternatives004-chromium320",
+      "url": "https://github.com/pablitxn/klisteniapp/blob/99f3167914dba9b4741a91e3b7630debb7270a0e/docs/validation/b2b-product-20261017/WP12/v45-failure-r72-alternatives004-chromium320/README.md"
+    },
+    {
+      "sha": "bc6d7d5e4279358e527d063cd28f2ad0dadb0961",
+      "version": "v45-failures-roles-chromium430",
+      "url": "https://github.com/pablitxn/klisteniapp/blob/bc6d7d5e4279358e527d063cd28f2ad0dadb0961/docs/validation/b2b-product-20261017/WP12/v45-failures-roles-chromium430/README.md"
+    }
+  ],
+  "positiveReadinessPhases": [
+    {
+      "phase": "history-data",
+      "observations": 1176,
+      "ready": 1175,
+      "notReady": 1,
+      "minimumElapsedMs": 458,
+      "maximumElapsedMs": 30097,
+      "over5000ms": 4,
+      "budgetMs": 30000
+    },
+    {
+      "phase": "initial-draft-commit",
+      "observations": 287,
+      "ready": 287,
+      "notReady": 0,
+      "minimumElapsedMs": 18,
+      "maximumElapsedMs": 21766,
+      "over5000ms": 1,
+      "budgetMs": 30000
+    },
+    {
+      "phase": "selected-week-data",
+      "observations": 455,
+      "ready": 455,
+      "notReady": 0,
+      "minimumElapsedMs": 36,
+      "maximumElapsedMs": 1179,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    },
+    {
+      "phase": "workspace-admission",
+      "observations": 1955,
+      "ready": 1955,
+      "notReady": 0,
+      "minimumElapsedMs": 65,
+      "maximumElapsedMs": 3048,
+      "over5000ms": 0,
+      "budgetMs": 30000
+    }
+  ],
+  "originalV44ScenarioSubset": {
+    "ids": [
+      "B2BP-SYNC-002",
+      "B2BP-HEALTH-002",
+      "B2BP-WEEK-009"
+    ],
+    "plannedFullCells": 36,
+    "actualFullCells": 36,
+    "counts": {
+      "passed": 36
+    },
+    "qualification": "Subset of the1056actual full cells, not additional passes or historical outcome replacement."
+  },
+  "continuityRegionObservations": 12,
+  "continuityRegionVisible": 12,
+  "qualification": "Two complete independent uncapped full HTTP matrices on exact final accepted app/QA and unchanged focused-verified builds. Supplied132product, independent12product/8helper/7Node and all historical outcomes are separate; no pooling."
+}

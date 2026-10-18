@@ -1,0 +1,4390 @@
+{
+  "run": "candidate00b9-unified-matrix-r16",
+  "applicationSha": "00b9f855746a7dd8c8ddfc97991e3a2163fa5ac8",
+  "qaSha": "127440fa30ca7b0e54048a2ce2003a04edd7725d",
+  "mode": "unified-http",
+  "qualification": "Completed capped diagnostic, not final acceptance; no Playwright retries",
+  "stats": {
+    "startTime": "2026-10-17T17:05:45.019Z",
+    "duration": 1761600.831,
+    "expected": 76,
+    "skipped": 440,
+    "unexpected": 12,
+    "flaky": 0
+  },
+  "counts": {
+    "passed": 76,
+    "failed": 12,
+    "notRun": 440,
+    "skippedTestResults": 0,
+    "interrupted": 0
+  },
+  "runErrors": [
+    {
+      "message": "Testing stopped early after 12 maximum allowed failures."
+    }
+  ],
+  "exitCode": 1,
+  "wrapperTimes": [
+    "2026-10-17T17:05:44Z",
+    "2026-10-17T17:35:06Z"
+  ],
+  "schemasAfter": 0,
+  "rawJsonSha256": "2f34f29306a504a7d183a8b7344d9e3f0dcdc4b0ee7dafd8104b4cafdb775cc6",
+  "decodedLogSha256": "d6a1fd99c14de39093a73e9bfa082b363ae56858b15d5394b5042888b7fc5349",
+  "projects": {
+    "product-chromium-320": {
+      "passed": 76,
+      "failed": 12
+    },
+    "product-chromium-430": {
+      "notRun": 88
+    },
+    "product-chromium-desktop": {
+      "notRun": 88
+    },
+    "product-webkit-320": {
+      "notRun": 88
+    },
+    "product-webkit-430": {
+      "notRun": 88
+    },
+    "product-webkit-desktop": {
+      "notRun": 88
+    }
+  },
+  "cells": [
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "title": "B2BP-ALTERNATIVES-003 Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "title": "B2BP-ALTERNATIVES-008 Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "title": "B2BP-ALTERNATIVES-010 Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "title": "B2BP-ALTERNATIVES-002 No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "title": "B2BP-ALTERNATIVES-006 Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+            "column": 47,
+            "line": 590
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('alert')\nExpected: not \u001b[32m0\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveCount\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    14 \u00d7 locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  588 |       await input.fill('1')\n  589 |     await page.getByRole('button', { name: 'Completar sesi\u00f3n expl\u00edcitamente', exact: true }).click()\n> 590 |     await expect(page.getByRole('alert')).not.toHaveCount(0)\n      |                                               ^\n  591 |     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).not.toBe(\n  592 |       'completed',\n  593 |     )\n    at /task/app/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts:590:47"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+            "column": 9,
+            "line": 58
+          },
+          "message": "Error: Activated product has no published canonical reviewed bodyweight target; inspect migration007/catalog/branch availability\n\n  56 |     if (relation) return { routine, relation }\n  57 |   }\n> 58 |   throw new Error(\n     |         ^\n  59 |     'Activated product has no published canonical reviewed bodyweight target; inspect migration007/catalog/branch availability',\n  60 |   )\n  61 | }\n    at reviewedRoutine (/task/app/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts:58:9)\n    at /task/app/apps/b2c-web/e2e/b2b-product-alternatives.spec.ts:619:35"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "title": "B2BP-ALTERNATIVES-003 Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "title": "B2BP-ALTERNATIVES-008 Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "title": "B2BP-ALTERNATIVES-010 Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "title": "B2BP-ALTERNATIVES-002 No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "title": "B2BP-ALTERNATIVES-006 Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "title": "B2BP-ALTERNATIVES-003 Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "title": "B2BP-ALTERNATIVES-008 Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "title": "B2BP-ALTERNATIVES-010 Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "title": "B2BP-ALTERNATIVES-002 No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "title": "B2BP-ALTERNATIVES-006 Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "title": "B2BP-ALTERNATIVES-003 Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "title": "B2BP-ALTERNATIVES-008 Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "title": "B2BP-ALTERNATIVES-010 Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "title": "B2BP-ALTERNATIVES-002 No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "title": "B2BP-ALTERNATIVES-006 Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "title": "B2BP-ALTERNATIVES-003 Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "title": "B2BP-ALTERNATIVES-008 Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "title": "B2BP-ALTERNATIVES-010 Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "title": "B2BP-ALTERNATIVES-002 No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "title": "B2BP-ALTERNATIVES-006 Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "title": "B2BP-ALTERNATIVES-001 Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "title": "B2BP-ALTERNATIVES-003 Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "title": "B2BP-ALTERNATIVES-008 Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "title": "B2BP-ALTERNATIVES-010 Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "title": "B2BP-ALTERNATIVES-002 No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "title": "B2BP-ALTERNATIVES-004 Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "title": "B2BP-ALTERNATIVES-005 Modified local adaptation with matching base/animation does not inherit review",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "title": "B2BP-ALTERNATIVES-006 Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "title": "B2BP-ALTERNATIVES-007 Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+            "column": 84,
+            "line": 238
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Medidas', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Medidas', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Medidas', exact: true })\u001b[22m\n\n\n  236 |       .click()\n  237 |     await peer.page.getByRole('button', { name: 'Validar y mostrar datos' }).click()\n> 238 |     await expect(peer.page.getByRole('heading', { name: 'Medidas', exact: true })).toBeVisible()\n      |                                                                                    ^\n  239 |     await assertProductViewport(peer.page, info)\n  240 |   } finally {\n  241 |     await peer.context.close()\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:238:84"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "title": "B2BP-HEALTH-001 User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "title": "B2BP-HEALTH-002 Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "title": "B2BP-HEALTH-003 Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "title": "B2BP-HEALTH-004 Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "title": "B2BP-HEALTH-007 Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "title": "B2BP-HEALTH-008 Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "title": "B2BP-HEALTH-006 Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "title": "B2BP-HEALTH-009 Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "title": "B2BP-HEALTH-010 Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "title": "B2BP-HEALTH-011 No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "title": "B2BP-HISTORY-002 Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "title": "B2BP-HISTORY-003 Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "title": "B2BP-HISTORY-008 Authorized staff can inspect inactive history; another brand/member cannot",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "title": "B2BP-HISTORY-006 Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "title": "B2BP-HISTORY-007 Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "title": "B2BP-HISTORY-004 Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "title": "B2BP-HISTORY-001 Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "title": "B2BP-HISTORY-005 Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "title": "B2BP-HISTORY-009 Back/forward/reload and routine-to-session navigation retain correct scope",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "title": "B2BP-INACTIVE-001 Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "title": "B2BP-INACTIVE-002 Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "title": "B2BP-INACTIVE-003 Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "title": "B2BP-INACTIVE-004 Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "title": "B2BP-INACTIVE-008 Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "title": "B2BP-INACTIVE-007 Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "title": "B2BP-INACTIVE-009 Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "title": "B2BP-INACTIVE-012 Export loading/error/retry/download works at all six viewport/engine combinations",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "title": "B2BP-INACTIVE-005 Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "title": "B2BP-INACTIVE-006 Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "title": "B2BP-INACTIVE-010 Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "title": "B2BP-INACTIVE-011 Staff historical training view survives inactivity while health remains revoked",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "title": "B2BP-PROGRAMMING-001 Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "title": "B2BP-PROGRAMMING-009 Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+            "column": 30,
+            "line": 521
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  519 |   )\n  520 |   await page.getByRole('button', { name: 'Guardar programa incompleto', exact: true }).click()\n> 521 |   expect((await saved).ok()).toBe(true)\n      |                              ^\n  522 |   await page\n  523 |     .getByRole('checkbox', {\n  524 |       name: 'Confirmo fechas, sesiones y zona horaria para asignar una nueva inscripci\u00f3n a esta persona.',\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:521:30"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "title": "B2BP-PROGRAMMING-001 Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "title": "B2BP-PROGRAMMING-009 Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "title": "B2BP-PROGRAMMING-001 Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "title": "B2BP-PROGRAMMING-009 Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "title": "B2BP-PROGRAMMING-001 Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "title": "B2BP-PROGRAMMING-009 Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "title": "B2BP-PROGRAMMING-001 Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "title": "B2BP-PROGRAMMING-009 Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "title": "B2BP-PROGRAMMING-001 Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "title": "B2BP-PROGRAMMING-002 Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "title": "B2BP-PROGRAMMING-003 Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "title": "B2BP-PROGRAMMING-009 Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "title": "B2BP-PROGRAMMING-011 Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "title": "B2BP-PROGRAMMING-008 Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "title": "B2BP-PROGRAMMING-005 Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "title": "B2BP-PROGRAMMING-006 Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "title": "B2BP-PROGRAMMING-007 Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "title": "B2BP-PROGRAMMING-004 Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "title": "B2BP-PROGRAMMING-010 Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "title": "B2BP-PROGRAMMING-012 Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-001",
+      "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+            "column": 68,
+            "line": 163
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: \u001b[32m\"admin\"\u001b[39m\nReceived array: \u001b[31m[]\u001b[39m\n\n  161 |     .locator('option')\n  162 |     .evaluateAll((nodes) => nodes.map((node) => (node as HTMLOptionElement).value))\n> 163 |   for (const role of ['admin', 'coach', 'member']) expect(options).toContain(role)\n      |                                                                    ^\n  164 |   const peer = await newPage(context, info),\n  165 |     activated = await newPage(context, info)\n  166 |   let surStaff: Awaited<ReturnType<typeof staffSession>> | undefined\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:163:68"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+            "column": 76,
+            "line": 539
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  537 |   )\n  538 |   const foreign = principal(product, 'member', 'sur')\n> 539 |   expect((await raw(page, staff, 'audit', { id: foreign.actor.id })).ok()).toBe(false)\n      |                                                                            ^\n  540 |   await page.keyboard.press('Escape')\n  541 |   await expect(drawer).toHaveCount(0)\n  542 |   await expect(trigger).toBeFocused()\n    at /task/app/apps/b2c-web/e2e/b2b-product-roles.spec.ts:539:76"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-001",
+      "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-001",
+      "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-001",
+      "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-001",
+      "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-001",
+      "title": "B2BP-ROLES-001 Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "title": "B2BP-ROLES-002 Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "title": "B2BP-ROLES-003 Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "title": "B2BP-ROLES-005 Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "title": "B2BP-ROLES-008 Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "title": "B2BP-ROLES-007 Inactive member remains a historical training target and is rejected as active planning target",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "title": "B2BP-ROLES-006 Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "title": "B2BP-ROLES-009 Unified and WL paths enforce host/domain generation and selected branch identically",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+            "column": 7,
+            "line": 39
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i })\nExpected: visible\nError: strict mode violation: getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i }) resolved to 2 elements:\n    1) <p role=\"status\">Conexi\u00f3n pendiente de validar. Conservamos el tra\u2026</p> aka getByText('Conexi\u00f3n pendiente de validar')\n    2) <p role=\"status\" aria-live=\"polite\">Sin conexi\u00f3n: borrador conservado en este disposi\u2026</p> aka getByText('Sin conexi\u00f3n: borrador')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i })\u001b[22m\n\n\n  37 |     await expect(\n  38 |       page.getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i }),\n> 39 |     ).toBeVisible()\n     |       ^\n  40 |     await context.setOffline(false)\n  41 |     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.\n  42 |     await expect(quantity(page)).toHaveValue('3')\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:39:7"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "title": "B2BP-SYNC-003 Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "title": "B2BP-SYNC-006 Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "title": "B2BP-SYNC-007 Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+            "column": 85,
+            "line": 240
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva' })\u001b[22m\n\n\n  238 |     deactivated = true\n  239 |     await context.setOffline(false)\n> 240 |     await expect(page.getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva' })).toBeVisible()\n      |                                                                                     ^\n  241 |     expect((await raw(page, member, 'operationReceipt', { id: accepted.operationId })).ok()).toBe(\n  242 |       false,\n  243 |     )\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:240:85"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "title": "B2BP-SYNC-004 Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "title": "B2BP-SYNC-005 Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+            "column": 38,
+            "line": 484
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesi\u00f3n.' })\nExpected: visible\nTimeout: 30000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesi\u00f3n.' }) with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesi\u00f3n.' })\u001b[22m\n\n\n  482 |     ).toBeVisible()\n  483 |     await expect(synchronized(page)).toHaveCount(0)\n> 484 |     await expect(synchronized(page)).toBeVisible({ timeout: 30_000 })\n      |                                      ^\n  485 |     expect(attempts).toHaveLength(4)\n  486 |     for (let index = 1; index < attempts.length; index++) {\n  487 |       expect(attempts[index]!.payload).toEqual(attempts[0]!.payload)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:484:38"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+            "column": 8,
+            "line": 42
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:566:11"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "title": "B2BP-SYNC-003 Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "title": "B2BP-SYNC-006 Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "title": "B2BP-SYNC-007 Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "title": "B2BP-SYNC-004 Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "title": "B2BP-SYNC-005 Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "title": "B2BP-SYNC-003 Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "title": "B2BP-SYNC-006 Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "title": "B2BP-SYNC-007 Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "title": "B2BP-SYNC-004 Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "title": "B2BP-SYNC-005 Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "title": "B2BP-SYNC-003 Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "title": "B2BP-SYNC-006 Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "title": "B2BP-SYNC-007 Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "title": "B2BP-SYNC-004 Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "title": "B2BP-SYNC-005 Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "title": "B2BP-SYNC-003 Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "title": "B2BP-SYNC-006 Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "title": "B2BP-SYNC-007 Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "title": "B2BP-SYNC-004 Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "title": "B2BP-SYNC-005 Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "title": "B2BP-SYNC-003 Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "title": "B2BP-SYNC-006 Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "title": "B2BP-SYNC-007 Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "title": "B2BP-SYNC-008 Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "title": "B2BP-SYNC-010 Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "title": "B2BP-SYNC-004 Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "title": "B2BP-SYNC-005 Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "title": "B2BP-SYNC-002 Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "title": "B2BP-SYNC-011 Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "title": "B2BP-SYNC-012 Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "title": "B2BP-WEEK-003 Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "title": "B2BP-WEEK-004 Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "title": "B2BP-WEEK-006 Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "title": "B2BP-WEEK-002 Partial-only, zero-set draft, autosave and sync never count as completion",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "title": "B2BP-WEEK-012 Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+            "column": 8,
+            "line": 42
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:391:11"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "title": "B2BP-WEEK-007 Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "title": "B2BP-WEEK-010 Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "title": "B2BP-WEEK-011 Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "title": "B2BP-WEEK-005 Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "project": "product-chromium-320",
+      "status": "passed",
+      "attempts": 1,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "project": "product-chromium-320",
+      "status": "failed",
+      "attempts": 1,
+      "errors": [
+        {
+          "location": {
+            "file": "/task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts",
+            "column": 7,
+            "line": 664
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: /Sin conexi\u00f3n|pendiente|local/i })\nExpected: visible\nError: strict mode violation: getByRole('status').filter({ hasText: /Sin conexi\u00f3n|pendiente|local/i }) resolved to 2 elements:\n    1) <p role=\"status\">Conexi\u00f3n pendiente de validar. Conservamos el tra\u2026</p> aka getByText('Conexi\u00f3n pendiente de validar')\n    2) <p role=\"status\" aria-live=\"polite\">Sin conexi\u00f3n: borrador conservado en este disposi\u2026</p> aka getByText('Sin conexi\u00f3n: borrador')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: /Sin conexi\u00f3n|pendiente|local/i }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: /Sin conexi\u00f3n|pendiente|local/i })\u001b[22m\n\n\n  662 |     await expect(\n  663 |       page.getByRole('status').filter({ hasText: /Sin conexi\u00f3n|pendiente|local/i }),\n> 664 |     ).toBeVisible()\n      |       ^\n  665 |     await context.setOffline(false)\n  666 |     await expect\n  667 |       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)\n    at /task/app/apps/b2c-web/e2e/b2b-product-week.spec.ts:664:7"
+        }
+      ]
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "title": "B2BP-WEEK-003 Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "title": "B2BP-WEEK-004 Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "title": "B2BP-WEEK-006 Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "title": "B2BP-WEEK-002 Partial-only, zero-set draft, autosave and sync never count as completion",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "title": "B2BP-WEEK-012 Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "title": "B2BP-WEEK-007 Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "title": "B2BP-WEEK-010 Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "title": "B2BP-WEEK-011 Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "title": "B2BP-WEEK-005 Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "project": "product-chromium-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "title": "B2BP-WEEK-003 Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "title": "B2BP-WEEK-004 Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "title": "B2BP-WEEK-006 Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "title": "B2BP-WEEK-002 Partial-only, zero-set draft, autosave and sync never count as completion",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "title": "B2BP-WEEK-012 Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "title": "B2BP-WEEK-007 Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "title": "B2BP-WEEK-010 Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "title": "B2BP-WEEK-011 Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "title": "B2BP-WEEK-005 Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "project": "product-chromium-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "title": "B2BP-WEEK-003 Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "title": "B2BP-WEEK-004 Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "title": "B2BP-WEEK-006 Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "title": "B2BP-WEEK-002 Partial-only, zero-set draft, autosave and sync never count as completion",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "title": "B2BP-WEEK-012 Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "title": "B2BP-WEEK-007 Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "title": "B2BP-WEEK-010 Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "title": "B2BP-WEEK-011 Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "title": "B2BP-WEEK-005 Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "project": "product-webkit-320",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "title": "B2BP-WEEK-003 Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "title": "B2BP-WEEK-004 Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "title": "B2BP-WEEK-006 Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "title": "B2BP-WEEK-002 Partial-only, zero-set draft, autosave and sync never count as completion",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "title": "B2BP-WEEK-012 Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "title": "B2BP-WEEK-007 Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "title": "B2BP-WEEK-010 Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "title": "B2BP-WEEK-011 Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "title": "B2BP-WEEK-005 Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "project": "product-webkit-430",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "title": "B2BP-WEEK-001 Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "title": "B2BP-WEEK-003 Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "title": "B2BP-WEEK-004 Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "title": "B2BP-WEEK-006 Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "title": "B2BP-WEEK-009 Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "title": "B2BP-WEEK-002 Partial-only, zero-set draft, autosave and sync never count as completion",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "title": "B2BP-WEEK-012 Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "title": "B2BP-WEEK-007 Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "title": "B2BP-WEEK-010 Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "title": "B2BP-WEEK-011 Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "title": "B2BP-WEEK-005 Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "title": "B2BP-WEEK-008 Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "project": "product-webkit-desktop",
+      "status": "notRun",
+      "attempts": 0,
+      "errors": []
+    }
+  ]
+}

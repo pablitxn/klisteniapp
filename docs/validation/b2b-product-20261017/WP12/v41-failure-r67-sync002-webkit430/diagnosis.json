@@ -1,0 +1,73 @@
+{
+  "capturedAt": "2026-10-18T18:33:22.848013+00:00",
+  "run": 67,
+  "mode": "unified-http",
+  "id": "B2BP-SYNC-002",
+  "project": "product-webkit-430",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "4ec0273151194acb189ac6ed327033d66366dbd5",
+  "status": "failed",
+  "retry": 0,
+  "assertion": {
+    "file": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+    "line": 541,
+    "timeoutMs": 5000,
+    "expected": "Sincronizado. Guardar no completa la sesi\u00f3n.",
+    "testTraceStart": 8617976.017,
+    "testTraceEnd": 8623013.253,
+    "browserTraceStart": 8617977.726,
+    "browserTraceEnd": 8622993.38
+  },
+  "timestampFill": {
+    "startTime": 8617878.568,
+    "value": "2025-09-29T10:00:00Z",
+    "sourceFile": "apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+    "sourceLine": 728
+  },
+  "acceptedInitialDraft": {
+    "httpStatus": 200,
+    "rawRequestMonotonicTime": 8617887.145,
+    "rawRequestTime": 68.833,
+    "expectedRevision": 0,
+    "acceptedRevision": 1,
+    "sent": {
+      "status": "draft",
+      "explicitCompletion": false,
+      "performedAt": "2025-09-29T12:00:06.781Z",
+      "correctionReason": ""
+    },
+    "accepted": {
+      "status": "draft",
+      "explicitCompletion": false,
+      "performedAt": "2025-09-29T12:00:06.781Z",
+      "correctionReason": ""
+    }
+  },
+  "retainedCorrectionAlertSnapshots": [
+    {
+      "timestamp": 8623005.066,
+      "correctionAlertLiteralPresent": true
+    }
+  ],
+  "sourceReferences": [
+    {
+      "file": "packages/b2b-domain/src/sessions.ts",
+      "line": 106,
+      "fact": "Changing an accepted performedAt without a correctionReason yields Explain the correction to accepted work."
+    },
+    {
+      "file": "apps/b2b-web/src/features/training/sync/workoutSync.ts",
+      "line": 68,
+      "fact": "queueWorkout checks firstCorrectionProblem before queuing."
+    },
+    {
+      "file": "apps/b2b-web/src/features/training/sync/ProductTrainingSession.tsx",
+      "line": 264,
+      "fact": "The actual performedAt input calls session.edit."
+    }
+  ],
+  "privateTraceSha256": "6af56c83ffff61eecb6208ec529fd0ca60ff7e20b185e1534ef754e51c0c9907",
+  "qualification": "The timestamp mismatch and visible correction alert are observed. A helper/initial-autosave ordering issue is a candidate for review, not an established product/harness classification. No passing retest or source change is claimed. Raw network timing fields do not infer body-completion order.",
+  "sourceAndBuiltFilesReverified": 2103,
+  "sourceMismatches": []
+}

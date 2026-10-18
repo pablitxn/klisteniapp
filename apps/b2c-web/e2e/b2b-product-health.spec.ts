@@ -441,19 +441,39 @@ test(scenarioTitle('B2BP-HEALTH-010'), async ({ page, product }, info) => {
   await expect(page.getByRole('alert')).toHaveCount(0)
   await importThroughUi(page, product, info, owner)
   await grantThroughUi(page, owner)
+  const consent = (await api(page, owner, 'healthConsents', {})).find(
+    (item) => item.status === 'active' && item.scope.branchId === owner.branchId,
+  )!
+  expect(consent).toBeTruthy()
   const revoke = page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true })
-  const accepted = page.waitForResponse(
+  const submitted = page.waitForRequest(
     (r) =>
-      r.request().method() === 'POST' &&
-      /\/health\/consents\/[^/]+\/revoke$/.test(new URL(r.url()).pathname),
+      r.method() === 'POST' &&
+      new URL(r.url()).pathname.endsWith(`/health/consents/${consent.id}/revoke`),
   )
   await revoke.focus()
   await page.keyboard.press('Enter')
-  expect((await accepted).ok()).toBe(true)
+  expect((await submitted).postDataJSON()).toMatchObject({
+    id: consent.id,
+    expectedRevision: consent.revision,
+    operationId: expect.any(String),
+  })
+  // A committed revoke notification can cancel its own guarded response.
+  // Require the actual keyboard request, persisted revision and private UI.
+  await expect
+    .poll(async () =>
+      (await api(page, owner, 'healthConsents', {})).find((c) => c.id === consent.id),
+    )
+    .toMatchObject({
+      status: 'revoked',
+      revision: consent.revision + 1,
+      scope: { organizationId: owner.organization.id, branchId: owner.branchId },
+    })
   await expect(
     page.getByText('Privado: no compartís datos de salud con entrenadores de esta sede.'),
   ).toBeVisible()
   await page.getByRole('button', { name: 'Salir', exact: true }).click()
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible()
   await login(page, principal(product, 'secondary-member', 'atlas', true), info)
   await open(page, product, info, 'health')
   await expect(

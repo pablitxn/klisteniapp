@@ -1,0 +1,1393 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--grep=B2BP-(ALTERNATIVES-009|ALTERNATIVES-011|HEALTH-005|SYNC-009|ROLES-004)",
+      "--timeout=180000",
+      "--config=playwright.b2b-product-wl-http.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-wl-http.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidatebd30-regressions-r33/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-regressions-r33/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-regressions-r33/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-regressions-r33/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-regressions-r33/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatebd30-regressions-r33/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5700,
+          "b2bProduct": {
+            "mode": "white-label-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "white-label-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5700/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-alternatives.spec.ts",
+      "file": "b2b-product-alternatives.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13436,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:49:38.771Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-7370d3369f6085ee8e2b",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7844,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:49:52.419Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "synthetic-duration-fixture-provenance",
+                      "contentType": "application/json",
+                      "body": "eyJtYW5pZmVzdCI6eyJmaXh0dXJlS2V5IjoiYjJicC1hbHRlcm5hdGl2ZXMtMDExLWR1cmF0aW9uLXYxIiwia2luZCI6InN5bnRoZXRpYy1jb250cmFjdC1maXh0dXJlIiwic2NlbmFyaW9JZCI6IkIyQlAtQUxURVJOQVRJVkVTLTAxMSIsIm9yZ2FuaXphdGlvbklkIjoiYXRsYXMtZGVtbyIsImJyYW5jaElkIjoiYXRsYXMtZGVtby1wcmluY2lwYWwiLCJwcm9ncmFtSWQiOiIwMGVjNTkzYi0yNWJmLTQxYjItOTFiOC0zZjk3ZDY0NzQyMGEiLCJ2ZXJzaW9uIjoxLCJzY2hlbWFWZXJzaW9uIjoyLCJzdGVwSWQiOiJzeW50aGV0aWMtcmVwZXRpdGlvbnMtc291cmNlIiwicmVsYXRpb25JZCI6InN5bnRoZXRpYy1iMmJwLWFsdGVybmF0aXZlcy0wMTEtZHVyYXRpb24tdjEiLCJjYW5vbmljYWxEaXJlY3RlZFBhaXIiOnsicmVsYXRpb25JZCI6InJldmlld2VkLWNhbGYtcmFpc2Utc2luZ2xlLWxlZy1jYWxmLXJhaXNlLWZkMGI3ZTUyZjc2NyIsInJlbGF0aW9uSGFzaCI6IjNhODFlNWRmMjBhZjlhZjY2ZmNjYmY1MzZjYzNiYWQ1NDliNjE0NTUzZWMxNDE1NzA0OWQyMjQ4MjI2MjFmYjgiLCJjYXRhbG9nUmV2aXNpb24iOiJmZDBiN2U1MmY3Njc4YzA4Yzk2ZDcwZmQ3MWU0MGExMWQ4Nzk3NGNkZTg3Y2NhNjcyZjNiNGU0YzY1ZjdhNjczIiwic291cmNlRXhlcmNpc2VJZCI6ImNhbGYtcmFpc2UiLCJ0YXJnZXRFeGVyY2lzZUlkIjoic2luZ2xlLWxlZy1jYWxmLXJhaXNlIiwic291cmNlQ29udGVudEhhc2giOiJmNjg4NjMzOTIxYjg3M2MzMGQyYjAwODVkMTNiMTJhMGMwZjdlMjQ3YmU1NmY0NjA5ZWE3MjVkOTNmMzY2YTMzIiwidGFyZ2V0Q29udGVudEhhc2giOiI0NWZiYTNmMTkzY2U3ZjgxOWE4YTVhNGRmOTM1ZmI1ZDE2Mzc4MjgwNzdiMmZlNTFmYTcxNmJjMGQwNTc1MDc2In0sInN5bnRoZXRpY1RhcmdldERvc2UiOnsicHJvdmVuYW5jZSI6ImluZGVwZW5kZW50LXN5bnRoZXRpYy10ZXN0LXByZXNjcmlwdGlvbiIsInJldmlld1Njb3BlIjoiY29udHJhY3QtYW5kLXVpLXRlc3Qtb25seSIsImRpc2NsYWltZXIiOiJTWU5USEVUSUMgVEVTVCBPTkxZOiB0aGUgZGlyZWN0ZWQgZXhlcmNpc2UgcGFpciBhbmQgZXhlcmNpc2UgaWRlbnRpdHkgY29tZSBmcm9tIHRoZSBjYW5vbmljYWwgY2F0YWxvZy4gVGhlIHRpbWVkIHRhcmdldCBkb3NlIGlzIGFuIGluZGVwZW5kZW50IGNvbnRyYWN0L1VJIHRlc3QgcHJlc2NyaXB0aW9uLCB3aXRob3V0IGNhdGFsb2csIGVkaXRvcmlhbCBvciBjbGluaWNhbCBkb3NlIHJldmlldy4gSXQgaXMgbm90IGRlcml2ZWQgZnJvbSBzb3VyY2UgcmVwZXRpdGlvbnMgYW5kIGFzc2VydHMgbm8gcmVhbC13b3JsZCBkb3NlIGVxdWl2YWxlbmNlLiIsImhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0sInJvdXRpbmVIYXNoIjoiNDEzNGIyMjk3MTMwZDIyNjFlMjczY2RmODgxOGZjMjU2NGI5NjYxYTc3M2JiNzE4OGEzYTczMGRhNzdiOTVmNSJ9LCJ2ZXJpZmllZFJvdXRpbmVIYXNoIjoiNDEzNGIyMjk3MTMwZDIyNjFlMjczY2RmODgxOGZjMjU2NGI5NjYxYTc3M2JiNzE4OGEzYTczMGRhNzdiOTVmNSIsInZlcmlmaWVkVGFyZ2V0RG9zZUhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-2b64a96421bfbbb904a5",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 616,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 235256,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 54256ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 76847,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:50:19.666Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 54256ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-18b625993c06aea13d66",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11172,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:51:36.699Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "synthetic-duration-fixture-provenance",
+                      "contentType": "application/json",
+                      "body": "eyJtYW5pZmVzdCI6eyJmaXh0dXJlS2V5IjoiYjJicC1hbHRlcm5hdGl2ZXMtMDExLWR1cmF0aW9uLXYxIiwia2luZCI6InN5bnRoZXRpYy1jb250cmFjdC1maXh0dXJlIiwic2NlbmFyaW9JZCI6IkIyQlAtQUxURVJOQVRJVkVTLTAxMSIsIm9yZ2FuaXphdGlvbklkIjoiYXRsYXMtZGVtbyIsImJyYW5jaElkIjoiYXRsYXMtZGVtby1wcmluY2lwYWwiLCJwcm9ncmFtSWQiOiI3M2NlYTA1Zi0zNDVkLTRiZTYtYWNiMS03NGIyMmQ0MGU0ZjYiLCJ2ZXJzaW9uIjoxLCJzY2hlbWFWZXJzaW9uIjoyLCJzdGVwSWQiOiJzeW50aGV0aWMtcmVwZXRpdGlvbnMtc291cmNlIiwicmVsYXRpb25JZCI6InN5bnRoZXRpYy1iMmJwLWFsdGVybmF0aXZlcy0wMTEtZHVyYXRpb24tdjEiLCJjYW5vbmljYWxEaXJlY3RlZFBhaXIiOnsicmVsYXRpb25JZCI6InJldmlld2VkLWNhbGYtcmFpc2Utc2luZ2xlLWxlZy1jYWxmLXJhaXNlLWZkMGI3ZTUyZjc2NyIsInJlbGF0aW9uSGFzaCI6IjNhODFlNWRmMjBhZjlhZjY2ZmNjYmY1MzZjYzNiYWQ1NDliNjE0NTUzZWMxNDE1NzA0OWQyMjQ4MjI2MjFmYjgiLCJjYXRhbG9nUmV2aXNpb24iOiJmZDBiN2U1MmY3Njc4YzA4Yzk2ZDcwZmQ3MWU0MGExMWQ4Nzk3NGNkZTg3Y2NhNjcyZjNiNGU0YzY1ZjdhNjczIiwic291cmNlRXhlcmNpc2VJZCI6ImNhbGYtcmFpc2UiLCJ0YXJnZXRFeGVyY2lzZUlkIjoic2luZ2xlLWxlZy1jYWxmLXJhaXNlIiwic291cmNlQ29udGVudEhhc2giOiJmNjg4NjMzOTIxYjg3M2MzMGQyYjAwODVkMTNiMTJhMGMwZjdlMjQ3YmU1NmY0NjA5ZWE3MjVkOTNmMzY2YTMzIiwidGFyZ2V0Q29udGVudEhhc2giOiI0NWZiYTNmMTkzY2U3ZjgxOWE4YTVhNGRmOTM1ZmI1ZDE2Mzc4MjgwNzdiMmZlNTFmYTcxNmJjMGQwNTc1MDc2In0sInN5bnRoZXRpY1RhcmdldERvc2UiOnsicHJvdmVuYW5jZSI6ImluZGVwZW5kZW50LXN5bnRoZXRpYy10ZXN0LXByZXNjcmlwdGlvbiIsInJldmlld1Njb3BlIjoiY29udHJhY3QtYW5kLXVpLXRlc3Qtb25seSIsImRpc2NsYWltZXIiOiJTWU5USEVUSUMgVEVTVCBPTkxZOiB0aGUgZGlyZWN0ZWQgZXhlcmNpc2UgcGFpciBhbmQgZXhlcmNpc2UgaWRlbnRpdHkgY29tZSBmcm9tIHRoZSBjYW5vbmljYWwgY2F0YWxvZy4gVGhlIHRpbWVkIHRhcmdldCBkb3NlIGlzIGFuIGluZGVwZW5kZW50IGNvbnRyYWN0L1VJIHRlc3QgcHJlc2NyaXB0aW9uLCB3aXRob3V0IGNhdGFsb2csIGVkaXRvcmlhbCBvciBjbGluaWNhbCBkb3NlIHJldmlldy4gSXQgaXMgbm90IGRlcml2ZWQgZnJvbSBzb3VyY2UgcmVwZXRpdGlvbnMgYW5kIGFzc2VydHMgbm8gcmVhbC13b3JsZCBkb3NlIGVxdWl2YWxlbmNlLiIsImhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0sInJvdXRpbmVIYXNoIjoiMzgwYjg4Mjk4NGQ0MGU0ODdhYjdmYzU4ZGVmNjJjNGZiZGZlZTkyZjA1ZDYxYWEwZmFjZWE3YjQ3ZTg2YzAwMiJ9LCJ2ZXJpZmllZFJvdXRpbmVIYXNoIjoiMzgwYjg4Mjk4NGQ0MGU0ODdhYjdmYzU4ZGVmNjJjNGZiZGZlZTkyZjA1ZDYxYWEwZmFjZWE3YjQ3ZTg2YzAwMiIsInZlcmlmaWVkVGFyZ2V0RG9zZUhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-00e2897ac13ff2de158d",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 616,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 235058,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 54058ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 63424,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:52:07.494Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 54058ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-bf203d66e90e8ce82987",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8178,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:53:11.068Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "synthetic-duration-fixture-provenance",
+                      "contentType": "application/json",
+                      "body": "eyJtYW5pZmVzdCI6eyJmaXh0dXJlS2V5IjoiYjJicC1hbHRlcm5hdGl2ZXMtMDExLWR1cmF0aW9uLXYxIiwia2luZCI6InN5bnRoZXRpYy1jb250cmFjdC1maXh0dXJlIiwic2NlbmFyaW9JZCI6IkIyQlAtQUxURVJOQVRJVkVTLTAxMSIsIm9yZ2FuaXphdGlvbklkIjoiYXRsYXMtZGVtbyIsImJyYW5jaElkIjoiYXRsYXMtZGVtby1wcmluY2lwYWwiLCJwcm9ncmFtSWQiOiJmZDBkYTEyZi1kNzAyLTQ5ODEtYjUyMi04YWJjZDA1OTBkMzMiLCJ2ZXJzaW9uIjoxLCJzY2hlbWFWZXJzaW9uIjoyLCJzdGVwSWQiOiJzeW50aGV0aWMtcmVwZXRpdGlvbnMtc291cmNlIiwicmVsYXRpb25JZCI6InN5bnRoZXRpYy1iMmJwLWFsdGVybmF0aXZlcy0wMTEtZHVyYXRpb24tdjEiLCJjYW5vbmljYWxEaXJlY3RlZFBhaXIiOnsicmVsYXRpb25JZCI6InJldmlld2VkLWNhbGYtcmFpc2Utc2luZ2xlLWxlZy1jYWxmLXJhaXNlLWZkMGI3ZTUyZjc2NyIsInJlbGF0aW9uSGFzaCI6IjNhODFlNWRmMjBhZjlhZjY2ZmNjYmY1MzZjYzNiYWQ1NDliNjE0NTUzZWMxNDE1NzA0OWQyMjQ4MjI2MjFmYjgiLCJjYXRhbG9nUmV2aXNpb24iOiJmZDBiN2U1MmY3Njc4YzA4Yzk2ZDcwZmQ3MWU0MGExMWQ4Nzk3NGNkZTg3Y2NhNjcyZjNiNGU0YzY1ZjdhNjczIiwic291cmNlRXhlcmNpc2VJZCI6ImNhbGYtcmFpc2UiLCJ0YXJnZXRFeGVyY2lzZUlkIjoic2luZ2xlLWxlZy1jYWxmLXJhaXNlIiwic291cmNlQ29udGVudEhhc2giOiJmNjg4NjMzOTIxYjg3M2MzMGQyYjAwODVkMTNiMTJhMGMwZjdlMjQ3YmU1NmY0NjA5ZWE3MjVkOTNmMzY2YTMzIiwidGFyZ2V0Q29udGVudEhhc2giOiI0NWZiYTNmMTkzY2U3ZjgxOWE4YTVhNGRmOTM1ZmI1ZDE2Mzc4MjgwNzdiMmZlNTFmYTcxNmJjMGQwNTc1MDc2In0sInN5bnRoZXRpY1RhcmdldERvc2UiOnsicHJvdmVuYW5jZSI6ImluZGVwZW5kZW50LXN5bnRoZXRpYy10ZXN0LXByZXNjcmlwdGlvbiIsInJldmlld1Njb3BlIjoiY29udHJhY3QtYW5kLXVpLXRlc3Qtb25seSIsImRpc2NsYWltZXIiOiJTWU5USEVUSUMgVEVTVCBPTkxZOiB0aGUgZGlyZWN0ZWQgZXhlcmNpc2UgcGFpciBhbmQgZXhlcmNpc2UgaWRlbnRpdHkgY29tZSBmcm9tIHRoZSBjYW5vbmljYWwgY2F0YWxvZy4gVGhlIHRpbWVkIHRhcmdldCBkb3NlIGlzIGFuIGluZGVwZW5kZW50IGNvbnRyYWN0L1VJIHRlc3QgcHJlc2NyaXB0aW9uLCB3aXRob3V0IGNhdGFsb2csIGVkaXRvcmlhbCBvciBjbGluaWNhbCBkb3NlIHJldmlldy4gSXQgaXMgbm90IGRlcml2ZWQgZnJvbSBzb3VyY2UgcmVwZXRpdGlvbnMgYW5kIGFzc2VydHMgbm8gcmVhbC13b3JsZCBkb3NlIGVxdWl2YWxlbmNlLiIsImhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0sInJvdXRpbmVIYXNoIjoiNTI5MjEyYmZhNTcwNjI4Yjk4OGM5NWJlN2YzZGY3OTY3NDc0NjdlNDE2NmIxMWQ4OGFlOTc1MTI3NDlhMzZkMyJ9LCJ2ZXJpZmllZFJvdXRpbmVIYXNoIjoiNTI5MjEyYmZhNTcwNjI4Yjk4OGM5NWJlN2YzZGY3OTY3NDc0NjdlNDE2NmIxMWQ4OGFlOTc1MTI3NDlhMzZkMyIsInZlcmlmaWVkVGFyZ2V0RG9zZUhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-759aa5eace49c7dad4ad",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 616,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 235211,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 54211ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 65851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:53:37.524Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 54211ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-e187f2cb5a4513e4e6e5",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9979,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:54:43.549Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "synthetic-duration-fixture-provenance",
+                      "contentType": "application/json",
+                      "body": "eyJtYW5pZmVzdCI6eyJmaXh0dXJlS2V5IjoiYjJicC1hbHRlcm5hdGl2ZXMtMDExLWR1cmF0aW9uLXYxIiwia2luZCI6InN5bnRoZXRpYy1jb250cmFjdC1maXh0dXJlIiwic2NlbmFyaW9JZCI6IkIyQlAtQUxURVJOQVRJVkVTLTAxMSIsIm9yZ2FuaXphdGlvbklkIjoiYXRsYXMtZGVtbyIsImJyYW5jaElkIjoiYXRsYXMtZGVtby1wcmluY2lwYWwiLCJwcm9ncmFtSWQiOiJlNjk3OWQxZS0yOTg3LTQ0MjMtYThkZC0zYjcyYjdmYjEzZTciLCJ2ZXJzaW9uIjoxLCJzY2hlbWFWZXJzaW9uIjoyLCJzdGVwSWQiOiJzeW50aGV0aWMtcmVwZXRpdGlvbnMtc291cmNlIiwicmVsYXRpb25JZCI6InN5bnRoZXRpYy1iMmJwLWFsdGVybmF0aXZlcy0wMTEtZHVyYXRpb24tdjEiLCJjYW5vbmljYWxEaXJlY3RlZFBhaXIiOnsicmVsYXRpb25JZCI6InJldmlld2VkLWNhbGYtcmFpc2Utc2luZ2xlLWxlZy1jYWxmLXJhaXNlLWZkMGI3ZTUyZjc2NyIsInJlbGF0aW9uSGFzaCI6IjNhODFlNWRmMjBhZjlhZjY2ZmNjYmY1MzZjYzNiYWQ1NDliNjE0NTUzZWMxNDE1NzA0OWQyMjQ4MjI2MjFmYjgiLCJjYXRhbG9nUmV2aXNpb24iOiJmZDBiN2U1MmY3Njc4YzA4Yzk2ZDcwZmQ3MWU0MGExMWQ4Nzk3NGNkZTg3Y2NhNjcyZjNiNGU0YzY1ZjdhNjczIiwic291cmNlRXhlcmNpc2VJZCI6ImNhbGYtcmFpc2UiLCJ0YXJnZXRFeGVyY2lzZUlkIjoic2luZ2xlLWxlZy1jYWxmLXJhaXNlIiwic291cmNlQ29udGVudEhhc2giOiJmNjg4NjMzOTIxYjg3M2MzMGQyYjAwODVkMTNiMTJhMGMwZjdlMjQ3YmU1NmY0NjA5ZWE3MjVkOTNmMzY2YTMzIiwidGFyZ2V0Q29udGVudEhhc2giOiI0NWZiYTNmMTkzY2U3ZjgxOWE4YTVhNGRmOTM1ZmI1ZDE2Mzc4MjgwNzdiMmZlNTFmYTcxNmJjMGQwNTc1MDc2In0sInN5bnRoZXRpY1RhcmdldERvc2UiOnsicHJvdmVuYW5jZSI6ImluZGVwZW5kZW50LXN5bnRoZXRpYy10ZXN0LXByZXNjcmlwdGlvbiIsInJldmlld1Njb3BlIjoiY29udHJhY3QtYW5kLXVpLXRlc3Qtb25seSIsImRpc2NsYWltZXIiOiJTWU5USEVUSUMgVEVTVCBPTkxZOiB0aGUgZGlyZWN0ZWQgZXhlcmNpc2UgcGFpciBhbmQgZXhlcmNpc2UgaWRlbnRpdHkgY29tZSBmcm9tIHRoZSBjYW5vbmljYWwgY2F0YWxvZy4gVGhlIHRpbWVkIHRhcmdldCBkb3NlIGlzIGFuIGluZGVwZW5kZW50IGNvbnRyYWN0L1VJIHRlc3QgcHJlc2NyaXB0aW9uLCB3aXRob3V0IGNhdGFsb2csIGVkaXRvcmlhbCBvciBjbGluaWNhbCBkb3NlIHJldmlldy4gSXQgaXMgbm90IGRlcml2ZWQgZnJvbSBzb3VyY2UgcmVwZXRpdGlvbnMgYW5kIGFzc2VydHMgbm8gcmVhbC13b3JsZCBkb3NlIGVxdWl2YWxlbmNlLiIsImhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0sInJvdXRpbmVIYXNoIjoiNGJmZTEwMDc3OTQ0MmQyZTRmYTJjYWUzZTExMTVhYjYzYmVhZWZiMzQ3NmY0MjQzNmVlZjEzZGZlMTMxMWFiZSJ9LCJ2ZXJpZmllZFJvdXRpbmVIYXNoIjoiNGJmZTEwMDc3OTQ0MmQyZTRmYTJjYWUzZTExMTVhYjYzYmVhZWZiMzQ3NmY0MjQzNmVlZjEzZGZlMTMxMWFiZSIsInZlcmlmaWVkVGFyZ2V0RG9zZUhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-c1beb6292278bf419fdf",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 616,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 232282,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 51282ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 63486,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:55:17.903Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 51282ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-ee01b16822b1a8e3b53f",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9251,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:56:21.661Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "synthetic-duration-fixture-provenance",
+                      "contentType": "application/json",
+                      "body": "eyJtYW5pZmVzdCI6eyJmaXh0dXJlS2V5IjoiYjJicC1hbHRlcm5hdGl2ZXMtMDExLWR1cmF0aW9uLXYxIiwia2luZCI6InN5bnRoZXRpYy1jb250cmFjdC1maXh0dXJlIiwic2NlbmFyaW9JZCI6IkIyQlAtQUxURVJOQVRJVkVTLTAxMSIsIm9yZ2FuaXphdGlvbklkIjoiYXRsYXMtZGVtbyIsImJyYW5jaElkIjoiYXRsYXMtZGVtby1wcmluY2lwYWwiLCJwcm9ncmFtSWQiOiJhNmNlMWVmMS0xNjQ2LTQ1YTUtYjMwMS1hNmZiNTU1MzY0ZDEiLCJ2ZXJzaW9uIjoxLCJzY2hlbWFWZXJzaW9uIjoyLCJzdGVwSWQiOiJzeW50aGV0aWMtcmVwZXRpdGlvbnMtc291cmNlIiwicmVsYXRpb25JZCI6InN5bnRoZXRpYy1iMmJwLWFsdGVybmF0aXZlcy0wMTEtZHVyYXRpb24tdjEiLCJjYW5vbmljYWxEaXJlY3RlZFBhaXIiOnsicmVsYXRpb25JZCI6InJldmlld2VkLWNhbGYtcmFpc2Utc2luZ2xlLWxlZy1jYWxmLXJhaXNlLWZkMGI3ZTUyZjc2NyIsInJlbGF0aW9uSGFzaCI6IjNhODFlNWRmMjBhZjlhZjY2ZmNjYmY1MzZjYzNiYWQ1NDliNjE0NTUzZWMxNDE1NzA0OWQyMjQ4MjI2MjFmYjgiLCJjYXRhbG9nUmV2aXNpb24iOiJmZDBiN2U1MmY3Njc4YzA4Yzk2ZDcwZmQ3MWU0MGExMWQ4Nzk3NGNkZTg3Y2NhNjcyZjNiNGU0YzY1ZjdhNjczIiwic291cmNlRXhlcmNpc2VJZCI6ImNhbGYtcmFpc2UiLCJ0YXJnZXRFeGVyY2lzZUlkIjoic2luZ2xlLWxlZy1jYWxmLXJhaXNlIiwic291cmNlQ29udGVudEhhc2giOiJmNjg4NjMzOTIxYjg3M2MzMGQyYjAwODVkMTNiMTJhMGMwZjdlMjQ3YmU1NmY0NjA5ZWE3MjVkOTNmMzY2YTMzIiwidGFyZ2V0Q29udGVudEhhc2giOiI0NWZiYTNmMTkzY2U3ZjgxOWE4YTVhNGRmOTM1ZmI1ZDE2Mzc4MjgwNzdiMmZlNTFmYTcxNmJjMGQwNTc1MDc2In0sInN5bnRoZXRpY1RhcmdldERvc2UiOnsicHJvdmVuYW5jZSI6ImluZGVwZW5kZW50LXN5bnRoZXRpYy10ZXN0LXByZXNjcmlwdGlvbiIsInJldmlld1Njb3BlIjoiY29udHJhY3QtYW5kLXVpLXRlc3Qtb25seSIsImRpc2NsYWltZXIiOiJTWU5USEVUSUMgVEVTVCBPTkxZOiB0aGUgZGlyZWN0ZWQgZXhlcmNpc2UgcGFpciBhbmQgZXhlcmNpc2UgaWRlbnRpdHkgY29tZSBmcm9tIHRoZSBjYW5vbmljYWwgY2F0YWxvZy4gVGhlIHRpbWVkIHRhcmdldCBkb3NlIGlzIGFuIGluZGVwZW5kZW50IGNvbnRyYWN0L1VJIHRlc3QgcHJlc2NyaXB0aW9uLCB3aXRob3V0IGNhdGFsb2csIGVkaXRvcmlhbCBvciBjbGluaWNhbCBkb3NlIHJldmlldy4gSXQgaXMgbm90IGRlcml2ZWQgZnJvbSBzb3VyY2UgcmVwZXRpdGlvbnMgYW5kIGFzc2VydHMgbm8gcmVhbC13b3JsZCBkb3NlIGVxdWl2YWxlbmNlLiIsImhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0sInJvdXRpbmVIYXNoIjoiOWUwYTAxYTU5YzU3ZWIwNDc2NzRjN2IyMzNjMTZlYjU0ZDRiYTM5NWZmNGQ3YmY0NWU5ZDhkZWU1ZDk2NTgxZSJ9LCJ2ZXJpZmllZFJvdXRpbmVIYXNoIjoiOWUwYTAxYTU5YzU3ZWIwNDc2NzRjN2IyMzNjMTZlYjU0ZDRiYTM5NWZmNGQ3YmY0NWU5ZDhkZWU1ZDk2NTgxZSIsInZlcmlmaWVkVGFyZ2V0RG9zZUhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-773b5bc6168b1738a560",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 616,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-009 Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 231044,
+              "annotations": [
+                {
+                  "type": "auth-pacing",
+                  "description": "Real password admission waits 50044ms for the unchanged database guard"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 64159,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:56:55.973Z",
+                  "annotations": [
+                    {
+                      "type": "auth-pacing",
+                      "description": "Real password admission waits 50044ms for the unchanged database guard"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-558a233dd2269618a434",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 557,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ALTERNATIVES-011 Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14106,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:58:00.458Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "synthetic-duration-fixture-provenance",
+                      "contentType": "application/json",
+                      "body": "eyJtYW5pZmVzdCI6eyJmaXh0dXJlS2V5IjoiYjJicC1hbHRlcm5hdGl2ZXMtMDExLWR1cmF0aW9uLXYxIiwia2luZCI6InN5bnRoZXRpYy1jb250cmFjdC1maXh0dXJlIiwic2NlbmFyaW9JZCI6IkIyQlAtQUxURVJOQVRJVkVTLTAxMSIsIm9yZ2FuaXphdGlvbklkIjoiYXRsYXMtZGVtbyIsImJyYW5jaElkIjoiYXRsYXMtZGVtby1wcmluY2lwYWwiLCJwcm9ncmFtSWQiOiI0NjZkYmM1ZS1kMWVjLTRhMTgtYWMzNC1lNTBlMDlmOGM1MWEiLCJ2ZXJzaW9uIjoxLCJzY2hlbWFWZXJzaW9uIjoyLCJzdGVwSWQiOiJzeW50aGV0aWMtcmVwZXRpdGlvbnMtc291cmNlIiwicmVsYXRpb25JZCI6InN5bnRoZXRpYy1iMmJwLWFsdGVybmF0aXZlcy0wMTEtZHVyYXRpb24tdjEiLCJjYW5vbmljYWxEaXJlY3RlZFBhaXIiOnsicmVsYXRpb25JZCI6InJldmlld2VkLWNhbGYtcmFpc2Utc2luZ2xlLWxlZy1jYWxmLXJhaXNlLWZkMGI3ZTUyZjc2NyIsInJlbGF0aW9uSGFzaCI6IjNhODFlNWRmMjBhZjlhZjY2ZmNjYmY1MzZjYzNiYWQ1NDliNjE0NTUzZWMxNDE1NzA0OWQyMjQ4MjI2MjFmYjgiLCJjYXRhbG9nUmV2aXNpb24iOiJmZDBiN2U1MmY3Njc4YzA4Yzk2ZDcwZmQ3MWU0MGExMWQ4Nzk3NGNkZTg3Y2NhNjcyZjNiNGU0YzY1ZjdhNjczIiwic291cmNlRXhlcmNpc2VJZCI6ImNhbGYtcmFpc2UiLCJ0YXJnZXRFeGVyY2lzZUlkIjoic2luZ2xlLWxlZy1jYWxmLXJhaXNlIiwic291cmNlQ29udGVudEhhc2giOiJmNjg4NjMzOTIxYjg3M2MzMGQyYjAwODVkMTNiMTJhMGMwZjdlMjQ3YmU1NmY0NjA5ZWE3MjVkOTNmMzY2YTMzIiwidGFyZ2V0Q29udGVudEhhc2giOiI0NWZiYTNmMTkzY2U3ZjgxOWE4YTVhNGRmOTM1ZmI1ZDE2Mzc4MjgwNzdiMmZlNTFmYTcxNmJjMGQwNTc1MDc2In0sInN5bnRoZXRpY1RhcmdldERvc2UiOnsicHJvdmVuYW5jZSI6ImluZGVwZW5kZW50LXN5bnRoZXRpYy10ZXN0LXByZXNjcmlwdGlvbiIsInJldmlld1Njb3BlIjoiY29udHJhY3QtYW5kLXVpLXRlc3Qtb25seSIsImRpc2NsYWltZXIiOiJTWU5USEVUSUMgVEVTVCBPTkxZOiB0aGUgZGlyZWN0ZWQgZXhlcmNpc2UgcGFpciBhbmQgZXhlcmNpc2UgaWRlbnRpdHkgY29tZSBmcm9tIHRoZSBjYW5vbmljYWwgY2F0YWxvZy4gVGhlIHRpbWVkIHRhcmdldCBkb3NlIGlzIGFuIGluZGVwZW5kZW50IGNvbnRyYWN0L1VJIHRlc3QgcHJlc2NyaXB0aW9uLCB3aXRob3V0IGNhdGFsb2csIGVkaXRvcmlhbCBvciBjbGluaWNhbCBkb3NlIHJldmlldy4gSXQgaXMgbm90IGRlcml2ZWQgZnJvbSBzb3VyY2UgcmVwZXRpdGlvbnMgYW5kIGFzc2VydHMgbm8gcmVhbC13b3JsZCBkb3NlIGVxdWl2YWxlbmNlLiIsImhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0sInJvdXRpbmVIYXNoIjoiZGM3NTNhNDgzNmI1ZDUxMDBkMTdhMjU5ZWJkNzg3YWVlZjIzZGY0ZGY4MWM5NGRlZTAzZDRlY2M4NjljNTM5NiJ9LCJ2ZXJpZmllZFJvdXRpbmVIYXNoIjoiZGM3NTNhNDgzNmI1ZDUxMDBkMTdhMjU5ZWJkNzg3YWVlZjIzZGY0ZGY4MWM5NGRlZTAzZDRlY2M4NjljNTM5NiIsInZlcmlmaWVkVGFyZ2V0RG9zZUhhc2giOiI1YjVlOGRkNDJlODY3MTBlNGQxOGUwOTg5NmE5YzE1OWU3ZWFiZjc5YTc4NjE2ZDZmMWM2N2ViOTI1Y2UxOTVlIn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cbe399052b54fdca6c2a-2fce5646107aed8c716b",
+          "file": "b2b-product-alternatives.spec.ts",
+          "line": 616,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-health.spec.ts",
+      "file": "b2b-product-health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8529,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:50:00.310Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-252ffad5f4f18a98fafe",
+          "file": "b2b-product-health.spec.ts",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7573,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:51:47.911Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-995b731900bdecaadebf",
+          "file": "b2b-product-health.spec.ts",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7461,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:53:19.280Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-d1340c773d17b0f4a9cb",
+          "file": "b2b-product-health.spec.ts",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9151,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:54:53.576Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-e58d3a948500afe16faf",
+          "file": "b2b-product-health.spec.ts",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7947,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:56:30.956Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-5538731420872f5a59c0",
+          "file": "b2b-product-health.spec.ts",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "B2BP-HEALTH-005 Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11683,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:58:14.602Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "20ae1af9a73d3198b52f-71d22c3ed1e95622e8e5",
+          "file": "b2b-product-health.spec.ts",
+          "line": 187,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-roles.spec.ts",
+      "file": "b2b-product-roles.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3289,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:50:08.876Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-61dc0b9da52f3c2a6e64",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3426,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:51:55.524Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-aaa5d907834db1159416",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3000,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:53:26.775Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-bd3f82caeb771bc368f1",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3893,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:55:02.755Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-31b73d37da9b729c16dc",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4356,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:56:38.961Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-e8ab4b0f7f91c4c0f760",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        },
+        {
+          "title": "B2BP-ROLES-004 Last-superadmin loss and platform/operator promotion are denied",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3826,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:58:26.318Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe356fb91e1b83afa44-4816edc63aa643612caa",
+          "file": "b2b-product-roles.spec.ts",
+          "line": 456,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-320",
+              "projectName": "product-chromium-320",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6364,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:50:12.207Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tNzMxNjhjNDA5ZTZkMDQwYmUzYjFjMThjYjVlMWZkNzg4Y2NlM2M4YyIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-1f8ed3063aa9ef7e6e6e",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7358,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:51:58.988Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tOGZjNDUxMmE5OWY0ZTEzMDkwNDMxMGRhYjM5YmZhYWE4MDM0YzIxYiIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-53f076c8eab48eac8024",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-desktop",
+              "projectName": "product-chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6918,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:53:29.804Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tMzAyNGNlMzY5ZWIzMGUzMmJhYWViYmEwYWJhZGExOTAxYjE1NWI1YiIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-d53d9285d3ef389b52e6",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-320",
+              "projectName": "product-webkit-320",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9655,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:55:06.689Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tZDk2YmRlMTNhZDc3NTY5OTlkYTU0MTA1MTFhNTFhMDMyNDI0ODcxOSIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-2b5bec6f4b531d90b5d8",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-430",
+              "projectName": "product-webkit-430",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10397,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:56:43.414Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tZGNhMDFmYjliNTkzOGNhMTYzMjkwNmJlMWU3OWMxNjE4Zjg5ZjZhNyIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-3f51d749c41c7ea2f884",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        },
+        {
+          "title": "B2BP-SYNC-009 Quota/store failure is visible and unreadable old draft bytes survive migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-webkit-desktop",
+              "projectName": "product-webkit-desktop",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9410,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-17T18:58:30.190Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-quota-retry-evidence",
+                      "contentType": "application/json",
+                      "body": "eyJpZCI6InNlc3Npb24tM2I2ZjY0ZDVlMjQ1ZDY5NTk2NTYzMTQ2NTBiODk4MGYxM2RmNWRlNSIsImxvY2FsR2VuZXJhdGlvbiI6NSwicG9pbnRlckdlbmVyYXRpb24iOjAsImFjdHVhbFJlcGV0aXRpb25zIjozLCJleHBvcnRDb250YWluc0NhcHR1cmVkVmFsdWUiOnRydWUsImV4cGxpY2l0Q29tcGxldGlvbiI6ZmFsc2UsInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOnRydWUsInVuY2hhbmdlZE9wZXJhdGlvbnMiOnRydWV9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-ec0574feff203d02e458",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 622,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T18:49:00.310Z",
+    "duration": 580335.8899999999,
+    "expected": 30,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

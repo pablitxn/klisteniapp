@@ -1,0 +1,92 @@
+{
+  "run": "readiness-focused-r77",
+  "number": 77,
+  "mode": "white-label-http",
+  "phase": "focused",
+  "applicationSha": "3f8ccba573c08045c809dc73c186158878a2dafa",
+  "qaSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "acceptedIntegrationEvidenceSha": "76dcab2d28bd58072dc492bf6a994eb4995896e4",
+  "expectedCells": 2,
+  "uniqueScenarioContexts": 2,
+  "repetitionsPerScenarioContext": 1,
+  "actualCells": 2,
+  "counts": {
+    "passed": 2
+  },
+  "stats": {
+    "startTime": "2026-10-18T23:26:47.881Z",
+    "duration": 64707.93199999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "exitCode": 0,
+  "ownedSchemasRemaining": 0,
+  "qualification": "Independent focused PR35 candidate run on the proposed pair; not a replacement full matrix. Original failed waves remain unchanged; no replacement or pooled acceptance. Private raw traces stay task-local; shared report/log/error copies are sanitized. Native observations are not additional test passes.",
+  "cells": [
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "workerIndex": 0,
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T23:27:28.571Z",
+      "durationMs": 13100,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":533,\"reservedSlots\":1}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":332,\"reservedSlots\":2}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":411,\"reservedSlots\":3}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":275,\"reservedSlots\":4}"
+        }
+      ]
+    },
+    {
+      "instanceId": "e192ae9fc200babd30f3-bf05d1a7499a9241246a",
+      "workerIndex": 0,
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "mode": "white-label-http",
+      "engine": "webkit",
+      "width": 430,
+      "height": 932,
+      "touch": true,
+      "status": "passed",
+      "startTime": "2026-10-18T23:27:42.136Z",
+      "durationMs": 9608,
+      "retry": 0,
+      "errors": [],
+      "annotations": [
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":352,\"reservedSlots\":5}"
+        },
+        {
+          "type": "auth-admission-completed",
+          "description": "{\"afterReservationMs\":243,\"reservedSlots\":6}"
+        }
+      ]
+    }
+  ],
+  "rawJsonSha256": "661c37461ec5d896b4c8040d1647e1c24bb002a1f257e67270f75bad75795b7a",
+  "nativeObservationCount": 0,
+  "globalBrowserSchemasAfter": 6
+}

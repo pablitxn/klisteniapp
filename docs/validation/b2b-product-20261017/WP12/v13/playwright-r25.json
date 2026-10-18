@@ -1,0 +1,289 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--project=product-chromium-430",
+      "--grep=B2BP-SYNC-001",
+      "--timeout=180000",
+      "--max-failures=1",
+      "--config=playwright.b2b-product-unified.config.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.b2b-product-unified.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 1,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/candidatea1ade-close-status-r25/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 0,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-320",
+        "name": "product-chromium-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-status-r25/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 1,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-chromium-430",
+        "name": "product-chromium-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-status-r25/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 2,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "chromium",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-chromium-desktop",
+        "name": "product-chromium-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-status-r25/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 3,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 320,
+            "height": 740,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-320",
+        "name": "product-webkit-320",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-status-r25/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 4,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 430,
+            "height": 932,
+            "touch": true
+          }
+        },
+        "id": "product-webkit-430",
+        "name": "product-webkit-430",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/tmp/candidatea1ade-close-status-r25/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "fixtureIndex": 5,
+          "fixtureControlPort": 5600,
+          "b2bProduct": {
+            "mode": "unified-http",
+            "engine": "webkit",
+            "width": 1440,
+            "height": 1000,
+            "touch": false
+          }
+        },
+        "id": "product-webkit-desktop",
+        "name": "product-webkit-desktop",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "b2b-product-*.spec.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/b2b-product-e2e-server.mjs",
+      "cwd": "/task/app/",
+      "env": {
+        "B2B_PRODUCT_MODE": "unified-http",
+        "B2B_PRODUCT_PORT_OFFSET": "0"
+      },
+      "url": "http://127.0.0.1:5600/healthz",
+      "reuseExistingServer": false,
+      "timeout": 300000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 20000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "b2b-product-sync.spec.ts",
+      "file": "b2b-product-sync.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "B2BP-SYNC-001 Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "product-chromium-430",
+              "projectName": "product-chromium-430",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13339,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Actual Close awaits native workouts-v2 and captured successor",
+                      "duration": 2585
+                    },
+                    {
+                      "title": "Actual Close awaits native selected-workout-v1 and captured successor",
+                      "duration": 2174
+                    }
+                  ],
+                  "startTime": "2026-10-17T18:06:42.124Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "authenticated-close-workouts-v2-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWI0OWExYzEyYzZmZjNiYjY0YjllZDhiZmRlYTg5NjU0YjNlOGNlNDAiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICJnZW5lcmF0aW9uIjogNiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCB3b3Jrb3V0cy12MiBDbG9zZSIsCiAgICAiY2FwdHVyZWRSZWFzb24iOiAiQ2FwdHVyZWQgc3VjY2Vzc29yIGJlaGluZCBkZWxheWVkIHdvcmtvdXRzLXYyIiwKICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgImV4cGxpY2l0Q29tcGxldGlvbiI6IGZhbHNlLAogICAgInVuY2hhbmdlZEFjY2VwdGVkUmV2aXNpb24iOiB0cnVlLAogICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgfQp9"
+                    },
+                    {
+                      "name": "authenticated-close-selected-workout-v1-checkpoint",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWI0OWExYzEyYzZmZjNiYjY0YjllZDhiZmRlYTg5NjU0YjNlOGNlNDAiLAogICJjaGVja3BvaW50IjogewogICAgInN0b3JlIjogInNlbGVjdGVkLXdvcmtvdXQtdjEiLAogICAgImdlbmVyYXRpb24iOiAxMiwKICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAiY2FwdHVyZWROb3RlcyI6ICJDYXB0dXJlZCBiZWZvcmUgZGVsYXllZCBzZWxlY3RlZC13b3Jrb3V0LXYxIENsb3NlIiwKICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAic3RhdHVzIjogImRyYWZ0IiwKICAgICJleHBsaWNpdENvbXBsZXRpb24iOiBmYWxzZSwKICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICJ1bmNoYW5nZWRPcGVyYXRpb25zIjogdHJ1ZQogIH0KfQ=="
+                    },
+                    {
+                      "name": "authenticated-close-local-evidence",
+                      "contentType": "application/json",
+                      "body": "ewogICJpZCI6ICJzZXNzaW9uLWI0OWExYzEyYzZmZjNiYjY0YjllZDhiZmRlYTg5NjU0YjNlOGNlNDAiLAogICJjaGVja3BvaW50cyI6IFsKICAgIHsKICAgICAgInN0b3JlIjogIndvcmtvdXRzLXYyIiwKICAgICAgImdlbmVyYXRpb24iOiA2LAogICAgICAicG9pbnRlckRvY3VtZW50R2VuZXJhdGlvbiI6IDAsCiAgICAgICJwb2ludGVyTWF0Y2hlc0R1cmFibGVEb2N1bWVudCI6IHRydWUsCiAgICAgICJjYXB0dXJlZE5vdGVzIjogIkNhcHR1cmVkIGJlZm9yZSBkZWxheWVkIHdvcmtvdXRzLXYyIENsb3NlIiwKICAgICAgImNhcHR1cmVkUmVhc29uIjogIkNhcHR1cmVkIHN1Y2Nlc3NvciBiZWhpbmQgZGVsYXllZCB3b3Jrb3V0cy12MiIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9LAogICAgewogICAgICAic3RvcmUiOiAic2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJnZW5lcmF0aW9uIjogMTIsCiAgICAgICJwb2ludGVyRG9jdW1lbnRHZW5lcmF0aW9uIjogMCwKICAgICAgInBvaW50ZXJNYXRjaGVzRHVyYWJsZURvY3VtZW50IjogdHJ1ZSwKICAgICAgImNhcHR1cmVkTm90ZXMiOiAiQ2FwdHVyZWQgYmVmb3JlIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSBDbG9zZSIsCiAgICAgICJjYXB0dXJlZFJlYXNvbiI6ICJDYXB0dXJlZCBzdWNjZXNzb3IgYmVoaW5kIGRlbGF5ZWQgc2VsZWN0ZWQtd29ya291dC12MSIsCiAgICAgICJzdGF0dXMiOiAiZHJhZnQiLAogICAgICAiZXhwbGljaXRDb21wbGV0aW9uIjogZmFsc2UsCiAgICAgICJ1bmNoYW5nZWRBY2NlcHRlZFJldmlzaW9uIjogdHJ1ZSwKICAgICAgInVuY2hhbmdlZE9wZXJhdGlvbnMiOiB0cnVlCiAgICB9CiAgXQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9031321bc7c526d8118d-1f83c0935a782331258d",
+          "file": "b2b-product-sync.spec.ts",
+          "line": 34,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-17T18:06:08.810Z",
+    "duration": 47568.113000000005,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "baseSha": "3421246bbe61ba6a0205d623dd5788ee912d4f26",
+  "qaSha": "4ec0273151194acb189ac6ed327033d66366dbd5",
+  "path": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+  "scenario": "B2BP-HISTORY-002",
+  "preservedCalls": 16,
+  "existingContentRevisionActorSubstitutionAndViewportCallsIdentical": true,
+  "calls": [
+    {
+      "name": "getByRole",
+      "source": "page.getByRole('region', { name: 'Continuidad de la rutina' })"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(continuity).toContainText(plan.enrollment.content.name)"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(continuity).toContainText(plan.enrollment.content.goal)"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(continuity).toContainText(plan.enrollment.content.stages[0]!.name)"
+    },
+    {
+      "name": "toHaveCount",
+      "source": "expect(continuity.getByText(/cantidad de sustituciones|substitution count/i)).toHaveCount( 0, )"
+    },
+    {
+      "name": "getByText",
+      "source": "continuity.getByText(/cantidad de sustituciones|substitution count/i)"
+    },
+    {
+      "name": "locator",
+      "source": "continuity.locator(':scope > div')"
+    },
+    {
+      "name": "getByRole",
+      "source": "page.getByRole('heading', { name: plan.enrollment.content.name, exact: true })"
+    },
+    {
+      "name": "click",
+      "source": "enrolled .getByRole('button', { name: `Ver detalle del período vigente r${plan.enrollment.revision}`, exact: true, }) .click()"
+    },
+    {
+      "name": "getByRole",
+      "source": "enrolled .getByRole('button', { name: `Ver detalle del período vigente r${plan.enrollment.revision}`, exact: true, })"
+    },
+    {
+      "name": "getByRole",
+      "source": "enrolled.getByRole('region', { name: `Período registrado r${plan.enrollment.revision}`, exact: true, })"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(detail).toContainText(plan.enrollment.content.goal)"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(detail).toContainText(plan.enrollment.content.timeZone)"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(detail).toContainText(plan.enrollment.content.stages[0]!.startDate)"
+    },
+    {
+      "name": "toContainText",
+      "source": "expect(detail).toContainText(staff.who.actor.id)"
+    },
+    {
+      "name": "assertProductViewport",
+      "source": "assertProductViewport(page, info)"
+    }
+  ],
+  "qualification": "Read-only source-preservation audit. Not an executable feature-test pass."
+}

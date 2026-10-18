@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-10-18T18:15:02.523759+00:00",
+  "run": 68,
+  "mode": "white-label-http",
+  "id": "B2BP-HEALTH-002",
+  "project": "product-webkit-430",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "4ec0273151194acb189ac6ed327033d66366dbd5",
+  "status": "failed",
+  "retry": 0,
+  "assertion": {
+    "file": "apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+    "line": 294,
+    "selector": "navigation, exact accessible name Secciones del gimnasio",
+    "timeoutMs": 5000,
+    "testTraceStart": 7540759.395,
+    "testTraceEnd": 7546464.171,
+    "browserTraceStart": 7540765.079,
+    "browserTraceEnd": 7546421.869,
+    "testTraceStack": [
+      {
+        "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+        "line": 294,
+        "column": 5,
+        "function": "login"
+      }
+    ]
+  },
+  "retainedFrames": [
+    {
+      "timestamp": 7541373.728,
+      "mainFrame": true,
+      "navigationDomLiteralPresent": false,
+      "gateCheckingLiteralPresent": true
+    },
+    {
+      "timestamp": 7546455.007,
+      "mainFrame": true,
+      "navigationDomLiteralPresent": true,
+      "gateCheckingLiteralPresent": false
+    }
+  ],
+  "accessNetworkEntries": [
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "selectedRole": "admin",
+      "status": 200,
+      "rawMonotonicTime": 7540548.387,
+      "rawTime": 187.338,
+      "startedDateTime": "2026-10-18T18:13:26.751Z"
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "selectedRole": "admin",
+      "status": 200,
+      "rawMonotonicTime": 7545936.264,
+      "rawTime": 248.40099999999998,
+      "startedDateTime": "2026-10-18T18:13:32.139Z"
+    }
+  ],
+  "privateTraceSha256": "f8bce72347684be1f9e954e418bc77e42479c36a7c371a52984e61fd010d61e9",
+  "qualification": "Literal DOM membership in retained snapshots is not a later visibility assertion or a passing case. Network monotonicTime/time are retained raw fields; no body-completion ordering inferred. Product or harness root cause remains unproven. Full matrices continue uncapped and unchanged.",
+  "sourceAndBuiltFilesReverified": 2103,
+  "sourceMismatches": []
+}

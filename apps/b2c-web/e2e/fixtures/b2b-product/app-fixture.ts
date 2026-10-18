@@ -3,6 +3,7 @@ import {
   expect,
   type BrowserContext,
   type Page,
+  type Response,
   type TestInfo,
 } from '@playwright/test'
 import { get } from 'node:http'
@@ -38,6 +39,34 @@ type RouteName =
   | 'people'
   | 'workout'
   | 'reports'
+export type ReviewedDurationManifest = {
+  fixtureKey: 'b2bp-alternatives-011-duration-v1'
+  kind: 'synthetic-contract-fixture'
+  scenarioId: 'B2BP-ALTERNATIVES-011'
+  organizationId: string
+  branchId: string
+  programId: string
+  version: 1
+  schemaVersion: 2
+  stepId: string
+  relationId: string
+  canonicalDirectedPair: {
+    relationId: string
+    relationHash: string
+    catalogRevision: string
+    sourceExerciseId: 'calf-raise'
+    targetExerciseId: 'single-leg-calf-raise'
+    sourceContentHash: string
+    targetContentHash: string
+  }
+  syntheticTargetDose: {
+    provenance: 'independent-synthetic-test-prescription'
+    reviewScope: 'contract-and-ui-test-only'
+    disclaimer: string
+    hash: string
+  }
+  routineHash: string
+}
 export type ProductFixture = {
   fixtureVersion: number
   phase: string
@@ -47,6 +76,7 @@ export type ProductFixture = {
   actors: Record<string, Actor>
   preservation: { beforeSha256: string; afterSha256: string; counts: Record<string, number> }
   resources: {
+    reviewedDuration?: ReviewedDurationManifest[]
     legacy: Array<{
       organizationId: string
       branchId: string
@@ -126,22 +156,7 @@ export const test = base.extend<{ product: ProductFixture }>({
     const product = await fixtureMap(info)
     if (!product.featuresActivated)
       unavailable(info, `Real fixture phase ${product.phase} has product activation disabled`)
-    // Existing HTTP QA convention: cryptographic UUIDs only; this does not make a
-    // fictitious HTTP origin secure, alter TLS trust, or change cookie rules.
-    if (info.project.metadata.b2bProduct?.mode === 'white-label-http') {
-      await context.addInitScript(() => {
-        if (!crypto.randomUUID)
-          Object.defineProperty(crypto, 'randomUUID', {
-            value: () => {
-              const bytes = crypto.getRandomValues(new Uint8Array(16))
-              bytes[6] = (bytes[6]! & 15) | 64
-              bytes[8] = (bytes[8]! & 63) | 128
-              const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
-              return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
-            },
-          })
-      })
-    }
+    expect(context.browser()?.browserType().name()).toBe(info.project.use.browserName)
     await use(product)
   },
 })
@@ -208,6 +223,20 @@ export async function pacePasswordAdmission(info: TestInfo) {
     { mode: 0o600 },
   )
 }
+/** Anchor the unchanged idle window after the actual auth response, not before the UI click. */
+export function completePasswordAdmission(info: TestInfo) {
+  const pacePath = join(info.project.outputDir, 'wp12-auth-pace.json')
+  const previous = JSON.parse(readFileSync(pacePath, 'utf8')) as { at: number; count: number }
+  const now = Date.now()
+  writeFileSync(pacePath, JSON.stringify({ ...previous, at: now }), { mode: 0o600 })
+  info.annotations.push({
+    type: 'auth-admission-completed',
+    description: JSON.stringify({
+      afterReservationMs: now - previous.at,
+      reservedSlots: previous.count,
+    }),
+  })
+}
 export async function login(page: Page, who: Principal, info: TestInfo) {
   const mode = info.project.metadata.b2bProduct.mode
   const origin =
@@ -218,13 +247,16 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
   await page.getByLabel('Email', { exact: true }).fill(who.actor.email)
   await page.getByLabel('Contraseña', { exact: true }).fill('b2b-product-synthetic-password-2026')
   await pacePasswordAdmission(info)
-  const response = page.waitForResponse(
-    (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
-  )
+  const response = page
+    .waitForResponse(
+      (r) => r.url().endsWith('/auth/sign-in/email') && r.request().method() === 'POST',
+    )
+    .finally(() => completePasswordAdmission(info))
   await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
   expect((await response).status(), 'Real composed UI password admission').toBe(200)
   const organizations = page.getByRole('combobox', { name: 'Organización', exact: true })
-  await expect(organizations).toBeVisible()
+  // Cold workspace chunks may still be loading after real password admission.
+  await expect(organizations).toBeVisible({ timeout: 30_000 })
   if ((await organizations.inputValue()) !== who.organization.id)
     await organizations.selectOption(who.organization.id)
   const access = await api(page, who, 'access', {})
@@ -244,8 +276,22 @@ export async function login(page: Page, who: Principal, info: TestInfo) {
       : who.role === 'superadmin' && options.includes(legacyAdmin)
         ? legacyAdmin
         : exact
-    if ((await selector.inputValue()) !== value) await selector.selectOption(value)
+    if ((await selector.inputValue()) !== value) {
+      const selectedRole = JSON.parse(value)[1] as string
+      const admitted = page.waitForResponse(
+        (response) =>
+          response.request().method() === 'GET' &&
+          new URL(response.url()).pathname.endsWith('/product/v2/access') &&
+          response.request().headers()['x-klisteni-b2b-branch'] === who.branchId &&
+          response.request().headers()['x-klisteni-b2b-role'] === selectedRole,
+      )
+      await selector.selectOption(value)
+      expect((await admitted).status(), 'Actual selected work context admission').toBe(200)
+    }
   }
+  await expect(
+    page.getByRole('navigation', { name: 'Secciones del gimnasio', exact: true }),
+  ).toBeVisible()
 }
 export async function open(
   page: Page,
@@ -571,19 +617,6 @@ export async function newPage(context: BrowserContext, info: TestInfo, timezoneI
     timezoneId,
     ignoreHTTPSErrors: false,
   })
-  if (info.project.metadata.b2bProduct?.mode === 'white-label-http')
-    await separate.addInitScript(() => {
-      if (!crypto.randomUUID)
-        Object.defineProperty(crypto, 'randomUUID', {
-          value: () => {
-            const bytes = crypto.getRandomValues(new Uint8Array(16))
-            bytes[6] = (bytes[6]! & 15) | 64
-            bytes[8] = (bytes[8]! & 63) | 128
-            const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
-            return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
-          },
-        })
-    })
   return { context: separate, page: await separate.newPage() }
 }
 export type Prescription = {
@@ -600,13 +633,51 @@ export async function showWeek(
   week: string,
   timeZone = 'UTC',
 ) {
-  await open(page, product, info, 'history')
-  await expect(
-    page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
-  ).toBeVisible()
-  // Date-only clock controls the requested calendar week; authoritative server
-  // asOf/closed counts remain unmodified real responses. No mocked DTO is used.
-  await page.clock.setFixedTime(new Date(`${week}T12:00:00Z`))
+  const started = performance.now()
+  let headingWaitStarted: number | undefined
+  let headingVisible = false
+  const responses: Array<{ endpoint: string; status: number; elapsedMs: number }> = []
+  const recordResponse = (response: Response) => {
+    const endpoint = new URL(response.url()).pathname.match(
+      /\/(context|bootstrap\/v2|access|continuity|sessions|week|occurrences)$/,
+    )?.[1]
+    if (endpoint)
+      responses.push({
+        endpoint,
+        status: response.status(),
+        elapsedMs: Math.round(performance.now() - started),
+      })
+  }
+  page.on('response', recordResponse)
+  try {
+    await open(page, product, info, 'history')
+    headingWaitStarted = performance.now()
+    await expect(
+      page.getByRole('heading', { name: 'Mi rutina e historial', exact: true }),
+    ).toBeVisible({ timeout: 30000 })
+    headingVisible = true
+  } finally {
+    page.off('response', recordResponse)
+    await info.attach(`history-page-readiness-${operation()}`, {
+      body: Buffer.from(
+        JSON.stringify({
+          headingVisible,
+          maximumHeadingWaitMs: 30000,
+          navigationMs:
+            headingWaitStarted === undefined ? null : Math.round(headingWaitStarted - started),
+          headingWaitMs:
+            headingWaitStarted === undefined
+              ? null
+              : Math.round(performance.now() - headingWaitStarted),
+          responses,
+        }),
+      ),
+      contentType: 'application/json',
+    })
+  }
+  // Offset the calendar while wall time keeps advancing, so real retry deadlines
+  // can expire. Authoritative server asOf/closed responses remain unmodified.
+  await page.clock.setSystemTime(new Date(`${week}T12:00:00Z`))
   await page.reload()
   await page
     .getByRole('combobox', { name: 'Zona horaria de la inscripción', exact: true })

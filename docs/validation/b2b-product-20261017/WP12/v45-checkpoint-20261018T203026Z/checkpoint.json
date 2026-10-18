@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-18T20:30:26.481911+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "runs": [
+    {
+      "run": 71,
+      "state": "executing",
+      "pass": 71,
+      "nonpass": 0,
+      "pendingOrRunning": 457,
+      "last": {
+        "number": 71,
+        "project": "product-chromium-320",
+        "id": "B2BP-SYNC-004",
+        "observed": "passed"
+      },
+      "nonpasses": [],
+      "schemasCaptured": true
+    },
+    {
+      "run": 72,
+      "state": "executing",
+      "pass": 67,
+      "nonpass": 1,
+      "pendingOrRunning": 460,
+      "last": {
+        "number": 68,
+        "project": "product-chromium-320",
+        "id": "B2BP-SYNC-007",
+        "observed": "passed"
+      },
+      "nonpasses": [
+        {
+          "number": 6,
+          "project": "product-chromium-320",
+          "id": "B2BP-ALTERNATIVES-004",
+          "observed": "nonpassing"
+        }
+      ],
+      "schemasCaptured": true
+    }
+  ],
+  "processHealth": [
+    {
+      "run": 71,
+      "hostPid": 267764,
+      "hostProcessAlive": true,
+      "startedAt": "2026-10-18T20:06:07.761392+00:00",
+      "state": "executing",
+      "logBytes": 15435,
+      "logModifiedAt": "2026-10-18T20:30:26.082560+00:00",
+      "terminalReportPresent": false,
+      "blockerPresent": false,
+      "actualSchemaIdsCaptured": 6
+    },
+    {
+      "run": 72,
+      "hostPid": 267696,
+      "hostProcessAlive": true,
+      "startedAt": "2026-10-18T20:06:07.590573+00:00",
+      "state": "executing",
+      "logBytes": 14786,
+      "logModifiedAt": "2026-10-18T20:30:16.698969+00:00",
+      "terminalReportPresent": false,
+      "blockerPresent": false,
+      "actualSchemaIdsCaptured": 6
+    }
+  ],
+  "containers": [
+    {
+      "name": "wp12-v11-browser",
+      "Status": "running",
+      "Running": true,
+      "OOMKilled": false,
+      "ExitCode": 0
+    },
+    {
+      "name": "wp12-v11-postgres",
+      "Status": "running",
+      "Running": true,
+      "OOMKilled": false,
+      "ExitCode": 0
+    }
+  ],
+  "sourceAndBuiltFilesChecked": 2106,
+  "sourceMismatches": [],
+  "sourceManifestSha256": "a01421e79b313cbc4d0e0b54fcdf687a5b7ae9378eeea155e413b1571fbb24c4",
+  "buildManifestSha256": "6d7d41793a70a98aa75f867eda3490b6f4de5e1448f6cbfd798ea46f62de1865",
+  "qualification": "Timestamped provisional CLI checkpoint. Pending cells are not passes. Full terminal reports and owned cleanup remain authoritative. Independent focused12instances and helper contracts remain separate and all original failures stay immutable."
+}

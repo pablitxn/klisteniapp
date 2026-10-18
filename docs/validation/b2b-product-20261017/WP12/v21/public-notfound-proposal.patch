@@ -1,0 +1,11 @@
+--- a/apps/b2b-web/src/App.tsx
++++ b/apps/b2b-web/src/App.tsx
+@@ -38,7 +38,7 @@
+         <p role="status">Conociendo tu gimnasio…</p>
+       </Shell>
+     )
+-  if (brand.error && !session.bootstrap && !['login', 'member', 'management'].includes(route.kind))
++  if (brand.error && !session.bootstrap && !['login', 'member', 'management', 'notFound'].includes(route.kind))
+     return (
+       <Shell eyebrow="ACCESO">
+         <Notice error>{brand.error}</Notice>

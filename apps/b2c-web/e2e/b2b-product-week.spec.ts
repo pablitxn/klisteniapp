@@ -660,7 +660,10 @@ test(scenarioTitle('B2BP-WEEK-008'), async ({ page, context, product }, info) =>
       .fill('1')
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
     await expect(
-      page.getByRole('status').filter({ hasText: /Sin conexión|pendiente|local/i }),
+      page
+        .locator('.workout-session')
+        .getByRole('status')
+        .filter({ hasText: /Sin conexión|pendiente|local/i }),
     ).toBeVisible()
     await context.setOffline(false)
     await expect

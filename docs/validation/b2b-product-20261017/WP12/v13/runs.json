@@ -1,0 +1,187 @@
+[
+  {
+    "run": "candidatea1ade-history-r22",
+    "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+    "qaSha": "43660a9e6cb7b9bcacd133a2f9d18795b6021045",
+    "stats": {
+      "startTime": "2026-10-17T17:57:31.551Z",
+      "duration": 83089.20400000001,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 4
+    },
+    "runErrors": [],
+    "exitCode": 0,
+    "wrapperTimes": [
+      "2026-10-17T17:57:30Z",
+      "2026-10-17T17:58:54Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "5f15e185a3a72247efeac4e886668feeb62029cd0866c8149896f4999a17444b",
+    "decodedLogSha256": "35378d011711c6306fdd6d8e1760192ff2809a2b2f0bde3e9f3c30e504e3eede",
+    "cells": [
+      {
+        "id": "B2BP-WEEK-012",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-WEEK-008",
+        "project": "product-chromium-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-WEEK-012",
+        "project": "product-webkit-320",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-WEEK-008",
+        "project": "product-webkit-320",
+        "status": "passed",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "run": "candidatea1ade-close-r23",
+    "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+    "qaSha": "43207f582f87cc88c781ea6c3ad6a7152153189d",
+    "stats": {
+      "startTime": "2026-10-17T17:59:20.291Z",
+      "duration": 73451.93800000001,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "counts": {
+      "failed": 1,
+      "passed": 2
+    },
+    "runErrors": [],
+    "exitCode": 1,
+    "wrapperTimes": [
+      "2026-10-17T17:59:19Z",
+      "2026-10-17T18:00:33Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "1f0cd72853effa29d81db429e9425eec830aaa56e6c99cf534422702efd7b0ad",
+    "decodedLogSha256": "df8f6e4c796c9487b3db365a774fdee1df2b39207b37003962393ea18ea5834e",
+    "cells": [
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+              "column": 42,
+              "line": 112
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesi\u00f3n.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesi\u00f3n.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('status').filter({ hasText: 'Sincronizado. Guardar no completa la sesi\u00f3n.' })\u001b[22m\n\n\n  110 |           .click()\n  111 |         await expect(page.getByLabel('Notas de la sesi\u00f3n', { exact: true })).toHaveValue(notes)\n> 112 |         await expect(synchronized(page)).toBeVisible()\n      |                                          ^\n  113 |       })\n  114 |     }\n  115 |     await info.attach('authenticated-close-local-evidence', {\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:112:42\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:44:7"
+          }
+        ]
+      },
+      {
+        "id": "B2BP-SYNC-009",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": []
+      },
+      {
+        "id": "B2BP-SYNC-012",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "run": "candidatea1ade-close-wait-r24",
+    "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+    "qaSha": "04c238fb8a52d069e9f24d552bcf47267917f624",
+    "stats": {
+      "startTime": "2026-10-17T18:04:29.126Z",
+      "duration": 46590.490000000005,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "counts": {
+      "failed": 1
+    },
+    "runErrors": [
+      {
+        "message": "Testing stopped early after 1 maximum allowed failures."
+      }
+    ],
+    "exitCode": 1,
+    "wrapperTimes": [
+      "2026-10-17T18:04:28Z",
+      "2026-10-17T18:05:15Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "30cd894a11c5eda5d0daeba27dff48e96dc5976ea0e4158d1017af589ff612b7",
+    "decodedLogSha256": "11ba5b3769dc70197ebd25763145dcc395c211b1250dbd7333cc5700bd723dc3",
+    "cells": [
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-430",
+        "status": "failed",
+        "errors": [
+          {
+            "location": {
+              "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+              "column": 7,
+              "line": 156
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.workout-session').getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i })\nExpected: visible\nError: strict mode violation: locator('.workout-session').getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i }) resolved to 2 elements:\n    1) <p role=\"status\" aria-live=\"polite\">Sin conexi\u00f3n: borrador conservado en este disposi\u2026</p> aka getByText('Sin conexi\u00f3n: borrador')\n    2) <div role=\"status\" class=\"notice \">Recuperamos tu borrador local.</div> aka getByText('Recuperamos tu borrador local.')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('.workout-session').getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.workout-session').getByRole('status').filter({ hasText: /sin conexi\u00f3n|local|pendiente/i })\u001b[22m\n\n\n  154 |         .getByRole('status')\n  155 |         .filter({ hasText: /sin conexi\u00f3n|local|pendiente/i }),\n> 156 |     ).toBeVisible()\n      |       ^\n  157 |     await context.setOffline(false)\n  158 |     await page.reload() // Shell startup requires connectivity; no service-worker guarantee is assumed.\n  159 |     await page\n    at /task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:156:7"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "run": "candidatea1ade-close-status-r25",
+    "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+    "qaSha": "217733d14cd773e620c3e2d3a9bb9e4c9aa82447",
+    "stats": {
+      "startTime": "2026-10-17T18:06:08.810Z",
+      "duration": 47568.113000000005,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "counts": {
+      "passed": 1
+    },
+    "runErrors": [],
+    "exitCode": 0,
+    "wrapperTimes": [
+      "2026-10-17T18:06:08Z",
+      "2026-10-17T18:06:56Z"
+    ],
+    "schemasAfter": 0,
+    "rawJsonSha256": "4db2cf3563794b3d2bd18fb6dd0640e783c8dfd4866b5e0f3cc67a490a96cad9",
+    "decodedLogSha256": "e27b987f4b27047686eb8ed4e6128c4208f5550ff65f00737c575a228e7e1ba1",
+    "cells": [
+      {
+        "id": "B2BP-SYNC-001",
+        "project": "product-chromium-430",
+        "status": "passed",
+        "errors": []
+      }
+    ]
+  }
+]

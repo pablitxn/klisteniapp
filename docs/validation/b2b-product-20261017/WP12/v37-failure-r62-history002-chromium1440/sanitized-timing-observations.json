@@ -1,0 +1,825 @@
+{
+  "run": 62,
+  "id": "B2BP-HISTORY-002",
+  "project": "product-chromium-desktop",
+  "actions": [
+    {
+      "file": "test.trace",
+      "callId": "expect@89",
+      "endTime": 4043202.589,
+      "errorType": ""
+    },
+    {
+      "file": "3-trace.trace",
+      "callId": "call@4261",
+      "startTime": 4033886.389,
+      "method": "goto",
+      "params": {
+        "url": "http://atlas.b2b.test/app"
+      }
+    },
+    {
+      "file": "3-trace.trace",
+      "callId": "call@4291",
+      "startTime": 4037147.758,
+      "method": "goto",
+      "params": {
+        "url": "http://atlas.b2b.test/app?view=history"
+      }
+    },
+    {
+      "file": "3-trace.trace",
+      "callId": "call@4293",
+      "startTime": 4038108.629,
+      "method": "expect",
+      "params": {
+        "selector": "internal:role=region[name=\"Continuidad de la rutina\"i]",
+        "expression": "to.have.text",
+        "timeout": 5000
+      }
+    },
+    {
+      "file": "3-trace.trace",
+      "callId": "call@4293",
+      "endTime": 4043156.839,
+      "errorType": "ExpectError"
+    },
+    {
+      "file": "1-trace.trace",
+      "callId": "call@4199",
+      "startTime": 4028382.334,
+      "method": "goto",
+      "params": {
+        "url": "http://atlas.b2b.test/app"
+      }
+    }
+  ],
+  "network": [
+    {
+      "time": 4033893.976,
+      "method": "GET",
+      "path": "/app",
+      "status": 200,
+      "durationMs": 7.763
+    },
+    {
+      "time": 4033915.722,
+      "method": "GET",
+      "path": "/assets/index-CAsCtyCJ.css",
+      "status": 200,
+      "durationMs": 20.442
+    },
+    {
+      "time": 4033915.141,
+      "method": "GET",
+      "path": "/assets/jsx-runtime-D3jfb0Ew.js",
+      "status": 200,
+      "durationMs": 25.099999999999998
+    },
+    {
+      "time": 4033912.115,
+      "method": "GET",
+      "path": "/assets/index-DsRbmMm8.js",
+      "status": 200,
+      "durationMs": 23.778999999999996
+    },
+    {
+      "time": 4033915.7,
+      "method": "GET",
+      "path": "/assets/src-DX_UE2Yb.js",
+      "status": 200,
+      "durationMs": 25.385
+    },
+    {
+      "time": 4033915.676,
+      "method": "GET",
+      "path": "/assets/iso-D3SZVvtp.js",
+      "status": 200,
+      "durationMs": 26.555999999999997
+    },
+    {
+      "time": 4034055.787,
+      "method": "GET",
+      "path": "/api/b2b/context",
+      "status": 200,
+      "durationMs": 20.226
+    },
+    {
+      "time": 4034110.29,
+      "method": "GET",
+      "path": "/assets/Workspace-dAeUip4b.js",
+      "status": 200,
+      "durationMs": 4.588
+    },
+    {
+      "time": 4034123.067,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 401,
+      "durationMs": 8.817
+    },
+    {
+      "time": 4035350.718,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": -1,
+      "durationMs": 0.4360000002197921
+    },
+    {
+      "time": 4034830.402,
+      "method": "POST",
+      "path": "/api/b2b/auth/sign-in/email",
+      "status": 200,
+      "durationMs": 526.338
+    },
+    {
+      "time": 4035351.013,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 200,
+      "durationMs": 49.421
+    },
+    {
+      "time": 4035496.762,
+      "method": "GET",
+      "path": "/assets/Session-CEyopEN1.css",
+      "status": 200,
+      "durationMs": 134.883
+    },
+    {
+      "time": 4035496.717,
+      "method": "GET",
+      "path": "/assets/ExerciseDetails-J9zBYuvQ.css",
+      "status": 200,
+      "durationMs": 135.98999999999998
+    },
+    {
+      "time": 4035496.345,
+      "method": "GET",
+      "path": "/assets/training-labels-BGW0D0EV.js",
+      "status": 200,
+      "durationMs": 134.151
+    },
+    {
+      "time": 4035496.986,
+      "method": "GET",
+      "path": "/assets/ProductHistoryPage-Dhlpukdn.css",
+      "status": 200,
+      "durationMs": 19.029999999999998
+    },
+    {
+      "time": 4035497.247,
+      "method": "GET",
+      "path": "/assets/ProductWorkspace-BiIN02jA.css",
+      "status": 200,
+      "durationMs": 22.799
+    },
+    {
+      "time": 4035496.283,
+      "method": "GET",
+      "path": "/assets/Session-BNopmwu8.js",
+      "status": 200,
+      "durationMs": 143.915
+    },
+    {
+      "time": 4035496.214,
+      "method": "GET",
+      "path": "/assets/ProductWorkspace-CSh8qPql.js",
+      "status": 200,
+      "durationMs": 153.40699999999998
+    },
+    {
+      "time": 4035495.697,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "status": 200,
+      "durationMs": 166.47
+    },
+    {
+      "time": 4035496.551,
+      "method": "GET",
+      "path": "/assets/src-B2ZHDtsC.js",
+      "status": 200,
+      "durationMs": 19.899
+    },
+    {
+      "time": 4035496.622,
+      "method": "GET",
+      "path": "/assets/content-D2AT_D5Y.js",
+      "status": 200,
+      "durationMs": 20.608999999999998
+    },
+    {
+      "time": 4035496.386,
+      "method": "GET",
+      "path": "/assets/ExerciseDetails-CEgpt1uz.js",
+      "status": 200,
+      "durationMs": 20.797
+    },
+    {
+      "time": 4035496.836,
+      "method": "GET",
+      "path": "/assets/ProductHistoryPage-CkQDN_TW.js",
+      "status": 200,
+      "durationMs": 19.96
+    },
+    {
+      "time": 4035496.797,
+      "method": "GET",
+      "path": "/assets/peopleCapabilities-BV-P0yEY.js",
+      "status": 200,
+      "durationMs": 19.287
+    },
+    {
+      "time": 4035497.038,
+      "method": "GET",
+      "path": "/assets/HistoryPage-CV9pXyru.js",
+      "status": 200,
+      "durationMs": 29.328999999999997
+    },
+    {
+      "time": 4035497.084,
+      "method": "GET",
+      "path": "/assets/ExecutionHistory-D9vHFaBy.js",
+      "status": 200,
+      "durationMs": 28.546
+    },
+    {
+      "time": 4035497.186,
+      "method": "GET",
+      "path": "/assets/ProductReportsPage-DAJmikQg.js",
+      "status": 200,
+      "durationMs": 29.539
+    },
+    {
+      "time": 4035496.883,
+      "method": "GET",
+      "path": "/assets/SessionHistory-BOEtoPiM.js",
+      "status": 200,
+      "durationMs": 26.506
+    },
+    {
+      "time": 4035497.144,
+      "method": "GET",
+      "path": "/assets/editorDraftStorage-Cs-kgejg.js",
+      "status": 200,
+      "durationMs": 28.986
+    },
+    {
+      "time": 4035497.108,
+      "method": "GET",
+      "path": "/assets/useEditorDraft-D2kvF0i5.js",
+      "status": 200,
+      "durationMs": 29.239
+    },
+    {
+      "time": 4036202.642,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 200,
+      "durationMs": 229.713
+    },
+    {
+      "time": 4036430.909,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "status": 200,
+      "durationMs": 24.304
+    },
+    {
+      "time": 4036464.224,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/legacy-assignments",
+      "status": 200,
+      "durationMs": 40.711
+    },
+    {
+      "time": 4036464.163,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/continuity",
+      "status": 200,
+      "durationMs": 45.657
+    },
+    {
+      "time": 4036464.202,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/sessions",
+      "status": 200,
+      "durationMs": 46.103
+    },
+    {
+      "time": 4037375.373,
+      "method": "GET",
+      "path": "/app",
+      "status": 200,
+      "durationMs": 15.581
+    },
+    {
+      "time": 4037789.322,
+      "method": "GET",
+      "path": "/assets/index-CAsCtyCJ.css",
+      "status": 200,
+      "durationMs": 34.94
+    },
+    {
+      "time": 4037789.015,
+      "method": "GET",
+      "path": "/assets/jsx-runtime-D3jfb0Ew.js",
+      "status": 200,
+      "durationMs": 35.817
+    },
+    {
+      "time": 4037789.244,
+      "method": "GET",
+      "path": "/assets/src-DX_UE2Yb.js",
+      "status": 200,
+      "durationMs": 37.007999999999996
+    },
+    {
+      "time": 4037789.068,
+      "method": "GET",
+      "path": "/assets/iso-D3SZVvtp.js",
+      "status": 200,
+      "durationMs": 37.959
+    },
+    {
+      "time": 4037788.88,
+      "method": "GET",
+      "path": "/assets/index-DsRbmMm8.js",
+      "status": 200,
+      "durationMs": 37.119
+    },
+    {
+      "time": 4038109.354,
+      "method": "GET",
+      "path": "/api/b2b/context",
+      "status": 200,
+      "durationMs": 207.63199999999998
+    },
+    {
+      "time": 4038931.359,
+      "method": "GET",
+      "path": "/assets/Workspace-dAeUip4b.js",
+      "status": 200,
+      "durationMs": 209.461
+    },
+    {
+      "time": 4038942.247,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 200,
+      "durationMs": 625.8199999999999
+    },
+    {
+      "time": 4040387.425,
+      "method": "GET",
+      "path": "/assets/src-B2ZHDtsC.js",
+      "status": 200,
+      "durationMs": 606.197
+    },
+    {
+      "time": 4040045.979,
+      "method": "GET",
+      "path": "/assets/training-labels-BGW0D0EV.js",
+      "status": 200,
+      "durationMs": 259.603
+    },
+    {
+      "time": 4040046.023,
+      "method": "GET",
+      "path": "/assets/ExerciseDetails-CEgpt1uz.js",
+      "status": 200,
+      "durationMs": 260.962
+    },
+    {
+      "time": 4040045.908,
+      "method": "GET",
+      "path": "/assets/Session-BNopmwu8.js",
+      "status": 200,
+      "durationMs": 261.794
+    },
+    {
+      "time": 4040045.825,
+      "method": "GET",
+      "path": "/assets/ProductWorkspace-CSh8qPql.js",
+      "status": 200,
+      "durationMs": 262.383
+    },
+    {
+      "time": 4040387.919,
+      "method": "GET",
+      "path": "/assets/ExerciseDetails-J9zBYuvQ.css",
+      "status": 200,
+      "durationMs": 473.923
+    },
+    {
+      "time": 4040388.019,
+      "method": "GET",
+      "path": "/assets/Session-CEyopEN1.css",
+      "status": 200,
+      "durationMs": 493.641
+    },
+    {
+      "time": 4040388.221,
+      "method": "GET",
+      "path": "/assets/ProductHistoryPage-Dhlpukdn.css",
+      "status": 200,
+      "durationMs": 709.975
+    },
+    {
+      "time": 4040388.784,
+      "method": "GET",
+      "path": "/assets/ProductWorkspace-BiIN02jA.css",
+      "status": 200,
+      "durationMs": 831.884
+    },
+    {
+      "time": 4040387.717,
+      "method": "GET",
+      "path": "/assets/content-D2AT_D5Y.js",
+      "status": 200,
+      "durationMs": 491.171
+    },
+    {
+      "time": 4040045.099,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "status": 200,
+      "durationMs": 1095.125
+    },
+    {
+      "time": 4040388.31,
+      "method": "GET",
+      "path": "/assets/ExecutionHistory-D9vHFaBy.js",
+      "status": 200,
+      "durationMs": 551.818
+    },
+    {
+      "time": 4040388.106,
+      "method": "GET",
+      "path": "/assets/ProductHistoryPage-CkQDN_TW.js",
+      "status": 200,
+      "durationMs": 213.701
+    },
+    {
+      "time": 4040388.351,
+      "method": "GET",
+      "path": "/assets/useEditorDraft-D2kvF0i5.js",
+      "status": 200,
+      "durationMs": 552.081
+    },
+    {
+      "time": 4040388.068,
+      "method": "GET",
+      "path": "/assets/peopleCapabilities-BV-P0yEY.js",
+      "status": 200,
+      "durationMs": 211.91
+    },
+    {
+      "time": 4040388.27,
+      "method": "GET",
+      "path": "/assets/HistoryPage-CV9pXyru.js",
+      "status": 200,
+      "durationMs": 550.576
+    },
+    {
+      "time": 4040388.153,
+      "method": "GET",
+      "path": "/assets/SessionHistory-BOEtoPiM.js",
+      "status": 200,
+      "durationMs": 213.85399999999998
+    },
+    {
+      "time": 4040388.44,
+      "method": "GET",
+      "path": "/assets/ProductReportsPage-DAJmikQg.js",
+      "status": 200,
+      "durationMs": 369.313
+    },
+    {
+      "time": 4040388.396,
+      "method": "GET",
+      "path": "/assets/editorDraftStorage-Cs-kgejg.js",
+      "status": 200,
+      "durationMs": 368.224
+    },
+    {
+      "time": 4042710.092,
+      "method": "GET",
+      "path": "/api/b2b/bootstrap/v2",
+      "status": 200,
+      "durationMs": 943.133
+    },
+    {
+      "time": 4043189.173,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "status": 200,
+      "durationMs": 40.021
+    },
+    {
+      "time": 4043246.235,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/legacy-assignments",
+      "status": 200,
+      "durationMs": 216.447
+    },
+    {
+      "time": 4043236.711,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/continuity",
+      "status": 200,
+      "durationMs": 225.615
+    },
+    {
+      "time": 4043245.109,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/sessions",
+      "status": 200,
+      "durationMs": 221.134
+    },
+    {
+      "time": 4043462.964,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/5d1ac060-b2e8-4b09-a3f1-433422a13756",
+      "status": 200,
+      "durationMs": 44.228
+    },
+    {
+      "time": 4043467.43,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/800cdf85-79bf-4c59-b49a-0bffcff4dc2c",
+      "status": 200,
+      "durationMs": 43.001000000000005
+    },
+    {
+      "time": 4043463.028,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/53430b58-5c00-4341-8914-0a78ad704f76",
+      "status": 200,
+      "durationMs": 46.097
+    },
+    {
+      "time": 4043467.468,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/d867df89-646a-425c-b9d8-3a489b52f79d",
+      "status": 200,
+      "durationMs": 46.081999999999994
+    },
+    {
+      "time": 4043467.49,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/d764360a-fa46-498b-9c25-28e9f002b8af",
+      "status": 200,
+      "durationMs": 59.358
+    },
+    {
+      "time": 4043467.511,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/a7702f19-5e73-43ec-94a5-56e9045ff6c4",
+      "status": 200,
+      "durationMs": 224.702
+    },
+    {
+      "time": 4043467.585,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/1e4776d0-4bd8-48f1-870c-827028a8f443",
+      "status": 200,
+      "durationMs": 218.898
+    },
+    {
+      "time": 4043467.569,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/a75effa7-1977-45bc-81b6-2f08edeb4e3e",
+      "status": 200,
+      "durationMs": 280.284
+    },
+    {
+      "time": 4043835.084,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/occurrences",
+      "status": 200,
+      "durationMs": 202.403
+    },
+    {
+      "time": 4043835.031,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/6503be04-5bdf-4320-9e82-05267bca504e/week",
+      "status": 200,
+      "durationMs": 205.392
+    },
+    {
+      "time": 4035839.88,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "status": 200,
+      "durationMs": 349.233
+    },
+    {
+      "time": 4037128.254,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/5d1ac060-b2e8-4b09-a3f1-433422a13756",
+      "status": 200,
+      "durationMs": 426.284
+    },
+    {
+      "time": 4037128.305,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/53430b58-5c00-4341-8914-0a78ad704f76",
+      "status": 200,
+      "durationMs": 421.525
+    },
+    {
+      "time": 4037128.338,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/800cdf85-79bf-4c59-b49a-0bffcff4dc2c",
+      "status": 200,
+      "durationMs": 426.277
+    },
+    {
+      "time": 4037128.366,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/d867df89-646a-425c-b9d8-3a489b52f79d",
+      "status": -1,
+      "durationMs": -1
+    },
+    {
+      "time": 4037128.385,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/d764360a-fa46-498b-9c25-28e9f002b8af",
+      "status": 200,
+      "durationMs": 427.238
+    },
+    {
+      "time": 4037128.4,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/a7702f19-5e73-43ec-94a5-56e9045ff6c4",
+      "status": -1,
+      "durationMs": -1
+    },
+    {
+      "time": 4037128.43,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/a75effa7-1977-45bc-81b6-2f08edeb4e3e",
+      "status": -1,
+      "durationMs": -1
+    },
+    {
+      "time": 4037128.456,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/1e4776d0-4bd8-48f1-870c-827028a8f443",
+      "status": -1,
+      "durationMs": -1
+    },
+    {
+      "time": 4041560.25,
+      "method": "GET",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "status": 200,
+      "durationMs": 237.014
+    }
+  ],
+  "lateHeadings": [
+    {
+      "at": 4033890.275,
+      "headings": []
+    },
+    {
+      "at": 4034052.074,
+      "headings": []
+    },
+    {
+      "at": 4034062.628,
+      "headings": []
+    },
+    {
+      "at": 4034167.181,
+      "headings": [
+        [
+          "H1",
+          {},
+          "Entren\u00e1 en Atlas"
+        ],
+        [
+          "H2",
+          {},
+          "Ingres\u00e1 a Atlas Demo"
+        ]
+      ]
+    },
+    {
+      "at": 4034176.136,
+      "headings": []
+    },
+    {
+      "at": 4034178.732,
+      "headings": []
+    },
+    {
+      "at": 4034183.893,
+      "headings": []
+    },
+    {
+      "at": 4034188.328,
+      "headings": []
+    },
+    {
+      "at": 4034199.13,
+      "headings": []
+    },
+    {
+      "at": 4034250.905,
+      "headings": []
+    },
+    {
+      "at": 4035026.111,
+      "headings": []
+    },
+    {
+      "at": 4035351.933,
+      "headings": []
+    },
+    {
+      "at": 4036175.365,
+      "headings": [
+        [
+          "H1",
+          {
+            "id": "membership-access-title"
+          },
+          "Acceso al gimnasio"
+        ]
+      ]
+    },
+    {
+      "at": 4036188.384,
+      "headings": []
+    },
+    {
+      "at": 4036202.717,
+      "headings": []
+    },
+    {
+      "at": 4036447.15,
+      "headings": []
+    },
+    {
+      "at": 4036452.152,
+      "headings": []
+    },
+    {
+      "at": 4036459.484,
+      "headings": [
+        [
+          "H1",
+          {},
+          "Mi rutina e historial"
+        ]
+      ]
+    },
+    {
+      "at": 4036496.334,
+      "headings": []
+    },
+    {
+      "at": 4036507.439,
+      "headings": []
+    },
+    {
+      "at": 4037128.988,
+      "headings": []
+    },
+    {
+      "at": 4037135.827,
+      "headings": []
+    },
+    {
+      "at": 4037145.213,
+      "headings": []
+    },
+    {
+      "at": 4037162.593,
+      "headings": []
+    },
+    {
+      "at": 4038104.041,
+      "headings": []
+    },
+    {
+      "at": 4038110.994,
+      "headings": []
+    },
+    {
+      "at": 4043190.016,
+      "headings": [
+        [
+          "H1",
+          {
+            "id": "membership-access-title"
+          },
+          "Acceso al gimnasio"
+        ]
+      ]
+    }
+  ]
+}

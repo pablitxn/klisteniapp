@@ -17,6 +17,7 @@ import {
   type Page,
 } from './fixtures/b2b-product/app-fixture'
 import { scenarioTitle, assertProductViewport } from './fixtures/b2b-product/browser-assertions'
+import { reviewedDurationFixture } from './fixtures/b2b-product/reviewed-duration'
 import type { Dose, ReviewedRelation } from '../../../packages/b2b-contracts/src/product-v2.ts'
 import { exercises as canonical } from '../../../packages/catalog-base/src/exercises.ts'
 
@@ -24,7 +25,8 @@ async function reviewedRoutine(
   page: Page,
   staff: Principal,
   sourceDose: Dose = dose(),
-  accept: (relation: ReviewedRelation) => boolean = () => true,
+  accept: (relation: ReviewedRelation) => boolean = (relation) =>
+    relation.target.equipment === 'none',
 ) {
   const catalog = await api(page, staff, 'catalogExercises', {})
   // Relationships and dose come only from accepted server publications, never
@@ -402,58 +404,154 @@ test(scenarioTitle('B2BP-ALTERNATIVES-006'), async ({ page, context, product }, 
   }
 })
 
-test(scenarioTitle('B2BP-ALTERNATIVES-007'), async ({ page, product }, info) => {
-  const member = principal(product)
-  await login(page, member, info)
-  const legacy = product.resources.legacy.find((r) => r.memberId === member.actor.id)!
-  const original = await api(page, member, 'routineVersion', { id: legacy.programId, version: 1 })
-  expect(original.schemaVersion).toBe(1)
-  if (original.schemaVersion !== 1) throw new Error('Expected preserved legacy source')
-  for (const step of original.snapshot.steps)
-    expect(
-      await api(page, member, 'alternatives', {
-        id: legacy.programId,
-        version: 1,
-        stepId: step.id,
-      }),
-    ).toEqual([])
-  await open(page, product, info, 'history')
-  await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText(
-    'La falta de metadatos antiguos no implica una alternativa revisada.',
-  )
-  if (original.snapshot.steps.some((step) => step.alternatives.length))
-    await expect(
-      page.getByText(
-        'Autorizaciones anteriores del entrenador; no acreditan una revisión del catálogo.',
-        { exact: true },
-      ),
-    ).toBeVisible()
-  const supplement = await api(page, member, 'routineSupplement', {
-    id: legacy.programId,
-    version: 1,
-  })
-  if (supplement) {
-    const archive = await api(page, member, 'personalExport', {})
-    const retained = archive.training
-      .flatMap((t) => t.supplements)
-      .find((entry) => entry.programId === legacy.programId && entry.version === 1)!
-    expect(retained).toBeTruthy()
-    expect(retained.sourceSnapshotHash).toMatch(/^[a-f0-9]{64}$/)
-    expect(retained.supplement).toEqual(supplement)
-    info.annotations.push({
-      type: 'retained-data-only',
-      description:
-        'Preexisting supplement provenance/export reads do not execute review or adoption',
+test(scenarioTitle('B2BP-ALTERNATIVES-007'), async ({ page, context, product }, info) => {
+  const member = principal(product),
+    staff = await staffSession(context, product, info, 'cover-coach')
+  try {
+    await login(page, member, info)
+    const legacy = product.resources.legacy.find((row) => row.memberId === member.actor.id)!
+    const original = await api(page, member, 'routineVersion', { id: legacy.programId, version: 1 })
+    expect(original.schemaVersion).toBe(1)
+    if (original.schemaVersion !== 1) throw new Error('Expected preserved legacy source')
+    const before = (await api(page, member, 'sessions', { memberId: member.actor.id })).find(
+      (row) => row.schemaVersion === 1 && row.original.id === legacy.executionId,
+    )
+    expect(before).toBeTruthy()
+    for (const step of original.snapshot.steps)
+      expect(
+        await api(page, member, 'alternatives', {
+          id: legacy.programId,
+          version: 1,
+          stepId: step.id,
+        }),
+      ).toEqual([])
+    await open(page, product, info, 'history')
+    await expect(page.getByRole('region', { name: 'Sesiones realizadas' })).toContainText(
+      'La falta de metadatos antiguos no implica una alternativa revisada.',
+    )
+    const preview = await api(staff.page, staff.who, 'legacySupplementPreview', {
+      id: legacy.assignmentId,
     })
+    expect(
+      preview.supplement,
+      'A fresh synthetic version must require the actual review action',
+    ).toBeNull()
+    expect(preview.original).toEqual(original.snapshot)
+    await open(staff.page, product, info, 'programming')
+    await staff.page.getByRole('link', { name: 'Revisar rutinas anteriores', exact: true }).click()
+    await staff.page
+      .getByLabel('Persona de esta sede', { exact: true })
+      .selectOption(member.actor.id)
+    await staff.page
+      .locator('li')
+      .filter({ hasText: legacy.assignmentId })
+      .getByRole('button', { name: /^Revisar esta asignación de / })
+      .click()
+    const review = staff.page.getByRole('region', { name: 'Revisar versión anterior', exact: true })
+    await expect(review).toContainText(original.snapshot.name)
+    const save = review.getByRole('button', {
+      name: 'Guardar revisión explícita de esta versión',
+      exact: true,
+    })
+    await expect(save).toBeDisabled()
+    for (const [index, step] of original.snapshot.steps.entries()) {
+      if (step.loadKg === null)
+        await review
+          .getByLabel(`Carga a confirmar · movimiento ${index + 1}`, { exact: true })
+          .selectOption('bodyweight')
+      await review
+        .getByLabel(`Lados y conteo a confirmar · movimiento ${index + 1}`, { exact: true })
+        .selectOption('bilateral')
+      await review
+        .getByLabel(`Alternativas en esta versión · movimiento ${index + 1}`, { exact: true })
+        .selectOption('reviewed')
+    }
+    const targets = review
+      .getByRole('region', { name: 'Todos los destinos revisados elegibles', exact: true })
+      .getByRole('checkbox', { name: /^Confirmo la dosis propia y todas las condiciones de / })
+    expect(await targets.count()).toBe(preview.proposals.length)
+    expect(preview.proposals.length).toBeGreaterThan(0)
+    for (const checkbox of await targets.all()) await checkbox.check()
+    await review
+      .getByRole('checkbox', { name: /^Confirmo las dosis originales y las decisiones explícitas/ })
+      .check()
+    await expect(save).toBeDisabled()
+    await review
+      .getByRole('checkbox', { name: /^Entiendo que esta revisión se aplica a todas las personas/ })
+      .check()
+    await expect(save).toBeEnabled()
+    const submitted = staff.page.waitForRequest(
+      (request) =>
+        request.method() === 'POST' &&
+        new URL(request.url()).pathname.endsWith(
+          `/legacy-assignments/${legacy.assignmentId}/supplement`,
+        ),
+    )
+    await save.click()
+    const input = (await submitted).postDataJSON()
+    expect(input).toMatchObject({
+      id: legacy.assignmentId,
+      expectedRevision: 0,
+      sourceSnapshotHash: preview.sourceSnapshotHash,
+      sourceDosesConfirmed: true,
+      sharedVersionConfirmed: true,
+    })
+    expect(input.targetConfirmations).toEqual(
+      preview.proposals.map(({ relation, hash }) => ({
+        relationId: relation.id,
+        relationHash: hash,
+      })),
+    )
+    for (const [index, step] of preview.draft.steps.entries())
+      for (const field of [
+        'sets',
+        'repetitions',
+        'durationSeconds',
+        'restSeconds',
+        'targetRpe',
+        'notes',
+      ] as const)
+        expect(input.sourceSteps[index].dose[field]).toEqual(step.dose[field])
+    await expect(
+      staff.page.getByRole('heading', {
+        name: 'Esta versión ya tiene una revisión explícita',
+        exact: true,
+      }),
+    ).toBeVisible()
+    const supplement = await api(page, member, 'routineSupplement', {
+      id: legacy.programId,
+      version: 1,
+    })
+    expect(supplement).toBeTruthy()
+    const adopted = (
+      await api(staff.page, staff.who, 'legacySupplementPreview', { id: legacy.assignmentId })
+    ).supplement
+    expect(adopted!.sourceSnapshotHash).toBe(preview.sourceSnapshotHash)
+    expect(adopted!.supplement).toEqual(supplement)
+    for (const relation of supplement!.relations)
+      expect(relation.targetDose).toEqual(
+        preview.proposals.find((proposal) => proposal.relation.id === relation.id)!.relation
+          .targetDose,
+      )
+    expect(supplement!.relations).toHaveLength(preview.proposals.length)
+    expect(await api(page, member, 'routineVersion', { id: legacy.programId, version: 1 })).toEqual(
+      original,
+    )
+    expect(
+      (await api(page, member, 'sessions', { memberId: member.actor.id })).find(
+        (row) => row.schemaVersion === 1 && row.original.id === legacy.executionId,
+      ),
+    ).toEqual(before)
+    const archive = await api(page, member, 'personalExport', {})
+    expect(
+      archive.training
+        .flatMap((row) => row.supplements)
+        .find((row) => row.programId === legacy.programId && row.version === 1),
+    ).toEqual(adopted)
+    await assertProductViewport(staff.page, info)
+  } finally {
+    await staff.context.close()
   }
-  expect(await api(page, member, 'routineVersion', { id: legacy.programId, version: 1 })).toEqual(
-    original,
-  )
-  await assertProductViewport(page, info)
-  unavailable(
-    info,
-    'Reviewed supplement adoption action is unmet until the returned WP07 UI is composed and exercised; retained-data/API reads cannot qualify the browser action',
-  )
 })
 
 test(scenarioTitle('B2BP-ALTERNATIVES-009'), async ({ page, context, product }, info) => {
@@ -487,15 +585,29 @@ test(scenarioTitle('B2BP-ALTERNATIVES-009'), async ({ page, context, product }, 
         exact: true,
       }),
     })
-    for (const input of await target.getByRole('spinbutton', { name: / left cantidad$/ }).all())
-      await input.fill('1')
+    const minimum =
+      relation.targetDose.sets.kind === 'fixed'
+        ? relation.targetDose.sets.value
+        : relation.targetDose.sets.min
+    expect(minimum).toBeGreaterThan(0)
+    const leftInputs = target.getByRole('spinbutton', { name: / left cantidad$/ })
+    const rightInputs = target.getByRole('spinbutton', { name: / right cantidad$/ })
+    await expect(leftInputs).toHaveCount(minimum)
+    await expect(rightInputs).toHaveCount(minimum)
+    for (let index = 0; index < minimum; index++) await leftInputs.nth(index).fill('1')
+    for (let index = 0; index < minimum; index++) {
+      await expect(leftInputs.nth(index)).toHaveValue('1')
+      await expect(rightInputs.nth(index)).toHaveValue('')
+    }
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
     await expect(page.getByRole('alert')).not.toHaveCount(0)
     expect((await latest(page, member, plan.occurrences[0]!.id))!.content.status).not.toBe(
       'completed',
     )
-    for (const input of await target.getByRole('spinbutton', { name: / right cantidad$/ }).all())
-      await input.fill('1')
+    await expect(rightInputs).toHaveCount(minimum)
+    for (let index = 0; index < minimum; index++) await rightInputs.nth(index).fill('1')
+    for (let index = 0; index < minimum; index++)
+      await expect(rightInputs.nth(index)).toHaveValue('1')
     await page.getByRole('button', { name: 'Completar sesión explícitamente', exact: true }).click()
     await expect
       .poll(async () => (await latest(page, member, plan.occurrences[0]!.id))?.content.status)
@@ -519,11 +631,11 @@ test(scenarioTitle('B2BP-ALTERNATIVES-011'), async ({ page, context, product }, 
   const member = principal(product),
     staff = await staffSession(context, product, info)
   try {
-    const { routine, relation } = await reviewedRoutine(
+    const { routine, relation } = await reviewedDurationFixture(
       staff.page,
       staff.who,
-      dose(),
-      (r) => r.targetDose.mode === 'duration' && r.target.equipment === 'none',
+      product,
+      info,
     )
     const plan = await prescribe(staff.page, staff.who, member, { routine, weekdays: [1] })
     await login(page, member, info)

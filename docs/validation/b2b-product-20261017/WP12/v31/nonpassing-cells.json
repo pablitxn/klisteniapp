@@ -1,0 +1,373 @@
+[
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-HEALTH-010",
+    "project": "product-webkit-430",
+    "engine": "webkit",
+    "width": 430,
+    "status": "timedOut",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+      },
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts",
+          "column": 25,
+          "line": 445
+        },
+        "message": "Error: page.waitForResponse: Test timeout of 180000ms exceeded.\n\n  443 |   await grantThroughUi(page, owner)\n  444 |   const revoke = page.getByRole('button', { name: 'Revocar permiso en esta sede', exact: true })\n> 445 |   const accepted = page.waitForResponse(\n      |                         ^\n  446 |     (r) =>\n  447 |       r.request().method() === 'POST' &&\n  448 |       /\\/health\\/consents\\/[^/]+\\/revoke$/.test(new URL(r.url()).pathname),\n    at /task/app/apps/b2c-web/e2e/b2b-product-health.spec.ts:445:25"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-011",
+    "project": "product-chromium-320",
+    "engine": "chromium",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts",
+          "column": 78,
+          "line": 50
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Mi salud y privacidad' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Mi salud y privacidad' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Mi salud y privacidad' })\u001b[22m\n\n\n   at fixtures/b2b-product/health-journey.ts:50\n\n  48 |   await privateHealth(page, owner)\n  49 |   await open(page, product, info, 'health')\n> 50 |   await expect(page.getByRole('heading', { name: 'Mi salud y privacidad' })).toBeVisible()\n     |                                                                              ^\n  51 |   const file = healthFile()\n  52 |   await expect(page.getByLabel('Archivo JSON', { exact: true })).toBeEnabled()\n  53 |   await page.getByLabel('Archivo JSON', { exact: true }).setInputFiles({\n    at importThroughUi (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts:50:78)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:519:5"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-003",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+          "column": 5,
+          "line": 33
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true })\u001b[22m\n\n\n  31 |   await expect(\n  32 |     page.getByRole('heading', { name: 'Tu membres\u00eda est\u00e1 inactiva', exact: true }),\n> 33 |   ).toBeVisible()\n     |     ^\n  34 |   await expect(\n  35 |     page.getByRole('button', { name: 'Descargar mis registros', exact: true }),\n  36 |   ).toBeVisible()\n    at restricted (/task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:33:5)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:140:13"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-004",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts",
+          "column": 78,
+          "line": 50
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Mi salud y privacidad' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Mi salud y privacidad' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Mi salud y privacidad' })\u001b[22m\n\n\n   at fixtures/b2b-product/health-journey.ts:50\n\n  48 |   await privateHealth(page, owner)\n  49 |   await open(page, product, info, 'health')\n> 50 |   await expect(page.getByRole('heading', { name: 'Mi salud y privacidad' })).toBeVisible()\n     |                                                                              ^\n  51 |   const file = healthFile()\n  52 |   await expect(page.getByLabel('Archivo JSON', { exact: true })).toBeEnabled()\n  53 |   await page.getByLabel('Archivo JSON', { exact: true }).setInputFiles({\n    at importThroughUi (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/health-journey.ts:50:78)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:184:5"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-007",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:296:3"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-009",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:314:3"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-012",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:343:3"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-005",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:685:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:369:13"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-006",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:685:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:422:13"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-010",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:685:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:462:13"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-INACTIVE-011",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at staffSession (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:685:3)\n    at /task/app/apps/b2c-web/e2e/b2b-product-inactive.spec.ts:512:13"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-008",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+          "column": 8,
+          "line": 42
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:308:11"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-007",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+          "column": 7,
+          "line": 468
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Rutinas originales y sus registros' })\nExpected substring: \u001b[32m\"aa364060-5396-4a42-a303-bffda3bfdf8a\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('region', { name: 'Rutinas originales y sus registros' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Rutinas originales y sus registros' })\u001b[22m\n\n\n  466 |     await expect(\n  467 |       peer.page.getByRole('region', { name: 'Rutinas originales y sus registros' }),\n> 468 |     ).toContainText(draft.id)\n      |       ^\n  469 |     expect(\n  470 |       (await api(peer.page, member, 'enrollmentRevision', { id: first.enrollment.id, revision: 1 }))\n  471 |         .enrollment,\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:468:7"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-004",
+    "project": "product-webkit-320",
+    "engine": "webkit",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts",
+          "column": 8,
+          "line": 42
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   at fixtures/b2b-product/browser-assertions.ts:42\n\n  40 |         ),\n  41 |       )\n> 42 |       .toBe(true)\n     |        ^\n  43 |   } catch (error) {\n  44 |     if (!page.isClosed()) {\n  45 |       const measured = await page\n    at assertProductViewport (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/browser-assertions.ts:42:8)\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:584:9"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-PROGRAMMING-001",
+    "project": "product-webkit-desktop",
+    "engine": "webkit",
+    "width": 1440,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "column": 76,
+          "line": 239
+        },
+        "message": "Error: Real composed UI password admission\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m429\u001b[39m\n\n   at fixtures/b2b-product/app-fixture.ts:239\n\n  237 |   )\n  238 |   await page.getByRole('button', { name: 'Iniciar sesi\u00f3n', exact: true }).click()\n> 239 |   expect((await response).status(), 'Real composed UI password admission').toBe(200)\n      |                                                                            ^\n  240 |   const organizations = page.getByRole('combobox', { name: 'Organizaci\u00f3n', exact: true })\n  241 |   await expect(organizations).toBeVisible()\n  242 |   if ((await organizations.inputValue()) !== who.organization.id)\n    at login (/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts:239:76)\n    at /task/app/apps/b2c-web/e2e/b2b-product-programming.spec.ts:37:3"
+      }
+    ],
+    "originalOutcomePreserved": true
+  },
+  {
+    "run": "candidatebd30-full-r34",
+    "mode": "unified-http",
+    "applicationSha": "bd30eab5b2a33c3f3e8a7692649632ec85103431",
+    "qaSha": "1374b94ed441365789d2756742afa8306022c0a0",
+    "id": "B2BP-SYNC-002",
+    "project": "product-chromium-320",
+    "engine": "chromium",
+    "width": 320,
+    "status": "failed",
+    "resultAttempts": 1,
+    "errors": [
+      {
+        "location": {
+          "file": "/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+          "column": 38,
+          "line": 552
+        },
+        "message": "Error: route.fetch: socket hang up\nCall log:\n\u001b[2m  - \u2192 POST http://127.0.0.1:5610/api/b2b/orgs/atlas-demo/product/v2/sessions/session-6d8d9e3b2a288baad258857e75077af3e8ac5467/revisions\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36\u001b[22m\n\u001b[2m    - accept: application/json\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\u001b[2m    - accept-language: es-AR\u001b[22m\n\u001b[2m    - content-type: application/json\u001b[22m\n\u001b[2m    - cookie: [REDACTED]\n\u001b[2m    - idempotency-key: 1b6e1f41-b2ef-47a6-bb1e-ce8d1d14ac66\u001b[22m\n\u001b[2m    - origin: http://127.0.0.1:5610\u001b[22m\n\u001b[2m    - x-klisteni-b2b-account: f555a08f-9019-426e-8e2e-0e31057a35ad\u001b[22m\n\u001b[2m    - x-klisteni-b2b-branch: atlas-demo-principal\u001b[22m\n\u001b[2m    - x-klisteni-b2b-contract: 2\u001b[22m\n\u001b[2m    - x-klisteni-b2b-role: member\u001b[22m\n\u001b[2m    - sec-ch-ua: \"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"\u001b[22m\n\u001b[2m    - sec-ch-ua-mobile: ?0\u001b[22m\n\u001b[2m    - sec-ch-ua-platform: \"Linux\"\u001b[22m\n\u001b[2m    - content-length: 1298\u001b[22m\n\n\n  550 |       `**/sessions/${id}/revisions`,\n  551 |       async (route) => {\n> 552 |         const response = await route.fetch()\n      |                                      ^\n  553 |         expect(response.ok()).toBe(true)\n  554 |         arrived()\n  555 |         await gate\n    at page.route.times (/task/app/apps/b2c-web/e2e/b2b-product-sync.spec.ts:552:38)"
+      }
+    ],
+    "originalOutcomePreserved": true
+  }
+]

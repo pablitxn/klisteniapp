@@ -1,0 +1,13 @@
+# R72 ALTERNATIVES-004 failure: White Label Chromium320
+
+Application `d2adf75d3fee18740ef38632a361c91203d77dc6`; QA `831203470d4c21322b8bc3ce7c4dedb7f84fe5d7`.
+
+This actual complete ALTERNATIVES-004 instance failed without retry in the shared history-data readiness check after the existing showWeek clock setup and reload. Initial login and history readiness had succeeded. After reload, navigation remained absent for the bounded 30-second positive phase. The actual UI returned to the sign-in screen with “La solicitud tardó demasiado. Tus cambios sin enviar se conservan en pantalla.” The equipment/target-confirmation assertions later in this case were not reached and are not credited as passes.
+
+The failed browser assertion started at156997.242ms and ended at186959.447ms; the enclosing test assertion ended at186986.194ms. The history-data phase has a30000ms budget; its navigation assertion received the remaining29906.83084ms. The helper propagated the failure; it did not admit the timeout state or reset its deadline.
+
+The retained trace includes a post-reload bootstrap/v2 request with raw status-1, monotonicTime157607.994 and time21719.716. Status-1 is not an HTTP server error status and no successful response is invented. The unchanged transport's default non-upload timeout is20000ms and its timeout message matches the actual alert, but causal ownership is not established by that correspondence. Selected network entries and final retained DOM observations are in diagnosis.json. Raw timing fields are not response-body completion proof.
+
+All2,106 source/build hashes still match. Both complete uncapped matrices continue unchanged on the accepted pair. This is a new full-run failure, separate from the12independent focused passes and prior supplied evidence. No retry, login recovery, longer deadline, response alteration, app fix, source swap or security relaxation was applied. The accepted helper's error propagation remains intact; the new application/UI timeout is preserved for owner investigation, without claiming a proven product or harness root cause.
+
+Exact-name capture proof and private artifact hashes are included. The sanitized error context is base64 encoded; raw trace/screenshots remain task-private. Review the post-clock-reload bootstrap/transport path using this exact pair as a safe next investigation; do not hide the outcome with automatic authentication/navigation retry or a larger readiness deadline. All old failed waves remain immutable. HTTPS remains unexecuted without existing trusted task-owned TLS inputs. GitGuardian size-limit skip is neutral, not clean. Parent retains orchestration, integration and main-merge authority.

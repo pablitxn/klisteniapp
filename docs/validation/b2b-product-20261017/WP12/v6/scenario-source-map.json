@@ -1,0 +1,813 @@
+{
+  "sourceSha": "127440fa30ca7b0e54048a2ce2003a04edd7725d",
+  "applicationCandidate": "00b9f855746a7dd8c8ddfc97991e3a2163fa5ac8",
+  "browserIds": 88,
+  "newSinceV3": 36,
+  "qualifiedVariantLimits": "See coverage.md; browser actions, retained-data assertions and unexercised dependencies remain separate.",
+  "scenarios": [
+    {
+      "id": "B2BP-ROLES-001",
+      "packages": ["WP01"],
+      "assertion": "Unassigned same-branch coach reads roster/history, edits planning and assigns a routine",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 24,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-002",
+      "packages": ["WP01"],
+      "assertion": "Foreign tenant, foreign branch, foreign resource ID and ambiguous branchless requests are denied",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 51,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-003",
+      "packages": ["WP01"],
+      "assertion": "Superadmin creates admins/coaches/members; admin creates only coaches/members; no self-escalation",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 153,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established",
+      "variantLimit": "Actual UI hierarchy, mixed/inactive/no-grant creation, new-account activation and fresh existing-account same-tab acceptance are now authored; not yet executed in these priority receipts."
+    },
+    {
+      "id": "B2BP-ROLES-004",
+      "packages": ["WP01"],
+      "assertion": "Last-superadmin loss and platform/operator promotion are denied",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 449,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-005",
+      "packages": ["WP01"],
+      "assertion": "Accepted planning/permission mutations show actor, bounded changed fields, server time, request and revision; exact replay adds no audit",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 312,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-006",
+      "packages": ["WP01"],
+      "assertion": "Audit drawer is scoped, keyboard accessible and omits raw health/actual payloads",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 519,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-007",
+      "packages": ["WP01"],
+      "assertion": "Inactive member remains a historical training target and is rejected as active planning target",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 437,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-008",
+      "packages": ["WP01"],
+      "assertion": "Queued write after grant revocation is denied; another branch's higher role does not authorize this branch",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 348,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ROLES-009",
+      "packages": ["WP01"],
+      "assertion": "Unified and WL paths enforce host/domain generation and selected branch identically",
+      "source": "apps/b2c-web/e2e/b2b-product-roles.spec.ts",
+      "line": 546,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-001",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Blank and incomplete draft saves to server, reloads and survives offline recovery without a balance score",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 35,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-002",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Publish/assignment rejects empty or incomplete steps with actionable step/field issues",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 72,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-003",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Complete fixed/range sets/reps/time/bodyweight/external-load/rest/notes/RPE use explicit units and distinguish missing, zero and inapplicable",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 103,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-004",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Invalid min/max/numeric bounds, incomplete or reversed dates and overlapping/out-of-order stages are rejected",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 479,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-005",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Goal objective, explicit timezone confirmation, gaps, past/current/future stages and repeated routine references persist",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 314,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-006",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Two slots on one day remain two obligations; simultaneous enrollments stay distinct",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 392,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-007",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Publishing/archive/reuse retain stable routine IDs and immutable issued versions",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 423,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-008",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Period move previews affected eligibility/logs/date overrides; apply is audited and atomic with expected revisions",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 248,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-009",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Stale trainer save/period preview conflicts without losing local work; no silent merge",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 159,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-010",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Account/brand/branch switch hides the prior draft and prevents a late response restoring it",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 562,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-011",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Trainer can set per-step reviewed/block policy and sees target dose/notice without a grading workflow",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 214,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-PROGRAMMING-012",
+      "packages": ["WP02", "WP07"],
+      "assertion": "Date/range controls work with keyboard and touch at 320px without horizontal overflow",
+      "source": "apps/b2c-web/e2e/b2b-product-programming.spec.ts",
+      "line": 613,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HISTORY-001",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Today uses enrollment timezone with truthful past/current/future, rest, gap and no-stage states",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 312,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HISTORY-002",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Routine continuity shows objective/stages/period revisions with no substitution-count metric",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 22,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established",
+      "newBrowserActions": "Open actual current/original immutable period detail controls and assert issued goal/dates/timezone/actor; compare old and current revisions after an accepted period edit where applicable.",
+      "executionStatus": "Prepared detail actions not yet executed in these priority receipts; broader R16 remains in flight."
+    },
+    {
+      "id": "B2BP-HISTORY-003",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Session history shows actual performed date, original version, variants and accepted corrections; links navigate both ways",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 59,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established",
+      "newBrowserActions": "Open actual current/original immutable period detail controls and assert issued goal/dates/timezone/actor; compare old and current revisions after an accepted period edit where applicable.",
+      "executionStatus": "Prepared detail actions not yet executed in these priority receipts; broader R16 remains in flight."
+    },
+    {
+      "id": "B2BP-HISTORY-004",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Period edits before/after work and cross-week moves preserve every actual and original routine/assignment/version link",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 208,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established",
+      "newBrowserActions": "Open actual current/original immutable period detail controls and assert issued goal/dates/timezone/actor; compare old and current revisions after an accepted period edit where applicable.",
+      "executionStatus": "Prepared detail actions not yet executed in these priority receipts; broader R16 remains in flight."
+    },
+    {
+      "id": "B2BP-HISTORY-005",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Excluded actual work stays visible with a reason and cannot fulfill another occurrence",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 389,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HISTORY-006",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Later routine/catalog edits and archive never rewrite historical target/actual snapshots",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 143,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HISTORY-007",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Legacy unbound execution appears unplanned revision zero; first edit appends revision one without an invented occurrence",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 192,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HISTORY-008",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Authorized staff can inspect inactive history; another brand/member cannot",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 104,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HISTORY-009",
+      "packages": ["WP02", "WP03", "WP08"],
+      "assertion": "Back/forward/reload and routine-to-session navigation retain correct scope",
+      "source": "apps/b2c-web/e2e/b2b-product-history.spec.ts",
+      "line": 446,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-001",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Four required and three explicit completions yield one missed only after week close; before close one pending",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 24,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-002",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Partial-only, zero-set draft, autosave and sync never count as completion",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 293,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-003",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Same-week own pending/partial move preserves occurrence ID, quantity, content and original stage",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 121,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-004",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Outside-week, foreign-owner, archived/inactive and completed-occurrence schedule moves are denied",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 164,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-005",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Accepted move across a midweek stage boundary remains completion-eligible and appears in later period impact preview",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 566,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-006",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Two same-day slots and separate enrollments count separately; retries/repeated records cannot double-fulfill or fill another",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 215,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-007",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Monday start/Sunday end are half-open in frozen IANA timezone through 23h/25h DST days; device zone change has no effect",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 397,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-008",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Late offline completion and date correction retain performed/received times and revise both affected closed summaries",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 646,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-009",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Completed-to-partial and void correction reduce adherence with revision/time/reason; future performed date is rejected",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 240,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-010",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Reconciliation retains IDs and ordinals when earlier slots are added/removed; excluded work never causes completed > required",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 466,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-011",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Touch and keyboard non-drag schedule controls preserve exact four/three/one accounting",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 525,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-WEEK-012",
+      "packages": ["WP03", "WP08"],
+      "assertion": "Below-target truthful positive actuals and ranged-set minimum allow explicit completion; extra sets stay actual",
+      "source": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+      "line": 333,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-001",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Loaded form autosaves locally before success, survives offline reload and reconnects without automatic completion",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 26,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-002",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Draft/partial/completed and local-only/pending/syncing/synchronized/conflict/failed/authorization-blocked remain independent visible states",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 411,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-003",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Lost response retries immutable operation ID/payload and produces one accepted revision/audit/fulfillment",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 63,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-004",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Reusing operation ID with changed bytes conflicts; edits after enqueue use serialized successor operations",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 304,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-005",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Replay of an earlier accepted operation returns its receipt after a successor; current authorization precedes receipt lookup",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 365,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-006",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Two tabs/devices and stale expectedRevision surface local/server versions with explicit resolution and no last-write-win",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 107,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-007",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Logout/account/brand/branch switch cancels requests, hides prior memory/outbox and ignores late acknowledgments",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 174,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-008",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Revoked/inactive queue blocks replay, retains owner-recoverable local export, and does not transfer on login to another identity",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 223,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-009",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Quota/store failure is visible and unreadable old draft bytes survive migration",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 501,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-010",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Own partial/completed correction and void retain append-only history; trainers/other members cannot edit measurements",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 265,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-011",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Reconnect uses bounded retry/backoff and retained operation IDs; server acknowledgment alone sets synchronized",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 465,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-SYNC-012",
+      "packages": ["WP03", "WP09"],
+      "assertion": "Delete/void, revocation and reactivation races do not resurrect departed state or silently authorize pending writes",
+      "source": "apps/b2c-web/e2e/b2b-product-sync.spec.ts",
+      "line": 572,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-001",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Unchanged canonical exercise shows reviewed directed alternative/progression/regression candidates by default",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 63,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-002",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "No inferred reverse/transitive relation; 37 exercises/42 links and nine empty reviewed lists retain catalog provenance",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 248,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-003",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Per-step trainer block shows accessible brief notice; reviewed-empty is distinct from blocked and legacy-empty",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 94,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-004",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Equipment availability and target conditions/requirements need confirmation; no trainer approval or equal-load/effect claim",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 294,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-005",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Modified local adaptation with matching base/animation does not inherit review",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 336,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established",
+      "fixtureStatus": "Real changed local adaptation passed white-label Chromium320/WebKit320 in R14."
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-006",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Fresh and existing seeded DB enrichment is versioned and idempotent; old snapshot bytes/local edits stay unchanged",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 375,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-007",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Legacy manual lists stay labelled and adoption creates an immutable supplement with source version/hash",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 406,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established",
+      "retainedDataAssertions": "Existing legacy original and any preexisting routineSupplement can only establish retained bytes/provenance/export.",
+      "requiredBrowserAction": "Select actual issued assignment, confirm original source decisions, every independent target and shared version, then save via actual UI; verify authoritative result and immutable original.",
+      "actionStatus": "Actual UI review/adoption passed white-label Chromium320 and WebKit320 in R14; original data retention/export asserted afterward."
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-008",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Mid-session reps-to-time/count/per-side switch freezes target dose and relation, resets incompatible load/RPE and creates stable segment/set IDs",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 121,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-009",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Prior source work remains additional actual work/exported and cannot fulfill selected target minimum/per-side coverage",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 556,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-010",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Switch back restores only an exactly matching frozen prescription; selection never deletes actual sets",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 202,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-ALTERNATIVES-011",
+      "packages": ["WP04", "WP07", "WP09"],
+      "assertion": "Partial/completed behavior uses selected target sets/rest/unit/laterality while original routine/objective remain unchanged",
+      "source": "apps/b2c-web/e2e/b2b-product-alternatives.spec.ts",
+      "line": 615,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-001",
+      "packages": ["WP05", "WP10"],
+      "assertion": "User explicitly selects JSON, previews and confirms import; import alone leaves sharing private",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 22,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-002",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Absent consent denies trainer/admin/superadmin; wrong tenant/branch/audience/category or changed role denies",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 72,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-003",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Explicit category/branch grant discloses dynamic current/future authorized-trainer audience and permits only that scope",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 99,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-004",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Revoke in another tab wins over queued/in-flight read and stale response cannot repopulate app-controlled view",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 131,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-005",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Disconnected trainer hides health until online revalidation; no trainer persistent/offline health cache; no-store enforced",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 187,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-006",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Deactivation revokes only that organization's grants with incremented versions; reactivation requires fresh explicit consent",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 323,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-007",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Owner import deduplicates same provenance, conflicts reject atomically, and B2B identity storage stays independent of B2C",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 246,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-008",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Malformed/oversized/empty/future/unknown-version JSON and unsupported CSV/ZIP reject without writes",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 272,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-009",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Health writes/export remain owner-only; ordinary gym reports/exports/audit omit health values",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 393,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-010",
+      "packages": ["WP05", "WP10"],
+      "assertion": "Keyboard preview/confirm, loading/error/revoke states and account switch clear private view",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 430,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-HEALTH-011",
+      "packages": ["WP05", "WP10"],
+      "assertion": "No provider/auth/watch polling occurs on import/settings; already delivered bytes are not promised recalled",
+      "source": "apps/b2c-web/e2e/b2b-product-health.spec.ts",
+      "line": 468,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-001",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Correct-brand inactive login grants export-only; unknown/foreign membership and copied/stale domain cookie remain denied",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 42,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-002",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Inventory/planning/private media/history browsing/health sharing/session writes deny GET/HEAD/range/mutations and queued replay",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 87,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-003",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Deep links/back/stale active screens refresh to restricted export/invitation immediately",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 125,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-004",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Own download includes versioned manifest, original routine lineage, original/corrected actual revisions and own health with omissions explained",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 165,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-005",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Other-member IDs, staff-private material and foreign tenant data are excluded from owner export",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 366,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-006",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Unsynced local export is distinct, labelled and recoverable; never represented as accepted server work",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 420,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-007",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Active membership in another brand does not unlock inactive brand; explicitly revoked grants stay revoked on reactivation",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 294,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-008",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Reactivation restores records/current valid grants without restoring health consent or automatic queue replay authority",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 242,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-009",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Configured/unconfigured invitation is truthful separate paid B2C choice; viewing/clicking does not mutate account/cookie/payment or transfer data",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 312,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-010",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Training interchange round-trip preserves compatible fields and unsupported ranges/units/provenance or rejects explicitly without flattening",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 460,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-011",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Staff historical training view survives inactivity while health remains revoked",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 510,
+      "newSinceV3": true,
+      "state": "authored; final combined-head acceptance not established"
+    },
+    {
+      "id": "B2BP-INACTIVE-012",
+      "packages": ["WP06", "WP11"],
+      "assertion": "Export loading/error/retry/download works at all six viewport/engine combinations",
+      "source": "apps/b2c-web/e2e/b2b-product-inactive.spec.ts",
+      "line": 341,
+      "newSinceV3": false,
+      "state": "authored; final combined-head acceptance not established"
+    }
+  ],
+  "executedApplicationCandidate": "00b9f855746a7dd8c8ddfc97991e3a2163fa5ac8"
+}

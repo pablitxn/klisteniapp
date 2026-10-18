@@ -1,0 +1,32 @@
+import base64,collections,datetime,hashlib,json,re,shutil,subprocess,zipfile
+from pathlib import Path
+from urllib.parse import urlsplit
+R=Path('/workspace/wp12-runtime-v10');E=R/'evidence';private=E/'r68-b2bp-week-009-product-webkit-430-ae99a0de7a-verified';repo=Path('/workspace/klisteniapp');out=repo/'docs/validation/b2b-product-20261017/WP12/v41-failure-r68-week009-webkit430';assert not out.exists();assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def save(p,x):p.write_text(json.dumps(x,indent=2)+'\n')
+frames=[];network=[]
+with zipfile.ZipFile(private/'trace.zip') as z:
+ for l in z.read('3-trace.trace').splitlines():
+  x=json.loads(l)
+  if x.get('type')=='frame-snapshot':
+   s=x['snapshot'];h=json.dumps(s.get('html'),ensure_ascii=False)
+   if s.get('timestamp',0)>=8973000:frames.append({'timestamp':s.get('timestamp'),'actualSessionsRegionLiteralPresent':'Sesiones realizadas' in h,'voidLabelLiteralPresent':'Anulada' in h,'historyLoadingLiteralPresent':'Cargando historial' in h,'gateCheckingLiteralPresent':'Verificando tu acceso actual' in h})
+ for l in z.read('3-trace.network').splitlines():
+  s=json.loads(l).get('snapshot',{});req=s.get('request',{});path=urlsplit(req.get('url','')).path
+  if '/product/v2/' in path and s.get('_monotonicTime',0)>=8973000:network.append({'path':re.sub(r'[a-f0-9]{8}-[a-f0-9-]{27,}', '[synthetic-id]',path),'method':req.get('method'),'status':s.get('response',{}).get('status'),'rawMonotonicTime':s.get('_monotonicTime'),'rawTime':s.get('time')})
+proof={'capturedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'run':68,'mode':'white-label-http','id':'B2BP-WEEK-009','project':'product-webkit-430','applicationSha':'d2adf75d3fee18740ef38632a361c91203d77dc6','qaSha':'4ec0273151194acb189ac6ed327033d66366dbd5','status':'failed','retry':0,'assertion':{'file':'apps/b2c-web/e2e/b2b-product-week.spec.ts','line':286,'timeoutMs':5000,'expected':'Sesiones realizadas region contains Anulada after page.reload','testTraceStart':8973894.772,'testTraceEnd':8980235.768,'browserTraceStart':8973895.678,'browserTraceEnd':8979506.731},'retainedFrames':frames,'selectedNetworkEntries':network,'networkCounts':[{'path':path,'status':status,'count':count} for (path,status),count in collections.Counter((x['path'],x['status']) for x in network).items()],'privateTraceSha256':sha(private/'trace.zip'),'qualification':'The actual history region was absent at failure; last retained DOM snapshot still shows Cargando historial. No later ready UI or passing retest was captured. Network raw fields/status200 do not prove completed UI rendering or product/harness root cause.'}
+source=json.loads((E/'source-proof.json').read_text());build=json.loads((E/'fresh-build-proof.json').read_text());files=source['applicationFiles']+source['qaFiles']+build['files'];assert all(sha(R/'app'/f['path'])==f['sha256'] for f in files);proof['sourceAndBuiltFilesReverified']=len(files);proof['sourceMismatches']=[]
+out.mkdir();save(out/'diagnosis.json',proof);shutil.copyfile(private/'capture-proof.json',out/'capture-proof.json');(out/'error-context.sanitized.md.b64').write_bytes(base64.b64encode((private/'error-context.sanitized.md').read_bytes())+b'\n');(out/'builder-source.py').write_bytes(Path(__file__).read_bytes())
+(out/'README.md').write_text('''# R68 WEEK-009 failure: White Label WebKit 430
+
+Application `d2adf75d3fee18740ef38632a361c91203d77dc6`; QA `4ec0273151194acb189ac6ed327033d66366dbd5`.
+
+This actual complete WEEK-009 instance failed, without retry, at its five-second assertion that the “Sesiones realizadas” region contains “Anulada” after page.reload (`b2b-product-week.spec.ts:285–286`). Earlier completed-to-partial and void API revision checks had executed, but the final browser assertion and viewport check did not pass. The failure snapshot contains the history heading and “Cargando historial…”; the actual-sessions region is absent.
+
+The browser assertion started at 8973895.678 ms and ended failed at 8979506.731 ms. The enclosing assertion ended at 8980235.768 ms. The last retained DOM snapshot at 8980220.676 ms still contains history loading and no literal actual-sessions region or void label. Eventual ready UI was not captured, and no passing retest is claimed.
+
+Selected actual access, continuity, legacy-assignment, sessions, occurrence and week network entries have status 200. Later occurrence/week entries are retained with their raw timing fields; status 200 and trace timing do not prove completed UI rendering or body-completion order. The selected normalized paths and counts are in diagnosis.json. Product/harness ownership and cause remain unproven. A safe follow-up is to review the direct-reload history readiness boundary while retaining the void-content and viewport assertions.
+
+All 2,103 source/build hashes still match. Both full uncapped matrices continue on the frozen source/build pair. No retry, application change, UI assertion relaxation or mid-wave source swap was applied. Exact-name capture proof and private artifact hashes are attached; sanitized error context is base64 encoded. Raw trace and screenshots remain task-private. Original v40/v41 and earlier failure capsules remain unchanged. HTTPS remains unexecuted without existing trusted TLS inputs; GitGuardian size-limit skip is neutral, not clean. Parent retains orchestration, integration and main-merge authority.
+''')
+save(out/'manifest.json',{'sealedAt':proof['capturedAt'],'files':[{'path':str(p.relative_to(out)),'bytes':p.stat().st_size,'sha256':sha(p)} for p in sorted(out.iterdir())]});subprocess.run(['python3','/workspace/sysadmin-workspace/tools/cloud_git_identity.py','--repo',str(repo)],check=True,stdout=subprocess.DEVNULL);subprocess.run(['git','add',str(out.relative_to(repo))],cwd=repo,check=True);subprocess.run(['git','diff','--cached','--check'],cwd=repo,check=True);subprocess.run(['git','commit','--quiet','-m','docs(qa): preserve White Label void history failure'],cwd=repo,check=True);subprocess.run(['git','push','origin','test/b2b-product-acceptance-v1'],cwd=repo,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE);head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip();save(E/'published-week-failure.json',{'sha':head,'version':out.name,'url':f'https://github.com/pablitxn/klisteniapp/blob/{head}/'+str((out/'README.md').relative_to(repo))});print((E/'published-week-failure.json').read_text())

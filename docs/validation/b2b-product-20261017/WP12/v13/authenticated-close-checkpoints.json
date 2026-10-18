@@ -1,0 +1,205 @@
+{
+  "qualification": "Actual assertion checkpoints, not additional passed cases; failed case outcomes remain failed",
+  "checkpoints": [
+    {
+      "run": "candidatea1ade-close-r23",
+      "id": "B2BP-SYNC-009",
+      "caseStatus": "passed",
+      "qaSha": "43207f582f87cc88c781ea6c3ad6a7152153189d",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-quota-retry-evidence",
+      "observed": {
+        "id": "session-d9b78496373af2cbd11c0f4504689ce874bdaa7c",
+        "localGeneration": 5,
+        "pointerGeneration": 0,
+        "actualRepetitions": 3,
+        "exportContainsCapturedValue": true,
+        "explicitCompletion": false,
+        "unchangedAcceptedRevision": true,
+        "unchangedOperations": true
+      }
+    },
+    {
+      "run": "candidatea1ade-close-r23",
+      "id": "B2BP-SYNC-012",
+      "caseStatus": "passed",
+      "qaSha": "43207f582f87cc88c781ea6c3ad6a7152153189d",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-revocation-evidence",
+      "observed": {
+        "id": "session-41d4651de5dab4d5d59d2450017260d56afaec43",
+        "nativeTransactionAborted": true,
+        "generationBefore": 4,
+        "generationAfter": 4,
+        "capturedAndQueuedWritesCancelled": true,
+        "privateEditorHiddenBeforeRelease": true
+      }
+    },
+    {
+      "run": "candidatea1ade-close-wait-r24",
+      "id": "B2BP-SYNC-001",
+      "caseStatus": "failed",
+      "qaSha": "04c238fb8a52d069e9f24d552bcf47267917f624",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-workouts-v2-checkpoint",
+      "observed": {
+        "id": "session-abae191138b0a51d1845dd0b17a04e2cf345309f",
+        "checkpoint": {
+          "store": "workouts-v2",
+          "generation": 6,
+          "pointerDocumentGeneration": 0,
+          "pointerMatchesDurableDocument": true,
+          "capturedNotes": "Captured before delayed workouts-v2 Close",
+          "capturedReason": "Captured successor behind delayed workouts-v2",
+          "status": "draft",
+          "explicitCompletion": false,
+          "unchangedAcceptedRevision": true,
+          "unchangedOperations": true
+        }
+      }
+    },
+    {
+      "run": "candidatea1ade-close-wait-r24",
+      "id": "B2BP-SYNC-001",
+      "caseStatus": "failed",
+      "qaSha": "04c238fb8a52d069e9f24d552bcf47267917f624",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-selected-workout-v1-checkpoint",
+      "observed": {
+        "id": "session-abae191138b0a51d1845dd0b17a04e2cf345309f",
+        "checkpoint": {
+          "store": "selected-workout-v1",
+          "generation": 12,
+          "pointerDocumentGeneration": 0,
+          "pointerMatchesDurableDocument": true,
+          "capturedNotes": "Captured before delayed selected-workout-v1 Close",
+          "capturedReason": "Captured successor behind delayed selected-workout-v1",
+          "status": "draft",
+          "explicitCompletion": false,
+          "unchangedAcceptedRevision": true,
+          "unchangedOperations": true
+        }
+      }
+    },
+    {
+      "run": "candidatea1ade-close-wait-r24",
+      "id": "B2BP-SYNC-001",
+      "caseStatus": "failed",
+      "qaSha": "04c238fb8a52d069e9f24d552bcf47267917f624",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-local-evidence",
+      "observed": {
+        "id": "session-abae191138b0a51d1845dd0b17a04e2cf345309f",
+        "checkpoints": [
+          {
+            "store": "workouts-v2",
+            "generation": 6,
+            "pointerDocumentGeneration": 0,
+            "pointerMatchesDurableDocument": true,
+            "capturedNotes": "Captured before delayed workouts-v2 Close",
+            "capturedReason": "Captured successor behind delayed workouts-v2",
+            "status": "draft",
+            "explicitCompletion": false,
+            "unchangedAcceptedRevision": true,
+            "unchangedOperations": true
+          },
+          {
+            "store": "selected-workout-v1",
+            "generation": 12,
+            "pointerDocumentGeneration": 0,
+            "pointerMatchesDurableDocument": true,
+            "capturedNotes": "Captured before delayed selected-workout-v1 Close",
+            "capturedReason": "Captured successor behind delayed selected-workout-v1",
+            "status": "draft",
+            "explicitCompletion": false,
+            "unchangedAcceptedRevision": true,
+            "unchangedOperations": true
+          }
+        ]
+      }
+    },
+    {
+      "run": "candidatea1ade-close-status-r25",
+      "id": "B2BP-SYNC-001",
+      "caseStatus": "passed",
+      "qaSha": "217733d14cd773e620c3e2d3a9bb9e4c9aa82447",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-workouts-v2-checkpoint",
+      "observed": {
+        "id": "session-b49a1c12c6ff3bb64b9ed8bfdea89654b3e8ce40",
+        "checkpoint": {
+          "store": "workouts-v2",
+          "generation": 6,
+          "pointerDocumentGeneration": 0,
+          "pointerMatchesDurableDocument": true,
+          "capturedNotes": "Captured before delayed workouts-v2 Close",
+          "capturedReason": "Captured successor behind delayed workouts-v2",
+          "status": "draft",
+          "explicitCompletion": false,
+          "unchangedAcceptedRevision": true,
+          "unchangedOperations": true
+        }
+      }
+    },
+    {
+      "run": "candidatea1ade-close-status-r25",
+      "id": "B2BP-SYNC-001",
+      "caseStatus": "passed",
+      "qaSha": "217733d14cd773e620c3e2d3a9bb9e4c9aa82447",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-selected-workout-v1-checkpoint",
+      "observed": {
+        "id": "session-b49a1c12c6ff3bb64b9ed8bfdea89654b3e8ce40",
+        "checkpoint": {
+          "store": "selected-workout-v1",
+          "generation": 12,
+          "pointerDocumentGeneration": 0,
+          "pointerMatchesDurableDocument": true,
+          "capturedNotes": "Captured before delayed selected-workout-v1 Close",
+          "capturedReason": "Captured successor behind delayed selected-workout-v1",
+          "status": "draft",
+          "explicitCompletion": false,
+          "unchangedAcceptedRevision": true,
+          "unchangedOperations": true
+        }
+      }
+    },
+    {
+      "run": "candidatea1ade-close-status-r25",
+      "id": "B2BP-SYNC-001",
+      "caseStatus": "passed",
+      "qaSha": "217733d14cd773e620c3e2d3a9bb9e4c9aa82447",
+      "applicationSha": "a1ade61267506442bea99dd5110d73ed5e503283",
+      "attachment": "authenticated-close-local-evidence",
+      "observed": {
+        "id": "session-b49a1c12c6ff3bb64b9ed8bfdea89654b3e8ce40",
+        "checkpoints": [
+          {
+            "store": "workouts-v2",
+            "generation": 6,
+            "pointerDocumentGeneration": 0,
+            "pointerMatchesDurableDocument": true,
+            "capturedNotes": "Captured before delayed workouts-v2 Close",
+            "capturedReason": "Captured successor behind delayed workouts-v2",
+            "status": "draft",
+            "explicitCompletion": false,
+            "unchangedAcceptedRevision": true,
+            "unchangedOperations": true
+          },
+          {
+            "store": "selected-workout-v1",
+            "generation": 12,
+            "pointerDocumentGeneration": 0,
+            "pointerMatchesDurableDocument": true,
+            "capturedNotes": "Captured before delayed selected-workout-v1 Close",
+            "capturedReason": "Captured successor behind delayed selected-workout-v1",
+            "status": "draft",
+            "explicitCompletion": false,
+            "unchangedAcceptedRevision": true,
+            "unchangedOperations": true
+          }
+        ]
+      }
+    }
+  ]
+}
