@@ -1,0 +1,435 @@
+{
+  "capturedAt": "2026-10-18T18:38:34.967847+00:00",
+  "run": 68,
+  "mode": "white-label-http",
+  "id": "B2BP-WEEK-009",
+  "project": "product-webkit-430",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "4ec0273151194acb189ac6ed327033d66366dbd5",
+  "status": "failed",
+  "retry": 0,
+  "assertion": {
+    "file": "apps/b2c-web/e2e/b2b-product-week.spec.ts",
+    "line": 286,
+    "timeoutMs": 5000,
+    "expected": "Sesiones realizadas region contains Anulada after page.reload",
+    "testTraceStart": 8973894.772,
+    "testTraceEnd": 8980235.768,
+    "browserTraceStart": 8973895.678,
+    "browserTraceEnd": 8979506.731
+  },
+  "retainedFrames": [
+    {
+      "timestamp": 8973893.774,
+      "actualSessionsRegionLiteralPresent": false,
+      "voidLabelLiteralPresent": false,
+      "historyLoadingLiteralPresent": false,
+      "gateCheckingLiteralPresent": false
+    },
+    {
+      "timestamp": 8973913.04,
+      "actualSessionsRegionLiteralPresent": false,
+      "voidLabelLiteralPresent": false,
+      "historyLoadingLiteralPresent": false,
+      "gateCheckingLiteralPresent": false
+    },
+    {
+      "timestamp": 8980220.676,
+      "actualSessionsRegionLiteralPresent": false,
+      "voidLabelLiteralPresent": false,
+      "historyLoadingLiteralPresent": true,
+      "gateCheckingLiteralPresent": false
+    }
+  ],
+  "selectedNetworkEntries": [
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8974153.127,
+      "rawTime": 959.499
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8975845.885,
+      "rawTime": 19.77
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/continuity",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8975879.064,
+      "rawTime": 632.841
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/legacy-assignments",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8975888.384,
+      "rawTime": 834.655
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/sessions",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8975886.06,
+      "rawTime": 844.2520000000001
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976754.329,
+      "rawTime": 652.733
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976754.434,
+      "rawTime": 651.11
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976754.472,
+      "rawTime": 654.465
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976754.51,
+      "rawTime": 654.596
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976759.729,
+      "rawTime": 682.471
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976759.823,
+      "rawTime": 106.874
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976759.786,
+      "rawTime": 107.526
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976759.863,
+      "rawTime": 128.456
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.227,
+      "rawTime": 103.101
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.292,
+      "rawTime": 102.893
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.329,
+      "rawTime": 85.38799999999999
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.366,
+      "rawTime": 69.25999999999999
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.48,
+      "rawTime": 69.379
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.521,
+      "rawTime": 68.838
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.557,
+      "rawTime": 49.059
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.588,
+      "rawTime": 49.171
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.618,
+      "rawTime": 60.768
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.649,
+      "rawTime": 42.551
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.681,
+      "rawTime": 41.035
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.712,
+      "rawTime": 39.932
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.77,
+      "rawTime": 42.68
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.803,
+      "rawTime": 38.754
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.741,
+      "rawTime": 45.08
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976765.462,
+      "rawTime": 437.633
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976765.53,
+      "rawTime": 428.27099999999996
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.512,
+      "rawTime": 110.728
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.901,
+      "rawTime": 184.825
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976766.868,
+      "rawTime": 193.249
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.593,
+      "rawTime": 141.47
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.561,
+      "rawTime": 221.021
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.697,
+      "rawTime": 98.009
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.669,
+      "rawTime": 117.355
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.723,
+      "rawTime": 91.96900000000001
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.749,
+      "rawTime": 51.585
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.854,
+      "rawTime": 1973.9260000000002
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.628,
+      "rawTime": 2162.611
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.784,
+      "rawTime": 1997.123
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.887,
+      "rawTime": 1998.195
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976771.002,
+      "rawTime": 67.562
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.823,
+      "rawTime": 2057.501
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8976770.917,
+      "rawTime": 223.762
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/occurrences",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8981325.125,
+      "rawTime": 775.194
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/week",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8981325.029,
+      "rawTime": 1518.363
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "status": 200,
+      "rawMonotonicTime": 8975742.173,
+      "rawTime": 75.249
+    }
+  ],
+  "networkCounts": [
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "status": 200,
+      "count": 2
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/continuity",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/legacy-assignments",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/sessions",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "status": 200,
+      "count": 41
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/occurrences",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/week",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "status": 200,
+      "count": 1
+    }
+  ],
+  "privateTraceSha256": "e7d90244bc342018297b2e20999a5d4309a8e85cd8d851274447e2c4a49c1718",
+  "qualification": "The actual history region was absent at failure; last retained DOM snapshot still shows Cargando historial. No later ready UI or passing retest was captured. Network raw fields/status200 do not prove completed UI rendering or product/harness root cause.",
+  "sourceAndBuiltFilesReverified": 2103,
+  "sourceMismatches": []
+}
