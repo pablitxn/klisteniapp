@@ -1,0 +1,149 @@
+{
+  "sealedAt": "2026-10-18T19:12:52.427285+00:00",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "4ec0273151194acb189ac6ed327033d66366dbd5",
+  "integrationEvidenceSha": "a7abf9c8123d070e8e5b029dbed0571434462c8d",
+  "browserScenarioIds": 88,
+  "fullHttpCells": 1056,
+  "uniqueFullHttpCells": 1056,
+  "runs": [
+    {
+      "run": "history-d2-full-r67",
+      "number": 67,
+      "mode": "unified-http",
+      "counts": {
+        "passed": 527,
+        "failed": 1
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T16:07:47.506Z",
+        "duration": 10898882.344999999,
+        "expected": 527,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 6
+    },
+    {
+      "run": "history-d2-full-r68",
+      "number": 68,
+      "mode": "white-label-http",
+      "counts": {
+        "passed": 526,
+        "failed": 2
+      },
+      "expectedCells": 528,
+      "actualCells": 528,
+      "stats": {
+        "startTime": "2026-10-18T16:07:47.028Z",
+        "duration": 11053749.147,
+        "expected": 526,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "exitCode": 1,
+      "ownedSchemasRemaining": 0,
+      "globalBrowserSchemasAfter": 0
+    }
+  ],
+  "totalCounts": {
+    "passed": 1053,
+    "failed": 3
+  },
+  "globalBrowserSchemasRemaining": 0,
+  "sourceAndBuiltFilesReverified": 2103,
+  "blockedHttpsPlannedCells": 528,
+  "blockedHttpsExecutedCells": 0,
+  "fullHttpAllPassed": false,
+  "nonpassingCells": [
+    {
+      "run": 67,
+      "id": "B2BP-SYNC-002",
+      "mode": "unified-http",
+      "project": "product-webkit-430",
+      "status": "failed"
+    },
+    {
+      "run": 68,
+      "id": "B2BP-HEALTH-002",
+      "mode": "white-label-http",
+      "project": "product-webkit-430",
+      "status": "failed"
+    },
+    {
+      "run": 68,
+      "id": "B2BP-WEEK-009",
+      "mode": "white-label-http",
+      "project": "product-webkit-430",
+      "status": "failed"
+    }
+  ],
+  "references": [
+    {
+      "version": "v42",
+      "manifestSha256": "3910758375b129e2e7cdbff9e5514404d07cd632386c21ba3ca08617a26d67f3"
+    },
+    {
+      "version": "v43",
+      "manifestSha256": "8bc1cba595439d243acf25a0c659cd022de0590d46b9c2915bc90668b14d3700"
+    }
+  ],
+  "preservedEarlierEvidence": [
+    {
+      "version": "v40",
+      "manifestSha256": "8b1dff1bc32dc107a5a8594b82b6cd75eb66a046f85ded514c6bb5b2d9019374",
+      "entriesVerified": 9,
+      "unchanged": true
+    },
+    {
+      "version": "v41",
+      "manifestSha256": "7469ac48db5e8607285d7b933bdd7568737619d2be2b713ea4ab4ed7e51b9c24",
+      "entriesVerified": 111,
+      "unchanged": true
+    }
+  ],
+  "failureDiagnoses": [
+    {
+      "sha": "5f836517491ee7315995c1da421eaf60c4d72a88",
+      "version": "v41-failure-r68-health002-webkit430",
+      "url": "https://github.com/pablitxn/klisteniapp/blob/5f836517491ee7315995c1da421eaf60c4d72a88/docs/validation/b2b-product-20261017/WP12/v41-failure-r68-health002-webkit430/README.md"
+    },
+    {
+      "sha": "a681ebbc3cc9fc1f4da3ab0f92b28409fcf5c7ec",
+      "version": "v41-failure-r67-sync002-webkit430",
+      "url": "https://github.com/pablitxn/klisteniapp/blob/a681ebbc3cc9fc1f4da3ab0f92b28409fcf5c7ec/docs/validation/b2b-product-20261017/WP12/v41-failure-r67-sync002-webkit430/README.md"
+    },
+    {
+      "sha": "90b03b88eebfc4e0a5d91443c85ea5c53e8c44d2",
+      "version": "v41-failure-r68-week009-webkit430",
+      "url": "https://github.com/pablitxn/klisteniapp/blob/90b03b88eebfc4e0a5d91443c85ea5c53e8c44d2/docs/validation/b2b-product-20261017/WP12/v41-failure-r68-week009-webkit430/README.md"
+    }
+  ],
+  "continuityReadiness": {
+    "observations": 12,
+    "visibleCount": 12,
+    "notObservedReadyCount": 0,
+    "minimumObservedWaitMs": 885,
+    "maximumObservedWaitMs": 1165,
+    "acknowledgmentsOver5000ms": 0,
+    "maximumAllowedWaitMs": 30000,
+    "qualification": "Actual observations on this exact source pair. Preserve enclosing case status; not additional passes or historical causal proof."
+  },
+  "historyHeadingReadiness": {
+    "observations": 456,
+    "visibleCount": 456,
+    "notObservedReadyCount": 0,
+    "minimumObservedWaitMs": 177,
+    "maximumObservedWaitMs": 4170,
+    "acknowledgmentsOver5000ms": 0,
+    "maximumAllowedWaitMs": 30000,
+    "qualification": "Actual observations on this exact source pair. Preserve enclosing case status; not additional passes or historical causal proof."
+  },
+  "qualification": "Two complete independent uncapped full HTTP matrices on one approved immutable app/QA pair and unchanged targeted-verified builds. Targeted, historical, component and repeated diagnostic outcomes are not pooled."
+}
