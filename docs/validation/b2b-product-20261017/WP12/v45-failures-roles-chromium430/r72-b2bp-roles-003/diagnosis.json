@@ -1,0 +1,967 @@
+{
+  "capturedAt": "2026-10-18T21:01:15.635647+00:00",
+  "run": 72,
+  "mode": "white-label-http",
+  "id": "B2BP-ROLES-003",
+  "project": "product-chromium-430",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "status": "failed",
+  "retry": 0,
+  "expected": "organization combobox visible after real password admission",
+  "sourceLine": 266,
+  "assertionTimeoutMs": 30000,
+  "failedTraceActions": [
+    {
+      "entry": "test.trace",
+      "type": "before",
+      "callId": "expect@257",
+      "startTime": 3079218.568,
+      "endTime": null,
+      "stack": [
+        {
+          "file": "/task/app/apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+          "line": 266,
+          "column": 31,
+          "function": "login"
+        }
+      ],
+      "method": "expect"
+    },
+    {
+      "entry": "test.trace",
+      "type": "after",
+      "callId": "expect@257",
+      "startTime": null,
+      "endTime": 3143811.112,
+      "stack": null,
+      "method": null
+    },
+    {
+      "entry": "1-trace.trace",
+      "type": "before",
+      "callId": "call@11607",
+      "startTime": 3079231.564,
+      "endTime": null,
+      "stack": null,
+      "method": "expect"
+    },
+    {
+      "entry": "1-trace.trace",
+      "type": "after",
+      "callId": "call@11607",
+      "startTime": null,
+      "endTime": 3117557.787,
+      "stack": null,
+      "method": null
+    }
+  ],
+  "lastRetainedFramesByTrace": [
+    {
+      "entry": "7-trace.trace",
+      "timestamp": 3015999.05,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "7-trace.trace",
+      "timestamp": 3016005.727,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "7-trace.trace",
+      "timestamp": 3016017.778,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "5-trace.trace",
+      "timestamp": 3075207.07,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "5-trace.trace",
+      "timestamp": 3075212.394,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "5-trace.trace",
+      "timestamp": 3075219.189,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "3-trace.trace",
+      "timestamp": 3077618.989,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "3-trace.trace",
+      "timestamp": 3077710.418,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "3-trace.trace",
+      "timestamp": 3077715.52,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "1-trace.trace",
+      "timestamp": 3078348.284,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "1-trace.trace",
+      "timestamp": 3079244.751,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": false,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    },
+    {
+      "entry": "1-trace.trace",
+      "timestamp": 3143545.898,
+      "organizationLabelLiteralPresent": false,
+      "navigationLiteralPresent": false,
+      "genericLoadingLiteralPresent": true,
+      "planningLoadingLiteralPresent": false,
+      "planningHeadingLiteralPresent": false
+    }
+  ],
+  "normalizedNetworkEntries": [
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3010204.251,
+      "rawTime": 34.494
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 401,
+      "rawMonotonicTime": 3010299.978,
+      "rawTime": 13.668
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3010949.245,
+      "rawTime": 0.898999999742955
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/auth/sign-in/email",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3010561.719,
+      "rawTime": 351.979
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3010949.471,
+      "rawTime": 49.76
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011664.766,
+      "rawTime": 34.219
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011744.086,
+      "rawTime": 38.752
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011813.124,
+      "rawTime": 60.885
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/capabilities",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011868.644,
+      "rawTime": 39.096
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011928.574,
+      "rawTime": 57.806999999999995
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012413.936,
+      "rawTime": 60.546
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012500.64,
+      "rawTime": 112.65
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012640.304,
+      "rawTime": 83.543
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012885.93,
+      "rawTime": 19.432000000000002
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012904.283,
+      "rawTime": 10.865
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/people",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012923.567,
+      "rawTime": 17.77
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012959.889,
+      "rawTime": 19.657
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3013961.432,
+      "rawTime": 53.011
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3014844.262,
+      "rawTime": 65.876
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3015927.707,
+      "rawTime": 20.729
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3012858.545,
+      "rawTime": 24.014
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3117933.157,
+      "rawTime": 20535.819999999832
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3143531.246,
+      "rawTime": 290.75800000038
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3143822.137,
+      "rawTime": 13952.30299999984
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3157940.062,
+      "rawTime": 102.099
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3158047.194,
+      "rawTime": 62.698
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011705.496,
+      "rawTime": 24.738
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/routines",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011999.615,
+      "rawTime": 54.652
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/people",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3011999.7,
+      "rawTime": -1
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/catalog/exercises",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3011999.743,
+      "rawTime": -1
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/routine-publications",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3011999.776,
+      "rawTime": -1
+    },
+    {
+      "entry": "7-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3157781.799,
+      "rawTime": 1937.0720000000001
+    },
+    {
+      "entry": "6-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3011455.468,
+      "rawTime": 52.65200000023469
+    },
+    {
+      "entry": "6-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3013203.526,
+      "rawTime": 15.929000000003725
+    },
+    {
+      "entry": "6-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3014171.285,
+      "rawTime": 32.39999999990687
+    },
+    {
+      "entry": "6-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3015007.701,
+      "rawTime": 21.674999999813735
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3016355.174,
+      "rawTime": 11.532
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 401,
+      "rawMonotonicTime": 3016412.37,
+      "rawTime": 16.04
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3072112.477,
+      "rawTime": 0.35999999986961484
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/auth/sign-in/email",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3071959.094,
+      "rawTime": 149.894
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3072112.57,
+      "rawTime": 36.314
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073034.8,
+      "rawTime": 16.582
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073088.927,
+      "rawTime": 25.209000000000003
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073118.576,
+      "rawTime": 11.176
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/capabilities",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073135.021,
+      "rawTime": 22.656
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073158.433,
+      "rawTime": 10.768999999999998
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/catalog/exercises",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073171.191,
+      "rawTime": 38.004
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073367.871,
+      "rawTime": 25.089000000000002
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073424.793,
+      "rawTime": 19.88
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073451.057,
+      "rawTime": 21.402
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073733.234,
+      "rawTime": 11.735000000000001
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073746.87,
+      "rawTime": 11.334
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/people",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073766.11,
+      "rawTime": 14.862
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073796.199,
+      "rawTime": 44.739
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3074694.145,
+      "rawTime": 44.278
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3075158.661,
+      "rawTime": 25.113
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073715.471,
+      "rawTime": 15.167
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3103055.313,
+      "rawTime": 18836.188000000082
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3143821.895,
+      "rawTime": 0.1600000001490116
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3143822.11,
+      "rawTime": 14021.30700000003
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3157936.484,
+      "rawTime": 52.419
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3157971.637,
+      "rawTime": 116.94
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073057.46,
+      "rawTime": 31.171
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/routines",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3073170.763,
+      "rawTime": 48.781
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/people",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3073171.159,
+      "rawTime": -1
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/routine-publications",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3073171.265,
+      "rawTime": -1
+    },
+    {
+      "entry": "5-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3157899.349,
+      "rawTime": 83.432
+    },
+    {
+      "entry": "4-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3072953.513,
+      "rawTime": 10.520000000018626
+    },
+    {
+      "entry": "4-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 403,
+      "rawMonotonicTime": 3074294.877,
+      "rawTime": 11.104000000283122
+    },
+    {
+      "entry": "4-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitations/[synthetic-id]",
+      "method": "POST",
+      "rawStatus": 403,
+      "rawMonotonicTime": 3074313.648,
+      "rawTime": 11.860000000335276
+    },
+    {
+      "entry": "4-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3074332.981,
+      "rawTime": 16.56099999975413
+    },
+    {
+      "entry": "4-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/invitation-branches",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3074786.641,
+      "rawTime": 9.946999999694526
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3075482.337,
+      "rawTime": 20.963
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/invitations/accept",
+      "method": "POST",
+      "rawStatus": 201,
+      "rawMonotonicTime": 3075941.772,
+      "rawTime": 174.536
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 401,
+      "rawMonotonicTime": 3076245.847,
+      "rawTime": 23.403
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/auth/sign-in/email",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3076489.089,
+      "rawTime": 235.89100000000002
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3076727.76,
+      "rawTime": 5.059000000357628
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3076729.076,
+      "rawTime": 27.544
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077616.337,
+      "rawTime": 28.855999999999998
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077677.491,
+      "rawTime": 32.113
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077710.091,
+      "rawTime": 16.326999999999998
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/capabilities",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077736.026,
+      "rawTime": 16.826999999999998
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077750.781,
+      "rawTime": 22.592
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/routines",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077778.795,
+      "rawTime": 65.952
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/people",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077778.835,
+      "rawTime": 65.967
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/catalog/exercises",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077778.864,
+      "rawTime": 144.44699999999997
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/routine-publications",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077778.947,
+      "rawTime": 293.154
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077651.373,
+      "rawTime": 23.875
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3103057.437,
+      "rawTime": 19076.794999999925
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3141320.459,
+      "rawTime": 2501.935000000056
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/events",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3157781.498,
+      "rawTime": 2591.682
+    },
+    {
+      "entry": "3-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3157936.261,
+      "rawTime": -1
+    },
+    {
+      "entry": "2-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3077621.226,
+      "rawTime": 18.128000000026077
+    },
+    {
+      "entry": "2-trace.network",
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/access",
+      "method": "GET",
+      "rawStatus": 403,
+      "rawMonotonicTime": 3077649.074,
+      "rawTime": 46.79000000003725
+    },
+    {
+      "entry": "1-trace.network",
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3078110.624,
+      "rawTime": 15.591000000000001
+    },
+    {
+      "entry": "1-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 401,
+      "rawMonotonicTime": 3078174.504,
+      "rawTime": 12.963000000000001
+    },
+    {
+      "entry": "1-trace.network",
+      "path": "/api/b2b/auth/sign-in/email",
+      "method": "POST",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3078341.957,
+      "rawTime": 834.432
+    },
+    {
+      "entry": "1-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 3079233.138,
+      "rawTime": 1.6480000000447035
+    },
+    {
+      "entry": "1-trace.network",
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 3079233.214,
+      "rawTime": 1038.122
+    }
+  ],
+  "sourceAndBuiltFilesReverified": 2106,
+  "sourceMismatches": [],
+  "privateTraceSha256": "0ab6e4d35b4fb6b55828ed6930d565bee4b101ba95df63530cbbcf1c30648253",
+  "qualification": "Observed loading UI and failed predicate. Product/harness/environment cause remains unproven. Network status-1 is not an HTTP server status; raw timing does not infer body completion. All uncompleted scenario assertions remain uncredited."
+}
