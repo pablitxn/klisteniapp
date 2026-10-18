@@ -5,7 +5,7 @@ import {
   observeReadiness,
   waitForHistoryReady,
   waitForWorkspaceReady,
-} from '../fixtures/b2b-product/readiness'
+} from '../../e2e/fixtures/b2b-product/readiness'
 
 const observedEvents = ['response', 'requestfinished', 'requestfailed'] as const
 
