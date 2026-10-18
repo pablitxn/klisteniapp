@@ -1,0 +1,239 @@
+{
+  "capturedAt": "2026-10-18T20:11:16.752919+00:00",
+  "run": 72,
+  "mode": "white-label-http",
+  "id": "B2BP-ALTERNATIVES-004",
+  "project": "product-chromium-320",
+  "applicationSha": "d2adf75d3fee18740ef38632a361c91203d77dc6",
+  "qaSha": "831203470d4c21322b8bc3ce7c4dedb7f84fe5d7",
+  "status": "failed",
+  "retry": 0,
+  "assertion": {
+    "file": "apps/b2c-web/e2e/fixtures/b2b-product/readiness.ts",
+    "line": 91,
+    "phase": "history-data",
+    "phaseBudgetMs": 30000,
+    "assertionRemainingTimeoutMs": 29906.830839999995,
+    "testTraceStart": 156992.327,
+    "testTraceEnd": 186986.194,
+    "browserTraceStart": 156997.242,
+    "browserTraceEnd": 186959.447
+  },
+  "precedingActions": [
+    {
+      "action": "shared history-data readiness succeeded",
+      "testTraceAttachStart": 156625.175
+    },
+    {
+      "action": "existing showWeek setSystemTime, unchanged",
+      "testTraceStart": 156646.507
+    },
+    {
+      "action": "reloadHistory page.reload",
+      "testTraceStart": 156662.517
+    }
+  ],
+  "retainedFrames": [
+    {
+      "timestamp": 156490.183,
+      "navigationDomLiteralPresent": true,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": true
+    },
+    {
+      "timestamp": 156499.186,
+      "navigationDomLiteralPresent": true,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156507,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156511.971,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156527.108,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156537.885,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156564.152,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156578.195,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156599.439,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156608.187,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156623.791,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156632.544,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156645.762,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156666.052,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 156887.571,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 157044.254,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": false,
+      "signInHeadingLiteralPresent": false,
+      "historyHeadingLiteralPresent": false
+    },
+    {
+      "timestamp": 186980.199,
+      "navigationDomLiteralPresent": false,
+      "requestTimeoutAlertLiteralPresent": true,
+      "signInHeadingLiteralPresent": true,
+      "historyHeadingLiteralPresent": false
+    }
+  ],
+  "selectedNormalizedNetworkEntries": [
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156132.485,
+      "rawTime": 108.763
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156132.534,
+      "rawTime": 128.113
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156132.433,
+      "rawTime": 129.604
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/occurrences/[synthetic-id]",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156132.51,
+      "rawTime": 137.508
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/occurrences",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156287.223,
+      "rawTime": 87.41
+    },
+    {
+      "path": "/api/b2b/orgs/atlas-demo/product/v2/members/[synthetic-id]/week",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156287.187,
+      "rawTime": 137.143
+    },
+    {
+      "path": "/api/b2b/context",
+      "method": "GET",
+      "rawStatus": 200,
+      "rawMonotonicTime": 156892.895,
+      "rawTime": 189.955
+    },
+    {
+      "path": "/api/b2b/bootstrap/v2",
+      "method": "GET",
+      "rawStatus": -1,
+      "rawMonotonicTime": 157607.994,
+      "rawTime": 21719.715999999986
+    }
+  ],
+  "sourceReferences": [
+    {
+      "file": "apps/b2c-web/e2e/fixtures/b2b-product/readiness.ts",
+      "line": 91
+    },
+    {
+      "file": "apps/b2c-web/e2e/fixtures/b2b-product/app-fixture.ts",
+      "line": 653
+    },
+    {
+      "file": "packages/b2b-client/src/transport.ts",
+      "line": 54,
+      "fact": "Unchanged default non-upload timeout20000ms."
+    },
+    {
+      "file": "packages/b2b-client/src/transport.ts",
+      "line": 146,
+      "fact": "Unchanged transport timeout message matches captured alert."
+    }
+  ],
+  "privateTraceSha256": "a3c4295929b5c96af025b05e024f832d94d25b10316decce57c9529ef0fd4b6a",
+  "qualification": "Raw status-1 is not an HTTP server error status. Network monotonicTime/time fields do not infer body-completion order. Actual UI shows timeout/sign-in and missing navigation; product/harness/environment root cause is unproven. No automatic retry, source change or passing follow-up is claimed.",
+  "sourceAndBuiltFilesReverified": 2106,
+  "sourceMismatches": []
+}
