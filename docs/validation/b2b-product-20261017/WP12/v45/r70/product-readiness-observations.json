@@ -1,0 +1,3125 @@
+{
+  "qualification": "Named positive phase observations; not additional test passes. HTTP events are not rendered readiness. Continuity region timing may follow shared history readiness and is not total history load time.",
+  "observations": [
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 225,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 222,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 19,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 21
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 132,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 132
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 416,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 241,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 244
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 316,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 355,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 355
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 378,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 379
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "20ae1af9a73d3198b52f-d5e9c0b0e8f86e7d393a",
+      "id": "B2BP-HEALTH-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 306,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 113,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 116
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 229,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 254,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 254
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 272,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 273
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 316,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 117,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 125
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 159,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 219,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 220
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 258,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 258
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 314,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 314
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 362,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 58,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 58
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 69,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 69
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 69,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 70
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 255,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 256
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 267,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 269
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1079,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 48,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 48
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 134,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 134
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 179,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 179
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 482,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 491,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 492
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 504,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 504
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 542,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 543,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 543
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 543
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 546,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 546
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 571,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 572
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 624,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 624
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 637,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 637
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1166,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 27,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 27
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 100,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 100
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 186,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 186
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 446,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 470,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 471
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 498,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 500
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 562,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 564
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 564,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 564
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 578,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 579
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 597,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 598
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 657,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 657
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 677,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 677
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1024,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 50,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 50
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 135,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 135
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 189,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 189
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 491,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 511,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 513
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 538,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 538
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 733,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 734
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 737,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 739
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 739,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 739
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 776,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 776
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 861,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 861
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 895,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 895
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 148,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 14,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 16,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 16
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 16
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1093,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 47,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 49
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 104,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 104
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 233,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 233
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 494,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 513,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 515
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 528,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 528
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 558,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 558
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 576,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 576
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 580,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 580
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 622,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 623
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 638,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 638
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "8b5a036b8d9515c35caa-220af9c6904d67f3032e",
+      "id": "B2BP-HISTORY-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1077,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 85,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 87
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 145,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 145
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 220,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 220
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 565,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 584,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 584
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 600,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 602
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 637,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 637
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 655,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 655
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 655,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 655
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 722,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 722
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 740,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 740
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "e192ae9fc200babd30f3-bf05d1a7499a9241246a",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 386,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 197,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 206
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 248,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 288,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 288
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 308,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 308
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 379,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 384
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "e192ae9fc200babd30f3-bf05d1a7499a9241246a",
+      "id": "B2BP-INACTIVE-003",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 467,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 38,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 38
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 49,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 49
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 50,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 50
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 187,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 190
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 431,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 431
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 441,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 441
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+      "id": "B2BP-SYNC-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 189,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 82,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 87
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 112,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 133,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 134
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 148,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 148
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 185,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 186
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+      "id": "B2BP-SYNC-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 309,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 11,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 11
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 44,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 44
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 64,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 64
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 64,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 64
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 118,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 118
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 260,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 260
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 272,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 272
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+      "id": "B2BP-SYNC-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1047,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 32,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 32
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 114,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 114
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 156,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 156
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 480,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 484,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 484
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 500,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 501
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 543,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 543
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 554,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 554
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 557,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 557
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 587,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 587
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 648,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 648
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 648,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 648
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+      "id": "B2BP-SYNC-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 816,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 37,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 37
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 70,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 70
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 128,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 128
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 374,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 389,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 390
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 406,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 406
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 504,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 504
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 504,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 504
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 506,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 508
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 570,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 570
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 722,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 732
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 748,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 748
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+      "id": "B2BP-SYNC-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-selected-week-data",
+      "observed": {
+        "phase": "selected-week-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 53,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "9031321bc7c526d8118d-4a6ae7d11740a9d2e01a",
+      "id": "B2BP-SYNC-002",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-initial-draft-commit",
+      "observed": {
+        "phase": "initial-draft-commit",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 60,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+      "id": "B2BP-WEEK-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 219,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 115,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 120
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 159,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 174,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 175
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 192,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 194
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+      "id": "B2BP-WEEK-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 439,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 86,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 86
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 86,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 87
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 87,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 87
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 210,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 211
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 231,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 235
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 386,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 386
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 403,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 409
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+      "id": "B2BP-WEEK-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1316,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 41,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 42
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 172,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 174
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 317,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 317
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 621,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 625,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 625
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 655,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 656
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 737,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 746,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 747
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 748
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 750,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 750
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 801,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 802,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 804
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 805
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 810,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 810
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 906,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 906
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 915,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 916
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+      "id": "B2BP-WEEK-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1931,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 89,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 89
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 187,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 187
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 253,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 253
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 717,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 781,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 782
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 833,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 833
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 901,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 901
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 938,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 941
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 1236,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 1236
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 1324,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 1335
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 1358,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 1358
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 1441,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 1441
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 1848,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 1850
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 1850,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 1850
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+      "id": "B2BP-WEEK-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-selected-week-data",
+      "observed": {
+        "phase": "selected-week-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 53,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-39d6842079f62d1130e4",
+      "id": "B2BP-WEEK-009",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 720,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 13,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 13
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 43,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 43
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 114,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 114
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 363,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 382,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 383
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 402,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 402
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 455,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 457,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 457
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 458
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 464,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 465
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 519,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 519,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 519
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 524
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 524,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 524
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 659,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 659
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 669,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 669
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 390,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 108,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 112
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 152,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 255,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 255
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 318,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 318
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 379,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 380
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-workspace-admission",
+      "observed": {
+        "phase": "workspace-admission",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 138,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1057,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 17,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 17
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 67,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 67
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 101,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 101
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 415,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 424,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 425
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 441,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 441
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 473,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 473
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 477,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 477
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 486,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 486
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 510,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 510,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 510
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 511
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 511,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 511
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 567,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 568
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 581,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 581
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 977,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 41,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 41
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 98,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 98
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 164,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 164
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 444,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 466,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 466
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 489,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 490
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 542,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 542
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 553,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 554,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 558
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 563
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 594,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 594
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 603,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 603
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 607,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 608
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 698,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 698
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 717,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 717
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-selected-week-data",
+      "observed": {
+        "phase": "selected-week-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 43,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-initial-draft-commit",
+      "observed": {
+        "phase": "initial-draft-commit",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 32,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 981,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 32,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 33
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 74,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 74
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 110,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 110
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 440,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 458,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 458
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 473,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 473
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 517,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 517
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 527,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 529,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 531
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 531
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 561,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 562
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 563,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 567,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 567
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 567
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 571,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 571
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 649,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 654
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 656,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 656
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-history-data",
+      "observed": {
+        "phase": "history-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 1008,
+        "events": [
+          {
+            "event": "response",
+            "endpoint": "context",
+            "elapsedMs": 22,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "context",
+            "elapsedMs": 23
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 94,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 94
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 137,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 137
+          },
+          {
+            "event": "response",
+            "endpoint": "events",
+            "elapsedMs": 447,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 474,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "bootstrap/v2",
+            "elapsedMs": 474
+          },
+          {
+            "event": "response",
+            "endpoint": "access",
+            "elapsedMs": 494,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "access",
+            "elapsedMs": 494
+          },
+          {
+            "event": "response",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 558,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "continuity",
+            "elapsedMs": 558,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "legacy-assignments",
+            "elapsedMs": 561
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "continuity",
+            "elapsedMs": 561
+          },
+          {
+            "event": "response",
+            "endpoint": "sessions",
+            "elapsedMs": 561,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "sessions",
+            "elapsedMs": 561
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 594,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 595
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 600,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 601,
+            "status": 200
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 601,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 604
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 604
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrence-context",
+            "elapsedMs": 604
+          },
+          {
+            "event": "response",
+            "endpoint": "occurrences",
+            "elapsedMs": 668,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "occurrences",
+            "elapsedMs": 668
+          },
+          {
+            "event": "response",
+            "endpoint": "week",
+            "elapsedMs": 684,
+            "status": 200
+          },
+          {
+            "event": "requestfinished",
+            "endpoint": "week",
+            "elapsedMs": 684
+          }
+        ],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    },
+    {
+      "instanceId": "f9bc955b7d51a8ef01b5-42d7894d327275388c0b",
+      "id": "B2BP-WEEK-008",
+      "project": "product-webkit-430",
+      "caseStatus": "passed",
+      "attachment": "product-readiness-selected-week-data",
+      "observed": {
+        "phase": "selected-week-data",
+        "ready": true,
+        "budgetMs": 30000,
+        "elapsedMs": 50,
+        "events": [],
+        "qualification": "Response events do not imply body completion; requestfinished does not imply rendered UI. Only the named UI predicates establish readiness."
+      }
+    }
+  ]
+}

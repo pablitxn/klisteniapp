@@ -1,0 +1,2279 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/task/app/apps/b2c-web/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.config.ts",
+      "--reporter=json",
+      "--list"
+    ],
+    "configFile": "/task/app/apps/b2c-web/playwright.config.ts",
+    "rootDir": "/task/app/apps/b2c-web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/klisteniapp-e2e-results-2232",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "",
+        "name": "",
+        "testDir": "/task/app/apps/b2c-web/e2e",
+        "testIgnore": [
+          "member-qa.spec.ts",
+          "brand-admin*.spec.ts",
+          "b2c-selfservice.spec.ts",
+          "b2c-selfservice-extra.spec.ts",
+          "b2b*.spec.ts",
+          "white-label*.spec.ts",
+          "analytics.spec.ts",
+          "accounts.spec.ts",
+          "admin-accounts.spec.ts",
+          "subscriptions.spec.ts",
+          "account-access.spec.ts",
+          "forgot-password.spec.ts",
+          "health.spec.ts",
+          "ui-annotations-account.spec.ts",
+          "model-variant-account.spec.ts",
+          "yoga-account.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm exec vite build --outDir /tmp/klisteniapp-demo-build-2232 --emptyOutDir && pnpm exec vite preview --outDir /tmp/klisteniapp-demo-build-2232 --host 127.0.0.1 --port 4174 --strictPort",
+      "env": {
+        "VITE_APP_MODE": "demo",
+        "VITE_UMAMI_SCRIPT_URL": "",
+        "VITE_UMAMI_HOST_URL": "",
+        "VITE_UMAMI_WEBSITE_ID": "",
+        "VITE_UMAMI_ALLOWED_HOSTNAME": ""
+      },
+      "timeout": 120000,
+      "url": "http://127.0.0.1:4174",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "anatomy.spec.ts",
+      "file": "anatomy.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "registered atlas loads, layers switch, and enlarged view is keyboard accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "194dae020f936163d7b8-104ba6eb969bd1b44f4f",
+          "file": "anatomy.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "mobile atlas fits narrow screens and every catalog demonstration remains controllable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "194dae020f936163d7b8-a50252b1ebc35c68801d",
+          "file": "anatomy.spec.ts",
+          "line": 80,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "app.spec.ts",
+      "file": "app.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "desktop starts with honest empty progress and an educational exercise viewer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-412d41a75a7eb2c436cf",
+          "file": "app.spec.ts",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "library searches muscles without accents and the atlas opens an equipped example",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-d38cd80efc7eeaaba3a8",
+          "file": "app.spec.ts",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "mobile navigation and routine have no horizontal overflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-89c9f3e24e99e5c8fa57",
+          "file": "app.spec.ts",
+          "line": 86,
+          "column": 1
+        },
+        {
+          "title": "corrupt local history shows a warning instead of inventing progress",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-0c6473233de986a9769a",
+          "file": "app.spec.ts",
+          "line": 104,
+          "column": 1
+        },
+        {
+          "title": "cardio saves entered minutes and distance, survives reload, exports and deletes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-84db79fd9aac78ffb7cd",
+          "file": "app.spec.ts",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "routine edits and motion preferences persist without adding workout history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-1d0272cd0d0a65bf2009",
+          "file": "app.spec.ts",
+          "line": 151,
+          "column": 1
+        },
+        {
+          "title": "a completed session saves exactly the twelve sets entered by the user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-aa3668f16843a01631ba",
+          "file": "app.spec.ts",
+          "line": 176,
+          "column": 1
+        },
+        {
+          "title": "an abandoned session does not award XP or invent a completed workout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-0767eab8ad4b5924df92",
+          "file": "app.spec.ts",
+          "line": 203,
+          "column": 1
+        },
+        {
+          "title": "an active session prevents restarting or editing its routine and retains its current exercise",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-a0d01b7cbc4220dd88cc",
+          "file": "app.spec.ts",
+          "line": 221,
+          "column": 1
+        },
+        {
+          "title": "saving after corrupt history retains a downloadable original and stores valid new activity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-fef3a3569148d570ed81",
+          "file": "app.spec.ts",
+          "line": 242,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "body-guide.spec.ts",
+      "file": "body-guide.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "the mobile atlas filters regions, distinguishes support and opens its related exercise",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-a8a0ce197ff016c796c5",
+          "file": "body-guide.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "a custom routine containing a pull shows its actual role in the atlas",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-72e2530aa4126420562e",
+          "file": "body-guide.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "the atlas opens first and loads twelve static regional thumbnails that fit at 320px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-2d40b0f1a547e225db4e",
+          "file": "body-guide.spec.ts",
+          "line": 71,
+          "column": 3
+        },
+        {
+          "title": "the atlas opens first and loads twelve static regional thumbnails that fit at 486px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-54147f87fda0b7375c91",
+          "file": "body-guide.spec.ts",
+          "line": 71,
+          "column": 3
+        },
+        {
+          "title": "the selected female model loads its twelve regional thumbnails in the atlas",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-176c679883009262123f",
+          "file": "body-guide.spec.ts",
+          "line": 107,
+          "column": 1
+        },
+        {
+          "title": "all twelve atlas cards explain their structure and function without mounting a viewer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-8ad5736c3e7261860a84",
+          "file": "body-guide.spec.ts",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "opening a muscle mounts one paused anatomical detail and keeps education available without WebGL",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-171366874ced65f806db",
+          "file": "body-guide.spec.ts",
+          "line": 152,
+          "column": 1
+        },
+        {
+          "title": "the muscle modal and its controls follow the graphite light palette without WebGL",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-c86d9a7cf0779be84dfb",
+          "file": "body-guide.spec.ts",
+          "line": 185,
+          "column": 3
+        },
+        {
+          "title": "the muscle modal and its controls follow the rose dark palette without WebGL",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "eed8892072d7f557a7d4-b280cd255d2a907a7630",
+          "file": "body-guide.spec.ts",
+          "line": 185,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "catalog-expansion.spec.ts",
+      "file": "catalog-expansion.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "the expanded gallery combines level, equipment and bilingual search and can reset an empty result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c452bad5d994b2a24464-4bb042bb447cb992b6bf",
+          "file": "catalog-expansion.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "new catalog controls and the last new card fit a narrow screen",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c452bad5d994b2a24464-5591ec4b2b6317b89c4d",
+          "file": "catalog-expansion.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "an equipped exercise can be added deliberately and survives a local routine reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c452bad5d994b2a24464-dcfd38db8d7b1feae28a",
+          "file": "catalog-expansion.spec.ts",
+          "line": 59,
+          "column": 1
+        },
+        {
+          "title": "a long valid routine saves every set, including different repetitions, after crossing fifty entries",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c452bad5d994b2a24464-7b8ba22304a3afd32826",
+          "file": "catalog-expansion.spec.ts",
+          "line": 75,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "demo artifacts contain no account transports, payments, analytics tracker or instance profile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "05384557491ebd602dd7-dda22a54a18e685ab9b7",
+          "file": "demo.spec.ts",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "demo ignores account routes and analytics configuration; home and privacy make no private requests",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "05384557491ebd602dd7-78170136f2f8a35cca0f",
+          "file": "demo.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "demo health and goals persist locally and a complete export can be restored without cloud access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "05384557491ebd602dd7-965b1ad063b5353ec645",
+          "file": "demo.spec.ts",
+          "line": 48,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "exercise-planning.spec.ts",
+      "file": "exercise-planning.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "planning information distinguishes related progressions and opens them without editing the routine",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "55e65720c758844910a2-c10d0a21c863398869c4",
+          "file": "exercise-planning.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "metadata and conditional alternatives fit a narrow screen",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "55e65720c758844910a2-b29607f35df3c3912297",
+          "file": "exercise-planning.spec.ts",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "a unilateral exercise opened from the gallery explains each-side dosage and its reviewed regression",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "55e65720c758844910a2-3c6f7f7a287976e44c44",
+          "file": "exercise-planning.spec.ts",
+          "line": 34,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "fallback.spec.ts",
+      "file": "fallback.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "device without WebGL keeps education and muscle information usable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "c0d319ffc9801079ff6c-ccc7694153af62b4c6cc",
+          "file": "fallback.spec.ts",
+          "line": 16,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "learning-library.spec.ts",
+      "file": "learning-library.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "encyclopedia searches anatomy and yoga and opens existing guidance without creating activity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "294800f5262f164758b5-a92a7d000f5f3e8d36d2",
+          "file": "learning-library.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "exercise offers optional regional stretching references and retains the selected routine",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "294800f5262f164758b5-ebfe19ec94345fa18024",
+          "file": "learning-library.spec.ts",
+          "line": 33,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "model-variant.spec.ts",
+      "file": "model-variant.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "the chosen body applies to routine, catalog, atlas and its viewer and survives reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "14a1f07229b3dc7a5ce7-64a7aa7816839ebc83c6",
+          "file": "model-variant.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "female animated examples retain reduced-motion behavior",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "14a1f07229b3dc7a5ce7-8ee4ced1618aa87133e0",
+          "file": "model-variant.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "switching model recovers preview and atlas images after a variant asset fails",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "14a1f07229b3dc7a5ce7-77b5dd3bd8ca949aa402",
+          "file": "model-variant.spec.ts",
+          "line": 92,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "previews.spec.ts",
+      "file": "previews.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "selected exercise, pointer and keyboard show loaded motion previews",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-16179810edf579cb67dd",
+          "file": "previews.spec.ts",
+          "line": 55,
+          "column": 1
+        },
+        {
+          "title": "initial reduced motion from system never requests animated assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-5a13127dd2be9212592d",
+          "file": "previews.spec.ts",
+          "line": 88,
+          "column": 3
+        },
+        {
+          "title": "initial reduced motion from saved setting never requests animated assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-35602590813db0cbd7cf",
+          "file": "previews.spec.ts",
+          "line": 88,
+          "column": 3
+        },
+        {
+          "title": "the app motion setting stops an already playing preview and persists",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-7393578f7752ea966fb8",
+          "file": "previews.spec.ts",
+          "line": 129,
+          "column": 1
+        },
+        {
+          "title": "every catalog preview loads without creating miniature WebGL scenes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-052078d5e4f0b07ea9cf",
+          "file": "previews.spec.ts",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "expanded library combines name search and movement filters, then opens a new exercise",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-d639cbc213cec86260f2",
+          "file": "previews.spec.ts",
+          "line": 179,
+          "column": 1
+        },
+        {
+          "title": "failed preview files retain a usable exercise card and a visible fallback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-ca961cbdcbe5ba466079",
+          "file": "previews.spec.ts",
+          "line": 213,
+          "column": 1
+        },
+        {
+          "title": "previews fit mobile routine, library and body cards without page overflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3dcdcc4b736715a94c99-f93e68608089bd31341e",
+          "file": "previews.spec.ts",
+          "line": 239,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "settings.spec.ts",
+      "file": "settings.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "settings keeps appearance, privacy and data in one accessible dialog on mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d877ffdf71ec720167ae-a1c21f4e11352c7be1ae",
+          "file": "settings.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "initial setup retains unsaved fields through the privacy policy round trip",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d877ffdf71ec720167ae-7d500e40669d09305303",
+          "file": "settings.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "initial setup appends a measurement and can be replayed without deleting saved practice or health",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d877ffdf71ec720167ae-869dd3ab32169b9b0fad",
+          "file": "settings.spec.ts",
+          "line": 48,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "themes.spec.ts",
+      "file": "themes.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "six selectable palettes each render distinct light and dark appearances",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d9a1a05a5866edb60a2f-10ab7e5f57df679f378c",
+          "file": "themes.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "palette and mode survive reload as independent preferences",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d9a1a05a5866edb60a2f-09c2a146488169ed4d09",
+          "file": "themes.spec.ts",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "system mode responds to device changes while preserving the chosen palette",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d9a1a05a5866edb60a2f-2249a3c510ee173ba92c",
+          "file": "themes.spec.ts",
+          "line": 98,
+          "column": 1
+        },
+        {
+          "title": "palette choices support keyboard activation and fit a 320px viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d9a1a05a5866edb60a2f-8c271456d2b389244a50",
+          "file": "themes.spec.ts",
+          "line": 117,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "ui-annotations.spec.ts",
+      "file": "ui-annotations.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "statistics stay on the routine while every page header and footer stays clear of actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-42163d4c1fd832cd3d67",
+          "file": "ui-annotations.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "routine, health and progress keep neutral surfaces and distinct selections in graphite light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-48e3e0fb848cb6674306",
+          "file": "ui-annotations.spec.ts",
+          "line": 54,
+          "column": 3
+        },
+        {
+          "title": "routine, health and progress keep neutral surfaces and distinct selections in graphite dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-fc47909f76c5f97f7e70",
+          "file": "ui-annotations.spec.ts",
+          "line": 54,
+          "column": 3
+        },
+        {
+          "title": "routine, health and progress keep neutral surfaces and distinct selections in rose dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-ee1b1968d713de918a84",
+          "file": "ui-annotations.spec.ts",
+          "line": 54,
+          "column": 3
+        },
+        {
+          "title": "the routine start stays below its horizontal exercise selection at 486px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-a41b5bc9e1a794df3a8b",
+          "file": "ui-annotations.spec.ts",
+          "line": 184,
+          "column": 3
+        },
+        {
+          "title": "settings isolates scrolling and restores the page after close and Escape at 486px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-84ffa32ee800180caf2e",
+          "file": "ui-annotations.spec.ts",
+          "line": 201,
+          "column": 3
+        },
+        {
+          "title": "privacy round trip releases and restores the settings scroll lock at 486px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-00ee7a81e9c88d440754",
+          "file": "ui-annotations.spec.ts",
+          "line": 232,
+          "column": 3
+        },
+        {
+          "title": "saving cardio from a scrolled routine opens progress at the top at 486px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-404d6563e2ec6dd92215",
+          "file": "ui-annotations.spec.ts",
+          "line": 257,
+          "column": 3
+        },
+        {
+          "title": "the routine start stays below its horizontal exercise selection at 320px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-f7f2d8a56923e745a9f8",
+          "file": "ui-annotations.spec.ts",
+          "line": 184,
+          "column": 3
+        },
+        {
+          "title": "settings isolates scrolling and restores the page after close and Escape at 320px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-35b41e1dca9f9da0ae4b",
+          "file": "ui-annotations.spec.ts",
+          "line": 201,
+          "column": 3
+        },
+        {
+          "title": "privacy round trip releases and restores the settings scroll lock at 320px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-33cc292fb9d17bdeec68",
+          "file": "ui-annotations.spec.ts",
+          "line": 232,
+          "column": 3
+        },
+        {
+          "title": "saving cardio from a scrolled routine opens progress at the top at 320px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "39e2b0d78d5c9e5374ca-5ce182735010bbff9d4a",
+          "file": "ui-annotations.spec.ts",
+          "line": 257,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "visitor-local.spec.ts",
+      "file": "visitor-local.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "V01 empty routes, library filters, anatomy links and progress never invent history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-c79591a06957de83cdc5",
+          "file": "visitor-local.spec.ts",
+          "line": 55,
+          "column": 1
+        },
+        {
+          "title": "V02 routine-only backup restores its order and sets in a separate browser context",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-28e4c506e3fc233ac2f9",
+          "file": "visitor-local.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "V03 cardio validates, cancels, double-submits once, persists and deletes with confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-f3d6a3cd3725587b8205",
+          "file": "visitor-local.spec.ts",
+          "line": 110,
+          "column": 1
+        },
+        {
+          "title": "V04 storage failure keeps cardio draft and retry persists one activity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-0eb01e75335ccbe03090",
+          "file": "visitor-local.spec.ts",
+          "line": 140,
+          "column": 1
+        },
+        {
+          "title": "V05 failed deletion keeps the saved activity visible and allows retry",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-0f7b1d2e692f5a2b718c",
+          "file": "visitor-local.spec.ts",
+          "line": 162,
+          "column": 1
+        },
+        {
+          "title": "V06 strength validates reps, protects active session, saves exact sets once and survives reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-f2d1a632834dcf896395",
+          "file": "visitor-local.spec.ts",
+          "line": 183,
+          "column": 1
+        },
+        {
+          "title": "V07 strength cancel and reload discard the unsaved session without awarding XP",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-354f130d3f4fa2df6123",
+          "file": "visitor-local.spec.ts",
+          "line": 209,
+          "column": 1
+        },
+        {
+          "title": "V08 health profile and every manual record persist, edit and delete without other data loss",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-8f325c8966e08d1d9976",
+          "file": "visitor-local.spec.ts",
+          "line": 228,
+          "column": 1
+        },
+        {
+          "title": "V09 health validates empty, impossible and future input and preserves fields after quota failure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-a84b7343de09fdb9c2b9",
+          "file": "visitor-local.spec.ts",
+          "line": 276,
+          "column": 1
+        },
+        {
+          "title": "V10 health import previews, cancels, deduplicates, rejects corrupt/future/oversize files and exports empty template",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-7e3ced38ba7072d58e6d",
+          "file": "visitor-local.spec.ts",
+          "line": 306,
+          "column": 1
+        },
+        {
+          "title": "V11 personal and legacy import require confirmation, reject invalid copies and survive reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-a5290971bf793f2e4076",
+          "file": "visitor-local.spec.ts",
+          "line": 334,
+          "column": 1
+        },
+        {
+          "title": "V12 yoga timer pauses, skips, saves one partial snapshot and preserves history when deleting practice",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-3f611af58d96f06c4605",
+          "file": "visitor-local.spec.ts",
+          "line": 359,
+          "column": 1
+        },
+        {
+          "title": "V13 privacy back/forward preserves setup draft and Escape restores keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-2b28dbe5240b5e176e48",
+          "file": "visitor-local.spec.ts",
+          "line": 398,
+          "column": 1
+        },
+        {
+          "title": "V14 languages and appearance persist through reload with translated navigation and controls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-d8a9b53c32239df484f6",
+          "file": "visitor-local.spec.ts",
+          "line": 419,
+          "column": 1
+        },
+        {
+          "title": "V15 anonymous instance remains local after API response loss and stale cookie; demo makes no API calls",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-168b15c1534c208582b8",
+          "file": "visitor-local.spec.ts",
+          "line": 434,
+          "column": 1
+        },
+        {
+          "title": "V16 yoga background pause excludes hidden time and a full practice retries quota failure without duplication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-001ba8be318e833c27db",
+          "file": "visitor-local.spec.ts",
+          "line": 455,
+          "column": 1
+        },
+        {
+          "title": "V17 corrupt personal copy remains exportable, blocks edits and accepts an explicit replacement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-30cd75ac7835c6e662b1",
+          "file": "visitor-local.spec.ts",
+          "line": 495,
+          "column": 1
+        },
+        {
+          "title": "V18 real synthetic touch events navigate and save; native dialog traps keyboard focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "fdc828148e8d12e61c42-556891a1072cc1ef506d",
+          "file": "visitor-local.spec.ts",
+          "line": 524,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "yoga-3d.spec.ts",
+      "file": "yoga-3d.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "3D source posters and the non-WebGL path",
+          "file": "yoga-3d.spec.ts",
+          "line": 50,
+          "column": 6,
+          "specs": [
+            {
+              "title": "all 24 cards load the chosen anatomical variant without per-card canvases or vector figures",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-37fc7fd5c714d5890206",
+              "file": "yoga-3d.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "the detail keeps a real render of its chosen side when interactive WebGL is unavailable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-51fa1ba72f39edb82700",
+              "file": "yoga-3d.spec.ts",
+              "line": 88,
+              "column": 3
+            },
+            {
+              "title": "guided postures follow the saved global model and each explicit side without changing the practice",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-cf7b15bde8c711fe5d65",
+              "file": "yoga-3d.spec.ts",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "the anatomical poster and viewer controls fit a narrow mobile detail",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-dc1c697a8499e924243a",
+              "file": "yoga-3d.spec.ts",
+              "line": 138,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "interactive anatomical yoga",
+          "file": "yoga-3d.spec.ts",
+          "line": 161,
+          "column": 6,
+          "specs": [
+            {
+              "title": "the live model renders both variants and camera controls change the actual canvas",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-59345f490a7299a97f9c",
+              "file": "yoga-3d.spec.ts",
+              "line": 164,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "anatomical movement playback",
+          "file": "yoga-3d.spec.ts",
+          "line": 315,
+          "column": 6,
+          "specs": [
+            {
+              "title": "both bodies and sides move under a fixed camera; pause freezes the raster and seeking changes the pose",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-c191bba6201030064e08",
+              "file": "yoga-3d.spec.ts",
+              "line": 318,
+              "column": 3
+            },
+            {
+              "title": "speed changes movement timing and hidden or suspended views stay paused when restored",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-397458bbffa90e4fd0c3",
+              "file": "yoga-3d.spec.ts",
+              "line": 381,
+              "column": 3
+            },
+            {
+              "title": "reduced motion prevents autoplay and watching a saved practice never starts its timer or creates a log",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-7cf3697843dc662c7e4b",
+              "file": "yoga-3d.spec.ts",
+              "line": 457,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "animated anatomical previews",
+          "file": "yoga-3d.spec.ts",
+          "line": 486,
+          "column": 6,
+          "specs": [
+            {
+              "title": "hover and keyboard load real moving previews for both models, and inactive views return to their poster",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-8d475f28974eca6582fa",
+              "file": "yoga-3d.spec.ts",
+              "line": 490,
+              "column": 3
+            },
+            {
+              "title": "reduced motion from system never requests yoga animations",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-c708e7f9df2cb0190161",
+              "file": "yoga-3d.spec.ts",
+              "line": 532,
+              "column": 5
+            },
+            {
+              "title": "reduced motion from saved setting never requests yoga animations",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e68863af3c4bc08e0c33-e55c8d3fa007969ad8e3",
+              "file": "yoga-3d.spec.ts",
+              "line": 532,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "yoga.spec.ts",
+      "file": "yoga.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "library searches Sanskrit and English and exposes cultural context and sources",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-e63475c34ee75a5a6912",
+          "file": "yoga.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "practice editor preserves repeated asanas, order, explicit sides and durations across reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-ffc0e02fa40084a01d63",
+          "file": "yoga.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "timer excludes pauses and skips, saves a partial snapshot and appears in global history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-211870a0188cd57b0cb9",
+          "file": "yoga.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Escape preserves an unsaved editor until discard is confirmed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-ef9919dcfe22fec40a62",
+          "file": "yoga.spec.ts",
+          "line": 110,
+          "column": 1
+        },
+        {
+          "title": "storage failure retains the practice draft and reports failure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-da4a8c4c438116a5e1dc",
+          "file": "yoga.spec.ts",
+          "line": 125,
+          "column": 1
+        },
+        {
+          "title": "narrow dark layout keeps library and practice editor within the viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-2ffba86aa5fe80eaf3a4",
+          "file": "yoga.spec.ts",
+          "line": 144,
+          "column": 1
+        },
+        {
+          "title": "en controls keep the all-levels filter usable and identify Spanish catalog content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-06590269e0ee6e1e1a0d",
+          "file": "yoga.spec.ts",
+          "line": 160,
+          "column": 3
+        },
+        {
+          "title": "fr controls keep the all-levels filter usable and identify Spanish catalog content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "70d4029c59af9c8b3a3e-3ac70ce34ad692dbb942",
+          "file": "yoga.spec.ts",
+          "line": 160,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T20:03:56.820Z",
+    "duration": 1408.367,
+    "expected": 0,
+    "skipped": 101,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
